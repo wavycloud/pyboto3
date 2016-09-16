@@ -1,14 +1,19 @@
-# pyboto3
+# pyboto3 (not working)
 Pythonic Interface for AWS boto3 that gives you autocomplete on all AWS services
+
+The code is not to be imported. you can only use it as a typehint for autocomplete in pycharm.
 
 This package will minimize the time you have to look for AWS documentation online. You shouldn't leave your coding environment.
 
 # usage
 
 python setup.py install
-
->>> from pyboto3 import S3
-
+```python
+import boto3
+s3 = boto3.client('s3')
+""" :type : pyboto3.S3 """
+# s3. -> should give you autocomplete for s3 methods in pycharm
+```
 enjoy autocomplete and navigate to class to read documentation from S3 class code
 
 # Contributing
