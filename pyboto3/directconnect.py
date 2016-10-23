@@ -22,66 +22,62 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def allocate_connection_on_interconnect(bandwidth=None, connectionName=None, ownerAccount=None, interconnectId=None,
+                                        vlan=None): pass
 
 
-class Directconnect(object):
-    def __init__(self):
-        self.client = boto3.client('Directconnect')
-
-    def allocate_connection_on_interconnect(self, bandwidth=None, connectionName=None, ownerAccount=None,
-                                            interconnectId=None, vlan=None):
-        """
-        :param bandwidth: [REQUIRED]
+"""
+:param bandwidth: [REQUIRED]
             Bandwidth of the connection.
             Example: '500Mbps '
             Default: None
             Values: 50M, 100M, 200M, 300M, 400M, or 500M
             
-        :type bandwidth: string
-        :param connectionName: [REQUIRED]
+:type bandwidth: string
+:param connectionName: [REQUIRED]
             Name of the provisioned connection.
             Example: '500M Connection to AWS '
             Default: None
             
-        :type connectionName: string
-        :param ownerAccount: [REQUIRED]
+:type connectionName: string
+:param ownerAccount: [REQUIRED]
             Numeric account Id of the customer for whom the connection will be provisioned.
             Example: 123443215678
             Default: None
             
-        :type ownerAccount: string
-        :param interconnectId: [REQUIRED]
+:type ownerAccount: string
+:param interconnectId: [REQUIRED]
             ID of the interconnect on which the connection will be provisioned.
             Example: dxcon-456abc78
             Default: None
             
-        :type interconnectId: string
-        :param vlan: [REQUIRED]
+:type interconnectId: string
+:param vlan: [REQUIRED]
             The dedicated VLAN provisioned to the connection.
             Example: 101
             Default: None
             
-        :type vlan: integer
-        """
-        self.client.allocate_connection_on_interconnect(bandwidth=bandwidth, connectionName=connectionName,
-                                                        ownerAccount=ownerAccount, interconnectId=interconnectId,
-                                                        vlan=vlan)
+:type vlan: integer
+"""
 
-    def allocate_private_virtual_interface(self, connectionId=None, ownerAccount=None,
-                                           newPrivateVirtualInterfaceAllocation=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def allocate_private_virtual_interface(connectionId=None, ownerAccount=None,
+                                       newPrivateVirtualInterfaceAllocation=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             The connection ID on which the private virtual interface is provisioned.
             Default: None
             
-        :type connectionId: string
-        :param ownerAccount: [REQUIRED]
+:type connectionId: string
+:param ownerAccount: [REQUIRED]
             The AWS account that will own the new private virtual interface.
             Default: None
             
-        :type ownerAccount: string
-        :param newPrivateVirtualInterfaceAllocation: [REQUIRED]
+:type ownerAccount: string
+:param newPrivateVirtualInterfaceAllocation: [REQUIRED]
             Detailed information for the private virtual interface to be provisioned.
             Default: None
             virtualInterfaceName (string) -- [REQUIRED]The name of the virtual interface assigned by the customer.
@@ -97,25 +93,26 @@ class Directconnect(object):
             customerAddress (string) --IP address assigned to the customer interface.
             Example: 192.168.1.2/30
             
-        :type newPrivateVirtualInterfaceAllocation: dict
-        """
-        self.client.allocate_private_virtual_interface(connectionId=connectionId, ownerAccount=ownerAccount,
-                                                       newPrivateVirtualInterfaceAllocation=newPrivateVirtualInterfaceAllocation)
+:type newPrivateVirtualInterfaceAllocation: dict
+"""
 
-    def allocate_public_virtual_interface(self, connectionId=None, ownerAccount=None,
-                                          newPublicVirtualInterfaceAllocation=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def allocate_public_virtual_interface(connectionId=None, ownerAccount=None,
+                                      newPublicVirtualInterfaceAllocation=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             The connection ID on which the public virtual interface is provisioned.
             Default: None
             
-        :type connectionId: string
-        :param ownerAccount: [REQUIRED]
+:type connectionId: string
+:param ownerAccount: [REQUIRED]
             The AWS account that will own the new public virtual interface.
             Default: None
             
-        :type ownerAccount: string
-        :param newPublicVirtualInterfaceAllocation: [REQUIRED]
+:type ownerAccount: string
+:param newPublicVirtualInterfaceAllocation: [REQUIRED]
             Detailed information for the public virtual interface to be provisioned.
             Default: None
             virtualInterfaceName (string) -- [REQUIRED]The name of the virtual interface assigned by the customer.
@@ -136,14 +133,15 @@ class Directconnect(object):
             Example: 10.10.10.0/24,10.10.11.0/24
             
             
-        :type newPublicVirtualInterfaceAllocation: dict
-        """
-        self.client.allocate_public_virtual_interface(connectionId=connectionId, ownerAccount=ownerAccount,
-                                                      newPublicVirtualInterfaceAllocation=newPublicVirtualInterfaceAllocation)
+:type newPublicVirtualInterfaceAllocation: dict
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -152,13 +150,15 @@ class Directconnect(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def confirm_connection(self, connectionId=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def confirm_connection(connectionId=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
@@ -179,31 +179,34 @@ class Directconnect(object):
             Rejected : A hosted connection in the 'Ordering' state will enter the 'Rejected' state if it is deleted by the end customer.
             
             
-        :type connectionId: string
-        """
-        self.client.confirm_connection(connectionId=connectionId)
+:type connectionId: string
+"""
 
-    def confirm_private_virtual_interface(self, virtualInterfaceId=None, virtualGatewayId=None):
-        """
-        :param virtualInterfaceId: [REQUIRED]
+
+def confirm_private_virtual_interface(virtualInterfaceId=None, virtualGatewayId=None): pass
+
+
+"""
+:param virtualInterfaceId: [REQUIRED]
             ID of the virtual interface.
             Example: dxvif-123dfg56
             Default: None
             
-        :type virtualInterfaceId: string
-        :param virtualGatewayId: [REQUIRED]
+:type virtualInterfaceId: string
+:param virtualGatewayId: [REQUIRED]
             ID of the virtual private gateway that will be attached to the virtual interface.
             A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action.
             Default: None
             
-        :type virtualGatewayId: string
-        """
-        self.client.confirm_private_virtual_interface(virtualInterfaceId=virtualInterfaceId,
-                                                      virtualGatewayId=virtualGatewayId)
+:type virtualGatewayId: string
+"""
 
-    def confirm_public_virtual_interface(self, virtualInterfaceId=None):
-        """
-        :param virtualInterfaceId: [REQUIRED]
+
+def confirm_public_virtual_interface(virtualInterfaceId=None): pass
+
+
+"""
+:param virtualInterfaceId: [REQUIRED]
             ID of the virtual interface.
             Example: dxvif-123dfg56
             Default: None
@@ -224,66 +227,72 @@ class Directconnect(object):
             Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
             
             
-        :type virtualInterfaceId: string
-        """
-        self.client.confirm_public_virtual_interface(virtualInterfaceId=virtualInterfaceId)
+:type virtualInterfaceId: string
+"""
 
-    def create_connection(self, location=None, bandwidth=None, connectionName=None):
-        """
-        :param location: [REQUIRED]
+
+def create_connection(location=None, bandwidth=None, connectionName=None): pass
+
+
+"""
+:param location: [REQUIRED]
             Where the connection is located.
             Example: EqSV5
             Default: None
             
-        :type location: string
-        :param bandwidth: [REQUIRED]
+:type location: string
+:param bandwidth: [REQUIRED]
             Bandwidth of the connection.
             Example: 1Gbps
             Default: None
             
-        :type bandwidth: string
-        :param connectionName: [REQUIRED]
+:type bandwidth: string
+:param connectionName: [REQUIRED]
             The name of the connection.
             Example: 'My Connection to AWS '
             Default: None
             
-        :type connectionName: string
-        """
-        self.client.create_connection(location=location, bandwidth=bandwidth, connectionName=connectionName)
+:type connectionName: string
+"""
 
-    def create_interconnect(self, interconnectName=None, bandwidth=None, location=None):
-        """
-        :param interconnectName: [REQUIRED]
+
+def create_interconnect(interconnectName=None, bandwidth=None, location=None): pass
+
+
+"""
+:param interconnectName: [REQUIRED]
             The name of the interconnect.
             Example: '1G Interconnect to AWS '
             Default: None
             
-        :type interconnectName: string
-        :param bandwidth: [REQUIRED]
+:type interconnectName: string
+:param bandwidth: [REQUIRED]
             The port bandwidth
             Example: 1Gbps
             Default: None
             Available values: 1Gbps,10Gbps
             
-        :type bandwidth: string
-        :param location: [REQUIRED]
+:type bandwidth: string
+:param location: [REQUIRED]
             Where the interconnect is located
             Example: EqSV5
             Default: None
             
-        :type location: string
-        """
-        self.client.create_interconnect(interconnectName=interconnectName, bandwidth=bandwidth, location=location)
+:type location: string
+"""
 
-    def create_private_virtual_interface(self, connectionId=None, newPrivateVirtualInterface=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterface=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
             
-        :type connectionId: string
-        :param newPrivateVirtualInterface: [REQUIRED]
+:type connectionId: string
+:param newPrivateVirtualInterface: [REQUIRED]
             Detailed information for the private virtual interface to be created.
             Default: None
             virtualInterfaceName (string) -- [REQUIRED]The name of the virtual interface assigned by the customer.
@@ -301,20 +310,21 @@ class Directconnect(object):
             virtualGatewayId (string) -- [REQUIRED]The ID of the virtual private gateway to a VPC. This only applies to private virtual interfaces.
             Example: vgw-123er56
             
-        :type newPrivateVirtualInterface: dict
-        """
-        self.client.create_private_virtual_interface(connectionId=connectionId,
-                                                     newPrivateVirtualInterface=newPrivateVirtualInterface)
+:type newPrivateVirtualInterface: dict
+"""
 
-    def create_public_virtual_interface(self, connectionId=None, newPublicVirtualInterface=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
             
-        :type connectionId: string
-        :param newPublicVirtualInterface: [REQUIRED]
+:type connectionId: string
+:param newPublicVirtualInterface: [REQUIRED]
             Detailed information for the public virtual interface to be created.
             Default: None
             virtualInterfaceName (string) -- [REQUIRED]The name of the virtual interface assigned by the customer.
@@ -335,14 +345,15 @@ class Directconnect(object):
             Example: 10.10.10.0/24,10.10.11.0/24
             
             
-        :type newPublicVirtualInterface: dict
-        """
-        self.client.create_public_virtual_interface(connectionId=connectionId,
-                                                    newPublicVirtualInterface=newPublicVirtualInterface)
+:type newPublicVirtualInterface: dict
+"""
 
-    def delete_connection(self, connectionId=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def delete_connection(connectionId=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
@@ -392,13 +403,15 @@ class Directconnect(object):
             loaIssueTime (datetime) --The time of the most recent call to DescribeConnectionLoa for this Connection.
             
             
-        :type connectionId: string
-        """
-        self.client.delete_connection(connectionId=connectionId)
+:type connectionId: string
+"""
 
-    def delete_interconnect(self, interconnectId=None):
-        """
-        :param interconnectId: [REQUIRED]
+
+def delete_interconnect(interconnectId=None): pass
+
+
+"""
+:param interconnectId: [REQUIRED]
             The ID of the interconnect.
             Example: dxcon-abc123
             Return typedict
@@ -416,13 +429,15 @@ class Directconnect(object):
             Deleted : The interconnect has been deleted.
             
             
-        :type interconnectId: string
-        """
-        self.client.delete_interconnect(interconnectId=interconnectId)
+:type interconnectId: string
+"""
 
-    def delete_virtual_interface(self, virtualInterfaceId=None):
-        """
-        :param virtualInterfaceId: [REQUIRED]
+
+def delete_virtual_interface(virtualInterfaceId=None): pass
+
+
+"""
+:param virtualInterfaceId: [REQUIRED]
             ID of the virtual interface.
             Example: dxvif-123dfg56
             Default: None
@@ -443,33 +458,36 @@ class Directconnect(object):
             Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
             
             
-        :type virtualInterfaceId: string
-        """
-        self.client.delete_virtual_interface(virtualInterfaceId=virtualInterfaceId)
+:type virtualInterfaceId: string
+"""
 
-    def describe_connection_loa(self, connectionId=None, providerName=None, loaContentType=None):
-        """
-        :param connectionId: [REQUIRED]
+
+def describe_connection_loa(connectionId=None, providerName=None, loaContentType=None): pass
+
+
+"""
+:param connectionId: [REQUIRED]
             ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
             
-        :type connectionId: string
-        :param providerName: The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
+:type connectionId: string
+:param providerName: The name of the APN partner or service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
             Default: None
             
-        :type providerName: string
-        :param loaContentType: A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is 'application/pdf'.
+:type providerName: string
+:param loaContentType: A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is 'application/pdf'.
             Default: application/pdf
             
-        :type loaContentType: string
-        """
-        self.client.describe_connection_loa(connectionId=connectionId, providerName=providerName,
-                                            loaContentType=loaContentType)
+:type loaContentType: string
+"""
 
-    def describe_connections(self, connectionId=None):
-        """
-        :param connectionId: ID of the connection.
+
+def describe_connections(connectionId=None): pass
+
+
+"""
+:param connectionId: ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
             Return typedict
@@ -525,13 +543,15 @@ class Directconnect(object):
             
             
             
-        :type connectionId: string
-        """
-        self.client.describe_connections(connectionId=connectionId)
+:type connectionId: string
+"""
 
-    def describe_connections_on_interconnect(self, interconnectId=None):
-        """
-        :param interconnectId: [REQUIRED]
+
+def describe_connections_on_interconnect(interconnectId=None): pass
+
+
+"""
+:param interconnectId: [REQUIRED]
             ID of the interconnect on which a list of connection is provisioned.
             Example: dxcon-abc123
             Default: None
@@ -588,32 +608,35 @@ class Directconnect(object):
             
             
             
-        :type interconnectId: string
-        """
-        self.client.describe_connections_on_interconnect(interconnectId=interconnectId)
+:type interconnectId: string
+"""
 
-    def describe_interconnect_loa(self, interconnectId=None, providerName=None, loaContentType=None):
-        """
-        :param interconnectId: [REQUIRED]
+
+def describe_interconnect_loa(interconnectId=None, providerName=None, loaContentType=None): pass
+
+
+"""
+:param interconnectId: [REQUIRED]
             The ID of the interconnect.
             Example: dxcon-abc123
             
-        :type interconnectId: string
-        :param providerName: The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
+:type interconnectId: string
+:param providerName: The name of the service provider who establishes connectivity on your behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your company name as the requester of the cross connect.
             Default: None
             
-        :type providerName: string
-        :param loaContentType: A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is 'application/pdf'.
+:type providerName: string
+:param loaContentType: A standard media type indicating the content type of the LOA-CFA document. Currently, the only supported value is 'application/pdf'.
             Default: application/pdf
             
-        :type loaContentType: string
-        """
-        self.client.describe_interconnect_loa(interconnectId=interconnectId, providerName=providerName,
-                                              loaContentType=loaContentType)
+:type loaContentType: string
+"""
 
-    def describe_interconnects(self, interconnectId=None):
-        """
-        :param interconnectId: The ID of the interconnect.
+
+def describe_interconnects(interconnectId=None): pass
+
+
+"""
+:param interconnectId: The ID of the interconnect.
             Example: dxcon-abc123
             Return typedict
             ReturnsResponse Syntax{
@@ -659,55 +682,64 @@ class Directconnect(object):
             
             
             
-        :type interconnectId: string
-        """
-        self.client.describe_interconnects(interconnectId=interconnectId)
+:type interconnectId: string
+"""
 
-    def describe_locations(self):
-        """
-        """
-        self.client.describe_locations()
 
-    def describe_virtual_gateways(self):
-        """
-        """
-        self.client.describe_virtual_gateways()
+def describe_locations(): pass
 
-    def describe_virtual_interfaces(self, connectionId=None, virtualInterfaceId=None):
-        """
-        :param connectionId: ID of the connection.
+
+"""
+"""
+
+
+def describe_virtual_gateways(): pass
+
+
+"""
+"""
+
+
+def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None): pass
+
+
+"""
+:param connectionId: ID of the connection.
             Example: dxcon-fg5678gh
             Default: None
             
-        :type connectionId: string
-        :param virtualInterfaceId: ID of the virtual interface.
+:type connectionId: string
+:param virtualInterfaceId: ID of the virtual interface.
             Example: dxvif-123dfg56
             Default: None
             
-        :type virtualInterfaceId: string
-        """
-        self.client.describe_virtual_interfaces(connectionId=connectionId, virtualInterfaceId=virtualInterfaceId)
+:type virtualInterfaceId: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -719,11 +751,12 @@ class Directconnect(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
+
+def get_waiter(): pass
+
+
+"""
+"""

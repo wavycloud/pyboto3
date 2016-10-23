@@ -130,7 +130,6 @@ def generate_all_services_code(dir_path):
         dist_filepath = os.path.join(dir_path, '{}.py'.format(filename))
         logging.info("Generating code for service {} to {}".format(service_name, dist_filepath))
         class_name = generate_service_code(url, dist_filepath)
-        append_class_to_init(filename, class_name)
         logging.info("Code for service {} generated successfully to {}".format(service_name, dist_filepath))
 
 
@@ -186,23 +185,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 '''
-    yield 'import boto3'
-    yield ''
-    yield ''
-    yield 'class {}(object):'.format(className)
-    yield ''
-    yield '    def __init__(self):'
-    yield "        self.client = boto3.client('{}')".format(className)
     yield ""
     for method_name, params in iter_method_params(soup):
-        yield '    def {}(self{}{}{}):'.format(method_name, ', ' if params else '', '=None, '.join(params.keys()),
+        yield 'def {}({}{}): pass'.format(method_name, '=None, '.join(params.keys()),
                                                '=None' if params else '')
-        yield '        """'
+        yield '"""'
         for param, (param_type, param_description) in params.iteritems():
             param_description = clean_param_description(param_description)
-            yield '        :param {}: {}'.format(param, param_description)
-            yield '        :type {}: {}'.format(param, to_python_type(param_type))
-        yield '        """'
-        yield "        self.client.{}({})".format(method_name,
-                                                  ', '.join(['{}={}'.format(param, param) for param in params.keys()]))
+            yield ':param {}: {}'.format(param, param_description)
+            yield ':type {}: {}'.format(param, to_python_type(param_type))
+        yield '"""'
         yield ""

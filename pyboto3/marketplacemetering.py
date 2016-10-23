@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Meteringmarketplace(object):
-    def __init__(self):
-        self.client = boto3.client('Meteringmarketplace')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,30 +36,33 @@ class Meteringmarketplace(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -75,37 +74,39 @@ class Meteringmarketplace(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def meter_usage(self, ProductCode=None, Timestamp=None, UsageDimension=None, UsageQuantity=None, DryRun=None):
-        """
-        :param ProductCode: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def meter_usage(ProductCode=None, Timestamp=None, UsageDimension=None, UsageQuantity=None, DryRun=None): pass
+
+
+"""
+:param ProductCode: [REQUIRED]
             Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
             
-        :type ProductCode: string
-        :param Timestamp: [REQUIRED]
+:type ProductCode: string
+:param Timestamp: [REQUIRED]
             Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
             
-        :type Timestamp: datetime
-        :param UsageDimension: [REQUIRED]
+:type Timestamp: datetime
+:param UsageDimension: [REQUIRED]
             It will be one of the 'fcp dimension name' provided during the publishing of the product.
             
-        :type UsageDimension: string
-        :param UsageQuantity: [REQUIRED]
+:type UsageDimension: string
+:param UsageQuantity: [REQUIRED]
             Consumption value for the hour.
             
-        :type UsageQuantity: integer
-        :param DryRun: [REQUIRED]
+:type UsageQuantity: integer
+:param DryRun: [REQUIRED]
             Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
             
-        :type DryRun: boolean
-        """
-        self.client.meter_usage(ProductCode=ProductCode, Timestamp=Timestamp, UsageDimension=UsageDimension,
-                                UsageQuantity=UsageQuantity, DryRun=DryRun)
+:type DryRun: boolean
+"""

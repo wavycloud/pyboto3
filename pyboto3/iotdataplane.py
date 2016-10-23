@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Iotdata(object):
-    def __init__(self):
-        self.client = boto3.client('Iotdata')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,13 +36,15 @@ class Iotdata(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def delete_thing_shadow(self, thingName=None):
-        """
-        :param thingName: [REQUIRED]
+
+def delete_thing_shadow(thingName=None): pass
+
+
+"""
+:param thingName: [REQUIRED]
             The name of the thing.
             Return typedict
             ReturnsResponse Syntax{
@@ -57,30 +55,33 @@ class Iotdata(object):
             payload (StreamingBody) --The state information, in JSON format.
             
             
-        :type thingName: string
-        """
-        self.client.delete_thing_shadow(thingName=thingName)
+:type thingName: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -92,13 +93,15 @@ class Iotdata(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_thing_shadow(self, thingName=None):
-        """
-        :param thingName: [REQUIRED]
+
+def get_thing_shadow(thingName=None): pass
+
+
+"""
+:param thingName: [REQUIRED]
             The name of the thing.
             Return typedict
             ReturnsResponse Syntax{
@@ -109,37 +112,42 @@ class Iotdata(object):
             payload (StreamingBody) --The state information, in JSON format.
             
             
-        :type thingName: string
-        """
-        self.client.get_thing_shadow(thingName=thingName)
+:type thingName: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def publish(self, topic=None, qos=None, payload=None):
-        """
-        :param topic: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def publish(topic=None, qos=None, payload=None): pass
+
+
+"""
+:param topic: [REQUIRED]
             The name of the MQTT topic.
             
-        :type topic: string
-        :param qos: The Quality of Service (QoS) level.
-        :type qos: integer
-        :param payload: The state information, in JSON format.
-        :type payload: bytes or seekable file-like object
-        """
-        self.client.publish(topic=topic, qos=qos, payload=payload)
+:type topic: string
+:param qos: The Quality of Service (QoS) level.
+:type qos: integer
+:param payload: The state information, in JSON format.
+:type payload: bytes or seekable file-like object
+"""
 
-    def update_thing_shadow(self, thingName=None, payload=None):
-        """
-        :param thingName: [REQUIRED]
+
+def update_thing_shadow(thingName=None, payload=None): pass
+
+
+"""
+:param thingName: [REQUIRED]
             The name of the thing.
             
-        :type thingName: string
-        :param payload: [REQUIRED]
+:type thingName: string
+:param payload: [REQUIRED]
             The state information, in JSON format.
             
-        :type payload: bytes or seekable file-like object
-        """
-        self.client.update_thing_shadow(thingName=thingName, payload=payload)
+:type payload: bytes or seekable file-like object
+"""

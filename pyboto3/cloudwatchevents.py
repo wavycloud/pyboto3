@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Events(object):
-    def __init__(self):
-        self.client = boto3.client('Events')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,23 +36,27 @@ class Events(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def delete_rule(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def delete_rule(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             The name of the rule to be deleted.
             ReturnsNone
             
-        :type Name: string
-        """
-        self.client.delete_rule(Name=Name)
+:type Name: string
+"""
 
-    def describe_rule(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def describe_rule(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             The name of the rule you want to describe details for.
             Return typedict
             ReturnsResponse Syntax{
@@ -79,50 +79,57 @@ class Events(object):
             RoleArn (string) --The Amazon Resource Name (ARN) of the IAM role associated with the rule.
             
             
-        :type Name: string
-        """
-        self.client.describe_rule(Name=Name)
+:type Name: string
+"""
 
-    def disable_rule(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def disable_rule(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             The name of the rule you want to disable.
             ReturnsNone
             
-        :type Name: string
-        """
-        self.client.disable_rule(Name=Name)
+:type Name: string
+"""
 
-    def enable_rule(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def enable_rule(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             The name of the rule that you want to enable.
             ReturnsNone
             
-        :type Name: string
-        """
-        self.client.enable_rule(Name=Name)
+:type Name: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -134,55 +141,65 @@ class Events(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_rule_names_by_target(self, TargetArn=None, NextToken=None, Limit=None):
-        """
-        :param TargetArn: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None): pass
+
+
+"""
+:param TargetArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the target resource that you want to list the rules for.
             
-        :type TargetArn: string
-        :param NextToken: The token returned by a previous call to indicate that there is more data available.
-        :type NextToken: string
-        :param Limit: The maximum number of results to return.
-        :type Limit: integer
-        """
-        self.client.list_rule_names_by_target(TargetArn=TargetArn, NextToken=NextToken, Limit=Limit)
+:type TargetArn: string
+:param NextToken: The token returned by a previous call to indicate that there is more data available.
+:type NextToken: string
+:param Limit: The maximum number of results to return.
+:type Limit: integer
+"""
 
-    def list_rules(self, NamePrefix=None, NextToken=None, Limit=None):
-        """
-        :param NamePrefix: The prefix matching the rule name.
-        :type NamePrefix: string
-        :param NextToken: The token returned by a previous call to indicate that there is more data available.
-        :type NextToken: string
-        :param Limit: The maximum number of results to return.
-        :type Limit: integer
-        """
-        self.client.list_rules(NamePrefix=NamePrefix, NextToken=NextToken, Limit=Limit)
 
-    def list_targets_by_rule(self, Rule=None, NextToken=None, Limit=None):
-        """
-        :param Rule: [REQUIRED]
+def list_rules(NamePrefix=None, NextToken=None, Limit=None): pass
+
+
+"""
+:param NamePrefix: The prefix matching the rule name.
+:type NamePrefix: string
+:param NextToken: The token returned by a previous call to indicate that there is more data available.
+:type NextToken: string
+:param Limit: The maximum number of results to return.
+:type Limit: integer
+"""
+
+
+def list_targets_by_rule(Rule=None, NextToken=None, Limit=None): pass
+
+
+"""
+:param Rule: [REQUIRED]
             The name of the rule whose targets you want to list.
             
-        :type Rule: string
-        :param NextToken: The token returned by a previous call to indicate that there is more data available.
-        :type NextToken: string
-        :param Limit: The maximum number of results to return.
-        :type Limit: integer
-        """
-        self.client.list_targets_by_rule(Rule=Rule, NextToken=NextToken, Limit=Limit)
+:type Rule: string
+:param NextToken: The token returned by a previous call to indicate that there is more data available.
+:type NextToken: string
+:param Limit: The maximum number of results to return.
+:type Limit: integer
+"""
 
-    def put_events(self, Entries=None):
-        """
-        :param Entries: [REQUIRED]
+
+def put_events(Entries=None): pass
+
+
+"""
+:param Entries: [REQUIRED]
             The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
             (dict) --Contains information about the event to be used in PutEvents.
             Time (datetime) --Timestamp of event, per RFC3339 . If no timestamp is provided, the timestamp of the PutEvents call will be used.
@@ -214,38 +231,40 @@ class Events(object):
             
             
             
-        :type Entries: list
-        """
-        self.client.put_events(Entries=Entries)
+:type Entries: list
+"""
 
-    def put_rule(self, Name=None, ScheduleExpression=None, EventPattern=None, State=None, Description=None,
-                 RoleArn=None):
-        """
-        :param Name: [REQUIRED]
+
+def put_rule(Name=None, ScheduleExpression=None, EventPattern=None, State=None, Description=None, RoleArn=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             The name of the rule that you are creating or updating.
             
-        :type Name: string
-        :param ScheduleExpression: The scheduling expression. For example, 'cron(0 20 * * ? *)', 'rate(5 minutes)'.
-        :type ScheduleExpression: string
-        :param EventPattern: The event pattern.
-        :type EventPattern: string
-        :param State: Indicates whether the rule is enabled or disabled.
-        :type State: string
-        :param Description: A description of the rule.
-        :type Description: string
-        :param RoleArn: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-        :type RoleArn: string
-        """
-        self.client.put_rule(Name=Name, ScheduleExpression=ScheduleExpression, EventPattern=EventPattern, State=State,
-                             Description=Description, RoleArn=RoleArn)
+:type Name: string
+:param ScheduleExpression: The scheduling expression. For example, 'cron(0 20 * * ? *)', 'rate(5 minutes)'.
+:type ScheduleExpression: string
+:param EventPattern: The event pattern.
+:type EventPattern: string
+:param State: Indicates whether the rule is enabled or disabled.
+:type State: string
+:param Description: A description of the rule.
+:type Description: string
+:param RoleArn: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
+:type RoleArn: string
+"""
 
-    def put_targets(self, Rule=None, Targets=None):
-        """
-        :param Rule: [REQUIRED]
+
+def put_targets(Rule=None, Targets=None): pass
+
+
+"""
+:param Rule: [REQUIRED]
             The name of the rule you want to add targets to.
             
-        :type Rule: string
-        :param Targets: [REQUIRED]
+:type Rule: string
+:param Targets: [REQUIRED]
             List of targets you want to update or add to the rule.
             (dict) --Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets.
             Input and InputPath are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:
@@ -258,33 +277,36 @@ class Events(object):
             InputPath (string) --The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see JSONPath .
             
             
-        :type Targets: list
-        """
-        self.client.put_targets(Rule=Rule, Targets=Targets)
+:type Targets: list
+"""
 
-    def remove_targets(self, Rule=None, Ids=None):
-        """
-        :param Rule: [REQUIRED]
+
+def remove_targets(Rule=None, Ids=None): pass
+
+
+"""
+:param Rule: [REQUIRED]
             The name of the rule you want to remove targets from.
             
-        :type Rule: string
-        :param Ids: [REQUIRED]
+:type Rule: string
+:param Ids: [REQUIRED]
             The list of target IDs to remove from the rule.
             (string) --
             
-        :type Ids: list
-        """
-        self.client.remove_targets(Rule=Rule, Ids=Ids)
+:type Ids: list
+"""
 
-    def test_event_pattern(self, EventPattern=None, Event=None):
-        """
-        :param EventPattern: [REQUIRED]
+
+def test_event_pattern(EventPattern=None, Event=None): pass
+
+
+"""
+:param EventPattern: [REQUIRED]
             The event pattern you want to test.
             
-        :type EventPattern: string
-        :param Event: [REQUIRED]
+:type EventPattern: string
+:param Event: [REQUIRED]
             The event in the JSON format to test against the event pattern.
             
-        :type Event: string
-        """
-        self.client.test_event_pattern(EventPattern=EventPattern, Event=Event)
+:type Event: string
+"""

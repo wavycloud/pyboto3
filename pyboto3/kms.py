@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Kms(object):
-    def __init__(self):
-        self.client = boto3.client('Kms')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,13 +36,15 @@ class Kms(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def cancel_key_deletion(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def cancel_key_deletion(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             The unique identifier for the customer master key (CMK) for which to cancel deletion.
             To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
             Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -61,45 +59,49 @@ class Kms(object):
             KeyId (string) --The unique identifier of the master key for which deletion is canceled.
             
             
-        :type KeyId: string
-        """
-        self.client.cancel_key_deletion(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def create_alias(self, AliasName=None, TargetKeyId=None):
-        """
-        :param AliasName: [REQUIRED]
+
+def create_alias(AliasName=None, TargetKeyId=None): pass
+
+
+"""
+:param AliasName: [REQUIRED]
             String that contains the display name. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/AWS' are reserved.
             
-        :type AliasName: string
-        :param TargetKeyId: [REQUIRED]
+:type AliasName: string
+:param TargetKeyId: [REQUIRED]
             An identifier of the key for which you are creating the alias. This value cannot be another alias but can be a globally unique identifier or a fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type TargetKeyId: string
-        """
-        self.client.create_alias(AliasName=AliasName, TargetKeyId=TargetKeyId)
+:type TargetKeyId: string
+"""
 
-    def create_grant(self, KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Operations=None, Constraints=None,
-                     GrantTokens=None, Name=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Operations=None, Constraints=None,
+                 GrantTokens=None, Name=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             The unique identifier for the customer master key (CMK) that the grant applies to.
             To specify this value, use the globally unique key ID or the Amazon Resource Name (ARN) of the key. Examples:
             Globally unique key ID: 12345678-1234-1234-1234-123456789012
             Key ARN: arn:aws:kms:us-west-2:123456789012:key/12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        :param GranteePrincipal: [REQUIRED]
+:type KeyId: string
+:param GranteePrincipal: [REQUIRED]
             The principal that is given permission to perform the operations that the grant permits.
             To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference .
             
-        :type GranteePrincipal: string
-        :param RetiringPrincipal: The principal that is given permission to retire the grant by using RetireGrant operation.
+:type GranteePrincipal: string
+:param RetiringPrincipal: The principal that is given permission to retire the grant by using RetireGrant operation.
             To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference .
             
-        :type RetiringPrincipal: string
-        :param Operations: A list of operations that the grant permits. The list can contain any combination of one or more of the following values:
+:type RetiringPrincipal: string
+:param Operations: A list of operations that the grant permits. The list can contain any combination of one or more of the following values:
             Decrypt
             Encrypt
             GenerateDataKey
@@ -111,8 +113,8 @@ class Kms(object):
             DescribeKey
             (string) --
             
-        :type Operations: list
-        :param Constraints: The conditions under which the operations permitted by the grant are allowed.
+:type Operations: list
+:param Constraints: The conditions under which the operations permitted by the grant are allowed.
             You can use this value to allow the operations permitted by the grant only when a specified encryption context is present. For more information, see Encryption Context in the AWS Key Management Service Developer Guide .
             EncryptionContextSubset (dict) --Contains a list of key-value pairs, a subset of which must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list or is a subset of this list, the grant allows the operation. Otherwise, the operation is not allowed.
             (string) --
@@ -123,284 +125,331 @@ class Kms(object):
             (string) --
             
             
-        :type Constraints: dict
-        :param GrantTokens: A list of grant tokens.
+:type Constraints: dict
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        :param Name: A friendly name for identifying the grant. Use this value to prevent unintended creation of duplicate grants when retrying this request.
+:type GrantTokens: list
+:param Name: A friendly name for identifying the grant. Use this value to prevent unintended creation of duplicate grants when retrying this request.
             When this value is absent, all CreateGrant requests result in a new grant with a unique GrantId even if all the supplied parameters are identical. This can result in unintended duplicates when you retry the CreateGrant request.
             When this value is present, you can retry a CreateGrant request with identical parameters; if the grant already exists, the original GrantId is returned without creating a new grant. Note that the returned grant token is unique with every CreateGrant request, even when a duplicate GrantId is returned. All grant tokens obtained in this way can be used interchangeably.
             
-        :type Name: string
-        """
-        self.client.create_grant(KeyId=KeyId, GranteePrincipal=GranteePrincipal, RetiringPrincipal=RetiringPrincipal,
-                                 Operations=Operations, Constraints=Constraints, GrantTokens=GrantTokens, Name=Name)
+:type Name: string
+"""
 
-    def create_key(self, Policy=None, Description=None, KeyUsage=None, BypassPolicyLockoutSafetyCheck=None):
-        """
-        :param Policy: The key policy to attach to the CMK.
-            If you specify a key policy, it must meet the following criteria:
+
+def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, BypassPolicyLockoutSafetyCheck=None): pass
+
+
+"""
+:param Policy: The key policy to attach to the CMK.
+            If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
             It must allow the principal making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             The principal(s) specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
             If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
             The policy size limit is 32 KiB (32768 bytes).
             
-        :type Policy: string
-        :param Description: A description of the CMK.
+:type Policy: string
+:param Description: A description of the CMK.
             Use a description that helps you decide whether the CMK is appropriate for a task.
             
-        :type Description: string
-        :param KeyUsage: The intended use of the CMK.
+:type Description: string
+:param KeyUsage: The intended use of the CMK.
             You can use CMKs only for symmetric encryption and decryption.
             
-        :type KeyUsage: string
-        :param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
+:type KeyUsage: string
+:param Origin: The source of the CMK's key material.
+            The default is AWS_KMS , which means AWS KMS creates the key material. When this parameter is set to EXTERNAL , the request creates a CMK without key material so that you can import key material from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide .
+            The CMK's Origin is immutable and is set when the CMK is created.
+            
+:type Origin: string
+:param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
             Warning
             Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             Use this parameter only when you include a policy in the request and you intend to prevent the principal making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
             
-        :type BypassPolicyLockoutSafetyCheck: boolean
-        """
-        self.client.create_key(Policy=Policy, Description=Description, KeyUsage=KeyUsage,
-                               BypassPolicyLockoutSafetyCheck=BypassPolicyLockoutSafetyCheck)
+:type BypassPolicyLockoutSafetyCheck: boolean
+"""
 
-    def decrypt(self, CiphertextBlob=None, EncryptionContext=None, GrantTokens=None):
-        """
-        :param CiphertextBlob: [REQUIRED]
+
+def decrypt(CiphertextBlob=None, EncryptionContext=None, GrantTokens=None): pass
+
+
+"""
+:param CiphertextBlob: [REQUIRED]
             Ciphertext to be decrypted. The blob includes metadata.
             
-        :type CiphertextBlob: bytes
-        :param EncryptionContext: The encryption context. If this was specified in the Encrypt function, it must be specified here or the decryption operation will fail. For more information, see Encryption Context .
+:type CiphertextBlob: bytes
+:param EncryptionContext: The encryption context. If this was specified in the Encrypt function, it must be specified here or the decryption operation will fail. For more information, see Encryption Context .
             (string) --
             (string) --
             
-        :type EncryptionContext: dict
-        :param GrantTokens: A list of grant tokens.
+:type EncryptionContext: dict
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.decrypt(CiphertextBlob=CiphertextBlob, EncryptionContext=EncryptionContext, GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def delete_alias(self, AliasName=None):
-        """
-        :param AliasName: [REQUIRED]
+
+def delete_alias(AliasName=None): pass
+
+
+"""
+:param AliasName: [REQUIRED]
             The alias to be deleted. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/AWS' are reserved.
             ReturnsNone
             
-        :type AliasName: string
-        """
-        self.client.delete_alias(AliasName=AliasName)
+:type AliasName: string
+"""
 
-    def describe_key(self, KeyId=None, GrantTokens=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def delete_imported_key_material(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
+            The identifier of the CMK whose key material to delete. The CMK's Origin must be EXTERNAL .
+            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            ReturnsNone
+            
+:type KeyId: string
+"""
+
+
+def describe_key(KeyId=None, GrantTokens=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             Alias Name Example - alias/MyAliasName
             
-        :type KeyId: string
-        :param GrantTokens: A list of grant tokens.
+:type KeyId: string
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.describe_key(KeyId=KeyId, GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def disable_key(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def disable_key(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the CMK.
             Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:
             Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             ReturnsNone
             
-        :type KeyId: string
-        """
-        self.client.disable_key(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def disable_key_rotation(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def disable_key_rotation(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             ReturnsNone
             
-        :type KeyId: string
-        """
-        self.client.disable_key_rotation(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def enable_key(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def enable_key(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             ReturnsNone
             
-        :type KeyId: string
-        """
-        self.client.enable_key(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def enable_key_rotation(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def enable_key_rotation(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             ReturnsNone
             
-        :type KeyId: string
-        """
-        self.client.enable_key_rotation(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def encrypt(self, KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             Alias Name Example - alias/MyAliasName
             
-        :type KeyId: string
-        :param Plaintext: [REQUIRED]
+:type KeyId: string
+:param Plaintext: [REQUIRED]
             Data to be encrypted.
             
-        :type Plaintext: bytes
-        :param EncryptionContext: Name/value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context .
+:type Plaintext: bytes
+:param EncryptionContext: Name-value pair that specifies the encryption context to be used for authenticated encryption. If used here, the same value must be supplied to the Decrypt API or decryption will fail. For more information, see Encryption Context .
             (string) --
             (string) --
             
-        :type EncryptionContext: dict
-        :param GrantTokens: A list of grant tokens.
+:type EncryptionContext: dict
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.encrypt(KeyId=KeyId, Plaintext=Plaintext, EncryptionContext=EncryptionContext,
-                            GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def generate_data_key(self, KeyId=None, EncryptionContext=None, NumberOfBytes=None, KeySpec=None, GrantTokens=None):
-        """
-        :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            Alias Name Example - alias/MyAliasName
+
+def generate_data_key(KeyId=None, EncryptionContext=None, NumberOfBytes=None, KeySpec=None, GrantTokens=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
+            The identifier of the CMK under which to generate and encrypt the data encryption key.
+            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that points to the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            CMK ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            Alias name: alias/ExampleAlias
+            Alias ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
             
-        :type KeyId: string
-        :param EncryptionContext: Name/value pair that contains additional data to be authenticated during the encryption and decryption processes that use the key. This value is logged by AWS CloudTrail to provide context around the data encrypted by the key.
+:type KeyId: string
+:param EncryptionContext: A set of key-value pairs that represents additional authenticated data.
+            For more information, see Encryption Context in the AWS Key Management Service Developer Guide .
             (string) --
             (string) --
             
-        :type EncryptionContext: dict
-        :param NumberOfBytes: Integer that contains the number of bytes to generate. Common values are 128, 256, 512, and 1024. 1024 is the current limit. We recommend that you use the KeySpec parameter instead.
-        :type NumberOfBytes: integer
-        :param KeySpec: Value that identifies the encryption algorithm and key size to generate a data key for. Currently this can be AES_128 or AES_256.
-        :type KeySpec: string
-        :param GrantTokens: A list of grant tokens.
+:type EncryptionContext: dict
+:param NumberOfBytes: The length of the data encryption key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
+:type NumberOfBytes: integer
+:param KeySpec: The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
+:type KeySpec: string
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.generate_data_key(KeyId=KeyId, EncryptionContext=EncryptionContext, NumberOfBytes=NumberOfBytes,
-                                      KeySpec=KeySpec, GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def generate_data_key_without_plaintext(self, KeyId=None, EncryptionContext=None, KeySpec=None, NumberOfBytes=None,
-                                            GrantTokens=None):
-        """
-        :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            Alias Name Example - alias/MyAliasName
+
+def generate_data_key_without_plaintext(KeyId=None, EncryptionContext=None, KeySpec=None, NumberOfBytes=None,
+                                        GrantTokens=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
+            The identifier of the CMK under which to generate and encrypt the data encryption key.
+            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that points to the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            CMK ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            Alias name: alias/ExampleAlias
+            Alias ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
             
-        :type KeyId: string
-        :param EncryptionContext: Name:value pair that contains additional data to be authenticated during the encryption and decryption processes.
+:type KeyId: string
+:param EncryptionContext: A set of key-value pairs that represents additional authenticated data.
+            For more information, see Encryption Context in the AWS Key Management Service Developer Guide .
             (string) --
             (string) --
             
-        :type EncryptionContext: dict
-        :param KeySpec: Value that identifies the encryption algorithm and key size. Currently this can be AES_128 or AES_256.
-        :type KeySpec: string
-        :param NumberOfBytes: Integer that contains the number of bytes to generate. Common values are 128, 256, 512, 1024 and so on. We recommend that you use the KeySpec parameter instead.
-        :type NumberOfBytes: integer
-        :param GrantTokens: A list of grant tokens.
+:type EncryptionContext: dict
+:param KeySpec: The length of the data encryption key. Use AES_128 to generate a 128-bit symmetric key, or AES_256 to generate a 256-bit symmetric key.
+:type KeySpec: string
+:param NumberOfBytes: The length of the data encryption key in bytes. For example, use the value 64 to generate a 512-bit data key (64 bytes is 512 bits). For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
+:type NumberOfBytes: integer
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.generate_data_key_without_plaintext(KeyId=KeyId, EncryptionContext=EncryptionContext,
-                                                        KeySpec=KeySpec, NumberOfBytes=NumberOfBytes,
-                                                        GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def generate_random(self, NumberOfBytes=None):
-        """
-        :param NumberOfBytes: Integer that contains the number of bytes to generate. Common values are 128, 256, 512, 1024 and so on. The current limit is 1024 bytes.
+
+def generate_random(NumberOfBytes=None): pass
+
+
+"""
+:param NumberOfBytes: The length of the byte string.
             Return typedict
             ReturnsResponse Syntax{
               'Plaintext': b'bytes'
             }
             Response Structure
             (dict) --
-            Plaintext (bytes) --Plaintext that contains the unpredictable byte string.
+            Plaintext (bytes) --The unpredictable byte string.
             
             
-        :type NumberOfBytes: integer
-        """
-        self.client.generate_random(NumberOfBytes=NumberOfBytes)
+:type NumberOfBytes: integer
+"""
 
-    def get_key_policy(self, KeyId=None, PolicyName=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def get_key_policy(KeyId=None, PolicyName=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        :param PolicyName: [REQUIRED]
+:type KeyId: string
+:param PolicyName: [REQUIRED]
             String that contains the name of the policy. Currently, this must be 'default'. Policy names can be discovered by calling ListKeyPolicies .
             
-        :type PolicyName: string
-        """
-        self.client.get_key_policy(KeyId=KeyId, PolicyName=PolicyName)
+:type PolicyName: string
+"""
 
-    def get_key_rotation_status(self, KeyId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def get_key_rotation_status(KeyId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
@@ -413,13 +462,15 @@ class Kms(object):
             KeyRotationEnabled (boolean) --A Boolean value that specifies whether key rotation is enabled.
             
             
-        :type KeyId: string
-        """
-        self.client.get_key_rotation_status(KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -431,234 +482,305 @@ class Kms(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_aliases(self, Limit=None, Marker=None):
-        """
-        :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+def get_parameters_for_import(KeyId=None, WrappingAlgorithm=None, WrappingKeySpec=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
+            The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL .
+            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            
+:type KeyId: string
+:param WrappingAlgorithm: [REQUIRED]
+            The algorithm you will use to encrypt the key material before importing it with ImportKeyMaterial . For more information, see Encrypt the Key Material in the AWS Key Management Service Developer Guide .
+            
+:type WrappingAlgorithm: string
+:param WrappingKeySpec: [REQUIRED]
+            The type of wrapping key (public key) to return in the response. Only 2048-bit RSA public keys are supported.
+            
+:type WrappingKeySpec: string
+"""
+
+
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def import_key_material(KeyId=None, ImportToken=None, EncryptedKeyMaterial=None, ValidTo=None,
+                        ExpirationModel=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
+            The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL .
+            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            
+:type KeyId: string
+:param ImportToken: [REQUIRED]
+            The import token that you received in the response to a previous GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
+            
+:type ImportToken: bytes
+:param EncryptedKeyMaterial: [REQUIRED]
+            The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous GetParametersForImport request, using the wrapping algorithm that you specified in that request.
+            
+:type EncryptedKeyMaterial: bytes
+:param ValidTo: The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE . Otherwise it is required.
+:type ValidTo: datetime
+:param ExpirationModel: Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES , in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE , you must omit the ValidTo parameter.
+:type ExpirationModel: string
+"""
+
+
+def list_aliases(Limit=None, Marker=None): pass
+
+
+"""
+:param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
-        :type Limit: integer
-        :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
-        :type Marker: string
-        """
-        self.client.list_aliases(Limit=Limit, Marker=Marker)
+:type Limit: integer
+:param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+:type Marker: string
+"""
 
-    def list_grants(self, Limit=None, Marker=None, KeyId=None):
-        """
-        :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+
+def list_grants(Limit=None, Marker=None, KeyId=None): pass
+
+
+"""
+:param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
-        :type Limit: integer
-        :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
-        :type Marker: string
-        :param KeyId: [REQUIRED]
+:type Limit: integer
+:param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+:type Marker: string
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        """
-        self.client.list_grants(Limit=Limit, Marker=Marker, KeyId=KeyId)
+:type KeyId: string
+"""
 
-    def list_key_policies(self, KeyId=None, Limit=None, Marker=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def list_key_policies(KeyId=None, Limit=None, Marker=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             Alias Name Example - alias/MyAliasName
             
-        :type KeyId: string
-        :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+:type KeyId: string
+:param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
             This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
             Currently only 1 policy can be attached to a key.
             
-        :type Limit: integer
-        :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
-        :type Marker: string
-        """
-        self.client.list_key_policies(KeyId=KeyId, Limit=Limit, Marker=Marker)
+:type Limit: integer
+:param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+:type Marker: string
+"""
 
-    def list_keys(self, Limit=None, Marker=None):
-        """
-        :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+
+def list_keys(Limit=None, Marker=None): pass
+
+
+"""
+:param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
             This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
             
-        :type Limit: integer
-        :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
-        :type Marker: string
-        """
-        self.client.list_keys(Limit=Limit, Marker=Marker)
+:type Limit: integer
+:param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+:type Marker: string
+"""
 
-    def list_retirable_grants(self, Limit=None, Marker=None, RetiringPrincipal=None):
-        """
-        :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+
+def list_retirable_grants(Limit=None, Marker=None, RetiringPrincipal=None): pass
+
+
+"""
+:param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
-        :type Limit: integer
-        :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
-        :type Marker: string
-        :param RetiringPrincipal: [REQUIRED]
+:type Limit: integer
+:param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+:type Marker: string
+:param RetiringPrincipal: [REQUIRED]
             The retiring principal for which to list grants.
             To specify the retiring principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the Amazon Web Services General Reference .
             
-        :type RetiringPrincipal: string
-        """
-        self.client.list_retirable_grants(Limit=Limit, Marker=Marker, RetiringPrincipal=RetiringPrincipal)
+:type RetiringPrincipal: string
+"""
 
-    def put_key_policy(self, KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockoutSafetyCheck=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockoutSafetyCheck=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the CMK.
             Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:
             Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             
-        :type KeyId: string
-        :param PolicyName: [REQUIRED]
+:type KeyId: string
+:param PolicyName: [REQUIRED]
             The name of the key policy.
             This value must be default .
             
-        :type PolicyName: string
-        :param Policy: [REQUIRED]
+:type PolicyName: string
+:param Policy: [REQUIRED]
             The key policy to attach to the CMK.
-            The key policy must meet the following criteria:
+            If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
             It must allow the principal making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             The principal(s) specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
             The policy size limit is 32 KiB (32768 bytes).
             
-        :type Policy: string
-        :param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
+:type Policy: string
+:param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
             Warning
             Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             Use this parameter only when you intend to prevent the principal making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
             
-        :type BypassPolicyLockoutSafetyCheck: boolean
-        """
-        self.client.put_key_policy(KeyId=KeyId, PolicyName=PolicyName, Policy=Policy,
-                                   BypassPolicyLockoutSafetyCheck=BypassPolicyLockoutSafetyCheck)
+:type BypassPolicyLockoutSafetyCheck: boolean
+"""
 
-    def re_encrypt(self, CiphertextBlob=None, SourceEncryptionContext=None, DestinationKeyId=None,
-                   DestinationEncryptionContext=None, GrantTokens=None):
-        """
-        :param CiphertextBlob: [REQUIRED]
+
+def re_encrypt(CiphertextBlob=None, SourceEncryptionContext=None, DestinationKeyId=None,
+               DestinationEncryptionContext=None, GrantTokens=None): pass
+
+
+"""
+:param CiphertextBlob: [REQUIRED]
             Ciphertext of the data to re-encrypt.
             
-        :type CiphertextBlob: bytes
-        :param SourceEncryptionContext: Encryption context used to encrypt and decrypt the data specified in the CiphertextBlob parameter.
+:type CiphertextBlob: bytes
+:param SourceEncryptionContext: Encryption context used to encrypt and decrypt the data specified in the CiphertextBlob parameter.
             (string) --
             (string) --
             
-        :type SourceEncryptionContext: dict
-        :param DestinationKeyId: [REQUIRED]
+:type SourceEncryptionContext: dict
+:param DestinationKeyId: [REQUIRED]
             A unique identifier for the customer master key used to re-encrypt the data. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             Alias Name Example - alias/MyAliasName
             
-        :type DestinationKeyId: string
-        :param DestinationEncryptionContext: Encryption context to be used when the data is re-encrypted.
+:type DestinationKeyId: string
+:param DestinationEncryptionContext: Encryption context to be used when the data is re-encrypted.
             (string) --
             (string) --
             
-        :type DestinationEncryptionContext: dict
-        :param GrantTokens: A list of grant tokens.
+:type DestinationEncryptionContext: dict
+:param GrantTokens: A list of grant tokens.
             For more information, see Grant Tokens in the AWS Key Management Service Developer Guide .
             (string) --
             
-        :type GrantTokens: list
-        """
-        self.client.re_encrypt(CiphertextBlob=CiphertextBlob, SourceEncryptionContext=SourceEncryptionContext,
-                               DestinationKeyId=DestinationKeyId,
-                               DestinationEncryptionContext=DestinationEncryptionContext, GrantTokens=GrantTokens)
+:type GrantTokens: list
+"""
 
-    def retire_grant(self, GrantToken=None, KeyId=None, GrantId=None):
-        """
-        :param GrantToken: Token that identifies the grant to be retired.
-        :type GrantToken: string
-        :param KeyId: A unique identifier for the customer master key associated with the grant. This value can be a globally unique identifier or a fully specified ARN of the key.
+
+def retire_grant(GrantToken=None, KeyId=None, GrantId=None): pass
+
+
+"""
+:param GrantToken: Token that identifies the grant to be retired.
+:type GrantToken: string
+:param KeyId: A unique identifier for the customer master key associated with the grant. This value can be a globally unique identifier or a fully specified ARN of the key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        :param GrantId: Unique identifier of the grant to be retired. The grant ID is returned by the CreateGrant function.
+:type KeyId: string
+:param GrantId: Unique identifier of the grant to be retired. The grant ID is returned by the CreateGrant function.
             Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
             
-        :type GrantId: string
-        """
-        self.client.retire_grant(GrantToken=GrantToken, KeyId=KeyId, GrantId=GrantId)
+:type GrantId: string
+"""
 
-    def revoke_grant(self, KeyId=None, GrantId=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def revoke_grant(KeyId=None, GrantId=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key associated with the grant. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        :param GrantId: [REQUIRED]
+:type KeyId: string
+:param GrantId: [REQUIRED]
             Identifier of the grant to be revoked.
             
-        :type GrantId: string
-        """
-        self.client.revoke_grant(KeyId=KeyId, GrantId=GrantId)
+:type GrantId: string
+"""
 
-    def schedule_key_deletion(self, KeyId=None, PendingWindowInDays=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def schedule_key_deletion(KeyId=None, PendingWindowInDays=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             The unique identifier for the customer master key (CMK) to delete.
             To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
             Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey .
             
-        :type KeyId: string
-        :param PendingWindowInDays: The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK).
+:type KeyId: string
+:param PendingWindowInDays: The waiting period, specified in number of days. After the waiting period ends, AWS KMS deletes the customer master key (CMK).
             This value is optional. If you include a value, it must be between 7 and 30, inclusive. If you do not include a value, it defaults to 30.
             
-        :type PendingWindowInDays: integer
-        """
-        self.client.schedule_key_deletion(KeyId=KeyId, PendingWindowInDays=PendingWindowInDays)
+:type PendingWindowInDays: integer
+"""
 
-    def update_alias(self, AliasName=None, TargetKeyId=None):
-        """
-        :param AliasName: [REQUIRED]
+
+def update_alias(AliasName=None, TargetKeyId=None): pass
+
+
+"""
+:param AliasName: [REQUIRED]
             String that contains the name of the alias to be modified. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/aws' are reserved.
             
-        :type AliasName: string
-        :param TargetKeyId: [REQUIRED]
+:type AliasName: string
+:param TargetKeyId: [REQUIRED]
             Unique identifier of the customer master key to be mapped to the alias. This value can be a globally unique identifier or the fully specified ARN of a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             You can call ListAliases to verify that the alias is mapped to the correct TargetKeyId .
             
-        :type TargetKeyId: string
-        """
-        self.client.update_alias(AliasName=AliasName, TargetKeyId=TargetKeyId)
+:type TargetKeyId: string
+"""
 
-    def update_key_description(self, KeyId=None, Description=None):
-        """
-        :param KeyId: [REQUIRED]
+
+def update_key_description(KeyId=None, Description=None): pass
+
+
+"""
+:param KeyId: [REQUIRED]
             A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
             Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
-        :type KeyId: string
-        :param Description: [REQUIRED]
+:type KeyId: string
+:param Description: [REQUIRED]
             New description for the key.
             
-        :type Description: string
-        """
-        self.client.update_key_description(KeyId=KeyId, Description=Description)
+:type Description: string
+"""

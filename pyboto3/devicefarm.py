@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Devicefarm(object):
-    def __init__(self):
-        self.client = boto3.client('Devicefarm')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,23 +36,25 @@ class Devicefarm(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_device_pool(self, projectArn=None, name=None, description=None, rules=None):
-        """
-        :param projectArn: [REQUIRED]
+
+def create_device_pool(projectArn=None, name=None, description=None, rules=None): pass
+
+
+"""
+:param projectArn: [REQUIRED]
             The ARN of the project for the device pool.
             
-        :type projectArn: string
-        :param name: [REQUIRED]
+:type projectArn: string
+:param name: [REQUIRED]
             The device pool's name.
             
-        :type name: string
-        :param description: The device pool's description.
-        :type description: string
-        :param rules: [REQUIRED]
+:type name: string
+:param description: The device pool's description.
+:type description: string
+:param rules: [REQUIRED]
             The device pool's rules.
             (dict) --Represents a condition for a device pool.
             attribute (string) --The rule's stringified attribute. For example, specify the value as '\'abc\'' .
@@ -74,13 +72,15 @@ class Devicefarm(object):
             value (string) --The rule's value.
             
             
-        :type rules: list
-        """
-        self.client.create_device_pool(projectArn=projectArn, name=name, description=description, rules=rules)
+:type rules: list
+"""
 
-    def create_project(self, name=None):
-        """
-        :param name: [REQUIRED]
+
+def create_project(name=None): pass
+
+
+"""
+:param name: [REQUIRED]
             The project's name.
             Return typedict
             ReturnsResponse Syntax{
@@ -99,41 +99,44 @@ class Devicefarm(object):
             
             
             
-        :type name: string
-        """
-        self.client.create_project(name=name)
+:type name: string
+"""
 
-    def create_remote_access_session(self, projectArn=None, deviceArn=None, name=None, configuration=None):
-        """
-        :param projectArn: [REQUIRED]
+
+def create_remote_access_session(projectArn=None, deviceArn=None, name=None, configuration=None): pass
+
+
+"""
+:param projectArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
             
-        :type projectArn: string
-        :param deviceArn: [REQUIRED]
+:type projectArn: string
+:param deviceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
             
-        :type deviceArn: string
-        :param name: The name of the remote access session that you wish to create.
-        :type name: string
-        :param configuration: The configuration information for the remote access session request.
+:type deviceArn: string
+:param name: The name of the remote access session that you wish to create.
+:type name: string
+:param configuration: The configuration information for the remote access session request.
             billingMethod (string) --Returns the billing method for purposes of configuring a remote access session.
             
-        :type configuration: dict
-        """
-        self.client.create_remote_access_session(projectArn=projectArn, deviceArn=deviceArn, name=name,
-                                                 configuration=configuration)
+:type configuration: dict
+"""
 
-    def create_upload(self, projectArn=None, name=None, type=None, contentType=None):
-        """
-        :param projectArn: [REQUIRED]
+
+def create_upload(projectArn=None, name=None, type=None, contentType=None): pass
+
+
+"""
+:param projectArn: [REQUIRED]
             The ARN of the project for the upload.
             
-        :type projectArn: string
-        :param name: [REQUIRED]
-            The upload's file name. The name should not contain the '/' character.
+:type projectArn: string
+:param name: [REQUIRED]
+            The upload's file name. The name should not contain the '/' character. If uploading an iOS app, the file name needs to end with the .ipa extension. If uploading an Android app, the file name needs to end with the .apk extension. For all others, the file name must end with the .zip file extension.
             
-        :type name: string
-        :param type: [REQUIRED]
+:type name: string
+:param type: [REQUIRED]
             The upload's upload type.
             Must be one of the following values:
             ANDROID_APP: An Android upload.
@@ -154,15 +157,17 @@ class Devicefarm(object):
             XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.
             Note If you call CreateUpload with WEB_APP specified, AWS Device Farm throws an ArgumentException error.
             
-        :type type: string
-        :param contentType: The upload's content type (for example, 'application/octet-stream').
-        :type contentType: string
-        """
-        self.client.create_upload(projectArn=projectArn, name=name, type=type, contentType=contentType)
+:type type: string
+:param contentType: The upload's content type (for example, 'application/octet-stream').
+:type contentType: string
+"""
 
-    def delete_device_pool(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def delete_device_pool(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -170,13 +175,15 @@ class Devicefarm(object):
             (dict) --Represents the result of a delete device pool request.
             
             
-        :type arn: string
-        """
-        self.client.delete_device_pool(arn=arn)
+:type arn: string
+"""
 
-    def delete_project(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def delete_project(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             Represents the Amazon Resource Name (ARN) of the Device Farm project you wish to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -184,13 +191,15 @@ class Devicefarm(object):
             (dict) --Represents the result of a delete project request.
             
             
-        :type arn: string
-        """
-        self.client.delete_project(arn=arn)
+:type arn: string
+"""
 
-    def delete_remote_access_session(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def delete_remote_access_session(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) of the sesssion for which you want to delete remote access.
             Return typedict
             ReturnsResponse Syntax{}
@@ -198,13 +207,15 @@ class Devicefarm(object):
             (dict) --The response from the server when a request is made to delete the remote access session.
             
             
-        :type arn: string
-        """
-        self.client.delete_remote_access_session(arn=arn)
+:type arn: string
+"""
 
-    def delete_run(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def delete_run(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) for the run you wish to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -212,13 +223,15 @@ class Devicefarm(object):
             (dict) --Represents the result of a delete run request.
             
             
-        :type arn: string
-        """
-        self.client.delete_run(arn=arn)
+:type arn: string
+"""
 
-    def delete_upload(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def delete_upload(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             Represents the Amazon Resource Name (ARN) of the Device Farm upload you wish to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -226,35 +239,40 @@ class Devicefarm(object):
             (dict) --Represents the result of a delete upload request.
             
             
-        :type arn: string
-        """
-        self.client.delete_upload(arn=arn)
+:type arn: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_account_settings(self):
-        """
-        """
-        self.client.get_account_settings()
 
-    def get_device(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+def get_account_settings(): pass
+
+
+"""
+"""
+
+
+def get_device(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The device type's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -319,13 +337,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_device(arn=arn)
+:type arn: string
+"""
 
-    def get_device_pool(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_device_pool(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The device pool's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -372,19 +392,21 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_device_pool(arn=arn)
+:type arn: string
+"""
 
-    def get_device_pool_compatibility(self, devicePoolArn=None, appArn=None, testType=None):
-        """
-        :param devicePoolArn: [REQUIRED]
+
+def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None): pass
+
+
+"""
+:param devicePoolArn: [REQUIRED]
             The device pool's ARN.
             
-        :type devicePoolArn: string
-        :param appArn: The ARN of the app that is associated with the specified device pool.
-        :type appArn: string
-        :param testType: The test type for the specified device pool.
+:type devicePoolArn: string
+:param appArn: The ARN of the app that is associated with the specified device pool.
+:type appArn: string
+:param testType: The test type for the specified device pool.
             Allowed values include the following:
             BUILTIN_FUZZ: The built-in fuzz type.
             BUILTIN_EXPLORER: For Android, an app explorer that will traverse an Android app, interacting with it and capturing screenshots at the same time.
@@ -401,13 +423,15 @@ class Devicefarm(object):
             XCTEST: The XCode test type.
             XCTEST_UI: The XCode UI test type.
             
-        :type testType: string
-        """
-        self.client.get_device_pool_compatibility(devicePoolArn=devicePoolArn, appArn=appArn, testType=testType)
+:type testType: string
+"""
 
-    def get_job(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_job(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The job's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -552,13 +576,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_job(arn=arn)
+:type arn: string
+"""
 
-    def get_offering_status(self, nextToken=None):
-        """
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+def get_offering_status(nextToken=None): pass
+
+
+"""
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             Return typedict
             ReturnsResponse Syntax{
               'current': {
@@ -650,13 +676,15 @@ class Devicefarm(object):
             nextToken (string) --An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             
             
-        :type nextToken: string
-        """
-        self.client.get_offering_status(nextToken=nextToken)
+:type nextToken: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -668,13 +696,15 @@ class Devicefarm(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_project(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_project(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The project's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -693,13 +723,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_project(arn=arn)
+:type arn: string
+"""
 
-    def get_remote_access_session(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_remote_access_session(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) of the remote access session about which you want to get session information.
             Return typedict
             ReturnsResponse Syntax{
@@ -812,13 +844,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_remote_access_session(arn=arn)
+:type arn: string
+"""
 
-    def get_run(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_run(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The run's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -911,7 +945,7 @@ class Devicefarm(object):
             message (string) --A message about the run's result.
             totalJobs (integer) --The total number of jobs for the run.
             completedJobs (integer) --The total number of completed jobs.
-            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is unmetered .
+            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is metered .
             deviceMinutes (dict) --Represents the total (metered or unmetered) minutes used by the test run.
             total (float) --When specified, represents the total minutes used by the resource to run tests.
             metered (float) --When specified, represents only the sum of metered minutes used by the resource to run tests.
@@ -919,13 +953,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_run(arn=arn)
+:type arn: string
+"""
 
-    def get_suite(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_suite(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The suite's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -1015,13 +1051,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_suite(arn=arn)
+:type arn: string
+"""
 
-    def get_test(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_test(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The test's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -1111,13 +1149,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_test(arn=arn)
+:type arn: string
+"""
 
-    def get_upload(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def get_upload(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The upload's ARN.
             Return typedict
             ReturnsResponse Syntax{
@@ -1170,87 +1210,101 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.get_upload(arn=arn)
+:type arn: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def install_to_remote_access_session(self, remoteAccessSessionArn=None, appArn=None):
-        """
-        :param remoteAccessSessionArn: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def install_to_remote_access_session(remoteAccessSessionArn=None, appArn=None): pass
+
+
+"""
+:param remoteAccessSessionArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
             
-        :type remoteAccessSessionArn: string
-        :param appArn: [REQUIRED]
+:type remoteAccessSessionArn: string
+:param appArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the app about which you are requesting information.
             
-        :type appArn: string
-        """
-        self.client.install_to_remote_access_session(remoteAccessSessionArn=remoteAccessSessionArn, appArn=appArn)
+:type appArn: string
+"""
 
-    def list_artifacts(self, arn=None, type=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+
+def list_artifacts(arn=None, type=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Run, Job, Suite, or Test ARN.
             
-        :type arn: string
-        :param type: [REQUIRED]
+:type arn: string
+:param type: [REQUIRED]
             The artifacts' type.
             Allowed values include:
             FILE: The artifacts are files.
             LOG: The artifacts are logs.
             SCREENSHOT: The artifacts are screenshots.
             
-        :type type: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_artifacts(arn=arn, type=type, nextToken=nextToken)
+:type type: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_device_pools(self, arn=None, type=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+
+def list_device_pools(arn=None, type=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The project ARN.
             
-        :type arn: string
-        :param type: The device pools' type.
+:type arn: string
+:param type: The device pools' type.
             Allowed values include:
             CURATED: A device pool that is created and managed by AWS Device Farm.
             PRIVATE: A device pool that is created and managed by the device pool developer.
             
-        :type type: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_device_pools(arn=arn, type=type, nextToken=nextToken)
+:type type: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_devices(self, arn=None, nextToken=None):
-        """
-        :param arn: The device types' ARNs.
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_devices(arn=arn, nextToken=nextToken)
 
-    def list_jobs(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+def list_devices(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: The Amazon Resource Name (ARN) of the project.
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
+
+
+def list_jobs(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The jobs' ARNs.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_jobs(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_offering_transactions(self, nextToken=None):
-        """
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+def list_offering_transactions(nextToken=None): pass
+
+
+"""
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             Return typedict
             ReturnsResponse Syntax{
               'offeringTransactions': [
@@ -1314,13 +1368,15 @@ class Devicefarm(object):
             nextToken (string) --An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             
             
-        :type nextToken: string
-        """
-        self.client.list_offering_transactions(nextToken=nextToken)
+:type nextToken: string
+"""
 
-    def list_offerings(self, nextToken=None):
-        """
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+def list_offerings(nextToken=None): pass
+
+
+"""
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             Return typedict
             ReturnsResponse Syntax{
               'offerings': [
@@ -1361,129 +1417,151 @@ class Devicefarm(object):
             nextToken (string) --An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
             
             
-        :type nextToken: string
-        """
-        self.client.list_offerings(nextToken=nextToken)
+:type nextToken: string
+"""
 
-    def list_projects(self, arn=None, nextToken=None):
-        """
-        :param arn: The projects' ARNs.
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_projects(arn=arn, nextToken=nextToken)
 
-    def list_remote_access_sessions(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+def list_projects(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: Optional. If no Amazon Resource Name (ARN) is specified, then AWS Device Farm returns a list of all projects for the AWS account. You can also specify a project ARN.
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
+
+
+def list_remote_access_sessions(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) of the remote access session about which you are requesting information.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_remote_access_sessions(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_runs(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
-            The runs' ARNs.
+
+def list_runs(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the project for which you want to list runs.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_runs(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_samples(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
-            The samples' ARNs.
+
+def list_samples(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the project for which you want to list samples.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_samples(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_suites(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+
+def list_suites(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The suites' ARNs.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_suites(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_tests(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+
+def list_tests(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The tests' ARNs.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_tests(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_unique_problems(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
+
+def list_unique_problems(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The unique problems' ARNs.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_unique_problems(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def list_uploads(self, arn=None, nextToken=None):
-        """
-        :param arn: [REQUIRED]
-            The uploads' ARNs.
+
+def list_uploads(arn=None, nextToken=None): pass
+
+
+"""
+:param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the project for which you want to list uploads.
             
-        :type arn: string
-        :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
-        :type nextToken: string
-        """
-        self.client.list_uploads(arn=arn, nextToken=nextToken)
+:type arn: string
+:param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+:type nextToken: string
+"""
 
-    def purchase_offering(self, offeringId=None, quantity=None):
-        """
-        :param offeringId: The ID of the offering.
-        :type offeringId: string
-        :param quantity: The number of device slots you wish to purchase in an offering request.
-        :type quantity: integer
-        """
-        self.client.purchase_offering(offeringId=offeringId, quantity=quantity)
 
-    def renew_offering(self, offeringId=None, quantity=None):
-        """
-        :param offeringId: The ID of a request to renew an offering.
-        :type offeringId: string
-        :param quantity: The quantity requested in an offering renewal.
-        :type quantity: integer
-        """
-        self.client.renew_offering(offeringId=offeringId, quantity=quantity)
+def purchase_offering(offeringId=None, quantity=None): pass
 
-    def schedule_run(self, projectArn=None, appArn=None, devicePoolArn=None, name=None, test=None, configuration=None):
-        """
-        :param projectArn: [REQUIRED]
+
+"""
+:param offeringId: The ID of the offering.
+:type offeringId: string
+:param quantity: The number of device slots you wish to purchase in an offering request.
+:type quantity: integer
+"""
+
+
+def renew_offering(offeringId=None, quantity=None): pass
+
+
+"""
+:param offeringId: The ID of a request to renew an offering.
+:type offeringId: string
+:param quantity: The quantity requested in an offering renewal.
+:type quantity: integer
+"""
+
+
+def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, test=None, configuration=None): pass
+
+
+"""
+:param projectArn: [REQUIRED]
             The ARN of the project for the run to be scheduled.
             
-        :type projectArn: string
-        :param appArn: The ARN of the app to schedule a run.
-        :type appArn: string
-        :param devicePoolArn: [REQUIRED]
+:type projectArn: string
+:param appArn: The ARN of the app to schedule a run.
+:type appArn: string
+:param devicePoolArn: [REQUIRED]
             The ARN of the device pool for the run to be scheduled.
             
-        :type devicePoolArn: string
-        :param name: The name for the run to be scheduled.
-        :type name: string
-        :param test: [REQUIRED]
+:type devicePoolArn: string
+:param name: The name for the run to be scheduled.
+:type name: string
+:param test: [REQUIRED]
             Information about the test for the run to be scheduled.
             type (string) -- [REQUIRED]The test's type.
             Must be one of the following values:
@@ -1508,8 +1586,8 @@ class Devicefarm(object):
             (string) --
             
             
-        :type test: dict
-        :param configuration: Information about the settings for the run to be scheduled.
+:type test: dict
+:param configuration: Information about the settings for the run to be scheduled.
             extraDataPackageArn (string) --The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm will extract to external data for Android or the app's sandbox for iOS.
             networkProfileArn (string) --Reserved for internal use.
             locale (string) --Information about the locale that is used for the run.
@@ -1523,16 +1601,17 @@ class Devicefarm(object):
             gps (boolean) --True if GPS is enabled at the beginning of the test; otherwise, false.
             auxiliaryApps (list) --A list of auxiliary apps for the run.
             (string) --
-            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is unmetered .
+            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is metered .
             
-        :type configuration: dict
-        """
-        self.client.schedule_run(projectArn=projectArn, appArn=appArn, devicePoolArn=devicePoolArn, name=name,
-                                 test=test, configuration=configuration)
+:type configuration: dict
+"""
 
-    def stop_remote_access_session(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def stop_remote_access_session(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) of the remote access session you wish to stop.
             Return typedict
             ReturnsResponse Syntax{
@@ -1645,13 +1724,15 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.stop_remote_access_session(arn=arn)
+:type arn: string
+"""
 
-    def stop_run(self, arn=None):
-        """
-        :param arn: [REQUIRED]
+
+def stop_run(arn=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             Represents the Amazon Resource Name (ARN) of the Device Farm run you wish to stop.
             Return typedict
             ReturnsResponse Syntax{
@@ -1744,7 +1825,7 @@ class Devicefarm(object):
             message (string) --A message about the run's result.
             totalJobs (integer) --The total number of jobs for the run.
             completedJobs (integer) --The total number of completed jobs.
-            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is unmetered .
+            billingMethod (string) --Specifies the billing method for a test run: metered or unmetered . If the parameter is not specified, the default value is metered .
             deviceMinutes (dict) --Represents the total (metered or unmetered) minutes used by the test run.
             total (float) --When specified, represents the total minutes used by the resource to run tests.
             metered (float) --When specified, represents only the sum of metered minutes used by the resource to run tests.
@@ -1752,21 +1833,23 @@ class Devicefarm(object):
             
             
             
-        :type arn: string
-        """
-        self.client.stop_run(arn=arn)
+:type arn: string
+"""
 
-    def update_device_pool(self, arn=None, name=None, description=None, rules=None):
-        """
-        :param arn: [REQUIRED]
+
+def update_device_pool(arn=None, name=None, description=None, rules=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resourc Name (ARN) of the Device Farm device pool you wish to update.
             
-        :type arn: string
-        :param name: A string representing the name of the device pool you wish to update.
-        :type name: string
-        :param description: A description of the device pool you wish to update.
-        :type description: string
-        :param rules: Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
+:type arn: string
+:param name: A string representing the name of the device pool you wish to update.
+:type name: string
+:param description: A description of the device pool you wish to update.
+:type description: string
+:param rules: Represents the rules you wish to modify for the device pool. Updating rules is optional; however, if you choose to update rules for your request, the update will replace the existing rules.
             (dict) --Represents a condition for a device pool.
             attribute (string) --The rule's stringified attribute. For example, specify the value as '\'abc\'' .
             Allowed values include:
@@ -1783,17 +1866,18 @@ class Devicefarm(object):
             value (string) --The rule's value.
             
             
-        :type rules: list
-        """
-        self.client.update_device_pool(arn=arn, name=name, description=description, rules=rules)
+:type rules: list
+"""
 
-    def update_project(self, arn=None, name=None):
-        """
-        :param arn: [REQUIRED]
+
+def update_project(arn=None, name=None): pass
+
+
+"""
+:param arn: [REQUIRED]
             The Amazon Resource Name (ARN) of the project whose name you wish to update.
             
-        :type arn: string
-        :param name: A string representing the new name of the project that you are updating.
-        :type name: string
-        """
-        self.client.update_project(arn=arn, name=name)
+:type arn: string
+:param name: A string representing the new name of the project that you are updating.
+:type name: string
+"""

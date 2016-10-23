@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name='pyboto3',
-      version='0.1',
+      version='1.0',
       packages=find_packages(),
       description='Pythonic Interface for AWS boto3 that gives you autocomplete on every service',
       author='Gehad Shaat',
@@ -11,5 +11,5 @@ setup(name='pyboto3',
       install_requires=[],
       license='MIT License',
       zip_safe=True,
-      keywords='aws boto3 pythonic',
+      keywords='aws boto3 pythonic python',
       classifiers=[])

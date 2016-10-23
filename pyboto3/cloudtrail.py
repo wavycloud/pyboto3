@@ -22,33 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def add_tags(ResourceId=None, TagsList=None): pass
 
 
-class Cloudtrail(object):
-    def __init__(self):
-        self.client = boto3.client('Cloudtrail')
-
-    def add_tags(self, ResourceId=None, TagsList=None):
-        """
-        :param ResourceId: [REQUIRED]
+"""
+:param ResourceId: [REQUIRED]
             Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             
-        :type ResourceId: string
-        :param TagsList: Contains a list of CloudTrail tags, up to a limit of 10.
+:type ResourceId: string
+:param TagsList: Contains a list of CloudTrail tags, up to a limit of 10.
             (dict) --A custom key-value pair associated with a resource such as a CloudTrail trail.
             Key (string) -- [REQUIRED]The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
             Value (string) --The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
             
             
-        :type TagsList: list
-        """
-        self.client.add_tags(ResourceId=ResourceId, TagsList=TagsList)
+:type TagsList: list
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -57,15 +55,17 @@ class Cloudtrail(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_trail(self, Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None,
-                     IncludeGlobalServiceEvents=None, IsMultiRegionTrail=None, EnableLogFileValidation=None,
-                     CloudWatchLogsLogGroupArn=None, CloudWatchLogsRoleArn=None, KmsKeyId=None):
-        """
-        :param Name: [REQUIRED]
+
+def create_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None, IncludeGlobalServiceEvents=None,
+                 IsMultiRegionTrail=None, EnableLogFileValidation=None, CloudWatchLogsLogGroupArn=None,
+                 CloudWatchLogsRoleArn=None, KmsKeyId=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name of the trail. The name must meet the following requirements:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
             Start with a letter or number, and end with a letter or number
@@ -73,46 +73,44 @@ class Cloudtrail(object):
             Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
             Not be in IP address format (for example, 192.168.5.4)
             
-        :type Name: string
-        :param S3BucketName: [REQUIRED]
+:type Name: string
+:param S3BucketName: [REQUIRED]
             Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements .
             
-        :type S3BucketName: string
-        :param S3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
-        :type S3KeyPrefix: string
-        :param SnsTopicName: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        :type SnsTopicName: string
-        :param IncludeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        :type IncludeGlobalServiceEvents: boolean
-        :param IsMultiRegionTrail: Specifies whether the trail is created in the current region or in all regions. The default is false.
-        :type IsMultiRegionTrail: boolean
-        :param EnableLogFileValidation: Specifies whether log file integrity validation is enabled. The default is false.
+:type S3BucketName: string
+:param S3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
+:type S3KeyPrefix: string
+:param SnsTopicName: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+:type SnsTopicName: string
+:param IncludeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
+:type IncludeGlobalServiceEvents: boolean
+:param IsMultiRegionTrail: Specifies whether the trail is created in the current region or in all regions. The default is false.
+:type IsMultiRegionTrail: boolean
+:param EnableLogFileValidation: Specifies whether log file integrity validation is enabled. The default is false.
             Note
             When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
             
-        :type EnableLogFileValidation: boolean
-        :param CloudWatchLogsLogGroupArn: Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
-        :type CloudWatchLogsLogGroupArn: string
-        :param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        :type CloudWatchLogsRoleArn: string
-        :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
+:type EnableLogFileValidation: boolean
+:param CloudWatchLogsLogGroupArn: Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+:type CloudWatchLogsLogGroupArn: string
+:param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+:type CloudWatchLogsRoleArn: string
+:param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
             Examples:
             alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             12345678-1234-1234-1234-123456789012
             
-        :type KmsKeyId: string
-        """
-        self.client.create_trail(Name=Name, S3BucketName=S3BucketName, S3KeyPrefix=S3KeyPrefix,
-                                 SnsTopicName=SnsTopicName, IncludeGlobalServiceEvents=IncludeGlobalServiceEvents,
-                                 IsMultiRegionTrail=IsMultiRegionTrail, EnableLogFileValidation=EnableLogFileValidation,
-                                 CloudWatchLogsLogGroupArn=CloudWatchLogsLogGroupArn,
-                                 CloudWatchLogsRoleArn=CloudWatchLogsRoleArn, KmsKeyId=KmsKeyId)
+:type KmsKeyId: string
+"""
 
-    def delete_trail(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def delete_trail(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             Return typedict
@@ -121,13 +119,15 @@ class Cloudtrail(object):
             (dict) --Returns the objects or data listed below if successful. Otherwise, returns an error.
             
             
-        :type Name: string
-        """
-        self.client.delete_trail(Name=Name)
+:type Name: string
+"""
 
-    def describe_trails(self, trailNameList=None, includeShadowTrails=None):
-        """
-        :param trailNameList: Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:
+
+def describe_trails(trailNameList=None, includeShadowTrails=None): pass
+
+
+"""
+:param trailNameList: Specifies a list of trail names, trail ARNs, or both, of the trails to describe. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             If an empty list is specified, information for the trail in the current region is returned.
             If an empty list is specified and IncludeShadowTrails is false, then information for all trails in the current region is returned.
@@ -136,32 +136,35 @@ class Cloudtrail(object):
             If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN.
             (string) --
             
-        :type trailNameList: list
-        :param includeShadowTrails: Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region. The default is true.
-        :type includeShadowTrails: boolean
-        """
-        self.client.describe_trails(trailNameList=trailNameList, includeShadowTrails=includeShadowTrails)
+:type trailNameList: list
+:param includeShadowTrails: Specifies whether to include shadow trails in the response. A shadow trail is the replication in a region of a trail that was created in a different region. The default is true.
+:type includeShadowTrails: boolean
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -173,13 +176,15 @@ class Cloudtrail(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_trail_status(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def get_trail_status(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name or the CloudTrail ARN of the trail for which you are requesting status. To get the status of a shadow trail (a replication of the trail in another region), you must specify its ARN. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             Return typedict
@@ -227,80 +232,91 @@ class Cloudtrail(object):
             TimeLoggingStopped (string) --This field is deprecated.
             
             
-        :type Name: string
-        """
-        self.client.get_trail_status(Name=Name)
+:type Name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_public_keys(self, StartTime=None, EndTime=None, NextToken=None):
-        """
-        :param StartTime: Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
-        :type StartTime: datetime
-        :param EndTime: Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
-        :type EndTime: datetime
-        :param NextToken: Reserved for future use.
-        :type NextToken: string
-        """
-        self.client.list_public_keys(StartTime=StartTime, EndTime=EndTime, NextToken=NextToken)
+def get_waiter(): pass
 
-    def list_tags(self, ResourceIdList=None, NextToken=None):
-        """
-        :param ResourceIdList: [REQUIRED]
+
+"""
+"""
+
+
+def list_public_keys(StartTime=None, EndTime=None, NextToken=None): pass
+
+
+"""
+:param StartTime: Optionally specifies, in UTC, the start of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used, and the current public key is returned.
+:type StartTime: datetime
+:param EndTime: Optionally specifies, in UTC, the end of the time range to look up public keys for CloudTrail digest files. If not specified, the current time is used.
+:type EndTime: datetime
+:param NextToken: Reserved for future use.
+:type NextToken: string
+"""
+
+
+def list_tags(ResourceIdList=None, NextToken=None): pass
+
+
+"""
+:param ResourceIdList: [REQUIRED]
             Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             (string) --
             
-        :type ResourceIdList: list
-        :param NextToken: Reserved for future use.
-        :type NextToken: string
-        """
-        self.client.list_tags(ResourceIdList=ResourceIdList, NextToken=NextToken)
+:type ResourceIdList: list
+:param NextToken: Reserved for future use.
+:type NextToken: string
+"""
 
-    def lookup_events(self, LookupAttributes=None, StartTime=None, EndTime=None, MaxResults=None, NextToken=None):
-        """
-        :param LookupAttributes: Contains a list of lookup attributes. Currently the list can contain only one item.
+
+def lookup_events(LookupAttributes=None, StartTime=None, EndTime=None, MaxResults=None, NextToken=None): pass
+
+
+"""
+:param LookupAttributes: Contains a list of lookup attributes. Currently the list can contain only one item.
             (dict) --Specifies an attribute and value that filter the events returned.
             AttributeKey (string) -- [REQUIRED]Specifies an attribute on which to filter the events returned.
             AttributeValue (string) -- [REQUIRED]Specifies a value for the specified AttributeKey.
             
             
-        :type LookupAttributes: list
-        :param StartTime: Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
-        :type StartTime: datetime
-        :param EndTime: Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
-        :type EndTime: datetime
-        :param MaxResults: The number of events to return. Possible values are 1 through 50. The default is 10.
-        :type MaxResults: integer
-        :param NextToken: The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
-        :type NextToken: string
-        """
-        self.client.lookup_events(LookupAttributes=LookupAttributes, StartTime=StartTime, EndTime=EndTime,
-                                  MaxResults=MaxResults, NextToken=NextToken)
+:type LookupAttributes: list
+:param StartTime: Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+:type StartTime: datetime
+:param EndTime: Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+:type EndTime: datetime
+:param MaxResults: The number of events to return. Possible values are 1 through 50. The default is 10.
+:type MaxResults: integer
+:param NextToken: The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
+:type NextToken: string
+"""
 
-    def remove_tags(self, ResourceId=None, TagsList=None):
-        """
-        :param ResourceId: [REQUIRED]
+
+def remove_tags(ResourceId=None, TagsList=None): pass
+
+
+"""
+:param ResourceId: [REQUIRED]
             Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             
-        :type ResourceId: string
-        :param TagsList: Specifies a list of tags to be removed.
+:type ResourceId: string
+:param TagsList: Specifies a list of tags to be removed.
             (dict) --A custom key-value pair associated with a resource such as a CloudTrail trail.
             Key (string) -- [REQUIRED]The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
             Value (string) --The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
             
             
-        :type TagsList: list
-        """
-        self.client.remove_tags(ResourceId=ResourceId, TagsList=TagsList)
+:type TagsList: list
+"""
 
-    def start_logging(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def start_logging(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs AWS API calls. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             Return typedict
@@ -309,13 +325,15 @@ class Cloudtrail(object):
             (dict) --Returns the objects or data listed below if successful. Otherwise, returns an error.
             
             
-        :type Name: string
-        """
-        self.client.start_logging(Name=Name)
+:type Name: string
+"""
 
-    def stop_logging(self, Name=None):
-        """
-        :param Name: [REQUIRED]
+
+def stop_logging(Name=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will stop logging AWS API calls. The format of a trail ARN is:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             Return typedict
@@ -324,15 +342,17 @@ class Cloudtrail(object):
             (dict) --Returns the objects or data listed below if successful. Otherwise, returns an error.
             
             
-        :type Name: string
-        """
-        self.client.stop_logging(Name=Name)
+:type Name: string
+"""
 
-    def update_trail(self, Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None,
-                     IncludeGlobalServiceEvents=None, IsMultiRegionTrail=None, EnableLogFileValidation=None,
-                     CloudWatchLogsLogGroupArn=None, CloudWatchLogsRoleArn=None, KmsKeyId=None):
-        """
-        :param Name: [REQUIRED]
+
+def update_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None, IncludeGlobalServiceEvents=None,
+                 IsMultiRegionTrail=None, EnableLogFileValidation=None, CloudWatchLogsLogGroupArn=None,
+                 CloudWatchLogsRoleArn=None, KmsKeyId=None): pass
+
+
+"""
+:param Name: [REQUIRED]
             Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
             Start with a letter or number, and end with a letter or number
@@ -342,37 +362,32 @@ class Cloudtrail(object):
             If Name is a trail ARN, it must be in the format:
             arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             
-        :type Name: string
-        :param S3BucketName: Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements .
-        :type S3BucketName: string
-        :param S3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
-        :type S3KeyPrefix: string
-        :param SnsTopicName: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
-        :type SnsTopicName: string
-        :param IncludeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
-        :type IncludeGlobalServiceEvents: boolean
-        :param IsMultiRegionTrail: Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted.
-        :type IsMultiRegionTrail: boolean
-        :param EnableLogFileValidation: Specifies whether log file validation is enabled. The default is false.
+:type Name: string
+:param S3BucketName: Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket Naming Requirements .
+:type S3BucketName: string
+:param S3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files . The maximum length is 200 characters.
+:type S3KeyPrefix: string
+:param SnsTopicName: Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+:type SnsTopicName: string
+:param IncludeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
+:type IncludeGlobalServiceEvents: boolean
+:param IsMultiRegionTrail: Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted.
+:type IsMultiRegionTrail: boolean
+:param EnableLogFileValidation: Specifies whether log file validation is enabled. The default is false.
             Note
             When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail will not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
             
-        :type EnableLogFileValidation: boolean
-        :param CloudWatchLogsLogGroupArn: Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
-        :type CloudWatchLogsLogGroupArn: string
-        :param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
-        :type CloudWatchLogsRoleArn: string
-        :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
+:type EnableLogFileValidation: boolean
+:param CloudWatchLogsLogGroupArn: Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+:type CloudWatchLogsLogGroupArn: string
+:param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+:type CloudWatchLogsRoleArn: string
+:param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
             Examples:
             alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
             12345678-1234-1234-1234-123456789012
             
-        :type KmsKeyId: string
-        """
-        self.client.update_trail(Name=Name, S3BucketName=S3BucketName, S3KeyPrefix=S3KeyPrefix,
-                                 SnsTopicName=SnsTopicName, IncludeGlobalServiceEvents=IncludeGlobalServiceEvents,
-                                 IsMultiRegionTrail=IsMultiRegionTrail, EnableLogFileValidation=EnableLogFileValidation,
-                                 CloudWatchLogsLogGroupArn=CloudWatchLogsLogGroupArn,
-                                 CloudWatchLogsRoleArn=CloudWatchLogsRoleArn, KmsKeyId=KmsKeyId)
+:type KmsKeyId: string
+"""

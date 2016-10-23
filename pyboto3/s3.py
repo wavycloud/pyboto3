@@ -22,29 +22,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def abort_multipart_upload(Bucket=None, Key=None, UploadId=None, RequestPayer=None): pass
 
 
-class S3(object):
-    def __init__(self):
-        self.client = boto3.client('S3')
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param UploadId: [REQUIRED]
+:type UploadId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def abort_multipart_upload(self, Bucket=None, Key=None, UploadId=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param UploadId: [REQUIRED]
-        :type UploadId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.abort_multipart_upload(Bucket=Bucket, Key=Key, UploadId=UploadId, RequestPayer=RequestPayer)
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -53,299 +51,329 @@ class S3(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def complete_multipart_upload(self, Bucket=None, Key=None, MultipartUpload=None, UploadId=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param MultipartUpload: 
+
+def complete_multipart_upload(Bucket=None, Key=None, MultipartUpload=None, UploadId=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param MultipartUpload: 
             Parts (list) --
             (dict) --
             ETag (string) -- Entity tag returned when the part was uploaded.
             PartNumber (integer) -- Part number that identifies the part. This is a positive integer between 1 and 10,000.
             
             
-        :type MultipartUpload: dict
-        :param UploadId: [REQUIRED]
-        :type UploadId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.complete_multipart_upload(Bucket=Bucket, Key=Key, MultipartUpload=MultipartUpload,
-                                              UploadId=UploadId, RequestPayer=RequestPayer)
+:type MultipartUpload: dict
+:param UploadId: [REQUIRED]
+:type UploadId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def copy_object(self, ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None,
-                    ContentLanguage=None, ContentType=None, CopySource=None, CopySourceIfMatch=None,
-                    CopySourceIfModifiedSince=None, CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None,
-                    Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None,
-                    Key=None, Metadata=None, MetadataDirective=None, ServerSideEncryption=None, StorageClass=None,
-                    WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
-                    SSECustomerKeyMD5=None, SSEKMSKeyId=None, CopySourceSSECustomerAlgorithm=None,
-                    CopySourceSSECustomerKey=None, CopySourceSSECustomerKeyMD5=None, RequestPayer=None):
-        """
-        :param ACL: The canned ACL to apply to the object.
-        :type ACL: string
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param CacheControl: Specifies caching behavior along the request/reply chain.
-        :type CacheControl: string
-        :param ContentDisposition: Specifies presentational information for the object.
-        :type ContentDisposition: string
-        :param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        :type ContentEncoding: string
-        :param ContentLanguage: The language the content is in.
-        :type ContentLanguage: string
-        :param ContentType: A standard MIME type describing the format of the object data.
-        :type ContentType: string
-        :param CopySource: [REQUIRED] The name of the source bucket, key name of the source object, and optional version ID of the source object. You can either provide this value as a string or a dictionary. The string form is {bucket}/{key} or {bucket}/{key}?versionId={versionId} if you want to copy a specific version. You can also provide this value as a dictionary. The dictionary format is recommended over the string format because it is more explicit. The dictionary format is: {'Bucket': 'bucket', 'Key': 'key', 'VersionId': 'id'}. Note that the VersionId key is optional and may be omitted.
-        :type CopySource: str or dict
-        :param CopySourceIfMatch: Copies the object if its entity tag (ETag) matches the specified tag.
-        :type CopySourceIfMatch: string
-        :param CopySourceIfModifiedSince: Copies the object if it has been modified since the specified time.
-        :type CopySourceIfModifiedSince: datetime
-        :param CopySourceIfNoneMatch: Copies the object if its entity tag (ETag) is different than the specified ETag.
-        :type CopySourceIfNoneMatch: string
-        :param CopySourceIfUnmodifiedSince: Copies the object if it hasn't been modified since the specified time.
-        :type CopySourceIfUnmodifiedSince: datetime
-        :param Expires: The date and time at which the object is no longer cacheable.
-        :type Expires: datetime
-        :param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to read the object data and its metadata.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the object ACL.
-        :type GrantReadACP: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
-        :type GrantWriteACP: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param Metadata: A map of metadata to store with the object in S3.
+
+def copy(CopySource=None, Bucket=None, Key=None, ExtraArgs=None, Callback=None, SourceClient=None, Config=None): pass
+
+
+"""
+:param CopySource: The name of the source bucket, key name of the
+            source object, and optional version ID of the source object. The
+            dictionary format is:
+            {'Bucket': 'bucket', 'Key': 'key', 'VersionId': 'id'}. Note
+            that the VersionId key is optional and may be omitted.
+:type CopySource: dict
+:param Bucket: The name of the bucket to copy to
+:type Bucket: str
+:param Key: The name of the key to copy to
+:type Key: str
+:param ExtraArgs: Extra arguments that may be passed to the
+            client operation
+:type ExtraArgs: dict
+:param Callback: A method which takes a number of bytes transferred to
+            be periodically called during the copy.
+:type Callback: method
+:param SourceClient: The client to be used for operation that
+            may happen at the source object. For example, this client is
+            used for the head_object that determines the size of the copy.
+            If no client is provided, the current client is used as the client
+            for the source object.
+:type SourceClient: botocore or boto3 Client
+:param Config: The transfer configuration to be used when performing the
+            copy.
+:type Config: boto3.s3.transfer.TransferConfig
+"""
+
+
+def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None,
+                ContentLanguage=None, ContentType=None, CopySource=None, CopySourceIfMatch=None,
+                CopySourceIfModifiedSince=None, CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None,
+                Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None,
+                Metadata=None, MetadataDirective=None, ServerSideEncryption=None, StorageClass=None,
+                WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None,
+                SSEKMSKeyId=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None,
+                CopySourceSSECustomerKeyMD5=None, RequestPayer=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the object.
+:type ACL: string
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param CacheControl: Specifies caching behavior along the request/reply chain.
+:type CacheControl: string
+:param ContentDisposition: Specifies presentational information for the object.
+:type ContentDisposition: string
+:param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+:type ContentEncoding: string
+:param ContentLanguage: The language the content is in.
+:type ContentLanguage: string
+:param ContentType: A standard MIME type describing the format of the object data.
+:type ContentType: string
+:param CopySource: [REQUIRED] The name of the source bucket, key name of the source object, and optional version ID of the source object. You can either provide this value as a string or a dictionary. The string form is {bucket}/{key} or {bucket}/{key}?versionId={versionId} if you want to copy a specific version. You can also provide this value as a dictionary. The dictionary format is recommended over the string format because it is more explicit. The dictionary format is: {'Bucket': 'bucket', 'Key': 'key', 'VersionId': 'id'}. Note that the VersionId key is optional and may be omitted.
+:type CopySource: str or dict
+:param CopySourceIfMatch: Copies the object if its entity tag (ETag) matches the specified tag.
+:type CopySourceIfMatch: string
+:param CopySourceIfModifiedSince: Copies the object if it has been modified since the specified time.
+:type CopySourceIfModifiedSince: datetime
+:param CopySourceIfNoneMatch: Copies the object if its entity tag (ETag) is different than the specified ETag.
+:type CopySourceIfNoneMatch: string
+:param CopySourceIfUnmodifiedSince: Copies the object if it hasn't been modified since the specified time.
+:type CopySourceIfUnmodifiedSince: datetime
+:param Expires: The date and time at which the object is no longer cacheable.
+:type Expires: datetime
+:param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to read the object data and its metadata.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the object ACL.
+:type GrantReadACP: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
+:type GrantWriteACP: string
+:param Key: [REQUIRED]
+:type Key: string
+:param Metadata: A map of metadata to store with the object in S3.
             (string) --
             (string) --
             
-        :type Metadata: dict
-        :param MetadataDirective: Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
-        :type MetadataDirective: string
-        :param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        :type ServerSideEncryption: string
-        :param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
-        :type StorageClass: string
-        :param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        :type WebsiteRedirectLocation: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        :type SSEKMSKeyId: string
-        :param CopySourceSSECustomerAlgorithm: Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        :type CopySourceSSECustomerAlgorithm: string
-        :param CopySourceSSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        :type CopySourceSSECustomerKey: string
-        :param CopySourceSSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type CopySourceSSECustomerKeyMD5: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.copy_object(ACL=ACL, Bucket=Bucket, CacheControl=CacheControl,
-                                ContentDisposition=ContentDisposition, ContentEncoding=ContentEncoding,
-                                ContentLanguage=ContentLanguage, ContentType=ContentType, CopySource=CopySource,
-                                CopySourceIfMatch=CopySourceIfMatch,
-                                CopySourceIfModifiedSince=CopySourceIfModifiedSince,
-                                CopySourceIfNoneMatch=CopySourceIfNoneMatch,
-                                CopySourceIfUnmodifiedSince=CopySourceIfUnmodifiedSince, Expires=Expires,
-                                GrantFullControl=GrantFullControl, GrantRead=GrantRead, GrantReadACP=GrantReadACP,
-                                GrantWriteACP=GrantWriteACP, Key=Key, Metadata=Metadata,
-                                MetadataDirective=MetadataDirective, ServerSideEncryption=ServerSideEncryption,
-                                StorageClass=StorageClass, WebsiteRedirectLocation=WebsiteRedirectLocation,
-                                SSECustomerAlgorithm=SSECustomerAlgorithm, SSECustomerKey=SSECustomerKey,
-                                SSECustomerKeyMD5=SSECustomerKeyMD5, SSEKMSKeyId=SSEKMSKeyId,
-                                CopySourceSSECustomerAlgorithm=CopySourceSSECustomerAlgorithm,
-                                CopySourceSSECustomerKey=CopySourceSSECustomerKey,
-                                CopySourceSSECustomerKeyMD5=CopySourceSSECustomerKeyMD5, RequestPayer=RequestPayer)
+:type Metadata: dict
+:param MetadataDirective: Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
+:type MetadataDirective: string
+:param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+:type ServerSideEncryption: string
+:param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
+:type StorageClass: string
+:param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+:type WebsiteRedirectLocation: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+:type SSEKMSKeyId: string
+:param CopySourceSSECustomerAlgorithm: Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+:type CopySourceSSECustomerAlgorithm: string
+:param CopySourceSSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
+:type CopySourceSSECustomerKey: string
+:param CopySourceSSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type CopySourceSSECustomerKeyMD5: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def create_bucket(self, ACL=None, Bucket=None, CreateBucketConfiguration=None, GrantFullControl=None,
-                      GrantRead=None, GrantReadACP=None, GrantWrite=None, GrantWriteACP=None):
-        """
-        :param ACL: The canned ACL to apply to the bucket.
-        :type ACL: string
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param CreateBucketConfiguration: 
+
+def create_bucket(ACL=None, Bucket=None, CreateBucketConfiguration=None, GrantFullControl=None, GrantRead=None,
+                  GrantReadACP=None, GrantWrite=None, GrantWriteACP=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the bucket.
+:type ACL: string
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param CreateBucketConfiguration: 
             LocationConstraint (string) -- Specifies the region where the bucket will be created. If you don't specify a region, the bucket will be created in US Standard.
             
-        :type CreateBucketConfiguration: dict
-        :param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to list the objects in the bucket.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the bucket ACL.
-        :type GrantReadACP: string
-        :param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
-        :type GrantWrite: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
-        :type GrantWriteACP: string
-        """
-        self.client.create_bucket(ACL=ACL, Bucket=Bucket, CreateBucketConfiguration=CreateBucketConfiguration,
-                                  GrantFullControl=GrantFullControl, GrantRead=GrantRead, GrantReadACP=GrantReadACP,
-                                  GrantWrite=GrantWrite, GrantWriteACP=GrantWriteACP)
+:type CreateBucketConfiguration: dict
+:param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to list the objects in the bucket.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the bucket ACL.
+:type GrantReadACP: string
+:param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
+:type GrantWrite: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
+:type GrantWriteACP: string
+"""
 
-    def create_multipart_upload(self, ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None,
-                                ContentEncoding=None, ContentLanguage=None, ContentType=None, Expires=None,
-                                GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None,
-                                Metadata=None, ServerSideEncryption=None, StorageClass=None,
-                                WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
-                                SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None):
-        """
-        :param ACL: The canned ACL to apply to the object.
-        :type ACL: string
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param CacheControl: Specifies caching behavior along the request/reply chain.
-        :type CacheControl: string
-        :param ContentDisposition: Specifies presentational information for the object.
-        :type ContentDisposition: string
-        :param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        :type ContentEncoding: string
-        :param ContentLanguage: The language the content is in.
-        :type ContentLanguage: string
-        :param ContentType: A standard MIME type describing the format of the object data.
-        :type ContentType: string
-        :param Expires: The date and time at which the object is no longer cacheable.
-        :type Expires: datetime
-        :param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to read the object data and its metadata.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the object ACL.
-        :type GrantReadACP: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
-        :type GrantWriteACP: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param Metadata: A map of metadata to store with the object in S3.
+
+def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None,
+                            ContentLanguage=None, ContentType=None, Expires=None, GrantFullControl=None, GrantRead=None,
+                            GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, ServerSideEncryption=None,
+                            StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None,
+                            SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the object.
+:type ACL: string
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param CacheControl: Specifies caching behavior along the request/reply chain.
+:type CacheControl: string
+:param ContentDisposition: Specifies presentational information for the object.
+:type ContentDisposition: string
+:param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+:type ContentEncoding: string
+:param ContentLanguage: The language the content is in.
+:type ContentLanguage: string
+:param ContentType: A standard MIME type describing the format of the object data.
+:type ContentType: string
+:param Expires: The date and time at which the object is no longer cacheable.
+:type Expires: datetime
+:param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to read the object data and its metadata.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the object ACL.
+:type GrantReadACP: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
+:type GrantWriteACP: string
+:param Key: [REQUIRED]
+:type Key: string
+:param Metadata: A map of metadata to store with the object in S3.
             (string) --
             (string) --
             
-        :type Metadata: dict
-        :param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        :type ServerSideEncryption: string
-        :param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
-        :type StorageClass: string
-        :param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        :type WebsiteRedirectLocation: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        :type SSEKMSKeyId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.create_multipart_upload(ACL=ACL, Bucket=Bucket, CacheControl=CacheControl,
-                                            ContentDisposition=ContentDisposition, ContentEncoding=ContentEncoding,
-                                            ContentLanguage=ContentLanguage, ContentType=ContentType, Expires=Expires,
-                                            GrantFullControl=GrantFullControl, GrantRead=GrantRead,
-                                            GrantReadACP=GrantReadACP, GrantWriteACP=GrantWriteACP, Key=Key,
-                                            Metadata=Metadata, ServerSideEncryption=ServerSideEncryption,
-                                            StorageClass=StorageClass, WebsiteRedirectLocation=WebsiteRedirectLocation,
-                                            SSECustomerAlgorithm=SSECustomerAlgorithm, SSECustomerKey=SSECustomerKey,
-                                            SSECustomerKeyMD5=SSECustomerKeyMD5, SSEKMSKeyId=SSEKMSKeyId,
-                                            RequestPayer=RequestPayer)
+:type Metadata: dict
+:param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+:type ServerSideEncryption: string
+:param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
+:type StorageClass: string
+:param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+:type WebsiteRedirectLocation: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+:type SSEKMSKeyId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def delete_bucket(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_cors(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_cors(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_cors(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_lifecycle(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_lifecycle(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_lifecycle(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_policy(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_policy(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_policy(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_replication(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_replication(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_replication(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_tagging(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_tagging(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_tagging(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_bucket_website(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def delete_bucket_website(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.delete_bucket_website(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def delete_object(self, Bucket=None, Key=None, MFA=None, VersionId=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        :type MFA: string
-        :param VersionId: VersionId used to reference a specific version of the object.
-        :type VersionId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.delete_object(Bucket=Bucket, Key=Key, MFA=MFA, VersionId=VersionId, RequestPayer=RequestPayer)
 
-    def delete_objects(self, Bucket=None, Delete=None, MFA=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Delete: [REQUIRED]
+def delete_object(Bucket=None, Key=None, MFA=None, VersionId=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+:type MFA: string
+:param VersionId: VersionId used to reference a specific version of the object.
+:type VersionId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
+
+
+def delete_objects(Bucket=None, Delete=None, MFA=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Delete: [REQUIRED]
             Objects (list) -- [REQUIRED]
             (dict) --
             Key (string) -- [REQUIRED] Key name of the object to delete.
@@ -353,31 +381,58 @@ class S3(object):
             
             Quiet (boolean) -- Element to enable quiet mode for the request. When you add this element, you must set its value to true.
             
-        :type Delete: dict
-        :param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        :type MFA: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.delete_objects(Bucket=Bucket, Delete=Delete, MFA=MFA, RequestPayer=RequestPayer)
+:type Delete: dict
+:param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+:type MFA: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def download_file(self):
-        """
-        """
-        self.client.download_file()
 
-    def generate_presigned_post(self, Bucket=None, Key=None, Fields=None, Conditions=None, ExpiresIn=None):
-        """
-        :param Bucket: The name of the bucket to presign the post to. Note that
+def download_file(): pass
+
+
+"""
+"""
+
+
+def download_fileobj(Fileobj=None, Bucket=None, Key=None, ExtraArgs=None, Callback=None, Config=None): pass
+
+
+"""
+:param Fileobj: A file-like object to download into. At a minimum, it must
+            implement the write method and must accept bytes.
+:type Fileobj: a file-like object
+:param Bucket: The name of the bucket to download from.
+:type Bucket: str
+:param Key: The name of the key to download from.
+:type Key: str
+:param ExtraArgs: Extra arguments that may be passed to the
+            client operation.
+:type ExtraArgs: dict
+:param Callback: A method which takes a number of bytes transferred to
+            be periodically called during the download.
+:type Callback: method
+:param Config: The transfer configuration to be used when performing the
+            download.
+:type Config: boto3.s3.transfer.TransferConfig
+"""
+
+
+def generate_presigned_post(Bucket=None, Key=None, Fields=None, Conditions=None, ExpiresIn=None): pass
+
+
+"""
+:param Bucket: The name of the bucket to presign the post to. Note that
             bucket related conditions should not be included in the
             conditions parameter.
-        :type Bucket: string
-        :param Key: Key name, optionally add ${filename} to the end to
-            attach the submitted filename. Note that key related condtions and
+:type Bucket: string
+:param Key: Key name, optionally add ${filename} to the end to
+            attach the submitted filename. Note that key related conditions and
             fields are filled out for you and should not be included in the
-            fields or condtions parmater.
-        :type Key: string
-        :param Fields: A dictionary of prefilled form fields to build on top
+            Fields or Conditions parameter.
+:type Key: string
+:param Fields: A dictionary of prefilled form fields to build on top
             of. Elements that may be included are acl, Cache-Control,
             Content-Type, Content-Disposition, Content-Encoding, Expires,
             success_action_redirect, redirect, success_action_status,
@@ -386,8 +441,8 @@ class S3(object):
             dictionary it will not be automatically added to the conditions
             list. You must specify a condition for the element as well.
             
-        :type Fields: dict
-        :param Conditions: A list of conditions to include in the policy. Each
+:type Fields: dict
+:param Conditions: A list of conditions to include in the policy. Each
             element can be either a list or a structure. For example:
             [
             {'acl': 'public-read'},
@@ -404,34 +459,36 @@ class S3(object):
             not be added automatically to the fields dictionary based on the
             conditions.
             
-        :type Conditions: list
-        :param ExpiresIn: The number of seconds the presigned post
+:type Conditions: list
+:param ExpiresIn: The number of seconds the presigned post
             is valid for.
-        :type ExpiresIn: int
-        """
-        self.client.generate_presigned_post(Bucket=Bucket, Key=Key, Fields=Fields, Conditions=Conditions,
-                                            ExpiresIn=ExpiresIn)
+:type ExpiresIn: int
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_bucket_accelerate_configuration(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED] Name of the bucket for which the accelerate configuration is retrieved.
+
+def get_bucket_accelerate_configuration(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED] Name of the bucket for which the accelerate configuration is retrieved.
             Return typedict
             ReturnsResponse Syntax{
               'Status': 'Enabled'|'Suspended'
@@ -441,13 +498,15 @@ class S3(object):
             Status (string) -- The accelerate configuration of the bucket.
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_accelerate_configuration(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_acl(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_acl(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Owner': {
@@ -484,13 +543,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_acl(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_cors(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_cors(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'CORSRules': [
@@ -527,13 +588,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_cors(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_lifecycle(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_lifecycle(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Rules': [
@@ -589,13 +652,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_lifecycle(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_lifecycle_configuration(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_lifecycle_configuration(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Rules': [
@@ -659,13 +724,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_lifecycle_configuration(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_location(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_location(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'LocationConstraint': 'EU'|'eu-west-1'|'us-west-1'|'us-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1'|'cn-north-1'|'eu-central-1'
@@ -675,13 +742,15 @@ class S3(object):
             LocationConstraint (string) --
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_location(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_logging(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_logging(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'LoggingEnabled': {
@@ -718,13 +787,15 @@ class S3(object):
             TargetPrefix (string) -- This element lets you specify a prefix for the keys that the log files will be stored under.
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_logging(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_notification(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED] Name of the bucket to get the notification configuration for.
+
+def get_bucket_notification(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED] Name of the bucket to get the notification configuration for.
             Return typedict
             ReturnsResponse Syntax{
               'TopicConfiguration': {
@@ -776,13 +847,15 @@ class S3(object):
             InvocationRole (string) --
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_notification(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_notification_configuration(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED] Name of the bucket to get the notification configuration for.
+
+def get_bucket_notification_configuration(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED] Name of the bucket to get the notification configuration for.
             Return typedict
             ReturnsResponse Syntax{
               'TopicConfigurations': [
@@ -892,13 +965,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_notification_configuration(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_policy(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_policy(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Policy': 'string'
@@ -908,13 +983,15 @@ class S3(object):
             Policy (string) -- The bucket policy as a JSON document.
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_policy(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_replication(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_replication(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'ReplicationConfiguration': {
@@ -948,13 +1025,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_replication(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_request_payment(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_request_payment(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Payer': 'Requester'|'BucketOwner'
@@ -964,13 +1043,15 @@ class S3(object):
             Payer (string) -- Specifies who pays for the download and request fees.
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_request_payment(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_tagging(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_tagging(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'TagSet': [
@@ -989,13 +1070,15 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_tagging(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_versioning(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_versioning(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'Status': 'Enabled'|'Suspended',
@@ -1007,13 +1090,15 @@ class S3(object):
             MFADelete (string) -- Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_versioning(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_bucket_website(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+
+def get_bucket_website(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{
               'RedirectAllRequestsTo': {
@@ -1065,90 +1150,92 @@ class S3(object):
             
             
             
-        :type Bucket: string
-        """
-        self.client.get_bucket_website(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def get_object(self, Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None,
-                   Key=None, Range=None, ResponseCacheControl=None, ResponseContentDisposition=None,
-                   ResponseContentEncoding=None, ResponseContentLanguage=None, ResponseContentType=None,
-                   ResponseExpires=None, VersionId=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
-                   SSECustomerKeyMD5=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param IfMatch: Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        :type IfMatch: string
-        :param IfModifiedSince: Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        :type IfModifiedSince: datetime
-        :param IfNoneMatch: Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        :type IfNoneMatch: string
-        :param IfUnmodifiedSince: Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        :type IfUnmodifiedSince: datetime
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param Range: Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        :type Range: string
-        :param ResponseCacheControl: Sets the Cache-Control header of the response.
-        :type ResponseCacheControl: string
-        :param ResponseContentDisposition: Sets the Content-Disposition header of the response
-        :type ResponseContentDisposition: string
-        :param ResponseContentEncoding: Sets the Content-Encoding header of the response.
-        :type ResponseContentEncoding: string
-        :param ResponseContentLanguage: Sets the Content-Language header of the response.
-        :type ResponseContentLanguage: string
-        :param ResponseContentType: Sets the Content-Type header of the response.
-        :type ResponseContentType: string
-        :param ResponseExpires: Sets the Expires header of the response.
-        :type ResponseExpires: datetime
-        :param VersionId: VersionId used to reference a specific version of the object.
-        :type VersionId: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.get_object(Bucket=Bucket, IfMatch=IfMatch, IfModifiedSince=IfModifiedSince, IfNoneMatch=IfNoneMatch,
-                               IfUnmodifiedSince=IfUnmodifiedSince, Key=Key, Range=Range,
-                               ResponseCacheControl=ResponseCacheControl,
-                               ResponseContentDisposition=ResponseContentDisposition,
-                               ResponseContentEncoding=ResponseContentEncoding,
-                               ResponseContentLanguage=ResponseContentLanguage, ResponseContentType=ResponseContentType,
-                               ResponseExpires=ResponseExpires, VersionId=VersionId,
-                               SSECustomerAlgorithm=SSECustomerAlgorithm, SSECustomerKey=SSECustomerKey,
-                               SSECustomerKeyMD5=SSECustomerKeyMD5, RequestPayer=RequestPayer)
 
-    def get_object_acl(self, Bucket=None, Key=None, VersionId=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param VersionId: VersionId used to reference a specific version of the object.
-        :type VersionId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.get_object_acl(Bucket=Bucket, Key=Key, VersionId=VersionId, RequestPayer=RequestPayer)
+def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None, Key=None,
+               Range=None, ResponseCacheControl=None, ResponseContentDisposition=None, ResponseContentEncoding=None,
+               ResponseContentLanguage=None, ResponseContentType=None, ResponseExpires=None, VersionId=None,
+               SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, RequestPayer=None,
+               PartNumber=None): pass
 
-    def get_object_torrent(self, Bucket=None, Key=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.get_object_torrent(Bucket=Bucket, Key=Key, RequestPayer=RequestPayer)
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param IfMatch: Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
+:type IfMatch: string
+:param IfModifiedSince: Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
+:type IfModifiedSince: datetime
+:param IfNoneMatch: Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
+:type IfNoneMatch: string
+:param IfUnmodifiedSince: Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
+:type IfUnmodifiedSince: datetime
+:param Key: [REQUIRED]
+:type Key: string
+:param Range: Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+:type Range: string
+:param ResponseCacheControl: Sets the Cache-Control header of the response.
+:type ResponseCacheControl: string
+:param ResponseContentDisposition: Sets the Content-Disposition header of the response
+:type ResponseContentDisposition: string
+:param ResponseContentEncoding: Sets the Content-Encoding header of the response.
+:type ResponseContentEncoding: string
+:param ResponseContentLanguage: Sets the Content-Language header of the response.
+:type ResponseContentLanguage: string
+:param ResponseContentType: Sets the Content-Type header of the response.
+:type ResponseContentType: string
+:param ResponseExpires: Sets the Expires header of the response.
+:type ResponseExpires: datetime
+:param VersionId: VersionId used to reference a specific version of the object.
+:type VersionId: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+:param PartNumber: Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
+:type PartNumber: integer
+"""
+
+
+def get_object_acl(Bucket=None, Key=None, VersionId=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param VersionId: VersionId used to reference a specific version of the object.
+:type VersionId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
+
+
+def get_object_torrent(Bucket=None, Key=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
+
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -1160,185 +1247,202 @@ class S3(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def head_bucket(self, Bucket=None):
-        """
-        :param Bucket: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def head_bucket(Bucket=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
             ReturnsNone
             
-        :type Bucket: string
-        """
-        self.client.head_bucket(Bucket=Bucket)
+:type Bucket: string
+"""
 
-    def head_object(self, Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None,
-                    Key=None, Range=None, VersionId=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
-                    SSECustomerKeyMD5=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param IfMatch: Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
-        :type IfMatch: string
-        :param IfModifiedSince: Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
-        :type IfModifiedSince: datetime
-        :param IfNoneMatch: Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
-        :type IfNoneMatch: string
-        :param IfUnmodifiedSince: Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
-        :type IfUnmodifiedSince: datetime
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param Range: Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
-        :type Range: string
-        :param VersionId: VersionId used to reference a specific version of the object.
-        :type VersionId: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.head_object(Bucket=Bucket, IfMatch=IfMatch, IfModifiedSince=IfModifiedSince,
-                                IfNoneMatch=IfNoneMatch, IfUnmodifiedSince=IfUnmodifiedSince, Key=Key, Range=Range,
-                                VersionId=VersionId, SSECustomerAlgorithm=SSECustomerAlgorithm,
-                                SSECustomerKey=SSECustomerKey, SSECustomerKeyMD5=SSECustomerKeyMD5,
-                                RequestPayer=RequestPayer)
 
-    def list_buckets(self):
-        """
-        """
-        self.client.list_buckets()
+def head_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None, Key=None,
+                Range=None, VersionId=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None,
+                RequestPayer=None, PartNumber=None): pass
 
-    def list_multipart_uploads(self, Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxUploads=None,
-                               Prefix=None, UploadIdMarker=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Delimiter: Character you use to group keys.
-        :type Delimiter: string
-        :param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
-        :type EncodingType: string
-        :param KeyMarker: Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
-        :type KeyMarker: string
-        :param MaxUploads: Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-        :type MaxUploads: integer
-        :param Prefix: Lists in-progress uploads only for those keys that begin with the specified prefix.
-        :type Prefix: string
-        :param UploadIdMarker: Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
-        :type UploadIdMarker: string
-        """
-        self.client.list_multipart_uploads(Bucket=Bucket, Delimiter=Delimiter, EncodingType=EncodingType,
-                                           KeyMarker=KeyMarker, MaxUploads=MaxUploads, Prefix=Prefix,
-                                           UploadIdMarker=UploadIdMarker)
 
-    def list_object_versions(self, Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxKeys=None,
-                             Prefix=None, VersionIdMarker=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Delimiter: A delimiter is a character you use to group keys.
-        :type Delimiter: string
-        :param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
-        :type EncodingType: string
-        :param KeyMarker: Specifies the key to start with when listing objects in a bucket.
-        :type KeyMarker: string
-        :param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        :type MaxKeys: integer
-        :param Prefix: Limits the response to keys that begin with the specified prefix.
-        :type Prefix: string
-        :param VersionIdMarker: Specifies the object version you want to start listing from.
-        :type VersionIdMarker: string
-        """
-        self.client.list_object_versions(Bucket=Bucket, Delimiter=Delimiter, EncodingType=EncodingType,
-                                         KeyMarker=KeyMarker, MaxKeys=MaxKeys, Prefix=Prefix,
-                                         VersionIdMarker=VersionIdMarker)
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param IfMatch: Return the object only if its entity tag (ETag) is the same as the one specified, otherwise return a 412 (precondition failed).
+:type IfMatch: string
+:param IfModifiedSince: Return the object only if it has been modified since the specified time, otherwise return a 304 (not modified).
+:type IfModifiedSince: datetime
+:param IfNoneMatch: Return the object only if its entity tag (ETag) is different from the one specified, otherwise return a 304 (not modified).
+:type IfNoneMatch: string
+:param IfUnmodifiedSince: Return the object only if it has not been modified since the specified time, otherwise return a 412 (precondition failed).
+:type IfUnmodifiedSince: datetime
+:param Key: [REQUIRED]
+:type Key: string
+:param Range: Downloads the specified range bytes of an object. For more information about the HTTP Range header, go to http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.
+:type Range: string
+:param VersionId: VersionId used to reference a specific version of the object.
+:type VersionId: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+:param PartNumber: Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
+:type PartNumber: integer
+"""
 
-    def list_objects(self, Bucket=None, Delimiter=None, EncodingType=None, Marker=None, MaxKeys=None, Prefix=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Delimiter: A delimiter is a character you use to group keys.
-        :type Delimiter: string
-        :param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
-        :type EncodingType: string
-        :param Marker: Specifies the key to start with when listing objects in a bucket.
-        :type Marker: string
-        :param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        :type MaxKeys: integer
-        :param Prefix: Limits the response to keys that begin with the specified prefix.
-        :type Prefix: string
-        """
-        self.client.list_objects(Bucket=Bucket, Delimiter=Delimiter, EncodingType=EncodingType, Marker=Marker,
-                                 MaxKeys=MaxKeys, Prefix=Prefix)
 
-    def list_objects_v2(self, Bucket=None, Delimiter=None, EncodingType=None, MaxKeys=None, Prefix=None,
-                        ContinuationToken=None, FetchOwner=None, StartAfter=None):
-        """
-        :param Bucket: [REQUIRED] Name of the bucket to list.
-        :type Bucket: string
-        :param Delimiter: A delimiter is a character you use to group keys.
-        :type Delimiter: string
-        :param EncodingType: Encoding type used by Amazon S3 to encode object keys in the response.
-        :type EncodingType: string
-        :param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
-        :type MaxKeys: integer
-        :param Prefix: Limits the response to keys that begin with the specified prefix.
-        :type Prefix: string
-        :param ContinuationToken: ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
-        :type ContinuationToken: string
-        :param FetchOwner: The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
-        :type FetchOwner: boolean
-        :param StartAfter: StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
-        :type StartAfter: string
-        """
-        self.client.list_objects_v2(Bucket=Bucket, Delimiter=Delimiter, EncodingType=EncodingType, MaxKeys=MaxKeys,
-                                    Prefix=Prefix, ContinuationToken=ContinuationToken, FetchOwner=FetchOwner,
-                                    StartAfter=StartAfter)
+def list_buckets(): pass
 
-    def list_parts(self, Bucket=None, Key=None, MaxParts=None, PartNumberMarker=None, UploadId=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param MaxParts: Sets the maximum number of parts to return.
-        :type MaxParts: integer
-        :param PartNumberMarker: Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
-        :type PartNumberMarker: integer
-        :param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose parts are being listed.
-        :type UploadId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.list_parts(Bucket=Bucket, Key=Key, MaxParts=MaxParts, PartNumberMarker=PartNumberMarker,
-                               UploadId=UploadId, RequestPayer=RequestPayer)
 
-    def put_bucket_accelerate_configuration(self, Bucket=None, AccelerateConfiguration=None):
-        """
-        :param Bucket: [REQUIRED] Name of the bucket for which the accelerate configuration is set.
-        :type Bucket: string
-        :param AccelerateConfiguration: [REQUIRED] Specifies the Accelerate Configuration you want to set for the bucket.
+"""
+"""
+
+
+def list_multipart_uploads(Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxUploads=None, Prefix=None,
+                           UploadIdMarker=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Delimiter: Character you use to group keys.
+:type Delimiter: string
+:param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+:type EncodingType: string
+:param KeyMarker: Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin.
+:type KeyMarker: string
+:param MaxUploads: Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
+:type MaxUploads: integer
+:param Prefix: Lists in-progress uploads only for those keys that begin with the specified prefix.
+:type Prefix: string
+:param UploadIdMarker: Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored.
+:type UploadIdMarker: string
+"""
+
+
+def list_object_versions(Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxKeys=None, Prefix=None,
+                         VersionIdMarker=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Delimiter: A delimiter is a character you use to group keys.
+:type Delimiter: string
+:param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+:type EncodingType: string
+:param KeyMarker: Specifies the key to start with when listing objects in a bucket.
+:type KeyMarker: string
+:param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+:type MaxKeys: integer
+:param Prefix: Limits the response to keys that begin with the specified prefix.
+:type Prefix: string
+:param VersionIdMarker: Specifies the object version you want to start listing from.
+:type VersionIdMarker: string
+"""
+
+
+def list_objects(Bucket=None, Delimiter=None, EncodingType=None, Marker=None, MaxKeys=None, Prefix=None,
+                 RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Delimiter: A delimiter is a character you use to group keys.
+:type Delimiter: string
+:param EncodingType: Requests Amazon S3 to encode the object keys in the response and specifies the encoding method to use. An object key may contain any Unicode character; however, XML 1.0 parser cannot parse some characters, such as characters with an ASCII value from 0 to 10. For characters that are not supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response.
+:type EncodingType: string
+:param Marker: Specifies the key to start with when listing objects in a bucket.
+:type Marker: string
+:param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+:type MaxKeys: integer
+:param Prefix: Limits the response to keys that begin with the specified prefix.
+:type Prefix: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
+:type RequestPayer: string
+"""
+
+
+def list_objects_v2(Bucket=None, Delimiter=None, EncodingType=None, MaxKeys=None, Prefix=None, ContinuationToken=None,
+                    FetchOwner=None, StartAfter=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED] Name of the bucket to list.
+:type Bucket: string
+:param Delimiter: A delimiter is a character you use to group keys.
+:type Delimiter: string
+:param EncodingType: Encoding type used by Amazon S3 to encode object keys in the response.
+:type EncodingType: string
+:param MaxKeys: Sets the maximum number of keys returned in the response. The response might contain fewer keys but will never contain more.
+:type MaxKeys: integer
+:param Prefix: Limits the response to keys that begin with the specified prefix.
+:type Prefix: string
+:param ContinuationToken: ContinuationToken indicates Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key
+:type ContinuationToken: string
+:param FetchOwner: The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true
+:type FetchOwner: boolean
+:param StartAfter: StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket
+:type StartAfter: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
+:type RequestPayer: string
+"""
+
+
+def list_parts(Bucket=None, Key=None, MaxParts=None, PartNumberMarker=None, UploadId=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param MaxParts: Sets the maximum number of parts to return.
+:type MaxParts: integer
+:param PartNumberMarker: Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
+:type PartNumberMarker: integer
+:param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose parts are being listed.
+:type UploadId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
+
+
+def put_bucket_accelerate_configuration(Bucket=None, AccelerateConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED] Name of the bucket for which the accelerate configuration is set.
+:type Bucket: string
+:param AccelerateConfiguration: [REQUIRED] Specifies the Accelerate Configuration you want to set for the bucket.
             Status (string) -- The accelerate configuration of the bucket.
             
-        :type AccelerateConfiguration: dict
-        """
-        self.client.put_bucket_accelerate_configuration(Bucket=Bucket, AccelerateConfiguration=AccelerateConfiguration)
+:type AccelerateConfiguration: dict
+"""
 
-    def put_bucket_acl(self, ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None,
-                       GrantReadACP=None, GrantWrite=None, GrantWriteACP=None):
-        """
-        :param ACL: The canned ACL to apply to the bucket.
-        :type ACL: string
-        :param AccessControlPolicy: 
+
+def put_bucket_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None,
+                   GrantReadACP=None, GrantWrite=None, GrantWriteACP=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the bucket.
+:type ACL: string
+:param AccessControlPolicy: 
             Grants (list) -- A list of grants.
             (dict) --
             Grantee (dict) --
@@ -1353,29 +1457,29 @@ class S3(object):
             DisplayName (string) --
             ID (string) --
             
-        :type AccessControlPolicy: dict
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to list the objects in the bucket.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the bucket ACL.
-        :type GrantReadACP: string
-        :param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
-        :type GrantWrite: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
-        :type GrantWriteACP: string
-        """
-        self.client.put_bucket_acl(ACL=ACL, AccessControlPolicy=AccessControlPolicy, Bucket=Bucket,
-                                   GrantFullControl=GrantFullControl, GrantRead=GrantRead, GrantReadACP=GrantReadACP,
-                                   GrantWrite=GrantWrite, GrantWriteACP=GrantWriteACP)
+:type AccessControlPolicy: dict
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to list the objects in the bucket.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the bucket ACL.
+:type GrantReadACP: string
+:param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
+:type GrantWrite: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
+:type GrantWriteACP: string
+"""
 
-    def put_bucket_cors(self, Bucket=None, CORSConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param CORSConfiguration: [REQUIRED]
+
+def put_bucket_cors(Bucket=None, CORSConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param CORSConfiguration: [REQUIRED]
             CORSRules (list) -- [REQUIRED]
             (dict) --
             AllowedHeaders (list) -- Specifies which headers are allowed in a pre-flight OPTIONS request.
@@ -1389,15 +1493,17 @@ class S3(object):
             MaxAgeSeconds (integer) -- The time in seconds that your browser is to cache the preflight response for the specified resource.
             
             
-        :type CORSConfiguration: dict
-        """
-        self.client.put_bucket_cors(Bucket=Bucket, CORSConfiguration=CORSConfiguration)
+:type CORSConfiguration: dict
+"""
 
-    def put_bucket_lifecycle(self, Bucket=None, LifecycleConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param LifecycleConfiguration: 
+
+def put_bucket_lifecycle(Bucket=None, LifecycleConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param LifecycleConfiguration: 
             Rules (list) -- [REQUIRED]
             (dict) --
             Expiration (dict) --
@@ -1420,15 +1526,17 @@ class S3(object):
             DaysAfterInitiation (integer) -- Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
             
             
-        :type LifecycleConfiguration: dict
-        """
-        self.client.put_bucket_lifecycle(Bucket=Bucket, LifecycleConfiguration=LifecycleConfiguration)
+:type LifecycleConfiguration: dict
+"""
 
-    def put_bucket_lifecycle_configuration(self, Bucket=None, LifecycleConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param LifecycleConfiguration: 
+
+def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param LifecycleConfiguration: 
             Rules (list) -- [REQUIRED]
             (dict) --
             Expiration (dict) --
@@ -1455,15 +1563,17 @@ class S3(object):
             DaysAfterInitiation (integer) -- Indicates the number of days that must pass since initiation for Lifecycle to abort an Incomplete Multipart Upload.
             
             
-        :type LifecycleConfiguration: dict
-        """
-        self.client.put_bucket_lifecycle_configuration(Bucket=Bucket, LifecycleConfiguration=LifecycleConfiguration)
+:type LifecycleConfiguration: dict
+"""
 
-    def put_bucket_logging(self, Bucket=None, BucketLoggingStatus=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param BucketLoggingStatus: [REQUIRED]
+
+def put_bucket_logging(Bucket=None, BucketLoggingStatus=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param BucketLoggingStatus: [REQUIRED]
             LoggingEnabled (dict) --
             TargetBucket (string) -- Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
             TargetGrants (list) --
@@ -1478,15 +1588,17 @@ class S3(object):
             
             TargetPrefix (string) -- This element lets you specify a prefix for the keys that the log files will be stored under.
             
-        :type BucketLoggingStatus: dict
-        """
-        self.client.put_bucket_logging(Bucket=Bucket, BucketLoggingStatus=BucketLoggingStatus)
+:type BucketLoggingStatus: dict
+"""
 
-    def put_bucket_notification(self, Bucket=None, NotificationConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param NotificationConfiguration: [REQUIRED]
+
+def put_bucket_notification(Bucket=None, NotificationConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param NotificationConfiguration: [REQUIRED]
             TopicConfiguration (dict) --
             Id (string) -- Optional unique identifier for configurations in a notification configuration. If you don't provide one, Amazon S3 will assign an ID.
             Events (list) --
@@ -1507,15 +1619,17 @@ class S3(object):
             CloudFunction (string) --
             InvocationRole (string) --
             
-        :type NotificationConfiguration: dict
-        """
-        self.client.put_bucket_notification(Bucket=Bucket, NotificationConfiguration=NotificationConfiguration)
+:type NotificationConfiguration: dict
+"""
 
-    def put_bucket_notification_configuration(self, Bucket=None, NotificationConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param NotificationConfiguration: [REQUIRED] Container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off on the bucket.
+
+def put_bucket_notification_configuration(Bucket=None, NotificationConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param NotificationConfiguration: [REQUIRED] Container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off on the bucket.
             TopicConfigurations (list) --
             (dict) -- Container for specifying the configuration when you want Amazon S3 to publish events to an Amazon Simple Notification Service (Amazon SNS) topic.
             Id (string) -- Optional unique identifier for configurations in a notification configuration. If you don't provide one, Amazon S3 will assign an ID.
@@ -1562,25 +1676,28 @@ class S3(object):
             
             
             
-        :type NotificationConfiguration: dict
-        """
-        self.client.put_bucket_notification_configuration(Bucket=Bucket,
-                                                          NotificationConfiguration=NotificationConfiguration)
+:type NotificationConfiguration: dict
+"""
 
-    def put_bucket_policy(self, Bucket=None, Policy=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Policy: [REQUIRED] The bucket policy as a JSON document.
-        :type Policy: string
-        """
-        self.client.put_bucket_policy(Bucket=Bucket, Policy=Policy)
 
-    def put_bucket_replication(self, Bucket=None, ReplicationConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param ReplicationConfiguration: [REQUIRED] Container for replication rules. You can add as many as 1,000 rules. Total replication configuration size can be up to 2 MB.
+def put_bucket_policy(Bucket=None, Policy=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Policy: [REQUIRED] The bucket policy as a JSON document.
+:type Policy: string
+"""
+
+
+def put_bucket_replication(Bucket=None, ReplicationConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param ReplicationConfiguration: [REQUIRED] Container for replication rules. You can add as many as 1,000 rules. Total replication configuration size can be up to 2 MB.
             Role (string) -- [REQUIRED] Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
             Rules (list) -- [REQUIRED] Container for information about a particular replication rule. Replication configuration must have at least one rule and can contain up to 1,000 rules.
             (dict) --
@@ -1592,55 +1709,63 @@ class S3(object):
             StorageClass (string) -- The class of storage used to store the object.
             
             
-        :type ReplicationConfiguration: dict
-        """
-        self.client.put_bucket_replication(Bucket=Bucket, ReplicationConfiguration=ReplicationConfiguration)
+:type ReplicationConfiguration: dict
+"""
 
-    def put_bucket_request_payment(self, Bucket=None, RequestPaymentConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param RequestPaymentConfiguration: [REQUIRED]
+
+def put_bucket_request_payment(Bucket=None, RequestPaymentConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param RequestPaymentConfiguration: [REQUIRED]
             Payer (string) -- [REQUIRED] Specifies who pays for the download and request fees.
             
-        :type RequestPaymentConfiguration: dict
-        """
-        self.client.put_bucket_request_payment(Bucket=Bucket, RequestPaymentConfiguration=RequestPaymentConfiguration)
+:type RequestPaymentConfiguration: dict
+"""
 
-    def put_bucket_tagging(self, Bucket=None, Tagging=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Tagging: [REQUIRED]
+
+def put_bucket_tagging(Bucket=None, Tagging=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Tagging: [REQUIRED]
             TagSet (list) -- [REQUIRED]
             (dict) --
             Key (string) -- [REQUIRED] Name of the tag.
             Value (string) -- [REQUIRED] Value of the tag.
             
             
-        :type Tagging: dict
-        """
-        self.client.put_bucket_tagging(Bucket=Bucket, Tagging=Tagging)
+:type Tagging: dict
+"""
 
-    def put_bucket_versioning(self, Bucket=None, MFA=None, VersioningConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
-        :type MFA: string
-        :param VersioningConfiguration: [REQUIRED]
+
+def put_bucket_versioning(Bucket=None, MFA=None, VersioningConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param MFA: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
+:type MFA: string
+:param VersioningConfiguration: [REQUIRED]
             MFADelete (string) -- Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
             Status (string) -- The versioning state of the bucket.
             
-        :type VersioningConfiguration: dict
-        """
-        self.client.put_bucket_versioning(Bucket=Bucket, MFA=MFA, VersioningConfiguration=VersioningConfiguration)
+:type VersioningConfiguration: dict
+"""
 
-    def put_bucket_website(self, Bucket=None, WebsiteConfiguration=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param WebsiteConfiguration: [REQUIRED]
+
+def put_bucket_website(Bucket=None, WebsiteConfiguration=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param WebsiteConfiguration: [REQUIRED]
             ErrorDocument (dict) --
             Key (string) -- [REQUIRED] The object key name to use when a 4XX class error occurs.
             IndexDocument (dict) --
@@ -1661,88 +1786,83 @@ class S3(object):
             ReplaceKeyWith (string) -- The specific object key to use in the redirect request. For example, redirect request to error.html. Not required if one of the sibling is present. Can be present only if ReplaceKeyPrefixWith is not provided.
             
             
-        :type WebsiteConfiguration: dict
-        """
-        self.client.put_bucket_website(Bucket=Bucket, WebsiteConfiguration=WebsiteConfiguration)
+:type WebsiteConfiguration: dict
+"""
 
-    def put_object(self, ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDisposition=None,
-                   ContentEncoding=None, ContentLanguage=None, ContentLength=None, ContentMD5=None, ContentType=None,
-                   Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None,
-                   Metadata=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None,
-                   SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None,
-                   RequestPayer=None):
-        """
-        :param ACL: The canned ACL to apply to the object.
-        :type ACL: string
-        :param Body: Object data.
-        :type Body: bytes or seekable file-like object
-        :param Bucket: [REQUIRED] Name of the bucket to which the PUT operation was initiated.
-        :type Bucket: string
-        :param CacheControl: Specifies caching behavior along the request/reply chain.
-        :type CacheControl: string
-        :param ContentDisposition: Specifies presentational information for the object.
-        :type ContentDisposition: string
-        :param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
-        :type ContentEncoding: string
-        :param ContentLanguage: The language the content is in.
-        :type ContentLanguage: string
-        :param ContentLength: Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        :type ContentLength: integer
-        :param ContentMD5: The base64-encoded 128-bit MD5 digest of the part data.
-        :type ContentMD5: string
-        :param ContentType: A standard MIME type describing the format of the object data.
-        :type ContentType: string
-        :param Expires: The date and time at which the object is no longer cacheable.
-        :type Expires: datetime
-        :param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to read the object data and its metadata.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the object ACL.
-        :type GrantReadACP: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
-        :type GrantWriteACP: string
-        :param Key: [REQUIRED] Object key for which the PUT operation was initiated.
-        :type Key: string
-        :param Metadata: A map of metadata to store with the object in S3.
+
+def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None,
+               ContentLanguage=None, ContentLength=None, ContentMD5=None, ContentType=None, Expires=None,
+               GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None,
+               ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None,
+               SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the object.
+:type ACL: string
+:param Body: Object data.
+:type Body: bytes or seekable file-like object
+:param Bucket: [REQUIRED] Name of the bucket to which the PUT operation was initiated.
+:type Bucket: string
+:param CacheControl: Specifies caching behavior along the request/reply chain.
+:type CacheControl: string
+:param ContentDisposition: Specifies presentational information for the object.
+:type ContentDisposition: string
+:param ContentEncoding: Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
+:type ContentEncoding: string
+:param ContentLanguage: The language the content is in.
+:type ContentLanguage: string
+:param ContentLength: Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
+:type ContentLength: integer
+:param ContentMD5: The base64-encoded 128-bit MD5 digest of the part data.
+:type ContentMD5: string
+:param ContentType: A standard MIME type describing the format of the object data.
+:type ContentType: string
+:param Expires: The date and time at which the object is no longer cacheable.
+:type Expires: datetime
+:param GrantFullControl: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions on the object.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to read the object data and its metadata.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the object ACL.
+:type GrantReadACP: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable object.
+:type GrantWriteACP: string
+:param Key: [REQUIRED] Object key for which the PUT operation was initiated.
+:type Key: string
+:param Metadata: A map of metadata to store with the object in S3.
             (string) --
             (string) --
             
-        :type Metadata: dict
-        :param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
-        :type ServerSideEncryption: string
-        :param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
-        :type StorageClass: string
-        :param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
-        :type WebsiteRedirectLocation: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
-        :type SSEKMSKeyId: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.put_object(ACL=ACL, Body=Body, Bucket=Bucket, CacheControl=CacheControl,
-                               ContentDisposition=ContentDisposition, ContentEncoding=ContentEncoding,
-                               ContentLanguage=ContentLanguage, ContentLength=ContentLength, ContentMD5=ContentMD5,
-                               ContentType=ContentType, Expires=Expires, GrantFullControl=GrantFullControl,
-                               GrantRead=GrantRead, GrantReadACP=GrantReadACP, GrantWriteACP=GrantWriteACP, Key=Key,
-                               Metadata=Metadata, ServerSideEncryption=ServerSideEncryption, StorageClass=StorageClass,
-                               WebsiteRedirectLocation=WebsiteRedirectLocation,
-                               SSECustomerAlgorithm=SSECustomerAlgorithm, SSECustomerKey=SSECustomerKey,
-                               SSECustomerKeyMD5=SSECustomerKeyMD5, SSEKMSKeyId=SSEKMSKeyId, RequestPayer=RequestPayer)
+:type Metadata: dict
+:param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
+:type ServerSideEncryption: string
+:param StorageClass: The type of storage to use for the object. Defaults to 'STANDARD'.
+:type StorageClass: string
+:param WebsiteRedirectLocation: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
+:type WebsiteRedirectLocation: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param SSEKMSKeyId: Specifies the AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if not made via SSL or using SigV4. Documentation on configuring any of the officially supported AWS SDKs and CLI can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version
+:type SSEKMSKeyId: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def put_object_acl(self, ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None,
-                       GrantReadACP=None, GrantWrite=None, GrantWriteACP=None, Key=None, RequestPayer=None,
-                       VersionId=None):
-        """
-        :param ACL: The canned ACL to apply to the object.
-        :type ACL: string
-        :param AccessControlPolicy: 
+
+def put_object_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None,
+                   GrantReadACP=None, GrantWrite=None, GrantWriteACP=None, Key=None, RequestPayer=None,
+                   VersionId=None): pass
+
+
+"""
+:param ACL: The canned ACL to apply to the object.
+:type ACL: string
+:param AccessControlPolicy: 
             Grants (list) -- A list of grants.
             (dict) --
             Grantee (dict) --
@@ -1757,134 +1877,147 @@ class S3(object):
             DisplayName (string) --
             ID (string) --
             
-        :type AccessControlPolicy: dict
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
-        :type GrantFullControl: string
-        :param GrantRead: Allows grantee to list the objects in the bucket.
-        :type GrantRead: string
-        :param GrantReadACP: Allows grantee to read the bucket ACL.
-        :type GrantReadACP: string
-        :param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
-        :type GrantWrite: string
-        :param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
-        :type GrantWriteACP: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        :param VersionId: VersionId used to reference a specific version of the object.
-        :type VersionId: string
-        """
-        self.client.put_object_acl(ACL=ACL, AccessControlPolicy=AccessControlPolicy, Bucket=Bucket,
-                                   GrantFullControl=GrantFullControl, GrantRead=GrantRead, GrantReadACP=GrantReadACP,
-                                   GrantWrite=GrantWrite, GrantWriteACP=GrantWriteACP, Key=Key,
-                                   RequestPayer=RequestPayer, VersionId=VersionId)
+:type AccessControlPolicy: dict
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param GrantFullControl: Allows grantee the read, write, read ACP, and write ACP permissions on the bucket.
+:type GrantFullControl: string
+:param GrantRead: Allows grantee to list the objects in the bucket.
+:type GrantRead: string
+:param GrantReadACP: Allows grantee to read the bucket ACL.
+:type GrantReadACP: string
+:param GrantWrite: Allows grantee to create, overwrite, and delete any object in the bucket.
+:type GrantWrite: string
+:param GrantWriteACP: Allows grantee to write the ACL for the applicable bucket.
+:type GrantWriteACP: string
+:param Key: [REQUIRED]
+:type Key: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+:param VersionId: VersionId used to reference a specific version of the object.
+:type VersionId: string
+"""
 
-    def restore_object(self, Bucket=None, Key=None, VersionId=None, RestoreRequest=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param VersionId: 
-        :type VersionId: string
-        :param RestoreRequest: 
+
+def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param Key: [REQUIRED]
+:type Key: string
+:param VersionId: 
+:type VersionId: string
+:param RestoreRequest: 
             Days (integer) -- [REQUIRED] Lifetime of the active copy in days
             
-        :type RestoreRequest: dict
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.restore_object(Bucket=Bucket, Key=Key, VersionId=VersionId, RestoreRequest=RestoreRequest,
-                                   RequestPayer=RequestPayer)
+:type RestoreRequest: dict
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
 
-    def upload_file(self):
-        """
-        """
-        self.client.upload_file()
 
-    def upload_part(self, Body=None, Bucket=None, ContentLength=None, ContentMD5=None, Key=None, PartNumber=None,
-                    UploadId=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None,
-                    RequestPayer=None):
-        """
-        :param Body: Object data.
-        :type Body: bytes or seekable file-like object
-        :param Bucket: [REQUIRED] Name of the bucket to which the multipart upload was initiated.
-        :type Bucket: string
-        :param ContentLength: Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-        :type ContentLength: integer
-        :param ContentMD5: The base64-encoded 128-bit MD5 digest of the part data.
-        :type ContentMD5: string
-        :param Key: [REQUIRED] Object key for which the multipart upload was initiated.
-        :type Key: string
-        :param PartNumber: [REQUIRED] Part number of part being uploaded. This is a positive integer between 1 and 10,000.
-        :type PartNumber: integer
-        :param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose part is being uploaded.
-        :type UploadId: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.upload_part(Body=Body, Bucket=Bucket, ContentLength=ContentLength, ContentMD5=ContentMD5, Key=Key,
-                                PartNumber=PartNumber, UploadId=UploadId, SSECustomerAlgorithm=SSECustomerAlgorithm,
-                                SSECustomerKey=SSECustomerKey, SSECustomerKeyMD5=SSECustomerKeyMD5,
-                                RequestPayer=RequestPayer)
+def upload_file(): pass
 
-    def upload_part_copy(self, Bucket=None, CopySource=None, CopySourceIfMatch=None, CopySourceIfModifiedSince=None,
-                         CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None, CopySourceRange=None, Key=None,
-                         PartNumber=None, UploadId=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
-                         SSECustomerKeyMD5=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None,
-                         CopySourceSSECustomerKeyMD5=None, RequestPayer=None):
-        """
-        :param Bucket: [REQUIRED]
-        :type Bucket: string
-        :param CopySource: [REQUIRED] The name of the source bucket, key name of the source object, and optional version ID of the source object. You can either provide this value as a string or a dictionary. The string form is {bucket}/{key} or {bucket}/{key}?versionId={versionId} if you want to copy a specific version. You can also provide this value as a dictionary. The dictionary format is recommended over the string format because it is more explicit. The dictionary format is: {'Bucket': 'bucket', 'Key': 'key', 'VersionId': 'id'}. Note that the VersionId key is optional and may be omitted.
-        :type CopySource: str or dict
-        :param CopySourceIfMatch: Copies the object if its entity tag (ETag) matches the specified tag.
-        :type CopySourceIfMatch: string
-        :param CopySourceIfModifiedSince: Copies the object if it has been modified since the specified time.
-        :type CopySourceIfModifiedSince: datetime
-        :param CopySourceIfNoneMatch: Copies the object if its entity tag (ETag) is different than the specified ETag.
-        :type CopySourceIfNoneMatch: string
-        :param CopySourceIfUnmodifiedSince: Copies the object if it hasn't been modified since the specified time.
-        :type CopySourceIfUnmodifiedSince: datetime
-        :param CopySourceRange: The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
-        :type CopySourceRange: string
-        :param Key: [REQUIRED]
-        :type Key: string
-        :param PartNumber: [REQUIRED] Part number of part being copied. This is a positive integer between 1 and 10,000.
-        :type PartNumber: integer
-        :param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose part is being copied.
-        :type UploadId: string
-        :param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
-        :type SSECustomerAlgorithm: string
-        :param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
-        :type SSECustomerKey: string
-        :param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type SSECustomerKeyMD5: string
-        :param CopySourceSSECustomerAlgorithm: Specifies the algorithm to use when decrypting the source object (e.g., AES256).
-        :type CopySourceSSECustomerAlgorithm: string
-        :param CopySourceSSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
-        :type CopySourceSSECustomerKey: string
-        :param CopySourceSSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
-        :type CopySourceSSECustomerKeyMD5: string
-        :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-        :type RequestPayer: string
-        """
-        self.client.upload_part_copy(Bucket=Bucket, CopySource=CopySource, CopySourceIfMatch=CopySourceIfMatch,
-                                     CopySourceIfModifiedSince=CopySourceIfModifiedSince,
-                                     CopySourceIfNoneMatch=CopySourceIfNoneMatch,
-                                     CopySourceIfUnmodifiedSince=CopySourceIfUnmodifiedSince,
-                                     CopySourceRange=CopySourceRange, Key=Key, PartNumber=PartNumber, UploadId=UploadId,
-                                     SSECustomerAlgorithm=SSECustomerAlgorithm, SSECustomerKey=SSECustomerKey,
-                                     SSECustomerKeyMD5=SSECustomerKeyMD5,
-                                     CopySourceSSECustomerAlgorithm=CopySourceSSECustomerAlgorithm,
-                                     CopySourceSSECustomerKey=CopySourceSSECustomerKey,
-                                     CopySourceSSECustomerKeyMD5=CopySourceSSECustomerKeyMD5, RequestPayer=RequestPayer)
+
+"""
+"""
+
+
+def upload_fileobj(Fileobj=None, Bucket=None, Key=None, ExtraArgs=None, Callback=None, Config=None): pass
+
+
+"""
+:param Fileobj: A file-like object to upload. At a minimum, it must
+            implement the read method, and must return bytes.
+:type Fileobj: a file-like object
+:param Bucket: The name of the bucket to upload to.
+:type Bucket: str
+:param Key: The name of the key to upload to.
+:type Key: str
+:param ExtraArgs: Extra arguments that may be passed to the
+            client operation.
+:type ExtraArgs: dict
+:param Callback: A method which takes a number of bytes transferred to
+            be periodically called during the upload.
+:type Callback: method
+:param Config: The transfer configuration to be used when performing the
+            upload.
+:type Config: boto3.s3.transfer.TransferConfig
+"""
+
+
+def upload_part(Body=None, Bucket=None, ContentLength=None, ContentMD5=None, Key=None, PartNumber=None, UploadId=None,
+                SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, RequestPayer=None): pass
+
+
+"""
+:param Body: Object data.
+:type Body: bytes or seekable file-like object
+:param Bucket: [REQUIRED] Name of the bucket to which the multipart upload was initiated.
+:type Bucket: string
+:param ContentLength: Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
+:type ContentLength: integer
+:param ContentMD5: The base64-encoded 128-bit MD5 digest of the part data.
+:type ContentMD5: string
+:param Key: [REQUIRED] Object key for which the multipart upload was initiated.
+:type Key: string
+:param PartNumber: [REQUIRED] Part number of part being uploaded. This is a positive integer between 1 and 10,000.
+:type PartNumber: integer
+:param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose part is being uploaded.
+:type UploadId: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""
+
+
+def upload_part_copy(Bucket=None, CopySource=None, CopySourceIfMatch=None, CopySourceIfModifiedSince=None,
+                     CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None, CopySourceRange=None, Key=None,
+                     PartNumber=None, UploadId=None, SSECustomerAlgorithm=None, SSECustomerKey=None,
+                     SSECustomerKeyMD5=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None,
+                     CopySourceSSECustomerKeyMD5=None, RequestPayer=None): pass
+
+
+"""
+:param Bucket: [REQUIRED]
+:type Bucket: string
+:param CopySource: [REQUIRED] The name of the source bucket, key name of the source object, and optional version ID of the source object. You can either provide this value as a string or a dictionary. The string form is {bucket}/{key} or {bucket}/{key}?versionId={versionId} if you want to copy a specific version. You can also provide this value as a dictionary. The dictionary format is recommended over the string format because it is more explicit. The dictionary format is: {'Bucket': 'bucket', 'Key': 'key', 'VersionId': 'id'}. Note that the VersionId key is optional and may be omitted.
+:type CopySource: str or dict
+:param CopySourceIfMatch: Copies the object if its entity tag (ETag) matches the specified tag.
+:type CopySourceIfMatch: string
+:param CopySourceIfModifiedSince: Copies the object if it has been modified since the specified time.
+:type CopySourceIfModifiedSince: datetime
+:param CopySourceIfNoneMatch: Copies the object if its entity tag (ETag) is different than the specified ETag.
+:type CopySourceIfNoneMatch: string
+:param CopySourceIfUnmodifiedSince: Copies the object if it hasn't been modified since the specified time.
+:type CopySourceIfUnmodifiedSince: datetime
+:param CopySourceRange: The range of bytes to copy from the source object. The range value must use the form bytes=first-last, where the first and last are the zero-based byte offsets to copy. For example, bytes=0-9 indicates that you want to copy the first ten bytes of the source. You can copy a range only if the source object is greater than 5 GB.
+:type CopySourceRange: string
+:param Key: [REQUIRED]
+:type Key: string
+:param PartNumber: [REQUIRED] Part number of part being copied. This is a positive integer between 1 and 10,000.
+:type PartNumber: integer
+:param UploadId: [REQUIRED] Upload ID identifying the multipart upload whose part is being copied.
+:type UploadId: string
+:param SSECustomerAlgorithm: Specifies the algorithm to use to when encrypting the object (e.g., AES256).
+:type SSECustomerAlgorithm: string
+:param SSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side -encryption -customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
+:type SSECustomerKey: string
+:param SSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type SSECustomerKeyMD5: string
+:param CopySourceSSECustomerAlgorithm: Specifies the algorithm to use when decrypting the source object (e.g., AES256).
+:type CopySourceSSECustomerAlgorithm: string
+:param CopySourceSSECustomerKey: Specifies the customer-provided encryption key for Amazon S3 to use to decrypt the source object. The encryption key provided in this header must be one that was used when the source object was created.
+:type CopySourceSSECustomerKey: string
+:param CopySourceSSECustomerKeyMD5: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure the encryption key was transmitted without error.   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+:type CopySourceSSECustomerKeyMD5: string
+:param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+:type RequestPayer: string
+"""

@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Discovery(object):
-    def __init__(self):
-        self.client = boto3.client('Discovery')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,18 +36,20 @@ class Discovery(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_tags(self, configurationIds=None, tags=None):
-        """
-        :param configurationIds: [REQUIRED]
+
+def create_tags(configurationIds=None, tags=None): pass
+
+
+"""
+:param configurationIds: [REQUIRED]
             A list of configuration items that you want to tag.
             (string) --
             
-        :type configurationIds: list
-        :param tags: [REQUIRED]
+:type configurationIds: list
+:param tags: [REQUIRED]
             Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value format. For example:
             {'key': 'serverType', 'value': 'webServer'}
             (dict) --Metadata that help you categorize IT assets.
@@ -59,44 +57,50 @@ class Discovery(object):
             value (string) -- [REQUIRED]A value for a tag key to filter on.
             
             
-        :type tags: list
-        """
-        self.client.create_tags(configurationIds=configurationIds, tags=tags)
+:type tags: list
+"""
 
-    def delete_tags(self, configurationIds=None, tags=None):
-        """
-        :param configurationIds: [REQUIRED]
+
+def delete_tags(configurationIds=None, tags=None): pass
+
+
+"""
+:param configurationIds: [REQUIRED]
             A list of configuration items with tags that you want to delete.
             (string) --
             
-        :type configurationIds: list
-        :param tags: Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key -value format. For example:
+:type configurationIds: list
+:param tags: Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key -value format. For example:
             {'key': 'serverType', 'value': 'webServer'}
             (dict) --Metadata that help you categorize IT assets.
             key (string) -- [REQUIRED]A type of tag to filter on.
             value (string) -- [REQUIRED]A value for a tag key to filter on.
             
             
-        :type tags: list
-        """
-        self.client.delete_tags(configurationIds=configurationIds, tags=tags)
+:type tags: list
+"""
 
-    def describe_agents(self, agentIds=None, maxResults=None, nextToken=None):
-        """
-        :param agentIds: The agent IDs for which you want information. If you specify no IDs, the system returns information about all agents associated with your AWS user account.
+
+def describe_agents(agentIds=None, maxResults=None, nextToken=None): pass
+
+
+"""
+:param agentIds: The agent IDs for which you want information. If you specify no IDs, the system returns information about all agents associated with your AWS user account.
             (string) --
             
-        :type agentIds: list
-        :param maxResults: The total number of agents to return. The maximum value is 100.
-        :type maxResults: integer
-        :param nextToken: A token to start the list. Use this token to get the next set of results.
-        :type nextToken: string
-        """
-        self.client.describe_agents(agentIds=agentIds, maxResults=maxResults, nextToken=nextToken)
+:type agentIds: list
+:param maxResults: The total number of agents to return. The maximum value is 100.
+:type maxResults: integer
+:param nextToken: A token to start the list. Use this token to get the next set of results.
+:type nextToken: string
+"""
 
-    def describe_configurations(self, configurationIds=None):
-        """
-        :param configurationIds: [REQUIRED]
+
+def describe_configurations(configurationIds=None): pass
+
+
+"""
+:param configurationIds: [REQUIRED]
             One or more configuration IDs.
             (string) --
             Return typedict
@@ -116,65 +120,74 @@ class Discovery(object):
             
             
             
-        :type configurationIds: list
-        """
-        self.client.describe_configurations(configurationIds=configurationIds)
+:type configurationIds: list
+"""
 
-    def describe_export_configurations(self, exportIds=None, maxResults=None, nextToken=None):
-        """
-        :param exportIds: A unique identifier that you can use to query the export status.
+
+def describe_export_configurations(exportIds=None, maxResults=None, nextToken=None): pass
+
+
+"""
+:param exportIds: A unique identifier that you can use to query the export status.
             (string) --
             
-        :type exportIds: list
-        :param maxResults: The maximum number of results that you want to display as a part of the query.
-        :type maxResults: integer
-        :param nextToken: A token to get the next set of results. For example, if you specified 100 IDs for DescribeConfigurationsRequest$configurationIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
-        :type nextToken: string
-        """
-        self.client.describe_export_configurations(exportIds=exportIds, maxResults=maxResults, nextToken=nextToken)
+:type exportIds: list
+:param maxResults: The maximum number of results that you want to display as a part of the query.
+:type maxResults: integer
+:param nextToken: A token to get the next set of results. For example, if you specified 100 IDs for DescribeConfigurationsRequest$configurationIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
+:type nextToken: string
+"""
 
-    def describe_tags(self, filters=None, maxResults=None, nextToken=None):
-        """
-        :param filters: You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId .
+
+def describe_tags(filters=None, maxResults=None, nextToken=None): pass
+
+
+"""
+:param filters: You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId .
             (dict) --The name of a tag filter. Valid names are: tagKey , tagValue , configurationId .
             name (string) -- [REQUIRED]A name of a tag filter.
             values (list) -- [REQUIRED]Values of a tag filter.
             (string) --
             
             
-        :type filters: list
-        :param maxResults: The total number of items to return. The maximum value is 100.
-        :type maxResults: integer
-        :param nextToken: A token to start the list. Use this token to get the next set of results.
-        :type nextToken: string
-        """
-        self.client.describe_tags(filters=filters, maxResults=maxResults, nextToken=nextToken)
+:type filters: list
+:param maxResults: The total number of items to return. The maximum value is 100.
+:type maxResults: integer
+:param nextToken: A token to start the list. Use this token to get the next set of results.
+:type nextToken: string
+"""
 
-    def export_configurations(self):
-        """
-        """
-        self.client.export_configurations()
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+def export_configurations(): pass
+
+
+"""
+"""
+
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -186,22 +199,26 @@ class Discovery(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_configurations(self, configurationType=None, filters=None, maxResults=None, nextToken=None):
-        """
-        :param configurationType: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def list_configurations(configurationType=None, filters=None, maxResults=None, nextToken=None): pass
+
+
+"""
+:param configurationType: [REQUIRED]
             A valid configuration identified by the Discovery Service.
             
-        :type configurationType: string
-        :param filters: You can filter the list using a key -value format. For example:
+:type configurationType: string
+:param filters: You can filter the list using a key -value format. For example:
             {'key': 'serverType', 'value': 'webServer'}
             You can separate these items by using logical operators.
             (dict) --A filter that can use conditional operators.
@@ -248,18 +265,19 @@ class Discovery(object):
             condition (string) -- [REQUIRED]A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
             
             
-        :type filters: list
-        :param maxResults: The total number of items to return. The maximum value is 100.
-        :type maxResults: integer
-        :param nextToken: A token to start the list. Use this token to get the next set of results.
-        :type nextToken: string
-        """
-        self.client.list_configurations(configurationType=configurationType, filters=filters, maxResults=maxResults,
-                                        nextToken=nextToken)
+:type filters: list
+:param maxResults: The total number of items to return. The maximum value is 100.
+:type maxResults: integer
+:param nextToken: A token to start the list. Use this token to get the next set of results.
+:type nextToken: string
+"""
 
-    def start_data_collection_by_agent_ids(self, agentIds=None):
-        """
-        :param agentIds: [REQUIRED]
+
+def start_data_collection_by_agent_ids(agentIds=None): pass
+
+
+"""
+:param agentIds: [REQUIRED]
             The IDs of the agents that you want to start collecting data. If you send a request to an AWS agent ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents and you do not have permission to contact some of those agents, the system does not throw an exception. Instead, the system shows Failed in the Description field.
             (string) --
             Return typedict
@@ -282,13 +300,15 @@ class Discovery(object):
             
             
             
-        :type agentIds: list
-        """
-        self.client.start_data_collection_by_agent_ids(agentIds=agentIds)
+:type agentIds: list
+"""
 
-    def stop_data_collection_by_agent_ids(self, agentIds=None):
-        """
-        :param agentIds: [REQUIRED]
+
+def stop_data_collection_by_agent_ids(agentIds=None): pass
+
+
+"""
+:param agentIds: [REQUIRED]
             The IDs of the agents that you want to stop collecting data.
             (string) --
             Return typedict
@@ -311,6 +331,5 @@ class Discovery(object):
             
             
             
-        :type agentIds: list
-        """
-        self.client.stop_data_collection_by_agent_ids(agentIds=agentIds)
+:type agentIds: list
+"""

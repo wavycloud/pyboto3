@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Config(object):
-    def __init__(self):
-        self.client = boto3.client('Config')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,43 +36,51 @@ class Config(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def delete_config_rule(self, ConfigRuleName=None):
-        """
-        :param ConfigRuleName: [REQUIRED]
+
+def delete_config_rule(ConfigRuleName=None): pass
+
+
+"""
+:param ConfigRuleName: [REQUIRED]
             The name of the AWS Config rule that you want to delete.
             ReturnsNone
             
-        :type ConfigRuleName: string
-        """
-        self.client.delete_config_rule(ConfigRuleName=ConfigRuleName)
+:type ConfigRuleName: string
+"""
 
-    def delete_configuration_recorder(self, ConfigurationRecorderName=None):
-        """
-        :param ConfigurationRecorderName: [REQUIRED]
+
+def delete_configuration_recorder(ConfigurationRecorderName=None): pass
+
+
+"""
+:param ConfigurationRecorderName: [REQUIRED]
             The name of the configuration recorder to be deleted. You can retrieve the name of your configuration recorder by using the DescribeConfigurationRecorders action.
             ReturnsNone
             
-        :type ConfigurationRecorderName: string
-        """
-        self.client.delete_configuration_recorder(ConfigurationRecorderName=ConfigurationRecorderName)
+:type ConfigurationRecorderName: string
+"""
 
-    def delete_delivery_channel(self, DeliveryChannelName=None):
-        """
-        :param DeliveryChannelName: [REQUIRED]
+
+def delete_delivery_channel(DeliveryChannelName=None): pass
+
+
+"""
+:param DeliveryChannelName: [REQUIRED]
             The name of the delivery channel to delete.
             ReturnsNone
             
-        :type DeliveryChannelName: string
-        """
-        self.client.delete_delivery_channel(DeliveryChannelName=DeliveryChannelName)
+:type DeliveryChannelName: string
+"""
 
-    def delete_evaluation_results(self, ConfigRuleName=None):
-        """
-        :param ConfigRuleName: [REQUIRED]
+
+def delete_evaluation_results(ConfigRuleName=None): pass
+
+
+"""
+:param ConfigRuleName: [REQUIRED]
             The name of the Config rule for which you want to delete the evaluation results.
             Return typedict
             ReturnsResponse Syntax{}
@@ -84,13 +88,15 @@ class Config(object):
             (dict) --The output when you delete the evaluation results for the specified Config rule.
             
             
-        :type ConfigRuleName: string
-        """
-        self.client.delete_evaluation_results(ConfigRuleName=ConfigRuleName)
+:type ConfigRuleName: string
+"""
 
-    def deliver_config_snapshot(self, deliveryChannelName=None):
-        """
-        :param deliveryChannelName: [REQUIRED]
+
+def deliver_config_snapshot(deliveryChannelName=None): pass
+
+
+"""
+:param deliveryChannelName: [REQUIRED]
             The name of the delivery channel through which the snapshot is delivered.
             Return typedict
             ReturnsResponse Syntax{
@@ -101,50 +107,54 @@ class Config(object):
             configSnapshotId (string) --The ID of the snapshot that is being created.
             
             
-        :type deliveryChannelName: string
-        """
-        self.client.deliver_config_snapshot(deliveryChannelName=deliveryChannelName)
+:type deliveryChannelName: string
+"""
 
-    def describe_compliance_by_config_rule(self, ConfigRuleNames=None, ComplianceTypes=None, NextToken=None):
-        """
-        :param ConfigRuleNames: Specify one or more AWS Config rule names to filter the results by rule.
+
+def describe_compliance_by_config_rule(ConfigRuleNames=None, ComplianceTypes=None, NextToken=None): pass
+
+
+"""
+:param ConfigRuleNames: Specify one or more AWS Config rule names to filter the results by rule.
             (string) --
             
-        :type ConfigRuleNames: list
-        :param ComplianceTypes: Filters the results by compliance.
+:type ConfigRuleNames: list
+:param ComplianceTypes: Filters the results by compliance.
             The allowed values are COMPLIANT , NON_COMPLIANT , and INSUFFICIENT_DATA .
             (string) --
             
-        :type ComplianceTypes: list
-        :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type NextToken: string
-        """
-        self.client.describe_compliance_by_config_rule(ConfigRuleNames=ConfigRuleNames, ComplianceTypes=ComplianceTypes,
-                                                       NextToken=NextToken)
+:type ComplianceTypes: list
+:param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type NextToken: string
+"""
 
-    def describe_compliance_by_resource(self, ResourceType=None, ResourceId=None, ComplianceTypes=None, Limit=None,
-                                        NextToken=None):
-        """
-        :param ResourceType: The types of AWS resources for which you want compliance information; for example, AWS::EC2::Instance . For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account .
-        :type ResourceType: string
-        :param ResourceId: The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType .
-        :type ResourceId: string
-        :param ComplianceTypes: Filters the results by compliance.
+
+def describe_compliance_by_resource(ResourceType=None, ResourceId=None, ComplianceTypes=None, Limit=None,
+                                    NextToken=None): pass
+
+
+"""
+:param ResourceType: The types of AWS resources for which you want compliance information; for example, AWS::EC2::Instance . For this action, you can specify that the resource type is an AWS account by specifying AWS::::Account .
+:type ResourceType: string
+:param ResourceId: The ID of the AWS resource for which you want compliance information. You can specify only one resource ID. If you specify a resource ID, you must also specify a type for ResourceType .
+:type ResourceId: string
+:param ComplianceTypes: Filters the results by compliance.
             The allowed values are COMPLIANT , NON_COMPLIANT , and INSUFFICIENT_DATA .
             (string) --
             
-        :type ComplianceTypes: list
-        :param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        :type Limit: integer
-        :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type NextToken: string
-        """
-        self.client.describe_compliance_by_resource(ResourceType=ResourceType, ResourceId=ResourceId,
-                                                    ComplianceTypes=ComplianceTypes, Limit=Limit, NextToken=NextToken)
+:type ComplianceTypes: list
+:param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
+:type Limit: integer
+:param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type NextToken: string
+"""
 
-    def describe_config_rule_evaluation_status(self, ConfigRuleNames=None):
-        """
-        :param ConfigRuleNames: The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
+
+def describe_config_rule_evaluation_status(ConfigRuleNames=None): pass
+
+
+"""
+:param ConfigRuleNames: The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -185,24 +195,28 @@ class Config(object):
             
             
             
-        :type ConfigRuleNames: list
-        """
-        self.client.describe_config_rule_evaluation_status(ConfigRuleNames=ConfigRuleNames)
+:type ConfigRuleNames: list
+"""
 
-    def describe_config_rules(self, ConfigRuleNames=None, NextToken=None):
-        """
-        :param ConfigRuleNames: The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
+
+def describe_config_rules(ConfigRuleNames=None, NextToken=None): pass
+
+
+"""
+:param ConfigRuleNames: The names of the AWS Config rules for which you want details. If you do not specify any names, AWS Config returns details for all your rules.
             (string) --
             
-        :type ConfigRuleNames: list
-        :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type NextToken: string
-        """
-        self.client.describe_config_rules(ConfigRuleNames=ConfigRuleNames, NextToken=NextToken)
+:type ConfigRuleNames: list
+:param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type NextToken: string
+"""
 
-    def describe_configuration_recorder_status(self, ConfigurationRecorderNames=None):
-        """
-        :param ConfigurationRecorderNames: The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
+
+def describe_configuration_recorder_status(ConfigurationRecorderNames=None): pass
+
+
+"""
+:param ConfigurationRecorderNames: The name(s) of the configuration recorder. If the name is not specified, the action returns the current status of all the configuration recorders associated with the account.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -234,13 +248,15 @@ class Config(object):
             
             
             
-        :type ConfigurationRecorderNames: list
-        """
-        self.client.describe_configuration_recorder_status(ConfigurationRecorderNames=ConfigurationRecorderNames)
+:type ConfigurationRecorderNames: list
+"""
 
-    def describe_configuration_recorders(self, ConfigurationRecorderNames=None):
-        """
-        :param ConfigurationRecorderNames: A list of configuration recorder names.
+
+def describe_configuration_recorders(ConfigurationRecorderNames=None): pass
+
+
+"""
+:param ConfigurationRecorderNames: A list of configuration recorder names.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -252,7 +268,7 @@ class Config(object):
                     'allSupported': True|False,
                     'includeGlobalResourceTypes': True|False,
                     'resourceTypes': [
-                      'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription',
+                      'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
                     ]
                   }
                 },
@@ -262,7 +278,7 @@ class Config(object):
             (dict) --The output for the DescribeConfigurationRecorders action.
             ConfigurationRecorders (list) --A list that contains the descriptions of the specified configuration recorders.
             (dict) --An object that represents the recording of configuration changes of an AWS resource.
-            name (string) --The name of the recorder. By default, AWS Config automatically assigns the name defaultwhen creating the configuration recorder. You cannot change the assigned name.
+            name (string) --The name of the recorder. By default, AWS Config automatically assigns the name 'default' when creating the configuration recorder. You cannot change the assigned name.
             roleARN (string) --Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
             recordingGroup (dict) --Specifies the types of AWS resource for which AWS Config records configuration changes.
             allSupported (boolean) --Specifies whether AWS Config records configuration changes for every supported type of regional resource.
@@ -281,13 +297,15 @@ class Config(object):
             
             
             
-        :type ConfigurationRecorderNames: list
-        """
-        self.client.describe_configuration_recorders(ConfigurationRecorderNames=ConfigurationRecorderNames)
+:type ConfigurationRecorderNames: list
+"""
 
-    def describe_delivery_channel_status(self, DeliveryChannelNames=None):
-        """
-        :param DeliveryChannelNames: A list of delivery channel names.
+
+def describe_delivery_channel_status(DeliveryChannelNames=None): pass
+
+
+"""
+:param DeliveryChannelNames: A list of delivery channel names.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -349,13 +367,15 @@ class Config(object):
             
             
             
-        :type DeliveryChannelNames: list
-        """
-        self.client.describe_delivery_channel_status(DeliveryChannelNames=DeliveryChannelNames)
+:type DeliveryChannelNames: list
+"""
 
-    def describe_delivery_channels(self, DeliveryChannelNames=None):
-        """
-        :param DeliveryChannelNames: A list of delivery channel names.
+
+def describe_delivery_channels(DeliveryChannelNames=None): pass
+
+
+"""
+:param DeliveryChannelNames: A list of delivery channel names.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -375,101 +395,106 @@ class Config(object):
             (dict) --The output for the DescribeDeliveryChannels action.
             DeliveryChannels (list) --A list that contains the descriptions of the specified delivery channel.
             (dict) --The channel through which AWS Config delivers notifications and updated configuration states.
-            name (string) --The name of the delivery channel. By default, AWS Config assigns the name defaultwhen creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
+            name (string) --The name of the delivery channel. By default, AWS Config assigns the name 'default' when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
             s3BucketName (string) --The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files.
             If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
             s3KeyPrefix (string) --The prefix for the specified Amazon S3 bucket.
             snsTopicARN (string) --The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes.
             If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
-            configSnapshotDeliveryProperties (dict) --Shows the options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket in your delivery channel.
+            configSnapshotDeliveryProperties (dict) --Provides options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket in your delivery channel.
             Note
             If you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot, see the following:
             The frequency for a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot is set by one of two values, depending on which is less frequent:
             The value for the deliveryFrequency parameter within the delivery channel configuration, which sets how often AWS Config delivers configuration snapshots. This value also sets how often AWS Config invokes evaluations for Config rules.
             The value for the MaximumExecutionFrequency parameter, which sets the maximum frequency with which AWS Config invokes evaluations for the rule. For more information, see ConfigRule .
             If the deliveryFrequency value is less frequent than the MaximumExecutionFrequency value for a rule, AWS Config invokes the rule only as often as the deliveryFrequency value.
-            For example, you have a rule and you specify the MaximumExecutionFrequency value to be Six_Hours .
-            You then specify the delivery channel deliveryFrequency value to TwentyFour_Hours .
+            For example, you want your rule to run evaluations when AWS Config delivers the configuration snapshot.
+            You specify the MaximumExecutionFrequency value for Six_Hours .
+            You then specify the delivery channel deliveryFrequency value for TwentyFour_Hours .
             Because the value for deliveryFrequency is less frequent than MaximumExecutionFrequency , AWS Config invokes evaluations for the rule every 24 hours.
             You should set the MaximumExecutionFrequency value to be at least as frequent as the deliveryFrequency value. You can view the deliveryFrequency value by using the DescribeDeliveryChannnels action.
-            To update the frequency with which AWS Config delivers your configuration snapshots, use the PutDeliveryChannel action.
+            To update the deliveryFrequency with which AWS Config delivers your configuration snapshots, use the PutDeliveryChannel action.
             deliveryFrequency (string) --The frequency with which AWS Config delivers configuration snapshots.
             
             
             
             
-        :type DeliveryChannelNames: list
-        """
-        self.client.describe_delivery_channels(DeliveryChannelNames=DeliveryChannelNames)
+:type DeliveryChannelNames: list
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_compliance_details_by_config_rule(self, ConfigRuleName=None, ComplianceTypes=None, Limit=None,
-                                              NextToken=None):
-        """
-        :param ConfigRuleName: [REQUIRED]
+
+def get_compliance_details_by_config_rule(ConfigRuleName=None, ComplianceTypes=None, Limit=None, NextToken=None): pass
+
+
+"""
+:param ConfigRuleName: [REQUIRED]
             The name of the AWS Config rule for which you want compliance information.
             
-        :type ConfigRuleName: string
-        :param ComplianceTypes: Filters the results by compliance.
+:type ConfigRuleName: string
+:param ComplianceTypes: Filters the results by compliance.
             The allowed values are COMPLIANT , NON_COMPLIANT , and NOT_APPLICABLE .
             (string) --
             
-        :type ComplianceTypes: list
-        :param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        :type Limit: integer
-        :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type NextToken: string
-        """
-        self.client.get_compliance_details_by_config_rule(ConfigRuleName=ConfigRuleName,
-                                                          ComplianceTypes=ComplianceTypes, Limit=Limit,
-                                                          NextToken=NextToken)
+:type ComplianceTypes: list
+:param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
+:type Limit: integer
+:param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type NextToken: string
+"""
 
-    def get_compliance_details_by_resource(self, ResourceType=None, ResourceId=None, ComplianceTypes=None,
-                                           NextToken=None):
-        """
-        :param ResourceType: [REQUIRED]
+
+def get_compliance_details_by_resource(ResourceType=None, ResourceId=None, ComplianceTypes=None, NextToken=None): pass
+
+
+"""
+:param ResourceType: [REQUIRED]
             The type of the AWS resource for which you want compliance information.
             
-        :type ResourceType: string
-        :param ResourceId: [REQUIRED]
+:type ResourceType: string
+:param ResourceId: [REQUIRED]
             The ID of the AWS resource for which you want compliance information.
             
-        :type ResourceId: string
-        :param ComplianceTypes: Filters the results by compliance.
+:type ResourceId: string
+:param ComplianceTypes: Filters the results by compliance.
             The allowed values are COMPLIANT , NON_COMPLIANT , and NOT_APPLICABLE .
             (string) --
             
-        :type ComplianceTypes: list
-        :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type NextToken: string
-        """
-        self.client.get_compliance_details_by_resource(ResourceType=ResourceType, ResourceId=ResourceId,
-                                                       ComplianceTypes=ComplianceTypes, NextToken=NextToken)
+:type ComplianceTypes: list
+:param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type NextToken: string
+"""
 
-    def get_compliance_summary_by_config_rule(self):
-        """
-        """
-        self.client.get_compliance_summary_by_config_rule()
 
-    def get_compliance_summary_by_resource_type(self, ResourceTypes=None):
-        """
-        :param ResourceTypes: Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type.
+def get_compliance_summary_by_config_rule(): pass
+
+
+"""
+"""
+
+
+def get_compliance_summary_by_resource_type(ResourceTypes=None): pass
+
+
+"""
+:param ResourceTypes: Specify one or more resource types to get the number of resources that are compliant and the number that are noncompliant for each resource type.
             For this request, you can specify an AWS resource type such as AWS::EC2::Instance , and you can specify that the resource type is an AWS account by specifying AWS::::Account .
             (string) --
             Return typedict
@@ -508,13 +533,15 @@ class Config(object):
             
             
             
-        :type ResourceTypes: list
-        """
-        self.client.get_compliance_summary_by_resource_type(ResourceTypes=ResourceTypes)
+:type ResourceTypes: list
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -526,69 +553,73 @@ class Config(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_resource_config_history(self, resourceType=None, resourceId=None, laterTime=None, earlierTime=None,
-                                    chronologicalOrder=None, limit=None, nextToken=None):
-        """
-        :param resourceType: [REQUIRED]
+
+def get_resource_config_history(resourceType=None, resourceId=None, laterTime=None, earlierTime=None,
+                                chronologicalOrder=None, limit=None, nextToken=None): pass
+
+
+"""
+:param resourceType: [REQUIRED]
             The resource type.
             
-        :type resourceType: string
-        :param resourceId: [REQUIRED]
+:type resourceType: string
+:param resourceId: [REQUIRED]
             The ID of the resource (for example., sg-xxxxxx ).
             
-        :type resourceId: string
-        :param laterTime: The time stamp that indicates a later time. If not specified, current time is taken.
-        :type laterTime: datetime
-        :param earlierTime: The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
-        :type earlierTime: datetime
-        :param chronologicalOrder: The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
-        :type chronologicalOrder: string
-        :param limit: The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        :type limit: integer
-        :param nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type nextToken: string
-        """
-        self.client.get_resource_config_history(resourceType=resourceType, resourceId=resourceId, laterTime=laterTime,
-                                                earlierTime=earlierTime, chronologicalOrder=chronologicalOrder,
-                                                limit=limit, nextToken=nextToken)
+:type resourceId: string
+:param laterTime: The time stamp that indicates a later time. If not specified, current time is taken.
+:type laterTime: datetime
+:param earlierTime: The time stamp that indicates an earlier time. If not specified, the action returns paginated results that contain configuration items that start from when the first configuration item was recorded.
+:type earlierTime: datetime
+:param chronologicalOrder: The chronological order for configuration items listed. By default the results are listed in reverse chronological order.
+:type chronologicalOrder: string
+:param limit: The maximum number of configuration items returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
+:type limit: integer
+:param nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type nextToken: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_discovered_resources(self, resourceType=None, resourceIds=None, resourceName=None, limit=None,
-                                  includeDeletedResources=None, nextToken=None):
-        """
-        :param resourceType: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def list_discovered_resources(resourceType=None, resourceIds=None, resourceName=None, limit=None,
+                              includeDeletedResources=None, nextToken=None): pass
+
+
+"""
+:param resourceType: [REQUIRED]
             The type of resources that you want AWS Config to list in the response.
             
-        :type resourceType: string
-        :param resourceIds: The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
+:type resourceType: string
+:param resourceIds: The IDs of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
             (string) --
             
-        :type resourceIds: list
-        :param resourceName: The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
-        :type resourceName: string
-        :param limit: The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-        :type limit: integer
-        :param includeDeletedResources: Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
-        :type includeDeletedResources: boolean
-        :param nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-        :type nextToken: string
-        """
-        self.client.list_discovered_resources(resourceType=resourceType, resourceIds=resourceIds,
-                                              resourceName=resourceName, limit=limit,
-                                              includeDeletedResources=includeDeletedResources, nextToken=nextToken)
+:type resourceIds: list
+:param resourceName: The custom name of only those resources that you want AWS Config to list in the response. If you do not specify this parameter, AWS Config lists all resources of the specified type that it has discovered.
+:type resourceName: string
+:param limit: The maximum number of resource identifiers returned on each page. The default is 100. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
+:type limit: integer
+:param includeDeletedResources: Specifies whether AWS Config includes deleted resources in the results. By default, deleted resources are not included.
+:type includeDeletedResources: boolean
+:param nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+:type nextToken: string
+"""
 
-    def put_config_rule(self, ConfigRule=None):
-        """
-        :param ConfigRule: [REQUIRED]
-            An AWS Lambda function that evaluates configuration items to assess whether your AWS resources comply with your desired configurations. This function can run when AWS Config detects a configuration change to an AWS resource and at a periodic frequency that you choose (for example, every 24 hours).
+
+def put_config_rule(ConfigRule=None): pass
+
+
+"""
+:param ConfigRule: [REQUIRED]
+            An AWS Config rule represents an AWS Lambda function that you create for a custom rule or a predefined function for an AWS managed rule. The function evaluates configuration items to assess whether your AWS resources comply with your desired configurations. This function can run when AWS Config detects a configuration change to an AWS resource and at a periodic frequency that you choose (for example, every 24 hours).
             Note
             You can use the AWS CLI and AWS SDKs if you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties .
             For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide .
@@ -604,22 +635,20 @@ class Config(object):
             ComplianceResourceId (string) --The IDs of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes .
             Source (dict) -- [REQUIRED]Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
             Owner (string) --Indicates whether AWS or the customer owns and manages the AWS Config rule.
-            SourceIdentifier (string) --For AWS managed Config rules, a pre-defined identifier from a list. To reference the list, see Using AWS Managed Config Rules .
-            For custom Config rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function.
+            SourceIdentifier (string) --For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules .
+            For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-1:123456789012:function:custom_rule_name .
             SourceDetails (list) --Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
-            (dict) --Provides the source and the message type that trigger AWS Config to evaluate your AWS resources against a rule. It also provides the frequency with which you want AWS Config to run evaluations for the rule if the trigger type is periodic.
+            (dict) --Provides the source and the message types that trigger AWS Config to evaluate your AWS resources against a rule. It also provides the frequency with which you want AWS Config to run evaluations for the rule if the trigger type is periodic. You can specify the parameter values for SourceDetail only for custom rules.
             EventSource (string) --The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-            MessageType (string) --The type of SNS message that triggers AWS Config to run an evaluation.
-            For evaluations that are initiated when AWS Config delivers a configuration item change notification, you must use ConfigurationItemChangeNotification .
-            For evaluations that are initiated at a frequency that you choose (for example, every 24 hours), you must use ScheduledNotification .
-            For evaluations that are initiated when AWS Config delivers a configuration snapshot, you must use ConfigurationSnapshotDeliveryCompleted .
-            MaximumExecutionFrequency (string) --If the trigger type for your rule includes periodic, AWS Config runs evaluations for the rule at a frequency that you choose. If you specify a value for MaximumExecutionFrequency , then MessageType must use the ScheduledNotification value.
+            MessageType (string) --The type of notification that triggers AWS Config to run an evaluation. You can specify the following notification types:
+            ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item change notification.ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency .
+            ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.
+            MaximumExecutionFrequency (string) --The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency , then MessageType must use the ScheduledNotification value.
             
             InputParameters (string) --A string in JSON format that is passed to the AWS Config rule Lambda function.
-            MaximumExecutionFrequency (string) --If you want to create a rule that evaluates at a frequency that is independent of the configuration snapshot delivery, use the MaximumExecutionFrequency parameter in the SourceDetail object.
-            Note
-            If you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot, see the following:
-            A rule that runs an evaluation when AWS Config delivers a configuration snapshot cannot run evaluations more frequently than AWS Config delivers the snapshots. Set the value of the MaximumExecutionFrequency to be equal to or greater than the value of the deliveryFrequency key, which is part of ConfigSnapshotDeliveryProperties .
+            MaximumExecutionFrequency (string) --The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:
+            You are using an AWS managed rule that is triggered at a periodic frequency.
+            Your custom rule is triggered when AWS Config delivers the configuration snapshot.
             For more information, see ConfigSnapshotDeliveryProperties .
             ConfigRuleState (string) --Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule.
             AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule.
@@ -627,15 +656,17 @@ class Config(object):
             AWS Config sets the state of a rule to DELETING temporarily after you use the DeleteConfigRule request to delete the rule. After AWS Config deletes the rule, the rule and all of its evaluations are erased and are no longer available.
             ReturnsNone
             
-        :type ConfigRule: dict
-        """
-        self.client.put_config_rule(ConfigRule=ConfigRule)
+:type ConfigRule: dict
+"""
 
-    def put_configuration_recorder(self, ConfigurationRecorder=None):
-        """
-        :param ConfigurationRecorder: [REQUIRED]
+
+def put_configuration_recorder(ConfigurationRecorder=None): pass
+
+
+"""
+:param ConfigurationRecorder: [REQUIRED]
             The configuration recorder object that records each configuration change made to the resources.
-            name (string) --The name of the recorder. By default, AWS Config automatically assigns the name defaultwhen creating the configuration recorder. You cannot change the assigned name.
+            name (string) --The name of the recorder. By default, AWS Config automatically assigns the name 'default' when creating the configuration recorder. You cannot change the assigned name.
             roleARN (string) --Amazon Resource Name (ARN) of the IAM role used to describe the AWS resources associated with the account.
             recordingGroup (dict) --Specifies the types of AWS resource for which AWS Config records configuration changes.
             allSupported (boolean) --Specifies whether AWS Config records configuration changes for every supported type of regional resource.
@@ -653,43 +684,48 @@ class Config(object):
             
             ReturnsNone
             
-        :type ConfigurationRecorder: dict
-        """
-        self.client.put_configuration_recorder(ConfigurationRecorder=ConfigurationRecorder)
+:type ConfigurationRecorder: dict
+"""
 
-    def put_delivery_channel(self, DeliveryChannel=None):
-        """
-        :param DeliveryChannel: [REQUIRED]
+
+def put_delivery_channel(DeliveryChannel=None): pass
+
+
+"""
+:param DeliveryChannel: [REQUIRED]
             The configuration delivery channel object that delivers the configuration information to an Amazon S3 bucket, and to an Amazon SNS topic.
-            name (string) --The name of the delivery channel. By default, AWS Config assigns the name defaultwhen creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
+            name (string) --The name of the delivery channel. By default, AWS Config assigns the name 'default' when creating the delivery channel. To change the delivery channel name, you must use the DeleteDeliveryChannel action to delete your current delivery channel, and then you must use the PutDeliveryChannel command to create a delivery channel that has the desired name.
             s3BucketName (string) --The name of the Amazon S3 bucket to which AWS Config delivers configuration snapshots and configuration history files.
             If you specify a bucket that belongs to another AWS account, that bucket must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon S3 Bucket in the AWS Config Developer Guide.
             s3KeyPrefix (string) --The prefix for the specified Amazon S3 bucket.
             snsTopicARN (string) --The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes.
             If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
-            configSnapshotDeliveryProperties (dict) --Shows the options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket in your delivery channel.
+            configSnapshotDeliveryProperties (dict) --Provides options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket in your delivery channel.
             Note
             If you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot, see the following:
             The frequency for a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot is set by one of two values, depending on which is less frequent:
             The value for the deliveryFrequency parameter within the delivery channel configuration, which sets how often AWS Config delivers configuration snapshots. This value also sets how often AWS Config invokes evaluations for Config rules.
             The value for the MaximumExecutionFrequency parameter, which sets the maximum frequency with which AWS Config invokes evaluations for the rule. For more information, see ConfigRule .
             If the deliveryFrequency value is less frequent than the MaximumExecutionFrequency value for a rule, AWS Config invokes the rule only as often as the deliveryFrequency value.
-            For example, you have a rule and you specify the MaximumExecutionFrequency value to be Six_Hours .
-            You then specify the delivery channel deliveryFrequency value to TwentyFour_Hours .
+            For example, you want your rule to run evaluations when AWS Config delivers the configuration snapshot.
+            You specify the MaximumExecutionFrequency value for Six_Hours .
+            You then specify the delivery channel deliveryFrequency value for TwentyFour_Hours .
             Because the value for deliveryFrequency is less frequent than MaximumExecutionFrequency , AWS Config invokes evaluations for the rule every 24 hours.
             You should set the MaximumExecutionFrequency value to be at least as frequent as the deliveryFrequency value. You can view the deliveryFrequency value by using the DescribeDeliveryChannnels action.
-            To update the frequency with which AWS Config delivers your configuration snapshots, use the PutDeliveryChannel action.
+            To update the deliveryFrequency with which AWS Config delivers your configuration snapshots, use the PutDeliveryChannel action.
             deliveryFrequency (string) --The frequency with which AWS Config delivers configuration snapshots.
             
             ReturnsNone
             
-        :type DeliveryChannel: dict
-        """
-        self.client.put_delivery_channel(DeliveryChannel=DeliveryChannel)
+:type DeliveryChannel: dict
+"""
 
-    def put_evaluations(self, Evaluations=None, ResultToken=None):
-        """
-        :param Evaluations: The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
+
+def put_evaluations(Evaluations=None, ResultToken=None): pass
+
+
+"""
+:param Evaluations: The assessments that the AWS Lambda function performs. Each evaluation identifies an AWS resource and indicates whether it complies with the AWS Config rule that invokes the AWS Lambda function.
             (dict) --Identifies an AWS resource and indicates whether it complies with the AWS Config rule that it was evaluated against.
             ComplianceResourceType (string) -- [REQUIRED]The type of AWS resource that was evaluated.
             ComplianceResourceId (string) -- [REQUIRED]The ID of the AWS resource that was evaluated.
@@ -700,17 +736,19 @@ class Config(object):
             OrderingTimestamp (datetime) -- [REQUIRED]The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config delivered the configuration snapshot that triggered the evaluation.
             
             
-        :type Evaluations: list
-        :param ResultToken: [REQUIRED]
+:type Evaluations: list
+:param ResultToken: [REQUIRED]
             An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation
             
-        :type ResultToken: string
-        """
-        self.client.put_evaluations(Evaluations=Evaluations, ResultToken=ResultToken)
+:type ResultToken: string
+"""
 
-    def start_config_rules_evaluation(self, ConfigRuleNames=None):
-        """
-        :param ConfigRuleNames: The list of names of Config rules that you want to run evaluations for.
+
+def start_config_rules_evaluation(ConfigRuleNames=None): pass
+
+
+"""
+:param ConfigRuleNames: The list of names of Config rules that you want to run evaluations for.
             (string) --
             Return typedict
             ReturnsResponse Syntax{}
@@ -718,26 +756,29 @@ class Config(object):
             (dict) --The output when you start the evaluation for the specified Config rule.
             
             
-        :type ConfigRuleNames: list
-        """
-        self.client.start_config_rules_evaluation(ConfigRuleNames=ConfigRuleNames)
+:type ConfigRuleNames: list
+"""
 
-    def start_configuration_recorder(self, ConfigurationRecorderName=None):
-        """
-        :param ConfigurationRecorderName: [REQUIRED]
+
+def start_configuration_recorder(ConfigurationRecorderName=None): pass
+
+
+"""
+:param ConfigurationRecorderName: [REQUIRED]
             The name of the recorder object that records each configuration change made to the resources.
             ReturnsNone
             
-        :type ConfigurationRecorderName: string
-        """
-        self.client.start_configuration_recorder(ConfigurationRecorderName=ConfigurationRecorderName)
+:type ConfigurationRecorderName: string
+"""
 
-    def stop_configuration_recorder(self, ConfigurationRecorderName=None):
-        """
-        :param ConfigurationRecorderName: [REQUIRED]
+
+def stop_configuration_recorder(ConfigurationRecorderName=None): pass
+
+
+"""
+:param ConfigurationRecorderName: [REQUIRED]
             The name of the recorder object that records each configuration change made to the resources.
             ReturnsNone
             
-        :type ConfigurationRecorderName: string
-        """
-        self.client.stop_configuration_recorder(ConfigurationRecorderName=ConfigurationRecorderName)
+:type ConfigurationRecorderName: string
+"""

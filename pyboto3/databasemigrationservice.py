@@ -22,33 +22,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def add_tags_to_resource(ResourceArn=None, Tags=None): pass
 
 
-class Dms(object):
-    def __init__(self):
-        self.client = boto3.client('Dms')
-
-    def add_tags_to_resource(self, ResourceArn=None, Tags=None):
-        """
-        :param ResourceArn: [REQUIRED]
+"""
+:param ResourceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be added to. AWS DMS resources include a replication instance, endpoint, and a replication task.
             
-        :type ResourceArn: string
-        :param Tags: [REQUIRED]
+:type ResourceArn: string
+:param Tags: [REQUIRED]
             The tag to be assigned to the DMS resource.
             (dict) --
             Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
-        :type Tags: list
-        """
-        self.client.add_tags_to_resource(ResourceArn=ResourceArn, Tags=Tags)
+:type Tags: list
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -57,76 +55,76 @@ class Dms(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_endpoint(self, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None,
-                        ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None,
-                        Tags=None, CertificateArn=None, SslMode=None):
-        """
-        :param EndpointIdentifier: [REQUIRED]
+
+def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None,
+                    ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None,
+                    Tags=None, CertificateArn=None, SslMode=None): pass
+
+
+"""
+:param EndpointIdentifier: [REQUIRED]
             The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
             
-        :type EndpointIdentifier: string
-        :param EndpointType: [REQUIRED]
+:type EndpointIdentifier: string
+:param EndpointType: [REQUIRED]
             The type of endpoint.
             
-        :type EndpointType: string
-        :param EngineName: [REQUIRED]
+:type EndpointType: string
+:param EngineName: [REQUIRED]
             The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, and SQLSERVER.
             
-        :type EngineName: string
-        :param Username: [REQUIRED]
+:type EngineName: string
+:param Username: [REQUIRED]
             The user name to be used to login to the endpoint database.
             
-        :type Username: string
-        :param Password: [REQUIRED]
+:type Username: string
+:param Password: [REQUIRED]
             The password to be used to login to the endpoint database.
             
-        :type Password: string
-        :param ServerName: [REQUIRED]
+:type Password: string
+:param ServerName: [REQUIRED]
             The name of the server where the endpoint database resides.
             
-        :type ServerName: string
-        :param Port: [REQUIRED]
+:type ServerName: string
+:param Port: [REQUIRED]
             The port used by the endpoint database.
             
-        :type Port: integer
-        :param DatabaseName: The name of the endpoint database.
-        :type DatabaseName: string
-        :param ExtraConnectionAttributes: Additional attributes associated with the connection.
-        :type ExtraConnectionAttributes: string
-        :param KmsKeyId: The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        :type KmsKeyId: string
-        :param Tags: Tags to be added to the endpoint.
+:type Port: integer
+:param DatabaseName: The name of the endpoint database.
+:type DatabaseName: string
+:param ExtraConnectionAttributes: Additional attributes associated with the connection.
+:type ExtraConnectionAttributes: string
+:param KmsKeyId: The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+:type KmsKeyId: string
+:param Tags: Tags to be added to the endpoint.
             (dict) --
             Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
-        :type Tags: list
-        :param CertificateArn: The Amazon Resource Number (ARN) for the certificate.
-        :type CertificateArn: string
-        :param SslMode: The SSL mode to use for the SSL connection.
+:type Tags: list
+:param CertificateArn: The Amazon Resource Number (ARN) for the certificate.
+:type CertificateArn: string
+:param SslMode: The SSL mode to use for the SSL connection.
             SSL mode can be one of four values: none, require, verify-ca, verify-full.
             The default value is none.
             
-        :type SslMode: string
-        """
-        self.client.create_endpoint(EndpointIdentifier=EndpointIdentifier, EndpointType=EndpointType,
-                                    EngineName=EngineName, Username=Username, Password=Password, ServerName=ServerName,
-                                    Port=Port, DatabaseName=DatabaseName,
-                                    ExtraConnectionAttributes=ExtraConnectionAttributes, KmsKeyId=KmsKeyId, Tags=Tags,
-                                    CertificateArn=CertificateArn, SslMode=SslMode)
+:type SslMode: string
+"""
 
-    def create_replication_instance(self, ReplicationInstanceIdentifier=None, AllocatedStorage=None,
-                                    ReplicationInstanceClass=None, VpcSecurityGroupIds=None, AvailabilityZone=None,
-                                    ReplicationSubnetGroupIdentifier=None, PreferredMaintenanceWindow=None,
-                                    MultiAZ=None, EngineVersion=None, AutoMinorVersionUpgrade=None, Tags=None,
-                                    KmsKeyId=None, PubliclyAccessible=None):
-        """
-        :param ReplicationInstanceIdentifier: [REQUIRED]
+
+def create_replication_instance(ReplicationInstanceIdentifier=None, AllocatedStorage=None,
+                                ReplicationInstanceClass=None, VpcSecurityGroupIds=None, AvailabilityZone=None,
+                                ReplicationSubnetGroupIdentifier=None, PreferredMaintenanceWindow=None, MultiAZ=None,
+                                EngineVersion=None, AutoMinorVersionUpgrade=None, Tags=None, KmsKeyId=None,
+                                PubliclyAccessible=None): pass
+
+
+"""
+:param ReplicationInstanceIdentifier: [REQUIRED]
             The replication instance identifier. This parameter is stored as a lowercase string.
             Constraints:
             Must contain from 1 to 63 alphanumeric characters or hyphens.
@@ -134,148 +132,138 @@ class Dms(object):
             Cannot end with a hyphen or contain two consecutive hyphens.
             Example: myrepinstance
             
-        :type ReplicationInstanceIdentifier: string
-        :param AllocatedStorage: The amount of storage (in gigabytes) to be initially allocated for the replication instance.
-        :type AllocatedStorage: integer
-        :param ReplicationInstanceClass: [REQUIRED]
+:type ReplicationInstanceIdentifier: string
+:param AllocatedStorage: The amount of storage (in gigabytes) to be initially allocated for the replication instance.
+:type AllocatedStorage: integer
+:param ReplicationInstanceClass: [REQUIRED]
             The compute and memory capacity of the replication instance as specified by the replication instance class.
             Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge
             
-        :type ReplicationInstanceClass: string
-        :param VpcSecurityGroupIds: Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
+:type ReplicationInstanceClass: string
+:param VpcSecurityGroupIds: Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
             (string) --
             
-        :type VpcSecurityGroupIds: list
-        :param AvailabilityZone: The EC2 Availability Zone that the replication instance will be created in.
+:type VpcSecurityGroupIds: list
+:param AvailabilityZone: The EC2 Availability Zone that the replication instance will be created in.
             Default: A random, system-chosen Availability Zone in the endpoint's region.
             Example: us-east-1d
             
-        :type AvailabilityZone: string
-        :param ReplicationSubnetGroupIdentifier: A subnet group to associate with the replication instance.
-        :type ReplicationSubnetGroupIdentifier: string
-        :param PreferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
+:type AvailabilityZone: string
+:param ReplicationSubnetGroupIdentifier: A subnet group to associate with the replication instance.
+:type ReplicationSubnetGroupIdentifier: string
+:param PreferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
             Format: ddd:hh24:mi-ddd:hh24:mi
             Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week.
             Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
             Constraints: Minimum 30-minute window.
             
-        :type PreferredMaintenanceWindow: string
-        :param MultiAZ: Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
-        :type MultiAZ: boolean
-        :param EngineVersion: The engine version number of the replication instance.
-        :type EngineVersion: string
-        :param AutoMinorVersionUpgrade: Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window.
+:type PreferredMaintenanceWindow: string
+:param MultiAZ: Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
+:type MultiAZ: boolean
+:param EngineVersion: The engine version number of the replication instance.
+:type EngineVersion: string
+:param AutoMinorVersionUpgrade: Indicates that minor engine upgrades will be applied automatically to the replication instance during the maintenance window.
             Default: true
             
-        :type AutoMinorVersionUpgrade: boolean
-        :param Tags: Tags to be associated with the replication instance.
+:type AutoMinorVersionUpgrade: boolean
+:param Tags: Tags to be associated with the replication instance.
             (dict) --
             Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
-        :type Tags: list
-        :param KmsKeyId: The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
-        :type KmsKeyId: string
-        :param PubliclyAccessible: Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true .
-        :type PubliclyAccessible: boolean
-        """
-        self.client.create_replication_instance(ReplicationInstanceIdentifier=ReplicationInstanceIdentifier,
-                                                AllocatedStorage=AllocatedStorage,
-                                                ReplicationInstanceClass=ReplicationInstanceClass,
-                                                VpcSecurityGroupIds=VpcSecurityGroupIds,
-                                                AvailabilityZone=AvailabilityZone,
-                                                ReplicationSubnetGroupIdentifier=ReplicationSubnetGroupIdentifier,
-                                                PreferredMaintenanceWindow=PreferredMaintenanceWindow, MultiAZ=MultiAZ,
-                                                EngineVersion=EngineVersion,
-                                                AutoMinorVersionUpgrade=AutoMinorVersionUpgrade, Tags=Tags,
-                                                KmsKeyId=KmsKeyId, PubliclyAccessible=PubliclyAccessible)
+:type Tags: list
+:param KmsKeyId: The KMS key identifier that will be used to encrypt the content on the replication instance. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+:type KmsKeyId: string
+:param PubliclyAccessible: Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true .
+:type PubliclyAccessible: boolean
+"""
 
-    def create_replication_subnet_group(self, ReplicationSubnetGroupIdentifier=None,
-                                        ReplicationSubnetGroupDescription=None, SubnetIds=None, Tags=None):
-        """
-        :param ReplicationSubnetGroupIdentifier: [REQUIRED]
+
+def create_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, ReplicationSubnetGroupDescription=None,
+                                    SubnetIds=None, Tags=None): pass
+
+
+"""
+:param ReplicationSubnetGroupIdentifier: [REQUIRED]
             The name for the replication subnet group. This value is stored as a lowercase string.
             Constraints: Must contain no more than 255 alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be 'default'.
             Example: mySubnetgroup
             
-        :type ReplicationSubnetGroupIdentifier: string
-        :param ReplicationSubnetGroupDescription: [REQUIRED]
+:type ReplicationSubnetGroupIdentifier: string
+:param ReplicationSubnetGroupDescription: [REQUIRED]
             The description for the subnet group.
             
-        :type ReplicationSubnetGroupDescription: string
-        :param SubnetIds: [REQUIRED]
+:type ReplicationSubnetGroupDescription: string
+:param SubnetIds: [REQUIRED]
             The EC2 subnet IDs for the subnet group.
             (string) --
             
-        :type SubnetIds: list
-        :param Tags: The tag to be assigned to the subnet group.
+:type SubnetIds: list
+:param Tags: The tag to be assigned to the subnet group.
             (dict) --
             Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
-        :type Tags: list
-        """
-        self.client.create_replication_subnet_group(ReplicationSubnetGroupIdentifier=ReplicationSubnetGroupIdentifier,
-                                                    ReplicationSubnetGroupDescription=ReplicationSubnetGroupDescription,
-                                                    SubnetIds=SubnetIds, Tags=Tags)
+:type Tags: list
+"""
 
-    def create_replication_task(self, ReplicationTaskIdentifier=None, SourceEndpointArn=None, TargetEndpointArn=None,
-                                ReplicationInstanceArn=None, MigrationType=None, TableMappings=None,
-                                ReplicationTaskSettings=None, CdcStartTime=None, Tags=None):
-        """
-        :param ReplicationTaskIdentifier: [REQUIRED]
+
+def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=None, TargetEndpointArn=None,
+                            ReplicationInstanceArn=None, MigrationType=None, TableMappings=None,
+                            ReplicationTaskSettings=None, CdcStartTime=None, Tags=None): pass
+
+
+"""
+:param ReplicationTaskIdentifier: [REQUIRED]
             The replication task identifier.
             Constraints:
             Must contain from 1 to 63 alphanumeric characters or hyphens.
             First character must be a letter.
             Cannot end with a hyphen or contain two consecutive hyphens.
             
-        :type ReplicationTaskIdentifier: string
-        :param SourceEndpointArn: [REQUIRED]
+:type ReplicationTaskIdentifier: string
+:param SourceEndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type SourceEndpointArn: string
-        :param TargetEndpointArn: [REQUIRED]
+:type SourceEndpointArn: string
+:param TargetEndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type TargetEndpointArn: string
-        :param ReplicationInstanceArn: [REQUIRED]
+:type TargetEndpointArn: string
+:param ReplicationInstanceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication instance.
             
-        :type ReplicationInstanceArn: string
-        :param MigrationType: [REQUIRED]
+:type ReplicationInstanceArn: string
+:param MigrationType: [REQUIRED]
             The migration type.
             
-        :type MigrationType: string
-        :param TableMappings: [REQUIRED]
+:type MigrationType: string
+:param TableMappings: [REQUIRED]
             The path of the JSON file that contains the table mappings. Preceed the path with 'file://'.
             For example, --table-mappings file://mappingfile.json
             
-        :type TableMappings: string
-        :param ReplicationTaskSettings: Settings for the task, such as target metadata settings.
-        :type ReplicationTaskSettings: string
-        :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
-        :type CdcStartTime: datetime
-        :param Tags: Tags to be added to the replication instance.
+:type TableMappings: string
+:param ReplicationTaskSettings: Settings for the task, such as target metadata settings.
+:type ReplicationTaskSettings: string
+:param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+:type CdcStartTime: datetime
+:param Tags: Tags to be added to the replication instance.
             (dict) --
             Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
-        :type Tags: list
-        """
-        self.client.create_replication_task(ReplicationTaskIdentifier=ReplicationTaskIdentifier,
-                                            SourceEndpointArn=SourceEndpointArn, TargetEndpointArn=TargetEndpointArn,
-                                            ReplicationInstanceArn=ReplicationInstanceArn, MigrationType=MigrationType,
-                                            TableMappings=TableMappings,
-                                            ReplicationTaskSettings=ReplicationTaskSettings, CdcStartTime=CdcStartTime,
-                                            Tags=Tags)
+:type Tags: list
+"""
 
-    def delete_certificate(self, CertificateArn=None):
-        """
-        :param CertificateArn: [REQUIRED]
+
+def delete_certificate(CertificateArn=None): pass
+
+
+"""
+:param CertificateArn: [REQUIRED]
             the Amazon Resource Name (ARN) of the deleted certificate.
             Return typedict
             ReturnsResponse Syntax{
@@ -306,13 +294,15 @@ class Dms(object):
             
             
             
-        :type CertificateArn: string
-        """
-        self.client.delete_certificate(CertificateArn=CertificateArn)
+:type CertificateArn: string
+"""
 
-    def delete_endpoint(self, EndpointArn=None):
-        """
-        :param EndpointArn: [REQUIRED]
+
+def delete_endpoint(EndpointArn=None): pass
+
+
+"""
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             Return typedict
             ReturnsResponse Syntax{
@@ -353,13 +343,15 @@ class Dms(object):
             
             
             
-        :type EndpointArn: string
-        """
-        self.client.delete_endpoint(EndpointArn=EndpointArn)
+:type EndpointArn: string
+"""
 
-    def delete_replication_instance(self, ReplicationInstanceArn=None):
-        """
-        :param ReplicationInstanceArn: [REQUIRED]
+
+def delete_replication_instance(ReplicationInstanceArn=None): pass
+
+
+"""
+:param ReplicationInstanceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication instance to be deleted.
             Return typedict
             ReturnsResponse Syntax{
@@ -468,26 +460,30 @@ class Dms(object):
             
             
             
-        :type ReplicationInstanceArn: string
-        """
-        self.client.delete_replication_instance(ReplicationInstanceArn=ReplicationInstanceArn)
+:type ReplicationInstanceArn: string
+"""
 
-    def delete_replication_subnet_group(self, ReplicationSubnetGroupIdentifier=None):
-        """
-        :param ReplicationSubnetGroupIdentifier: [REQUIRED]
+
+def delete_replication_subnet_group(ReplicationSubnetGroupIdentifier=None): pass
+
+
+"""
+:param ReplicationSubnetGroupIdentifier: [REQUIRED]
             The subnet group name of the replication instance.
             Return typedict
             ReturnsResponse Syntax{}
             Response Structure
             (dict) --
             
-        :type ReplicationSubnetGroupIdentifier: string
-        """
-        self.client.delete_replication_subnet_group(ReplicationSubnetGroupIdentifier=ReplicationSubnetGroupIdentifier)
+:type ReplicationSubnetGroupIdentifier: string
+"""
 
-    def delete_replication_task(self, ReplicationTaskArn=None):
-        """
-        :param ReplicationTaskArn: [REQUIRED]
+
+def delete_replication_task(ReplicationTaskArn=None): pass
+
+
+"""
+:param ReplicationTaskArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication task to be deleted.
             Return typedict
             ReturnsResponse Syntax{
@@ -543,37 +539,43 @@ class Dms(object):
             
             
             
-        :type ReplicationTaskArn: string
-        """
-        self.client.delete_replication_task(ReplicationTaskArn=ReplicationTaskArn)
+:type ReplicationTaskArn: string
+"""
 
-    def describe_account_attributes(self):
-        """
-        """
-        self.client.describe_account_attributes()
 
-    def describe_certificates(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the certificate described in the form of key-value pairs.
+def describe_account_attributes(): pass
+
+
+"""
+"""
+
+
+def describe_certificates(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the certificate described in the form of key-value pairs.
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
             Values (list) -- [REQUIRED]The filter value.
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 10
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_certificates(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_connections(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: The filters applied to the connection.
+
+def describe_connections(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: The filters applied to the connection.
             Valid filter names: endpoint-arn | replication-instance-arn
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
@@ -581,20 +583,22 @@ class Dms(object):
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_connections(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_endpoint_types(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the describe action.
+
+def describe_endpoint_types(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the describe action.
             Valid filter names: engine-name | endpoint-type
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
@@ -602,20 +606,22 @@ class Dms(object):
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_endpoint_types(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_endpoints(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the describe action.
+
+def describe_endpoints(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the describe action.
             Valid filter names: endpoint-arn | endpoint-type | endpoint-id | engine-name
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
@@ -623,32 +629,36 @@ class Dms(object):
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_endpoints(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_orderable_replication_instances(self, MaxRecords=None, Marker=None):
-        """
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+
+def describe_orderable_replication_instances(MaxRecords=None, Marker=None): pass
+
+
+"""
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_orderable_replication_instances(MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_refresh_schemas_status(self, EndpointArn=None):
-        """
-        :param EndpointArn: [REQUIRED]
+
+def describe_refresh_schemas_status(EndpointArn=None): pass
+
+
+"""
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             Return typedict
             ReturnsResponse Syntax{
@@ -671,13 +681,15 @@ class Dms(object):
             
             
             
-        :type EndpointArn: string
-        """
-        self.client.describe_refresh_schemas_status(EndpointArn=EndpointArn)
+:type EndpointArn: string
+"""
 
-    def describe_replication_instances(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the describe action.
+
+def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the describe action.
             Valid filter names: replication-instance-arn | replication-instance-id | replication-instance-class | engine-version
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
@@ -685,40 +697,44 @@ class Dms(object):
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_replication_instances(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_replication_subnet_groups(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the describe action.
+
+def describe_replication_subnet_groups(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the describe action.
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
             Values (list) -- [REQUIRED]The filter value.
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_replication_subnet_groups(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_replication_tasks(self, Filters=None, MaxRecords=None, Marker=None):
-        """
-        :param Filters: Filters applied to the describe action.
+
+def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param Filters: Filters applied to the describe action.
             Valid filter names: replication-task-arn | replication-task-id | migration-type | endpoint-arn | replication-instance-arn
             (dict) --
             Name (string) -- [REQUIRED]The name of the filter.
@@ -726,70 +742,76 @@ class Dms(object):
             (string) --
             
             
-        :type Filters: list
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type Filters: list
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_replication_tasks(Filters=Filters, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_schemas(self, EndpointArn=None, MaxRecords=None, Marker=None):
-        """
-        :param EndpointArn: [REQUIRED]
+
+def describe_schemas(EndpointArn=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type EndpointArn: string
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type EndpointArn: string
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_schemas(EndpointArn=EndpointArn, MaxRecords=MaxRecords, Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def describe_table_statistics(self, ReplicationTaskArn=None, MaxRecords=None, Marker=None):
-        """
-        :param ReplicationTaskArn: [REQUIRED]
+
+def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=None): pass
+
+
+"""
+:param ReplicationTaskArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication task.
             
-        :type ReplicationTaskArn: string
-        :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+:type ReplicationTaskArn: string
+:param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
             Constraints: Minimum 20, maximum 100.
             
-        :type MaxRecords: integer
-        :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
-        :type Marker: string
-        """
-        self.client.describe_table_statistics(ReplicationTaskArn=ReplicationTaskArn, MaxRecords=MaxRecords,
-                                              Marker=Marker)
+:type MaxRecords: integer
+:param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+:type Marker: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -801,29 +823,35 @@ class Dms(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def import_certificate(self, CertificateIdentifier=None, CertificatePem=None):
-        """
-        :param CertificateIdentifier: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def import_certificate(CertificateIdentifier=None, CertificatePem=None): pass
+
+
+"""
+:param CertificateIdentifier: [REQUIRED]
             The customer-assigned name of the certificate. Valid characters are [A-z_0-9].
             
-        :type CertificateIdentifier: string
-        :param CertificatePem: The contents of the .pem X.509 certificate file.
-        :type CertificatePem: string
-        """
-        self.client.import_certificate(CertificateIdentifier=CertificateIdentifier, CertificatePem=CertificatePem)
+:type CertificateIdentifier: string
+:param CertificatePem: The contents of the .pem X.509 certificate file.
+:type CertificatePem: string
+"""
 
-    def list_tags_for_resource(self, ResourceArn=None):
-        """
-        :param ResourceArn: [REQUIRED]
+
+def list_tags_for_resource(ResourceArn=None): pass
+
+
+"""
+:param ResourceArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
             Return typedict
             ReturnsResponse Syntax{
@@ -843,167 +871,166 @@ class Dms(object):
             
             
             
-        :type ResourceArn: string
-        """
-        self.client.list_tags_for_resource(ResourceArn=ResourceArn)
+:type ResourceArn: string
+"""
 
-    def modify_endpoint(self, EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None,
-                        Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None,
-                        ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None):
-        """
-        :param EndpointArn: [REQUIRED]
+
+def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None,
+                    Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None,
+                    CertificateArn=None, SslMode=None): pass
+
+
+"""
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type EndpointArn: string
-        :param EndpointIdentifier: The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
-        :type EndpointIdentifier: string
-        :param EndpointType: The type of endpoint.
-        :type EndpointType: string
-        :param EngineName: The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, and SQLSERVER.
-        :type EngineName: string
-        :param Username: The user name to be used to login to the endpoint database.
-        :type Username: string
-        :param Password: The password to be used to login to the endpoint database.
-        :type Password: string
-        :param ServerName: The name of the server where the endpoint database resides.
-        :type ServerName: string
-        :param Port: The port used by the endpoint database.
-        :type Port: integer
-        :param DatabaseName: The name of the endpoint database.
-        :type DatabaseName: string
-        :param ExtraConnectionAttributes: Additional attributes associated with the connection.
-        :type ExtraConnectionAttributes: string
-        :param CertificateArn: The Amazon Resource Name (ARN) of the certificate used for SSL connection.
-        :type CertificateArn: string
-        :param SslMode: The SSL mode to be used.
+:type EndpointArn: string
+:param EndpointIdentifier: The database endpoint identifier. Identifiers must begin with a letter; must contain only ASCII letters, digits, and hyphens; and must not end with a hyphen or contain two consecutive hyphens.
+:type EndpointIdentifier: string
+:param EndpointType: The type of endpoint.
+:type EndpointType: string
+:param EngineName: The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, and SQLSERVER.
+:type EngineName: string
+:param Username: The user name to be used to login to the endpoint database.
+:type Username: string
+:param Password: The password to be used to login to the endpoint database.
+:type Password: string
+:param ServerName: The name of the server where the endpoint database resides.
+:type ServerName: string
+:param Port: The port used by the endpoint database.
+:type Port: integer
+:param DatabaseName: The name of the endpoint database.
+:type DatabaseName: string
+:param ExtraConnectionAttributes: Additional attributes associated with the connection.
+:type ExtraConnectionAttributes: string
+:param CertificateArn: The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+:type CertificateArn: string
+:param SslMode: The SSL mode to be used.
             SSL mode can be one of four values: none, require, verify-ca, verify-full.
             The default value is none.
             
-        :type SslMode: string
-        """
-        self.client.modify_endpoint(EndpointArn=EndpointArn, EndpointIdentifier=EndpointIdentifier,
-                                    EndpointType=EndpointType, EngineName=EngineName, Username=Username,
-                                    Password=Password, ServerName=ServerName, Port=Port, DatabaseName=DatabaseName,
-                                    ExtraConnectionAttributes=ExtraConnectionAttributes, CertificateArn=CertificateArn,
-                                    SslMode=SslMode)
+:type SslMode: string
+"""
 
-    def modify_replication_instance(self, ReplicationInstanceArn=None, AllocatedStorage=None, ApplyImmediately=None,
-                                    ReplicationInstanceClass=None, VpcSecurityGroupIds=None,
-                                    PreferredMaintenanceWindow=None, MultiAZ=None, EngineVersion=None,
-                                    AllowMajorVersionUpgrade=None, AutoMinorVersionUpgrade=None,
-                                    ReplicationInstanceIdentifier=None):
-        """
-        :param ReplicationInstanceArn: [REQUIRED]
+
+def modify_replication_instance(ReplicationInstanceArn=None, AllocatedStorage=None, ApplyImmediately=None,
+                                ReplicationInstanceClass=None, VpcSecurityGroupIds=None,
+                                PreferredMaintenanceWindow=None, MultiAZ=None, EngineVersion=None,
+                                AllowMajorVersionUpgrade=None, AutoMinorVersionUpgrade=None,
+                                ReplicationInstanceIdentifier=None): pass
+
+
+"""
+:param ReplicationInstanceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication instance.
             
-        :type ReplicationInstanceArn: string
-        :param AllocatedStorage: The amount of storage (in gigabytes) to be allocated for the replication instance.
-        :type AllocatedStorage: integer
-        :param ApplyImmediately: Indicates whether the changes should be applied immediately or during the next maintenance window.
-        :type ApplyImmediately: boolean
-        :param ReplicationInstanceClass: The compute and memory capacity of the replication instance.
+:type ReplicationInstanceArn: string
+:param AllocatedStorage: The amount of storage (in gigabytes) to be allocated for the replication instance.
+:type AllocatedStorage: integer
+:param ApplyImmediately: Indicates whether the changes should be applied immediately or during the next maintenance window.
+:type ApplyImmediately: boolean
+:param ReplicationInstanceClass: The compute and memory capacity of the replication instance.
             Valid Values: dms.t2.micro | dms.t2.small | dms.t2.medium | dms.t2.large | dms.c4.large | dms.c4.xlarge | dms.c4.2xlarge | dms.c4.4xlarge
             
-        :type ReplicationInstanceClass: string
-        :param VpcSecurityGroupIds: Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
+:type ReplicationInstanceClass: string
+:param VpcSecurityGroupIds: Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
             (string) --
             
-        :type VpcSecurityGroupIds: list
-        :param PreferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied.
+:type VpcSecurityGroupIds: list
+:param PreferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied.
             Default: Uses existing setting
             Format: ddd:hh24:mi-ddd:hh24:mi
             Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun
             Constraints: Must be at least 30 minutes
             
-        :type PreferredMaintenanceWindow: string
-        :param MultiAZ: Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
-        :type MultiAZ: boolean
-        :param EngineVersion: The engine version number of the replication instance.
-        :type EngineVersion: string
-        :param AllowMajorVersionUpgrade: Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.
+:type PreferredMaintenanceWindow: string
+:param MultiAZ: Specifies if the replication instance is a Multi-AZ deployment. You cannot set the AvailabilityZone parameter if the Multi-AZ parameter is set to true .
+:type MultiAZ: boolean
+:param EngineVersion: The engine version number of the replication instance.
+:type EngineVersion: string
+:param AllowMajorVersionUpgrade: Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible.
             Constraints: This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
             
-        :type AllowMajorVersionUpgrade: boolean
-        :param AutoMinorVersionUpgrade: Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version.
-        :type AutoMinorVersionUpgrade: boolean
-        :param ReplicationInstanceIdentifier: The replication instance identifier. This parameter is stored as a lowercase string.
-        :type ReplicationInstanceIdentifier: string
-        """
-        self.client.modify_replication_instance(ReplicationInstanceArn=ReplicationInstanceArn,
-                                                AllocatedStorage=AllocatedStorage, ApplyImmediately=ApplyImmediately,
-                                                ReplicationInstanceClass=ReplicationInstanceClass,
-                                                VpcSecurityGroupIds=VpcSecurityGroupIds,
-                                                PreferredMaintenanceWindow=PreferredMaintenanceWindow, MultiAZ=MultiAZ,
-                                                EngineVersion=EngineVersion,
-                                                AllowMajorVersionUpgrade=AllowMajorVersionUpgrade,
-                                                AutoMinorVersionUpgrade=AutoMinorVersionUpgrade,
-                                                ReplicationInstanceIdentifier=ReplicationInstanceIdentifier)
+:type AllowMajorVersionUpgrade: boolean
+:param AutoMinorVersionUpgrade: Indicates that minor version upgrades will be applied automatically to the replication instance during the maintenance window. Changing this parameter does not result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and AWS DMS has enabled auto patching for that engine version.
+:type AutoMinorVersionUpgrade: boolean
+:param ReplicationInstanceIdentifier: The replication instance identifier. This parameter is stored as a lowercase string.
+:type ReplicationInstanceIdentifier: string
+"""
 
-    def modify_replication_subnet_group(self, ReplicationSubnetGroupIdentifier=None,
-                                        ReplicationSubnetGroupDescription=None, SubnetIds=None):
-        """
-        :param ReplicationSubnetGroupIdentifier: [REQUIRED]
+
+def modify_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, ReplicationSubnetGroupDescription=None,
+                                    SubnetIds=None): pass
+
+
+"""
+:param ReplicationSubnetGroupIdentifier: [REQUIRED]
             The name of the replication instance subnet group.
             
-        :type ReplicationSubnetGroupIdentifier: string
-        :param ReplicationSubnetGroupDescription: The description of the replication instance subnet group.
-        :type ReplicationSubnetGroupDescription: string
-        :param SubnetIds: [REQUIRED]
+:type ReplicationSubnetGroupIdentifier: string
+:param ReplicationSubnetGroupDescription: The description of the replication instance subnet group.
+:type ReplicationSubnetGroupDescription: string
+:param SubnetIds: [REQUIRED]
             A list of subnet IDs.
             (string) --
             
-        :type SubnetIds: list
-        """
-        self.client.modify_replication_subnet_group(ReplicationSubnetGroupIdentifier=ReplicationSubnetGroupIdentifier,
-                                                    ReplicationSubnetGroupDescription=ReplicationSubnetGroupDescription,
-                                                    SubnetIds=SubnetIds)
+:type SubnetIds: list
+"""
 
-    def refresh_schemas(self, EndpointArn=None, ReplicationInstanceArn=None):
-        """
-        :param EndpointArn: [REQUIRED]
+
+def refresh_schemas(EndpointArn=None, ReplicationInstanceArn=None): pass
+
+
+"""
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type EndpointArn: string
-        :param ReplicationInstanceArn: [REQUIRED]
+:type EndpointArn: string
+:param ReplicationInstanceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication instance.
             
-        :type ReplicationInstanceArn: string
-        """
-        self.client.refresh_schemas(EndpointArn=EndpointArn, ReplicationInstanceArn=ReplicationInstanceArn)
+:type ReplicationInstanceArn: string
+"""
 
-    def remove_tags_from_resource(self, ResourceArn=None, TagKeys=None):
-        """
-        :param ResourceArn: [REQUIRED]
+
+def remove_tags_from_resource(ResourceArn=None, TagKeys=None): pass
+
+
+"""
+:param ResourceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the AWS DMS resource the tag is to be removed from.
             
-        :type ResourceArn: string
-        :param TagKeys: [REQUIRED]
+:type ResourceArn: string
+:param TagKeys: [REQUIRED]
             The tag key (name) of the tag to be removed.
             (string) --
             
-        :type TagKeys: list
-        """
-        self.client.remove_tags_from_resource(ResourceArn=ResourceArn, TagKeys=TagKeys)
+:type TagKeys: list
+"""
 
-    def start_replication_task(self, ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None):
-        """
-        :param ReplicationTaskArn: [REQUIRED]
+
+def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None): pass
+
+
+"""
+:param ReplicationTaskArn: [REQUIRED]
             The Amazon Resource Number (ARN) of the replication task to be started.
             
-        :type ReplicationTaskArn: string
-        :param StartReplicationTaskType: [REQUIRED]
+:type ReplicationTaskArn: string
+:param StartReplicationTaskType: [REQUIRED]
             The type of replication task.
             
-        :type StartReplicationTaskType: string
-        :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
-        :type CdcStartTime: datetime
-        """
-        self.client.start_replication_task(ReplicationTaskArn=ReplicationTaskArn,
-                                           StartReplicationTaskType=StartReplicationTaskType, CdcStartTime=CdcStartTime)
+:type StartReplicationTaskType: string
+:param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+:type CdcStartTime: datetime
+"""
 
-    def stop_replication_task(self, ReplicationTaskArn=None):
-        """
-        :param ReplicationTaskArn: [REQUIRED]
+
+def stop_replication_task(ReplicationTaskArn=None): pass
+
+
+"""
+:param ReplicationTaskArn: [REQUIRED]
             The Amazon Resource Number(ARN) of the replication task to be stopped.
             Return typedict
             ReturnsResponse Syntax{
@@ -1059,19 +1086,20 @@ class Dms(object):
             
             
             
-        :type ReplicationTaskArn: string
-        """
-        self.client.stop_replication_task(ReplicationTaskArn=ReplicationTaskArn)
+:type ReplicationTaskArn: string
+"""
 
-    def test_connection(self, ReplicationInstanceArn=None, EndpointArn=None):
-        """
-        :param ReplicationInstanceArn: [REQUIRED]
+
+def test_connection(ReplicationInstanceArn=None, EndpointArn=None): pass
+
+
+"""
+:param ReplicationInstanceArn: [REQUIRED]
             The Amazon Resource Name (ARN) of the replication instance.
             
-        :type ReplicationInstanceArn: string
-        :param EndpointArn: [REQUIRED]
+:type ReplicationInstanceArn: string
+:param EndpointArn: [REQUIRED]
             The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
             
-        :type EndpointArn: string
-        """
-        self.client.test_connection(ReplicationInstanceArn=ReplicationInstanceArn, EndpointArn=EndpointArn)
+:type EndpointArn: string
+"""

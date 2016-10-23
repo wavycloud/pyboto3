@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def batch_get_repositories(repositoryNames=None): pass
 
 
-class Codecommit(object):
-    def __init__(self):
-        self.client = boto3.client('Codecommit')
-
-    def batch_get_repositories(self, repositoryNames=None):
-        """
-        :param repositoryNames: [REQUIRED]
+"""
+:param repositoryNames: [REQUIRED]
             The names of the repositories to get information about.
             (string) --
             Return typedict
@@ -73,13 +69,15 @@ class Codecommit(object):
             (string) --
             
             
-        :type repositoryNames: list
-        """
-        self.client.batch_get_repositories(repositoryNames=repositoryNames)
+:type repositoryNames: list
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -88,46 +86,52 @@ class Codecommit(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_branch(self, repositoryName=None, branchName=None, commitId=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def create_branch(repositoryName=None, branchName=None, commitId=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository in which you want to create the new branch.
             
-        :type repositoryName: string
-        :param branchName: [REQUIRED]
+:type repositoryName: string
+:param branchName: [REQUIRED]
             The name of the new branch to create.
             
-        :type branchName: string
-        :param commitId: [REQUIRED]
+:type branchName: string
+:param commitId: [REQUIRED]
             The ID of the commit to point the new branch to.
             
-        :type commitId: string
-        """
-        self.client.create_branch(repositoryName=repositoryName, branchName=branchName, commitId=commitId)
+:type commitId: string
+"""
 
-    def create_repository(self, repositoryName=None, repositoryDescription=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def create_repository(repositoryName=None, repositoryDescription=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the new repository to be created.
             Note
             The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide. The suffix '.git' is prohibited.
             
-        :type repositoryName: string
-        :param repositoryDescription: A comment or description about the new repository.
+:type repositoryName: string
+:param repositoryDescription: A comment or description about the new repository.
             Note
             The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a web page could expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a web page.
             
-        :type repositoryDescription: string
-        """
-        self.client.create_repository(repositoryName=repositoryName, repositoryDescription=repositoryDescription)
+:type repositoryDescription: string
+"""
 
-    def delete_repository(self, repositoryName=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def delete_repository(repositoryName=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository to delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -138,52 +142,59 @@ class Codecommit(object):
             repositoryId (string) --The ID of the repository that was deleted.
             
             
-        :type repositoryName: string
-        """
-        self.client.delete_repository(repositoryName=repositoryName)
+:type repositoryName: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_branch(self, repositoryName=None, branchName=None):
-        """
-        :param repositoryName: The name of the repository that contains the branch for which you want to retrieve information.
-        :type repositoryName: string
-        :param branchName: The name of the branch for which you want to retrieve information.
-        :type branchName: string
-        """
-        self.client.get_branch(repositoryName=repositoryName, branchName=branchName)
 
-    def get_commit(self, repositoryName=None, commitId=None):
-        """
-        :param repositoryName: [REQUIRED]
+def get_branch(repositoryName=None, branchName=None): pass
+
+
+"""
+:param repositoryName: The name of the repository that contains the branch for which you want to retrieve information.
+:type repositoryName: string
+:param branchName: The name of the branch for which you want to retrieve information.
+:type branchName: string
+"""
+
+
+def get_commit(repositoryName=None, commitId=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository to which the commit was made.
             
-        :type repositoryName: string
-        :param commitId: [REQUIRED]
+:type repositoryName: string
+:param commitId: [REQUIRED]
             The commit ID.
             
-        :type commitId: string
-        """
-        self.client.get_commit(repositoryName=repositoryName, commitId=commitId)
+:type commitId: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -195,13 +206,15 @@ class Codecommit(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_repository(self, repositoryName=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def get_repository(repositoryName=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository to get information about.
             Return typedict
             ReturnsResponse Syntax{
@@ -234,13 +247,15 @@ class Codecommit(object):
             
             
             
-        :type repositoryName: string
-        """
-        self.client.get_repository(repositoryName=repositoryName)
+:type repositoryName: string
+"""
 
-    def get_repository_triggers(self, repositoryName=None):
-        """
-        :param repositoryName: The name of the repository for which the trigger is configured.
+
+def get_repository_triggers(repositoryName=None): pass
+
+
+"""
+:param repositoryName: The name of the repository for which the trigger is configured.
             Return typedict
             ReturnsResponse Syntax{
               'configurationId': 'string',
@@ -273,42 +288,50 @@ class Codecommit(object):
             
             
             
-        :type repositoryName: string
-        """
-        self.client.get_repository_triggers(repositoryName=repositoryName)
+:type repositoryName: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_branches(self, repositoryName=None, nextToken=None):
-        """
-        :param repositoryName: [REQUIRED]
+def get_waiter(): pass
+
+
+"""
+"""
+
+
+def list_branches(repositoryName=None, nextToken=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository that contains the branches.
             
-        :type repositoryName: string
-        :param nextToken: An enumeration token that allows the operation to batch the results.
-        :type nextToken: string
-        """
-        self.client.list_branches(repositoryName=repositoryName, nextToken=nextToken)
+:type repositoryName: string
+:param nextToken: An enumeration token that allows the operation to batch the results.
+:type nextToken: string
+"""
 
-    def list_repositories(self, nextToken=None, sortBy=None, order=None):
-        """
-        :param nextToken: An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
-        :type nextToken: string
-        :param sortBy: The criteria used to sort the results of a list repositories operation.
-        :type sortBy: string
-        :param order: The order in which to sort the results of a list repositories operation.
-        :type order: string
-        """
-        self.client.list_repositories(nextToken=nextToken, sortBy=sortBy, order=order)
 
-    def put_repository_triggers(self, repositoryName=None, triggers=None):
-        """
-        :param repositoryName: The name of the repository where you want to create or update the trigger.
-        :type repositoryName: string
-        :param triggers: The JSON block of configuration information for each trigger.
+def list_repositories(nextToken=None, sortBy=None, order=None): pass
+
+
+"""
+:param nextToken: An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+:type nextToken: string
+:param sortBy: The criteria used to sort the results of a list repositories operation.
+:type sortBy: string
+:param order: The order in which to sort the results of a list repositories operation.
+:type order: string
+"""
+
+
+def put_repository_triggers(repositoryName=None, triggers=None): pass
+
+
+"""
+:param repositoryName: The name of the repository where you want to create or update the trigger.
+:type repositoryName: string
+:param triggers: The JSON block of configuration information for each trigger.
             (dict) --Information about a trigger for a repository.
             name (string) --The name of the trigger.
             destinationArn (string) --The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
@@ -319,15 +342,17 @@ class Codecommit(object):
             (string) --
             
             
-        :type triggers: list
-        """
-        self.client.put_repository_triggers(repositoryName=repositoryName, triggers=triggers)
+:type triggers: list
+"""
 
-    def test_repository_triggers(self, repositoryName=None, triggers=None):
-        """
-        :param repositoryName: The name of the repository in which to test the triggers.
-        :type repositoryName: string
-        :param triggers: The list of triggers to test.
+
+def test_repository_triggers(repositoryName=None, triggers=None): pass
+
+
+"""
+:param repositoryName: The name of the repository in which to test the triggers.
+:type repositoryName: string
+:param triggers: The list of triggers to test.
             (dict) --Information about a trigger for a repository.
             name (string) --The name of the trigger.
             destinationArn (string) --The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
@@ -338,44 +363,48 @@ class Codecommit(object):
             (string) --
             
             
-        :type triggers: list
-        """
-        self.client.test_repository_triggers(repositoryName=repositoryName, triggers=triggers)
+:type triggers: list
+"""
 
-    def update_default_branch(self, repositoryName=None, defaultBranchName=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def update_default_branch(repositoryName=None, defaultBranchName=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository to set or change the default branch for.
             
-        :type repositoryName: string
-        :param defaultBranchName: [REQUIRED]
+:type repositoryName: string
+:param defaultBranchName: [REQUIRED]
             The name of the branch to set as the default.
             
-        :type defaultBranchName: string
-        """
-        self.client.update_default_branch(repositoryName=repositoryName, defaultBranchName=defaultBranchName)
+:type defaultBranchName: string
+"""
 
-    def update_repository_description(self, repositoryName=None, repositoryDescription=None):
-        """
-        :param repositoryName: [REQUIRED]
+
+def update_repository_description(repositoryName=None, repositoryDescription=None): pass
+
+
+"""
+:param repositoryName: [REQUIRED]
             The name of the repository to set or change the comment or description for.
             
-        :type repositoryName: string
-        :param repositoryDescription: The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
-        :type repositoryDescription: string
-        """
-        self.client.update_repository_description(repositoryName=repositoryName,
-                                                  repositoryDescription=repositoryDescription)
+:type repositoryName: string
+:param repositoryDescription: The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
+:type repositoryDescription: string
+"""
 
-    def update_repository_name(self, oldName=None, newName=None):
-        """
-        :param oldName: [REQUIRED]
+
+def update_repository_name(oldName=None, newName=None): pass
+
+
+"""
+:param oldName: [REQUIRED]
             The existing name of the repository.
             
-        :type oldName: string
-        :param newName: [REQUIRED]
+:type oldName: string
+:param newName: [REQUIRED]
             The new name for the repository.
             
-        :type newName: string
-        """
-        self.client.update_repository_name(oldName=oldName, newName=newName)
+:type newName: string
+"""

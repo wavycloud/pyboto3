@@ -22,18 +22,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def batch_delete_attributes(DomainName=None, Items=None): pass
 
 
-class Sdb(object):
-    def __init__(self):
-        self.client = boto3.client('Sdb')
-
-    def batch_delete_attributes(self, DomainName=None, Items=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain in which the attributes are being deleted.
-        :type DomainName: string
-        :param Items: [REQUIRED] A list of items on which to perform the operation.
+"""
+:param DomainName: [REQUIRED] The name of the domain in which the attributes are being deleted.
+:type DomainName: string
+:param Items: [REQUIRED] A list of items on which to perform the operation.
             (dict) --
             Name (string) -- [REQUIRED]
             Attributes (list) --
@@ -44,15 +40,17 @@ class Sdb(object):
             AlternateValueEncoding (string) --
             
             
-        :type Items: list
-        """
-        self.client.batch_delete_attributes(DomainName=DomainName, Items=Items)
+:type Items: list
+"""
 
-    def batch_put_attributes(self, DomainName=None, Items=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain in which the attributes are being stored.
-        :type DomainName: string
-        :param Items: [REQUIRED] A list of items on which to perform the operation.
+
+def batch_put_attributes(DomainName=None, Items=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain in which the attributes are being stored.
+:type DomainName: string
+:param Items: [REQUIRED] A list of items on which to perform the operation.
             (dict) --
             Name (string) -- [REQUIRED] The name of the replaceable item.
             Attributes (list) -- [REQUIRED] The list of attributes for a replaceable item.
@@ -62,13 +60,15 @@ class Sdb(object):
             Replace (boolean) -- A flag specifying whether or not to replace the attribute/value pair or to add a new attribute/value pair. The default setting is false .
             
             
-        :type Items: list
-        """
-        self.client.batch_put_attributes(DomainName=DomainName, Items=Items)
+:type Items: list
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -77,55 +77,62 @@ class Sdb(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_domain(self, DomainName=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
+
+def create_domain(DomainName=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
             ReturnsNone
             
-        :type DomainName: string
-        """
-        self.client.create_domain(DomainName=DomainName)
+:type DomainName: string
+"""
 
-    def delete_attributes(self, DomainName=None, ItemName=None, Attributes=None, Expected=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
-        :type DomainName: string
-        :param ItemName: [REQUIRED] The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
-        :type ItemName: string
-        :param Attributes: A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
+
+def delete_attributes(DomainName=None, ItemName=None, Attributes=None, Expected=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
+:type DomainName: string
+:param ItemName: [REQUIRED] The name of the item. Similar to rows on a spreadsheet, items represent individual objects that contain one or more value-attribute pairs.
+:type ItemName: string
+:param Attributes: A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
             (dict) --
             Name (string) -- [REQUIRED] The name of the attribute.
             AlternateNameEncoding (string) --
             Value (string) -- [REQUIRED] The value of the attribute.
             AlternateValueEncoding (string) --
             
-        :type Attributes: list
-        :param Expected: The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
+:type Attributes: list
+:param Expected: The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
             Name (string) --The name of the attribute involved in the condition.
             Value (string) --The value of an attribute. This value can only be specified when the Exists parameter is equal to true .
             Exists (boolean) --A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
             
-        :type Expected: dict
-        """
-        self.client.delete_attributes(DomainName=DomainName, ItemName=ItemName, Attributes=Attributes,
-                                      Expected=Expected)
+:type Expected: dict
+"""
 
-    def delete_domain(self, DomainName=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain to delete.
+
+def delete_domain(DomainName=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain to delete.
             ReturnsNone
             
-        :type DomainName: string
-        """
-        self.client.delete_domain(DomainName=DomainName)
+:type DomainName: string
+"""
 
-    def domain_metadata(self, DomainName=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain for which to display the metadata of.
+
+def domain_metadata(DomainName=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain for which to display the metadata of.
             Return typedict
             ReturnsResponse Syntax{
               'ItemCount': 123,
@@ -147,46 +154,50 @@ class Sdb(object):
             Timestamp (integer) -- The data and time when metadata was calculated, in Epoch (UNIX) seconds.
             
             
-        :type DomainName: string
-        """
-        self.client.domain_metadata(DomainName=DomainName)
+:type DomainName: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_attributes(self, DomainName=None, ItemName=None, AttributeNames=None, ConsistentRead=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
-        :type DomainName: string
-        :param ItemName: [REQUIRED] The name of the item.
-        :type ItemName: string
-        :param AttributeNames: The names of the attributes.
+
+def get_attributes(DomainName=None, ItemName=None, AttributeNames=None, ConsistentRead=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
+:type DomainName: string
+:param ItemName: [REQUIRED] The name of the item.
+:type ItemName: string
+:param AttributeNames: The names of the attributes.
             (string) --
             
-        :type AttributeNames: list
-        :param ConsistentRead: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true , any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        :type ConsistentRead: boolean
-        """
-        self.client.get_attributes(DomainName=DomainName, ItemName=ItemName, AttributeNames=AttributeNames,
-                                   ConsistentRead=ConsistentRead)
+:type AttributeNames: list
+:param ConsistentRead: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true , any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
+:type ConsistentRead: boolean
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -198,53 +209,60 @@ class Sdb(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_domains(self, MaxNumberOfDomains=None, NextToken=None):
-        """
-        :param MaxNumberOfDomains: The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
-        :type MaxNumberOfDomains: integer
-        :param NextToken: A string informing Amazon SimpleDB where to start the next list of domain names.
-        :type NextToken: string
-        """
-        self.client.list_domains(MaxNumberOfDomains=MaxNumberOfDomains, NextToken=NextToken)
+def get_waiter(): pass
 
-    def put_attributes(self, DomainName=None, ItemName=None, Attributes=None, Expected=None):
-        """
-        :param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
-        :type DomainName: string
-        :param ItemName: [REQUIRED] The name of the item.
-        :type ItemName: string
-        :param Attributes: [REQUIRED] The list of attributes.
+
+"""
+"""
+
+
+def list_domains(MaxNumberOfDomains=None, NextToken=None): pass
+
+
+"""
+:param MaxNumberOfDomains: The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
+:type MaxNumberOfDomains: integer
+:param NextToken: A string informing Amazon SimpleDB where to start the next list of domain names.
+:type NextToken: string
+"""
+
+
+def put_attributes(DomainName=None, ItemName=None, Attributes=None, Expected=None): pass
+
+
+"""
+:param DomainName: [REQUIRED] The name of the domain in which to perform the operation.
+:type DomainName: string
+:param ItemName: [REQUIRED] The name of the item.
+:type ItemName: string
+:param Attributes: [REQUIRED] The list of attributes.
             (dict) --
             Name (string) -- [REQUIRED] The name of the replaceable attribute.
             Value (string) -- [REQUIRED] The value of the replaceable attribute.
             Replace (boolean) -- A flag specifying whether or not to replace the attribute/value pair or to add a new attribute/value pair. The default setting is false .
             
-        :type Attributes: list
-        :param Expected: The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
+:type Attributes: list
+:param Expected: The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
             Name (string) --The name of the attribute involved in the condition.
             Value (string) --The value of an attribute. This value can only be specified when the Exists parameter is equal to true .
             Exists (boolean) --A value specifying whether or not the specified attribute must exist with the specified value in order for the update condition to be satisfied. Specify true if the attribute must exist for the update condition to be satisfied. Specify false if the attribute should not exist in order for the update condition to be satisfied.
             
-        :type Expected: dict
-        """
-        self.client.put_attributes(DomainName=DomainName, ItemName=ItemName, Attributes=Attributes, Expected=Expected)
+:type Expected: dict
+"""
 
-    def select(self, SelectExpression=None, NextToken=None, ConsistentRead=None):
-        """
-        :param SelectExpression: [REQUIRED] The expression used to query the domain.
-        :type SelectExpression: string
-        :param NextToken: A string informing Amazon SimpleDB where to start the next list of ItemNames .
-        :type NextToken: string
-        :param ConsistentRead: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true , any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
-        :type ConsistentRead: boolean
-        """
-        self.client.select(SelectExpression=SelectExpression, NextToken=NextToken, ConsistentRead=ConsistentRead)
+
+def select(SelectExpression=None, NextToken=None, ConsistentRead=None): pass
+
+
+"""
+:param SelectExpression: [REQUIRED] The expression used to query the domain.
+:type SelectExpression: string
+:param NextToken: A string informing Amazon SimpleDB where to start the next list of ItemNames .
+:type NextToken: string
+:param ConsistentRead: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true , any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
+:type ConsistentRead: boolean
+"""

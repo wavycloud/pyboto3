@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None): pass
 
 
-class Dynamodb(object):
-    def __init__(self):
-        self.client = boto3.client('Dynamodb')
-
-    def batch_get_item(self, RequestItems=None, ReturnConsumedCapacity=None):
-        """
-        :param RequestItems: [REQUIRED]
+"""
+:param RequestItems: [REQUIRED]
             A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request.
             Each element in the map of items to retrieve consists of the following:
             ConsistentRead - If true , a strongly consistent read is used; if false (the default), an eventually consistent read is used.
@@ -109,19 +105,21 @@ class Dynamodb(object):
             
             
             
-        :type RequestItems: dict
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type RequestItems: dict
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        """
-        self.client.batch_get_item(RequestItems=RequestItems, ReturnConsumedCapacity=ReturnConsumedCapacity)
+:type ReturnConsumedCapacity: string
+"""
 
-    def batch_write_item(self, RequestItems=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None):
-        """
-        :param RequestItems: [REQUIRED]
+
+def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None): pass
+
+
+"""
+:param RequestItems: [REQUIRED]
             A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest ). Each element in the map consists of the following:
             DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
             Key - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
@@ -186,22 +184,23 @@ class Dynamodb(object):
             
             
             
-        :type RequestItems: dict
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type RequestItems: dict
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        :type ReturnItemCollectionMetrics: string
-        """
-        self.client.batch_write_item(RequestItems=RequestItems, ReturnConsumedCapacity=ReturnConsumedCapacity,
-                                     ReturnItemCollectionMetrics=ReturnItemCollectionMetrics)
+:type ReturnConsumedCapacity: string
+:param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+:type ReturnItemCollectionMetrics: string
+"""
 
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def can_paginate(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -210,14 +209,16 @@ class Dynamodb(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_table(self, AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None,
-                     GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None):
-        """
-        :param AttributeDefinitions: [REQUIRED]
+
+def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None,
+                 GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None): pass
+
+
+"""
+:param AttributeDefinitions: [REQUIRED]
             An array of attributes that describe the key schema for the table and indexes.
             (dict) --Represents an attribute for describing the key schema for the table and indexes.
             AttributeName (string) -- [REQUIRED]A name for the attribute.
@@ -227,12 +228,12 @@ class Dynamodb(object):
             B - the attribute is of type Binary
             
             
-        :type AttributeDefinitions: list
-        :param TableName: [REQUIRED]
+:type AttributeDefinitions: list
+:param TableName: [REQUIRED]
             The name of the table to create.
             
-        :type TableName: string
-        :param KeySchema: [REQUIRED]
+:type TableName: string
+:param KeySchema: [REQUIRED]
             Specifies the attributes that make up the primary key for a table or an index. The attributes in KeySchema must also be defined in the AttributeDefinitions array. For more information, see Data Model in the Amazon DynamoDB Developer Guide .
             Each KeySchemaElement in the array is composed of:
             AttributeName - The name of this key attribute.
@@ -258,8 +259,8 @@ class Dynamodb(object):
             The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
             
             
-        :type KeySchema: list
-        :param LocalSecondaryIndexes: One or more local secondary indexes (the maximum is five) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained.
+:type KeySchema: list
+:param LocalSecondaryIndexes: One or more local secondary indexes (the maximum is five) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained.
             Each local secondary index in the array includes the following:
             IndexName - The name of the local secondary index. Must be unique only for this table.
             KeySchema - Specifies the key schema for the local secondary index. The key schema must begin with the same partition key as the table.
@@ -299,8 +300,8 @@ class Dynamodb(object):
             (string) --
             
             
-        :type LocalSecondaryIndexes: list
-        :param GlobalSecondaryIndexes: One or more global secondary indexes (the maximum is five) to be created on the table. Each global secondary index in the array includes the following:
+:type LocalSecondaryIndexes: list
+:param GlobalSecondaryIndexes: One or more global secondary indexes (the maximum is five) to be created on the table. Each global secondary index in the array includes the following:
             IndexName - The name of the global secondary index. Must be unique only for this table.
             KeySchema - Specifies the key schema for the global secondary index.
             Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
@@ -344,15 +345,15 @@ class Dynamodb(object):
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
             
-        :type GlobalSecondaryIndexes: list
-        :param ProvisionedThroughput: [REQUIRED]
+:type GlobalSecondaryIndexes: list
+:param ProvisionedThroughput: [REQUIRED]
             Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
-        :type ProvisionedThroughput: dict
-        :param StreamSpecification: The settings for DynamoDB Streams on the table. These settings consist of:
+:type ProvisionedThroughput: dict
+:param StreamSpecification: The settings for DynamoDB Streams on the table. These settings consist of:
             StreamEnabled - Indicates whether Streams is to be enabled (true) or disabled (false).
             StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values for StreamViewType are:
             KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
@@ -370,22 +371,21 @@ class Dynamodb(object):
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
             
-        :type StreamSpecification: dict
-        """
-        self.client.create_table(AttributeDefinitions=AttributeDefinitions, TableName=TableName, KeySchema=KeySchema,
-                                 LocalSecondaryIndexes=LocalSecondaryIndexes,
-                                 GlobalSecondaryIndexes=GlobalSecondaryIndexes,
-                                 ProvisionedThroughput=ProvisionedThroughput, StreamSpecification=StreamSpecification)
+:type StreamSpecification: dict
+"""
 
-    def delete_item(self, TableName=None, Key=None, Expected=None, ConditionalOperator=None, ReturnValues=None,
-                    ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionExpression=None,
-                    ExpressionAttributeNames=None, ExpressionAttributeValues=None):
-        """
-        :param TableName: [REQUIRED]
+
+def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=None, ReturnValues=None,
+                ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionExpression=None,
+                ExpressionAttributeNames=None, ExpressionAttributeValues=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table from which to delete the item.
             
-        :type TableName: string
-        :param Key: [REQUIRED]
+:type TableName: string
+:param Key: [REQUIRED]
             A map of attribute names to AttributeValue objects, representing the primary key of the item to delete.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
@@ -412,8 +412,8 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type Key: dict
-        :param Expected: 
+:type Key: dict
+:param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A map of attribute/condition pairs. Expected provides a conditional block for the DeleteItem operation.
@@ -533,8 +533,8 @@ class Dynamodb(object):
             
             
             
-        :type Expected: dict
-        :param ConditionalOperator: 
+:type Expected: dict
+:param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A logical operator to apply to the conditions in the Expected map:
@@ -545,23 +545,23 @@ class Dynamodb(object):
             Note
             This parameter does not support attributes of type List or Map.
             
-        :type ConditionalOperator: string
-        :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem , the valid values are:
+:type ConditionalOperator: string
+:param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - The content of the old item is returned.
             Note
             The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD .
             
-        :type ReturnValues: string
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type ReturnValues: string
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        :type ReturnItemCollectionMetrics: string
-        :param ConditionExpression: A condition that must be satisfied in order for a conditional DeleteItem to succeed.
+:type ReturnConsumedCapacity: string
+:param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+:type ReturnItemCollectionMetrics: string
+:param ConditionExpression: A condition that must be satisfied in order for a conditional DeleteItem to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
             Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
@@ -570,8 +570,8 @@ class Dynamodb(object):
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-        :type ConditionExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type ConditionExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -587,8 +587,8 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
+:type ExpressionAttributeNames: dict
+:param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
             You would first need to specify ExpressionAttributeValues as follows:
@@ -620,19 +620,15 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExpressionAttributeValues: dict
-        """
-        self.client.delete_item(TableName=TableName, Key=Key, Expected=Expected,
-                                ConditionalOperator=ConditionalOperator, ReturnValues=ReturnValues,
-                                ReturnConsumedCapacity=ReturnConsumedCapacity,
-                                ReturnItemCollectionMetrics=ReturnItemCollectionMetrics,
-                                ConditionExpression=ConditionExpression,
-                                ExpressionAttributeNames=ExpressionAttributeNames,
-                                ExpressionAttributeValues=ExpressionAttributeValues)
+:type ExpressionAttributeValues: dict
+"""
 
-    def delete_table(self, TableName=None):
-        """
-        :param TableName: [REQUIRED]
+
+def delete_table(TableName=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table to delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -898,18 +894,22 @@ class Dynamodb(object):
             
             
             
-        :type TableName: string
-        """
-        self.client.delete_table(TableName=TableName)
+:type TableName: string
+"""
 
-    def describe_limits(self):
-        """
-        """
-        self.client.describe_limits()
 
-    def describe_table(self, TableName=None):
-        """
-        :param TableName: [REQUIRED]
+def describe_limits(): pass
+
+
+"""
+"""
+
+
+def describe_table(TableName=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table to describe.
             Return typedict
             ReturnsResponse Syntax{
@@ -1175,35 +1175,38 @@ class Dynamodb(object):
             
             
             
-        :type TableName: string
-        """
-        self.client.describe_table(TableName=TableName)
+:type TableName: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_item(self, TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None,
-                 ProjectionExpression=None, ExpressionAttributeNames=None):
-        """
-        :param TableName: [REQUIRED]
+
+def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None,
+             ProjectionExpression=None, ExpressionAttributeNames=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table containing the requested item.
             
-        :type TableName: string
-        :param Key: [REQUIRED]
+:type TableName: string
+:param Key: [REQUIRED]
             A map of attribute names to AttributeValue objects, representing the primary key of the item to retrieve.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
@@ -1230,8 +1233,8 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type Key: dict
-        :param AttributesToGet: 
+:type Key: dict
+:param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
@@ -1239,23 +1242,23 @@ class Dynamodb(object):
             Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
             (string) --
             
-        :type AttributesToGet: list
-        :param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
-        :type ConsistentRead: boolean
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type AttributesToGet: list
+:param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
+:type ConsistentRead: boolean
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
+:type ReturnConsumedCapacity: string
+:param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-        :type ProjectionExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type ProjectionExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -1271,16 +1274,15 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        """
-        self.client.get_item(TableName=TableName, Key=Key, AttributesToGet=AttributesToGet,
-                             ConsistentRead=ConsistentRead, ReturnConsumedCapacity=ReturnConsumedCapacity,
-                             ProjectionExpression=ProjectionExpression,
-                             ExpressionAttributeNames=ExpressionAttributeNames)
+:type ExpressionAttributeNames: dict
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -1292,33 +1294,39 @@ class Dynamodb(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_tables(self, ExclusiveStartTableName=None, Limit=None):
-        """
-        :param ExclusiveStartTableName: The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
-        :type ExclusiveStartTableName: string
-        :param Limit: A maximum number of table names to return. If this parameter is not specified, the limit is 100.
-        :type Limit: integer
-        """
-        self.client.list_tables(ExclusiveStartTableName=ExclusiveStartTableName, Limit=Limit)
+def get_waiter(): pass
 
-    def put_item(self, TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None,
-                 ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None,
-                 ExpressionAttributeNames=None, ExpressionAttributeValues=None):
-        """
-        :param TableName: [REQUIRED]
+
+"""
+"""
+
+
+def list_tables(ExclusiveStartTableName=None, Limit=None): pass
+
+
+"""
+:param ExclusiveStartTableName: The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
+:type ExclusiveStartTableName: string
+:param Limit: A maximum number of table names to return. If this parameter is not specified, the limit is 100.
+:type Limit: integer
+"""
+
+
+def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None,
+             ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None,
+             ExpressionAttributeNames=None, ExpressionAttributeValues=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table to contain the item.
             
-        :type TableName: string
-        :param Item: [REQUIRED]
+:type TableName: string
+:param Item: [REQUIRED]
             A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item.
             You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key.
             If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
@@ -1348,8 +1356,8 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type Item: dict
-        :param Expected: 
+:type Item: dict
+:param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A map of attribute/condition pairs. Expected provides a conditional block for the PutItem operation.
@@ -1469,23 +1477,23 @@ class Dynamodb(object):
             
             
             
-        :type Expected: dict
-        :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem , the valid values are:
+:type Expected: dict
+:param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.
             Note
             The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD .
             
-        :type ReturnValues: string
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type ReturnValues: string
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        :type ReturnItemCollectionMetrics: string
-        :param ConditionalOperator: 
+:type ReturnConsumedCapacity: string
+:param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+:type ReturnItemCollectionMetrics: string
+:param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A logical operator to apply to the conditions in the Expected map:
@@ -1496,8 +1504,8 @@ class Dynamodb(object):
             Note
             This parameter does not support attributes of type List or Map.
             
-        :type ConditionalOperator: string
-        :param ConditionExpression: A condition that must be satisfied in order for a conditional PutItem operation to succeed.
+:type ConditionalOperator: string
+:param ConditionExpression: A condition that must be satisfied in order for a conditional PutItem operation to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
             Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
@@ -1506,8 +1514,8 @@ class Dynamodb(object):
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-        :type ConditionExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type ConditionExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -1523,8 +1531,8 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
+:type ExpressionAttributeNames: dict
+:param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
             You would first need to specify ExpressionAttributeValues as follows:
@@ -1556,27 +1564,24 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExpressionAttributeValues: dict
-        """
-        self.client.put_item(TableName=TableName, Item=Item, Expected=Expected, ReturnValues=ReturnValues,
-                             ReturnConsumedCapacity=ReturnConsumedCapacity,
-                             ReturnItemCollectionMetrics=ReturnItemCollectionMetrics,
-                             ConditionalOperator=ConditionalOperator, ConditionExpression=ConditionExpression,
-                             ExpressionAttributeNames=ExpressionAttributeNames,
-                             ExpressionAttributeValues=ExpressionAttributeValues)
+:type ExpressionAttributeValues: dict
+"""
 
-    def query(self, TableName=None, IndexName=None, Select=None, AttributesToGet=None, Limit=None, ConsistentRead=None,
-              KeyConditions=None, QueryFilter=None, ConditionalOperator=None, ScanIndexForward=None,
-              ExclusiveStartKey=None, ReturnConsumedCapacity=None, ProjectionExpression=None, FilterExpression=None,
-              KeyConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
-        """
-        :param TableName: [REQUIRED]
+
+def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Limit=None, ConsistentRead=None,
+          KeyConditions=None, QueryFilter=None, ConditionalOperator=None, ScanIndexForward=None, ExclusiveStartKey=None,
+          ReturnConsumedCapacity=None, ProjectionExpression=None, FilterExpression=None, KeyConditionExpression=None,
+          ExpressionAttributeNames=None, ExpressionAttributeValues=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table containing the requested items.
             
-        :type TableName: string
-        :param IndexName: The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName.
-        :type IndexName: string
-        :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.
+:type TableName: string
+:param IndexName: The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName.
+:type IndexName: string
+:param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.
             ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
             COUNT - Returns the number of matching items, rather than the matching items themselves.
@@ -1585,8 +1590,8 @@ class Dynamodb(object):
             Note
             If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES . Any other value for Select will return an error.
             
-        :type Select: string
-        :param AttributesToGet: 
+:type Select: string
+:param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
@@ -1597,14 +1602,14 @@ class Dynamodb(object):
             If you query a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
             (string) --
             
-        :type AttributesToGet: list
-        :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
-        :type Limit: integer
-        :param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
+:type AttributesToGet: list
+:param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+:type Limit: integer
+:param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
             Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with ConsistentRead set to true , you will receive a ValidationException .
             
-        :type ConsistentRead: boolean
-        :param KeyConditions: 
+:type ConsistentRead: boolean
+:param KeyConditions: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use KeyConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             The selection criteria for the query. For a query on a table, you can have conditions only on the table primary key attributes. You must provide the partition key name and value as an EQ condition. You can optionally provide a second condition, referring to the sort key.
@@ -1676,8 +1681,8 @@ class Dynamodb(object):
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-        :type KeyConditions: dict
-        :param QueryFilter: 
+:type KeyConditions: dict
+:param QueryFilter: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A condition that evaluates the query results after the items are read and returns only the desired values.
@@ -1743,8 +1748,8 @@ class Dynamodb(object):
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-        :type QueryFilter: dict
-        :param ConditionalOperator: 
+:type QueryFilter: dict
+:param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A logical operator to apply to the conditions in a QueryFilter map:
@@ -1755,13 +1760,13 @@ class Dynamodb(object):
             Note
             This parameter does not support attributes of type List or Map.
             
-        :type ConditionalOperator: string
-        :param ScanIndexForward: Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false , the traversal is performed in descending order.
+:type ConditionalOperator: string
+:param ScanIndexForward: Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false , the traversal is performed in descending order.
             Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of ASCII character code values. For type Binary, DynamoDB treats each byte of the binary data as unsigned.
             If ScanIndexForward is true , DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false , DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
             
-        :type ScanIndexForward: boolean
-        :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
+:type ScanIndexForward: boolean
+:param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             (string) --
             (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
@@ -1787,29 +1792,29 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExclusiveStartKey: dict
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type ExclusiveStartKey: dict
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
+:type ReturnConsumedCapacity: string
+:param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-        :type ProjectionExpression: string
-        :param FilterExpression: A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
+:type ProjectionExpression: string
+:param FilterExpression: A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
             For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide .
             Note
             FilterExpression replaces the legacy QueryFilter and ConditionalOperator parameters.
             
-        :type FilterExpression: string
-        :param KeyConditionExpression: The condition that specifies the key value(s) for items to be retrieved by the Query action.
+:type FilterExpression: string
+:param KeyConditionExpression: The condition that specifies the key value(s) for items to be retrieved by the Query action.
             The condition must perform an equality test on a single partition key value. The condition can also perform one of several comparison tests on a single sort key value. Query can use KeyConditionExpression to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values.
             The partition key equality test is required, and must be specified in the following format:
             partitionKeyName = :partitionkeyval
@@ -1833,8 +1838,8 @@ class Dynamodb(object):
             Note
             KeyConditionExpression replaces the legacy KeyConditions parameter.
             
-        :type KeyConditionExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type KeyConditionExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -1850,8 +1855,8 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
+:type ExpressionAttributeNames: dict
+:param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
             You would first need to specify ExpressionAttributeValues as follows:
@@ -1883,29 +1888,24 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExpressionAttributeValues: dict
-        """
-        self.client.query(TableName=TableName, IndexName=IndexName, Select=Select, AttributesToGet=AttributesToGet,
-                          Limit=Limit, ConsistentRead=ConsistentRead, KeyConditions=KeyConditions,
-                          QueryFilter=QueryFilter, ConditionalOperator=ConditionalOperator,
-                          ScanIndexForward=ScanIndexForward, ExclusiveStartKey=ExclusiveStartKey,
-                          ReturnConsumedCapacity=ReturnConsumedCapacity, ProjectionExpression=ProjectionExpression,
-                          FilterExpression=FilterExpression, KeyConditionExpression=KeyConditionExpression,
-                          ExpressionAttributeNames=ExpressionAttributeNames,
-                          ExpressionAttributeValues=ExpressionAttributeValues)
+:type ExpressionAttributeValues: dict
+"""
 
-    def scan(self, TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None,
-             ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None,
-             Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None,
-             ExpressionAttributeValues=None, ConsistentRead=None):
-        """
-        :param TableName: [REQUIRED]
+
+def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None,
+         ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None,
+         Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None,
+         ExpressionAttributeValues=None, ConsistentRead=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table containing the requested items; or, if you provide IndexName , the name of the table to which that index belongs.
             
-        :type TableName: string
-        :param IndexName: The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName .
-        :type IndexName: string
-        :param AttributesToGet: 
+:type TableName: string
+:param IndexName: The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName .
+:type IndexName: string
+:param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
@@ -1913,18 +1913,18 @@ class Dynamodb(object):
             Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
             (string) --
             
-        :type AttributesToGet: list
-        :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
-        :type Limit: integer
-        :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, or the count of matching items.
+:type AttributesToGet: list
+:param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+:type Limit: integer
+:param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, or the count of matching items.
             ALL_ATTRIBUTES - Returns all of the item attributes.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
             COUNT - Returns the number of matching items, rather than the matching items themselves.
             SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select .
             If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES . You cannot use both AttributesToGet and Select together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
             
-        :type Select: string
-        :param ScanFilter: 
+:type Select: string
+:param ScanFilter: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A condition that evaluates the scan results and returns only the desired values.
@@ -1988,8 +1988,8 @@ class Dynamodb(object):
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-        :type ScanFilter: dict
-        :param ConditionalOperator: 
+:type ScanFilter: dict
+:param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A logical operator to apply to the conditions in a ScanFilter map:
@@ -2000,8 +2000,8 @@ class Dynamodb(object):
             Note
             This parameter does not support attributes of type List or Map.
             
-        :type ConditionalOperator: string
-        :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
+:type ConditionalOperator: string
+:param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             In a parallel scan, a Scan request that includes ExclusiveStartKey must specify the same segment whose previous Scan returned the corresponding value of LastEvaluatedKey .
             (string) --
@@ -2028,41 +2028,41 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExclusiveStartKey: dict
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type ExclusiveStartKey: dict
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param TotalSegments: For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4.
+:type ReturnConsumedCapacity: string
+:param TotalSegments: For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4.
             The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel.
             If you specify TotalSegments , you must also specify Segment .
             
-        :type TotalSegments: integer
-        :param Segment: For a parallel Scan request, Segment identifies an individual segment to be scanned by an application worker.
+:type TotalSegments: integer
+:param Segment: For a parallel Scan request, Segment identifies an individual segment to be scanned by an application worker.
             Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to scan a table or an index, then the first thread specifies a Segment value of 0, the second thread specifies 1, and so on.
             The value of LastEvaluatedKey returned from a parallel Scan request must be used as ExclusiveStartKey with the same segment ID in a subsequent Scan operation.
             The value for Segment must be greater than or equal to 0, and less than the value provided for TotalSegments .
             If you provide Segment , you must also provide TotalSegments .
             
-        :type Segment: integer
-        :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
+:type Segment: integer
+:param ProjectionExpression: A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-        :type ProjectionExpression: string
-        :param FilterExpression: A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
+:type ProjectionExpression: string
+:param FilterExpression: A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
             For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide .
             Note
             FilterExpression replaces the legacy ScanFilter and ConditionalOperator parameters.
             
-        :type FilterExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type FilterExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -2078,8 +2078,8 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
+:type ExpressionAttributeNames: dict
+:param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
             You would first need to specify ExpressionAttributeValues as follows:
@@ -2111,32 +2111,28 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExpressionAttributeValues: dict
-        :param ConsistentRead: A Boolean value that determines the read consistency model during the scan:
+:type ExpressionAttributeValues: dict
+:param ConsistentRead: A Boolean value that determines the read consistency model during the scan:
             If ConsistentRead is false , then the data returned from Scan might not contain the results from other recently completed write operations (PutItem, UpdateItem or DeleteItem).
             If ConsistentRead is true , then all of the write operations that completed before the Scan began are guaranteed to be contained in the Scan response.
             The default setting for ConsistentRead is false .
             The ConsistentRead parameter is not supported on global secondary indexes. If you scan a global secondary index with ConsistentRead set to true, you will receive a ValidationException .
             
-        :type ConsistentRead: boolean
-        """
-        self.client.scan(TableName=TableName, IndexName=IndexName, AttributesToGet=AttributesToGet, Limit=Limit,
-                         Select=Select, ScanFilter=ScanFilter, ConditionalOperator=ConditionalOperator,
-                         ExclusiveStartKey=ExclusiveStartKey, ReturnConsumedCapacity=ReturnConsumedCapacity,
-                         TotalSegments=TotalSegments, Segment=Segment, ProjectionExpression=ProjectionExpression,
-                         FilterExpression=FilterExpression, ExpressionAttributeNames=ExpressionAttributeNames,
-                         ExpressionAttributeValues=ExpressionAttributeValues, ConsistentRead=ConsistentRead)
+:type ConsistentRead: boolean
+"""
 
-    def update_item(self, TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None,
-                    ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None,
-                    UpdateExpression=None, ConditionExpression=None, ExpressionAttributeNames=None,
-                    ExpressionAttributeValues=None):
-        """
-        :param TableName: [REQUIRED]
+
+def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None,
+                ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, UpdateExpression=None,
+                ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None): pass
+
+
+"""
+:param TableName: [REQUIRED]
             The name of the table containing the item to update.
             
-        :type TableName: string
-        :param Key: [REQUIRED]
+:type TableName: string
+:param Key: [REQUIRED]
             The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
@@ -2163,8 +2159,8 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type Key: dict
-        :param AttributeUpdates: 
+:type Key: dict
+:param AttributeUpdates: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use UpdateExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             This parameter can be used for modifying top-level attributes; however, it does not support individual list or map elements.
@@ -2228,8 +2224,8 @@ class Dynamodb(object):
             ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.
             
             
-        :type AttributeUpdates: dict
-        :param Expected: 
+:type AttributeUpdates: dict
+:param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A map of attribute/condition pairs. Expected provides a conditional block for the UpdateItem operation.
@@ -2349,8 +2345,8 @@ class Dynamodb(object):
             
             
             
-        :type Expected: dict
-        :param ConditionalOperator: 
+:type Expected: dict
+:param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
             A logical operator to apply to the conditions in the Expected map:
@@ -2361,8 +2357,8 @@ class Dynamodb(object):
             Note
             This parameter does not support attributes of type List or Map.
             
-        :type ConditionalOperator: string
-        :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem , the valid values are:
+:type ConditionalOperator: string
+:param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - If UpdateItem overwrote an attribute name-value pair, then the content of the old item is returned.
             UPDATED_OLD - The old versions of only the updated attributes are returned.
@@ -2371,16 +2367,16 @@ class Dynamodb(object):
             There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No Read Capacity Units are consumed.
             Values returned are strongly consistent
             
-        :type ReturnValues: string
-        :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
+:type ReturnValues: string
+:param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-        :type ReturnConsumedCapacity: string
-        :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
-        :type ReturnItemCollectionMetrics: string
-        :param UpdateExpression: An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
+:type ReturnConsumedCapacity: string
+:param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+:type ReturnItemCollectionMetrics: string
+:param UpdateExpression: An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
             The following action values are available for UpdateExpression .
             SET - Adds one or more attributes and values to an item. If any of these attribute already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val SET supports the following functions:
             if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.
@@ -2403,8 +2399,8 @@ class Dynamodb(object):
             Note
             UpdateExpression replaces the legacy AttributeUpdates parameter.
             
-        :type UpdateExpression: string
-        :param ConditionExpression: A condition that must be satisfied in order for a conditional update to succeed.
+:type UpdateExpression: string
+:param ConditionExpression: A condition that must be satisfied in order for a conditional update to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
             Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
@@ -2413,8 +2409,8 @@ class Dynamodb(object):
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-        :type ConditionExpression: string
-        :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+:type ConditionExpression: string
+:param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
             To prevent special characters in an attribute name from being misinterpreted in an expression.
@@ -2430,8 +2426,8 @@ class Dynamodb(object):
             (string) --
             (string) --
             
-        :type ExpressionAttributeNames: dict
-        :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
+:type ExpressionAttributeNames: dict
+:param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
             You would first need to specify ExpressionAttributeValues as follows:
@@ -2463,20 +2459,16 @@ class Dynamodb(object):
             BOOL (boolean) --A Boolean data type.
             
             
-        :type ExpressionAttributeValues: dict
-        """
-        self.client.update_item(TableName=TableName, Key=Key, AttributeUpdates=AttributeUpdates, Expected=Expected,
-                                ConditionalOperator=ConditionalOperator, ReturnValues=ReturnValues,
-                                ReturnConsumedCapacity=ReturnConsumedCapacity,
-                                ReturnItemCollectionMetrics=ReturnItemCollectionMetrics,
-                                UpdateExpression=UpdateExpression, ConditionExpression=ConditionExpression,
-                                ExpressionAttributeNames=ExpressionAttributeNames,
-                                ExpressionAttributeValues=ExpressionAttributeValues)
+:type ExpressionAttributeValues: dict
+"""
 
-    def update_table(self, AttributeDefinitions=None, TableName=None, ProvisionedThroughput=None,
-                     GlobalSecondaryIndexUpdates=None, StreamSpecification=None):
-        """
-        :param AttributeDefinitions: An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
+
+def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughput=None,
+                 GlobalSecondaryIndexUpdates=None, StreamSpecification=None): pass
+
+
+"""
+:param AttributeDefinitions: An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
             (dict) --Represents an attribute for describing the key schema for the table and indexes.
             AttributeName (string) -- [REQUIRED]A name for the attribute.
             AttributeType (string) -- [REQUIRED]The data type for the attribute, where:
@@ -2485,18 +2477,18 @@ class Dynamodb(object):
             B - the attribute is of type Binary
             
             
-        :type AttributeDefinitions: list
-        :param TableName: [REQUIRED]
+:type AttributeDefinitions: list
+:param TableName: [REQUIRED]
             The name of the table to be updated.
             
-        :type TableName: string
-        :param ProvisionedThroughput: Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+:type TableName: string
+:param ProvisionedThroughput: Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
-        :type ProvisionedThroughput: dict
-        :param GlobalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
+:type ProvisionedThroughput: dict
+:param GlobalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
             Create - add a new global secondary index to the table.
             Update - modify the provisioned throughput settings of an existing global secondary index.
             Delete - remove a global secondary index from the table.
@@ -2549,8 +2541,8 @@ class Dynamodb(object):
             IndexName (string) -- [REQUIRED]The name of the global secondary index to be deleted.
             
             
-        :type GlobalSecondaryIndexUpdates: list
-        :param StreamSpecification: Represents the DynamoDB Streams configuration for the table.
+:type GlobalSecondaryIndexUpdates: list
+:param StreamSpecification: Represents the DynamoDB Streams configuration for the table.
             Note
             You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream.
             StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
@@ -2563,9 +2555,5 @@ class Dynamodb(object):
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
             
-        :type StreamSpecification: dict
-        """
-        self.client.update_table(AttributeDefinitions=AttributeDefinitions, TableName=TableName,
-                                 ProvisionedThroughput=ProvisionedThroughput,
-                                 GlobalSecondaryIndexUpdates=GlobalSecondaryIndexUpdates,
-                                 StreamSpecification=StreamSpecification)
+:type StreamSpecification: dict
+"""

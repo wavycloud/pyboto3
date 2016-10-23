@@ -22,16 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import boto3
+
+def can_paginate(operation_name=None): pass
 
 
-class Firehose(object):
-    def __init__(self):
-        self.client = boto3.client('Firehose')
-
-    def can_paginate(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -40,18 +36,20 @@ class Firehose(object):
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-        :type operation_name: string
-        """
-        self.client.can_paginate(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def create_delivery_stream(self, DeliveryStreamName=None, S3DestinationConfiguration=None,
-                               RedshiftDestinationConfiguration=None, ElasticsearchDestinationConfiguration=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+def create_delivery_stream(DeliveryStreamName=None, S3DestinationConfiguration=None,
+                           RedshiftDestinationConfiguration=None, ElasticsearchDestinationConfiguration=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             
-        :type DeliveryStreamName: string
-        :param S3DestinationConfiguration: The destination in Amazon S3. This value must be specified if ElasticsearchDestinationConfiguration or RedshiftDestinationConfiguration is specified (see restrictions listed above).
+:type DeliveryStreamName: string
+:param S3DestinationConfiguration: The destination in Amazon S3. This value must be specified if ElasticsearchDestinationConfiguration or RedshiftDestinationConfiguration is specified (see restrictions listed above).
             RoleARN (string) -- [REQUIRED]The ARN of the AWS credentials.
             BucketARN (string) -- [REQUIRED]The ARN of the S3 bucket.
             Prefix (string) --The 'YYYY/MM/DD/HH' time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide .
@@ -72,8 +70,8 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type S3DestinationConfiguration: dict
-        :param RedshiftDestinationConfiguration: The destination in Amazon Redshift. This value cannot be specified if Amazon S3 or Amazon Elasticsearch is the desired destination (see restrictions listed above).
+:type S3DestinationConfiguration: dict
+:param RedshiftDestinationConfiguration: The destination in Amazon Redshift. This value cannot be specified if Amazon S3 or Amazon Elasticsearch is the desired destination (see restrictions listed above).
             RoleARN (string) -- [REQUIRED]The ARN of the AWS credentials.
             ClusterJDBCURL (string) -- [REQUIRED]The database connection string.
             CopyCommand (dict) -- [REQUIRED]The COPY command.
@@ -116,8 +114,8 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type RedshiftDestinationConfiguration: dict
-        :param ElasticsearchDestinationConfiguration: The destination in Amazon ES. This value cannot be specified if Amazon S3 or Amazon Redshift is the desired destination (see restrictions listed above).
+:type RedshiftDestinationConfiguration: dict
+:param ElasticsearchDestinationConfiguration: The destination in Amazon ES. This value cannot be specified if Amazon S3 or Amazon Redshift is the desired destination (see restrictions listed above).
             RoleARN (string) -- [REQUIRED]The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access .
             DomainARN (string) -- [REQUIRED]The ARN of the Amazon ES domain. The IAM role must have permission for DescribeElasticsearchDomain , DescribeElasticsearchDomains , and DescribeElasticsearchDomainConfig after assuming RoleARN .
             IndexName (string) -- [REQUIRED]The Elasticsearch index name.
@@ -156,16 +154,15 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type ElasticsearchDestinationConfiguration: dict
-        """
-        self.client.create_delivery_stream(DeliveryStreamName=DeliveryStreamName,
-                                           S3DestinationConfiguration=S3DestinationConfiguration,
-                                           RedshiftDestinationConfiguration=RedshiftDestinationConfiguration,
-                                           ElasticsearchDestinationConfiguration=ElasticsearchDestinationConfiguration)
+:type ElasticsearchDestinationConfiguration: dict
+"""
 
-    def delete_delivery_stream(self, DeliveryStreamName=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+def delete_delivery_stream(DeliveryStreamName=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             Return typedict
             ReturnsResponse Syntax{}
@@ -173,44 +170,48 @@ class Firehose(object):
             (dict) --Contains the output of DeleteDeliveryStream .
             
             
-        :type DeliveryStreamName: string
-        """
-        self.client.delete_delivery_stream(DeliveryStreamName=DeliveryStreamName)
+:type DeliveryStreamName: string
+"""
 
-    def describe_delivery_stream(self, DeliveryStreamName=None, Limit=None, ExclusiveStartDestinationId=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+def describe_delivery_stream(DeliveryStreamName=None, Limit=None, ExclusiveStartDestinationId=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             
-        :type DeliveryStreamName: string
-        :param Limit: The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
-        :type Limit: integer
-        :param ExclusiveStartDestinationId: Specifies the destination ID to start returning the destination information. Currently Firehose supports one destination per delivery stream.
-        :type ExclusiveStartDestinationId: string
-        """
-        self.client.describe_delivery_stream(DeliveryStreamName=DeliveryStreamName, Limit=Limit,
-                                             ExclusiveStartDestinationId=ExclusiveStartDestinationId)
+:type DeliveryStreamName: string
+:param Limit: The limit on the number of destinations to return. Currently, you can have one destination per delivery stream.
+:type Limit: integer
+:param ExclusiveStartDestinationId: Specifies the destination ID to start returning the destination information. Currently Firehose supports one destination per delivery stream.
+:type ExclusiveStartDestinationId: string
+"""
 
-    def generate_presigned_url(self, ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
-        """
-        :param ClientMethod: The client method to presign for
-        :type ClientMethod: string
-        :param Params: The parameters normally passed to
+
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
+
+
+"""
+:param ClientMethod: The client method to presign for
+:type ClientMethod: string
+:param Params: The parameters normally passed to
             ClientMethod.
-        :type Params: dict
-        :param ExpiresIn: The number of seconds the presigned url is valid
+:type Params: dict
+:param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-        :type ExpiresIn: int
-        :param HttpMethod: The http method to use on the generated url. By
+:type ExpiresIn: int
+:param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-        :type HttpMethod: string
-        """
-        self.client.generate_presigned_url(ClientMethod=ClientMethod, Params=Params, ExpiresIn=ExpiresIn,
-                                           HttpMethod=HttpMethod)
+:type HttpMethod: string
+"""
 
-    def get_paginator(self, operation_name=None):
-        """
-        :param operation_name: The operation name. This is the same name
+
+def get_paginator(operation_name=None): pass
+
+
+"""
+:param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -222,72 +223,81 @@ class Firehose(object):
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-        :type operation_name: string
-        """
-        self.client.get_paginator(operation_name=operation_name)
+:type operation_name: string
+"""
 
-    def get_waiter(self):
-        """
-        """
-        self.client.get_waiter()
 
-    def list_delivery_streams(self, Limit=None, ExclusiveStartDeliveryStreamName=None):
-        """
-        :param Limit: The maximum number of delivery streams to list.
-        :type Limit: integer
-        :param ExclusiveStartDeliveryStreamName: The name of the delivery stream to start the list with.
-        :type ExclusiveStartDeliveryStreamName: string
-        """
-        self.client.list_delivery_streams(Limit=Limit,
-                                          ExclusiveStartDeliveryStreamName=ExclusiveStartDeliveryStreamName)
+def get_waiter(): pass
 
-    def put_record(self, DeliveryStreamName=None, Record=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+"""
+"""
+
+
+def list_delivery_streams(Limit=None, ExclusiveStartDeliveryStreamName=None): pass
+
+
+"""
+:param Limit: The maximum number of delivery streams to list.
+:type Limit: integer
+:param ExclusiveStartDeliveryStreamName: The name of the delivery stream to start the list with.
+:type ExclusiveStartDeliveryStreamName: string
+"""
+
+
+def put_record(DeliveryStreamName=None, Record=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             
-        :type DeliveryStreamName: string
-        :param Record: [REQUIRED]
+:type DeliveryStreamName: string
+:param Record: [REQUIRED]
             The record.
             Data (bytes) -- [REQUIRED]The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
             
-        :type Record: dict
-        """
-        self.client.put_record(DeliveryStreamName=DeliveryStreamName, Record=Record)
+:type Record: dict
+"""
 
-    def put_record_batch(self, DeliveryStreamName=None, Records=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+def put_record_batch(DeliveryStreamName=None, Records=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             
-        :type DeliveryStreamName: string
-        :param Records: [REQUIRED]
+:type DeliveryStreamName: string
+:param Records: [REQUIRED]
             One or more records.
             (dict) --The unit of data in a delivery stream.
             Data (bytes) -- [REQUIRED]The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KB.
             
             
-        :type Records: list
-        """
-        self.client.put_record_batch(DeliveryStreamName=DeliveryStreamName, Records=Records)
+:type Records: list
+"""
 
-    def update_destination(self, DeliveryStreamName=None, CurrentDeliveryStreamVersionId=None, DestinationId=None,
-                           S3DestinationUpdate=None, RedshiftDestinationUpdate=None,
-                           ElasticsearchDestinationUpdate=None):
-        """
-        :param DeliveryStreamName: [REQUIRED]
+
+def update_destination(DeliveryStreamName=None, CurrentDeliveryStreamVersionId=None, DestinationId=None,
+                       S3DestinationUpdate=None, RedshiftDestinationUpdate=None,
+                       ElasticsearchDestinationUpdate=None): pass
+
+
+"""
+:param DeliveryStreamName: [REQUIRED]
             The name of the delivery stream.
             
-        :type DeliveryStreamName: string
-        :param CurrentDeliveryStreamVersionId: [REQUIRED]
+:type DeliveryStreamName: string
+:param CurrentDeliveryStreamVersionId: [REQUIRED]
             Obtain this value from the VersionId result of the DeliveryStreamDescription operation. This value is required, and helps the service to perform conditional operations. For example, if there is a interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
             
-        :type CurrentDeliveryStreamVersionId: string
-        :param DestinationId: [REQUIRED]
+:type CurrentDeliveryStreamVersionId: string
+:param DestinationId: [REQUIRED]
             The ID of the destination.
             
-        :type DestinationId: string
-        :param S3DestinationUpdate: Describes an update for a destination in Amazon S3.
+:type DestinationId: string
+:param S3DestinationUpdate: Describes an update for a destination in Amazon S3.
             RoleARN (string) --The ARN of the AWS credentials.
             BucketARN (string) --The ARN of the S3 bucket.
             Prefix (string) --The 'YYYY/MM/DD/HH' time format prefix is automatically used for delivered S3 files. You can specify an extra prefix to be added in front of the time format prefix. Note that if the prefix ends with a slash, it appears as a folder in the S3 bucket. For more information, see Amazon S3 Object Name Format in the Amazon Kinesis Firehose Developer Guide .
@@ -308,8 +318,8 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type S3DestinationUpdate: dict
-        :param RedshiftDestinationUpdate: Describes an update for a destination in Amazon Redshift.
+:type S3DestinationUpdate: dict
+:param RedshiftDestinationUpdate: Describes an update for a destination in Amazon Redshift.
             RoleARN (string) --The ARN of the AWS credentials.
             ClusterJDBCURL (string) --The database connection string.
             CopyCommand (dict) --The COPY command.
@@ -352,8 +362,8 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type RedshiftDestinationUpdate: dict
-        :param ElasticsearchDestinationUpdate: Describes an update for a destination in Amazon ES.
+:type RedshiftDestinationUpdate: dict
+:param ElasticsearchDestinationUpdate: Describes an update for a destination in Amazon ES.
             RoleARN (string) --The ARN of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Amazon S3 Bucket Access .
             DomainARN (string) --The ARN of the Amazon ES domain. The IAM role must have permission for DescribeElasticsearchDomain, DescribeElasticsearchDomains , and DescribeElasticsearchDomainConfig after assuming RoleARN .
             IndexName (string) --The Elasticsearch index name.
@@ -391,10 +401,5 @@ class Firehose(object):
             LogStreamName (string) --The CloudWatch log stream name for logging. This value is required if Enabled is true.
             
             
-        :type ElasticsearchDestinationUpdate: dict
-        """
-        self.client.update_destination(DeliveryStreamName=DeliveryStreamName,
-                                       CurrentDeliveryStreamVersionId=CurrentDeliveryStreamVersionId,
-                                       DestinationId=DestinationId, S3DestinationUpdate=S3DestinationUpdate,
-                                       RedshiftDestinationUpdate=RedshiftDestinationUpdate,
-                                       ElasticsearchDestinationUpdate=ElasticsearchDestinationUpdate)
+:type ElasticsearchDestinationUpdate: dict
+"""
