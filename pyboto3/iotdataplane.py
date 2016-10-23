@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,15 +34,14 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def delete_thing_shadow(thingName=None): pass
-
-
-"""
-:param thingName: [REQUIRED]
+def delete_thing_shadow(thingName=None):
+    """
+    :param thingName: [REQUIRED]
             The name of the thing.
             Return typedict
             ReturnsResponse Syntax{
@@ -55,33 +52,31 @@ def delete_thing_shadow(thingName=None): pass
             payload (StreamingBody) --The state information, in JSON format.
             
             
-:type thingName: string
-"""
+    :type thingName: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -93,15 +88,14 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_thing_shadow(thingName=None): pass
-
-
-"""
-:param thingName: [REQUIRED]
+def get_thing_shadow(thingName=None):
+    """
+    :param thingName: [REQUIRED]
             The name of the thing.
             Return typedict
             ReturnsResponse Syntax{
@@ -112,42 +106,40 @@ def get_thing_shadow(thingName=None): pass
             payload (StreamingBody) --The state information, in JSON format.
             
             
-:type thingName: string
-"""
+    :type thingName: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def publish(topic=None, qos=None, payload=None): pass
-
-
-"""
-:param topic: [REQUIRED]
+def publish(topic=None, qos=None, payload=None):
+    """
+    :param topic: [REQUIRED]
             The name of the MQTT topic.
             
-:type topic: string
-:param qos: The Quality of Service (QoS) level.
-:type qos: integer
-:param payload: The state information, in JSON format.
-:type payload: bytes or seekable file-like object
-"""
+    :type topic: string
+    :param qos: The Quality of Service (QoS) level.
+    :type qos: integer
+    :param payload: The state information, in JSON format.
+    :type payload: bytes or seekable file-like object
+    """
+    pass
 
 
-def update_thing_shadow(thingName=None, payload=None): pass
-
-
-"""
-:param thingName: [REQUIRED]
+def update_thing_shadow(thingName=None, payload=None):
+    """
+    :param thingName: [REQUIRED]
             The name of the thing.
             
-:type thingName: string
-:param payload: [REQUIRED]
+    :type thingName: string
+    :param payload: [REQUIRED]
             The state information, in JSON format.
             
-:type payload: bytes or seekable file-like object
-"""
+    :type payload: bytes or seekable file-like object
+    """
+    pass

@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,34 +34,32 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def create_tags(ResourceId=None, Tags=None): pass
-
-
-"""
-:param ResourceId: [REQUIRED]
+def create_tags(ResourceId=None, Tags=None):
+    """
+    :param ResourceId: [REQUIRED]
             The resource ID of the request.
             
-:type ResourceId: string
-:param Tags: [REQUIRED]
+    :type ResourceId: string
+    :param Tags: [REQUIRED]
             The tags of the request.
             (dict) --Describes the tag of the WorkSpace.
             Key (string) -- [REQUIRED]The key of the tag.
             Value (string) --The value of the tag.
             
             
-:type Tags: list
-"""
+    :type Tags: list
+    """
+    pass
 
 
-def create_workspaces(Workspaces=None): pass
-
-
-"""
-:param Workspaces: [REQUIRED]
+def create_workspaces(Workspaces=None):
+    """
+    :param Workspaces: [REQUIRED]
             An array of structures that specify the WorkSpaces to create.
             (dict) --Contains information about a WorkSpace creation request.
             DirectoryId (string) -- [REQUIRED]The identifier of the AWS Directory Service directory to create the WorkSpace in. You can use the DescribeWorkspaceDirectories operation to obtain a list of the directories that are available.
@@ -174,31 +170,29 @@ def create_workspaces(Workspaces=None): pass
             
             
             
-:type Workspaces: list
-"""
+    :type Workspaces: list
+    """
+    pass
 
 
-def delete_tags(ResourceId=None, TagKeys=None): pass
-
-
-"""
-:param ResourceId: [REQUIRED]
+def delete_tags(ResourceId=None, TagKeys=None):
+    """
+    :param ResourceId: [REQUIRED]
             The resource ID of the request.
             
-:type ResourceId: string
-:param TagKeys: [REQUIRED]
+    :type ResourceId: string
+    :param TagKeys: [REQUIRED]
             The tag keys of the request.
             (string) --
             
-:type TagKeys: list
-"""
+    :type TagKeys: list
+    """
+    pass
 
 
-def describe_tags(ResourceId=None): pass
-
-
-"""
-:param ResourceId: [REQUIRED]
+def describe_tags(ResourceId=None):
+    """
+    :param ResourceId: [REQUIRED]
             The resource ID of the request.
             Return typedict
             ReturnsResponse Syntax{
@@ -218,101 +212,94 @@ def describe_tags(ResourceId=None): pass
             
             
             
-:type ResourceId: string
-"""
+    :type ResourceId: string
+    """
+    pass
 
 
-def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None): pass
-
-
-"""
-:param BundleIds: An array of strings that contains the identifiers of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
+def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
+    """
+    :param BundleIds: An array of strings that contains the identifiers of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
             (string) --
             
-:type BundleIds: list
-:param Owner: The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
+    :type BundleIds: list
+    :param Owner: The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
             This contains one of the following values:
             null- Retrieves the bundles that belong to the account making the call.
             AMAZON - Retrieves the bundles that are provided by AWS.
             
-:type Owner: string
-:param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
-:type NextToken: string
-"""
+    :type Owner: string
+    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_workspace_directories(DirectoryIds=None, NextToken=None): pass
-
-
-"""
-:param DirectoryIds: An array of strings that contains the directory identifiers to retrieve information for. If this member is null, all directories are retrieved.
+def describe_workspace_directories(DirectoryIds=None, NextToken=None):
+    """
+    :param DirectoryIds: An array of strings that contains the directory identifiers to retrieve information for. If this member is null, all directories are retrieved.
             (string) --
             
-:type DirectoryIds: list
-:param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
-:type NextToken: string
-"""
+    :type DirectoryIds: list
+    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, BundleId=None, Limit=None,
-                        NextToken=None): pass
-
-
-"""
-:param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces for which to retrieve information. This parameter cannot be combined with any other filter parameter.
+def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, BundleId=None, Limit=None, NextToken=None):
+    """
+    :param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces for which to retrieve information. This parameter cannot be combined with any other filter parameter.
             Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
             (string) --
             
-:type WorkspaceIds: list
-:param DirectoryId: Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
-:type DirectoryId: string
-:param UserName: Used with the DirectoryId parameter to specify the directory user for whom to obtain the WorkSpace.
-:type UserName: string
-:param BundleId: The identifier of a bundle to obtain the WorkSpaces for. All WorkSpaces that are created from this bundle will be retrieved. This parameter cannot be combined with any other filter parameter.
-:type BundleId: string
-:param Limit: The maximum number of items to return.
-:type Limit: integer
-:param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
-:type NextToken: string
-"""
+    :type WorkspaceIds: list
+    :param DirectoryId: Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
+    :type DirectoryId: string
+    :param UserName: Used with the DirectoryId parameter to specify the directory user for whom to obtain the WorkSpace.
+    :type UserName: string
+    :param BundleId: The identifier of a bundle to obtain the WorkSpaces for. All WorkSpaces that are created from this bundle will be retrieved. This parameter cannot be combined with any other filter parameter.
+    :type BundleId: string
+    :param Limit: The maximum number of items to return.
+    :type Limit: integer
+    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_workspaces_connection_status(WorkspaceIds=None, NextToken=None): pass
-
-
-"""
-:param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces.
+def describe_workspaces_connection_status(WorkspaceIds=None, NextToken=None):
+    """
+    :param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces.
             (string) --
             
-:type WorkspaceIds: list
-:param NextToken: The next token of the request.
-:type NextToken: string
-"""
+    :type WorkspaceIds: list
+    :param NextToken: The next token of the request.
+    :type NextToken: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -324,39 +311,36 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None): pass
-
-
-"""
-:param WorkspaceId: [REQUIRED]
+def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
+    """
+    :param WorkspaceId: [REQUIRED]
             The ID of the WorkSpace.
             
-:type WorkspaceId: string
-:param WorkspaceProperties: [REQUIRED]
+    :type WorkspaceId: string
+    :param WorkspaceProperties: [REQUIRED]
             The WorkSpace properties of the request.
             RunningMode (string) --The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
             RunningModeAutoStopTimeoutInMinutes (integer) --The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
             
-:type WorkspaceProperties: dict
-"""
+    :type WorkspaceProperties: dict
+    """
+    pass
 
 
-def reboot_workspaces(RebootWorkspaceRequests=None): pass
-
-
-"""
-:param RebootWorkspaceRequests: [REQUIRED]
+def reboot_workspaces(RebootWorkspaceRequests=None):
+    """
+    :param RebootWorkspaceRequests: [REQUIRED]
             An array of structures that specify the WorkSpaces to reboot.
             (dict) --Contains information used with the RebootWorkspaces operation to reboot a WorkSpace.
             WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to reboot.
@@ -381,15 +365,14 @@ def reboot_workspaces(RebootWorkspaceRequests=None): pass
             
             
             
-:type RebootWorkspaceRequests: list
-"""
+    :type RebootWorkspaceRequests: list
+    """
+    pass
 
 
-def rebuild_workspaces(RebuildWorkspaceRequests=None): pass
-
-
-"""
-:param RebuildWorkspaceRequests: [REQUIRED]
+def rebuild_workspaces(RebuildWorkspaceRequests=None):
+    """
+    :param RebuildWorkspaceRequests: [REQUIRED]
             An array of structures that specify the WorkSpaces to rebuild.
             (dict) --Contains information used with the RebuildWorkspaces operation to rebuild a WorkSpace.
             WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to rebuild.
@@ -414,15 +397,14 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None): pass
             
             
             
-:type RebuildWorkspaceRequests: list
-"""
+    :type RebuildWorkspaceRequests: list
+    """
+    pass
 
 
-def start_workspaces(StartWorkspaceRequests=None): pass
-
-
-"""
-:param StartWorkspaceRequests: [REQUIRED]
+def start_workspaces(StartWorkspaceRequests=None):
+    """
+    :param StartWorkspaceRequests: [REQUIRED]
             The requests.
             (dict) --Describes the start request.
             WorkspaceId (string) --The ID of the WorkSpace.
@@ -447,15 +429,14 @@ def start_workspaces(StartWorkspaceRequests=None): pass
             
             
             
-:type StartWorkspaceRequests: list
-"""
+    :type StartWorkspaceRequests: list
+    """
+    pass
 
 
-def stop_workspaces(StopWorkspaceRequests=None): pass
-
-
-"""
-:param StopWorkspaceRequests: [REQUIRED]
+def stop_workspaces(StopWorkspaceRequests=None):
+    """
+    :param StopWorkspaceRequests: [REQUIRED]
             The requests.
             (dict) --Describes the stop request.
             WorkspaceId (string) --The ID of the WorkSpace.
@@ -480,15 +461,14 @@ def stop_workspaces(StopWorkspaceRequests=None): pass
             
             
             
-:type StopWorkspaceRequests: list
-"""
+    :type StopWorkspaceRequests: list
+    """
+    pass
 
 
-def terminate_workspaces(TerminateWorkspaceRequests=None): pass
-
-
-"""
-:param TerminateWorkspaceRequests: [REQUIRED]
+def terminate_workspaces(TerminateWorkspaceRequests=None):
+    """
+    :param TerminateWorkspaceRequests: [REQUIRED]
             An array of structures that specify the WorkSpaces to terminate.
             (dict) --Contains information used with the TerminateWorkspaces operation to terminate a WorkSpace.
             WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to terminate.
@@ -513,5 +493,6 @@ def terminate_workspaces(TerminateWorkspaceRequests=None): pass
             
             
             
-:type TerminateWorkspaceRequests: list
-"""
+    :type TerminateWorkspaceRequests: list
+    """
+    pass

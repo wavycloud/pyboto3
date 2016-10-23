@@ -23,34 +23,31 @@ SOFTWARE.
 """
 
 
-def add_tags(Tags=None, ResourceId=None, ResourceType=None): pass
-
-
-"""
-:param Tags: [REQUIRED]
+def add_tags(Tags=None, ResourceId=None, ResourceType=None):
+    """
+    :param Tags: [REQUIRED]
             The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
             (dict) --A custom key-value pair associated with an ML object, such as an ML model.
             Key (string) --A unique identifier for the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
             Value (string) --An optional string, typically used to describe or define the tag. Valid characters include Unicode letters, digits, white space, _, ., /, =, +, -, %, and @.
             
             
-:type Tags: list
-:param ResourceId: [REQUIRED]
+    :type Tags: list
+    :param ResourceId: [REQUIRED]
             The ID of the ML object to tag. For example, exampleModelId .
             
-:type ResourceId: string
-:param ResourceType: [REQUIRED]
+    :type ResourceId: string
+    :param ResourceType: [REQUIRED]
             The type of the ML object to tag.
             
-:type ResourceType: string
-"""
+    :type ResourceType: string
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -59,49 +56,47 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
 def create_batch_prediction(BatchPredictionId=None, BatchPredictionName=None, MLModelId=None,
-                            BatchPredictionDataSourceId=None, OutputUri=None): pass
-
-
-"""
-:param BatchPredictionId: [REQUIRED]
+                            BatchPredictionDataSourceId=None, OutputUri=None):
+    """
+    :param BatchPredictionId: [REQUIRED]
             A user-supplied ID that uniquely identifies the BatchPrediction .
             
-:type BatchPredictionId: string
-:param BatchPredictionName: A user-supplied name or description of the BatchPrediction . BatchPredictionName can only use the UTF-8 character set.
-:type BatchPredictionName: string
-:param MLModelId: [REQUIRED]
+    :type BatchPredictionId: string
+    :param BatchPredictionName: A user-supplied name or description of the BatchPrediction . BatchPredictionName can only use the UTF-8 character set.
+    :type BatchPredictionName: string
+    :param MLModelId: [REQUIRED]
             The ID of the MLModel that will generate predictions for the group of observations.
             
-:type MLModelId: string
-:param BatchPredictionDataSourceId: [REQUIRED]
+    :type MLModelId: string
+    :param BatchPredictionDataSourceId: [REQUIRED]
             The ID of the DataSource that points to the group of observations to predict.
             
-:type BatchPredictionDataSourceId: string
-:param OutputUri: [REQUIRED]
+    :type BatchPredictionDataSourceId: string
+    :param OutputUri: [REQUIRED]
             The location of an Amazon Simple Storage Service (Amazon S3) bucket or directory to store the batch prediction results. The following substrings are not allowed in the s3 key portion of the outputURI field: ':', '//', '/./', '/../'.
             Amazon ML needs permissions to store and retrieve the logs on your behalf. For information about how to set permissions, see the Amazon Machine Learning Developer Guide .
             
-:type OutputUri: string
-"""
+    :type OutputUri: string
+    """
+    pass
 
 
 def create_data_source_from_rds(DataSourceId=None, DataSourceName=None, RDSData=None, RoleARN=None,
-                                ComputeStatistics=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+                                ComputeStatistics=None):
+    """
+    :param DataSourceId: [REQUIRED]
             A user-supplied ID that uniquely identifies the DataSource . Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource .
             
-:type DataSourceId: string
-:param DataSourceName: A user-supplied name or description of the DataSource .
-:type DataSourceName: string
-:param RDSData: [REQUIRED]
+    :type DataSourceId: string
+    :param DataSourceName: A user-supplied name or description of the DataSource .
+    :type DataSourceName: string
+    :param RDSData: [REQUIRED]
             The data specification of an Amazon RDS DataSource :
             DatabaseInformation -
             DatabaseName - The name of the Amazon RDS database.
@@ -148,28 +143,27 @@ def create_data_source_from_rds(DataSourceId=None, DataSourceName=None, RDSData=
             SecurityGroupIds (list) -- [REQUIRED]The security group IDs to be used to access a VPC-based RDS DB instance. Ensure that there are appropriate ingress rules set up to allow access to the RDS DB instance. This attribute is used by Data Pipeline to carry out the copy operation from Amazon RDS to an Amazon S3 task.
             (string) --
             
-:type RDSData: dict
-:param RoleARN: [REQUIRED]
+    :type RDSData: dict
+    :param RoleARN: [REQUIRED]
             The role that Amazon ML assumes on behalf of the user to create and activate a data pipeline in the user's account and copy data using the SelectSqlQuery query from Amazon RDS to Amazon S3.
             
-:type RoleARN: string
-:param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
-:type ComputeStatistics: boolean
-"""
+    :type RoleARN: string
+    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
+    :type ComputeStatistics: boolean
+    """
+    pass
 
 
 def create_data_source_from_redshift(DataSourceId=None, DataSourceName=None, DataSpec=None, RoleARN=None,
-                                     ComputeStatistics=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+                                     ComputeStatistics=None):
+    """
+    :param DataSourceId: [REQUIRED]
             A user-supplied ID that uniquely identifies the DataSource .
             
-:type DataSourceId: string
-:param DataSourceName: A user-supplied name or description of the DataSource .
-:type DataSourceName: string
-:param DataSpec: [REQUIRED]
+    :type DataSourceId: string
+    :param DataSourceName: A user-supplied name or description of the DataSource .
+    :type DataSourceName: string
+    :param DataSpec: [REQUIRED]
             The data specification of an Amazon Redshift DataSource :
             DatabaseInformation -
             DatabaseName - The name of the Amazon Redshift database.
@@ -208,29 +202,28 @@ def create_data_source_from_redshift(DataSourceId=None, DataSourceName=None, Dat
             'excludedVariableNames': [ 'F6' ] }
             DataSchemaUri (string) --Describes the schema location for an Amazon Redshift DataSource .
             
-:type DataSpec: dict
-:param RoleARN: [REQUIRED]
+    :type DataSpec: dict
+    :param RoleARN: [REQUIRED]
             A fully specified role Amazon Resource Name (ARN). Amazon ML assumes the role on behalf of the user to create the following:
             A security group to allow Amazon ML to execute the SelectSqlQuery query on an Amazon Redshift cluster
             An Amazon S3 bucket policy to grant Amazon ML read/write permissions on the S3StagingLocation
             
-:type RoleARN: string
-:param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-:type ComputeStatistics: boolean
-"""
+    :type RoleARN: string
+    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
+    :type ComputeStatistics: boolean
+    """
+    pass
 
 
-def create_data_source_from_s3(DataSourceId=None, DataSourceName=None, DataSpec=None, ComputeStatistics=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+def create_data_source_from_s3(DataSourceId=None, DataSourceName=None, DataSpec=None, ComputeStatistics=None):
+    """
+    :param DataSourceId: [REQUIRED]
             A user-supplied identifier that uniquely identifies the DataSource .
             
-:type DataSourceId: string
-:param DataSourceName: A user-supplied name or description of the DataSource .
-:type DataSourceName: string
-:param DataSpec: [REQUIRED]
+    :type DataSourceId: string
+    :param DataSourceName: A user-supplied name or description of the DataSource .
+    :type DataSourceName: string
+    :param DataSpec: [REQUIRED]
             The data specification of a DataSource :
             DataLocationS3 - The Amazon S3 location of the observation data.
             DataSchemaLocationS3 - The Amazon S3 location of the DataSchema .
@@ -257,54 +250,52 @@ def create_data_source_from_s3(DataSourceId=None, DataSourceName=None, DataSpec=
             'excludedVariableNames': [ 'F6' ] }
             DataSchemaLocationS3 (string) --Describes the schema location in Amazon S3. You must provide either the DataSchema or the DataSchemaLocationS3 .
             
-:type DataSpec: dict
-:param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
-:type ComputeStatistics: boolean
-"""
+    :type DataSpec: dict
+    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
+    :type ComputeStatistics: boolean
+    """
+    pass
 
 
-def create_evaluation(EvaluationId=None, EvaluationName=None, MLModelId=None, EvaluationDataSourceId=None): pass
-
-
-"""
-:param EvaluationId: [REQUIRED]
+def create_evaluation(EvaluationId=None, EvaluationName=None, MLModelId=None, EvaluationDataSourceId=None):
+    """
+    :param EvaluationId: [REQUIRED]
             A user-supplied ID that uniquely identifies the Evaluation .
             
-:type EvaluationId: string
-:param EvaluationName: A user-supplied name or description of the Evaluation .
-:type EvaluationName: string
-:param MLModelId: [REQUIRED]
+    :type EvaluationId: string
+    :param EvaluationName: A user-supplied name or description of the Evaluation .
+    :type EvaluationName: string
+    :param MLModelId: [REQUIRED]
             The ID of the MLModel to evaluate.
             The schema used in creating the MLModel must match the schema of the DataSource used in the Evaluation .
             
-:type MLModelId: string
-:param EvaluationDataSourceId: [REQUIRED]
+    :type MLModelId: string
+    :param EvaluationDataSourceId: [REQUIRED]
             The ID of the DataSource for the evaluation. The schema of the DataSource must match the schema used to create the MLModel .
             
-:type EvaluationDataSourceId: string
-"""
+    :type EvaluationDataSourceId: string
+    """
+    pass
 
 
 def create_ml_model(MLModelId=None, MLModelName=None, MLModelType=None, Parameters=None, TrainingDataSourceId=None,
-                    Recipe=None, RecipeUri=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+                    Recipe=None, RecipeUri=None):
+    """
+    :param MLModelId: [REQUIRED]
             A user-supplied ID that uniquely identifies the MLModel .
             
-:type MLModelId: string
-:param MLModelName: A user-supplied name or description of the MLModel .
-:type MLModelName: string
-:param MLModelType: [REQUIRED]
+    :type MLModelId: string
+    :param MLModelName: A user-supplied name or description of the MLModel .
+    :type MLModelName: string
+    :param MLModelType: [REQUIRED]
             The category of supervised learning that this MLModel will address. Choose from the following types:
             Choose REGRESSION if the MLModel will be used to predict a numeric value.
             Choose BINARY if the MLModel result has two possible values.
             Choose MULTICLASS if the MLModel result has a limited number of values.
             For more information, see the Amazon Machine Learning Developer Guide .
             
-:type MLModelType: string
-:param Parameters: A list of the training parameters in the MLModel . The list is implemented as a map of key-value pairs.
+    :type MLModelType: string
+    :param Parameters: A list of the training parameters in the MLModel . The list is implemented as a map of key-value pairs.
             The following is the current set of training parameters:
             sgd.maxMLModelSizeInBytes - The maximum allowed size of the model. Depending on the input data, the size of the model might affect its performance. The value is an integer that ranges from 100000 to 2147483648 . The default value is 33554432 .
             sgd.maxPasses - The number of times that the training process traverses the observations to build the MLModel . The value is an integer that ranges from 1 to 10000 . The default value is 10 .
@@ -315,23 +306,22 @@ def create_ml_model(MLModelId=None, MLModelName=None, MLModelType=None, Paramete
             (string) --String type.
             
             
-:type Parameters: dict
-:param TrainingDataSourceId: [REQUIRED]
+    :type Parameters: dict
+    :param TrainingDataSourceId: [REQUIRED]
             The DataSource that points to the training data.
             
-:type TrainingDataSourceId: string
-:param Recipe: The data recipe for creating the MLModel . You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-:type Recipe: string
-:param RecipeUri: The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
-:type RecipeUri: string
-"""
+    :type TrainingDataSourceId: string
+    :param Recipe: The data recipe for creating the MLModel . You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
+    :type Recipe: string
+    :param RecipeUri: The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
+    :type RecipeUri: string
+    """
+    pass
 
 
-def create_realtime_endpoint(MLModelId=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def create_realtime_endpoint(MLModelId=None):
+    """
+    :param MLModelId: [REQUIRED]
             The ID assigned to the MLModel during creation.
             Return typedict
             ReturnsResponse Syntax{
@@ -363,15 +353,14 @@ def create_realtime_endpoint(MLModelId=None): pass
             
             
             
-:type MLModelId: string
-"""
+    :type MLModelId: string
+    """
+    pass
 
 
-def delete_batch_prediction(BatchPredictionId=None): pass
-
-
-"""
-:param BatchPredictionId: [REQUIRED]
+def delete_batch_prediction(BatchPredictionId=None):
+    """
+    :param BatchPredictionId: [REQUIRED]
             A user-supplied ID that uniquely identifies the BatchPrediction .
             Return typedict
             ReturnsResponse Syntax{
@@ -383,15 +372,14 @@ def delete_batch_prediction(BatchPredictionId=None): pass
             BatchPredictionId (string) --A user-supplied ID that uniquely identifies the BatchPrediction . This value should be identical to the value of the BatchPredictionID in the request.
             
             
-:type BatchPredictionId: string
-"""
+    :type BatchPredictionId: string
+    """
+    pass
 
 
-def delete_data_source(DataSourceId=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+def delete_data_source(DataSourceId=None):
+    """
+    :param DataSourceId: [REQUIRED]
             A user-supplied ID that uniquely identifies the DataSource .
             Return typedict
             ReturnsResponse Syntax{
@@ -402,15 +390,14 @@ def delete_data_source(DataSourceId=None): pass
             DataSourceId (string) --A user-supplied ID that uniquely identifies the DataSource . This value should be identical to the value of the DataSourceID in the request.
             
             
-:type DataSourceId: string
-"""
+    :type DataSourceId: string
+    """
+    pass
 
 
-def delete_evaluation(EvaluationId=None): pass
-
-
-"""
-:param EvaluationId: [REQUIRED]
+def delete_evaluation(EvaluationId=None):
+    """
+    :param EvaluationId: [REQUIRED]
             A user-supplied ID that uniquely identifies the Evaluation to delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -422,15 +409,14 @@ def delete_evaluation(EvaluationId=None): pass
             EvaluationId (string) --A user-supplied ID that uniquely identifies the Evaluation . This value should be identical to the value of the EvaluationId in the request.
             
             
-:type EvaluationId: string
-"""
+    :type EvaluationId: string
+    """
+    pass
 
 
-def delete_ml_model(MLModelId=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def delete_ml_model(MLModelId=None):
+    """
+    :param MLModelId: [REQUIRED]
             A user-supplied ID that uniquely identifies the MLModel .
             Return typedict
             ReturnsResponse Syntax{
@@ -442,15 +428,14 @@ def delete_ml_model(MLModelId=None): pass
             MLModelId (string) --A user-supplied ID that uniquely identifies the MLModel . This value should be identical to the value of the MLModelID in the request.
             
             
-:type MLModelId: string
-"""
+    :type MLModelId: string
+    """
+    pass
 
 
-def delete_realtime_endpoint(MLModelId=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def delete_realtime_endpoint(MLModelId=None):
+    """
+    :param MLModelId: [REQUIRED]
             The ID assigned to the MLModel during creation.
             Return typedict
             ReturnsResponse Syntax{
@@ -480,36 +465,34 @@ def delete_realtime_endpoint(MLModelId=None): pass
             
             
             
-:type MLModelId: string
-"""
+    :type MLModelId: string
+    """
+    pass
 
 
-def delete_tags(TagKeys=None, ResourceId=None, ResourceType=None): pass
-
-
-"""
-:param TagKeys: [REQUIRED]
+def delete_tags(TagKeys=None, ResourceId=None, ResourceType=None):
+    """
+    :param TagKeys: [REQUIRED]
             One or more tags to delete.
             (string) --
             
-:type TagKeys: list
-:param ResourceId: [REQUIRED]
+    :type TagKeys: list
+    :param ResourceId: [REQUIRED]
             The ID of the tagged ML object. For example, exampleModelId .
             
-:type ResourceId: string
-:param ResourceType: [REQUIRED]
+    :type ResourceId: string
+    :param ResourceType: [REQUIRED]
             The type of the tagged ML object.
             
-:type ResourceType: string
-"""
+    :type ResourceType: string
+    """
+    pass
 
 
 def describe_batch_predictions(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None, LE=None, NE=None, Prefix=None,
-                               SortOrder=None, NextToken=None, Limit=None): pass
-
-
-"""
-:param FilterVariable: Use one of the following variables to filter a list of BatchPrediction :
+                               SortOrder=None, NextToken=None, Limit=None):
+    """
+    :param FilterVariable: Use one of the following variables to filter a list of BatchPrediction :
             CreatedAt - Sets the search criteria to the BatchPrediction creation date.
             Status - Sets the search criteria to the BatchPrediction status.
             Name - Sets the search criteria to the contents of the BatchPrediction **** Name .
@@ -518,90 +501,88 @@ def describe_batch_predictions(FilterVariable=None, EQ=None, GT=None, LT=None, G
             DataSourceId - Sets the search criteria to the DataSource used in the BatchPrediction .
             DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction . The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
             
-:type FilterVariable: string
-:param EQ: The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ .
-:type EQ: string
-:param GT: The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT .
-:type GT: string
-:param LT: The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT .
-:type LT: string
-:param GE: The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE .
-:type GE: string
-:param LE: The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE .
-:type LE: string
-:param NE: The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE .
-:type NE: string
-:param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
+    :type FilterVariable: string
+    :param EQ: The equal to operator. The BatchPrediction results will have FilterVariable values that exactly match the value specified with EQ .
+    :type EQ: string
+    :param GT: The greater than operator. The BatchPrediction results will have FilterVariable values that are greater than the value specified with GT .
+    :type GT: string
+    :param LT: The less than operator. The BatchPrediction results will have FilterVariable values that are less than the value specified with LT .
+    :type LT: string
+    :param GE: The greater than or equal to operator. The BatchPrediction results will have FilterVariable values that are greater than or equal to the value specified with GE .
+    :type GE: string
+    :param LE: The less than or equal to operator. The BatchPrediction results will have FilterVariable values that are less than or equal to the value specified with LE .
+    :type LE: string
+    :param NE: The not equal to operator. The BatchPrediction results will have FilterVariable values not equal to the value specified with NE .
+    :type NE: string
+    :param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
             For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer . To search for this BatchPrediction , select Name for the FilterVariable and any of the following strings for the Prefix :
             2014-09
             2014-09-09
             2014-09-09-Holiday
             
-:type Prefix: string
-:param SortOrder: A two-value parameter that determines the sequence of the resulting list of MLModel s.
+    :type Prefix: string
+    :param SortOrder: A two-value parameter that determines the sequence of the resulting list of MLModel s.
             asc - Arranges the list in ascending order (A-Z, 0-9).
             dsc - Arranges the list in descending order (Z-A, 9-0).
             Results are sorted by FilterVariable .
             
-:type SortOrder: string
-:param NextToken: An ID of the page in the paginated results.
-:type NextToken: string
-:param Limit: The number of pages of information to include in the result. The range of acceptable values is 1 through 100 . The default value is 100 .
-:type Limit: integer
-"""
+    :type SortOrder: string
+    :param NextToken: An ID of the page in the paginated results.
+    :type NextToken: string
+    :param Limit: The number of pages of information to include in the result. The range of acceptable values is 1 through 100 . The default value is 100 .
+    :type Limit: integer
+    """
+    pass
 
 
 def describe_data_sources(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None, LE=None, NE=None, Prefix=None,
-                          SortOrder=None, NextToken=None, Limit=None): pass
-
-
-"""
-:param FilterVariable: Use one of the following variables to filter a list of DataSource :
+                          SortOrder=None, NextToken=None, Limit=None):
+    """
+    :param FilterVariable: Use one of the following variables to filter a list of DataSource :
             CreatedAt - Sets the search criteria to DataSource creation dates.
             Status - Sets the search criteria to DataSource statuses.
             Name - Sets the search criteria to the contents of DataSource **** Name .
             DataUri - Sets the search criteria to the URI of data files used to create the DataSource . The URI can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
             IAMUser - Sets the search criteria to the user account that invoked the DataSource creation.
             
-:type FilterVariable: string
-:param EQ: The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ .
-:type EQ: string
-:param GT: The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT .
-:type GT: string
-:param LT: The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT .
-:type LT: string
-:param GE: The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE .
-:type GE: string
-:param LE: The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE .
-:type LE: string
-:param NE: The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE .
-:type NE: string
-:param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
+    :type FilterVariable: string
+    :param EQ: The equal to operator. The DataSource results will have FilterVariable values that exactly match the value specified with EQ .
+    :type EQ: string
+    :param GT: The greater than operator. The DataSource results will have FilterVariable values that are greater than the value specified with GT .
+    :type GT: string
+    :param LT: The less than operator. The DataSource results will have FilterVariable values that are less than the value specified with LT .
+    :type LT: string
+    :param GE: The greater than or equal to operator. The DataSource results will have FilterVariable values that are greater than or equal to the value specified with GE .
+    :type GE: string
+    :param LE: The less than or equal to operator. The DataSource results will have FilterVariable values that are less than or equal to the value specified with LE .
+    :type LE: string
+    :param NE: The not equal to operator. The DataSource results will have FilterVariable values not equal to the value specified with NE .
+    :type NE: string
+    :param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
             For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer . To search for this DataSource , select Name for the FilterVariable and any of the following strings for the Prefix :
             2014-09
             2014-09-09
             2014-09-09-Holiday
             
-:type Prefix: string
-:param SortOrder: A two-value parameter that determines the sequence of the resulting list of DataSource .
+    :type Prefix: string
+    :param SortOrder: A two-value parameter that determines the sequence of the resulting list of DataSource .
             asc - Arranges the list in ascending order (A-Z, 0-9).
             dsc - Arranges the list in descending order (Z-A, 9-0).
             Results are sorted by FilterVariable .
             
-:type SortOrder: string
-:param NextToken: The ID of the page in the paginated results.
-:type NextToken: string
-:param Limit: The maximum number of DataSource to include in the result.
-:type Limit: integer
-"""
+    :type SortOrder: string
+    :param NextToken: The ID of the page in the paginated results.
+    :type NextToken: string
+    :param Limit: The maximum number of DataSource to include in the result.
+    :type Limit: integer
+    """
+    pass
 
 
 def describe_evaluations(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None, LE=None, NE=None, Prefix=None,
-                         SortOrder=None, NextToken=None, Limit=None): pass
-
-
-"""
-:param FilterVariable: Use one of the following variable to filter a list of Evaluation objects:
+                         SortOrder=None, NextToken=None, Limit=None):
+    """
+    :param FilterVariable: Use one of the following variable to filter a list of Evaluation objects:
             CreatedAt - Sets the search criteria to the Evaluation creation date.
             Status - Sets the search criteria to the Evaluation status.
             Name - Sets the search criteria to the contents of Evaluation **** Name .
@@ -610,45 +591,44 @@ def describe_evaluations(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None
             DataSourceId - Sets the search criteria to the DataSource used in Evaluation .
             DataUri - Sets the search criteria to the data file(s) used in Evaluation . The URL can identify either a file or an Amazon Simple Storage Solution (Amazon S3) bucket or directory.
             
-:type FilterVariable: string
-:param EQ: The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ .
-:type EQ: string
-:param GT: The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT .
-:type GT: string
-:param LT: The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT .
-:type LT: string
-:param GE: The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE .
-:type GE: string
-:param LE: The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE .
-:type LE: string
-:param NE: The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE .
-:type NE: string
-:param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
+    :type FilterVariable: string
+    :param EQ: The equal to operator. The Evaluation results will have FilterVariable values that exactly match the value specified with EQ .
+    :type EQ: string
+    :param GT: The greater than operator. The Evaluation results will have FilterVariable values that are greater than the value specified with GT .
+    :type GT: string
+    :param LT: The less than operator. The Evaluation results will have FilterVariable values that are less than the value specified with LT .
+    :type LT: string
+    :param GE: The greater than or equal to operator. The Evaluation results will have FilterVariable values that are greater than or equal to the value specified with GE .
+    :type GE: string
+    :param LE: The less than or equal to operator. The Evaluation results will have FilterVariable values that are less than or equal to the value specified with LE .
+    :type LE: string
+    :param NE: The not equal to operator. The Evaluation results will have FilterVariable values not equal to the value specified with NE .
+    :type NE: string
+    :param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
             For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer . To search for this Evaluation , select Name for the FilterVariable and any of the following strings for the Prefix :
             2014-09
             2014-09-09
             2014-09-09-Holiday
             
-:type Prefix: string
-:param SortOrder: A two-value parameter that determines the sequence of the resulting list of Evaluation .
+    :type Prefix: string
+    :param SortOrder: A two-value parameter that determines the sequence of the resulting list of Evaluation .
             asc - Arranges the list in ascending order (A-Z, 0-9).
             dsc - Arranges the list in descending order (Z-A, 9-0).
             Results are sorted by FilterVariable .
             
-:type SortOrder: string
-:param NextToken: The ID of the page in the paginated results.
-:type NextToken: string
-:param Limit: The maximum number of Evaluation to include in the result.
-:type Limit: integer
-"""
+    :type SortOrder: string
+    :param NextToken: The ID of the page in the paginated results.
+    :type NextToken: string
+    :param Limit: The maximum number of Evaluation to include in the result.
+    :type Limit: integer
+    """
+    pass
 
 
 def describe_ml_models(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None, LE=None, NE=None, Prefix=None,
-                       SortOrder=None, NextToken=None, Limit=None): pass
-
-
-"""
-:param FilterVariable: Use one of the following variables to filter a list of MLModel :
+                       SortOrder=None, NextToken=None, Limit=None):
+    """
+    :param FilterVariable: Use one of the following variables to filter a list of MLModel :
             CreatedAt - Sets the search criteria to MLModel creation date.
             Status - Sets the search criteria to MLModel status.
             Name - Sets the search criteria to the contents of MLModel **** Name .
@@ -659,77 +639,74 @@ def describe_ml_models(FilterVariable=None, EQ=None, GT=None, LT=None, GE=None, 
             Algorithm - Sets the search criteria to the algorithm that the MLModel uses.
             TrainingDataURI - Sets the search criteria to the data file(s) used in training a MLModel . The URL can identify either a file or an Amazon Simple Storage Service (Amazon S3) bucket or directory.
             
-:type FilterVariable: string
-:param EQ: The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ .
-:type EQ: string
-:param GT: The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT .
-:type GT: string
-:param LT: The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT .
-:type LT: string
-:param GE: The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE .
-:type GE: string
-:param LE: The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE .
-:type LE: string
-:param NE: The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE .
-:type NE: string
-:param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
+    :type FilterVariable: string
+    :param EQ: The equal to operator. The MLModel results will have FilterVariable values that exactly match the value specified with EQ .
+    :type EQ: string
+    :param GT: The greater than operator. The MLModel results will have FilterVariable values that are greater than the value specified with GT .
+    :type GT: string
+    :param LT: The less than operator. The MLModel results will have FilterVariable values that are less than the value specified with LT .
+    :type LT: string
+    :param GE: The greater than or equal to operator. The MLModel results will have FilterVariable values that are greater than or equal to the value specified with GE .
+    :type GE: string
+    :param LE: The less than or equal to operator. The MLModel results will have FilterVariable values that are less than or equal to the value specified with LE .
+    :type LE: string
+    :param NE: The not equal to operator. The MLModel results will have FilterVariable values not equal to the value specified with NE .
+    :type NE: string
+    :param Prefix: A string that is found at the beginning of a variable, such as Name or Id .
             For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer . To search for this MLModel , select Name for the FilterVariable and any of the following strings for the Prefix :
             2014-09
             2014-09-09
             2014-09-09-Holiday
             
-:type Prefix: string
-:param SortOrder: A two-value parameter that determines the sequence of the resulting list of MLModel .
+    :type Prefix: string
+    :param SortOrder: A two-value parameter that determines the sequence of the resulting list of MLModel .
             asc - Arranges the list in ascending order (A-Z, 0-9).
             dsc - Arranges the list in descending order (Z-A, 9-0).
             Results are sorted by FilterVariable .
             
-:type SortOrder: string
-:param NextToken: The ID of the page in the paginated results.
-:type NextToken: string
-:param Limit: The number of pages of information to include in the result. The range of acceptable values is 1 through 100 . The default value is 100 .
-:type Limit: integer
-"""
+    :type SortOrder: string
+    :param NextToken: The ID of the page in the paginated results.
+    :type NextToken: string
+    :param Limit: The number of pages of information to include in the result. The range of acceptable values is 1 through 100 . The default value is 100 .
+    :type Limit: integer
+    """
+    pass
 
 
-def describe_tags(ResourceId=None, ResourceType=None): pass
-
-
-"""
-:param ResourceId: [REQUIRED]
+def describe_tags(ResourceId=None, ResourceType=None):
+    """
+    :param ResourceId: [REQUIRED]
             The ID of the ML object. For example, exampleModelId .
             
-:type ResourceId: string
-:param ResourceType: [REQUIRED]
+    :type ResourceId: string
+    :param ResourceType: [REQUIRED]
             The type of the ML object.
             
-:type ResourceType: string
-"""
+    :type ResourceType: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_batch_prediction(BatchPredictionId=None): pass
-
-
-"""
-:param BatchPredictionId: [REQUIRED]
+def get_batch_prediction(BatchPredictionId=None):
+    """
+    :param BatchPredictionId: [REQUIRED]
             An ID assigned to the BatchPrediction at creation.
             Return typedict
             ReturnsResponse Syntax{
@@ -777,31 +754,29 @@ def get_batch_prediction(BatchPredictionId=None): pass
             InvalidRecordCount (integer) --The number of invalid records that Amazon Machine Learning saw while processing the BatchPrediction .
             
             
-:type BatchPredictionId: string
-"""
+    :type BatchPredictionId: string
+    """
+    pass
 
 
-def get_data_source(DataSourceId=None, Verbose=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+def get_data_source(DataSourceId=None, Verbose=None):
+    """
+    :param DataSourceId: [REQUIRED]
             The ID assigned to the DataSource at creation.
             
-:type DataSourceId: string
-:param Verbose: Specifies whether the GetDataSource operation should return DataSourceSchema .
+    :type DataSourceId: string
+    :param Verbose: Specifies whether the GetDataSource operation should return DataSourceSchema .
             If true, DataSourceSchema is returned.
             If false, DataSourceSchema is not returned.
             
-:type Verbose: boolean
-"""
+    :type Verbose: boolean
+    """
+    pass
 
 
-def get_evaluation(EvaluationId=None): pass
-
-
-"""
-:param EvaluationId: [REQUIRED]
+def get_evaluation(EvaluationId=None):
+    """
+    :param EvaluationId: [REQUIRED]
             The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information.
             Return typedict
             ReturnsResponse Syntax{
@@ -857,31 +832,29 @@ def get_evaluation(EvaluationId=None): pass
             StartedAt (datetime) --The epoch time when Amazon Machine Learning marked the Evaluation as INPROGRESS . StartedAt isn't available if the Evaluation is in the PENDING state.
             
             
-:type EvaluationId: string
-"""
+    :type EvaluationId: string
+    """
+    pass
 
 
-def get_ml_model(MLModelId=None, Verbose=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def get_ml_model(MLModelId=None, Verbose=None):
+    """
+    :param MLModelId: [REQUIRED]
             The ID assigned to the MLModel at creation.
             
-:type MLModelId: string
-:param Verbose: Specifies whether the GetMLModel operation should return Recipe .
+    :type MLModelId: string
+    :param Verbose: Specifies whether the GetMLModel operation should return Recipe .
             If true, Recipe is returned.
             If false, Recipe is not returned.
             
-:type Verbose: boolean
-"""
+    :type Verbose: boolean
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -893,94 +866,89 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def predict(MLModelId=None, Record=None, PredictEndpoint=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def predict(MLModelId=None, Record=None, PredictEndpoint=None):
+    """
+    :param MLModelId: [REQUIRED]
             A unique identifier of the MLModel .
             
-:type MLModelId: string
-:param Record: [REQUIRED]
+    :type MLModelId: string
+    :param Record: [REQUIRED]
             A map of variable name-value pairs that represent an observation.
             (string) --The name of a variable. Currently it's used to specify the name of the target value, label, weight, and tags.
             (string) --The value of a variable. Currently it's used to specify values of the target value, weights, and tag variables and for filtering variable values.
             
             
-:type Record: dict
-:param PredictEndpoint: [REQUIRED]
-:type PredictEndpoint: string
-"""
+    :type Record: dict
+    :param PredictEndpoint: [REQUIRED]
+    :type PredictEndpoint: string
+    """
+    pass
 
 
-def update_batch_prediction(BatchPredictionId=None, BatchPredictionName=None): pass
-
-
-"""
-:param BatchPredictionId: [REQUIRED]
+def update_batch_prediction(BatchPredictionId=None, BatchPredictionName=None):
+    """
+    :param BatchPredictionId: [REQUIRED]
             The ID assigned to the BatchPrediction during creation.
             
-:type BatchPredictionId: string
-:param BatchPredictionName: [REQUIRED]
+    :type BatchPredictionId: string
+    :param BatchPredictionName: [REQUIRED]
             A new user-supplied name or description of the BatchPrediction .
             
-:type BatchPredictionName: string
-"""
+    :type BatchPredictionName: string
+    """
+    pass
 
 
-def update_data_source(DataSourceId=None, DataSourceName=None): pass
-
-
-"""
-:param DataSourceId: [REQUIRED]
+def update_data_source(DataSourceId=None, DataSourceName=None):
+    """
+    :param DataSourceId: [REQUIRED]
             The ID assigned to the DataSource during creation.
             
-:type DataSourceId: string
-:param DataSourceName: [REQUIRED]
+    :type DataSourceId: string
+    :param DataSourceName: [REQUIRED]
             A new user-supplied name or description of the DataSource that will replace the current description.
             
-:type DataSourceName: string
-"""
+    :type DataSourceName: string
+    """
+    pass
 
 
-def update_evaluation(EvaluationId=None, EvaluationName=None): pass
-
-
-"""
-:param EvaluationId: [REQUIRED]
+def update_evaluation(EvaluationId=None, EvaluationName=None):
+    """
+    :param EvaluationId: [REQUIRED]
             The ID assigned to the Evaluation during creation.
             
-:type EvaluationId: string
-:param EvaluationName: [REQUIRED]
+    :type EvaluationId: string
+    :param EvaluationName: [REQUIRED]
             A new user-supplied name or description of the Evaluation that will replace the current content.
             
-:type EvaluationName: string
-"""
+    :type EvaluationName: string
+    """
+    pass
 
 
-def update_ml_model(MLModelId=None, MLModelName=None, ScoreThreshold=None): pass
-
-
-"""
-:param MLModelId: [REQUIRED]
+def update_ml_model(MLModelId=None, MLModelName=None, ScoreThreshold=None):
+    """
+    :param MLModelId: [REQUIRED]
             The ID assigned to the MLModel during creation.
             
-:type MLModelId: string
-:param MLModelName: A user-supplied name or description of the MLModel .
-:type MLModelName: string
-:param ScoreThreshold: The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction.
+    :type MLModelId: string
+    :param MLModelName: A user-supplied name or description of the MLModel .
+    :type MLModelName: string
+    :param ScoreThreshold: The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction.
             Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel , such as true . Output values less than the ScoreThreshold receive a negative response from the MLModel , such as false .
             
-:type ScoreThreshold: float
-"""
+    :type ScoreThreshold: float
+    """
+    pass

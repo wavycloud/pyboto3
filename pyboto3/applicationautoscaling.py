@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,141 +34,134 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def delete_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, ScalableDimension=None): pass
-
-
-"""
-:param PolicyName: [REQUIRED]
+def delete_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, ScalableDimension=None):
+    """
+    :param PolicyName: [REQUIRED]
             The name of the scaling policy to delete.
             
-:type PolicyName: string
-:param ServiceNamespace: [REQUIRED]
+    :type PolicyName: string
+    :param ServiceNamespace: [REQUIRED]
             The namespace for the AWS service that the scaling policy is associated with. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: [REQUIRED]
+    :type ServiceNamespace: string
+    :param ResourceId: [REQUIRED]
             The resource type and unique identifier string for the resource associated with the scaling policy. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             
-:type ResourceId: string
-:param ScalableDimension: [REQUIRED]
+    :type ResourceId: string
+    :param ScalableDimension: [REQUIRED]
             The scalable dimension associated with the scaling policy. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request.
             
-:type ScalableDimension: string
-"""
+    :type ScalableDimension: string
+    """
+    pass
 
 
-def deregister_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDimension=None): pass
-
-
-"""
-:param ServiceNamespace: [REQUIRED]
+def deregister_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDimension=None):
+    """
+    :param ServiceNamespace: [REQUIRED]
             The namespace for the AWS service that the scalable target is associated with. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: [REQUIRED]
+    :type ServiceNamespace: string
+    :param ResourceId: [REQUIRED]
             The resource type and unique identifier string for the resource associated with the scalable target. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             
-:type ResourceId: string
-:param ScalableDimension: [REQUIRED]
+    :type ResourceId: string
+    :param ScalableDimension: [REQUIRED]
             The scalable dimension associated with the scalable target. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request.
             
-:type ScalableDimension: string
-"""
+    :type ScalableDimension: string
+    """
+    pass
 
 
 def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableDimension=None, MaxResults=None,
-                              NextToken=None): pass
-
-
-"""
-:param ServiceNamespace: [REQUIRED]
+                              NextToken=None):
+    """
+    :param ServiceNamespace: [REQUIRED]
             The namespace for the AWS service that the scalable target is associated with. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceIds: The resource type and unique identifier string for the resource associated with the scalable target. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
+    :type ServiceNamespace: string
+    :param ResourceIds: The resource type and unique identifier string for the resource associated with the scalable target. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
             (string) --
             
-:type ResourceIds: list
-:param ScalableDimension: The scalable dimension associated with the scalable target. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
-:type ScalableDimension: string
-:param MaxResults: The maximum number of scalable target results returned by DescribeScalableTargets in paginated output. When this parameter is used, DescribeScalableTargets returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalableTargets request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalableTargets returns up to 50 results and a NextToken value, if applicable.
-:type MaxResults: integer
-:param NextToken: The NextToken value returned from a previous paginated DescribeScalableTargets request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
-:type NextToken: string
-"""
+    :type ResourceIds: list
+    :param ScalableDimension: The scalable dimension associated with the scalable target. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
+    :type ScalableDimension: string
+    :param MaxResults: The maximum number of scalable target results returned by DescribeScalableTargets in paginated output. When this parameter is used, DescribeScalableTargets returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalableTargets request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalableTargets returns up to 50 results and a NextToken value, if applicable.
+    :type MaxResults: integer
+    :param NextToken: The NextToken value returned from a previous paginated DescribeScalableTargets request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+    :type NextToken: string
+    """
+    pass
 
 
 def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, ScalableDimension=None, MaxResults=None,
-                                NextToken=None): pass
-
-
-"""
-:param ServiceNamespace: [REQUIRED]
+                                NextToken=None):
+    """
+    :param ServiceNamespace: [REQUIRED]
             The namespace for the AWS service that the scaling activity is associated with. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: The resource type and unique identifier string for the resource associated with the scaling activity. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
-:type ResourceId: string
-:param ScalableDimension: The scalable dimension associated with the scaling activity. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
-:type ScalableDimension: string
-:param MaxResults: The maximum number of scaling activity results returned by DescribeScalingActivities in paginated output. When this parameter is used, DescribeScalingActivities returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalingActivities request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalingActivities returns up to 50 results and a NextToken value, if applicable.
-:type MaxResults: integer
-:param NextToken: The NextToken value returned from a previous paginated DescribeScalingActivities request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
-:type NextToken: string
-"""
+    :type ServiceNamespace: string
+    :param ResourceId: The resource type and unique identifier string for the resource associated with the scaling activity. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
+    :type ResourceId: string
+    :param ScalableDimension: The scalable dimension associated with the scaling activity. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
+    :type ScalableDimension: string
+    :param MaxResults: The maximum number of scaling activity results returned by DescribeScalingActivities in paginated output. When this parameter is used, DescribeScalingActivities returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalingActivities request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalingActivities returns up to 50 results and a NextToken value, if applicable.
+    :type MaxResults: integer
+    :param NextToken: The NextToken value returned from a previous paginated DescribeScalingActivities request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+    :type NextToken: string
+    """
+    pass
 
 
 def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceId=None, ScalableDimension=None,
-                              MaxResults=None, NextToken=None): pass
-
-
-"""
-:param PolicyNames: The names of the scaling policies to describe.
+                              MaxResults=None, NextToken=None):
+    """
+    :param PolicyNames: The names of the scaling policies to describe.
             (string) --
             
-:type PolicyNames: list
-:param ServiceNamespace: [REQUIRED]
+    :type PolicyNames: list
+    :param ServiceNamespace: [REQUIRED]
             The AWS service namespace of the scalable target that the scaling policy is associated with. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: The unique resource identifier string of the scalable target that the scaling policy is associated with. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
-:type ResourceId: string
-:param ScalableDimension: The scalable dimension of the scalable target that the scaling policy is associated with. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
-:type ScalableDimension: string
-:param MaxResults: The maximum number of scaling policy results returned by DescribeScalingPolicies in paginated output. When this parameter is used, DescribeScalingPolicies returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalingPolicies request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalingPolicies returns up to 50 results and a NextToken value, if applicable.
-:type MaxResults: integer
-:param NextToken: The NextToken value returned from a previous paginated DescribeScalingPolicies request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
-:type NextToken: string
-"""
+    :type ServiceNamespace: string
+    :param ResourceId: The unique resource identifier string of the scalable target that the scaling policy is associated with. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE . If you specify a scalable dimension, you must also specify a resource ID.
+    :type ResourceId: string
+    :param ScalableDimension: The scalable dimension of the scalable target that the scaling policy is associated with. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request. If you specify a scalable dimension, you must also specify a resource ID.
+    :type ScalableDimension: string
+    :param MaxResults: The maximum number of scaling policy results returned by DescribeScalingPolicies in paginated output. When this parameter is used, DescribeScalingPolicies returns up to MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeScalingPolicies request with the returned NextToken value. This value can be between 1 and 50. If this parameter is not used, then DescribeScalingPolicies returns up to 50 results and a NextToken value, if applicable.
+    :type MaxResults: integer
+    :param NextToken: The NextToken value returned from a previous paginated DescribeScalingPolicies request. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
+    :type NextToken: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -182,41 +173,39 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
-
-
-"""
-"""
+def get_waiter():
+    """
+    """
+    pass
 
 
 def put_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, ScalableDimension=None, PolicyType=None,
-                       StepScalingPolicyConfiguration=None): pass
-
-
-"""
-:param PolicyName: [REQUIRED]
+                       StepScalingPolicyConfiguration=None):
+    """
+    :param PolicyName: [REQUIRED]
             The name of the scaling policy.
             
-:type PolicyName: string
-:param ServiceNamespace: [REQUIRED]
+    :type PolicyName: string
+    :param ServiceNamespace: [REQUIRED]
             The AWS service namespace of the scalable target that this scaling policy applies to. For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: [REQUIRED]
+    :type ServiceNamespace: string
+    :param ResourceId: [REQUIRED]
             The unique resource identifier string for the scalable target that this scaling policy applies to. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             
-:type ResourceId: string
-:param ScalableDimension: [REQUIRED]
+    :type ResourceId: string
+    :param ScalableDimension: [REQUIRED]
             The scalable dimension of the scalable target that this scaling policy applies to. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request.
             
-:type ScalableDimension: string
-:param PolicyType: The policy type. If you are creating a new policy, this parameter is required. If you are updating an existing policy, this parameter is not required.
-:type PolicyType: string
-:param StepScalingPolicyConfiguration: The configuration for the step scaling policy. If you are creating a new policy, this parameter is required. If you are updating an existing policy, this parameter is not required. For more information, see StepScalingPolicyConfiguration and StepAdjustment .
+    :type ScalableDimension: string
+    :param PolicyType: The policy type. If you are creating a new policy, this parameter is required. If you are updating an existing policy, this parameter is not required.
+    :type PolicyType: string
+    :param StepScalingPolicyConfiguration: The configuration for the step scaling policy. If you are creating a new policy, this parameter is required. If you are updating an existing policy, this parameter is not required. For more information, see StepScalingPolicyConfiguration and StepAdjustment .
             AdjustmentType (string) --The adjustment type, which specifies how the ScalingAdjustment parameter in a StepAdjustment is interpreted.
             StepAdjustments (list) --A set of adjustments that enable you to scale based on the size of the alarm breach.
             (dict) --An object representing a step adjustment for a StepScalingPolicyConfiguration . Describes an adjustment based on the difference between the value of the aggregated CloudWatch metric and the breach threshold that you've defined for the alarm.
@@ -239,31 +228,31 @@ def put_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, 
             For scale in policies, the Cooldown period is used to block subsequent scale in requests until it has expired. The intention is to scale in conservatively to protect your application's availability. However, if another alarm triggers a scale out policy during the Cooldown period after a scale-in, Application Auto Scaling scales out your scalable target immediately.
             MetricAggregationType (string) --The aggregation type for the CloudWatch metrics. Valid values are Minimum , Maximum , and Average .
             
-:type StepScalingPolicyConfiguration: dict
-"""
+    :type StepScalingPolicyConfiguration: dict
+    """
+    pass
 
 
 def register_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDimension=None, MinCapacity=None,
-                             MaxCapacity=None, RoleARN=None): pass
-
-
-"""
-:param ServiceNamespace: [REQUIRED]
+                             MaxCapacity=None, RoleARN=None):
+    """
+    :param ServiceNamespace: [REQUIRED]
             The namespace for the AWS service that the scalable target is associated with. For Amazon ECS services, the namespace value is ecs . For more information, see AWS Service Namespaces in the Amazon Web Services General Reference.
             
-:type ServiceNamespace: string
-:param ResourceId: [REQUIRED]
+    :type ServiceNamespace: string
+    :param ResourceId: [REQUIRED]
             The resource type and unique identifier string for the resource to associate with the scalable target. For Amazon ECS services, the resource type is services , and the identifier is the cluster name and service name; for example, service/default/sample-webapp . For Amazon EC2 Spot fleet requests, the resource type is spot-fleet-request , and the identifier is the Spot fleet request ID; for example, spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             
-:type ResourceId: string
-:param ScalableDimension: [REQUIRED]
+    :type ResourceId: string
+    :param ScalableDimension: [REQUIRED]
             The scalable dimension associated with the scalable target. The scalable dimension contains the service namespace, resource type, and scaling property, such as ecs:service:DesiredCount for the desired task count of an Amazon ECS service, or ec2:spot-fleet-request:TargetCapacity for the target capacity of an Amazon EC2 Spot fleet request.
             
-:type ScalableDimension: string
-:param MinCapacity: The minimum value for this scalable target to scale in to in response to scaling activities. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
-:type MinCapacity: integer
-:param MaxCapacity: The maximum value for this scalable target to scale out to in response to scaling activities. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
-:type MaxCapacity: integer
-:param RoleARN: The ARN of the IAM role that allows Application Auto Scaling to modify your scalable target on your behalf. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
-:type RoleARN: string
-"""
+    :type ScalableDimension: string
+    :param MinCapacity: The minimum value for this scalable target to scale in to in response to scaling activities. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
+    :type MinCapacity: integer
+    :param MaxCapacity: The maximum value for this scalable target to scale out to in response to scaling activities. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
+    :type MaxCapacity: integer
+    :param RoleARN: The ARN of the IAM role that allows Application Auto Scaling to modify your scalable target on your behalf. This parameter is required if you are registering a new scalable target, and it is optional if you are updating an existing one.
+    :type RoleARN: string
+    """
+    pass

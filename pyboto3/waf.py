@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,259 +34,243 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def create_byte_match_set(Name=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_byte_match_set(Name=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description of the ByteMatchSet . You can't change Name after you create a ByteMatchSet .
             
-:type Name: string
-:param ChangeToken: [REQUIRED]
+    :type Name: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_ip_set(Name=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_ip_set(Name=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description of the IPSet . You can't change Name after you create the IPSet .
             
-:type Name: string
-:param ChangeToken: [REQUIRED]
+    :type Name: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_rule(Name=None, MetricName=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_rule(Name=None, MetricName=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description of the Rule . You can't change the name of a Rule after you create it.
             
-:type Name: string
-:param MetricName: [REQUIRED]
+    :type Name: string
+    :param MetricName: [REQUIRED]
             A friendly name or description for the metrics for this Rule . The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change the name of the metric after you create the Rule .
             
-:type MetricName: string
-:param ChangeToken: [REQUIRED]
+    :type MetricName: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_size_constraint_set(Name=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_size_constraint_set(Name=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description of the SizeConstraintSet . You can't change Name after you create a SizeConstraintSet .
             
-:type Name: string
-:param ChangeToken: [REQUIRED]
+    :type Name: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_sql_injection_match_set(Name=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_sql_injection_match_set(Name=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet .
             
-:type Name: string
-:param ChangeToken: [REQUIRED]
+    :type Name: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_web_acl(Name=None, MetricName=None, DefaultAction=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_web_acl(Name=None, MetricName=None, DefaultAction=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description of the WebACL . You can't change Name after you create the WebACL .
             
-:type Name: string
-:param MetricName: [REQUIRED]
+    :type Name: string
+    :param MetricName: [REQUIRED]
             A friendly name or description for the metrics for this WebACL . The name can contain only alphanumeric characters (A-Z, a-z, 0-9); the name can't contain whitespace. You can't change MetricName after you create the WebACL .
             
-:type MetricName: string
-:param DefaultAction: [REQUIRED]
+    :type MetricName: string
+    :param DefaultAction: [REQUIRED]
             The action that you want AWS WAF to take when a request doesn't match the criteria specified in any of the Rule objects that are associated with the WebACL .
             Type (string) -- [REQUIRED]Specifies how you want AWS WAF to respond to requests that match the settings in a Rule . Valid settings include the following:
             ALLOW : AWS WAF allows requests
             BLOCK : AWS WAF blocks requests
             COUNT : AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL .
             
-:type DefaultAction: dict
-:param ChangeToken: [REQUIRED]
+    :type DefaultAction: dict
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def create_xss_match_set(Name=None, ChangeToken=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_xss_match_set(Name=None, ChangeToken=None):
+    """
+    :param Name: [REQUIRED]
             A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet .
             
-:type Name: string
-:param ChangeToken: [REQUIRED]
+    :type Name: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_byte_match_set(ByteMatchSetId=None, ChangeToken=None): pass
-
-
-"""
-:param ByteMatchSetId: [REQUIRED]
+def delete_byte_match_set(ByteMatchSetId=None, ChangeToken=None):
+    """
+    :param ByteMatchSetId: [REQUIRED]
             The ByteMatchSetId of the ByteMatchSet that you want to delete. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets .
             
-:type ByteMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type ByteMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_ip_set(IPSetId=None, ChangeToken=None): pass
-
-
-"""
-:param IPSetId: [REQUIRED]
+def delete_ip_set(IPSetId=None, ChangeToken=None):
+    """
+    :param IPSetId: [REQUIRED]
             The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets .
             
-:type IPSetId: string
-:param ChangeToken: [REQUIRED]
+    :type IPSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_rule(RuleId=None, ChangeToken=None): pass
-
-
-"""
-:param RuleId: [REQUIRED]
+def delete_rule(RuleId=None, ChangeToken=None):
+    """
+    :param RuleId: [REQUIRED]
             The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules .
             
-:type RuleId: string
-:param ChangeToken: [REQUIRED]
+    :type RuleId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None): pass
-
-
-"""
-:param SizeConstraintSetId: [REQUIRED]
+def delete_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None):
+    """
+    :param SizeConstraintSetId: [REQUIRED]
             The SizeConstraintSetId of the SizeConstraintSet that you want to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets .
             
-:type SizeConstraintSetId: string
-:param ChangeToken: [REQUIRED]
+    :type SizeConstraintSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None): pass
-
-
-"""
-:param SqlInjectionMatchSetId: [REQUIRED]
+def delete_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None):
+    """
+    :param SqlInjectionMatchSetId: [REQUIRED]
             The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets .
             
-:type SqlInjectionMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type SqlInjectionMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_web_acl(WebACLId=None, ChangeToken=None): pass
-
-
-"""
-:param WebACLId: [REQUIRED]
+def delete_web_acl(WebACLId=None, ChangeToken=None):
+    """
+    :param WebACLId: [REQUIRED]
             The WebACLId of the WebACL that you want to delete. WebACLId is returned by CreateWebACL and by ListWebACLs .
             
-:type WebACLId: string
-:param ChangeToken: [REQUIRED]
+    :type WebACLId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def delete_xss_match_set(XssMatchSetId=None, ChangeToken=None): pass
-
-
-"""
-:param XssMatchSetId: [REQUIRED]
+def delete_xss_match_set(XssMatchSetId=None, ChangeToken=None):
+    """
+    :param XssMatchSetId: [REQUIRED]
             The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets .
             
-:type XssMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type XssMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_byte_match_set(ByteMatchSetId=None): pass
-
-
-"""
-:param ByteMatchSetId: [REQUIRED]
+def get_byte_match_set(ByteMatchSetId=None):
+    """
+    :param ByteMatchSetId: [REQUIRED]
             The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets .
             Return typedict
             ReturnsResponse Syntax{
@@ -390,22 +372,20 @@ def get_byte_match_set(ByteMatchSetId=None): pass
             
             
             
-:type ByteMatchSetId: string
-"""
+    :type ByteMatchSetId: string
+    """
+    pass
 
 
-def get_change_token(): pass
+def get_change_token():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def get_change_token_status(ChangeToken=None): pass
-
-
-"""
-:param ChangeToken: [REQUIRED]
+def get_change_token_status(ChangeToken=None):
+    """
+    :param ChangeToken: [REQUIRED]
             The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
             Return typedict
             ReturnsResponse Syntax{
@@ -416,15 +396,14 @@ def get_change_token_status(ChangeToken=None): pass
             ChangeTokenStatus (string) --The status of the change token.
             
             
-:type ChangeToken: string
-"""
+    :type ChangeToken: string
+    """
+    pass
 
 
-def get_ip_set(IPSetId=None): pass
-
-
-"""
-:param IPSetId: [REQUIRED]
+def get_ip_set(IPSetId=None):
+    """
+    :param IPSetId: [REQUIRED]
             The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets .
             Return typedict
             ReturnsResponse Syntax{
@@ -461,15 +440,14 @@ def get_ip_set(IPSetId=None): pass
             
             
             
-:type IPSetId: string
-"""
+    :type IPSetId: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -481,15 +459,14 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_rule(RuleId=None): pass
-
-
-"""
-:param RuleId: [REQUIRED]
+def get_rule(RuleId=None):
+    """
+    :param RuleId: [REQUIRED]
             The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules .
             Return typedict
             ReturnsResponse Syntax{
@@ -525,42 +502,40 @@ def get_rule(RuleId=None): pass
             
             
             
-:type RuleId: string
-"""
+    :type RuleId: string
+    """
+    pass
 
 
-def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=None): pass
-
-
-"""
-:param WebAclId: [REQUIRED]
+def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=None):
+    """
+    :param WebAclId: [REQUIRED]
             The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
             
-:type WebAclId: string
-:param RuleId: [REQUIRED]
+    :type WebAclId: string
+    :param RuleId: [REQUIRED]
             RuleId is one of two values:
             The RuleId of the Rule for which you want GetSampledRequests to return a sample of requests.
             Default_Action , which causes GetSampledRequests to return a sample of the requests that didn't match any of the rules in the specified WebACL .
             
-:type RuleId: string
-:param TimeWindow: [REQUIRED]
+    :type RuleId: string
+    :param TimeWindow: [REQUIRED]
             The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in Unix time format (in seconds). You can specify any time range in the previous three hours.
             StartTime (datetime) -- [REQUIRED]The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You can specify any time range in the previous three hours.
             EndTime (datetime) -- [REQUIRED]The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You can specify any time range in the previous three hours.
             
-:type TimeWindow: dict
-:param MaxItems: [REQUIRED]
+    :type TimeWindow: dict
+    :param MaxItems: [REQUIRED]
             The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems , GetSampledRequests returns information about all of them.
             
-:type MaxItems: integer
-"""
+    :type MaxItems: integer
+    """
+    pass
 
 
-def get_size_constraint_set(SizeConstraintSetId=None): pass
-
-
-"""
-:param SizeConstraintSetId: [REQUIRED]
+def get_size_constraint_set(SizeConstraintSetId=None):
+    """
+    :param SizeConstraintSetId: [REQUIRED]
             The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets .
             Return typedict
             ReturnsResponse Syntax{
@@ -644,15 +619,14 @@ def get_size_constraint_set(SizeConstraintSetId=None): pass
             
             
             
-:type SizeConstraintSetId: string
-"""
+    :type SizeConstraintSetId: string
+    """
+    pass
 
 
-def get_sql_injection_match_set(SqlInjectionMatchSetId=None): pass
-
-
-"""
-:param SqlInjectionMatchSetId: [REQUIRED]
+def get_sql_injection_match_set(SqlInjectionMatchSetId=None):
+    """
+    :param SqlInjectionMatchSetId: [REQUIRED]
             The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets .
             Return typedict
             ReturnsResponse Syntax{
@@ -724,22 +698,20 @@ def get_sql_injection_match_set(SqlInjectionMatchSetId=None): pass
             
             
             
-:type SqlInjectionMatchSetId: string
-"""
+    :type SqlInjectionMatchSetId: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def get_web_acl(WebACLId=None): pass
-
-
-"""
-:param WebACLId: [REQUIRED]
+def get_web_acl(WebACLId=None):
+    """
+    :param WebACLId: [REQUIRED]
             The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs .
             Return typedict
             ReturnsResponse Syntax{
@@ -796,15 +768,14 @@ def get_web_acl(WebACLId=None): pass
             
             
             
-:type WebACLId: string
-"""
+    :type WebACLId: string
+    """
+    pass
 
 
-def get_xss_match_set(XssMatchSetId=None): pass
-
-
-"""
-:param XssMatchSetId: [REQUIRED]
+def get_xss_match_set(XssMatchSetId=None):
+    """
+    :param XssMatchSetId: [REQUIRED]
             The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets .
             Return typedict
             ReturnsResponse Syntax{
@@ -876,100 +847,92 @@ def get_xss_match_set(XssMatchSetId=None): pass
             
             
             
-:type XssMatchSetId: string
-"""
+    :type XssMatchSetId: string
+    """
+    pass
 
 
-def list_byte_match_sets(NextMarker=None, Limit=None): pass
+def list_byte_match_sets(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more ByteMatchSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets . For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets .
+    :type NextMarker: string
+    :param Limit: Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
+    :type Limit: integer
+    """
+    pass
 
 
-"""
-:param NextMarker: If you specify a value for Limit and you have more ByteMatchSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets . For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets .
-:type NextMarker: string
-:param Limit: Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
-:type Limit: integer
-"""
+def list_ip_sets(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more IPSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets . For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets .
+    :type NextMarker: string
+    :param Limit: Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of IPSet objects.
+    :type Limit: integer
+    """
+    pass
 
 
-def list_ip_sets(NextMarker=None, Limit=None): pass
+def list_rules(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more Rules than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules . For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules .
+    :type NextMarker: string
+    :param Limit: Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
+    :type Limit: integer
+    """
+    pass
 
 
-"""
-:param NextMarker: If you specify a value for Limit and you have more IPSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets . For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets .
-:type NextMarker: string
-:param Limit: Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of IPSet objects.
-:type Limit: integer
-"""
+def list_size_constraint_sets(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets . For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets .
+    :type NextMarker: string
+    :param Limit: Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
+    :type Limit: integer
+    """
+    pass
 
 
-def list_rules(NextMarker=None, Limit=None): pass
+def list_sql_injection_match_sets(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets . For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets .
+    :type NextMarker: string
+    :param Limit: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
+    :type Limit: integer
+    """
+    pass
 
 
-"""
-:param NextMarker: If you specify a value for Limit and you have more Rules than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules . For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules .
-:type NextMarker: string
-:param Limit: Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
-:type Limit: integer
-"""
+def list_web_acls(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
+    :type NextMarker: string
+    :param Limit: Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of WebACL objects.
+    :type Limit: integer
+    """
+    pass
 
 
-def list_size_constraint_sets(NextMarker=None, Limit=None): pass
+def list_xss_match_sets(NextMarker=None, Limit=None):
+    """
+    :param NextMarker: If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets . For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets .
+    :type NextMarker: string
+    :param Limit: Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
+    :type Limit: integer
+    """
+    pass
 
 
-"""
-:param NextMarker: If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets . For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets .
-:type NextMarker: string
-:param Limit: Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
-:type Limit: integer
-"""
-
-
-def list_sql_injection_match_sets(NextMarker=None, Limit=None): pass
-
-
-"""
-:param NextMarker: If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets . For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets .
-:type NextMarker: string
-:param Limit: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
-:type Limit: integer
-"""
-
-
-def list_web_acls(NextMarker=None, Limit=None): pass
-
-
-"""
-:param NextMarker: If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
-:type NextMarker: string
-:param Limit: Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit , the response includes a NextMarker value that you can use to get another batch of WebACL objects.
-:type Limit: integer
-"""
-
-
-def list_xss_match_sets(NextMarker=None, Limit=None): pass
-
-
-"""
-:param NextMarker: If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit , AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets . For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets .
-:type NextMarker: string
-:param Limit: Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit , the response includes a NextMarker value that you can use to get another batch of Rules .
-:type Limit: integer
-"""
-
-
-def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param ByteMatchSetId: [REQUIRED]
+def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None):
+    """
+    :param ByteMatchSetId: [REQUIRED]
             The ByteMatchSetId of the ByteMatchSet that you want to update. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets .
             
-:type ByteMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type ByteMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of ByteMatchSetUpdate objects that you want to insert into or delete from a ByteMatchSet . For more information, see the applicable data types:
             ByteMatchSetUpdate : Contains Action and ByteMatchTuple
             ByteMatchTuple : Contains FieldToMatch , PositionalConstraint , TargetString , and TextTransformation
@@ -1046,23 +1009,22 @@ def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None): 
             The value of TargetString must appear at the end of the specified part of the web request.
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass
 
 
-def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param IPSetId: [REQUIRED]
+def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None):
+    """
+    :param IPSetId: [REQUIRED]
             The IPSetId of the IPSet that you want to update. IPSetId is returned by CreateIPSet and by ListIPSets .
             
-:type IPSetId: string
-:param ChangeToken: [REQUIRED]
+    :type IPSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of IPSetUpdate objects that you want to insert into or delete from an IPSet . For more information, see the applicable data types:
             IPSetUpdate : Contains Action and IPSetDescriptor
             IPSetDescriptor : Contains Type and Value
@@ -1077,23 +1039,22 @@ def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None): pass
             For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing .
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass
 
 
-def update_rule(RuleId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param RuleId: [REQUIRED]
+def update_rule(RuleId=None, ChangeToken=None, Updates=None):
+    """
+    :param RuleId: [REQUIRED]
             The RuleId of the Rule that you want to update. RuleId is returned by CreateRule and by ListRules .
             
-:type RuleId: string
-:param ChangeToken: [REQUIRED]
+    :type RuleId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of RuleUpdate objects that you want to insert into or delete from a Rule . For more information, see the applicable data types:
             RuleUpdate : Contains Action and Predicate
             Predicate : Contains DataId , Negated , and Type
@@ -1107,23 +1068,22 @@ def update_rule(RuleId=None, ChangeToken=None, Updates=None): pass
             DataId (string) -- [REQUIRED]A unique identifier for a predicate in a Rule , such as ByteMatchSetId or IPSetId . The ID is returned by the corresponding Create or List command.
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass
 
 
-def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param SizeConstraintSetId: [REQUIRED]
+def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updates=None):
+    """
+    :param SizeConstraintSetId: [REQUIRED]
             The SizeConstraintSetId of the SizeConstraintSet that you want to update. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets .
             
-:type SizeConstraintSetId: string
-:param ChangeToken: [REQUIRED]
+    :type SizeConstraintSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of SizeConstraintSetUpdate objects that you want to insert into or delete from a SizeConstraintSet . For more information, see the applicable data types:
             SizeConstraintSetUpdate : Contains Action and SizeConstraint
             SizeConstraint : Contains FieldToMatch , TextTransformation , ComparisonOperator , and Size
@@ -1182,23 +1142,22 @@ def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updat
             If you specify URI for the value of Type , the / in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass
 
 
-def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param SqlInjectionMatchSetId: [REQUIRED]
+def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None, Updates=None):
+    """
+    :param SqlInjectionMatchSetId: [REQUIRED]
             The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to update. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets .
             
-:type SqlInjectionMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type SqlInjectionMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of SqlInjectionMatchSetUpdate objects that you want to insert into or delete from a SqlInjectionMatchSet . For more information, see the applicable data types:
             SqlInjectionMatchSetUpdate : Contains Action and SqlInjectionMatchTuple
             SqlInjectionMatchTuple : Contains FieldToMatch and TextTransformation
@@ -1247,23 +1206,22 @@ def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
             Specify NONE if you don't want to perform any text transformations.
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass
 
 
-def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=None): pass
-
-
-"""
-:param WebACLId: [REQUIRED]
+def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=None):
+    """
+    :param WebACLId: [REQUIRED]
             The WebACLId of the WebACL that you want to update. WebACLId is returned by CreateWebACL and by ListWebACLs .
             
-:type WebACLId: string
-:param ChangeToken: [REQUIRED]
+    :type WebACLId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: An array of updates to make to the WebACL .
+    :type ChangeToken: string
+    :param Updates: An array of updates to make to the WebACL .
             An array of WebACLUpdate objects that you want to insert into or delete from a WebACL . For more information, see the applicable data types:
             WebACLUpdate : Contains Action and ActivatedRule
             ActivatedRule : Contains Action , Priority , and RuleId
@@ -1286,30 +1244,29 @@ def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=
             
             
             
-:type Updates: list
-:param DefaultAction: For the action that is associated with a rule in a WebACL , specifies the action that you want AWS WAF to perform when a web request matches all of the conditions in a rule. For the default action in a WebACL , specifies the action that you want AWS WAF to take when a web request doesn't match all of the conditions in any of the rules in a WebACL .
+    :type Updates: list
+    :param DefaultAction: For the action that is associated with a rule in a WebACL , specifies the action that you want AWS WAF to perform when a web request matches all of the conditions in a rule. For the default action in a WebACL , specifies the action that you want AWS WAF to take when a web request doesn't match all of the conditions in any of the rules in a WebACL .
             Type (string) -- [REQUIRED]Specifies how you want AWS WAF to respond to requests that match the settings in a Rule . Valid settings include the following:
             ALLOW : AWS WAF allows requests
             BLOCK : AWS WAF blocks requests
             COUNT : AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL .
             
-:type DefaultAction: dict
-"""
+    :type DefaultAction: dict
+    """
+    pass
 
 
-def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None): pass
-
-
-"""
-:param XssMatchSetId: [REQUIRED]
+def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None):
+    """
+    :param XssMatchSetId: [REQUIRED]
             The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets .
             
-:type XssMatchSetId: string
-:param ChangeToken: [REQUIRED]
+    :type XssMatchSetId: string
+    :param ChangeToken: [REQUIRED]
             The value returned by the most recent call to GetChangeToken .
             
-:type ChangeToken: string
-:param Updates: [REQUIRED]
+    :type ChangeToken: string
+    :param Updates: [REQUIRED]
             An array of XssMatchSetUpdate objects that you want to insert into or delete from a XssMatchSet . For more information, see the applicable data types:
             XssMatchSetUpdate : Contains Action and XssMatchTuple
             XssMatchTuple : Contains FieldToMatch and TextTransformation
@@ -1358,5 +1315,6 @@ def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None): pa
             Specify NONE if you don't want to perform any text transformations.
             
             
-:type Updates: list
-"""
+    :type Updates: list
+    """
+    pass

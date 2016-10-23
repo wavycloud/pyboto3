@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,48 +34,45 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def describe_stream(StreamArn=None, Limit=None, ExclusiveStartShardId=None): pass
-
-
-"""
-:param StreamArn: [REQUIRED]
+def describe_stream(StreamArn=None, Limit=None, ExclusiveStartShardId=None):
+    """
+    :param StreamArn: [REQUIRED]
             The Amazon Resource Name (ARN) for the stream.
             
-:type StreamArn: string
-:param Limit: The maximum number of shard objects to return. The upper limit is 100.
-:type Limit: integer
-:param ExclusiveStartShardId: The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
-:type ExclusiveStartShardId: string
-"""
+    :type StreamArn: string
+    :param Limit: The maximum number of shard objects to return. The upper limit is 100.
+    :type Limit: integer
+    :param ExclusiveStartShardId: The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
+    :type ExclusiveStartShardId: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -89,63 +84,60 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_records(ShardIterator=None, Limit=None): pass
-
-
-"""
-:param ShardIterator: [REQUIRED]
+def get_records(ShardIterator=None, Limit=None):
+    """
+    :param ShardIterator: [REQUIRED]
             A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
             
-:type ShardIterator: string
-:param Limit: The maximum number of records to return from the shard. The upper limit is 1000.
-:type Limit: integer
-"""
+    :type ShardIterator: string
+    :param Limit: The maximum number of records to return from the shard. The upper limit is 1000.
+    :type Limit: integer
+    """
+    pass
 
 
-def get_shard_iterator(StreamArn=None, ShardId=None, ShardIteratorType=None, SequenceNumber=None): pass
-
-
-"""
-:param StreamArn: [REQUIRED]
+def get_shard_iterator(StreamArn=None, ShardId=None, ShardIteratorType=None, SequenceNumber=None):
+    """
+    :param StreamArn: [REQUIRED]
             The Amazon Resource Name (ARN) for the stream.
             
-:type StreamArn: string
-:param ShardId: [REQUIRED]
+    :type StreamArn: string
+    :param ShardId: [REQUIRED]
             The identifier of the shard. The iterator will be returned for this shard ID.
             
-:type ShardId: string
-:param ShardIteratorType: [REQUIRED]
+    :type ShardId: string
+    :param ShardIteratorType: [REQUIRED]
             Determines how the shard iterator is used to start reading stream records from the shard:
             AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.
             AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.
             TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.
             LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.
             
-:type ShardIteratorType: string
-:param SequenceNumber: The sequence number of a stream record in the shard from which to start reading.
-:type SequenceNumber: string
-"""
+    :type ShardIteratorType: string
+    :param SequenceNumber: The sequence number of a stream record in the shard from which to start reading.
+    :type SequenceNumber: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_streams(TableName=None, Limit=None, ExclusiveStartStreamArn=None): pass
-
-
-"""
-:param TableName: If this parameter is provided, then only the streams associated with this table name are returned.
-:type TableName: string
-:param Limit: The maximum number of streams to return. The upper limit is 100.
-:type Limit: integer
-:param ExclusiveStartStreamArn: The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation.
-:type ExclusiveStartStreamArn: string
-"""
+def list_streams(TableName=None, Limit=None, ExclusiveStartStreamArn=None):
+    """
+    :param TableName: If this parameter is provided, then only the streams associated with this table name are returned.
+    :type TableName: string
+    :param Limit: The maximum number of streams to return. The upper limit is 100.
+    :type Limit: integer
+    :param ExclusiveStartStreamArn: The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation.
+    :type ExclusiveStartStreamArn: string
+    """
+    pass

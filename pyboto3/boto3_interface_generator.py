@@ -187,12 +187,13 @@ SOFTWARE.
 '''
     yield ""
     for method_name, params in iter_method_params(soup):
-        yield 'def {}({}{}): pass'.format(method_name, '=None, '.join(params.keys()),
+        yield 'def {}({}{}):'.format(method_name, '=None, '.join(params.keys()),
                                                '=None' if params else '')
-        yield '"""'
+        yield '    """'
         for param, (param_type, param_description) in params.iteritems():
             param_description = clean_param_description(param_description)
-            yield ':param {}: {}'.format(param, param_description)
-            yield ':type {}: {}'.format(param, to_python_type(param_type))
-        yield '"""'
+            yield '    :param {}: {}'.format(param, param_description)
+            yield '    :type {}: {}'.format(param, to_python_type(param_type))
+        yield '    """'
+        yield "    pass"
         yield ""

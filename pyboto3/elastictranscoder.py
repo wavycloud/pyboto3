@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,15 +34,14 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def cancel_job(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def cancel_job(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the job that you want to cancel.
             To get a list of the jobs (including their jobId ) that have a status of Submitted , use the ListJobsByStatus API action.
             Return typedict
@@ -53,20 +50,19 @@ def cancel_job(Id=None): pass
             (dict) --The response body contains a JSON object. If the job is successfully canceled, the value of Success is true .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
 def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKeyPrefix=None, Playlists=None,
-               UserMetadata=None): pass
-
-
-"""
-:param PipelineId: [REQUIRED]
+               UserMetadata=None):
+    """
+    :param PipelineId: [REQUIRED]
             The Id of the pipeline that you want Elastic Transcoder to use for transcoding. The pipeline determines several settings, including the Amazon S3 bucket from which Elastic Transcoder gets the files to transcode and the bucket into which Elastic Transcoder puts the transcoded files.
             
-:type PipelineId: string
-:param Input: [REQUIRED]
+    :type PipelineId: string
+    :param Input: [REQUIRED]
             A section of the request body that provides information about the file that is being transcoded.
             Key (string) --The name of the file to transcode. Elsewhere in the body of the JSON block is the the ID of the pipeline to use for processing the job. The InputBucket object in that pipeline tells Elastic Transcoder which Amazon S3 bucket to get the file from.
             If the file name includes a prefix, such as cooking/lasagna.mpg , include the prefix in the key. If the file isn't in the specified bucket, Elastic Transcoder returns an error.
@@ -108,8 +104,8 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             DurationMillis (integer) --The detected duration of the input file, in milliseconds.
             
             
-:type Input: dict
-:param Output: The CreateJobOutput structure.
+    :type Input: dict
+    :param Output: The CreateJobOutput structure.
             Key (string) --The name to assign to the transcoded file. Elastic Transcoder saves the file in the Amazon S3 bucket specified by the OutputBucket object in the pipeline that is specified by the pipeline ID. If a file with the specified name already exists in the output bucket, the job fails.
             ThumbnailPattern (string) --Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files.
             If you don't want Elastic Transcoder to create thumbnails, specify ''.
@@ -321,8 +317,8 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
             
             
-:type Output: dict
-:param Outputs: A section of the request body that provides information about the transcoded (target) files. We recommend that you use the Outputs syntax instead of the Output syntax.
+    :type Output: dict
+    :param Outputs: A section of the request body that provides information about the transcoded (target) files. We recommend that you use the Outputs syntax instead of the Output syntax.
             (dict) --The CreateJobOutput structure.
             Key (string) --The name to assign to the transcoded file. Elastic Transcoder saves the file in the Amazon S3 bucket specified by the OutputBucket object in the pipeline that is specified by the pipeline ID. If a file with the specified name already exists in the output bucket, the job fails.
             ThumbnailPattern (string) --Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files.
@@ -535,10 +531,10 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
             
             
-:type Outputs: list
-:param OutputKeyPrefix: The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists.
-:type OutputKeyPrefix: string
-:param Playlists: If you specify a preset in PresetId for which the value of Container is fmp4 (Fragmented MP4) or ts (MPEG-TS), Playlists contains information about the master playlists that you want Elastic Transcoder to create.
+    :type Outputs: list
+    :param OutputKeyPrefix: The value, if any, that you want Elastic Transcoder to prepend to the names of all files that this job creates, including output files, thumbnails, and playlists.
+    :type OutputKeyPrefix: string
+    :param Playlists: If you specify a preset in PresetId for which the value of Container is fmp4 (Fragmented MP4) or ts (MPEG-TS), Playlists contains information about the master playlists that you want Elastic Transcoder to create.
             The maximum number of master playlists in a job is 30.
             (dict) --Information about the master playlist.
             Name (string) --The name that you want Elastic Transcoder to assign to the master playlist, for example, nyc-vacation.m3u8. If the name includes a / character, the section of the name before the last / must be identical for all Name objects. If you create more than one master playlist, the values of all Name objects must be unique.
@@ -575,30 +571,29 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             LicenseAcquisitionUrl (string) --The location of the license key required to play DRM content. The URL must be an absolute path, and is referenced by the PlayReady header. The PlayReady header is referenced in the protection header of the client manifest for Smooth Streaming outputs, and in the EXT-X-DXDRM and EXT-XDXDRMINFO metadata tags for HLS playlist outputs. An example URL looks like this: https://www.example.com/exampleKey/
             
             
-:type Playlists: list
-:param UserMetadata: User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs will be returned in the same order in which you specify them.
+    :type Playlists: list
+    :param UserMetadata: User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs will be returned in the same order in which you specify them.
             (string) --
             (string) --
             
-:type UserMetadata: dict
-"""
+    :type UserMetadata: dict
+    """
+    pass
 
 
 def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, AwsKmsKeyArn=None, Notifications=None,
-                    ContentConfig=None, ThumbnailConfig=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+                    ContentConfig=None, ThumbnailConfig=None):
+    """
+    :param Name: [REQUIRED]
             The name of the pipeline. We recommend that the name be unique within the AWS account, but uniqueness is not enforced.
             Constraints: Maximum 40 characters.
             
-:type Name: string
-:param InputBucket: [REQUIRED]
+    :type Name: string
+    :param InputBucket: [REQUIRED]
             The Amazon S3 bucket in which you saved the media files that you want to transcode.
             
-:type InputBucket: string
-:param OutputBucket: The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files. (Use this, or use ContentConfig:Bucket plus ThumbnailConfig:Bucket.)
+    :type InputBucket: string
+    :param OutputBucket: The Amazon S3 bucket in which you want Elastic Transcoder to save the transcoded files. (Use this, or use ContentConfig:Bucket plus ThumbnailConfig:Bucket.)
             Specify this value when all of the following are true:
             You want to save transcoded files, thumbnails (if any), and playlists (if any) together in one bucket.
             You do not want to specify the users or groups who have access to the transcoded files, thumbnails, and playlists.
@@ -608,16 +603,16 @@ def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, A
             You want to associate the transcoded files and thumbnails with the Amazon S3 Standard storage class.
             If you want to save transcoded files and playlists in one bucket and thumbnails in another bucket, specify which users can access the transcoded files or the permissions the users have, or change the Amazon S3 storage class, omit OutputBucket and specify values for ContentConfig and ThumbnailConfig instead.
             
-:type OutputBucket: string
-:param Role: [REQUIRED]
+    :type OutputBucket: string
+    :param Role: [REQUIRED]
             The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to use to create the pipeline.
             
-:type Role: string
-:param AwsKmsKeyArn: The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.
+    :type Role: string
+    :param AwsKmsKeyArn: The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.
             If you use either S3 or S3-AWS-KMS as your Encryption:Mode , you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of AES-PKCS7 , AES-CTR , or AES-GCM .
             
-:type AwsKmsKeyArn: string
-:param Notifications: The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.
+    :type AwsKmsKeyArn: string
+    :param Notifications: The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.
             Warning
             To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.
             Progressing : The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process a job in this pipeline. This is the ARN that Amazon SNS returned when you created the topic. For more information, see Create a Topic in the Amazon Simple Notification Service Developer Guide.
@@ -629,8 +624,8 @@ def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, A
             Warning (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition.
             Error (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition.
             
-:type Notifications: dict
-:param ContentConfig: The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
+    :type Notifications: dict
+    :param ContentConfig: The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
             If you specify values for ContentConfig , you must also specify values for ThumbnailConfig .
             If you specify values for ContentConfig and ThumbnailConfig , omit the OutputBucket object.
             Bucket : The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists.
@@ -674,8 +669,8 @@ def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, A
             (string) --
             
             
-:type ContentConfig: dict
-:param ThumbnailConfig: The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
+    :type ContentConfig: dict
+    :param ThumbnailConfig: The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
             If you specify values for ContentConfig , you must also specify values for ThumbnailConfig even if you don't want to create thumbnails.
             If you specify values for ContentConfig and ThumbnailConfig , omit the OutputBucket object.
             Bucket : The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.
@@ -719,25 +714,24 @@ def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, A
             (string) --
             
             
-:type ThumbnailConfig: dict
-"""
+    :type ThumbnailConfig: dict
+    """
+    pass
 
 
-def create_preset(Name=None, Description=None, Container=None, Video=None, Audio=None, Thumbnails=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_preset(Name=None, Description=None, Container=None, Video=None, Audio=None, Thumbnails=None):
+    """
+    :param Name: [REQUIRED]
             The name of the preset. We recommend that the name be unique within the AWS account, but uniqueness is not enforced.
             
-:type Name: string
-:param Description: A description of the preset.
-:type Description: string
-:param Container: [REQUIRED]
+    :type Name: string
+    :param Description: A description of the preset.
+    :type Description: string
+    :param Container: [REQUIRED]
             The container type for the output file. Valid values include flac , flv , fmp4 , gif , mp3 , mp4 , mpg , mxf , oga , ogg , ts , and webm .
             
-:type Container: string
-:param Video: A section of the request body that specifies the video parameters.
+    :type Container: string
+    :param Video: A section of the request body that specifies the video parameters.
             Codec (string) --The video codec for the output file. Valid values include gif , H.264 , mpeg2 , and vp8 . You can only specify vp8 when the container type is webm , gif when the container type is gif , and mpeg2 when the container type is mpg .
             CodecOptions (dict) --
             Profile (H.264/VP8 Only)
@@ -931,8 +925,8 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             In addition, MaxWidth and MaxHeight , if specified as a percentage, are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any.
             
             
-:type Video: dict
-:param Audio: A section of the request body that specifies the audio parameters.
+    :type Video: dict
+    :param Audio: A section of the request body that specifies the audio parameters.
             Codec (string) --The audio codec for the output file. Valid values include aac , flac , mp2 , mp3 , pcm , and vorbis .
             SampleRate (string) --The sample rate of the audio stream in the output file, in Hertz. Valid values include:
             auto , 22050 , 32000 , 44100 , 48000 , 96000
@@ -1007,8 +1001,8 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             The supported value is Signed .
             
             
-:type Audio: dict
-:param Thumbnails: A section of the request body that specifies the thumbnail parameters, if any.
+    :type Audio: dict
+    :param Thumbnails: A section of the request body that specifies the thumbnail parameters, if any.
             Format (string) --The format of thumbnails, if any. Valid values are jpg and png .
             You specify whether you want Elastic Transcoder to create thumbnails when you create a job.
             Interval (string) --The approximate number of seconds between thumbnails. Specify an integer value.
@@ -1033,15 +1027,14 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             ShrinkToFill : Elastic Transcoder scales thumbnails down so that their dimensions match the values that you specified for at least one of MaxWidth and MaxHeight without dropping below either value. If you specify this option, Elastic Transcoder does not scale thumbnails up.
             PaddingPolicy (string) --When you set PaddingPolicy to Pad , Elastic Transcoder may add black bars to the top and bottom and/or left and right sides of thumbnails to make the total size of the thumbnails match the values that you specified for thumbnail MaxWidth and MaxHeight settings.
             
-:type Thumbnails: dict
-"""
+    :type Thumbnails: dict
+    """
+    pass
 
 
-def delete_pipeline(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_pipeline(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the pipeline that you want to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -1049,15 +1042,14 @@ def delete_pipeline(Id=None): pass
             (dict) --The DeletePipelineResponse structure.
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def delete_preset(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_preset(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the preset for which you want to get detailed information.
             Return typedict
             ReturnsResponse Syntax{}
@@ -1065,33 +1057,31 @@ def delete_preset(Id=None): pass
             (dict) --The DeletePresetResponse structure.
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -1103,74 +1093,68 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None): pass
-
-
-"""
-:param PipelineId: [REQUIRED]
+def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
+    """
+    :param PipelineId: [REQUIRED]
             The ID of the pipeline for which you want to get job information.
             
-:type PipelineId: string
-:param Ascending: To list jobs in chronological order by the date and time that they were submitted, enter true . To list jobs in reverse chronological order, enter false .
-:type Ascending: string
-:param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
-:type PageToken: string
-"""
+    :type PipelineId: string
+    :param Ascending: To list jobs in chronological order by the date and time that they were submitted, enter true . To list jobs in reverse chronological order, enter false .
+    :type Ascending: string
+    :param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
+    :type PageToken: string
+    """
+    pass
 
 
-def list_jobs_by_status(Status=None, Ascending=None, PageToken=None): pass
-
-
-"""
-:param Status: [REQUIRED]
+def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
+    """
+    :param Status: [REQUIRED]
             To get information about all of the jobs associated with the current AWS account that have a given status, specify the following status: Submitted , Progressing , Complete , Canceled , or Error .
             
-:type Status: string
-:param Ascending: To list jobs in chronological order by the date and time that they were submitted, enter true . To list jobs in reverse chronological order, enter false .
-:type Ascending: string
-:param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
-:type PageToken: string
-"""
+    :type Status: string
+    :param Ascending: To list jobs in chronological order by the date and time that they were submitted, enter true . To list jobs in reverse chronological order, enter false .
+    :type Ascending: string
+    :param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
+    :type PageToken: string
+    """
+    pass
 
 
-def list_pipelines(Ascending=None, PageToken=None): pass
+def list_pipelines(Ascending=None, PageToken=None):
+    """
+    :param Ascending: To list pipelines in chronological order by the date and time that they were created, enter true . To list pipelines in reverse chronological order, enter false .
+    :type Ascending: string
+    :param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
+    :type PageToken: string
+    """
+    pass
 
 
-"""
-:param Ascending: To list pipelines in chronological order by the date and time that they were created, enter true . To list pipelines in reverse chronological order, enter false .
-:type Ascending: string
-:param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
-:type PageToken: string
-"""
+def list_presets(Ascending=None, PageToken=None):
+    """
+    :param Ascending: To list presets in chronological order by the date and time that they were created, enter true . To list presets in reverse chronological order, enter false .
+    :type Ascending: string
+    :param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
+    :type PageToken: string
+    """
+    pass
 
 
-def list_presets(Ascending=None, PageToken=None): pass
-
-
-"""
-:param Ascending: To list presets in chronological order by the date and time that they were created, enter true . To list presets in reverse chronological order, enter false .
-:type Ascending: string
-:param PageToken: When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results.
-:type PageToken: string
-"""
-
-
-def read_job(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def read_job(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the job for which you want to get detailed information.
             Return typedict
             ReturnsResponse Syntax{
@@ -2004,15 +1988,14 @@ def read_job(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def read_pipeline(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def read_pipeline(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the pipeline to read.
             Return typedict
             ReturnsResponse Syntax{
@@ -2185,15 +2168,14 @@ def read_pipeline(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def read_preset(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def read_preset(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the preset for which you want to get detailed information.
             Return typedict
             ReturnsResponse Syntax{
@@ -2564,56 +2546,54 @@ def read_preset(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def test_role(Role=None, InputBucket=None, OutputBucket=None, Topics=None): pass
-
-
-"""
-:param Role: [REQUIRED]
+def test_role(Role=None, InputBucket=None, OutputBucket=None, Topics=None):
+    """
+    :param Role: [REQUIRED]
             The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to test.
             
-:type Role: string
-:param InputBucket: [REQUIRED]
+    :type Role: string
+    :param InputBucket: [REQUIRED]
             The Amazon S3 bucket that contains media files to be transcoded. The action attempts to read from this bucket.
             
-:type InputBucket: string
-:param OutputBucket: [REQUIRED]
+    :type InputBucket: string
+    :param OutputBucket: [REQUIRED]
             The Amazon S3 bucket that Elastic Transcoder will write transcoded media files to. The action attempts to read from this bucket.
             
-:type OutputBucket: string
-:param Topics: [REQUIRED]
+    :type OutputBucket: string
+    :param Topics: [REQUIRED]
             The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to.
             (string) --
             
-:type Topics: list
-"""
+    :type Topics: list
+    """
+    pass
 
 
 def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyArn=None, Notifications=None,
-                    ContentConfig=None, ThumbnailConfig=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+                    ContentConfig=None, ThumbnailConfig=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the pipeline that you want to update.
             
-:type Id: string
-:param Name: The name of the pipeline. We recommend that the name be unique within the AWS account, but uniqueness is not enforced.
+    :type Id: string
+    :param Name: The name of the pipeline. We recommend that the name be unique within the AWS account, but uniqueness is not enforced.
             Constraints: Maximum 40 characters
             
-:type Name: string
-:param InputBucket: The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks.
-:type InputBucket: string
-:param Role: The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to use to transcode jobs for this pipeline.
-:type Role: string
-:param AwsKmsKeyArn: The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.
+    :type Name: string
+    :param InputBucket: The Amazon S3 bucket in which you saved the media files that you want to transcode and the graphics that you want to use as watermarks.
+    :type InputBucket: string
+    :param Role: The IAM Amazon Resource Name (ARN) for the role that you want Elastic Transcoder to use to transcode jobs for this pipeline.
+    :type Role: string
+    :param AwsKmsKeyArn: The AWS Key Management Service (AWS KMS) key that you want to use with this pipeline.
             If you use either S3 or S3-AWS-KMS as your Encryption:Mode , you don't need to provide a key with your job because a default key, known as an AWS-KMS key, is created for you automatically. You need to provide an AWS-KMS key only if you want to use a non-default AWS-KMS key, or if you are using an Encryption:Mode of AES-PKCS7 , AES-CTR , or AES-GCM .
             
-:type AwsKmsKeyArn: string
-:param Notifications: The Amazon Simple Notification Service (Amazon SNS) topic or topics to notify in order to report job status.
+    :type AwsKmsKeyArn: string
+    :param Notifications: The Amazon Simple Notification Service (Amazon SNS) topic or topics to notify in order to report job status.
             Warning
             To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.
             Progressing (string) --The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process the job.
@@ -2621,8 +2601,8 @@ def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyAr
             Warning (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition.
             Error (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition.
             
-:type Notifications: dict
-:param ContentConfig: The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
+    :type Notifications: dict
+    :param ContentConfig: The optional ContentConfig object specifies information about the Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists: which bucket to use, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
             If you specify values for ContentConfig , you must also specify values for ThumbnailConfig .
             If you specify values for ContentConfig and ThumbnailConfig , omit the OutputBucket object.
             Bucket : The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded files and playlists.
@@ -2666,8 +2646,8 @@ def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyAr
             (string) --
             
             
-:type ContentConfig: dict
-:param ThumbnailConfig: The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
+    :type ContentConfig: dict
+    :param ThumbnailConfig: The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files.
             If you specify values for ContentConfig , you must also specify values for ThumbnailConfig even if you don't want to create thumbnails.
             If you specify values for ContentConfig and ThumbnailConfig , omit the OutputBucket object.
             Bucket : The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.
@@ -2711,19 +2691,18 @@ def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyAr
             (string) --
             
             
-:type ThumbnailConfig: dict
-"""
+    :type ThumbnailConfig: dict
+    """
+    pass
 
 
-def update_pipeline_notifications(Id=None, Notifications=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def update_pipeline_notifications(Id=None, Notifications=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the pipeline for which you want to change notification settings.
             
-:type Id: string
-:param Notifications: [REQUIRED]
+    :type Id: string
+    :param Notifications: [REQUIRED]
             The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.
             Warning
             To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.
@@ -2736,22 +2715,22 @@ def update_pipeline_notifications(Id=None, Notifications=None): pass
             Warning (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition.
             Error (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition.
             
-:type Notifications: dict
-"""
+    :type Notifications: dict
+    """
+    pass
 
 
-def update_pipeline_status(Id=None, Status=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def update_pipeline_status(Id=None, Status=None):
+    """
+    :param Id: [REQUIRED]
             The identifier of the pipeline to update.
             
-:type Id: string
-:param Status: [REQUIRED]
+    :type Id: string
+    :param Status: [REQUIRED]
             The desired status of the pipeline:
             Active : The pipeline is processing jobs.
             Paused : The pipeline is not currently processing jobs.
             
-:type Status: string
-"""
+    :type Status: string
+    """
+    pass

@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,33 +34,31 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def clone_receipt_rule_set(RuleSetName=None, OriginalRuleSetName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def clone_receipt_rule_set(RuleSetName=None, OriginalRuleSetName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the rule set to create. The name must:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             
-:type RuleSetName: string
-:param OriginalRuleSetName: [REQUIRED]
+    :type RuleSetName: string
+    :param OriginalRuleSetName: [REQUIRED]
             The name of the rule set to clone.
             
-:type OriginalRuleSetName: string
-"""
+    :type OriginalRuleSetName: string
+    """
+    pass
 
 
-def create_receipt_filter(Filter=None): pass
-
-
-"""
-:param Filter: [REQUIRED]
+def create_receipt_filter(Filter=None):
+    """
+    :param Filter: [REQUIRED]
             A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
             Name (string) -- [REQUIRED]The name of the IP address filter. The name must:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
@@ -78,21 +74,20 @@ def create_receipt_filter(Filter=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type Filter: dict
-"""
+    :type Filter: dict
+    """
+    pass
 
 
-def create_receipt_rule(RuleSetName=None, After=None, Rule=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the rule set to which to add the rule.
             
-:type RuleSetName: string
-:param After: The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
-:type After: string
-:param Rule: [REQUIRED]
+    :type RuleSetName: string
+    :param After: The name of an existing rule after which the new rule will be placed. If this parameter is null, the new rule will be inserted at the beginning of the rule list.
+    :type After: string
+    :param Rule: [REQUIRED]
             A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
             Name (string) -- [REQUIRED]The name of the receipt rule. The name must:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
@@ -144,15 +139,14 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None): pass
             
             ScanEnabled (boolean) --If true , then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false .
             
-:type Rule: dict
-"""
+    :type Rule: dict
+    """
+    pass
 
 
-def create_receipt_rule_set(RuleSetName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def create_receipt_rule_set(RuleSetName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the rule set to create. The name must:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
             Start and end with a letter or number.
@@ -163,15 +157,14 @@ def create_receipt_rule_set(RuleSetName=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type RuleSetName: string
-"""
+    :type RuleSetName: string
+    """
+    pass
 
 
-def delete_identity(Identity=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def delete_identity(Identity=None):
+    """
+    :param Identity: [REQUIRED]
             The identity to be removed from the list of identities for the AWS Account.
             Return typedict
             ReturnsResponse Syntax{}
@@ -179,31 +172,29 @@ def delete_identity(Identity=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type Identity: string
-"""
+    :type Identity: string
+    """
+    pass
 
 
-def delete_identity_policy(Identity=None, PolicyName=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def delete_identity_policy(Identity=None, PolicyName=None):
+    """
+    :param Identity: [REQUIRED]
             The identity that is associated with the policy that you want to delete. You can specify the identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             To successfully call this API, you must own the identity.
             
-:type Identity: string
-:param PolicyName: [REQUIRED]
+    :type Identity: string
+    :param PolicyName: [REQUIRED]
             The name of the policy to be deleted.
             
-:type PolicyName: string
-"""
+    :type PolicyName: string
+    """
+    pass
 
 
-def delete_receipt_filter(FilterName=None): pass
-
-
-"""
-:param FilterName: [REQUIRED]
+def delete_receipt_filter(FilterName=None):
+    """
+    :param FilterName: [REQUIRED]
             The name of the IP address filter to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -211,30 +202,28 @@ def delete_receipt_filter(FilterName=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type FilterName: string
-"""
+    :type FilterName: string
+    """
+    pass
 
 
-def delete_receipt_rule(RuleSetName=None, RuleName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def delete_receipt_rule(RuleSetName=None, RuleName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set that contains the receipt rule to delete.
             
-:type RuleSetName: string
-:param RuleName: [REQUIRED]
+    :type RuleSetName: string
+    :param RuleName: [REQUIRED]
             The name of the receipt rule to delete.
             
-:type RuleName: string
-"""
+    :type RuleName: string
+    """
+    pass
 
 
-def delete_receipt_rule_set(RuleSetName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def delete_receipt_rule_set(RuleSetName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -242,49 +231,45 @@ def delete_receipt_rule_set(RuleSetName=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type RuleSetName: string
-"""
+    :type RuleSetName: string
+    """
+    pass
 
 
-def delete_verified_email_address(EmailAddress=None): pass
-
-
-"""
-:param EmailAddress: [REQUIRED]
+def delete_verified_email_address(EmailAddress=None):
+    """
+    :param EmailAddress: [REQUIRED]
             An email address to be removed from the list of verified addresses.
             ReturnsNone
             
-:type EmailAddress: string
-"""
+    :type EmailAddress: string
+    """
+    pass
 
 
-def describe_active_receipt_rule_set(): pass
+def describe_active_receipt_rule_set():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def describe_receipt_rule(RuleSetName=None, RuleName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def describe_receipt_rule(RuleSetName=None, RuleName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set to which the receipt rule belongs.
             
-:type RuleSetName: string
-:param RuleName: [REQUIRED]
+    :type RuleSetName: string
+    :param RuleName: [REQUIRED]
             The name of the receipt rule.
             
-:type RuleName: string
-"""
+    :type RuleName: string
+    """
+    pass
 
 
-def describe_receipt_rule_set(RuleSetName=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def describe_receipt_rule_set(RuleSetName=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set to describe.
             Return typedict
             ReturnsResponse Syntax{
@@ -406,33 +391,31 @@ def describe_receipt_rule_set(RuleSetName=None): pass
             
             
             
-:type RuleSetName: string
-"""
+    :type RuleSetName: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_identity_dkim_attributes(Identities=None): pass
-
-
-"""
-:param Identities: [REQUIRED]
+def get_identity_dkim_attributes(Identities=None):
+    """
+    :param Identities: [REQUIRED]
             A list of one or more verified identities - email addresses, domains, or both.
             (string) --
             Return typedict
@@ -461,15 +444,14 @@ def get_identity_dkim_attributes(Identities=None): pass
             
             
             
-:type Identities: list
-"""
+    :type Identities: list
+    """
+    pass
 
 
-def get_identity_mail_from_domain_attributes(Identities=None): pass
-
-
-"""
-:param Identities: [REQUIRED]
+def get_identity_mail_from_domain_attributes(Identities=None):
+    """
+    :param Identities: [REQUIRED]
             A list of one or more identities.
             (string) --
             Return typedict
@@ -495,15 +477,14 @@ def get_identity_mail_from_domain_attributes(Identities=None): pass
             
             
             
-:type Identities: list
-"""
+    :type Identities: list
+    """
+    pass
 
 
-def get_identity_notification_attributes(Identities=None): pass
-
-
-"""
-:param Identities: [REQUIRED]
+def get_identity_notification_attributes(Identities=None):
+    """
+    :param Identities: [REQUIRED]
             A list of one or more identities. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             (string) --
             Return typedict
@@ -536,32 +517,30 @@ def get_identity_notification_attributes(Identities=None): pass
             
             
             
-:type Identities: list
-"""
+    :type Identities: list
+    """
+    pass
 
 
-def get_identity_policies(Identity=None, PolicyNames=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def get_identity_policies(Identity=None, PolicyNames=None):
+    """
+    :param Identity: [REQUIRED]
             The identity for which the policies will be retrieved. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             To successfully call this API, you must own the identity.
             
-:type Identity: string
-:param PolicyNames: [REQUIRED]
+    :type Identity: string
+    :param PolicyNames: [REQUIRED]
             A list of the names of policies to be retrieved. You can retrieve a maximum of 20 policies at a time. If you do not know the names of the policies that are attached to the identity, you can use ListIdentityPolicies .
             (string) --
             
-:type PolicyNames: list
-"""
+    :type PolicyNames: list
+    """
+    pass
 
 
-def get_identity_verification_attributes(Identities=None): pass
-
-
-"""
-:param Identities: [REQUIRED]
+def get_identity_verification_attributes(Identities=None):
+    """
+    :param Identities: [REQUIRED]
             A list of identities.
             (string) --
             Return typedict
@@ -584,15 +563,14 @@ def get_identity_verification_attributes(Identities=None): pass
             
             
             
-:type Identities: list
-"""
+    :type Identities: list
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -604,49 +582,44 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_send_quota(): pass
+def get_send_quota():
+    """
+    """
+    pass
 
 
-"""
-"""
+def get_send_statistics():
+    """
+    """
+    pass
 
 
-def get_send_statistics(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
+def list_identities(IdentityType=None, NextToken=None, MaxItems=None):
+    """
+    :param IdentityType: The type of the identities to list. Possible values are 'EmailAddress' and 'Domain'. If this parameter is omitted, then all identities will be listed.
+    :type IdentityType: string
+    :param NextToken: The token to use for pagination.
+    :type NextToken: string
+    :param MaxItems: The maximum number of identities per page. Possible values are 1-1000 inclusive.
+    :type MaxItems: integer
+    """
+    pass
 
 
-def get_waiter(): pass
-
-
-"""
-"""
-
-
-def list_identities(IdentityType=None, NextToken=None, MaxItems=None): pass
-
-
-"""
-:param IdentityType: The type of the identities to list. Possible values are 'EmailAddress' and 'Domain'. If this parameter is omitted, then all identities will be listed.
-:type IdentityType: string
-:param NextToken: The token to use for pagination.
-:type NextToken: string
-:param MaxItems: The maximum number of identities per page. Possible values are 1-1000 inclusive.
-:type MaxItems: integer
-"""
-
-
-def list_identity_policies(Identity=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def list_identity_policies(Identity=None):
+    """
+    :param Identity: [REQUIRED]
             The identity that is associated with the policy for which the policies will be listed. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             To successfully call this API, you must own the identity.
             Return typedict
@@ -661,22 +634,20 @@ def list_identity_policies(Identity=None): pass
             (string) --
             
             
-:type Identity: string
-"""
+    :type Identity: string
+    """
+    pass
 
 
-def list_receipt_filters(): pass
+def list_receipt_filters():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_receipt_rule_sets(NextToken=None): pass
-
-
-"""
-:param NextToken: A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
+def list_receipt_rule_sets(NextToken=None):
+    """
+    :param NextToken: A token returned from a previous call to ListReceiptRuleSets to indicate the position in the receipt rule set list.
             Return typedict
             ReturnsResponse Syntax{
               'RuleSets': [
@@ -702,71 +673,67 @@ def list_receipt_rule_sets(NextToken=None): pass
             NextToken (string) --A token indicating that there are additional receipt rule sets available to be listed. Pass this token to successive calls of ListReceiptRuleSets to retrieve up to 100 receipt rule sets at a time.
             
             
-:type NextToken: string
-"""
+    :type NextToken: string
+    """
+    pass
 
 
-def list_verified_email_addresses(): pass
+def list_verified_email_addresses():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def put_identity_policy(Identity=None, PolicyName=None, Policy=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def put_identity_policy(Identity=None, PolicyName=None, Policy=None):
+    """
+    :param Identity: [REQUIRED]
             The identity to which the policy will apply. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             To successfully call this API, you must own the identity.
             
-:type Identity: string
-:param PolicyName: [REQUIRED]
+    :type Identity: string
+    :param PolicyName: [REQUIRED]
             The name of the policy.
             The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
             
-:type PolicyName: string
-:param Policy: [REQUIRED]
+    :type PolicyName: string
+    :param Policy: [REQUIRED]
             The text of the policy in JSON format. The policy cannot exceed 4 KB.
             For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide .
             
-:type Policy: string
-"""
+    :type Policy: string
+    """
+    pass
 
 
-def reorder_receipt_rule_set(RuleSetName=None, RuleNames=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def reorder_receipt_rule_set(RuleSetName=None, RuleNames=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set to reorder.
             
-:type RuleSetName: string
-:param RuleNames: [REQUIRED]
+    :type RuleSetName: string
+    :param RuleNames: [REQUIRED]
             A list of the specified receipt rule set's receipt rules in the order that you want to put them.
             (string) --
             
-:type RuleNames: list
-"""
+    :type RuleNames: list
+    """
+    pass
 
 
 def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, MessageDsn=None,
-                BouncedRecipientInfoList=None, BounceSenderArn=None): pass
-
-
-"""
-:param OriginalMessageId: [REQUIRED]
+                BouncedRecipientInfoList=None, BounceSenderArn=None):
+    """
+    :param OriginalMessageId: [REQUIRED]
             The message ID of the message to be bounced.
             
-:type OriginalMessageId: string
-:param BounceSender: [REQUIRED]
+    :type OriginalMessageId: string
+    :param BounceSender: [REQUIRED]
             The address to use in the 'From' header of the bounce message. This must be an identity that you have verified with Amazon SES.
             
-:type BounceSender: string
-:param Explanation: Human-readable text for the bounce message to explain the failure. If not specified, the text will be auto-generated based on the bounced recipient information.
-:type Explanation: string
-:param MessageDsn: Message-related DSN fields. If not specified, Amazon SES will choose the values.
+    :type BounceSender: string
+    :param Explanation: Human-readable text for the bounce message to explain the failure. If not specified, the text will be auto-generated based on the bounced recipient information.
+    :type Explanation: string
+    :param MessageDsn: Message-related DSN fields. If not specified, Amazon SES will choose the values.
             ReportingMta (string) -- [REQUIRED]The reporting MTA that attempted to deliver the message, formatted as specified in RFC 3464 (mta-name-type; mta-name ). The default value is dns; inbound-smtp.[region].amazonaws.com .
             ArrivalDate (datetime) --When the message was received by the reporting mail transfer agent (MTA), in RFC 822 date-time format.
             ExtensionFields (list) --Additional X-headers to include in the DSN.
@@ -776,8 +743,8 @@ def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, Mes
             Value (string) -- [REQUIRED]The value of the header to add. Must be less than 2048 characters, and must not contain newline characters ('r' or 'n').
             
             
-:type MessageDsn: dict
-:param BouncedRecipientInfoList: [REQUIRED]
+    :type MessageDsn: dict
+    :param BouncedRecipientInfoList: [REQUIRED]
             A list of recipients of the bounced message, including the information required to create the Delivery Status Notifications (DSNs) for the recipients. You must specify at least one BouncedRecipientInfo in the list.
             (dict) --Recipient-related information to include in the Delivery Status Notification (DSN) when an email that Amazon SES receives on your behalf bounces.
             For information about receiving email through Amazon SES, see the Amazon SES Developer Guide .
@@ -801,24 +768,23 @@ def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, Mes
             
             
             
-:type BouncedRecipientInfoList: list
-:param BounceSenderArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the 'From' header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide .
-:type BounceSenderArn: string
-"""
+    :type BouncedRecipientInfoList: list
+    :param BounceSenderArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the address in the 'From' header of the bounce. For more information about sending authorization, see the Amazon SES Developer Guide .
+    :type BounceSenderArn: string
+    """
+    pass
 
 
 def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=None, ReturnPath=None, SourceArn=None,
-               ReturnPathArn=None): pass
-
-
-"""
-:param Source: [REQUIRED]
+               ReturnPathArn=None):
+    """
+    :param Source: [REQUIRED]
             The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
             If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
             In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
             
-:type Source: string
-:param Destination: [REQUIRED]
+    :type Source: string
+    :param Destination: [REQUIRED]
             The destination for this email, composed of To:, CC:, and BCC: fields.
             ToAddresses (list) --The To: field(s) of the message.
             (string) --
@@ -827,8 +793,8 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
             BccAddresses (list) --The BCC: field(s) of the message.
             (string) --
             
-:type Destination: dict
-:param Message: [REQUIRED]
+    :type Destination: dict
+    :param Message: [REQUIRED]
             The message to be sent.
             Subject (dict) -- [REQUIRED]The subject of the message: A short summary of the content, which will appear in the recipient's inbox.
             Data (string) -- [REQUIRED]The textual data of the content.
@@ -842,42 +808,40 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
             Charset (string) --The character set of the content.
             
             
-:type Message: dict
-:param ReplyToAddresses: The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    :type Message: dict
+    :param ReplyToAddresses: The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
             (string) --
             
-:type ReplyToAddresses: list
-:param ReturnPath: The email address to which bounces and complaints are to be forwarded when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
-:type ReturnPath: string
-:param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
+    :type ReplyToAddresses: list
+    :param ReturnPath: The email address to which bounces and complaints are to be forwarded when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    :type ReturnPath: string
+    :param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
             For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
             For more information about sending authorization, see the Amazon SES Developer Guide .
             
-:type SourceArn: string
-:param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
+    :type SourceArn: string
+    :param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
             For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
             For more information about sending authorization, see the Amazon SES Developer Guide .
             
-:type ReturnPathArn: string
-"""
+    :type ReturnPathArn: string
+    """
+    pass
 
 
-def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None, SourceArn=None,
-                   ReturnPathArn=None): pass
-
-
-"""
-:param Source: The identity's email address. If you do not provide a value for this parameter, you must specify a 'From' address in the raw text of the message. (You can also specify both.)
+def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None, SourceArn=None, ReturnPathArn=None):
+    """
+    :param Source: The identity's email address. If you do not provide a value for this parameter, you must specify a 'From' address in the raw text of the message. (You can also specify both.)
             By default, the string must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
             Note
             If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
             
-:type Source: string
-:param Destinations: A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
+    :type Source: string
+    :param Destinations: A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
             (string) --
             
-:type Destinations: list
-:param RawMessage: [REQUIRED]
+    :type Destinations: list
+    :param RawMessage: [REQUIRED]
             The raw text of the message. The client is responsible for ensuring the following:
             Message must contain a header and a body, separated by a blank line.
             All required header fields must be present.
@@ -891,155 +855,147 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
             Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.
             For more information, go to the Amazon SES Developer Guide .
             
-:type RawMessage: dict
-:param FromArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular 'From' address in the header of the raw email.
+    :type RawMessage: dict
+    :param FromArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular 'From' address in the header of the raw email.
             Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter.
             Note
             For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
             
-:type FromArn: string
-:param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
+    :type FromArn: string
+    :param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
             For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
             Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter.
             Note
             For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
             
-:type SourceArn: string
-:param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
+    :type SourceArn: string
+    :param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
             For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
             Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter.
             Note
             For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
             
-:type ReturnPathArn: string
-"""
+    :type ReturnPathArn: string
+    """
+    pass
 
 
-def set_active_receipt_rule_set(RuleSetName=None): pass
-
-
-"""
-:param RuleSetName: The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
+def set_active_receipt_rule_set(RuleSetName=None):
+    """
+    :param RuleSetName: The name of the receipt rule set to make active. Setting this value to null disables all email receiving.
             Return typedict
             ReturnsResponse Syntax{}
             Response Structure
             (dict) --An empty element returned on a successful request.
             
             
-:type RuleSetName: string
-"""
+    :type RuleSetName: string
+    """
+    pass
 
 
-def set_identity_dkim_enabled(Identity=None, DkimEnabled=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def set_identity_dkim_enabled(Identity=None, DkimEnabled=None):
+    """
+    :param Identity: [REQUIRED]
             The identity for which DKIM signing should be enabled or disabled.
             
-:type Identity: string
-:param DkimEnabled: [REQUIRED]
+    :type Identity: string
+    :param DkimEnabled: [REQUIRED]
             Sets whether DKIM signing is enabled for an identity. Set to true to enable DKIM signing for this identity; false to disable it.
             
-:type DkimEnabled: boolean
-"""
+    :type DkimEnabled: boolean
+    """
+    pass
 
 
-def set_identity_feedback_forwarding_enabled(Identity=None, ForwardingEnabled=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def set_identity_feedback_forwarding_enabled(Identity=None, ForwardingEnabled=None):
+    """
+    :param Identity: [REQUIRED]
             The identity for which to set bounce and complaint notification forwarding. Examples: user@example.com , example.com .
             
-:type Identity: string
-:param ForwardingEnabled: [REQUIRED]
+    :type Identity: string
+    :param ForwardingEnabled: [REQUIRED]
             Sets whether Amazon SES will forward bounce and complaint notifications as email. true specifies that Amazon SES will forward bounce and complaint notifications as email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies that Amazon SES will publish bounce and complaint notifications only through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint notification types.
             
-:type ForwardingEnabled: boolean
-"""
+    :type ForwardingEnabled: boolean
+    """
+    pass
 
 
-def set_identity_headers_in_notifications_enabled(Identity=None, NotificationType=None, Enabled=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def set_identity_headers_in_notifications_enabled(Identity=None, NotificationType=None, Enabled=None):
+    """
+    :param Identity: [REQUIRED]
             The identity for which to enable or disable headers in notifications. Examples: user@example.com , example.com .
             
-:type Identity: string
-:param NotificationType: [REQUIRED]
+    :type Identity: string
+    :param NotificationType: [REQUIRED]
             The notification type for which to enable or disable headers in notifications.
             
-:type NotificationType: string
-:param Enabled: [REQUIRED]
+    :type NotificationType: string
+    :param Enabled: [REQUIRED]
             Sets whether Amazon SES includes the original email headers in Amazon SNS notifications of the specified notification type. A value of true specifies that Amazon SES will include headers in notifications, and a value of false specifies that Amazon SES will not include headers in notifications.
             This value can only be set when NotificationType is already set to use a particular Amazon SNS topic.
             
-:type Enabled: boolean
-"""
+    :type Enabled: boolean
+    """
+    pass
 
 
-def set_identity_mail_from_domain(Identity=None, MailFromDomain=None, BehaviorOnMXFailure=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def set_identity_mail_from_domain(Identity=None, MailFromDomain=None, BehaviorOnMXFailure=None):
+    """
+    :param Identity: [REQUIRED]
             The verified identity for which you want to enable or disable the specified custom MAIL FROM domain.
             
-:type Identity: string
-:param MailFromDomain: The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a 'From' address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide ), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
-:type MailFromDomain: string
-:param BehaviorOnMXFailure: The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue , Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage , Amazon SES will return a MailFromDomainNotVerified error and not send the email.
+    :type Identity: string
+    :param MailFromDomain: The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a 'From' address if the MAIL FROM domain is the destination of email feedback forwarding (for more information, see the Amazon SES Developer Guide ), and 3) not be used to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
+    :type MailFromDomain: string
+    :param BehaviorOnMXFailure: The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email. If you choose UseDefaultValue , Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose RejectMessage , Amazon SES will return a MailFromDomainNotVerified error and not send the email.
             The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending , Failed , and TemporaryFailure states.
             
-:type BehaviorOnMXFailure: string
-"""
+    :type BehaviorOnMXFailure: string
+    """
+    pass
 
 
-def set_identity_notification_topic(Identity=None, NotificationType=None, SnsTopic=None): pass
-
-
-"""
-:param Identity: [REQUIRED]
+def set_identity_notification_topic(Identity=None, NotificationType=None, SnsTopic=None):
+    """
+    :param Identity: [REQUIRED]
             The identity for which the Amazon SNS topic will be set. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             
-:type Identity: string
-:param NotificationType: [REQUIRED]
+    :type Identity: string
+    :param NotificationType: [REQUIRED]
             The type of notifications that will be published to the specified Amazon SNS topic.
             
-:type NotificationType: string
-:param SnsTopic: The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
-:type SnsTopic: string
-"""
+    :type NotificationType: string
+    :param SnsTopic: The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is omitted from the request or a null value is passed, SnsTopic is cleared and publishing is disabled.
+    :type SnsTopic: string
+    """
+    pass
 
 
-def set_receipt_rule_position(RuleSetName=None, RuleName=None, After=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def set_receipt_rule_position(RuleSetName=None, RuleName=None, After=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set that contains the receipt rule to reposition.
             
-:type RuleSetName: string
-:param RuleName: [REQUIRED]
+    :type RuleSetName: string
+    :param RuleName: [REQUIRED]
             The name of the receipt rule to reposition.
             
-:type RuleName: string
-:param After: The name of the receipt rule after which to place the specified receipt rule.
-:type After: string
-"""
+    :type RuleName: string
+    :param After: The name of the receipt rule after which to place the specified receipt rule.
+    :type After: string
+    """
+    pass
 
 
-def update_receipt_rule(RuleSetName=None, Rule=None): pass
-
-
-"""
-:param RuleSetName: [REQUIRED]
+def update_receipt_rule(RuleSetName=None, Rule=None):
+    """
+    :param RuleSetName: [REQUIRED]
             The name of the receipt rule set to which the receipt rule belongs.
             
-:type RuleSetName: string
-:param Rule: [REQUIRED]
+    :type RuleSetName: string
+    :param Rule: [REQUIRED]
             A data structure that contains the updated receipt rule information.
             Name (string) -- [REQUIRED]The name of the receipt rule. The name must:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
@@ -1091,15 +1047,14 @@ def update_receipt_rule(RuleSetName=None, Rule=None): pass
             
             ScanEnabled (boolean) --If true , then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false .
             
-:type Rule: dict
-"""
+    :type Rule: dict
+    """
+    pass
 
 
-def verify_domain_dkim(Domain=None): pass
-
-
-"""
-:param Domain: [REQUIRED]
+def verify_domain_dkim(Domain=None):
+    """
+    :param Domain: [REQUIRED]
             The name of the domain to be verified for Easy DKIM signing.
             Return typedict
             ReturnsResponse Syntax{
@@ -1115,15 +1070,14 @@ def verify_domain_dkim(Domain=None): pass
             (string) --
             
             
-:type Domain: string
-"""
+    :type Domain: string
+    """
+    pass
 
 
-def verify_domain_identity(Domain=None): pass
-
-
-"""
-:param Domain: [REQUIRED]
+def verify_domain_identity(Domain=None):
+    """
+    :param Domain: [REQUIRED]
             The domain to be verified.
             Return typedict
             ReturnsResponse Syntax{
@@ -1134,27 +1088,25 @@ def verify_domain_identity(Domain=None): pass
             VerificationToken (string) --A TXT record that must be placed in the DNS settings for the domain, in order to complete domain verification.
             
             
-:type Domain: string
-"""
+    :type Domain: string
+    """
+    pass
 
 
-def verify_email_address(EmailAddress=None): pass
-
-
-"""
-:param EmailAddress: [REQUIRED]
+def verify_email_address(EmailAddress=None):
+    """
+    :param EmailAddress: [REQUIRED]
             The email address to be verified.
             ReturnsNone
             
-:type EmailAddress: string
-"""
+    :type EmailAddress: string
+    """
+    pass
 
 
-def verify_email_identity(EmailAddress=None): pass
-
-
-"""
-:param EmailAddress: [REQUIRED]
+def verify_email_identity(EmailAddress=None):
+    """
+    :param EmailAddress: [REQUIRED]
             The email address to be verified.
             Return typedict
             ReturnsResponse Syntax{}
@@ -1162,5 +1114,6 @@ def verify_email_identity(EmailAddress=None): pass
             (dict) --An empty element returned on a successful request.
             
             
-:type EmailAddress: string
-"""
+    :type EmailAddress: string
+    """
+    pass

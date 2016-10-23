@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,32 +34,30 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def check_domain_availability(DomainName=None, IdnLangCode=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def check_domain_availability(DomainName=None, IdnLangCode=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param IdnLangCode: Reserved for future use.
-:type IdnLangCode: string
-"""
+    :type DomainName: string
+    :param IdnLangCode: Reserved for future use.
+    :type IdnLangCode: string
+    """
+    pass
 
 
-def delete_tags_for_domain(DomainName=None, TagsToDelete=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_tags_for_domain(DomainName=None, TagsToDelete=None):
+    """
+    :param DomainName: [REQUIRED]
             The domain for which you want to delete one or more tags.
             The name of a domain.
             Type: String
@@ -69,8 +65,8 @@ def delete_tags_for_domain(DomainName=None, TagsToDelete=None): pass
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when theyre surrounded by letters, numbers, or other hyphens. You cant specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode.
             Required: Yes
             
-:type DomainName: string
-:param TagsToDelete: [REQUIRED]
+    :type DomainName: string
+    :param TagsToDelete: [REQUIRED]
             A list of tag keys to delete.
             Type: A list that contains the keys of the tags that you want to delete.
             Default: None
@@ -78,29 +74,27 @@ def delete_tags_for_domain(DomainName=None, TagsToDelete=None): pass
             '>
             (string) --
             
-:type TagsToDelete: list
-"""
+    :type TagsToDelete: list
+    """
+    pass
 
 
-def disable_domain_auto_renew(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def disable_domain_auto_renew(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{}
             Response Structure
             (dict) --
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def disable_domain_transfer_lock(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def disable_domain_transfer_lock(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
@@ -118,29 +112,27 @@ def disable_domain_transfer_lock(DomainName=None): pass
             Constraints: Maximum 255 characters.
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def enable_domain_auto_renew(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def enable_domain_auto_renew(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             Return typedict
             ReturnsResponse Syntax{}
             Response Structure
             (dict) --
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def enable_domain_transfer_lock(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def enable_domain_transfer_lock(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
@@ -158,33 +150,31 @@ def enable_domain_transfer_lock(DomainName=None): pass
             Constraints: Maximum 255 characters.
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_contact_reachability_status(domainName=None): pass
-
-
-"""
-:param domainName: The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
+def get_contact_reachability_status(domainName=None):
+    """
+    :param domainName: The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
             Type: String
             Default: None
             Required: Yes
@@ -201,15 +191,14 @@ def get_contact_reachability_status(domainName=None): pass
             Valid values: PENDING , DONE , EXPIRED
             
             
-:type domainName: string
-"""
+    :type domainName: string
+    """
+    pass
 
 
-def get_domain_detail(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def get_domain_detail(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
@@ -663,28 +652,26 @@ def get_domain_detail(DomainName=None): pass
             (string) --
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=None): pass
+def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=None):
+    """
+    :param DomainName: [REQUIRED]
+    :type DomainName: string
+    :param SuggestionCount: [REQUIRED]
+    :type SuggestionCount: integer
+    :param OnlyAvailable: [REQUIRED]
+    :type OnlyAvailable: boolean
+    """
+    pass
 
 
-"""
-:param DomainName: [REQUIRED]
-:type DomainName: string
-:param SuggestionCount: [REQUIRED]
-:type SuggestionCount: integer
-:param OnlyAvailable: [REQUIRED]
-:type OnlyAvailable: boolean
-"""
-
-
-def get_operation_detail(OperationId=None): pass
-
-
-"""
-:param OperationId: [REQUIRED]
+def get_operation_detail(OperationId=None):
+    """
+    :param OperationId: [REQUIRED]
             The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
             Type: String
             Default: None
@@ -713,15 +700,14 @@ def get_operation_detail(OperationId=None): pass
             SubmittedDate (datetime) --The date when the request was submitted.
             
             
-:type OperationId: string
-"""
+    :type OperationId: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -733,63 +719,59 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_domains(Marker=None, MaxItems=None): pass
-
-
-"""
-:param Marker: For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems , you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
+def list_domains(Marker=None, MaxItems=None):
+    """
+    :param Marker: For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems , you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
             Type: String
             Default: None
             Constraints: The marker must match the value specified in the previous request.
             Required: No
             
-:type Marker: string
-:param MaxItems: Number of domains to be returned.
+    :type Marker: string
+    :param MaxItems: Number of domains to be returned.
             Type: Integer
             Default: 20
             Constraints: A numeral between 1 and 100.
             Required: No
             
-:type MaxItems: integer
-"""
+    :type MaxItems: integer
+    """
+    pass
 
 
-def list_operations(Marker=None, MaxItems=None): pass
-
-
-"""
-:param Marker: For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems , you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
+def list_operations(Marker=None, MaxItems=None):
+    """
+    :param Marker: For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems , you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
             Type: String
             Default: None
             Required: No
             
-:type Marker: string
-:param MaxItems: Number of domains to be returned.
+    :type Marker: string
+    :param MaxItems: Number of domains to be returned.
             Type: Integer
             Default: 20
             Constraints: A value between 1 and 100.
             Required: No
             
-:type MaxItems: integer
-"""
+    :type MaxItems: integer
+    """
+    pass
 
 
-def list_tags_for_domain(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def list_tags_for_domain(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The domain for which you want to get a list of tags.
             Return typedict
             ReturnsResponse Syntax{
@@ -823,42 +805,41 @@ def list_tags_for_domain(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
 def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, AutoRenew=None, AdminContact=None,
                     RegistrantContact=None, TechContact=None, PrivacyProtectAdminContact=None,
-                    PrivacyProtectRegistrantContact=None, PrivacyProtectTechContact=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+                    PrivacyProtectRegistrantContact=None, PrivacyProtectTechContact=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param IdnLangCode: Reserved for future use.
-:type IdnLangCode: string
-:param DurationInYears: [REQUIRED]
+    :type DomainName: string
+    :param IdnLangCode: Reserved for future use.
+    :type IdnLangCode: string
+    :param DurationInYears: [REQUIRED]
             The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
             Type: Integer
             Default: 1
             Valid values: Integer from 1 to 10
             Required: Yes
             
-:type DurationInYears: integer
-:param AutoRenew: Indicates whether the domain will be automatically renewed (true ) or not (false ). Autorenewal only takes effect after the account is charged.
+    :type DurationInYears: integer
+    :param AutoRenew: Indicates whether the domain will be automatically renewed (true ) or not (false ). Autorenewal only takes effect after the account is charged.
             Type: Boolean
             Valid values: true | false
             Default: true
             Required: No
             
-:type AutoRenew: boolean
-:param AdminContact: [REQUIRED]
+    :type AutoRenew: boolean
+    :param AdminContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -963,8 +944,8 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
             Required: Yes
             
             
-:type AdminContact: dict
-:param RegistrantContact: [REQUIRED]
+    :type AdminContact: dict
+    :param RegistrantContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -1069,8 +1050,8 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
             Required: Yes
             
             
-:type RegistrantContact: dict
-:param TechContact: [REQUIRED]
+    :type RegistrantContact: dict
+    :param TechContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -1175,60 +1156,58 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
             Required: Yes
             
             
-:type TechContact: dict
-:param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type TechContact: dict
+    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectAdminContact: boolean
-:param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type PrivacyProtectAdminContact: boolean
+    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectRegistrantContact: boolean
-:param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type PrivacyProtectRegistrantContact: boolean
+    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectTechContact: boolean
-"""
+    :type PrivacyProtectTechContact: boolean
+    """
+    pass
 
 
-def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
-:type DomainName: string
-:param DurationInYears: The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 documentation.
+def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None):
+    """
+    :param DomainName: [REQUIRED]
+    :type DomainName: string
+    :param DurationInYears: The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 documentation.
             Type: Integer
             Default: 1
             Valid values: Integer from 1 to 10
             Required: No
             
-:type DurationInYears: integer
-:param CurrentExpiryYear: [REQUIRED]
+    :type DurationInYears: integer
+    :param CurrentExpiryYear: [REQUIRED]
             The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
             Type: Integer
             Default: None
             Valid values: Integer
             Required: Yes
             
-:type CurrentExpiryYear: integer
-"""
+    :type CurrentExpiryYear: integer
+    """
+    pass
 
 
-def resend_contact_reachability_email(domainName=None): pass
-
-
-"""
-:param domainName: The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
+def resend_contact_reachability_email(domainName=None):
+    """
+    :param domainName: The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
             Type: String
             Default: None
             Required: Yes
@@ -1245,15 +1224,14 @@ def resend_contact_reachability_email(domainName=None): pass
             isAlreadyVerified (boolean) --True if the email address for the registrant contact has already been verified, and false otherwise. If the email address has already been verified, we don't send another confirmation email.
             
             
-:type domainName: string
-"""
+    :type domainName: string
+    """
+    pass
 
 
-def retrieve_domain_auth_code(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def retrieve_domain_auth_code(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
@@ -1269,36 +1247,35 @@ def retrieve_domain_auth_code(DomainName=None): pass
             Type: String
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
 def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nameservers=None, AuthCode=None,
                     AutoRenew=None, AdminContact=None, RegistrantContact=None, TechContact=None,
                     PrivacyProtectAdminContact=None, PrivacyProtectRegistrantContact=None,
-                    PrivacyProtectTechContact=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+                    PrivacyProtectTechContact=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param IdnLangCode: Reserved for future use.
-:type IdnLangCode: string
-:param DurationInYears: [REQUIRED]
+    :type DomainName: string
+    :param IdnLangCode: Reserved for future use.
+    :type IdnLangCode: string
+    :param DurationInYears: [REQUIRED]
             The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
             Type: Integer
             Default: 1
             Valid values: Integer from 1 to 10
             Required: Yes
             
-:type DurationInYears: integer
-:param Nameservers: Contains details for the host and glue IP addresses.
+    :type DurationInYears: integer
+    :param Nameservers: Contains details for the host and glue IP addresses.
             Type: Complex
             Children: GlueIps , Name
             Required: No
@@ -1314,20 +1291,20 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
             (string) --
             
             
-:type Nameservers: list
-:param AuthCode: The authorization code for the domain. You get this value from the current registrar.
+    :type Nameservers: list
+    :param AuthCode: The authorization code for the domain. You get this value from the current registrar.
             Type: String
             Required: Yes
             
-:type AuthCode: string
-:param AutoRenew: Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged.
+    :type AuthCode: string
+    :param AutoRenew: Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged.
             Type: Boolean
             Valid values: true | false
             Default: true
             Required: No
             
-:type AutoRenew: boolean
-:param AdminContact: [REQUIRED]
+    :type AutoRenew: boolean
+    :param AdminContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -1432,8 +1409,8 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
             Required: Yes
             
             
-:type AdminContact: dict
-:param RegistrantContact: [REQUIRED]
+    :type AdminContact: dict
+    :param RegistrantContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -1538,8 +1515,8 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
             Required: Yes
             
             
-:type RegistrantContact: dict
-:param TechContact: [REQUIRED]
+    :type RegistrantContact: dict
+    :param TechContact: [REQUIRED]
             Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
@@ -1644,44 +1621,43 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
             Required: Yes
             
             
-:type TechContact: dict
-:param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type TechContact: dict
+    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectAdminContact: boolean
-:param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type PrivacyProtectAdminContact: boolean
+    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectRegistrantContact: boolean
-:param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type PrivacyProtectRegistrantContact: boolean
+    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: true
             Valid values: true | false
             Required: No
             
-:type PrivacyProtectTechContact: boolean
-"""
+    :type PrivacyProtectTechContact: boolean
+    """
+    pass
 
 
-def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=None, TechContact=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=None, TechContact=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param AdminContact: Provides detailed contact information.
+    :type DomainName: string
+    :param AdminContact: Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
             Required: Yes
@@ -1785,8 +1761,8 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
             Required: Yes
             
             
-:type AdminContact: dict
-:param RegistrantContact: Provides detailed contact information.
+    :type AdminContact: dict
+    :param RegistrantContact: Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
             Required: Yes
@@ -1890,8 +1866,8 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
             Required: Yes
             
             
-:type RegistrantContact: dict
-:param TechContact: Provides detailed contact information.
+    :type RegistrantContact: dict
+    :param TechContact: Provides detailed contact information.
             Type: Complex
             Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
             Required: Yes
@@ -1995,61 +1971,59 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
             Required: Yes
             
             
-:type TechContact: dict
-"""
+    :type TechContact: dict
+    """
+    pass
 
 
-def update_domain_contact_privacy(DomainName=None, AdminPrivacy=None, RegistrantPrivacy=None, TechPrivacy=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_domain_contact_privacy(DomainName=None, AdminPrivacy=None, RegistrantPrivacy=None, TechPrivacy=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param AdminPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type DomainName: string
+    :param AdminPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: None
             Valid values: true | false
             Required: No
             
-:type AdminPrivacy: boolean
-:param RegistrantPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type AdminPrivacy: boolean
+    :param RegistrantPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: None
             Valid values: true | false
             Required: No
             
-:type RegistrantPrivacy: boolean
-:param TechPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
+    :type RegistrantPrivacy: boolean
+    :param TechPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Type: Boolean
             Default: None
             Valid values: true | false
             Required: No
             
-:type TechPrivacy: boolean
-"""
+    :type TechPrivacy: boolean
+    """
+    pass
 
 
-def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of a domain.
             Type: String
             Default: None
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
             Required: Yes
             
-:type DomainName: string
-:param FIAuthKey: The authorization key for .fi domains
-:type FIAuthKey: string
-:param Nameservers: [REQUIRED]
+    :type DomainName: string
+    :param FIAuthKey: The authorization key for .fi domains
+    :type FIAuthKey: string
+    :param Nameservers: [REQUIRED]
             A list of new name servers for the domain.
             Type: Complex
             Children: Name , GlueIps
@@ -2066,15 +2040,14 @@ def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None)
             (string) --
             
             
-:type Nameservers: list
-"""
+    :type Nameservers: list
+    """
+    pass
 
 
-def update_tags_for_domain(DomainName=None, TagsToUpdate=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_tags_for_domain(DomainName=None, TagsToUpdate=None):
+    """
+    :param DomainName: [REQUIRED]
             The domain for which you want to add or update tags.
             The name of a domain.
             Type: String
@@ -2082,8 +2055,8 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None): pass
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when theyre surrounded by letters, numbers, or other hyphens. You cant specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode.
             Required: Yes
             
-:type DomainName: string
-:param TagsToUpdate: A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
+    :type DomainName: string
+    :param TagsToUpdate: A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
             Type: A complex type containing a list of tags
             Default: None
             Required: No
@@ -2106,38 +2079,38 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None): pass
             Required: Yes
             
             
-:type TagsToUpdate: list
-"""
+    :type TagsToUpdate: list
+    """
+    pass
 
 
-def view_billing(Start=None, End=None, Marker=None, MaxItems=None): pass
-
-
-"""
-:param Start: The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
+def view_billing(Start=None, End=None, Marker=None, MaxItems=None):
+    """
+    :param Start: The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
             Type: Double
             Default: None
             Required: Yes
             
-:type Start: datetime
-:param End: The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
+    :type Start: datetime
+    :param End: The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
             Type: Double
             Default: None
             Required: Yes
             
-:type End: datetime
-:param Marker: For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems , you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
+    :type End: datetime
+    :param Marker: For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems , you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
             Type: String
             Default: None
             Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
             Required: No
             
-:type Marker: string
-:param MaxItems: The number of billing records to be returned.
+    :type Marker: string
+    :param MaxItems: The number of billing records to be returned.
             Type: Integer
             Default: 20
             Constraints: A value between 1 and 100.
             Required: No
             
-:type MaxItems: integer
-"""
+    :type MaxItems: integer
+    """
+    pass

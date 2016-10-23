@@ -23,31 +23,28 @@ SOFTWARE.
 """
 
 
-def associate_vpc_with_hosted_zone(HostedZoneId=None, VPC=None, Comment=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+def associate_vpc_with_hosted_zone(HostedZoneId=None, VPC=None, Comment=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone you want to associate your VPC with.
             Note that you cannot associate a VPC with a hosted zone that doesn't have an existing VPC association.
             
-:type HostedZoneId: string
-:param VPC: [REQUIRED]
+    :type HostedZoneId: string
+    :param VPC: [REQUIRED]
             A complex type containing information about the Amazon VPC that you're associating with the specified hosted zone.
             VPCRegion (string) --The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
             VPCId (string) --A VPC ID
             
-:type VPC: dict
-:param Comment: Optional: A comment about the association request.
-:type Comment: string
-"""
+    :type VPC: dict
+    :param Comment: Optional: A comment about the association request.
+    :type Comment: string
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -56,19 +53,18 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone that contains the resource record sets that you want to change.
             
-:type HostedZoneId: string
-:param ChangeBatch: [REQUIRED]
+    :type HostedZoneId: string
+    :param ChangeBatch: [REQUIRED]
             A complex type that contains an optional comment and the Changes element.
             Comment (string) --
             Optional: Any comments you want to include about a change batch request.
@@ -238,25 +234,24 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None): pass
             
             
             
-:type ChangeBatch: dict
-"""
+    :type ChangeBatch: dict
+    """
+    pass
 
 
-def change_tags_for_resource(ResourceType=None, ResourceId=None, AddTags=None, RemoveTagKeys=None): pass
-
-
-"""
-:param ResourceType: [REQUIRED]
+def change_tags_for_resource(ResourceType=None, ResourceId=None, AddTags=None, RemoveTagKeys=None):
+    """
+    :param ResourceType: [REQUIRED]
             The type of the resource.
             The resource type for health checks is healthcheck .
             The resource type for hosted zones is hostedzone .
             
-:type ResourceType: string
-:param ResourceId: [REQUIRED]
+    :type ResourceType: string
+    :param ResourceId: [REQUIRED]
             The ID of the resource for which you want to add, change, or delete tags.
             
-:type ResourceId: string
-:param AddTags: A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags for which you want to edit the Value element.
+    :type ResourceId: string
+    :param AddTags: A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags for which you want to edit the Value element.
             You can add a maximum of 10 tags to a health check or a hosted zone.
             (dict) --A complex type that contains information about a tag that you want to add or edit for the specified health check or hosted zone.
             Key (string) --The value of Key depends on the operation that you want to perform:
@@ -269,23 +264,22 @@ def change_tags_for_resource(ResourceType=None, ResourceId=None, AddTags=None, R
             Edit a tag : Value is the new value that you want to assign the tag.
             
             
-:type AddTags: list
-:param RemoveTagKeys: A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
+    :type AddTags: list
+    :param RemoveTagKeys: A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
             (string) --
             
-:type RemoveTagKeys: list
-"""
+    :type RemoveTagKeys: list
+    """
+    pass
 
 
-def create_health_check(CallerReference=None, HealthCheckConfig=None): pass
-
-
-"""
-:param CallerReference: [REQUIRED]
+def create_health_check(CallerReference=None, HealthCheckConfig=None):
+    """
+    :param CallerReference: [REQUIRED]
             A unique string that identifies the request and that allows failed CreateHealthCheck requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you create a health check.
             
-:type CallerReference: string
-:param HealthCheckConfig: [REQUIRED]
+    :type CallerReference: string
+    :param HealthCheckConfig: [REQUIRED]
             A complex type that contains the response to a CreateHealthCheck request.
             IPAddress (string) --The IPv4 IP address of the endpoint on which you want Amazon Route 53 to perform health checks. If you don't specify a value for IPAddress , Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval that you specify in RequestInterval. Using an IP address that DNS returns, Amazon Route 53 then checks the health of the endpoint.
             If the endpoint is an Amazon EC2 instance, we recommend that you create an Elastic IP address, associate it with your Amazon EC2 instance, and specify the Elastic IP address for IPAddress . This ensures that the IP address of your instance will never change.
@@ -351,34 +345,33 @@ def create_health_check(CallerReference=None, HealthCheckConfig=None): pass
             Unhealthy : Amazon Route 53 considers the health check to be unhealthy.
             LastKnownStatus : Amazon Route 53uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.
             
-:type HealthCheckConfig: dict
-"""
+    :type HealthCheckConfig: dict
+    """
+    pass
 
 
-def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConfig=None, DelegationSetId=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConfig=None, DelegationSetId=None):
+    """
+    :param Name: [REQUIRED]
             The name of the domain. For resource record types that include a domain name, specify a fully qualified domain name, for example, www.example.com . The trailing dot is optional; Amazon Route 53 assumes that the domain name is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical.
             If you're creating a public hosted zone, this is the name you have registered with your DNS registrar. If your domain name is registered with a registrar other than Amazon Route 53, change the name servers for your domain to the set of NameServers that CreateHostedZone returns in the DelegationSet element.
             
-:type Name: string
-:param VPC: The VPC that you want your hosted zone to be associated with. By providing this parameter, your newly created hosted cannot be resolved anywhere other than the given VPC.
+    :type Name: string
+    :param VPC: The VPC that you want your hosted zone to be associated with. By providing this parameter, your newly created hosted cannot be resolved anywhere other than the given VPC.
             VPCRegion (string) --The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
             VPCId (string) --A VPC ID
             
-:type VPC: dict
-:param CallerReference: [REQUIRED]
+    :type VPC: dict
+    :param CallerReference: [REQUIRED]
             A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you create a hosted zone. CallerReference can be any unique string, for example, a date/time stamp.
             
-:type CallerReference: string
-:param HostedZoneConfig: (Optional) A complex type that contains an optional comment about your hosted zone. If you don't want to specify a comment, omit both the HostedZoneConfig and Comment elements.
+    :type CallerReference: string
+    :param HostedZoneConfig: (Optional) A complex type that contains an optional comment about your hosted zone. If you don't want to specify a comment, omit both the HostedZoneConfig and Comment elements.
             Comment (string) --Any comments that you want to include about the hosted zone.
             PrivateZone (boolean) --A value that indicates whether this is a private hosted zone.
             
-:type HostedZoneConfig: dict
-:param DelegationSetId: If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet .
+    :type HostedZoneConfig: dict
+    :param DelegationSetId: If you want to associate a reusable delegation set with this hosted zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created it. For more information about reusable delegation sets, see CreateReusableDelegationSet .
             Type
             String
             Default
@@ -386,90 +379,85 @@ def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConf
             Parent
             CreatedHostedZoneRequest
             
-:type DelegationSetId: string
-"""
+    :type DelegationSetId: string
+    """
+    pass
 
 
-def create_reusable_delegation_set(CallerReference=None, HostedZoneId=None): pass
-
-
-"""
-:param CallerReference: [REQUIRED]
+def create_reusable_delegation_set(CallerReference=None, HostedZoneId=None):
+    """
+    :param CallerReference: [REQUIRED]
             A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
             
-:type CallerReference: string
-:param HostedZoneId: If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone.
-:type HostedZoneId: string
-"""
+    :type CallerReference: string
+    :param HostedZoneId: If you want to mark the delegation set for an existing hosted zone as reusable, the ID for that hosted zone.
+    :type HostedZoneId: string
+    """
+    pass
 
 
-def create_traffic_policy(Name=None, Document=None, Comment=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_traffic_policy(Name=None, Document=None, Comment=None):
+    """
+    :param Name: [REQUIRED]
             The name of the traffic policy.
             
-:type Name: string
-:param Document: [REQUIRED]
+    :type Name: string
+    :param Document: [REQUIRED]
             The definition of this traffic policy in JSON format. For more information, see Traffic Policy Document Format in the Amazon Route 53 API Reference .
             
-:type Document: string
-:param Comment: (Optional) Any comments that you want to include about the traffic policy.
-:type Comment: string
-"""
+    :type Document: string
+    :param Comment: (Optional) Any comments that you want to include about the traffic policy.
+    :type Comment: string
+    """
+    pass
 
 
 def create_traffic_policy_instance(HostedZoneId=None, Name=None, TTL=None, TrafficPolicyId=None,
-                                   TrafficPolicyVersion=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+                                   TrafficPolicyVersion=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone in which you want Amazon Route 53 to create resource record sets by using the configuration in a traffic policy.
             
-:type HostedZoneId: string
-:param Name: [REQUIRED]
+    :type HostedZoneId: string
+    :param Name: [REQUIRED]
             The domain name (such as example.com) or subdomain name (such as www.example.com) for which Amazon Route 53 responds to DNS queries by using the resource record sets that Amazon Route 53 creates for this traffic policy instance.
             
-:type Name: string
-:param TTL: [REQUIRED]
+    :type Name: string
+    :param TTL: [REQUIRED]
             (Optional) The TTL that you want Amazon Route 53 to assign to all of the resource record sets that it creates in the specified hosted zone.
             
-:type TTL: integer
-:param TrafficPolicyId: [REQUIRED]
+    :type TTL: integer
+    :param TrafficPolicyId: [REQUIRED]
             The ID of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
             
-:type TrafficPolicyId: string
-:param TrafficPolicyVersion: [REQUIRED]
+    :type TrafficPolicyId: string
+    :param TrafficPolicyVersion: [REQUIRED]
             The version of the traffic policy that you want to use to create resource record sets in the specified hosted zone.
             
-:type TrafficPolicyVersion: integer
-"""
+    :type TrafficPolicyVersion: integer
+    """
+    pass
 
 
-def create_traffic_policy_version(Id=None, Document=None, Comment=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def create_traffic_policy_version(Id=None, Document=None, Comment=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy for which you want to create a new version.
             
-:type Id: string
-:param Document: [REQUIRED]
+    :type Id: string
+    :param Document: [REQUIRED]
             The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see CreateTrafficPolicy .
             
-:type Document: string
-:param Comment: The comment that you specified in the CreateTrafficPolicyVersion request, if any.
-:type Comment: string
-"""
+    :type Document: string
+    :param Comment: The comment that you specified in the CreateTrafficPolicyVersion request, if any.
+    :type Comment: string
+    """
+    pass
 
 
-def delete_health_check(HealthCheckId=None): pass
-
-
-"""
-:param HealthCheckId: [REQUIRED]
+def delete_health_check(HealthCheckId=None):
+    """
+    :param HealthCheckId: [REQUIRED]
             The ID of the health check that you want to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -477,15 +465,14 @@ def delete_health_check(HealthCheckId=None): pass
             (dict) --An empty element.
             
             
-:type HealthCheckId: string
-"""
+    :type HealthCheckId: string
+    """
+    pass
 
 
-def delete_hosted_zone(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_hosted_zone(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the hosted zone you want to delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -507,15 +494,14 @@ def delete_hosted_zone(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def delete_reusable_delegation_set(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_reusable_delegation_set(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the reusable delegation set you want to delete.
             Return typedict
             ReturnsResponse Syntax{}
@@ -523,30 +509,28 @@ def delete_reusable_delegation_set(Id=None): pass
             (dict) --An empty element.
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def delete_traffic_policy(Id=None, Version=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_traffic_policy(Id=None, Version=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy that you want to delete.
             
-:type Id: string
-:param Version: [REQUIRED]
+    :type Id: string
+    :param Version: [REQUIRED]
             The version number of the traffic policy that you want to delete.
             
-:type Version: integer
-"""
+    :type Version: integer
+    """
+    pass
 
 
-def delete_traffic_policy_instance(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_traffic_policy_instance(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy instance that you want to delete.
             Warning
             When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance.
@@ -556,52 +540,49 @@ def delete_traffic_policy_instance(Id=None): pass
             (dict) --An empty element.
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def disassociate_vpc_from_hosted_zone(HostedZoneId=None, VPC=None, Comment=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+def disassociate_vpc_from_hosted_zone(HostedZoneId=None, VPC=None, Comment=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the VPC that you want to disassociate from an Amazon Route 53 hosted zone.
             
-:type HostedZoneId: string
-:param VPC: [REQUIRED]
+    :type HostedZoneId: string
+    :param VPC: [REQUIRED]
             A complex type containing information about the Amazon VPC that you're disassociating from the specified hosted zone.
             VPCRegion (string) --The region in which you created the VPC that you want to associate with the specified Amazon Route 53 hosted zone.
             VPCId (string) --A VPC ID
             
-:type VPC: dict
-:param Comment: Optional: A comment about the disassociation request.
-:type Comment: string
-"""
+    :type VPC: dict
+    :param Comment: Optional: A comment about the disassociation request.
+    :type Comment: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_change(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_change(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
             Return typedict
             ReturnsResponse Syntax{
@@ -623,15 +604,14 @@ def get_change(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_change_details(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_change_details(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the change batch. This is the value that you specified in the change ID parameter when you submitted the request.
             Return typedict
             ReturnsResponse Syntax{
@@ -851,22 +831,20 @@ def get_change_details(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_checker_ip_ranges(): pass
+def get_checker_ip_ranges():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def get_geo_location(ContinentCode=None, CountryCode=None, SubdivisionCode=None): pass
-
-
-"""
-:param ContinentCode: Amazon Route 53 supports the following continent codes:
+def get_geo_location(ContinentCode=None, CountryCode=None, SubdivisionCode=None):
+    """
+    :param ContinentCode: Amazon Route 53 supports the following continent codes:
             AF : Africa
             AN : Antarctica
             AS : Asia
@@ -875,19 +853,18 @@ def get_geo_location(ContinentCode=None, CountryCode=None, SubdivisionCode=None)
             NA : North America
             SA : South America
             
-:type ContinentCode: string
-:param CountryCode: Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2 .
-:type CountryCode: string
-:param SubdivisionCode: Amazon Route 53 uses the one- to three-letter subdivision codes that are specified in ISO standard 3166-1 alpha-2 . Amazon Route 53 doesn't support subdivision codes for all countries. If you specify SubdivisionCode , you must also specify CountryCode .
-:type SubdivisionCode: string
-"""
+    :type ContinentCode: string
+    :param CountryCode: Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2 .
+    :type CountryCode: string
+    :param SubdivisionCode: Amazon Route 53 uses the one- to three-letter subdivision codes that are specified in ISO standard 3166-1 alpha-2 . Amazon Route 53 doesn't support subdivision codes for all countries. If you specify SubdivisionCode , you must also specify CountryCode .
+    :type SubdivisionCode: string
+    """
+    pass
 
 
-def get_health_check(HealthCheckId=None): pass
-
-
-"""
-:param HealthCheckId: [REQUIRED]
+def get_health_check(HealthCheckId=None):
+    """
+    :param HealthCheckId: [REQUIRED]
             The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
             Return typedict
             ReturnsResponse Syntax{
@@ -1024,22 +1001,20 @@ def get_health_check(HealthCheckId=None): pass
             
             
             
-:type HealthCheckId: string
-"""
+    :type HealthCheckId: string
+    """
+    pass
 
 
-def get_health_check_count(): pass
+def get_health_check_count():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def get_health_check_last_failure_reason(HealthCheckId=None): pass
-
-
-"""
-:param HealthCheckId: [REQUIRED]
+def get_health_check_last_failure_reason(HealthCheckId=None):
+    """
+    :param HealthCheckId: [REQUIRED]
             The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
             Return typedict
             ReturnsResponse Syntax{
@@ -1067,15 +1042,14 @@ def get_health_check_last_failure_reason(HealthCheckId=None): pass
             
             
             
-:type HealthCheckId: string
-"""
+    :type HealthCheckId: string
+    """
+    pass
 
 
-def get_health_check_status(HealthCheckId=None): pass
-
-
-"""
-:param HealthCheckId: [REQUIRED]
+def get_health_check_status(HealthCheckId=None):
+    """
+    :param HealthCheckId: [REQUIRED]
             If you want Amazon Route 53 to return this resource record set in response to a DNS query only when a health check is passing, include the HealthCheckId element and specify the ID of the applicable health check.
             Amazon Route 53 determines whether a resource record set is healthy by periodically sending a request to the endpoint that is specified in the health check. If that endpoint returns an HTTP status code of 2xx or 3xx, the endpoint is healthy. If the endpoint returns an HTTP status code of 400 or greater, or if the endpoint doesn't respond for a certain amount of time, Amazon Route 53 considers the endpoint unhealthy and also considers the resource record set unhealthy.
             The HealthCheckId element is only useful when Amazon Route 53 is choosing between two or more resource record sets to respond to a DNS query, and you want Amazon Route 53 to base the choice in part on the status of a health check. Configuring health checks only makes sense in the following configurations:
@@ -1111,15 +1085,14 @@ def get_health_check_status(HealthCheckId=None): pass
             
             
             
-:type HealthCheckId: string
-"""
+    :type HealthCheckId: string
+    """
+    pass
 
 
-def get_hosted_zone(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_hosted_zone(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the hosted zone for which you want to get a list of the name servers in the delegation set.
             Return typedict
             ReturnsResponse Syntax{
@@ -1171,22 +1144,20 @@ def get_hosted_zone(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_hosted_zone_count(): pass
+def get_hosted_zone_count():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -1198,15 +1169,14 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_reusable_delegation_set(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_reusable_delegation_set(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the reusable delegation set for which you want to get a list of the name server.
             Return typedict
             ReturnsResponse Syntax{
@@ -1228,30 +1198,28 @@ def get_reusable_delegation_set(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_traffic_policy(Id=None, Version=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_traffic_policy(Id=None, Version=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy that you want to get information about.
             
-:type Id: string
-:param Version: [REQUIRED]
+    :type Id: string
+    :param Version: [REQUIRED]
             The version number of the traffic policy that you want to get information about.
             
-:type Version: integer
-"""
+    :type Version: integer
+    """
+    pass
 
 
-def get_traffic_policy_instance(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_traffic_policy_instance(Id=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy instance that you want to get information about.
             Return typedict
             ReturnsResponse Syntax{
@@ -1288,160 +1256,150 @@ def get_traffic_policy_instance(Id=None): pass
             
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_traffic_policy_instance_count(): pass
+def get_traffic_policy_instance_count():
+    """
+    """
+    pass
 
 
-"""
-"""
+def get_waiter():
+    """
+    """
+    pass
 
 
-def get_waiter(): pass
-
-
-"""
-"""
-
-
-def list_change_batches_by_hosted_zone(HostedZoneId=None, StartDate=None, EndDate=None, MaxItems=None,
-                                       Marker=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+def list_change_batches_by_hosted_zone(HostedZoneId=None, StartDate=None, EndDate=None, MaxItems=None, Marker=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone that you want to see changes for.
             
-:type HostedZoneId: string
-:param StartDate: [REQUIRED]
+    :type HostedZoneId: string
+    :param StartDate: [REQUIRED]
             The start of the time period you want to see changes for.
             
-:type StartDate: string
-:param EndDate: [REQUIRED]
+    :type StartDate: string
+    :param EndDate: [REQUIRED]
             The end of the time period you want to see changes for.
             
-:type EndDate: string
-:param MaxItems: The maximum number of items on a page.
-:type MaxItems: string
-:param Marker: The page marker.
-:type Marker: string
-"""
+    :type EndDate: string
+    :param MaxItems: The maximum number of items on a page.
+    :type MaxItems: string
+    :param Marker: The page marker.
+    :type Marker: string
+    """
+    pass
 
 
 def list_change_batches_by_rr_set(HostedZoneId=None, Name=None, Type=None, SetIdentifier=None, StartDate=None,
-                                  EndDate=None, MaxItems=None, Marker=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+                                  EndDate=None, MaxItems=None, Marker=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone that you want to see changes for.
             
-:type HostedZoneId: string
-:param Name: [REQUIRED]
+    :type HostedZoneId: string
+    :param Name: [REQUIRED]
             The name of the RRSet that you want to see changes for.
             
-:type Name: string
-:param Type: [REQUIRED]
+    :type Name: string
+    :param Type: [REQUIRED]
             The type of the RRSet that you want to see changes for.
             
-:type Type: string
-:param SetIdentifier: The identifier of the RRSet that you want to see changes for.
-:type SetIdentifier: string
-:param StartDate: [REQUIRED]
+    :type Type: string
+    :param SetIdentifier: The identifier of the RRSet that you want to see changes for.
+    :type SetIdentifier: string
+    :param StartDate: [REQUIRED]
             The start of the time period you want to see changes for.
             
-:type StartDate: string
-:param EndDate: [REQUIRED]
+    :type StartDate: string
+    :param EndDate: [REQUIRED]
             The end of the time period you want to see changes for.
             
-:type EndDate: string
-:param MaxItems: The maximum number of items on a page.
-:type MaxItems: string
-:param Marker: The page marker.
-:type Marker: string
-"""
+    :type EndDate: string
+    :param MaxItems: The maximum number of items on a page.
+    :type MaxItems: string
+    :param Marker: The page marker.
+    :type Marker: string
+    """
+    pass
 
 
-def list_geo_locations(StartContinentCode=None, StartCountryCode=None, StartSubdivisionCode=None, MaxItems=None): pass
-
-
-"""
-:param StartContinentCode: The code for the continent with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in StartContinentCode to return the next page of results.
+def list_geo_locations(StartContinentCode=None, StartCountryCode=None, StartSubdivisionCode=None, MaxItems=None):
+    """
+    :param StartContinentCode: The code for the continent with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in StartContinentCode to return the next page of results.
             Include StartContinentCode only if you want to list continents. Don't include StartContinentCode when you're listing countries or countries with their subdivisions.
             
-:type StartContinentCode: string
-:param StartCountryCode: The code for the country with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextCountryCode from the previous response has a value, enter that value in StartCountryCode to return the next page of results.
+    :type StartContinentCode: string
+    :param StartCountryCode: The code for the country with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextCountryCode from the previous response has a value, enter that value in StartCountryCode to return the next page of results.
             Amazon Route 53 uses the two-letter country codes that are specified in ISO standard 3166-1 alpha-2 .
             
-:type StartCountryCode: string
-:param StartSubdivisionCode: The code for the subdivision (for example, state or province) with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextSubdivisionCode from the previous response has a value, enter that value in StartSubdivisionCode to return the next page of results.
+    :type StartCountryCode: string
+    :param StartSubdivisionCode: The code for the subdivision (for example, state or province) with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Amazon Route 53 has already returned a page or more of results, if IsTruncated is true , and if NextSubdivisionCode from the previous response has a value, enter that value in StartSubdivisionCode to return the next page of results.
             To list subdivisions of a country, you must include both StartCountryCode and StartSubdivisionCode .
             
-:type StartSubdivisionCode: string
-:param MaxItems: (Optional) The maximum number of geolocations to be included in the response body for this request. If more than MaxItems geolocations remain to be listed, then the value of the IsTruncated element in the response is true .
-:type MaxItems: string
-"""
+    :type StartSubdivisionCode: string
+    :param MaxItems: (Optional) The maximum number of geolocations to be included in the response body for this request. If more than MaxItems geolocations remain to be listed, then the value of the IsTruncated element in the response is true .
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_health_checks(Marker=None, MaxItems=None): pass
-
-
-"""
-:param Marker: If the response to a ListHealthChecks is more than one page, marker is the health check ID for the first health check on the next page of results. For more information, see ListHealthChecksResponse$MaxItems .
-:type Marker: string
-:param MaxItems: The maximum number of HealthCheck elements you want ListHealthChecks to return on each page of the response body. If the AWS account includes more HealthCheck elements than the value of maxitems , the response is broken into pages. Each page contains the number of HealthCheck elements specified by maxitems .
+def list_health_checks(Marker=None, MaxItems=None):
+    """
+    :param Marker: If the response to a ListHealthChecks is more than one page, marker is the health check ID for the first health check on the next page of results. For more information, see ListHealthChecksResponse$MaxItems .
+    :type Marker: string
+    :param MaxItems: The maximum number of HealthCheck elements you want ListHealthChecks to return on each page of the response body. If the AWS account includes more HealthCheck elements than the value of maxitems , the response is broken into pages. Each page contains the number of HealthCheck elements specified by maxitems .
             For example, suppose you specify 10 for maxitems and the current AWS account has 51 health checks. In the response, ListHealthChecks sets ListHealthChecksResponse$IsTruncated to true and includes the ListHealthChecksResponse$NextMarker element. To access the second and subsequent pages, you resend the GET ListHealthChecks request, add the ListHealthChecksResponse$Marker parameter to the request, and specify the value of the ListHealthChecksResponse$NextMarker element from the previous response. On the last (sixth) page of the response, which contains only one HealthCheck element:
             The value of ListHealthChecksResponse$IsTruncated is false .
             ListHealthChecksResponse$NextMarker is omitted.
             
-:type MaxItems: string
-"""
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_hosted_zones(Marker=None, MaxItems=None, DelegationSetId=None): pass
-
-
-"""
-:param Marker: (Optional) If you have more hosted zones than the value of maxitems , ListHostedZones returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZones . For the value of marker, specify the value of the NextMarker element that was returned in the previous response.
+def list_hosted_zones(Marker=None, MaxItems=None, DelegationSetId=None):
+    """
+    :param Marker: (Optional) If you have more hosted zones than the value of maxitems , ListHostedZones returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZones . For the value of marker, specify the value of the NextMarker element that was returned in the previous response.
             Hosted zones are listed in the order in which they were created.
             
-:type Marker: string
-:param MaxItems: (Optional) The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, the value of the IsTruncated element in the response is true , and the value of the NextMarker element is the hosted zone ID of the first hosted zone in the next group of maxitems hosted zones.
-:type MaxItems: string
-:param DelegationSetId: If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set.
-:type DelegationSetId: string
-"""
+    :type Marker: string
+    :param MaxItems: (Optional) The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, the value of the IsTruncated element in the response is true , and the value of the NextMarker element is the hosted zone ID of the first hosted zone in the next group of maxitems hosted zones.
+    :type MaxItems: string
+    :param DelegationSetId: If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set.
+    :type DelegationSetId: string
+    """
+    pass
 
 
-def list_hosted_zones_by_name(DNSName=None, HostedZoneId=None, MaxItems=None): pass
-
-
-"""
-:param DNSName: (Optional) For your first request to ListHostedZonesByName , include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current AWS account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname , specify the value of NextDNSName from the previous response.
-:type DNSName: string
-:param HostedZoneId: (Optional) For your first request to ListHostedZonesByName , do not include the hostedzoneid parameter.
+def list_hosted_zones_by_name(DNSName=None, HostedZoneId=None, MaxItems=None):
+    """
+    :param DNSName: (Optional) For your first request to ListHostedZonesByName , include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current AWS account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname , specify the value of NextDNSName from the previous response.
+    :type DNSName: string
+    :param HostedZoneId: (Optional) For your first request to ListHostedZonesByName , do not include the hostedzoneid parameter.
             If you have more hosted zones than the value of maxitems , ListHostedZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid parameters. For the value of hostedzoneid , specify the value of the NextHostedZoneId element from the previous response.
             
-:type HostedZoneId: string
-:param MaxItems: The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
-:type MaxItems: string
-"""
+    :type HostedZoneId: string
+    :param MaxItems: The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
+    :type MaxItems: string
+    """
+    pass
 
 
 def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartRecordType=None, StartRecordIdentifier=None,
-                              MaxItems=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+                              MaxItems=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone that contains the resource record sets that you want to get.
             
-:type HostedZoneId: string
-:param StartRecordName: The first name in the lexicographic ordering of domain names that you want the ListResourceRecordSets request to list.
-:type StartRecordName: string
-:param StartRecordType: The type of resource record set to begin the record listing from.
+    :type HostedZoneId: string
+    :param StartRecordName: The first name in the lexicographic ordering of domain names that you want the ListResourceRecordSets request to list.
+    :type StartRecordName: string
+    :param StartRecordType: The type of resource record set to begin the record listing from.
             Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
             Values for weighted, latency, geo, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT
             Values for alias resource record sets:
@@ -1451,235 +1409,225 @@ def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartReco
             Amazon S3 bucket : A
             Constraint: Specifying type without specifying name returns an InvalidInput error.
             
-:type StartRecordType: string
-:param StartRecordIdentifier: Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
-:type StartRecordIdentifier: string
-:param MaxItems: (Optional) The maximum number of resource records sets to include in the response body for this request. If the response includes more than maxitems resource record sets, the value of the IsTruncated element in the response is true , and the values of the NextRecordName and NextRecordType elements in the response identify the first resource record set in the next group of maxitems resource record sets.
-:type MaxItems: string
-"""
+    :type StartRecordType: string
+    :param StartRecordIdentifier: Weighted resource record sets only: If results were truncated for a given DNS name and type, specify the value of NextRecordIdentifier from the previous response to get the next resource record set that has the current DNS name and type.
+    :type StartRecordIdentifier: string
+    :param MaxItems: (Optional) The maximum number of resource records sets to include in the response body for this request. If the response includes more than maxitems resource record sets, the value of the IsTruncated element in the response is true , and the values of the NextRecordName and NextRecordType elements in the response identify the first resource record set in the next group of maxitems resource record sets.
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_reusable_delegation_sets(Marker=None, MaxItems=None): pass
+def list_reusable_delegation_sets(Marker=None, MaxItems=None):
+    """
+    :param Marker: If you're making the second or subsequent call to ListReusableDelegationSets , the Marker element matches the value that you specified in the marker parameter in the previous request.
+    :type Marker: string
+    :param MaxItems: The value that you specified for the maxitems parameter in the request that produced the current response.
+    :type MaxItems: string
+    """
+    pass
 
 
-"""
-:param Marker: If you're making the second or subsequent call to ListReusableDelegationSets , the Marker element matches the value that you specified in the marker parameter in the previous request.
-:type Marker: string
-:param MaxItems: The value that you specified for the maxitems parameter in the request that produced the current response.
-:type MaxItems: string
-"""
-
-
-def list_tags_for_resource(ResourceType=None, ResourceId=None): pass
-
-
-"""
-:param ResourceType: [REQUIRED]
+def list_tags_for_resource(ResourceType=None, ResourceId=None):
+    """
+    :param ResourceType: [REQUIRED]
             The type of the resource.
             The resource type for health checks is healthcheck .
             The resource type for hosted zones is hostedzone .
             
-:type ResourceType: string
-:param ResourceId: [REQUIRED]
+    :type ResourceType: string
+    :param ResourceId: [REQUIRED]
             The ID of the resource for which you want to retrieve tags.
             
-:type ResourceId: string
-"""
+    :type ResourceId: string
+    """
+    pass
 
 
-def list_tags_for_resources(ResourceType=None, ResourceIds=None): pass
-
-
-"""
-:param ResourceType: [REQUIRED]
+def list_tags_for_resources(ResourceType=None, ResourceIds=None):
+    """
+    :param ResourceType: [REQUIRED]
             The type of the resources.
             The resource type for health checks is healthcheck .
             The resource type for hosted zones is hostedzone .
             
-:type ResourceType: string
-:param ResourceIds: [REQUIRED]
+    :type ResourceType: string
+    :param ResourceIds: [REQUIRED]
             A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
             (string) --
             
-:type ResourceIds: list
-"""
+    :type ResourceIds: list
+    """
+    pass
 
 
-def list_traffic_policies(TrafficPolicyIdMarker=None, MaxItems=None): pass
-
-
-"""
-:param TrafficPolicyIdMarker: (Conditional) For your first request to ListTrafficPolicies , do not include the TrafficPolicyIdMarker parameter.
+def list_traffic_policies(TrafficPolicyIdMarker=None, MaxItems=None):
+    """
+    :param TrafficPolicyIdMarker: (Conditional) For your first request to ListTrafficPolicies , do not include the TrafficPolicyIdMarker parameter.
             If you have more traffic policies than the value of MaxItems , ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of MaxItems policies, submit another request to ListTrafficPolicies . For the value of TrafficPolicyIdMarker , specify the value of the TrafficPolicyIdMarker element that was returned in the previous response.
             Policies are listed in the order in which they were created.
             
-:type TrafficPolicyIdMarker: string
-:param MaxItems: (Optional) The maximum number of traffic policies to be included in the response body for this request. If you have more than MaxItems traffic policies, the value of the IsTruncated element in the response is true , and the value of the TrafficPolicyIdMarker element is the ID of the first traffic policy in the next group of MaxItems traffic policies.
-:type MaxItems: string
-"""
+    :type TrafficPolicyIdMarker: string
+    :param MaxItems: (Optional) The maximum number of traffic policies to be included in the response body for this request. If you have more than MaxItems traffic policies, the value of the IsTruncated element in the response is true , and the value of the TrafficPolicyIdMarker element is the ID of the first traffic policy in the next group of MaxItems traffic policies.
+    :type MaxItems: string
+    """
+    pass
 
 
 def list_traffic_policy_instances(HostedZoneIdMarker=None, TrafficPolicyInstanceNameMarker=None,
-                                  TrafficPolicyInstanceTypeMarker=None, MaxItems=None): pass
-
-
-"""
-:param HostedZoneIdMarker: For the first request to ListTrafficPolicyInstances , omit this value.
+                                  TrafficPolicyInstanceTypeMarker=None, MaxItems=None):
+    """
+    :param HostedZoneIdMarker: For the first request to ListTrafficPolicyInstances , omit this value.
             If the value of IsTruncated in the previous response was true , you have more traffic policy instances. To get the next group of MaxItems traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneIdMarker , specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get.
             
-:type HostedZoneIdMarker: string
-:param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstances , omit this value.
+    :type HostedZoneIdMarker: string
+    :param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstances , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get.
             
-:type TrafficPolicyInstanceNameMarker: string
-:param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstances , omit this value.
+    :type TrafficPolicyInstanceNameMarker: string
+    :param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstances , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get.
             
-:type TrafficPolicyInstanceTypeMarker: string
-:param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
-:type MaxItems: string
-"""
+    :type TrafficPolicyInstanceTypeMarker: string
+    :param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+    :type MaxItems: string
+    """
+    pass
 
 
 def list_traffic_policy_instances_by_hosted_zone(HostedZoneId=None, TrafficPolicyInstanceNameMarker=None,
-                                                 TrafficPolicyInstanceTypeMarker=None, MaxItems=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+                                                 TrafficPolicyInstanceTypeMarker=None, MaxItems=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone for which you want to list traffic policy instances.
             
-:type HostedZoneId: string
-:param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstancesByHostedZone , omit this value.
+    :type HostedZoneId: string
+    :param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstancesByHostedZone , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get for this hosted zone.
             If the value of IsTruncated in the previous response was false , omit this value.
             
-:type TrafficPolicyInstanceNameMarker: string
-:param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstancesByHostedZone , omit this value.
+    :type TrafficPolicyInstanceNameMarker: string
+    :param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstancesByHostedZone , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get for this hosted zone.
             
-:type TrafficPolicyInstanceTypeMarker: string
-:param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
-:type MaxItems: string
-"""
+    :type TrafficPolicyInstanceTypeMarker: string
+    :param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+    :type MaxItems: string
+    """
+    pass
 
 
 def list_traffic_policy_instances_by_policy(TrafficPolicyId=None, TrafficPolicyVersion=None, HostedZoneIdMarker=None,
                                             TrafficPolicyInstanceNameMarker=None, TrafficPolicyInstanceTypeMarker=None,
-                                            MaxItems=None): pass
-
-
-"""
-:param TrafficPolicyId: [REQUIRED]
+                                            MaxItems=None):
+    """
+    :param TrafficPolicyId: [REQUIRED]
             The ID of the traffic policy for which you want to list traffic policy instances.
             
-:type TrafficPolicyId: string
-:param TrafficPolicyVersion: [REQUIRED]
+    :type TrafficPolicyId: string
+    :param TrafficPolicyVersion: [REQUIRED]
             The version of the traffic policy for which you want to list traffic policy instances. The version must be associated with the traffic policy that is specified by TrafficPolicyId .
             
-:type TrafficPolicyVersion: integer
-:param HostedZoneIdMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
+    :type TrafficPolicyVersion: integer
+    :param HostedZoneIdMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
             If the value of IsTruncated in the previous response was true , HostedZoneIdMarker is the ID of the hosted zone for the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get for this hosted zone.
             If the value of IsTruncated in the previous response was false , omit this value.
             
-:type HostedZoneIdMarker: string
-:param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
+    :type HostedZoneIdMarker: string
+    :param TrafficPolicyInstanceNameMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceNameMarker is the name of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get for this hosted zone.
             If the value of IsTruncated in the previous response was false , omit this value.
             
-:type TrafficPolicyInstanceNameMarker: string
-:param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
+    :type TrafficPolicyInstanceNameMarker: string
+    :param TrafficPolicyInstanceTypeMarker: For the first request to ListTrafficPolicyInstancesByPolicy , omit this value.
             If the value of IsTruncated in the previous response was true , TrafficPolicyInstanceTypeMarker is the DNS type of the first traffic policy instance in the next group of MaxItems traffic policy instances.
             If the value of IsTruncated in the previous response was false , there are no more traffic policy instances to get for this hosted zone.
             
-:type TrafficPolicyInstanceTypeMarker: string
-:param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
-:type MaxItems: string
-"""
+    :type TrafficPolicyInstanceTypeMarker: string
+    :param MaxItems: The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true , and the values of HostedZoneIdMarker , TrafficPolicyInstanceNameMarker , and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_traffic_policy_versions(Id=None, TrafficPolicyVersionMarker=None, MaxItems=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def list_traffic_policy_versions(Id=None, TrafficPolicyVersionMarker=None, MaxItems=None):
+    """
+    :param Id: [REQUIRED]
             Specify the value of Id of the traffic policy for which you want to list all versions.
             
-:type Id: string
-:param TrafficPolicyVersionMarker: For your first request to ListTrafficPolicyVersions , do not include the TrafficPolicyVersionMarker parameter.
+    :type Id: string
+    :param TrafficPolicyVersionMarker: For your first request to ListTrafficPolicyVersions , do not include the TrafficPolicyVersionMarker parameter.
             If you have more traffic policy versions than the value of MaxItems , ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get the next group of MaxItems traffic policy versions, submit another request to ListTrafficPolicyVersions . For the value of TrafficPolicyVersionMarker , specify the value of the TrafficPolicyVersionMarker element that was returned in the previous response.
             Traffic policy versions are listed in sequential order.
             
-:type TrafficPolicyVersionMarker: string
-:param MaxItems: The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of the IsTruncated element in the response is true , and the value of the TrafficPolicyVersionMarker element is the ID of the first version in the next group of MaxItems traffic policy versions.
-:type MaxItems: string
-"""
+    :type TrafficPolicyVersionMarker: string
+    :param MaxItems: The maximum number of traffic policy versions that you want Amazon Route 53 to include in the response body for this request. If the specified traffic policy has more than MaxItems versions, the value of the IsTruncated element in the response is true , and the value of the TrafficPolicyVersionMarker element is the ID of the first version in the next group of MaxItems traffic policy versions.
+    :type MaxItems: string
+    """
+    pass
 
 
 def test_dns_answer(HostedZoneId=None, RecordName=None, RecordType=None, ResolverIP=None, EDNS0ClientSubnetIP=None,
-                    EDNS0ClientSubnetMask=None): pass
-
-
-"""
-:param HostedZoneId: [REQUIRED]
+                    EDNS0ClientSubnetMask=None):
+    """
+    :param HostedZoneId: [REQUIRED]
             The ID of the hosted zone that you want Amazon Route 53 to simulate a query for.
             
-:type HostedZoneId: string
-:param RecordName: [REQUIRED]
+    :type HostedZoneId: string
+    :param RecordName: [REQUIRED]
             The name of the resource record set that you want Amazon Route 53 to simulate a query for.
             
-:type RecordName: string
-:param RecordType: [REQUIRED]
+    :type RecordName: string
+    :param RecordType: [REQUIRED]
             The type of the resource record set.
             
-:type RecordType: string
-:param ResolverIP: If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East region.
-:type ResolverIP: string
-:param EDNS0ClientSubnetIP: If the resolver that you specified for resolverip supports EDNS0, specify the IP address of a client in the applicable location.
-:type EDNS0ClientSubnetIP: string
-:param EDNS0ClientSubnetMask: If you specify an IP address for edns0clientsubnetip , you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask , the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits.
-:type EDNS0ClientSubnetMask: string
-"""
+    :type RecordType: string
+    :param ResolverIP: If you want to simulate a request from a specific DNS resolver, specify the IP address for that resolver. If you omit this value, TestDnsAnswer uses the IP address of a DNS resolver in the AWS US East region.
+    :type ResolverIP: string
+    :param EDNS0ClientSubnetIP: If the resolver that you specified for resolverip supports EDNS0, specify the IP address of a client in the applicable location.
+    :type EDNS0ClientSubnetIP: string
+    :param EDNS0ClientSubnetMask: If you specify an IP address for edns0clientsubnetip , you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask , the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits.
+    :type EDNS0ClientSubnetMask: string
+    """
+    pass
 
 
 def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=None, Port=None, ResourcePath=None,
                         FullyQualifiedDomainName=None, SearchString=None, FailureThreshold=None, Inverted=None,
                         HealthThreshold=None, ChildHealthChecks=None, EnableSNI=None, Regions=None,
-                        AlarmIdentifier=None, InsufficientDataHealthStatus=None): pass
-
-
-"""
-:param HealthCheckId: [REQUIRED]
+                        AlarmIdentifier=None, InsufficientDataHealthStatus=None):
+    """
+    :param HealthCheckId: [REQUIRED]
             The ID for the health check for which you want detailed information. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
             
-:type HealthCheckId: string
-:param HealthCheckVersion: A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check.
+    :type HealthCheckId: string
+    :param HealthCheckVersion: A sequential counter that Amazon Route 53 sets to 1 when you create a health check and increments by 1 each time you update settings for the health check.
             We recommend that you use GetHealthCheck or ListHealthChecks to get the current value of HealthCheckVersion for the health check that you want to update, and that you include that value in your UpdateHealthCheck request. This prevents Amazon Route 53 from overwriting an intervening update:
             f the value in the UpdateHealthCheck request matches the value of HealthCheckVersion in the health check, Amazon Route 53 updates the health check with the new settings.
             If the value of HealthCheckVersion in the health check is greater, the health check was changed after you got the version number. Amazon Route 53 does not update the health check, and it returns a HealthCheckVersionMismatch error.
             
-:type HealthCheckVersion: integer
-:param IPAddress: The IPv4 IP address of the endpoint on which you want Amazon Route 53 to perform health checks. If you don't specify a value for IPAddress , Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval you specify in RequestInterval . Using an IP address that DNS returns, Amazon Route 53 then checks the health of the endpoint.
+    :type HealthCheckVersion: integer
+    :param IPAddress: The IPv4 IP address of the endpoint on which you want Amazon Route 53 to perform health checks. If you don't specify a value for IPAddress , Amazon Route 53 sends a DNS request to resolve the domain name that you specify in FullyQualifiedDomainName at the interval you specify in RequestInterval . Using an IP address that DNS returns, Amazon Route 53 then checks the health of the endpoint.
             f the endpoint is an Amazon EC2 instance, we recommend that you create an Elastic IP address, associate it with your Amazon EC2 instance, and specify the Elastic IP address for IPAddress . This ensures that the IP address of your instance never changes. For more information, see Elastic IP Addresses (EIP) in the Amazon EC2 User Guide for Linux Instances .
             Note
             If a health check already has a value for IPAddress , you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress .
             For more information, see UpdateHealthCheckRequest$FullyQualifiedDomainName .
             
-:type IPAddress: string
-:param Port: The port on the endpoint on which you want Amazon Route 53 to perform health checks.
-:type Port: integer
-:param ResourcePath: The path that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the file /docs/route53-health-check.html.
+    :type IPAddress: string
+    :param Port: The port on the endpoint on which you want Amazon Route 53 to perform health checks.
+    :type Port: integer
+    :param ResourcePath: The path that you want Amazon Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example the file /docs/route53-health-check.html.
             Specify this value only if you want to change it.
             
-:type ResourcePath: string
-:param FullyQualifiedDomainName: Amazon Route 53 behavior depends on whether you specify a value for IPAddress .
+    :type ResourcePath: string
+    :param FullyQualifiedDomainName: Amazon Route 53 behavior depends on whether you specify a value for IPAddress .
             Note
             If a health check already has a value for IPAddress , you can change the value. However, you can't update an existing health check to add or remove the value of IPAddress .
             If you specify IPAddress :
@@ -1695,97 +1643,95 @@ def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=N
             In this configuration, if the value of FullyQualifiedDomainName matches the name of the resource record sets and you then associate the health check with those resource record sets, health check results will be unpredictable.
             In addition, if the value of Type is HTTP , HTTPS , HTTP_STR_MATCH , or HTTPS_STR_MATCH , Amazon Route 53 passes the value of FullyQualifiedDomainName in the Host header, as it does when you specify a value for IPAddress . If the value of Type is TCP , Amazon Route 53 doesn't pass a Host header.
             
-:type FullyQualifiedDomainName: string
-:param SearchString: If the value of Type is HTTP_STR_MATCH or HTTP_STR_MATCH , the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Amazon Route 53 considers the resource healthy. (You can't change the value of Type when you update a health check.)
-:type SearchString: string
-:param FailureThreshold: The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide .
-:type FailureThreshold: integer
-:param Inverted: Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
-:type Inverted: boolean
-:param HealthThreshold: The number of child health checks that are associated with a CALCULATED health that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the ChildHealthChecks and ChildHealthCheck elements.
+    :type FullyQualifiedDomainName: string
+    :param SearchString: If the value of Type is HTTP_STR_MATCH or HTTP_STR_MATCH , the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Amazon Route 53 considers the resource healthy. (You can't change the value of Type when you update a health check.)
+    :type SearchString: string
+    :param FailureThreshold: The number of consecutive health checks that an endpoint must pass or fail for Amazon Route 53 to change the current status of the endpoint from unhealthy to healthy or vice versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide .
+    :type FailureThreshold: integer
+    :param Inverted: Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it otherwise would be considered healthy.
+    :type Inverted: boolean
+    :param HealthThreshold: The number of child health checks that are associated with a CALCULATED health that Amazon Route 53 must consider healthy for the CALCULATED health check to be considered healthy. To specify the child health checks that you want to associate with a CALCULATED health check, use the ChildHealthChecks and ChildHealthCheck elements.
             Note the following:
             If you specify a number greater than the number of child health checks, Amazon Route 53 always considers this health check to be unhealthy.
             If you specify 0 , Amazon Route 53 always considers this health check to be healthy.
             
-:type HealthThreshold: integer
-:param ChildHealthChecks: A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
+    :type HealthThreshold: integer
+    :param ChildHealthChecks: A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
             (string) --
             
-:type ChildHealthChecks: list
-:param EnableSNI: Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate.
+    :type ChildHealthChecks: list
+    :param EnableSNI: Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate.
             Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure . A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid.
             The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName . If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName , a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
             
-:type EnableSNI: boolean
-:param Regions: A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint.
+    :type EnableSNI: boolean
+    :param Regions: A complex type that contains one Region element for each region from which you want Amazon Route 53 health checkers to check the specified endpoint.
             (string) --An Amazon EC2 region that you want Amazon Route 53 to use to perform health checks.
             
-:type Regions: list
-:param AlarmIdentifier: A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
+    :type Regions: list
+    :param AlarmIdentifier: A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
             Region (string) -- [REQUIRED]A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
             For the current list of CloudWatch regions, see Amazon CloudWatch in AWS Regions and Endpoints in the Amazon Web Services General Reference .
             Name (string) -- [REQUIRED]The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy.
             
-:type AlarmIdentifier: dict
-:param InsufficientDataHealthStatus: When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:
+    :type AlarmIdentifier: dict
+    :param InsufficientDataHealthStatus: When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign to the health check:
             Healthy : Amazon Route 53 considers the health check to be healthy.
             Unhealthy : Amazon Route 53 considers the health check to be unhealthy.
             LastKnownStatus : Amazon Route 53 uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.
             
-:type InsufficientDataHealthStatus: string
-"""
+    :type InsufficientDataHealthStatus: string
+    """
+    pass
 
 
-def update_hosted_zone_comment(Id=None, Comment=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def update_hosted_zone_comment(Id=None, Comment=None):
+    """
+    :param Id: [REQUIRED]
             The ID for the hosted zone for which you want to update the comment.
             
-:type Id: string
-:param Comment: The new comment for the hosted zone. If you don't specify a value for Comment , Amazon Route 53 deletes the existing value of the Comment element, if any.
-:type Comment: string
-"""
+    :type Id: string
+    :param Comment: The new comment for the hosted zone. If you don't specify a value for Comment , Amazon Route 53 deletes the existing value of the Comment element, if any.
+    :type Comment: string
+    """
+    pass
 
 
-def update_traffic_policy_comment(Id=None, Version=None, Comment=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def update_traffic_policy_comment(Id=None, Version=None, Comment=None):
+    """
+    :param Id: [REQUIRED]
             The value of Id for the traffic policy for which you want to update the comment.
             
-:type Id: string
-:param Version: [REQUIRED]
+    :type Id: string
+    :param Version: [REQUIRED]
             The value of Version for the traffic policy for which you want to update the comment.
             
-:type Version: integer
-:param Comment: [REQUIRED]
+    :type Version: integer
+    :param Comment: [REQUIRED]
             The new comment for the specified traffic policy and version.
             
-:type Comment: string
-"""
+    :type Comment: string
+    """
+    pass
 
 
-def update_traffic_policy_instance(Id=None, TTL=None, TrafficPolicyId=None, TrafficPolicyVersion=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def update_traffic_policy_instance(Id=None, TTL=None, TrafficPolicyId=None, TrafficPolicyVersion=None):
+    """
+    :param Id: [REQUIRED]
             The ID of the traffic policy instance that you want to update.
             
-:type Id: string
-:param TTL: [REQUIRED]
+    :type Id: string
+    :param TTL: [REQUIRED]
             The TTL that you want Amazon Route 53 to assign to all of the updated resource record sets.
             
-:type TTL: integer
-:param TrafficPolicyId: [REQUIRED]
+    :type TTL: integer
+    :param TrafficPolicyId: [REQUIRED]
             The ID of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
             
-:type TrafficPolicyId: string
-:param TrafficPolicyVersion: [REQUIRED]
+    :type TrafficPolicyId: string
+    :param TrafficPolicyVersion: [REQUIRED]
             The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance.
             
-:type TrafficPolicyVersion: integer
-"""
+    :type TrafficPolicyVersion: integer
+    """
+    pass

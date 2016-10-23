@@ -23,37 +23,34 @@ SOFTWARE.
 """
 
 
-def add_permission(TopicArn=None, Label=None, AWSAccountId=None, ActionName=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def add_permission(TopicArn=None, Label=None, AWSAccountId=None, ActionName=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic whose access control policy you wish to modify.
             
-:type TopicArn: string
-:param Label: [REQUIRED]
+    :type TopicArn: string
+    :param Label: [REQUIRED]
             A unique identifier for the new policy statement.
             
-:type Label: string
-:param AWSAccountId: [REQUIRED]
+    :type Label: string
+    :param AWSAccountId: [REQUIRED]
             The AWS account IDs of the users (principals) who will be given access to the specified actions. The users must have AWS accounts, but do not need to be signed up for this service.
             (string) --
             
-:type AWSAccountId: list
-:param ActionName: [REQUIRED]
+    :type AWSAccountId: list
+    :param ActionName: [REQUIRED]
             The action you want to allow for the specified principal(s).
             Valid values: any Amazon SNS action name.
             (string) --
             
-:type ActionName: list
-"""
+    :type ActionName: list
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -62,15 +59,14 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def check_if_phone_number_is_opted_out(phoneNumber=None): pass
-
-
-"""
-:param phoneNumber: [REQUIRED]
+def check_if_phone_number_is_opted_out(phoneNumber=None):
+    """
+    :param phoneNumber: [REQUIRED]
             The phone number for which you want to check the opt out status.
             Return typedict
             ReturnsResponse Syntax{
@@ -83,75 +79,71 @@ def check_if_phone_number_is_opted_out(phoneNumber=None): pass
             false   The phone number is opted in, meaning you can publish SMS messages to it.
             
             
-:type phoneNumber: string
-"""
+    :type phoneNumber: string
+    """
+    pass
 
 
-def confirm_subscription(TopicArn=None, Token=None, AuthenticateOnUnsubscribe=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def confirm_subscription(TopicArn=None, Token=None, AuthenticateOnUnsubscribe=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic for which you wish to confirm a subscription.
             
-:type TopicArn: string
-:param Token: [REQUIRED]
+    :type TopicArn: string
+    :param Token: [REQUIRED]
             Short-lived token sent to an endpoint during the Subscribe action.
             
-:type Token: string
-:param AuthenticateOnUnsubscribe: Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication.
-:type AuthenticateOnUnsubscribe: string
-"""
+    :type Token: string
+    :param AuthenticateOnUnsubscribe: Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication.
+    :type AuthenticateOnUnsubscribe: string
+    """
+    pass
 
 
-def create_platform_application(Name=None, Platform=None, Attributes=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_platform_application(Name=None, Platform=None, Attributes=None):
+    """
+    :param Name: [REQUIRED]
             Application names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
             
-:type Name: string
-:param Platform: [REQUIRED]
+    :type Name: string
+    :param Platform: [REQUIRED]
             The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Google Cloud Messaging).
             
-:type Platform: string
-:param Attributes: [REQUIRED]
+    :type Platform: string
+    :param Attributes: [REQUIRED]
             For a list of attributes, see SetPlatformApplicationAttributes
             (string) --
             (string) --
             
-:type Attributes: dict
-"""
+    :type Attributes: dict
+    """
+    pass
 
 
-def create_platform_endpoint(PlatformApplicationArn=None, Token=None, CustomUserData=None, Attributes=None): pass
-
-
-"""
-:param PlatformApplicationArn: [REQUIRED]
+def create_platform_endpoint(PlatformApplicationArn=None, Token=None, CustomUserData=None, Attributes=None):
+    """
+    :param PlatformApplicationArn: [REQUIRED]
             PlatformApplicationArn returned from CreatePlatformApplication is used to create a an endpoint.
             
-:type PlatformApplicationArn: string
-:param Token: [REQUIRED]
+    :type PlatformApplicationArn: string
+    :param Token: [REQUIRED]
             Unique identifier created by the notification service for an app on a device. The specific name for Token will vary, depending on which notification service is being used. For example, when using APNS as the notification service, you need the device token. Alternatively, when using GCM or ADM, the device token equivalent is called the registration ID.
             
-:type Token: string
-:param CustomUserData: Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
-:type CustomUserData: string
-:param Attributes: For a list of attributes, see SetEndpointAttributes .
+    :type Token: string
+    :param CustomUserData: Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
+    :type CustomUserData: string
+    :param Attributes: For a list of attributes, see SetEndpointAttributes .
             (string) --
             (string) --
             
-:type Attributes: dict
-"""
+    :type Attributes: dict
+    """
+    pass
 
 
-def create_topic(Name=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_topic(Name=None):
+    """
+    :param Name: [REQUIRED]
             The name of the topic you want to create.
             Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
             Return typedict
@@ -163,69 +155,64 @@ def create_topic(Name=None): pass
             TopicArn (string) --The Amazon Resource Name (ARN) assigned to the created topic.
             
             
-:type Name: string
-"""
+    :type Name: string
+    """
+    pass
 
 
-def delete_endpoint(EndpointArn=None): pass
-
-
-"""
-:param EndpointArn: [REQUIRED]
+def delete_endpoint(EndpointArn=None):
+    """
+    :param EndpointArn: [REQUIRED]
             EndpointArn of endpoint to delete.
             ReturnsNone
             
-:type EndpointArn: string
-"""
+    :type EndpointArn: string
+    """
+    pass
 
 
-def delete_platform_application(PlatformApplicationArn=None): pass
-
-
-"""
-:param PlatformApplicationArn: [REQUIRED]
+def delete_platform_application(PlatformApplicationArn=None):
+    """
+    :param PlatformApplicationArn: [REQUIRED]
             PlatformApplicationArn of platform application object to delete.
             ReturnsNone
             
-:type PlatformApplicationArn: string
-"""
+    :type PlatformApplicationArn: string
+    """
+    pass
 
 
-def delete_topic(TopicArn=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def delete_topic(TopicArn=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic you want to delete.
             ReturnsNone
             
-:type TopicArn: string
-"""
+    :type TopicArn: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_endpoint_attributes(EndpointArn=None): pass
-
-
-"""
-:param EndpointArn: [REQUIRED]
+def get_endpoint_attributes(EndpointArn=None):
+    """
+    :param EndpointArn: [REQUIRED]
             EndpointArn for GetEndpointAttributes input.
             Return typedict
             ReturnsResponse Syntax{
@@ -244,15 +231,14 @@ def get_endpoint_attributes(EndpointArn=None): pass
             
             
             
-:type EndpointArn: string
-"""
+    :type EndpointArn: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -264,15 +250,14 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_platform_application_attributes(PlatformApplicationArn=None): pass
-
-
-"""
-:param PlatformApplicationArn: [REQUIRED]
+def get_platform_application_attributes(PlatformApplicationArn=None):
+    """
+    :param PlatformApplicationArn: [REQUIRED]
             PlatformApplicationArn for GetPlatformApplicationAttributesInput.
             Return typedict
             ReturnsResponse Syntax{
@@ -292,15 +277,14 @@ def get_platform_application_attributes(PlatformApplicationArn=None): pass
             
             
             
-:type PlatformApplicationArn: string
-"""
+    :type PlatformApplicationArn: string
+    """
+    pass
 
 
-def get_sms_attributes(attributes=None): pass
-
-
-"""
-:param attributes: A list of the individual attribute names, such as MonthlySpendLimit , for which you want values.
+def get_sms_attributes(attributes=None):
+    """
+    :param attributes: A list of the individual attribute names, such as MonthlySpendLimit , for which you want values.
             For all attribute names, see SetSMSAttributes .
             If you don't use this parameter, Amazon SNS returns all SMS attributes.
             (string) --
@@ -318,15 +302,14 @@ def get_sms_attributes(attributes=None): pass
             
             
             
-:type attributes: list
-"""
+    :type attributes: list
+    """
+    pass
 
 
-def get_subscription_attributes(SubscriptionArn=None): pass
-
-
-"""
-:param SubscriptionArn: [REQUIRED]
+def get_subscription_attributes(SubscriptionArn=None):
+    """
+    :param SubscriptionArn: [REQUIRED]
             The ARN of the subscription whose properties you want to get.
             Return typedict
             ReturnsResponse Syntax{
@@ -348,15 +331,14 @@ def get_subscription_attributes(SubscriptionArn=None): pass
             
             
             
-:type SubscriptionArn: string
-"""
+    :type SubscriptionArn: string
+    """
+    pass
 
 
-def get_topic_attributes(TopicArn=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def get_topic_attributes(TopicArn=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic whose properties you want to get.
             Return typedict
             ReturnsResponse Syntax{
@@ -381,35 +363,32 @@ def get_topic_attributes(TopicArn=None): pass
             
             
             
-:type TopicArn: string
-"""
+    :type TopicArn: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_endpoints_by_platform_application(PlatformApplicationArn=None, NextToken=None): pass
-
-
-"""
-:param PlatformApplicationArn: [REQUIRED]
+def list_endpoints_by_platform_application(PlatformApplicationArn=None, NextToken=None):
+    """
+    :param PlatformApplicationArn: [REQUIRED]
             PlatformApplicationArn for ListEndpointsByPlatformApplicationInput action.
             
-:type PlatformApplicationArn: string
-:param NextToken: NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
-:type NextToken: string
-"""
+    :type PlatformApplicationArn: string
+    :param NextToken: NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
+    :type NextToken: string
+    """
+    pass
 
 
-def list_phone_numbers_opted_out(nextToken=None): pass
-
-
-"""
-:param nextToken: A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
+def list_phone_numbers_opted_out(nextToken=None):
+    """
+    :param nextToken: A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
             Return typedict
             ReturnsResponse Syntax{
               'phoneNumbers': [
@@ -424,15 +403,14 @@ def list_phone_numbers_opted_out(nextToken=None): pass
             nextToken (string) --A NextToken string is returned when you call the ListPhoneNumbersOptedOut action if additional records are available after the first page of results.
             
             
-:type nextToken: string
-"""
+    :type nextToken: string
+    """
+    pass
 
 
-def list_platform_applications(NextToken=None): pass
-
-
-"""
-:param NextToken: NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
+def list_platform_applications(NextToken=None):
+    """
+    :param NextToken: NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
             Return typedict
             ReturnsResponse Syntax{
               'PlatformApplications': [
@@ -458,15 +436,14 @@ def list_platform_applications(NextToken=None): pass
             NextToken (string) --NextToken string is returned when calling ListPlatformApplications action if additional records are available after the first page results.
             
             
-:type NextToken: string
-"""
+    :type NextToken: string
+    """
+    pass
 
 
-def list_subscriptions(NextToken=None): pass
-
-
-"""
-:param NextToken: Token returned by the previous ListSubscriptions request.
+def list_subscriptions(NextToken=None):
+    """
+    :param NextToken: Token returned by the previous ListSubscriptions request.
             Return typedict
             ReturnsResponse Syntax{
               'Subscriptions': [
@@ -493,28 +470,26 @@ def list_subscriptions(NextToken=None): pass
             NextToken (string) --Token to pass along to the next ListSubscriptions request. This element is returned if there are more subscriptions to retrieve.
             
             
-:type NextToken: string
-"""
+    :type NextToken: string
+    """
+    pass
 
 
-def list_subscriptions_by_topic(TopicArn=None, NextToken=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def list_subscriptions_by_topic(TopicArn=None, NextToken=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic for which you wish to find subscriptions.
             
-:type TopicArn: string
-:param NextToken: Token returned by the previous ListSubscriptionsByTopic request.
-:type NextToken: string
-"""
+    :type TopicArn: string
+    :param NextToken: Token returned by the previous ListSubscriptionsByTopic request.
+    :type NextToken: string
+    """
+    pass
 
 
-def list_topics(NextToken=None): pass
-
-
-"""
-:param NextToken: Token returned by the previous ListTopics request.
+def list_topics(NextToken=None):
+    """
+    :param NextToken: Token returned by the previous ListTopics request.
             Return typedict
             ReturnsResponse Syntax{
               'Topics': [
@@ -533,15 +508,14 @@ def list_topics(NextToken=None): pass
             NextToken (string) --Token to pass along to the next ListTopics request. This element is returned if there are additional topics to retrieve.
             
             
-:type NextToken: string
-"""
+    :type NextToken: string
+    """
+    pass
 
 
-def opt_in_phone_number(phoneNumber=None): pass
-
-
-"""
-:param phoneNumber: [REQUIRED]
+def opt_in_phone_number(phoneNumber=None):
+    """
+    :param phoneNumber: [REQUIRED]
             The phone number to opt in.
             Return typedict
             ReturnsResponse Syntax{}
@@ -549,28 +523,27 @@ def opt_in_phone_number(phoneNumber=None): pass
             (dict) --The response for the OptInPhoneNumber action.
             
             
-:type phoneNumber: string
-"""
+    :type phoneNumber: string
+    """
+    pass
 
 
 def publish(TopicArn=None, TargetArn=None, PhoneNumber=None, Message=None, Subject=None, MessageStructure=None,
-            MessageAttributes=None): pass
-
-
-"""
-:param TopicArn: The topic you want to publish to.
+            MessageAttributes=None):
+    """
+    :param TopicArn: The topic you want to publish to.
             If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
             
-:type TopicArn: string
-:param TargetArn: Either TopicArn or EndpointArn, but not both.
+    :type TopicArn: string
+    :param TargetArn: Either TopicArn or EndpointArn, but not both.
             If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters.
             
-:type TargetArn: string
-:param PhoneNumber: The phone number to which you want to deliver an SMS message. Use E.164 format.
+    :type TargetArn: string
+    :param PhoneNumber: The phone number to which you want to deliver an SMS message. Use E.164 format.
             If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
             
-:type PhoneNumber: string
-:param Message: [REQUIRED]
+    :type PhoneNumber: string
+    :param Message: [REQUIRED]
             The message you want to send to the topic.
             If you want to send the same message to all transport protocols, include the text of the message as a String value.
             If you want to send different messages for each transport protocol, set the value of the MessageStructure parameter to json and use a JSON object for the Message parameter.
@@ -586,20 +559,20 @@ def publish(TopicArn=None, TargetArn=None, PhoneNumber=None, Message=None, Subje
             Duplicate keys are not allowed.
             Failure to parse or validate any key or value in the message will cause the Publish call to return an error (no partial delivery).
             
-:type Message: string
-:param Subject: Optional parameter to be used as the 'Subject' line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints.
+    :type Message: string
+    :param Subject: Optional parameter to be used as the 'Subject' line when the message is delivered to email endpoints. This field will also be included, if present, in the standard JSON messages delivered to other endpoints.
             Constraints: Subjects must be ASCII text that begins with a letter, number, or punctuation mark; must not include line breaks or control characters; and must be less than 100 characters long.
             
-:type Subject: string
-:param MessageStructure: Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json , the value of the Message parameter must:
+    :type Subject: string
+    :param MessageStructure: Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json , the value of the Message parameter must:
             be a syntactically valid JSON object; and
             contain at least a top-level JSON key of 'default' with a value that is a string.
             You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g., 'http').
             For information about sending different messages for each protocol using the AWS Management Console, go to Create Different Messages for Each Protocol in the Amazon Simple Notification Service Getting Started Guide .
             Valid value: json
             
-:type MessageStructure: string
-:param MessageAttributes: Message attributes for Publish action.
+    :type MessageStructure: string
+    :param MessageAttributes: Message attributes for Publish action.
             (string) --
             (dict) --The user-specified message attribute value. For string data types, the value attribute has the same restrictions on the content as the message body. For more information, see Publish .
             Name, type, and value must not be empty or null. In addition, the message body should not be empty or null. All parts of the message attribute, including name, type, and value, are included in the message size restriction, which is currently 256 KB (262,144 bytes). For more information, see Using Amazon SNS Message Attributes .
@@ -608,34 +581,32 @@ def publish(TopicArn=None, TargetArn=None, PhoneNumber=None, Message=None, Subje
             BinaryValue (bytes) --Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images.
             
             
-:type MessageAttributes: dict
-"""
+    :type MessageAttributes: dict
+    """
+    pass
 
 
-def remove_permission(TopicArn=None, Label=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def remove_permission(TopicArn=None, Label=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic whose access control policy you wish to modify.
             
-:type TopicArn: string
-:param Label: [REQUIRED]
+    :type TopicArn: string
+    :param Label: [REQUIRED]
             The unique label of the statement you want to remove.
             
-:type Label: string
-"""
+    :type Label: string
+    """
+    pass
 
 
-def set_endpoint_attributes(EndpointArn=None, Attributes=None): pass
-
-
-"""
-:param EndpointArn: [REQUIRED]
+def set_endpoint_attributes(EndpointArn=None, Attributes=None):
+    """
+    :param EndpointArn: [REQUIRED]
             EndpointArn used for SetEndpointAttributes action.
             
-:type EndpointArn: string
-:param Attributes: [REQUIRED]
+    :type EndpointArn: string
+    :param Attributes: [REQUIRED]
             A map of the endpoint attributes. Attributes in this map include the following:
             CustomUserData -- arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
             Enabled -- flag that enables/disables delivery to the endpoint. Amazon SNS will set this to false when a notification service indicates to Amazon SNS that the endpoint is invalid. Users can set it back to true, typically after updating Token.
@@ -643,19 +614,18 @@ def set_endpoint_attributes(EndpointArn=None, Attributes=None): pass
             (string) --
             (string) --
             
-:type Attributes: dict
-"""
+    :type Attributes: dict
+    """
+    pass
 
 
-def set_platform_application_attributes(PlatformApplicationArn=None, Attributes=None): pass
-
-
-"""
-:param PlatformApplicationArn: [REQUIRED]
+def set_platform_application_attributes(PlatformApplicationArn=None, Attributes=None):
+    """
+    :param PlatformApplicationArn: [REQUIRED]
             PlatformApplicationArn for SetPlatformApplicationAttributes action.
             
-:type PlatformApplicationArn: string
-:param Attributes: [REQUIRED]
+    :type PlatformApplicationArn: string
+    :param Attributes: [REQUIRED]
             A map of the platform application attributes. Attributes in this map include the following:
             PlatformCredential -- The credential received from the notification service. For APNS/APNS_SANDBOX, PlatformCredential is private key. For GCM, PlatformCredential is 'API key'. For ADM, PlatformCredential is 'client secret'.
             PlatformPrincipal -- The principal received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is SSL certificate. For GCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is 'client id'.
@@ -669,15 +639,14 @@ def set_platform_application_attributes(PlatformApplicationArn=None, Attributes=
             (string) --
             (string) --
             
-:type Attributes: dict
-"""
+    :type Attributes: dict
+    """
+    pass
 
 
-def set_sms_attributes(attributes=None): pass
-
-
-"""
-:param attributes: [REQUIRED]
+def set_sms_attributes(attributes=None):
+    """
+    :param attributes: [REQUIRED]
             The default settings for sending SMS messages from your account. You can set values for the following attribute names:
             MonthlySpendLimit   The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.
             Warning
@@ -708,55 +677,52 @@ def set_sms_attributes(attributes=None): pass
             (dict) --The response for the SetSMSAttributes action.
             
             
-:type attributes: dict
-"""
+    :type attributes: dict
+    """
+    pass
 
 
-def set_subscription_attributes(SubscriptionArn=None, AttributeName=None, AttributeValue=None): pass
-
-
-"""
-:param SubscriptionArn: [REQUIRED]
+def set_subscription_attributes(SubscriptionArn=None, AttributeName=None, AttributeValue=None):
+    """
+    :param SubscriptionArn: [REQUIRED]
             The ARN of the subscription to modify.
             
-:type SubscriptionArn: string
-:param AttributeName: [REQUIRED]
+    :type SubscriptionArn: string
+    :param AttributeName: [REQUIRED]
             The name of the attribute you want to set. Only a subset of the subscriptions attributes are mutable.
             Valid values: DeliveryPolicy | RawMessageDelivery
             
-:type AttributeName: string
-:param AttributeValue: The new value for the attribute in JSON format.
-:type AttributeValue: string
-"""
+    :type AttributeName: string
+    :param AttributeValue: The new value for the attribute in JSON format.
+    :type AttributeValue: string
+    """
+    pass
 
 
-def set_topic_attributes(TopicArn=None, AttributeName=None, AttributeValue=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def set_topic_attributes(TopicArn=None, AttributeName=None, AttributeValue=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic to modify.
             
-:type TopicArn: string
-:param AttributeName: [REQUIRED]
+    :type TopicArn: string
+    :param AttributeName: [REQUIRED]
             The name of the attribute you want to set. Only a subset of the topic's attributes are mutable.
             Valid values: Policy | DisplayName | DeliveryPolicy
             
-:type AttributeName: string
-:param AttributeValue: The new value for the attribute.
-:type AttributeValue: string
-"""
+    :type AttributeName: string
+    :param AttributeValue: The new value for the attribute.
+    :type AttributeValue: string
+    """
+    pass
 
 
-def subscribe(TopicArn=None, Protocol=None, Endpoint=None): pass
-
-
-"""
-:param TopicArn: [REQUIRED]
+def subscribe(TopicArn=None, Protocol=None, Endpoint=None):
+    """
+    :param TopicArn: [REQUIRED]
             The ARN of the topic you want to subscribe to.
             
-:type TopicArn: string
-:param Protocol: [REQUIRED]
+    :type TopicArn: string
+    :param Protocol: [REQUIRED]
             The protocol you want to use. Supported protocols include:
             http -- delivery of JSON-encoded message via HTTP POST
             https -- delivery of JSON-encoded message via HTTPS POST
@@ -767,8 +733,8 @@ def subscribe(TopicArn=None, Protocol=None, Endpoint=None): pass
             application -- delivery of JSON-encoded message to an EndpointArn for a mobile app and device.
             lambda -- delivery of JSON-encoded message to an AWS Lambda function.
             
-:type Protocol: string
-:param Endpoint: The endpoint that you want to receive notifications. Endpoints vary by protocol:
+    :type Protocol: string
+    :param Endpoint: The endpoint that you want to receive notifications. Endpoints vary by protocol:
             For the http protocol, the endpoint is an URL beginning with 'http://'
             For the https protocol, the endpoint is a URL beginning with 'https://'
             For the email protocol, the endpoint is an email address
@@ -778,17 +744,17 @@ def subscribe(TopicArn=None, Protocol=None, Endpoint=None): pass
             For the application protocol, the endpoint is the EndpointArn of a mobile app and device.
             For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.
             
-:type Endpoint: string
-"""
+    :type Endpoint: string
+    """
+    pass
 
 
-def unsubscribe(SubscriptionArn=None): pass
-
-
-"""
-:param SubscriptionArn: [REQUIRED]
+def unsubscribe(SubscriptionArn=None):
+    """
+    :param SubscriptionArn: [REQUIRED]
             The ARN of the subscription to be deleted.
             ReturnsNone
             
-:type SubscriptionArn: string
-"""
+    :type SubscriptionArn: string
+    """
+    pass

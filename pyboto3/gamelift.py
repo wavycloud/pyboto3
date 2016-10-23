@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,21 +34,20 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def create_alias(Name=None, Description=None, RoutingStrategy=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def create_alias(Name=None, Description=None, RoutingStrategy=None):
+    """
+    :param Name: [REQUIRED]
             Descriptive label associated with an alias. Alias names do not need to be unique.
             
-:type Name: string
-:param Description: Human-readable description of an alias.
-:type Description: string
-:param RoutingStrategy: [REQUIRED]
+    :type Name: string
+    :param Description: Human-readable description of an alias.
+    :type Description: string
+    :param RoutingStrategy: [REQUIRED]
             Object specifying the fleet and routing type to use for the alias.
             Type (string) --Type of routing strategy.
             Possible routing types include the following:
@@ -59,58 +56,56 @@ def create_alias(Name=None, Description=None, RoutingStrategy=None): pass
             FleetId (string) --Unique identifier for a fleet.
             Message (string) --Message text to be used with a terminal routing strategy.
             
-:type RoutingStrategy: dict
-"""
+    :type RoutingStrategy: dict
+    """
+    pass
 
 
-def create_build(Name=None, Version=None, StorageLocation=None, OperatingSystem=None): pass
-
-
-"""
-:param Name: Descriptive label associated with a build. Build names do not need to be unique. A build name can be changed later using `` UpdateBuild `` .
-:type Name: string
-:param Version: Version associated with this build. Version strings do not need to be unique to a build. A build version can be changed later using `` UpdateBuild `` .
-:type Version: string
-:param StorageLocation: Location in Amazon Simple Storage Service (Amazon S3) where a build's files are stored. This location is assigned in response to a CreateBuild call, and is always in the same region as the service used to create the build. For more details see the Amazon S3 documentation .
+def create_build(Name=None, Version=None, StorageLocation=None, OperatingSystem=None):
+    """
+    :param Name: Descriptive label associated with a build. Build names do not need to be unique. A build name can be changed later using `` UpdateBuild `` .
+    :type Name: string
+    :param Version: Version associated with this build. Version strings do not need to be unique to a build. A build version can be changed later using `` UpdateBuild `` .
+    :type Version: string
+    :param StorageLocation: Location in Amazon Simple Storage Service (Amazon S3) where a build's files are stored. This location is assigned in response to a CreateBuild call, and is always in the same region as the service used to create the build. For more details see the Amazon S3 documentation .
             Bucket (string) --Amazon S3 bucket identifier.
             Key (string) --Amazon S3 bucket key.
             RoleArn (string) --Amazon resource number for the cross-account access role that allows GameLift access to the S3 bucket.
             
-:type StorageLocation: dict
-:param OperatingSystem: Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
-:type OperatingSystem: string
-"""
+    :type StorageLocation: dict
+    :param OperatingSystem: Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.
+    :type OperatingSystem: string
+    """
+    pass
 
 
 def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=None, ServerLaunchParameters=None,
                  LogPaths=None, EC2InstanceType=None, EC2InboundPermissions=None, NewGameSessionProtectionPolicy=None,
-                 RuntimeConfiguration=None, ResourceCreationLimitPolicy=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+                 RuntimeConfiguration=None, ResourceCreationLimitPolicy=None):
+    """
+    :param Name: [REQUIRED]
             Descriptive label associated with a fleet. Fleet names do not need to be unique.
             
-:type Name: string
-:param Description: Human-readable description of a fleet.
-:type Description: string
-:param BuildId: [REQUIRED]
+    :type Name: string
+    :param Description: Human-readable description of a fleet.
+    :type Description: string
+    :param BuildId: [REQUIRED]
             Unique identifier of the build to be deployed on the new fleet. The build must have been successfully uploaded to GameLift and be in a READY status. This fleet setting cannot be changed once the fleet is created.
             
-:type BuildId: string
-:param ServerLaunchPath: This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
-:type ServerLaunchPath: string
-:param ServerLaunchParameters: This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
-:type ServerLaunchParameters: string
-:param LogPaths: Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide . If no default log path for a fleet is specified, GameLift will automatically upload logs stored on each instance at C:\game\logs . Use the GameLift console to access stored logs.
+    :type BuildId: string
+    :param ServerLaunchPath: This parameter is no longer used. Instead, specify a server launch path using the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
+    :type ServerLaunchPath: string
+    :param ServerLaunchParameters: This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
+    :type ServerLaunchParameters: string
+    :param LogPaths: Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide . If no default log path for a fleet is specified, GameLift will automatically upload logs stored on each instance at C:\game\logs . Use the GameLift console to access stored logs.
             (string) --
             
-:type LogPaths: list
-:param EC2InstanceType: [REQUIRED]
+    :type LogPaths: list
+    :param EC2InstanceType: [REQUIRED]
             Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions.
             
-:type EC2InstanceType: string
-:param EC2InboundPermissions: Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
+    :type EC2InstanceType: string
+    :param EC2InboundPermissions: Range of IP addresses and port settings that permit inbound traffic to access server processes running on the fleet. If no inbound permissions are set, including both IP address range and port range, the server processes in the fleet cannot accept connections. You can specify one or more sets of permissions for a fleet.
             (dict) --A range of IP addresses and port settings that allow inbound traffic to connect to server processes on GameLift. Each game session hosted on a fleet is assigned a unique combination of IP address and port number, which must fall into the fleet's allowed ranges. This combination is included in the GameSession object.
             FromPort (integer) -- [REQUIRED]Starting value for a range of allowed port numbers.
             ToPort (integer) -- [REQUIRED]Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort .
@@ -118,13 +113,13 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
             Protocol (string) -- [REQUIRED]Network communication protocol used by the fleet.
             
             
-:type EC2InboundPermissions: list
-:param NewGameSessionProtectionPolicy: Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession .
+    :type EC2InboundPermissions: list
+    :param NewGameSessionProtectionPolicy: Game session protection policy to apply to all instances in this fleet. If this parameter is not set, instances in this fleet default to no protection. You can change a fleet's protection policy using UpdateFleetAttributes, but this change will only affect sessions created after the policy change. You can also set protection for individual instances using UpdateGameSession .
             NoProtection   The game session can be terminated during a scale-down event.
             FullProtection   If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
             
-:type NewGameSessionProtectionPolicy: string
-:param RuntimeConfiguration: Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a runtime configuration with at least one server process configuration; otherwise the request will fail with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters ; requests that contain values for these parameters instead of a runtime configuration will continue to work.)
+    :type NewGameSessionProtectionPolicy: string
+    :param RuntimeConfiguration: Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a runtime configuration with at least one server process configuration; otherwise the request will fail with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters ; requests that contain values for these parameters instead of a runtime configuration will continue to work.)
             ServerProcesses (list) --Collection of server process configurations describing what server processes to run on each instance in a fleet
             (dict) --A set of instructions for launching server processes on each instance in a fleet. Each instruction set identifies the location of the server executable, optional launch parameters, and the number of server processes with this configuration to maintain concurrently on the instance. Server process configurations make up a fleet's `` RuntimeConfiguration `` .
             LaunchPath (string) -- [REQUIRED]Location in the game build of the server executable. All game builds are installed on instances at the root C:\game\... , so an executable file located at MyGame\latest\server.exe has a launch path of 'C:\game\MyGame\latest\server.exe '.
@@ -132,131 +127,123 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
             ConcurrentExecutions (integer) -- [REQUIRED]Number of server processes using this configuration to run concurrently on an instance.
             
             
-:type RuntimeConfiguration: dict
-:param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
+    :type RuntimeConfiguration: dict
+    :param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
             NewGameSessionsPerCreator (integer) --Maximum number of game sessions an individual can create during the policy period.
             PolicyPeriodInMinutes (integer) --Time span used to evaluate the resource creation limit policy.
             
-:type ResourceCreationLimitPolicy: dict
-"""
+    :type ResourceCreationLimitPolicy: dict
+    """
+    pass
 
 
 def create_game_session(FleetId=None, AliasId=None, MaximumPlayerSessionCount=None, Name=None, GameProperties=None,
-                        CreatorId=None, GameSessionId=None): pass
-
-
-"""
-:param FleetId: Unique identifier for a fleet. Each request must reference either a fleet ID or alias ID, but not both.
-:type FleetId: string
-:param AliasId: Unique identifier for a fleet alias. Each request must reference either a fleet ID or alias ID, but not both.
-:type AliasId: string
-:param MaximumPlayerSessionCount: [REQUIRED]
+                        CreatorId=None, GameSessionId=None):
+    """
+    :param FleetId: Unique identifier for a fleet. Each request must reference either a fleet ID or alias ID, but not both.
+    :type FleetId: string
+    :param AliasId: Unique identifier for a fleet alias. Each request must reference either a fleet ID or alias ID, but not both.
+    :type AliasId: string
+    :param MaximumPlayerSessionCount: [REQUIRED]
             Maximum number of players that can be connected simultaneously to the game session.
             
-:type MaximumPlayerSessionCount: integer
-:param Name: Descriptive label associated with a game session. Session names do not need to be unique.
-:type Name: string
-:param GameProperties: Set of properties used to administer a game session. These properties are passed to the server process hosting it.
+    :type MaximumPlayerSessionCount: integer
+    :param Name: Descriptive label associated with a game session. Session names do not need to be unique.
+    :type Name: string
+    :param GameProperties: Set of properties used to administer a game session. These properties are passed to the server process hosting it.
             (dict) --Set of key-value pairs containing information a server process requires to set up a game session. This object allows you to pass in any set of data needed for your game. For more information, see the Amazon GameLift Developer Guide .
             Key (string) -- [REQUIRED]TBD
             Value (string) -- [REQUIRED]TBD
             
             
-:type GameProperties: list
-:param CreatorId: Player ID identifying the person or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
-:type CreatorId: string
-:param GameSessionId: Custom string to include in the game session ID, with a maximum length of 48 characters. If this parameter is set, GameLift creates a game session ID in the following format: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/custom ID string'. For example, this full game session ID: 'arn:aws:gamelift:us-west-2::gamesession/fleet-2ec2aae5-c2c7-43ca-b19d-8249fe5fddf2/my-game-session' includes the custom ID string 'my-game-session'. If this parameter is not set, GameLift creates a game session ID in the same format with an auto-generated ID string.
-:type GameSessionId: string
-"""
+    :type GameProperties: list
+    :param CreatorId: Player ID identifying the person or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
+    :type CreatorId: string
+    :param GameSessionId: Custom string to include in the game session ID, with a maximum length of 48 characters. If this parameter is set, GameLift creates a game session ID in the following format: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/custom ID string'. For example, this full game session ID: 'arn:aws:gamelift:us-west-2::gamesession/fleet-2ec2aae5-c2c7-43ca-b19d-8249fe5fddf2/my-game-session' includes the custom ID string 'my-game-session'. If this parameter is not set, GameLift creates a game session ID in the same format with an auto-generated ID string.
+    :type GameSessionId: string
+    """
+    pass
 
 
-def create_player_session(GameSessionId=None, PlayerId=None): pass
-
-
-"""
-:param GameSessionId: [REQUIRED]
+def create_player_session(GameSessionId=None, PlayerId=None):
+    """
+    :param GameSessionId: [REQUIRED]
             Unique identifier for the game session to add a player to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
             
-:type GameSessionId: string
-:param PlayerId: [REQUIRED]
+    :type GameSessionId: string
+    :param PlayerId: [REQUIRED]
             Unique identifier for the player to be added.
             
-:type PlayerId: string
-"""
+    :type PlayerId: string
+    """
+    pass
 
 
-def create_player_sessions(GameSessionId=None, PlayerIds=None): pass
-
-
-"""
-:param GameSessionId: [REQUIRED]
+def create_player_sessions(GameSessionId=None, PlayerIds=None):
+    """
+    :param GameSessionId: [REQUIRED]
             Unique identifier for the game session to add players to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
             
-:type GameSessionId: string
-:param PlayerIds: [REQUIRED]
+    :type GameSessionId: string
+    :param PlayerIds: [REQUIRED]
             List of unique identifiers for the players to be added.
             (string) --
             
-:type PlayerIds: list
-"""
+    :type PlayerIds: list
+    """
+    pass
 
 
-def delete_alias(AliasId=None): pass
-
-
-"""
-:param AliasId: [REQUIRED]
+def delete_alias(AliasId=None):
+    """
+    :param AliasId: [REQUIRED]
             Unique identifier for a fleet alias. Specify the alias you want to delete.
             ReturnsNone
             
-:type AliasId: string
-"""
+    :type AliasId: string
+    """
+    pass
 
 
-def delete_build(BuildId=None): pass
-
-
-"""
-:param BuildId: [REQUIRED]
+def delete_build(BuildId=None):
+    """
+    :param BuildId: [REQUIRED]
             Unique identifier for the build you want to delete.
             ReturnsNone
             
-:type BuildId: string
-"""
+    :type BuildId: string
+    """
+    pass
 
 
-def delete_fleet(FleetId=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def delete_fleet(FleetId=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet you want to delete.
             ReturnsNone
             
-:type FleetId: string
-"""
+    :type FleetId: string
+    """
+    pass
 
 
-def delete_scaling_policy(Name=None, FleetId=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+def delete_scaling_policy(Name=None, FleetId=None):
+    """
+    :param Name: [REQUIRED]
             Descriptive label associated with a scaling policy. Policy names do not need to be unique.
             
-:type Name: string
-:param FleetId: [REQUIRED]
+    :type Name: string
+    :param FleetId: [REQUIRED]
             Unique identifier for a fleet.
             
-:type FleetId: string
-"""
+    :type FleetId: string
+    """
+    pass
 
 
-def describe_alias(AliasId=None): pass
-
-
-"""
-:param AliasId: [REQUIRED]
+def describe_alias(AliasId=None):
+    """
+    :param AliasId: [REQUIRED]
             Unique identifier for a fleet alias. Specify the alias you want to retrieve.
             Return typedict
             ReturnsResponse Syntax{
@@ -291,15 +278,14 @@ def describe_alias(AliasId=None): pass
             
             
             
-:type AliasId: string
-"""
+    :type AliasId: string
+    """
+    pass
 
 
-def describe_build(BuildId=None): pass
-
-
-"""
-:param BuildId: [REQUIRED]
+def describe_build(BuildId=None):
+    """
+    :param BuildId: [REQUIRED]
             Unique identifier of the build that you want to retrieve properties for.
             Return typedict
             ReturnsResponse Syntax{
@@ -330,15 +316,14 @@ def describe_build(BuildId=None): pass
             
             
             
-:type BuildId: string
-"""
+    :type BuildId: string
+    """
+    pass
 
 
-def describe_ec2_instance_limits(EC2InstanceType=None): pass
-
-
-"""
-:param EC2InstanceType: Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
+def describe_ec2_instance_limits(EC2InstanceType=None):
+    """
+    :param EC2InstanceType: Name of an EC2 instance type that is supported in Amazon GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. GameLift supports the following EC2 instance types. See Amazon EC2 Instance Types for detailed descriptions. Leave this parameter blank to retrieve limits for all types.
             Return typedict
             ReturnsResponse Syntax{
               'EC2InstanceLimits': [
@@ -359,64 +344,60 @@ def describe_ec2_instance_limits(EC2InstanceType=None): pass
             
             
             
-:type EC2InstanceType: string
-"""
+    :type EC2InstanceType: string
+    """
+    pass
 
 
-def describe_fleet_attributes(FleetIds=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetIds: Unique identifiers for the fleet(s) that you want to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
+def describe_fleet_attributes(FleetIds=None, Limit=None, NextToken=None):
+    """
+    :param FleetIds: Unique identifiers for the fleet(s) that you want to retrieve attributes for. To request attributes for all fleets, leave this parameter empty.
             (string) --
             
-:type FleetIds: list
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type NextToken: string
-"""
+    :type FleetIds: list
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_fleet_capacity(FleetIds=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetIds: Unique identifier for the fleet(s) you want to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
+def describe_fleet_capacity(FleetIds=None, Limit=None, NextToken=None):
+    """
+    :param FleetIds: Unique identifier for the fleet(s) you want to retrieve capacity information for. To request capacity information for all fleets, leave this parameter empty.
             (string) --
             
-:type FleetIds: list
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type NextToken: string
-"""
+    :type FleetIds: list
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None, NextToken=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet to get event logs for.
             
-:type FleetId: string
-:param StartTime: Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
-:type StartTime: datetime
-:param EndTime: Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
-:type EndTime: datetime
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type FleetId: string
+    :param StartTime: Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
+    :type StartTime: datetime
+    :param EndTime: Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
+    :type EndTime: datetime
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_fleet_port_settings(FleetId=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def describe_fleet_port_settings(FleetId=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet you want to retrieve port settings for.
             Return typedict
             ReturnsResponse Syntax{
@@ -440,113 +421,107 @@ def describe_fleet_port_settings(FleetId=None): pass
             
             
             
-:type FleetId: string
-"""
+    :type FleetId: string
+    """
+    pass
 
 
-def describe_fleet_utilization(FleetIds=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetIds: Unique identifier for the fleet(s) you want to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
+def describe_fleet_utilization(FleetIds=None, Limit=None, NextToken=None):
+    """
+    :param FleetIds: Unique identifier for the fleet(s) you want to retrieve utilization data for. To request utilization data for all fleets, leave this parameter empty.
             (string) --
             
-:type FleetIds: list
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
-:type NextToken: string
-"""
+    :type FleetIds: list
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. This parameter is ignored when the request specifies one or a list of fleet IDs.
+    :type NextToken: string
+    """
+    pass
 
 
 def describe_game_session_details(FleetId=None, GameSessionId=None, AliasId=None, StatusFilter=None, Limit=None,
-                                  NextToken=None): pass
-
-
-"""
-:param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
-:type FleetId: string
-:param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
-:type GameSessionId: string
-:param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
-:type AliasId: string
-:param StatusFilter: Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED , ACTIVATING and TERMINATING (the last two are transitory).
-:type StatusFilter: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+                                  NextToken=None):
+    """
+    :param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
+    :type FleetId: string
+    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :type GameSessionId: string
+    :param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
+    :type AliasId: string
+    :param StatusFilter: Game session status to filter results on. Possible game session statuses include ACTIVE, TERMINATED , ACTIVATING and TERMINATING (the last two are transitory).
+    :type StatusFilter: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
 def describe_game_sessions(FleetId=None, GameSessionId=None, AliasId=None, StatusFilter=None, Limit=None,
-                           NextToken=None): pass
+                           NextToken=None):
+    """
+    :param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
+    :type FleetId: string
+    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :type GameSessionId: string
+    :param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
+    :type AliasId: string
+    :param StatusFilter: Game session status to filter results on. Possible game session statuses include ACTIVE , TERMINATED , ACTIVATING , and TERMINATING (the last two are transitory).
+    :type StatusFilter: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-"""
-:param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
-:type FleetId: string
-:param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
-:type GameSessionId: string
-:param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
-:type AliasId: string
-:param StatusFilter: Game session status to filter results on. Possible game session statuses include ACTIVE , TERMINATED , ACTIVATING , and TERMINATING (the last two are transitory).
-:type StatusFilter: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
-
-
-def describe_instances(FleetId=None, InstanceId=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def describe_instances(FleetId=None, InstanceId=None, Limit=None, NextToken=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for a fleet. Specify the fleet to retrieve instance information for.
             
-:type FleetId: string
-:param InstanceId: Unique identifier for an instance. Specify an instance to retrieve information for or leave blank to get information on all instances in the fleet.
-:type InstanceId: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type FleetId: string
+    :param InstanceId: Unique identifier for an instance. Specify an instance to retrieve information for or leave blank to get information on all instances in the fleet.
+    :type InstanceId: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
 def describe_player_sessions(GameSessionId=None, PlayerId=None, PlayerSessionId=None, PlayerSessionStatusFilter=None,
-                             Limit=None, NextToken=None): pass
-
-
-"""
-:param GameSessionId: Unique identifier for the game session to get player sessions for.Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
-:type GameSessionId: string
-:param PlayerId: Unique identifier for a player.
-:type PlayerId: string
-:param PlayerSessionId: Unique identifier for a player session.
-:type PlayerSessionId: string
-:param PlayerSessionStatusFilter: Player session status to filter results on.
+                             Limit=None, NextToken=None):
+    """
+    :param GameSessionId: Unique identifier for the game session to get player sessions for.Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :type GameSessionId: string
+    :param PlayerId: Unique identifier for a player.
+    :type PlayerId: string
+    :param PlayerSessionId: Unique identifier for a player session.
+    :type PlayerSessionId: string
+    :param PlayerSessionStatusFilter: Player session status to filter results on.
             Possible player session statuses include the following:
             RESERVED   The player session request has been received, but the player has not yet connected to the server process and/or been validated.
             ACTIVE   The player has been validated by the server process and is currently connected.
             COMPLETED   The player connection has been dropped.
             TIMEDOUT   A player session request was received, but the player did not connect and/or was not validated within the time-out limit (60 seconds).
             
-:type PlayerSessionStatusFilter: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
-:type NextToken: string
-"""
+    :type PlayerSessionStatusFilter: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. If a player session ID is specified, this parameter is ignored.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value. If a player session ID is specified, this parameter is ignored.
+    :type NextToken: string
+    """
+    pass
 
 
-def describe_runtime_configuration(FleetId=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def describe_runtime_configuration(FleetId=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier of the fleet to get the runtime configuration for.
             Return typedict
             ReturnsResponse Syntax{
@@ -572,19 +547,18 @@ def describe_runtime_configuration(FleetId=None): pass
             
             
             
-:type FleetId: string
-"""
+    :type FleetId: string
+    """
+    pass
 
 
-def describe_scaling_policies(FleetId=None, StatusFilter=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def describe_scaling_policies(FleetId=None, StatusFilter=None, Limit=None, NextToken=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for a fleet. Specify the fleet to retrieve scaling policies for.
             
-:type FleetId: string
-:param StatusFilter: Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.
+    :type FleetId: string
+    :param StatusFilter: Scaling policy status to filter results on. A scaling policy is only in force when in an ACTIVE status.
             ACTIVE   The scaling policy is currently in force.
             UPDATEREQUESTED   A request to update the scaling policy has been received.
             UPDATING   A change is being made to the scaling policy.
@@ -593,37 +567,35 @@ def describe_scaling_policies(FleetId=None, StatusFilter=None, Limit=None, NextT
             DELETED   The scaling policy has been deleted.
             ERROR   An error occurred in creating the policy. It should be removed and recreated.
             
-:type StatusFilter: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type StatusFilter: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_game_session_log_url(GameSessionId=None): pass
-
-
-"""
-:param GameSessionId: [REQUIRED]
+def get_game_session_log_url(GameSessionId=None):
+    """
+    :param GameSessionId: [REQUIRED]
             Unique identifier for the game session to get logs for. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
             Return typedict
             ReturnsResponse Syntax{
@@ -634,15 +606,14 @@ def get_game_session_log_url(GameSessionId=None): pass
             PreSignedUrl (string) --Location of the requested game session logs, available for download.
             
             
-:type GameSessionId: string
-"""
+    :type GameSessionId: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -654,104 +625,99 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def list_aliases(RoutingStrategyType=None, Name=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param RoutingStrategyType: Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty.
+def list_aliases(RoutingStrategyType=None, Name=None, Limit=None, NextToken=None):
+    """
+    :param RoutingStrategyType: Type of routing to filter results on. Use this parameter to retrieve only aliases of a certain type. To retrieve all aliases, leave this parameter empty.
             Possible routing types include the following:
             SIMPLE   The alias resolves to one specific fleet. Use this type when routing to active fleets.
             TERMINAL   The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.
             
-:type RoutingStrategyType: string
-:param Name: Descriptive label associated with an alias. Alias names do not need to be unique.
-:type Name: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type RoutingStrategyType: string
+    :param Name: Descriptive label associated with an alias. Alias names do not need to be unique.
+    :type Name: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-def list_builds(Status=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param Status: Build status to filter results by. To retrieve all builds, leave this parameter empty.
+def list_builds(Status=None, Limit=None, NextToken=None):
+    """
+    :param Status: Build status to filter results by. To retrieve all builds, leave this parameter empty.
             Possible build statuses include the following:
             INITIALIZED   A new build has been defined, but no files have been uploaded. You cannot create fleets for builds that are in this status. When a build is successfully created, the build status is set to this value.
             READY   The game build has been successfully uploaded. You can now create new fleets for this build.
             FAILED   The game build upload failed. You cannot create new fleets for this build.
             
-:type Status: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type Status: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-def list_fleets(BuildId=None, Limit=None, NextToken=None): pass
-
-
-"""
-:param BuildId: Unique identifier of the build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
-:type BuildId: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+def list_fleets(BuildId=None, Limit=None, NextToken=None):
+    """
+    :param BuildId: Unique identifier of the build to return fleets for. Use this parameter to return only fleets using the specified build. To retrieve all fleets, leave this parameter empty.
+    :type BuildId: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
 def put_scaling_policy(Name=None, FleetId=None, ScalingAdjustment=None, ScalingAdjustmentType=None, Threshold=None,
-                       ComparisonOperator=None, EvaluationPeriods=None, MetricName=None): pass
-
-
-"""
-:param Name: [REQUIRED]
+                       ComparisonOperator=None, EvaluationPeriods=None, MetricName=None):
+    """
+    :param Name: [REQUIRED]
             Descriptive label associated with a scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
             
-:type Name: string
-:param FleetId: [REQUIRED]
+    :type Name: string
+    :param FleetId: [REQUIRED]
             Unique identity for the fleet to scale with this policy.
             
-:type FleetId: string
-:param ScalingAdjustment: [REQUIRED]
+    :type FleetId: string
+    :param ScalingAdjustment: [REQUIRED]
             Amount of adjustment to make, based on the scaling adjustment type.
             
-:type ScalingAdjustment: integer
-:param ScalingAdjustmentType: [REQUIRED]
+    :type ScalingAdjustment: integer
+    :param ScalingAdjustmentType: [REQUIRED]
             Type of adjustment to make to a fleet's instance count (see FleetCapacity ):
             ChangeInCapacity   add (or subtract) the scaling adjustment value from the current instance count. Positive values scale up while negative values scale down.
             ExactCapacity   set the instance count to the scaling adjustment value.
             PercentChangeInCapacity   increase or reduce the current instance count by the scaling adjustment, read as a percentage. Positive values scale up while negative values scale down; for example, a value of '-10' scales the fleet down by 10%.
             
-:type ScalingAdjustmentType: string
-:param Threshold: [REQUIRED]
+    :type ScalingAdjustmentType: string
+    :param Threshold: [REQUIRED]
             Metric value used to trigger a scaling event.
             
-:type Threshold: float
-:param ComparisonOperator: [REQUIRED]
+    :type Threshold: float
+    :param ComparisonOperator: [REQUIRED]
             Comparison operator to use when measuring the metric against the threshold value.
             
-:type ComparisonOperator: string
-:param EvaluationPeriods: [REQUIRED]
+    :type ComparisonOperator: string
+    :param EvaluationPeriods: [REQUIRED]
             Length of time (in minutes) the metric must be at or beyond the threshold before a scaling event is triggered.
             
-:type EvaluationPeriods: integer
-:param MetricName: [REQUIRED]
+    :type EvaluationPeriods: integer
+    :param MetricName: [REQUIRED]
             Name of the Amazon GameLift-defined metric that is used to trigger an adjustment.
             ActivatingGameSessions   number of game sessions in the process of being created (game session status = ACTIVATING ).
             ActiveGameSessions   number of game sessions currently running (game session status = ACTIVE ).
@@ -760,15 +726,14 @@ def put_scaling_policy(Name=None, FleetId=None, ScalingAdjustment=None, ScalingA
             ActiveInstances   number of instances currently running a game session.
             IdleInstances   number of instances not currently running a game session.
             
-:type MetricName: string
-"""
+    :type MetricName: string
+    """
+    pass
 
 
-def request_upload_credentials(BuildId=None): pass
-
-
-"""
-:param BuildId: [REQUIRED]
+def request_upload_credentials(BuildId=None):
+    """
+    :param BuildId: [REQUIRED]
             Unique identifier for the build you want to get credentials for.
             Return typedict
             ReturnsResponse Syntax{
@@ -796,15 +761,14 @@ def request_upload_credentials(BuildId=None): pass
             
             
             
-:type BuildId: string
-"""
+    :type BuildId: string
+    """
+    pass
 
 
-def resolve_alias(AliasId=None): pass
-
-
-"""
-:param AliasId: [REQUIRED]
+def resolve_alias(AliasId=None):
+    """
+    :param AliasId: [REQUIRED]
             Unique identifier for the alias you want to resolve.
             Return typedict
             ReturnsResponse Syntax{
@@ -815,20 +779,19 @@ def resolve_alias(AliasId=None): pass
             FleetId (string) --Fleet ID associated with the requested alias.
             
             
-:type AliasId: string
-"""
+    :type AliasId: string
+    """
+    pass
 
 
 def search_game_sessions(FleetId=None, AliasId=None, FilterExpression=None, SortExpression=None, Limit=None,
-                         NextToken=None): pass
-
-
-"""
-:param FleetId: Unique identifier for a fleet. Each request must reference either a fleet ID or alias ID, but not both.
-:type FleetId: string
-:param AliasId: Unique identifier for a fleet alias. Each request must reference either a fleet ID or alias ID, but not both.
-:type AliasId: string
-:param FilterExpression: String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status.
+                         NextToken=None):
+    """
+    :param FleetId: Unique identifier for a fleet. Each request must reference either a fleet ID or alias ID, but not both.
+    :type FleetId: string
+    :param AliasId: Unique identifier for a fleet alias. Each request must reference either a fleet ID or alias ID, but not both.
+    :type AliasId: string
+    :param FilterExpression: String containing the search criteria for the session search. If no filter expression is included, the request returns results for all game sessions in the fleet that are in ACTIVE status.
             A filter expression can contain one or multiple conditions. Each condition consists of the following:
             Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , creationTimeMillis , playerSessionCount , maximumSessions , hasAvailablePlayerSessions .
             Comparator -- Valid comparators are: = , ```` , ```` , ```` , = , = .
@@ -842,33 +805,32 @@ def search_game_sessions(FleetId=None, AliasId=None, FilterExpression=None, Sort
             OR
             For example, this filter expression retrieves game sessions hosting at least ten players that have an open player slot: 'maximumSessions=10 AND hasAvailablePlayerSessions=true' .
             
-:type FilterExpression: string
-:param SortExpression: Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:
+    :type FilterExpression: string
+    :param SortExpression: Instructions on how to sort the search results. If no sort expression is included, the request returns results in random order. A sort expression consists of the following elements:
             Operand -- Name of a game session attribute. Valid values are gameSessionName , gameSessionId , creationTimeMillis , playerSessionCount , maximumSessions , hasAvailablePlayerSessions .
             Order -- Valid sort orders are ASC (ascending) and DESC (descending).
             For example, this sort expression returns the oldest active sessions first: 'SortExpression': 'creationTimeMillis ASC' . Results with a null value for the sort operand are returned at the end of the list.
             
-:type SortExpression: string
-:param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20.
-:type Limit: integer
-:param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
-:type NextToken: string
-"""
+    :type SortExpression: string
+    :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages. The maximum number of results returned is 20, even if this value is not set or is set higher than 20.
+    :type Limit: integer
+    :param NextToken: Token indicating the start of the next sequential page of results. Use the token that is returned with a previous call to this action. To specify the start of the result set, do not specify a value.
+    :type NextToken: string
+    """
+    pass
 
 
-def update_alias(AliasId=None, Name=None, Description=None, RoutingStrategy=None): pass
-
-
-"""
-:param AliasId: [REQUIRED]
+def update_alias(AliasId=None, Name=None, Description=None, RoutingStrategy=None):
+    """
+    :param AliasId: [REQUIRED]
             Unique identifier for a fleet alias. Specify the alias you want to update.
             
-:type AliasId: string
-:param Name: Descriptive label associated with an alias. Alias names do not need to be unique.
-:type Name: string
-:param Description: Human-readable description of an alias.
-:type Description: string
-:param RoutingStrategy: Object specifying the fleet and routing type to use for the alias.
+    :type AliasId: string
+    :param Name: Descriptive label associated with an alias. Alias names do not need to be unique.
+    :type Name: string
+    :param Description: Human-readable description of an alias.
+    :type Description: string
+    :param RoutingStrategy: Object specifying the fleet and routing type to use for the alias.
             Type (string) --Type of routing strategy.
             Possible routing types include the following:
             SIMPLE   The alias resolves to one specific fleet. Use this type when routing to active fleets.
@@ -876,78 +838,73 @@ def update_alias(AliasId=None, Name=None, Description=None, RoutingStrategy=None
             FleetId (string) --Unique identifier for a fleet.
             Message (string) --Message text to be used with a terminal routing strategy.
             
-:type RoutingStrategy: dict
-"""
+    :type RoutingStrategy: dict
+    """
+    pass
 
 
-def update_build(BuildId=None, Name=None, Version=None): pass
-
-
-"""
-:param BuildId: [REQUIRED]
+def update_build(BuildId=None, Name=None, Version=None):
+    """
+    :param BuildId: [REQUIRED]
             Unique identifier of the build you want to update.
             
-:type BuildId: string
-:param Name: Descriptive label associated with a build. Build names do not need to be unique.
-:type Name: string
-:param Version: Version associated with this build. Version strings do not need to be unique to a build.
-:type Version: string
-"""
+    :type BuildId: string
+    :param Name: Descriptive label associated with a build. Build names do not need to be unique.
+    :type Name: string
+    :param Version: Version associated with this build. Version strings do not need to be unique to a build.
+    :type Version: string
+    """
+    pass
 
 
 def update_fleet_attributes(FleetId=None, Name=None, Description=None, NewGameSessionProtectionPolicy=None,
-                            ResourceCreationLimitPolicy=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+                            ResourceCreationLimitPolicy=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet you want to update attribute metadata for.
             
-:type FleetId: string
-:param Name: Descriptive label associated with a fleet. Fleet names do not need to be unique.
-:type Name: string
-:param Description: Human-readable description of a fleet.
-:type Description: string
-:param NewGameSessionProtectionPolicy: Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession .
+    :type FleetId: string
+    :param Name: Descriptive label associated with a fleet. Fleet names do not need to be unique.
+    :type Name: string
+    :param Description: Human-readable description of a fleet.
+    :type Description: string
+    :param NewGameSessionProtectionPolicy: Game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using UpdateGameSession .
             NoProtection   The game session can be terminated during a scale-down event.
             FullProtection   If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
             
-:type NewGameSessionProtectionPolicy: string
-:param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time.
+    :type NewGameSessionProtectionPolicy: string
+    :param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time.
             NewGameSessionsPerCreator (integer) --Maximum number of game sessions an individual can create during the policy period.
             PolicyPeriodInMinutes (integer) --Time span used to evaluate the resource creation limit policy.
             
-:type ResourceCreationLimitPolicy: dict
-"""
+    :type ResourceCreationLimitPolicy: dict
+    """
+    pass
 
 
-def update_fleet_capacity(FleetId=None, DesiredInstances=None, MinSize=None, MaxSize=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def update_fleet_capacity(FleetId=None, DesiredInstances=None, MinSize=None, MaxSize=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet you want to update capacity for.
             
-:type FleetId: string
-:param DesiredInstances: Number of EC2 instances you want this fleet to host.
-:type DesiredInstances: integer
-:param MinSize: Minimum value allowed for the fleet's instance count. Default if not set is 0.
-:type MinSize: integer
-:param MaxSize: Maximum value allowed for the fleet's instance count. Default if not set is 1.
-:type MaxSize: integer
-"""
+    :type FleetId: string
+    :param DesiredInstances: Number of EC2 instances you want this fleet to host.
+    :type DesiredInstances: integer
+    :param MinSize: Minimum value allowed for the fleet's instance count. Default if not set is 0.
+    :type MinSize: integer
+    :param MaxSize: Maximum value allowed for the fleet's instance count. Default if not set is 1.
+    :type MaxSize: integer
+    """
+    pass
 
 
-def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=None,
-                               InboundPermissionRevocations=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=None, InboundPermissionRevocations=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier for the fleet you want to update port settings for.
             
-:type FleetId: string
-:param InboundPermissionAuthorizations: Collection of port settings to be added to the fleet record.
+    :type FleetId: string
+    :param InboundPermissionAuthorizations: Collection of port settings to be added to the fleet record.
             (dict) --A range of IP addresses and port settings that allow inbound traffic to connect to server processes on GameLift. Each game session hosted on a fleet is assigned a unique combination of IP address and port number, which must fall into the fleet's allowed ranges. This combination is included in the GameSession object.
             FromPort (integer) -- [REQUIRED]Starting value for a range of allowed port numbers.
             ToPort (integer) -- [REQUIRED]Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort .
@@ -955,8 +912,8 @@ def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=Non
             Protocol (string) -- [REQUIRED]Network communication protocol used by the fleet.
             
             
-:type InboundPermissionAuthorizations: list
-:param InboundPermissionRevocations: Collection of port settings to be removed from the fleet record.
+    :type InboundPermissionAuthorizations: list
+    :param InboundPermissionRevocations: Collection of port settings to be removed from the fleet record.
             (dict) --A range of IP addresses and port settings that allow inbound traffic to connect to server processes on GameLift. Each game session hosted on a fleet is assigned a unique combination of IP address and port number, which must fall into the fleet's allowed ranges. This combination is included in the GameSession object.
             FromPort (integer) -- [REQUIRED]Starting value for a range of allowed port numbers.
             ToPort (integer) -- [REQUIRED]Ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort .
@@ -964,42 +921,40 @@ def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=Non
             Protocol (string) -- [REQUIRED]Network communication protocol used by the fleet.
             
             
-:type InboundPermissionRevocations: list
-"""
+    :type InboundPermissionRevocations: list
+    """
+    pass
 
 
 def update_game_session(GameSessionId=None, MaximumPlayerSessionCount=None, Name=None, PlayerSessionCreationPolicy=None,
-                        ProtectionPolicy=None): pass
-
-
-"""
-:param GameSessionId: [REQUIRED]
+                        ProtectionPolicy=None):
+    """
+    :param GameSessionId: [REQUIRED]
             Unique identifier for the game session to update. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
             
-:type GameSessionId: string
-:param MaximumPlayerSessionCount: Maximum number of players that can be simultaneously connected to the game session.
-:type MaximumPlayerSessionCount: integer
-:param Name: Descriptive label associated with a game session. Session names do not need to be unique.
-:type Name: string
-:param PlayerSessionCreationPolicy: Policy determining whether or not the game session accepts new players.
-:type PlayerSessionCreationPolicy: string
-:param ProtectionPolicy: Game session protection policy to apply to this game session only.
+    :type GameSessionId: string
+    :param MaximumPlayerSessionCount: Maximum number of players that can be simultaneously connected to the game session.
+    :type MaximumPlayerSessionCount: integer
+    :param Name: Descriptive label associated with a game session. Session names do not need to be unique.
+    :type Name: string
+    :param PlayerSessionCreationPolicy: Policy determining whether or not the game session accepts new players.
+    :type PlayerSessionCreationPolicy: string
+    :param ProtectionPolicy: Game session protection policy to apply to this game session only.
             NoProtection   The game session can be terminated during a scale-down event.
             FullProtection   If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
             
-:type ProtectionPolicy: string
-"""
+    :type ProtectionPolicy: string
+    """
+    pass
 
 
-def update_runtime_configuration(FleetId=None, RuntimeConfiguration=None): pass
-
-
-"""
-:param FleetId: [REQUIRED]
+def update_runtime_configuration(FleetId=None, RuntimeConfiguration=None):
+    """
+    :param FleetId: [REQUIRED]
             Unique identifier of the fleet to update runtime configuration for.
             
-:type FleetId: string
-:param RuntimeConfiguration: [REQUIRED]
+    :type FleetId: string
+    :param RuntimeConfiguration: [REQUIRED]
             Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
             ServerProcesses (list) --Collection of server process configurations describing what server processes to run on each instance in a fleet
             (dict) --A set of instructions for launching server processes on each instance in a fleet. Each instruction set identifies the location of the server executable, optional launch parameters, and the number of server processes with this configuration to maintain concurrently on the instance. Server process configurations make up a fleet's `` RuntimeConfiguration `` .
@@ -1008,5 +963,6 @@ def update_runtime_configuration(FleetId=None, RuntimeConfiguration=None): pass
             ConcurrentExecutions (integer) -- [REQUIRED]Number of server processes using this configuration to run concurrently on an instance.
             
             
-:type RuntimeConfiguration: dict
-"""
+    :type RuntimeConfiguration: dict
+    """
+    pass

@@ -23,71 +23,66 @@ SOFTWARE.
 """
 
 
-def batch_check_layer_availability(registryId=None, repositoryName=None, layerDigests=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def batch_check_layer_availability(registryId=None, repositoryName=None, layerDigests=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the image layers to check. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository that is associated with the image layers to check.
             
-:type repositoryName: string
-:param layerDigests: [REQUIRED]
+    :type repositoryName: string
+    :param layerDigests: [REQUIRED]
             The digests of the image layers to check.
             (string) --
             
-:type layerDigests: list
-"""
+    :type layerDigests: list
+    """
+    pass
 
 
-def batch_delete_image(registryId=None, repositoryName=None, imageIds=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def batch_delete_image(registryId=None, repositoryName=None, imageIds=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The repository that contains the image to delete.
             
-:type repositoryName: string
-:param imageIds: [REQUIRED]
+    :type repositoryName: string
+    :param imageIds: [REQUIRED]
             A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest .
             (dict) --An object with identifying information for an Amazon ECR image.
             imageDigest (string) --The sha256 digest of the image manifest.
             imageTag (string) --The tag used for the image.
             
             
-:type imageIds: list
-"""
+    :type imageIds: list
+    """
+    pass
 
 
-def batch_get_image(registryId=None, repositoryName=None, imageIds=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def batch_get_image(registryId=None, repositoryName=None, imageIds=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the images to describe. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The repository that contains the images to describe.
             
-:type repositoryName: string
-:param imageIds: [REQUIRED]
+    :type repositoryName: string
+    :param imageIds: [REQUIRED]
             A list of image ID references that correspond to images to describe. The format of the imageIds reference is imageTag=tag or imageDigest=digest .
             (dict) --An object with identifying information for an Amazon ECR image.
             imageDigest (string) --The sha256 digest of the image manifest.
             imageTag (string) --The tag used for the image.
             
             
-:type imageIds: list
-"""
+    :type imageIds: list
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -96,37 +91,35 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def complete_layer_upload(registryId=None, repositoryName=None, uploadId=None, layerDigests=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def complete_layer_upload(registryId=None, repositoryName=None, uploadId=None, layerDigests=None):
+    """
+    :param registryId: The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository to associate with the image layer.
             
-:type repositoryName: string
-:param uploadId: [REQUIRED]
+    :type repositoryName: string
+    :param uploadId: [REQUIRED]
             The upload ID from a previous InitiateLayerUpload operation to associate with the image layer.
             
-:type uploadId: string
-:param layerDigests: [REQUIRED]
+    :type uploadId: string
+    :param layerDigests: [REQUIRED]
             The sha256 digest of the image layer.
             (string) --
             
-:type layerDigests: list
-"""
+    :type layerDigests: list
+    """
+    pass
 
 
-def create_repository(repositoryName=None): pass
-
-
-"""
-:param repositoryName: [REQUIRED]
+def create_repository(repositoryName=None):
+    """
+    :param repositoryName: [REQUIRED]
             The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app ) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app ).
             Return typedict
             ReturnsResponse Syntax{
@@ -149,110 +142,103 @@ def create_repository(repositoryName=None): pass
             
             
             
-:type repositoryName: string
-"""
+    :type repositoryName: string
+    """
+    pass
 
 
-def delete_repository(registryId=None, repositoryName=None, force=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def delete_repository(registryId=None, repositoryName=None, force=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository to delete.
             
-:type repositoryName: string
-:param force: Force the deletion of the repository if it contains images.
-:type force: boolean
-"""
+    :type repositoryName: string
+    :param force: Force the deletion of the repository if it contains images.
+    :type force: boolean
+    """
+    pass
 
 
-def delete_repository_policy(registryId=None, repositoryName=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def delete_repository_policy(registryId=None, repositoryName=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository policy to delete. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository that is associated with the repository policy to delete.
             
-:type repositoryName: string
-"""
+    :type repositoryName: string
+    """
+    pass
 
 
-def describe_images(registryId=None, repositoryName=None, imageIds=None, nextToken=None, maxResults=None,
-                    filter=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def describe_images(registryId=None, repositoryName=None, imageIds=None, nextToken=None, maxResults=None, filter=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
             
-:type repositoryName: string
-:param imageIds: The list of image IDs for the requested repository.
+    :type repositoryName: string
+    :param imageIds: The list of image IDs for the requested repository.
             (dict) --An object with identifying information for an Amazon ECR image.
             imageDigest (string) --The sha256 digest of the image manifest.
             imageTag (string) --The tag used for the image.
             
             
-:type imageIds: list
-:param nextToken: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
-:type nextToken: string
-:param maxResults: The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
-:type maxResults: integer
-:param filter: The filter key and value with which to filter your DescribeImages results.
+    :type imageIds: list
+    :param nextToken: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    :type nextToken: string
+    :param maxResults: The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
+    :type maxResults: integer
+    :param filter: The filter key and value with which to filter your DescribeImages results.
             tagStatus (string) --The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED .
             
-:type filter: dict
-"""
+    :type filter: dict
+    """
+    pass
 
 
-def describe_repositories(registryId=None, repositoryNames=None, nextToken=None, maxResults=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryNames: A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
+def describe_repositories(registryId=None, repositoryNames=None, nextToken=None, maxResults=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryNames: A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
             (string) --
             
-:type repositoryNames: list
-:param nextToken: The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    :type repositoryNames: list
+    :param nextToken: The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
             Note
             This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
             
-:type nextToken: string
-:param maxResults: The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
-:type maxResults: integer
-"""
+    :type nextToken: string
+    :param maxResults: The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
+    :type maxResults: integer
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_authorization_token(registryIds=None): pass
-
-
-"""
-:param registryIds: A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
+def get_authorization_token(registryIds=None):
+    """
+    :param registryIds: A list of AWS account IDs that are associated with the registries for which to get authorization tokens. If you do not specify a registry, the default registry is assumed.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -274,32 +260,30 @@ def get_authorization_token(registryIds=None): pass
             
             
             
-:type registryIds: list
-"""
+    :type registryIds: list
+    """
+    pass
 
 
-def get_download_url_for_layer(registryId=None, repositoryName=None, layerDigest=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def get_download_url_for_layer(registryId=None, repositoryName=None, layerDigest=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the image layer to download. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository that is associated with the image layer to download.
             
-:type repositoryName: string
-:param layerDigest: [REQUIRED]
+    :type repositoryName: string
+    :param layerDigest: [REQUIRED]
             The digest of the image layer to download.
             
-:type layerDigest: string
-"""
+    :type layerDigest: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -311,128 +295,122 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_repository_policy(registryId=None, repositoryName=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def get_repository_policy(registryId=None, repositoryName=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository whose policy you want to retrieve.
             
-:type repositoryName: string
-"""
+    :type repositoryName: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def initiate_layer_upload(registryId=None, repositoryName=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def initiate_layer_upload(registryId=None, repositoryName=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository that you intend to upload layers to.
             
-:type repositoryName: string
-"""
+    :type repositoryName: string
+    """
+    pass
 
 
-def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults=None, filter=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults=None, filter=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The repository whose image IDs are to be listed.
             
-:type repositoryName: string
-:param nextToken: The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    :type repositoryName: string
+    :param nextToken: The nextToken value returned from a previous paginated ListImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
             Note
             This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
             
-:type nextToken: string
-:param maxResults: The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
-:type maxResults: integer
-:param filter: The filter key and value with which to filter your ListImages results.
+    :type nextToken: string
+    :param maxResults: The maximum number of image results returned by ListImages in paginated output. When this parameter is used, ListImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListImages returns up to 100 results and a nextToken value, if applicable.
+    :type maxResults: integer
+    :param filter: The filter key and value with which to filter your ListImages results.
             tagStatus (string) --The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED .
             
-:type filter: dict
-"""
+    :type filter: dict
+    """
+    pass
 
 
-def put_image(registryId=None, repositoryName=None, imageManifest=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def put_image(registryId=None, repositoryName=None, imageManifest=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository in which to put the image.
             
-:type repositoryName: string
-:param imageManifest: [REQUIRED]
+    :type repositoryName: string
+    :param imageManifest: [REQUIRED]
             The image manifest corresponding to the image to be uploaded.
             
-:type imageManifest: string
-"""
+    :type imageManifest: string
+    """
+    pass
 
 
-def set_repository_policy(registryId=None, repositoryName=None, policyText=None, force=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+def set_repository_policy(registryId=None, repositoryName=None, policyText=None, force=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository to receive the policy.
             
-:type repositoryName: string
-:param policyText: [REQUIRED]
+    :type repositoryName: string
+    :param policyText: [REQUIRED]
             The JSON repository policy text to apply to the repository.
             
-:type policyText: string
-:param force: If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
-:type force: boolean
-"""
+    :type policyText: string
+    :param force: If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the SetRepositoryPolicy operation. This is intended to prevent accidental repository lock outs.
+    :type force: boolean
+    """
+    pass
 
 
 def upload_layer_part(registryId=None, repositoryName=None, uploadId=None, partFirstByte=None, partLastByte=None,
-                      layerPartBlob=None): pass
-
-
-"""
-:param registryId: The AWS account ID associated with the registry that you are uploading layer parts to. If you do not specify a registry, the default registry is assumed.
-:type registryId: string
-:param repositoryName: [REQUIRED]
+                      layerPartBlob=None):
+    """
+    :param registryId: The AWS account ID associated with the registry that you are uploading layer parts to. If you do not specify a registry, the default registry is assumed.
+    :type registryId: string
+    :param repositoryName: [REQUIRED]
             The name of the repository that you are uploading layer parts to.
             
-:type repositoryName: string
-:param uploadId: [REQUIRED]
+    :type repositoryName: string
+    :param uploadId: [REQUIRED]
             The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
             
-:type uploadId: string
-:param partFirstByte: [REQUIRED]
+    :type uploadId: string
+    :param partFirstByte: [REQUIRED]
             The integer value of the first byte of the layer part.
             
-:type partFirstByte: integer
-:param partLastByte: [REQUIRED]
+    :type partFirstByte: integer
+    :param partLastByte: [REQUIRED]
             The integer value of the last byte of the layer part.
             
-:type partLastByte: integer
-:param layerPartBlob: [REQUIRED]
+    :type partLastByte: integer
+    :param layerPartBlob: [REQUIRED]
             The base64-encoded layer part payload.
             
-:type layerPartBlob: bytes
-"""
+    :type layerPartBlob: bytes
+    """
+    pass

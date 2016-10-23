@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def bulk_publish(IdentityPoolId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+def bulk_publish(IdentityPoolId=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
             Return typedict
             ReturnsResponse Syntax{
               'IdentityPoolId': 'string'
@@ -37,15 +35,14 @@ def bulk_publish(IdentityPoolId=None): pass
             IdentityPoolId (string) -- A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
             
             
-:type IdentityPoolId: string
-"""
+    :type IdentityPoolId: string
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -54,41 +51,38 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def delete_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None): pass
+def delete_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+    :type DatasetName: string
+    """
+    pass
 
 
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-:param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-:type DatasetName: string
-"""
+def describe_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+    :type DatasetName: string
+    """
+    pass
 
 
-def describe_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-:param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-:type DatasetName: string
-"""
-
-
-def describe_identity_pool_usage(IdentityPoolId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+def describe_identity_pool_usage(IdentityPoolId=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
             Return typedict
             ReturnsResponse Syntax{
               'IdentityPoolUsage': {
@@ -107,44 +101,41 @@ def describe_identity_pool_usage(IdentityPoolId=None): pass
             LastModifiedDate (datetime) -- Date on which the identity pool was last modified.
             
             
-:type IdentityPoolId: string
-"""
+    :type IdentityPoolId: string
+    """
+    pass
 
 
-def describe_identity_usage(IdentityPoolId=None, IdentityId=None): pass
+def describe_identity_usage(IdentityPoolId=None, IdentityId=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    """
+    pass
 
 
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-"""
-
-
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_bulk_publish_details(IdentityPoolId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+def get_bulk_publish_details(IdentityPoolId=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
             Return typedict
             ReturnsResponse Syntax{
               'IdentityPoolId': 'string',
@@ -165,15 +156,14 @@ def get_bulk_publish_details(IdentityPoolId=None): pass
             FailureMessage (string) -- If BulkPublishStatus is FAILED this field will contain the error message that caused the bulk publish to fail.
             
             
-:type IdentityPoolId: string
-"""
+    :type IdentityPoolId: string
+    """
+    pass
 
 
-def get_cognito_events(IdentityPoolId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def get_cognito_events(IdentityPoolId=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             The Cognito Identity Pool ID for the request
             Return typedict
             ReturnsResponse Syntax{
@@ -189,15 +179,14 @@ def get_cognito_events(IdentityPoolId=None): pass
             
             
             
-:type IdentityPoolId: string
-"""
+    :type IdentityPoolId: string
+    """
+    pass
 
 
-def get_identity_pool_configuration(IdentityPoolId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def get_identity_pool_configuration(IdentityPoolId=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration.
             Return typedict
             ReturnsResponse Syntax{
@@ -229,15 +218,14 @@ def get_identity_pool_configuration(IdentityPoolId=None): pass
             
             
             
-:type IdentityPoolId: string
-"""
+    :type IdentityPoolId: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -249,189 +237,179 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
+def list_datasets(IdentityPoolId=None, IdentityId=None, NextToken=None, MaxResults=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    :param NextToken: A pagination token for obtaining the next page of results.
+    :type NextToken: string
+    :param MaxResults: The maximum number of results to be returned.
+    :type MaxResults: integer
+    """
+    pass
 
 
-def list_datasets(IdentityPoolId=None, IdentityId=None, NextToken=None, MaxResults=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-:param NextToken: A pagination token for obtaining the next page of results.
-:type NextToken: string
-:param MaxResults: The maximum number of results to be returned.
-:type MaxResults: integer
-"""
-
-
-def list_identity_pool_usage(NextToken=None, MaxResults=None): pass
-
-
-"""
-:param NextToken: A pagination token for obtaining the next page of results.
-:type NextToken: string
-:param MaxResults: The maximum number of results to be returned.
-:type MaxResults: integer
-"""
+def list_identity_pool_usage(NextToken=None, MaxResults=None):
+    """
+    :param NextToken: A pagination token for obtaining the next page of results.
+    :type NextToken: string
+    :param MaxResults: The maximum number of results to be returned.
+    :type MaxResults: integer
+    """
+    pass
 
 
 def list_records(IdentityPoolId=None, IdentityId=None, DatasetName=None, LastSyncCount=None, NextToken=None,
-                 MaxResults=None, SyncSessionToken=None): pass
+                 MaxResults=None, SyncSessionToken=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+    :type DatasetName: string
+    :param LastSyncCount: The last server sync count for this record.
+    :type LastSyncCount: integer
+    :param NextToken: A pagination token for obtaining the next page of results.
+    :type NextToken: string
+    :param MaxResults: The maximum number of results to be returned.
+    :type MaxResults: integer
+    :param SyncSessionToken: A token containing a session ID, identity ID, and expiration.
+    :type SyncSessionToken: string
+    """
+    pass
 
 
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-:param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-:type DatasetName: string
-:param LastSyncCount: The last server sync count for this record.
-:type LastSyncCount: integer
-:param NextToken: A pagination token for obtaining the next page of results.
-:type NextToken: string
-:param MaxResults: The maximum number of results to be returned.
-:type MaxResults: integer
-:param SyncSessionToken: A token containing a session ID, identity ID, and expiration.
-:type SyncSessionToken: string
-"""
-
-
-def register_device(IdentityPoolId=None, IdentityId=None, Platform=None, Token=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def register_device(IdentityPoolId=None, IdentityId=None, Platform=None, Token=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. Here, the ID of the pool that the identity belongs to.
             
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED]
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED]
             The unique ID for this identity.
             
-:type IdentityId: string
-:param Platform: [REQUIRED]
+    :type IdentityId: string
+    :param Platform: [REQUIRED]
             The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
             
-:type Platform: string
-:param Token: [REQUIRED]
+    :type Platform: string
+    :param Token: [REQUIRED]
             The push token.
             
-:type Token: string
-"""
+    :type Token: string
+    """
+    pass
 
 
-def set_cognito_events(IdentityPoolId=None, Events=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def set_cognito_events(IdentityPoolId=None, Events=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             The Cognito Identity Pool to use when configuring Cognito Events
             
-:type IdentityPoolId: string
-:param Events: [REQUIRED]
+    :type IdentityPoolId: string
+    :param Events: [REQUIRED]
             The events to configure
             (string) --
             (string) --
             
-:type Events: dict
-"""
+    :type Events: dict
+    """
+    pass
 
 
-def set_identity_pool_configuration(IdentityPoolId=None, PushSync=None, CognitoStreams=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def set_identity_pool_configuration(IdentityPoolId=None, PushSync=None, CognitoStreams=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool to modify.
             
-:type IdentityPoolId: string
-:param PushSync: Options to apply to this identity pool for push synchronization.
+    :type IdentityPoolId: string
+    :param PushSync: Options to apply to this identity pool for push synchronization.
             ApplicationArns (list) --List of SNS platform application ARNs that could be used by clients.
             (string) --
             RoleArn (string) --A role configured to allow Cognito to call SNS on behalf of the developer.
             
-:type PushSync: dict
-:param CognitoStreams: Options to apply to this identity pool for Amazon Cognito streams.
+    :type PushSync: dict
+    :param CognitoStreams: Options to apply to this identity pool for Amazon Cognito streams.
             StreamName (string) -- The name of the Cognito stream to receive updates. This stream must be in the developers account and in the same region as the identity pool.
             RoleArn (string) -- The ARN of the role Amazon Cognito can assume in order to publish to the stream. This role must grant access to Amazon Cognito (cognito-sync) to invoke PutRecord on your Cognito stream.
             StreamingStatus (string) -- Status of the Cognito streams. Valid values are:ENABLED - Streaming of updates to identity pool is enabled.
             DISABLED - Streaming of updates to identity pool is disabled. Bulk publish will also fail if StreamingStatus is DISABLED.
             
-:type CognitoStreams: dict
-"""
+    :type CognitoStreams: dict
+    """
+    pass
 
 
-def subscribe_to_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None, DeviceId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def subscribe_to_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None, DeviceId=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs.
             
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED]
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED]
             Unique ID for this identity.
             
-:type IdentityId: string
-:param DatasetName: [REQUIRED]
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED]
             The name of the dataset to subcribe to.
             
-:type DatasetName: string
-:param DeviceId: [REQUIRED]
+    :type DatasetName: string
+    :param DeviceId: [REQUIRED]
             The unique ID generated for this device by Cognito.
             
-:type DeviceId: string
-"""
+    :type DeviceId: string
+    """
+    pass
 
 
-def unsubscribe_from_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None, DeviceId=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED]
+def unsubscribe_from_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None, DeviceId=None):
+    """
+    :param IdentityPoolId: [REQUIRED]
             A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs.
             
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED]
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED]
             Unique ID for this identity.
             
-:type IdentityId: string
-:param DatasetName: [REQUIRED]
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED]
             The name of the dataset from which to unsubcribe.
             
-:type DatasetName: string
-:param DeviceId: [REQUIRED]
+    :type DatasetName: string
+    :param DeviceId: [REQUIRED]
             The unique ID generated for this device by Cognito.
             
-:type DeviceId: string
-"""
+    :type DeviceId: string
+    """
+    pass
 
 
 def update_records(IdentityPoolId=None, IdentityId=None, DatasetName=None, DeviceId=None, RecordPatches=None,
-                   SyncSessionToken=None, ClientContext=None): pass
-
-
-"""
-:param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityPoolId: string
-:param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
-:type IdentityId: string
-:param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
-:type DatasetName: string
-:param DeviceId: The unique ID generated for this device by Cognito.
-:type DeviceId: string
-:param RecordPatches: A list of patch operations.
+                   SyncSessionToken=None, ClientContext=None):
+    """
+    :param IdentityPoolId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityPoolId: string
+    :param IdentityId: [REQUIRED] A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region.
+    :type IdentityId: string
+    :param DatasetName: [REQUIRED] A string of up to 128 characters. Allowed characters are a-z, A-Z, 0-9, '_' (underscore), '-' (dash), and '.' (dot).
+    :type DatasetName: string
+    :param DeviceId: The unique ID generated for this device by Cognito.
+    :type DeviceId: string
+    :param RecordPatches: A list of patch operations.
             (dict) -- An update operation for a record.
             Op (string) -- [REQUIRED] An operation, either replace or remove.
             Key (string) -- [REQUIRED] The key associated with the record patch.
@@ -439,9 +417,10 @@ def update_records(IdentityPoolId=None, IdentityId=None, DatasetName=None, Devic
             SyncCount (integer) -- [REQUIRED] Last known server sync count for this record. Set to 0 if unknown.
             DeviceLastModifiedDate (datetime) -- The last modified date of the client device.
             
-:type RecordPatches: list
-:param SyncSessionToken: [REQUIRED] The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
-:type SyncSessionToken: string
-:param ClientContext: Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
-:type ClientContext: string
-"""
+    :type RecordPatches: list
+    :param SyncSessionToken: [REQUIRED] The SyncSessionToken returned by a previous call to ListRecords for this dataset and identity.
+    :type SyncSessionToken: string
+    :param ClientContext: Intended to supply a device ID that will populate the lastModifiedBy field referenced in other methods. The ClientContext field is not yet implemented.
+    :type ClientContext: string
+    """
+    pass

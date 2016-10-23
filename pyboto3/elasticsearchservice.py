@@ -23,30 +23,27 @@ SOFTWARE.
 """
 
 
-def add_tags(ARN=None, TagList=None): pass
-
-
-"""
-:param ARN: [REQUIRED]
+def add_tags(ARN=None, TagList=None):
+    """
+    :param ARN: [REQUIRED]
             Specify the ARN for which you want to add the tags.
             
-:type ARN: string
-:param TagList: [REQUIRED]
+    :type ARN: string
+    :param TagList: [REQUIRED]
             List of Tag that need to be added for the Elasticsearch domain.
             (dict) --Specifies a key value pair for a resource tag.
             Key (string) -- [REQUIRED]Specifies the TagKey , the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
             Value (string) -- [REQUIRED]Specifies the TagValue , the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
             
             
-:type TagList: list
-"""
+    :type TagList: list
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -55,22 +52,21 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
 def create_elasticsearch_domain(DomainName=None, ElasticsearchVersion=None, ElasticsearchClusterConfig=None,
-                                EBSOptions=None, AccessPolicies=None, SnapshotOptions=None, AdvancedOptions=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+                                EBSOptions=None, AccessPolicies=None, SnapshotOptions=None, AdvancedOptions=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param ElasticsearchVersion: String of format X.Y to specify version for the Elasticsearch domain eg. '1.5' or '2.3'. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide .
-:type ElasticsearchVersion: string
-:param ElasticsearchClusterConfig: Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster.
+    :type DomainName: string
+    :param ElasticsearchVersion: String of format X.Y to specify version for the Elasticsearch domain eg. '1.5' or '2.3'. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide .
+    :type ElasticsearchVersion: string
+    :param ElasticsearchClusterConfig: Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster.
             InstanceType (string) --The instance type for an Elasticsearch cluster.
             InstanceCount (integer) --The number of instances in the specified domain cluster.
             DedicatedMasterEnabled (boolean) --A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
@@ -78,33 +74,32 @@ def create_elasticsearch_domain(DomainName=None, ElasticsearchVersion=None, Elas
             DedicatedMasterType (string) --The instance type for a dedicated master node.
             DedicatedMasterCount (integer) --Total number of dedicated master nodes, active and on standby, for the cluster.
             
-:type ElasticsearchClusterConfig: dict
-:param EBSOptions: Options to enable, disable and specify the type and size of EBS storage volumes.
+    :type ElasticsearchClusterConfig: dict
+    :param EBSOptions: Options to enable, disable and specify the type and size of EBS storage volumes.
             EBSEnabled (boolean) --Specifies whether EBS-based storage is enabled.
             VolumeType (string) --Specifies the volume type for EBS-based storage.
             VolumeSize (integer) --Integer to specify the size of an EBS volume.
             Iops (integer) --Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
             
-:type EBSOptions: dict
-:param AccessPolicies: IAM access policy as a JSON-formatted string.
-:type AccessPolicies: string
-:param SnapshotOptions: Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
+    :type EBSOptions: dict
+    :param AccessPolicies: IAM access policy as a JSON-formatted string.
+    :type AccessPolicies: string
+    :param SnapshotOptions: Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
             AutomatedSnapshotStartHour (integer) --Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
             
-:type SnapshotOptions: dict
-:param AdvancedOptions: Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true . See Configuration Advanced Options for more information.
+    :type SnapshotOptions: dict
+    :param AdvancedOptions: Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true . See Configuration Advanced Options for more information.
             (string) --
             (string) --
             
-:type AdvancedOptions: dict
-"""
+    :type AdvancedOptions: dict
+    """
+    pass
 
 
-def delete_elasticsearch_domain(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_elasticsearch_domain(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the Elasticsearch domain that you want to permanently delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -172,15 +167,14 @@ def delete_elasticsearch_domain(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def describe_elasticsearch_domain(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_elasticsearch_domain(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the Elasticsearch domain for which you want information.
             Return typedict
             ReturnsResponse Syntax{
@@ -248,15 +242,14 @@ def describe_elasticsearch_domain(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def describe_elasticsearch_domain_config(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_elasticsearch_domain_config(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The Elasticsearch domain that you want to get information about.
             Return typedict
             ReturnsResponse Syntax{
@@ -413,15 +406,14 @@ def describe_elasticsearch_domain_config(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def describe_elasticsearch_domains(DomainNames=None): pass
-
-
-"""
-:param DomainNames: [REQUIRED]
+def describe_elasticsearch_domains(DomainNames=None):
+    """
+    :param DomainNames: [REQUIRED]
             The Elasticsearch domains for which you want information.
             (string) --The name of an Elasticsearch domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             Return typedict
@@ -494,33 +486,31 @@ def describe_elasticsearch_domains(DomainNames=None): pass
             
             
             
-:type DomainNames: list
-"""
+    :type DomainNames: list
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -532,29 +522,26 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
+def list_domain_names():
+    """
+    """
+    pass
 
 
-def list_domain_names(): pass
-
-
-"""
-"""
-
-
-def list_tags(ARN=None): pass
-
-
-"""
-:param ARN: [REQUIRED]
+def list_tags(ARN=None):
+    """
+    :param ARN: [REQUIRED]
             Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view.
             Return typedict
             ReturnsResponse Syntax{
@@ -574,36 +561,34 @@ def list_tags(ARN=None): pass
             
             
             
-:type ARN: string
-"""
+    :type ARN: string
+    """
+    pass
 
 
-def remove_tags(ARN=None, TagKeys=None): pass
-
-
-"""
-:param ARN: [REQUIRED]
+def remove_tags(ARN=None, TagKeys=None):
+    """
+    :param ARN: [REQUIRED]
             Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
             
-:type ARN: string
-:param TagKeys: [REQUIRED]
+    :type ARN: string
+    :param TagKeys: [REQUIRED]
             Specifies the TagKey list which you want to remove from the Elasticsearch domain.
             (string) --
             
-:type TagKeys: list
-"""
+    :type TagKeys: list
+    """
+    pass
 
 
 def update_elasticsearch_domain_config(DomainName=None, ElasticsearchClusterConfig=None, EBSOptions=None,
-                                       SnapshotOptions=None, AdvancedOptions=None, AccessPolicies=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+                                       SnapshotOptions=None, AdvancedOptions=None, AccessPolicies=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the Elasticsearch domain that you are updating.
             
-:type DomainName: string
-:param ElasticsearchClusterConfig: The type and number of instances to instantiate for the domain cluster.
+    :type DomainName: string
+    :param ElasticsearchClusterConfig: The type and number of instances to instantiate for the domain cluster.
             InstanceType (string) --The instance type for an Elasticsearch cluster.
             InstanceCount (integer) --The number of instances in the specified domain cluster.
             DedicatedMasterEnabled (boolean) --A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
@@ -611,23 +596,24 @@ def update_elasticsearch_domain_config(DomainName=None, ElasticsearchClusterConf
             DedicatedMasterType (string) --The instance type for a dedicated master node.
             DedicatedMasterCount (integer) --Total number of dedicated master nodes, active and on standby, for the cluster.
             
-:type ElasticsearchClusterConfig: dict
-:param EBSOptions: Specify the type and size of the EBS volume that you want to use.
+    :type ElasticsearchClusterConfig: dict
+    :param EBSOptions: Specify the type and size of the EBS volume that you want to use.
             EBSEnabled (boolean) --Specifies whether EBS-based storage is enabled.
             VolumeType (string) --Specifies the volume type for EBS-based storage.
             VolumeSize (integer) --Integer to specify the size of an EBS volume.
             Iops (integer) --Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
             
-:type EBSOptions: dict
-:param SnapshotOptions: Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
+    :type EBSOptions: dict
+    :param SnapshotOptions: Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
             AutomatedSnapshotStartHour (integer) --Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
             
-:type SnapshotOptions: dict
-:param AdvancedOptions: Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true . See Configuration Advanced Options for more information.
+    :type SnapshotOptions: dict
+    :param AdvancedOptions: Modifies the advanced option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true . See Configuration Advanced Options for more information.
             (string) --
             (string) --
             
-:type AdvancedOptions: dict
-:param AccessPolicies: IAM access policy as a JSON-formatted string.
-:type AccessPolicies: string
-"""
+    :type AdvancedOptions: dict
+    :param AccessPolicies: IAM access policy as a JSON-formatted string.
+    :type AccessPolicies: string
+    """
+    pass

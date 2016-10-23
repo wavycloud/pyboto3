@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,15 +34,14 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None): pass
-
-
-"""
-:param CloudFrontOriginAccessIdentityConfig: [REQUIRED]
+def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None):
+    """
+    :param CloudFrontOriginAccessIdentityConfig: [REQUIRED]
             The current configuration information for the identity.
             CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
             If the CallerReference is new (no matter the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created.
@@ -80,15 +77,14 @@ def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
             ETag (string) --The current version of the origin access identity created.
             
             
-:type CloudFrontOriginAccessIdentityConfig: dict
-"""
+    :type CloudFrontOriginAccessIdentityConfig: dict
+    """
+    pass
 
 
-def create_distribution(DistributionConfig=None): pass
-
-
-"""
-:param DistributionConfig: [REQUIRED]
+def create_distribution(DistributionConfig=None):
+    """
+    :param DistributionConfig: [REQUIRED]
             The distribution's configuration information.
             CallerReference (string) -- [REQUIRED]A unique value (for example, a date-time stamp) that ensures that the request can't be replayed.
             If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution.
@@ -1020,15 +1016,14 @@ def create_distribution(DistributionConfig=None): pass
             ETag (string) --The current version of the distribution created.
             
             
-:type DistributionConfig: dict
-"""
+    :type DistributionConfig: dict
+    """
+    pass
 
 
-def create_distribution_with_tags(DistributionConfigWithTags=None): pass
-
-
-"""
-:param DistributionConfigWithTags: [REQUIRED]
+def create_distribution_with_tags(DistributionConfigWithTags=None):
+    """
+    :param DistributionConfigWithTags: [REQUIRED]
             The distribution's configuration information.
             DistributionConfig (dict) -- [REQUIRED]A distribution configuration.
             CallerReference (string) -- [REQUIRED]A unique value (for example, a date-time stamp) that ensures that the request can't be replayed.
@@ -1970,19 +1965,18 @@ def create_distribution_with_tags(DistributionConfigWithTags=None): pass
             ETag (string) --The current version of the distribution created.
             
             
-:type DistributionConfigWithTags: dict
-"""
+    :type DistributionConfigWithTags: dict
+    """
+    pass
 
 
-def create_invalidation(DistributionId=None, InvalidationBatch=None): pass
-
-
-"""
-:param DistributionId: [REQUIRED]
+def create_invalidation(DistributionId=None, InvalidationBatch=None):
+    """
+    :param DistributionId: [REQUIRED]
             The distribution's id.
             
-:type DistributionId: string
-:param InvalidationBatch: [REQUIRED]
+    :type DistributionId: string
+    :param InvalidationBatch: [REQUIRED]
             The batch information for the invalidation.
             Paths (dict) -- [REQUIRED]A complex type that contains information about the objects that you want to invalidate. For more information, see Specifying the Objects to Invalidate in the Amazon CloudFront Developer Guide .
             Quantity (integer) -- [REQUIRED]The number of objects that you want to invalidate.
@@ -1993,15 +1987,14 @@ def create_invalidation(DistributionId=None, InvalidationBatch=None): pass
             If you make a second invalidation request with the same value for CallerReference , and if the rest of the request is the same, CloudFront doesn't create a new invalidation request. Instead, CloudFront returns information about the invalidation request that you previously created with the same CallerReference .
             If CallerReference is a value you already sent in a previous invalidation batch request but the content of any Path is different from the original request, CloudFront returns an InvalidationBatchAlreadyExists error.
             
-:type InvalidationBatch: dict
-"""
+    :type InvalidationBatch: dict
+    """
+    pass
 
 
-def create_streaming_distribution(StreamingDistributionConfig=None): pass
-
-
-"""
-:param StreamingDistributionConfig: [REQUIRED]
+def create_streaming_distribution(StreamingDistributionConfig=None):
+    """
+    :param StreamingDistributionConfig: [REQUIRED]
             The streaming distribution's configuration information.
             CallerReference (string) -- [REQUIRED]A unique number that ensures that the request can't be replayed. If the CallerReference is new (no matter the content of the StreamingDistributionConfig object), a new streaming distribution is created. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution, and the content of the StreamingDistributionConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution but the content of the StreamingDistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
             S3Origin (dict) -- [REQUIRED]A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
@@ -2147,15 +2140,14 @@ def create_streaming_distribution(StreamingDistributionConfig=None): pass
             ETag (string) --The current version of the streaming distribution created.
             
             
-:type StreamingDistributionConfig: dict
-"""
+    :type StreamingDistributionConfig: dict
+    """
+    pass
 
 
-def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=None): pass
-
-
-"""
-:param StreamingDistributionConfigWithTags: [REQUIRED]
+def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=None):
+    """
+    :param StreamingDistributionConfigWithTags: [REQUIRED]
             The streaming distribution's configuration information.
             StreamingDistributionConfig (dict) -- [REQUIRED]A streaming distribution Configuration.
             CallerReference (string) -- [REQUIRED]A unique number that ensures that the request can't be replayed. If the CallerReference is new (no matter the content of the StreamingDistributionConfig object), a new streaming distribution is created. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution, and the content of the StreamingDistributionConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution but the content of the StreamingDistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
@@ -2311,72 +2303,67 @@ def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=
             ETag (string) --
             
             
-:type StreamingDistributionConfigWithTags: dict
-"""
+    :type StreamingDistributionConfigWithTags: dict
+    """
+    pass
 
 
-def delete_cloud_front_origin_access_identity(Id=None, IfMatch=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_cloud_front_origin_access_identity(Id=None, IfMatch=None):
+    """
+    :param Id: [REQUIRED]
             The origin access identity's ID.
             
-:type Id: string
-:param IfMatch: The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass
 
 
-def delete_distribution(Id=None, IfMatch=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_distribution(Id=None, IfMatch=None):
+    """
+    :param Id: [REQUIRED]
             The distribution ID.
             
-:type Id: string
-:param IfMatch: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass
 
 
-def delete_streaming_distribution(Id=None, IfMatch=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def delete_streaming_distribution(Id=None, IfMatch=None):
+    """
+    :param Id: [REQUIRED]
             The distribution ID.
             
-:type Id: string
-:param IfMatch: The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_cloud_front_origin_access_identity(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_cloud_front_origin_access_identity(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identity's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -2405,15 +2392,14 @@ def get_cloud_front_origin_access_identity(Id=None): pass
             ETag (string) --The current version of the origin access identity's information. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_cloud_front_origin_access_identity_config(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_cloud_front_origin_access_identity_config(Id=None):
+    """
+    :param Id: [REQUIRED]
             The identity's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -2434,15 +2420,14 @@ def get_cloud_front_origin_access_identity_config(Id=None): pass
             ETag (string) --The current version of the configuration. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_distribution(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_distribution(Id=None):
+    """
+    :param Id: [REQUIRED]
             The distribution's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -3035,15 +3020,14 @@ def get_distribution(Id=None): pass
             ETag (string) --The current version of the distribution's information. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_distribution_config(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_distribution_config(Id=None):
+    """
+    :param Id: [REQUIRED]
             The distribution's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -3586,30 +3570,28 @@ def get_distribution_config(Id=None): pass
             ETag (string) --The current version of the configuration. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_invalidation(DistributionId=None, Id=None): pass
-
-
-"""
-:param DistributionId: [REQUIRED]
+def get_invalidation(DistributionId=None, Id=None):
+    """
+    :param DistributionId: [REQUIRED]
             The distribution's ID.
             
-:type DistributionId: string
-:param Id: [REQUIRED]
+    :type DistributionId: string
+    :param Id: [REQUIRED]
             The identifier for the invalidation request, for example, IDFDVBD632BHDS5 .
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -3621,15 +3603,14 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_streaming_distribution(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_streaming_distribution(Id=None):
+    """
+    :param Id: [REQUIRED]
             The streaming distribution's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -3746,15 +3727,14 @@ def get_streaming_distribution(Id=None): pass
             ETag (string) --The current version of the streaming distribution's information. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_streaming_distribution_config(Id=None): pass
-
-
-"""
-:param Id: [REQUIRED]
+def get_streaming_distribution_config(Id=None):
+    """
+    :param Id: [REQUIRED]
             The streaming distribution's ID.
             Return typedict
             ReturnsResponse Syntax{
@@ -3821,85 +3801,78 @@ def get_streaming_distribution_config(Id=None): pass
             ETag (string) --The current version of the configuration. For example: E2QWRUHAPOMQZL .
             
             
-:type Id: string
-"""
+    :type Id: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
+def list_cloud_front_origin_access_identities(Marker=None, MaxItems=None):
+    """
+    :param Marker: Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
+    :type Marker: string
+    :param MaxItems: The maximum number of origin access identities you want in the response body.
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_cloud_front_origin_access_identities(Marker=None, MaxItems=None): pass
+def list_distributions(Marker=None, MaxItems=None):
+    """
+    :param Marker: Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
+    :type Marker: string
+    :param MaxItems: The maximum number of distributions you want in the response body.
+    :type MaxItems: string
+    """
+    pass
 
 
-"""
-:param Marker: Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
-:type Marker: string
-:param MaxItems: The maximum number of origin access identities you want in the response body.
-:type MaxItems: string
-"""
-
-
-def list_distributions(Marker=None, MaxItems=None): pass
-
-
-"""
-:param Marker: Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
-:type Marker: string
-:param MaxItems: The maximum number of distributions you want in the response body.
-:type MaxItems: string
-"""
-
-
-def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None): pass
-
-
-"""
-:param Marker: Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker , specify the value of NextMarker from the last response. (For the first request, omit Marker .)
-:type Marker: string
-:param MaxItems: The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
-:type MaxItems: string
-:param WebACLId: [REQUIRED]
+def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
+    """
+    :param Marker: Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker , specify the value of NextMarker from the last response. (For the first request, omit Marker .)
+    :type Marker: string
+    :param MaxItems: The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
+    :type MaxItems: string
+    :param WebACLId: [REQUIRED]
             The ID of the AWS WAF web ACL that you want to list the associated distributions. If you specify 'null' for the ID, the request returns a list of the distributions that aren't associated with a web ACL.
             
-:type WebACLId: string
-"""
+    :type WebACLId: string
+    """
+    pass
 
 
-def list_invalidations(DistributionId=None, Marker=None, MaxItems=None): pass
-
-
-"""
-:param DistributionId: [REQUIRED]
+def list_invalidations(DistributionId=None, Marker=None, MaxItems=None):
+    """
+    :param DistributionId: [REQUIRED]
             The distribution's ID.
             
-:type DistributionId: string
-:param Marker: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
-:type Marker: string
-:param MaxItems: The maximum number of invalidation batches that you want in the response body.
-:type MaxItems: string
-"""
+    :type DistributionId: string
+    :param Marker: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
+    :type Marker: string
+    :param MaxItems: The maximum number of invalidation batches that you want in the response body.
+    :type MaxItems: string
+    """
+    pass
 
 
-def list_streaming_distributions(Marker=None, MaxItems=None): pass
+def list_streaming_distributions(Marker=None, MaxItems=None):
+    """
+    :param Marker: The value that you provided for the Marker request parameter.
+    :type Marker: string
+    :param MaxItems: The value that you provided for the MaxItems request parameter.
+    :type MaxItems: string
+    """
+    pass
 
 
-"""
-:param Marker: The value that you provided for the Marker request parameter.
-:type Marker: string
-:param MaxItems: The value that you provided for the MaxItems request parameter.
-:type MaxItems: string
-"""
-
-
-def list_tags_for_resource(Resource=None): pass
-
-
-"""
-:param Resource: [REQUIRED]
+def list_tags_for_resource(Resource=None):
+    """
+    :param Resource: [REQUIRED]
             An ARN of a CloudFront resource.
             Return typedict
             ReturnsResponse Syntax{
@@ -3925,19 +3898,18 @@ def list_tags_for_resource(Resource=None): pass
             
             
             
-:type Resource: string
-"""
+    :type Resource: string
+    """
+    pass
 
 
-def tag_resource(Resource=None, Tags=None): pass
-
-
-"""
-:param Resource: [REQUIRED]
+def tag_resource(Resource=None, Tags=None):
+    """
+    :param Resource: [REQUIRED]
             An ARN of a CloudFront resource.
             
-:type Resource: string
-:param Tags: [REQUIRED]
+    :type Resource: string
+    :param Tags: [REQUIRED]
             A complex type that contains zero or more Tag elements.
             Items (list) --A complex type that contains Tag elements.
             (dict) --A complex type that contains Tag key and Tag value.
@@ -3947,34 +3919,32 @@ def tag_resource(Resource=None, Tags=None): pass
             The string length should be between 0 and 256 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ .
             
             
-:type Tags: dict
-"""
+    :type Tags: dict
+    """
+    pass
 
 
-def untag_resource(Resource=None, TagKeys=None): pass
-
-
-"""
-:param Resource: [REQUIRED]
+def untag_resource(Resource=None, TagKeys=None):
+    """
+    :param Resource: [REQUIRED]
             An ARN of a CloudFront resource.
             
-:type Resource: string
-:param TagKeys: [REQUIRED]
+    :type Resource: string
+    :param TagKeys: [REQUIRED]
             A complex type that contains zero or more Tag key elements.
             Items (list) --A complex type that contains Tag key elements.
             (string) --A string that contains Tag key.
             The string length should be between 1 and 128 characters. Valid characters include a-z , A-Z , 0-9 , space, and the special characters _ - . : / = + @ .
             
             
-:type TagKeys: dict
-"""
+    :type TagKeys: dict
+    """
+    pass
 
 
-def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None, Id=None, IfMatch=None): pass
-
-
-"""
-:param CloudFrontOriginAccessIdentityConfig: [REQUIRED]
+def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None, Id=None, IfMatch=None):
+    """
+    :param CloudFrontOriginAccessIdentityConfig: [REQUIRED]
             The identity's configuration information.
             CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
             If the CallerReference is new (no matter the content of the CloudFrontOriginAccessIdentityConfig object), a new origin access identity is created.
@@ -3982,21 +3952,20 @@ def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
             If the CallerReference is a value you already sent in a previous request to create an identity, but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
             Comment (string) -- [REQUIRED]Any comments you want to include about the origin access identity.
             
-:type CloudFrontOriginAccessIdentityConfig: dict
-:param Id: [REQUIRED]
+    :type CloudFrontOriginAccessIdentityConfig: dict
+    :param Id: [REQUIRED]
             The identity's id.
             
-:type Id: string
-:param IfMatch: The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass
 
 
-def update_distribution(DistributionConfig=None, Id=None, IfMatch=None): pass
-
-
-"""
-:param DistributionConfig: [REQUIRED]
+def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
+    """
+    :param DistributionConfig: [REQUIRED]
             The distribution's configuration information.
             CallerReference (string) -- [REQUIRED]A unique value (for example, a date-time stamp) that ensures that the request can't be replayed.
             If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution.
@@ -4336,21 +4305,20 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None): pass
             For more information, see Routing Traffic to an Amazon CloudFront Web Distribution by Using Your Domain Name in the Amazon Route 53 Developer Guide .
             If you created a CNAME resource record set, either with Amazon Route 53 or with another DNS service, you don't need to make any changes. A CNAME record will route traffic to your distribution regardless of the IP address format of the viewer request.
             
-:type DistributionConfig: dict
-:param Id: [REQUIRED]
+    :type DistributionConfig: dict
+    :param Id: [REQUIRED]
             The distribution's id.
             
-:type Id: string
-:param IfMatch: The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass
 
 
-def update_streaming_distribution(StreamingDistributionConfig=None, Id=None, IfMatch=None): pass
-
-
-"""
-:param StreamingDistributionConfig: [REQUIRED]
+def update_streaming_distribution(StreamingDistributionConfig=None, Id=None, IfMatch=None):
+    """
+    :param StreamingDistributionConfig: [REQUIRED]
             The streaming distribution's configuration information.
             CallerReference (string) -- [REQUIRED]A unique number that ensures that the request can't be replayed. If the CallerReference is new (no matter the content of the StreamingDistributionConfig object), a new streaming distribution is created. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution, and the content of the StreamingDistributionConfig is identical to the original request (ignoring white space), the response includes the same information returned to the original request. If the CallerReference is a value that you already sent in a previous request to create a streaming distribution but the content of the StreamingDistributionConfig is different from the original request, CloudFront returns a DistributionAlreadyExists error.
             S3Origin (dict) -- [REQUIRED]A complex type that contains information about the Amazon S3 bucket from which you want CloudFront to get your media files for distribution.
@@ -4380,11 +4348,12 @@ def update_streaming_distribution(StreamingDistributionConfig=None, Id=None, IfM
             PriceClass (string) --A complex type that contains information about price class for this streaming distribution.
             Enabled (boolean) -- [REQUIRED]Whether the streaming distribution is enabled to accept user requests for content.
             
-:type StreamingDistributionConfig: dict
-:param Id: [REQUIRED]
+    :type StreamingDistributionConfig: dict
+    :param Id: [REQUIRED]
             The streaming distribution's id.
             
-:type Id: string
-:param IfMatch: The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL .
-:type IfMatch: string
-"""
+    :type Id: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL .
+    :type IfMatch: string
+    """
+    pass

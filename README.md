@@ -5,6 +5,10 @@ The code is not to be imported. you can only use it as a typehint for autocomple
 
 This package will minimize the time you have to look for AWS documentation online. You shouldn't leave your coding environment.
 
+# Screenshots
+[[https://github.com/gehadshaat/pyboto3/blob/master/img/autocomplete.png]]
+[[https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png]]
+
 # Installation
 ```python
 pip install pyboto3
@@ -25,4 +29,5 @@ We need your help! The code needs work and testing to make it friendly with pyth
 
 # Issues
 The package have not been tested. Only code generation is tested. currently the generation is only tested on Windows 10 Python 2.7
+
 

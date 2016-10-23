@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,139 +34,134 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
 def count_closed_workflow_executions(domain=None, startTimeFilter=None, closeTimeFilter=None, executionFilter=None,
-                                     typeFilter=None, tagFilter=None, closeStatusFilter=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                                     typeFilter=None, tagFilter=None, closeStatusFilter=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow executions to count.
             
-:type domain: string
-:param startTimeFilter: If specified, only workflow executions that meet the start time criteria of the filter are counted.
+    :type domain: string
+    :param startTimeFilter: If specified, only workflow executions that meet the start time criteria of the filter are counted.
             Note
             startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type startTimeFilter: dict
-:param closeTimeFilter: If specified, only workflow executions that meet the close time criteria of the filter are counted.
+    :type startTimeFilter: dict
+    :param closeTimeFilter: If specified, only workflow executions that meet the close time criteria of the filter are counted.
             Note
             startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type closeTimeFilter: dict
-:param executionFilter: If specified, only workflow executions matching the WorkflowId in the filter are counted.
+    :type closeTimeFilter: dict
+    :param executionFilter: If specified, only workflow executions matching the WorkflowId in the filter are counted.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             workflowId (string) -- [REQUIRED]The workflowId to pass of match the criteria of this filter.
             
-:type executionFilter: dict
-:param typeFilter: If specified, indicates the type of the workflow executions to be counted.
+    :type executionFilter: dict
+    :param typeFilter: If specified, indicates the type of the workflow executions to be counted.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             name (string) -- [REQUIRED]Required. Name of the workflow type.
             version (string) --Version of the workflow type.
             
-:type typeFilter: dict
-:param tagFilter: If specified, only executions that have a tag that matches the filter are counted.
+    :type typeFilter: dict
+    :param tagFilter: If specified, only executions that have a tag that matches the filter are counted.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             tag (string) -- [REQUIRED]Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
             
-:type tagFilter: dict
-:param closeStatusFilter: If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED .
+    :type tagFilter: dict
+    :param closeStatusFilter: If specified, only workflow executions that match this close status are counted. This filter has an affect only if executionStatus is specified as CLOSED .
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             status (string) -- [REQUIRED]Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
             
-:type closeStatusFilter: dict
-"""
+    :type closeStatusFilter: dict
+    """
+    pass
 
 
 def count_open_workflow_executions(domain=None, startTimeFilter=None, typeFilter=None, tagFilter=None,
-                                   executionFilter=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                                   executionFilter=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow executions to count.
             
-:type domain: string
-:param startTimeFilter: [REQUIRED]
+    :type domain: string
+    :param startTimeFilter: [REQUIRED]
             Specifies the start time criteria that workflow executions must meet in order to be counted.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type startTimeFilter: dict
-:param typeFilter: Specifies the type of the workflow executions to be counted.
+    :type startTimeFilter: dict
+    :param typeFilter: Specifies the type of the workflow executions to be counted.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             name (string) -- [REQUIRED]Required. Name of the workflow type.
             version (string) --Version of the workflow type.
             
-:type typeFilter: dict
-:param tagFilter: If specified, only executions that have a tag that matches the filter are counted.
+    :type typeFilter: dict
+    :param tagFilter: If specified, only executions that have a tag that matches the filter are counted.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             tag (string) -- [REQUIRED]Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
             
-:type tagFilter: dict
-:param executionFilter: If specified, only workflow executions matching the WorkflowId in the filter are counted.
+    :type tagFilter: dict
+    :param executionFilter: If specified, only workflow executions matching the WorkflowId in the filter are counted.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             workflowId (string) -- [REQUIRED]The workflowId to pass of match the criteria of this filter.
             
-:type executionFilter: dict
-"""
+    :type executionFilter: dict
+    """
+    pass
 
 
-def count_pending_activity_tasks(domain=None, taskList=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def count_pending_activity_tasks(domain=None, taskList=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain that contains the task list.
             
-:type domain: string
-:param taskList: [REQUIRED]
+    :type domain: string
+    :param taskList: [REQUIRED]
             The name of the task list.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type taskList: dict
-"""
+    :type taskList: dict
+    """
+    pass
 
 
-def count_pending_decision_tasks(domain=None, taskList=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def count_pending_decision_tasks(domain=None, taskList=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain that contains the task list.
             
-:type domain: string
-:param taskList: [REQUIRED]
+    :type domain: string
+    :param taskList: [REQUIRED]
             The name of the task list.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type taskList: dict
-"""
+    :type taskList: dict
+    """
+    pass
 
 
-def deprecate_activity_type(domain=None, activityType=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def deprecate_activity_type(domain=None, activityType=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the activity type is registered.
             
-:type domain: string
-:param activityType: [REQUIRED]
+    :type domain: string
+    :param activityType: [REQUIRED]
             The activity type to deprecate.
             name (string) -- [REQUIRED]The name of this activity.
             Note
@@ -177,31 +170,29 @@ def deprecate_activity_type(domain=None, activityType=None): pass
             Note
             The combination of activity type name and version must be unique with in a domain.
             
-:type activityType: dict
-"""
+    :type activityType: dict
+    """
+    pass
 
 
-def deprecate_domain(name=None): pass
-
-
-"""
-:param name: [REQUIRED]
+def deprecate_domain(name=None):
+    """
+    :param name: [REQUIRED]
             The name of the domain to deprecate.
             ReturnsNone
             
-:type name: string
-"""
+    :type name: string
+    """
+    pass
 
 
-def deprecate_workflow_type(domain=None, workflowType=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def deprecate_workflow_type(domain=None, workflowType=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the workflow type is registered.
             
-:type domain: string
-:param workflowType: [REQUIRED]
+    :type domain: string
+    :param workflowType: [REQUIRED]
             The workflow type to deprecate.
             name (string) -- [REQUIRED]Required. The name of the workflow type.
             Note
@@ -210,19 +201,18 @@ def deprecate_workflow_type(domain=None, workflowType=None): pass
             Note
             The combination of workflow type name and version must be unique with in a domain.
             
-:type workflowType: dict
-"""
+    :type workflowType: dict
+    """
+    pass
 
 
-def describe_activity_type(domain=None, activityType=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def describe_activity_type(domain=None, activityType=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the activity type is registered.
             
-:type domain: string
-:param activityType: [REQUIRED]
+    :type domain: string
+    :param activityType: [REQUIRED]
             The activity type to get information about. Activity types are identified by the name and version that were supplied when the activity was registered.
             name (string) -- [REQUIRED]The name of this activity.
             Note
@@ -231,15 +221,14 @@ def describe_activity_type(domain=None, activityType=None): pass
             Note
             The combination of activity type name and version must be unique with in a domain.
             
-:type activityType: dict
-"""
+    :type activityType: dict
+    """
+    pass
 
 
-def describe_domain(name=None): pass
-
-
-"""
-:param name: [REQUIRED]
+def describe_domain(name=None):
+    """
+    :param name: [REQUIRED]
             The name of the domain to describe.
             Return typedict
             ReturnsResponse Syntax{
@@ -265,36 +254,34 @@ def describe_domain(name=None): pass
             
             
             
-:type name: string
-"""
+    :type name: string
+    """
+    pass
 
 
-def describe_workflow_execution(domain=None, execution=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def describe_workflow_execution(domain=None, execution=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow execution.
             
-:type domain: string
-:param execution: [REQUIRED]
+    :type domain: string
+    :param execution: [REQUIRED]
             The workflow execution to describe.
             workflowId (string) -- [REQUIRED]The user defined identifier associated with the workflow execution.
             runId (string) -- [REQUIRED]A system-generated unique identifier for the workflow execution.
             
-:type execution: dict
-"""
+    :type execution: dict
+    """
+    pass
 
 
-def describe_workflow_type(domain=None, workflowType=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def describe_workflow_type(domain=None, workflowType=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which this workflow type is registered.
             
-:type domain: string
-:param workflowType: [REQUIRED]
+    :type domain: string
+    :param workflowType: [REQUIRED]
             The workflow type to describe.
             name (string) -- [REQUIRED]Required. The name of the workflow type.
             Note
@@ -303,33 +290,31 @@ def describe_workflow_type(domain=None, workflowType=None): pass
             Note
             The combination of workflow type name and version must be unique with in a domain.
             
-:type workflowType: dict
-"""
+    :type workflowType: dict
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -341,499 +326,480 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
-
-
-"""
-"""
+def get_waiter():
+    """
+    """
+    pass
 
 
 def get_workflow_execution_history(domain=None, execution=None, nextPageToken=None, maximumPageSize=None,
-                                   reverseOrder=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                                   reverseOrder=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow execution.
             
-:type domain: string
-:param execution: [REQUIRED]
+    :type domain: string
+    :param execution: [REQUIRED]
             Specifies the workflow execution for which to return the history.
             workflowId (string) -- [REQUIRED]The user defined identifier associated with the workflow execution.
             runId (string) -- [REQUIRED]A system-generated unique identifier for the workflow execution.
             
-:type execution: dict
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type execution: dict
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
 def list_activity_types(domain=None, name=None, registrationStatus=None, nextPageToken=None, maximumPageSize=None,
-                        reverseOrder=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                        reverseOrder=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the activity types have been registered.
             
-:type domain: string
-:param name: If specified, only lists the activity types that have this name.
-:type name: string
-:param registrationStatus: [REQUIRED]
+    :type domain: string
+    :param name: If specified, only lists the activity types that have this name.
+    :type name: string
+    :param registrationStatus: [REQUIRED]
             Specifies the registration status of the activity types to list.
             
-:type registrationStatus: string
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type registrationStatus: string
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
 def list_closed_workflow_executions(domain=None, startTimeFilter=None, closeTimeFilter=None, executionFilter=None,
                                     closeStatusFilter=None, typeFilter=None, tagFilter=None, nextPageToken=None,
-                                    maximumPageSize=None, reverseOrder=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                                    maximumPageSize=None, reverseOrder=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain that contains the workflow executions to list.
             
-:type domain: string
-:param startTimeFilter: If specified, the workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their start times.
+    :type domain: string
+    :param startTimeFilter: If specified, the workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their start times.
             Note
             startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type startTimeFilter: dict
-:param closeTimeFilter: If specified, the workflow executions are included in the returned results based on whether their close times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their close times.
+    :type startTimeFilter: dict
+    :param closeTimeFilter: If specified, the workflow executions are included in the returned results based on whether their close times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their close times.
             Note
             startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type closeTimeFilter: dict
-:param executionFilter: If specified, only workflow executions matching the workflow ID specified in the filter are returned.
+    :type closeTimeFilter: dict
+    :param executionFilter: If specified, only workflow executions matching the workflow ID specified in the filter are returned.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             workflowId (string) -- [REQUIRED]The workflowId to pass of match the criteria of this filter.
             
-:type executionFilter: dict
-:param closeStatusFilter: If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed.
+    :type executionFilter: dict
+    :param closeStatusFilter: If specified, only workflow executions that match this close status are listed. For example, if TERMINATED is specified, then only TERMINATED workflow executions are listed.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             status (string) -- [REQUIRED]Required. The close status that must match the close status of an execution for it to meet the criteria of this filter.
             
-:type closeStatusFilter: dict
-:param typeFilter: If specified, only executions of the type specified in the filter are returned.
+    :type closeStatusFilter: dict
+    :param typeFilter: If specified, only executions of the type specified in the filter are returned.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             name (string) -- [REQUIRED]Required. Name of the workflow type.
             version (string) --Version of the workflow type.
             
-:type typeFilter: dict
-:param tagFilter: If specified, only executions that have the matching tag are listed.
+    :type typeFilter: dict
+    :param tagFilter: If specified, only executions that have the matching tag are listed.
             Note
             closeStatusFilter , executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             tag (string) -- [REQUIRED]Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
             
-:type tagFilter: dict
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type tagFilter: dict
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
-def list_domains(nextPageToken=None, registrationStatus=None, maximumPageSize=None, reverseOrder=None): pass
-
-
-"""
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+def list_domains(nextPageToken=None, registrationStatus=None, maximumPageSize=None, reverseOrder=None):
+    """
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param registrationStatus: [REQUIRED]
+    :type nextPageToken: string
+    :param registrationStatus: [REQUIRED]
             Specifies the registration status of the domains to list.
             
-:type registrationStatus: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type registrationStatus: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
 def list_open_workflow_executions(domain=None, startTimeFilter=None, typeFilter=None, tagFilter=None,
-                                  nextPageToken=None, maximumPageSize=None, reverseOrder=None,
-                                  executionFilter=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                                  nextPageToken=None, maximumPageSize=None, reverseOrder=None, executionFilter=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain that contains the workflow executions to list.
             
-:type domain: string
-:param startTimeFilter: [REQUIRED]
+    :type domain: string
+    :param startTimeFilter: [REQUIRED]
             Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter.
             oldestDate (datetime) -- [REQUIRED]Specifies the oldest start or close date and time to return.
             latestDate (datetime) --Specifies the latest start or close date and time to return.
             
-:type startTimeFilter: dict
-:param typeFilter: If specified, only executions of the type specified in the filter are returned.
+    :type startTimeFilter: dict
+    :param typeFilter: If specified, only executions of the type specified in the filter are returned.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             name (string) -- [REQUIRED]Required. Name of the workflow type.
             version (string) --Version of the workflow type.
             
-:type typeFilter: dict
-:param tagFilter: If specified, only executions that have the matching tag are listed.
+    :type typeFilter: dict
+    :param tagFilter: If specified, only executions that have the matching tag are listed.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             tag (string) -- [REQUIRED]Required. Specifies the tag that must be associated with the execution for it to meet the filter criteria.
             
-:type tagFilter: dict
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type tagFilter: dict
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
-:type reverseOrder: boolean
-:param executionFilter: If specified, only workflow executions matching the workflow ID specified in the filter are returned.
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
+    :type reverseOrder: boolean
+    :param executionFilter: If specified, only workflow executions matching the workflow ID specified in the filter are returned.
             Note
             executionFilter , typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
             workflowId (string) -- [REQUIRED]The workflowId to pass of match the criteria of this filter.
             
-:type executionFilter: dict
-"""
+    :type executionFilter: dict
+    """
+    pass
 
 
 def list_workflow_types(domain=None, name=None, registrationStatus=None, nextPageToken=None, maximumPageSize=None,
-                        reverseOrder=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                        reverseOrder=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the workflow types have been registered.
             
-:type domain: string
-:param name: If specified, lists the workflow type with this name.
-:type name: string
-:param registrationStatus: [REQUIRED]
+    :type domain: string
+    :param name: If specified, lists the workflow type with this name.
+    :type name: string
+    :param registrationStatus: [REQUIRED]
             Specifies the registration status of the workflow types to list.
             
-:type registrationStatus: string
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type registrationStatus: string
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
-def poll_for_activity_task(domain=None, taskList=None, identity=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def poll_for_activity_task(domain=None, taskList=None, identity=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain that contains the task lists being polled.
             
-:type domain: string
-:param taskList: [REQUIRED]
+    :type domain: string
+    :param taskList: [REQUIRED]
             Specifies the task list to poll for activity tasks.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type taskList: dict
-:param identity: Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
-:type identity: string
-"""
+    :type taskList: dict
+    :param identity: Identity of the worker making the request, recorded in the ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
+    :type identity: string
+    """
+    pass
 
 
 def poll_for_decision_task(domain=None, taskList=None, identity=None, nextPageToken=None, maximumPageSize=None,
-                           reverseOrder=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                           reverseOrder=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the task lists to poll.
             
-:type domain: string
-:param taskList: [REQUIRED]
+    :type domain: string
+    :param taskList: [REQUIRED]
             Specifies the task list to poll for decision tasks.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type taskList: dict
-:param identity: Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
-:type identity: string
-:param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
+    :type taskList: dict
+    :param identity: Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
+    :type identity: string
+    :param nextPageToken: If a NextPageToken was returned by a previous call, there are more results available. To retrieve the next page of results, make the call again using the returned token in nextPageToken . Keep all other arguments unchanged.
             The configured maximumPageSize determines how many results can be returned in a single call.
             Note
             The nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to get the next page. You must call PollForDecisionTask again (with the nextPageToken ) to retrieve the next page of history records. Calling PollForDecisionTask with a nextPageToken will not return a new decision task.
             .
             
-:type nextPageToken: string
-:param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
+    :type nextPageToken: string
+    :param maximumPageSize: The maximum number of results that will be returned per call. nextPageToken can be used to obtain futher pages of results. The default is 1000, which is the maximum allowed page size. You can, however, specify a page size smaller than the maximum.
             This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
             
-:type maximumPageSize: integer
-:param reverseOrder: When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
-:type reverseOrder: boolean
-"""
+    :type maximumPageSize: integer
+    :param reverseOrder: When set to true , returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
+    :type reverseOrder: boolean
+    """
+    pass
 
 
-def record_activity_task_heartbeat(taskToken=None, details=None): pass
-
-
-"""
-:param taskToken: [REQUIRED]
+def record_activity_task_heartbeat(taskToken=None, details=None):
+    """
+    :param taskToken: [REQUIRED]
             The taskToken of the ActivityTask .
             Warning
             taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
             
-:type taskToken: string
-:param details: If specified, contains details about the progress of the task.
-:type details: string
-"""
+    :type taskToken: string
+    :param details: If specified, contains details about the progress of the task.
+    :type details: string
+    """
+    pass
 
 
 def register_activity_type(domain=None, name=None, version=None, description=None, defaultTaskStartToCloseTimeout=None,
                            defaultTaskHeartbeatTimeout=None, defaultTaskList=None, defaultTaskPriority=None,
-                           defaultTaskScheduleToStartTimeout=None, defaultTaskScheduleToCloseTimeout=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                           defaultTaskScheduleToStartTimeout=None, defaultTaskScheduleToCloseTimeout=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which this activity is to be registered.
             
-:type domain: string
-:param name: [REQUIRED]
+    :type domain: string
+    :param name: [REQUIRED]
             The name of the activity type within the domain.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type name: string
-:param version: [REQUIRED]
+    :type name: string
+    :param version: [REQUIRED]
             The version of the activity type.
             Note
             The activity type consists of the name and version, the combination of which must be unique within the domain.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type version: string
-:param description: A textual description of the activity type.
-:type description: string
-:param defaultTaskStartToCloseTimeout: If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
+    :type version: string
+    :param description: A textual description of the activity type.
+    :type description: string
+    :param defaultTaskStartToCloseTimeout: If set, specifies the default maximum duration that a worker can take to process tasks of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             
-:type defaultTaskStartToCloseTimeout: string
-:param defaultTaskHeartbeatTimeout: If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat . If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task.
+    :type defaultTaskStartToCloseTimeout: string
+    :param defaultTaskHeartbeatTimeout: If set, specifies the default maximum time before which a worker processing a task of this type must report progress by calling RecordActivityTaskHeartbeat . If the timeout is exceeded, the activity task is automatically timed out. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision. If the activity worker subsequently attempts to record a heartbeat or returns a result, the activity worker receives an UnknownResource fault. In this case, Amazon SWF no longer considers the activity task to be valid; the activity worker should clean up the activity task.
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             
-:type defaultTaskHeartbeatTimeout: string
-:param defaultTaskList: If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list is not provided when a task is scheduled through the ScheduleActivityTask decision.
+    :type defaultTaskHeartbeatTimeout: string
+    :param defaultTaskList: If set, specifies the default task list to use for scheduling tasks of this activity type. This default task list is used if a task list is not provided when a task is scheduled through the ScheduleActivityTask decision.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type defaultTaskList: dict
-:param defaultTaskPriority: The default task priority to assign to the activity type. If not assigned, then '0' will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
+    :type defaultTaskList: dict
+    :param defaultTaskPriority: The default task priority to assign to the activity type. If not assigned, then '0' will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
             For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide .
             
-:type defaultTaskPriority: string
-:param defaultTaskScheduleToStartTimeout: If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
+    :type defaultTaskPriority: string
+    :param defaultTaskScheduleToStartTimeout: If set, specifies the default maximum duration that a task of this activity type can wait before being assigned to a worker. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             
-:type defaultTaskScheduleToStartTimeout: string
-:param defaultTaskScheduleToCloseTimeout: If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
+    :type defaultTaskScheduleToStartTimeout: string
+    :param defaultTaskScheduleToCloseTimeout: If set, specifies the default maximum duration for a task of this activity type. This default can be overridden when scheduling an activity task using the ScheduleActivityTask decision.
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             
-:type defaultTaskScheduleToCloseTimeout: string
-"""
+    :type defaultTaskScheduleToCloseTimeout: string
+    """
+    pass
 
 
-def register_domain(name=None, description=None, workflowExecutionRetentionPeriodInDays=None): pass
-
-
-"""
-:param name: [REQUIRED]
+def register_domain(name=None, description=None, workflowExecutionRetentionPeriodInDays=None):
+    """
+    :param name: [REQUIRED]
             Name of the domain to register. The name must be unique in the region that the domain is registered in.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type name: string
-:param description: A text description of the domain.
-:type description: string
-:param workflowExecutionRetentionPeriodInDays: [REQUIRED]
+    :type name: string
+    :param description: A text description of the domain.
+    :type description: string
+    :param workflowExecutionRetentionPeriodInDays: [REQUIRED]
             The duration (in days) that records and histories of workflow executions on the domain should be kept by the service. After the retention period, the workflow execution is not available in the results of visibility calls.
             If you pass the value NONE or 0 (zero), then the workflow execution history will not be retained. As soon as the workflow execution completes, the execution record and its history are deleted.
             The maximum workflow execution retention period is 90 days. For more information about Amazon SWF service limits, see: Amazon SWF Service Limits in the Amazon SWF Developer Guide .
             
-:type workflowExecutionRetentionPeriodInDays: string
-"""
+    :type workflowExecutionRetentionPeriodInDays: string
+    """
+    pass
 
 
 def register_workflow_type(domain=None, name=None, version=None, description=None, defaultTaskStartToCloseTimeout=None,
                            defaultExecutionStartToCloseTimeout=None, defaultTaskList=None, defaultTaskPriority=None,
-                           defaultChildPolicy=None, defaultLambdaRole=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                           defaultChildPolicy=None, defaultLambdaRole=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which to register the workflow type.
             
-:type domain: string
-:param name: [REQUIRED]
+    :type domain: string
+    :param name: [REQUIRED]
             The name of the workflow type.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type name: string
-:param version: [REQUIRED]
+    :type name: string
+    :param version: [REQUIRED]
             The version of the workflow type.
             Note
             The workflow type consists of the name and version, the combination of which must be unique within the domain. To get a list of all currently registered workflow types, use the ListWorkflowTypes action.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type version: string
-:param description: Textual description of the workflow type.
-:type description: string
-:param defaultTaskStartToCloseTimeout: If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision.
+    :type version: string
+    :param description: Textual description of the workflow type.
+    :type description: string
+    :param defaultTaskStartToCloseTimeout: If set, specifies the default maximum duration of decision tasks for this workflow type. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision.
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             
-:type defaultTaskStartToCloseTimeout: string
-:param defaultExecutionStartToCloseTimeout: If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision.
+    :type defaultTaskStartToCloseTimeout: string
+    :param defaultExecutionStartToCloseTimeout: If set, specifies the default maximum duration for executions of this workflow type. You can override this default when starting an execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision.
             The duration is specified in seconds; an integer greater than or equal to 0. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of 'NONE' for defaultExecutionStartToCloseTimeout ; there is a one-year max limit on the time that a workflow execution can run. Exceeding this limit will always cause the workflow execution to time out.
             
-:type defaultExecutionStartToCloseTimeout: string
-:param defaultTaskList: If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list is not provided when starting the execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision.
+    :type defaultExecutionStartToCloseTimeout: string
+    :param defaultTaskList: If set, specifies the default task list to use for scheduling decision tasks for executions of this workflow type. This default is used only if a task list is not provided when starting the execution through the StartWorkflowExecution action or StartChildWorkflowExecution decision.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type defaultTaskList: dict
-:param defaultTaskPriority: The default task priority to assign to the workflow type. If not assigned, then '0' will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
+    :type defaultTaskList: dict
+    :param defaultTaskPriority: The default task priority to assign to the workflow type. If not assigned, then '0' will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
             For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide .
             
-:type defaultTaskPriority: string
-:param defaultChildPolicy: If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision.
+    :type defaultTaskPriority: string
+    :param defaultChildPolicy: If set, specifies the default policy to use for the child workflow executions when a workflow execution of this type is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution decision.
             The supported child policies are:
             TERMINATE: the child executions will be terminated.
             REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.
             ABANDON: no action will be taken. The child executions will continue to run.
             
-:type defaultChildPolicy: string
-:param defaultLambdaRole: The ARN of the default IAM role to use when a workflow execution of this type invokes AWS Lambda functions.
+    :type defaultChildPolicy: string
+    :param defaultLambdaRole: The ARN of the default IAM role to use when a workflow execution of this type invokes AWS Lambda functions.
             This default can be overridden when starting a workflow execution using the StartWorkflowExecution action or the StartChildWorkflowExecution and ContinueAsNewWorkflowExecution decision.
             
-:type defaultLambdaRole: string
-"""
+    :type defaultLambdaRole: string
+    """
+    pass
 
 
-def request_cancel_workflow_execution(domain=None, workflowId=None, runId=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def request_cancel_workflow_execution(domain=None, workflowId=None, runId=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow execution to cancel.
             
-:type domain: string
-:param workflowId: [REQUIRED]
+    :type domain: string
+    :param workflowId: [REQUIRED]
             The workflowId of the workflow execution to cancel.
             
-:type workflowId: string
-:param runId: The runId of the workflow execution to cancel.
-:type runId: string
-"""
+    :type workflowId: string
+    :param runId: The runId of the workflow execution to cancel.
+    :type runId: string
+    """
+    pass
 
 
-def respond_activity_task_canceled(taskToken=None, details=None): pass
-
-
-"""
-:param taskToken: [REQUIRED]
+def respond_activity_task_canceled(taskToken=None, details=None):
+    """
+    :param taskToken: [REQUIRED]
             The taskToken of the ActivityTask .
             Warning
             taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
             
-:type taskToken: string
-:param details: Optional. Information about the cancellation.
-:type details: string
-"""
+    :type taskToken: string
+    :param details: Optional. Information about the cancellation.
+    :type details: string
+    """
+    pass
 
 
-def respond_activity_task_completed(taskToken=None, result=None): pass
-
-
-"""
-:param taskToken: [REQUIRED]
+def respond_activity_task_completed(taskToken=None, result=None):
+    """
+    :param taskToken: [REQUIRED]
             The taskToken of the ActivityTask .
             Warning
             taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
             
-:type taskToken: string
-:param result: The result of the activity task. It is a free form string that is implementation specific.
-:type result: string
-"""
+    :type taskToken: string
+    :param result: The result of the activity task. It is a free form string that is implementation specific.
+    :type result: string
+    """
+    pass
 
 
-def respond_activity_task_failed(taskToken=None, reason=None, details=None): pass
-
-
-"""
-:param taskToken: [REQUIRED]
+def respond_activity_task_failed(taskToken=None, reason=None, details=None):
+    """
+    :param taskToken: [REQUIRED]
             The taskToken of the ActivityTask .
             Warning
             taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
             
-:type taskToken: string
-:param reason: Description of the error that may assist in diagnostics.
-:type reason: string
-:param details: Optional. Detailed information about the failure.
-:type details: string
-"""
+    :type taskToken: string
+    :param reason: Description of the error that may assist in diagnostics.
+    :type reason: string
+    :param details: Optional. Detailed information about the failure.
+    :type details: string
+    """
+    pass
 
 
-def respond_decision_task_completed(taskToken=None, decisions=None, executionContext=None): pass
-
-
-"""
-:param taskToken: [REQUIRED]
+def respond_decision_task_completed(taskToken=None, decisions=None, executionContext=None):
+    """
+    :param taskToken: [REQUIRED]
             The taskToken from the DecisionTask .
             Warning
             taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
             
-:type taskToken: string
-:param decisions: The list of decisions (possibly empty) made by the decider while processing this decision task. See the docs for the decision structure for details.
+    :type taskToken: string
+    :param decisions: The list of decisions (possibly empty) made by the decider while processing this decision task. See the docs for the decision structure for details.
             (dict) --Specifies a decision made by the decider. A decision can be one of these types:
             CancelTimer : cancels a previously started timer and records a TimerCanceled event in the history.
             CancelWorkflowExecution : closes the workflow execution and records a WorkflowExecutionCanceled event in the history.
@@ -1037,51 +1003,49 @@ def respond_decision_task_completed(taskToken=None, decisions=None, executionCon
             startToCloseTimeout (string) --If set, specifies the maximum duration the function may take to execute.
             
             
-:type decisions: list
-:param executionContext: User defined context to add to workflow execution.
-:type executionContext: string
-"""
+    :type decisions: list
+    :param executionContext: User defined context to add to workflow execution.
+    :type executionContext: string
+    """
+    pass
 
 
-def signal_workflow_execution(domain=None, workflowId=None, runId=None, signalName=None, input=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def signal_workflow_execution(domain=None, workflowId=None, runId=None, signalName=None, input=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain containing the workflow execution to signal.
             
-:type domain: string
-:param workflowId: [REQUIRED]
+    :type domain: string
+    :param workflowId: [REQUIRED]
             The workflowId of the workflow execution to signal.
             
-:type workflowId: string
-:param runId: The runId of the workflow execution to signal.
-:type runId: string
-:param signalName: [REQUIRED]
+    :type workflowId: string
+    :param runId: The runId of the workflow execution to signal.
+    :type runId: string
+    :param signalName: [REQUIRED]
             The name of the signal. This name must be meaningful to the target workflow.
             
-:type signalName: string
-:param input: Data to attach to the WorkflowExecutionSignaled event in the target workflow execution's history.
-:type input: string
-"""
+    :type signalName: string
+    :param input: Data to attach to the WorkflowExecutionSignaled event in the target workflow execution's history.
+    :type input: string
+    """
+    pass
 
 
 def start_workflow_execution(domain=None, workflowId=None, workflowType=None, taskList=None, taskPriority=None,
                              input=None, executionStartToCloseTimeout=None, tagList=None, taskStartToCloseTimeout=None,
-                             childPolicy=None, lambdaRole=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+                             childPolicy=None, lambdaRole=None):
+    """
+    :param domain: [REQUIRED]
             The name of the domain in which the workflow execution is created.
             
-:type domain: string
-:param workflowId: [REQUIRED]
+    :type domain: string
+    :param workflowId: [REQUIRED]
             The user defined identifier associated with the workflow execution. You can use this to associate a custom identifier with the workflow execution. You may specify the same identifier if a workflow execution is logically a restart of a previous execution. You cannot have two open workflow executions with the same workflowId at the same time.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             
-:type workflowId: string
-:param workflowType: [REQUIRED]
+    :type workflowId: string
+    :param workflowType: [REQUIRED]
             The type of the workflow to start.
             name (string) -- [REQUIRED]Required. The name of the workflow type.
             Note
@@ -1090,37 +1054,37 @@ def start_workflow_execution(domain=None, workflowId=None, workflowType=None, ta
             Note
             The combination of workflow type name and version must be unique with in a domain.
             
-:type workflowType: dict
-:param taskList: The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type.
+    :type workflowType: dict
+    :param taskList: The task list to use for the decision tasks generated for this workflow execution. This overrides the defaultTaskList specified when registering the workflow type.
             Note
             A task list for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task list was specified at registration time then a fault will be returned.
             The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f - u009f). Also, it must not contain the literal string quotarnquot.
             name (string) -- [REQUIRED]The name of the task list.
             
-:type taskList: dict
-:param taskPriority: The task priority to use for this workflow execution. This will override any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
+    :type taskList: dict
+    :param taskPriority: The task priority to use for this workflow execution. This will override any default priority that was assigned when the workflow type was registered. If not set, then the default task priority for the workflow type will be used. Valid values are integers that range from Java's Integer.MIN_VALUE (-2147483648) to Integer.MAX_VALUE (2147483647). Higher numbers indicate higher priority.
             For more information about setting task priority, see Setting Task Priority in the Amazon Simple Workflow Developer Guide .
             
-:type taskPriority: string
-:param input: The input for the workflow execution. This is a free form string which should be meaningful to the workflow you are starting. This input is made available to the new workflow execution in the WorkflowExecutionStarted history event.
-:type input: string
-:param executionStartToCloseTimeout: The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type.
+    :type taskPriority: string
+    :param input: The input for the workflow execution. This is a free form string which should be meaningful to the workflow you are starting. This input is made available to the new workflow execution in the WorkflowExecutionStarted history event.
+    :type input: string
+    :param executionStartToCloseTimeout: The total duration for this workflow execution. This overrides the defaultExecutionStartToCloseTimeout specified when registering the workflow type.
             The duration is specified in seconds; an integer greater than or equal to 0. Exceeding this limit will cause the workflow execution to time out. Unlike some of the other timeout parameters in Amazon SWF, you cannot specify a value of 'NONE' for this timeout; there is a one-year max limit on the time that a workflow execution can run.
             Note
             An execution start-to-close timeout must be specified either through this parameter or as a default when the workflow type is registered. If neither this parameter nor a default execution start-to-close timeout is specified, a fault is returned.
             
-:type executionStartToCloseTimeout: string
-:param tagList: The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter .
+    :type executionStartToCloseTimeout: string
+    :param tagList: The list of tags to associate with the workflow execution. You can specify a maximum of 5 tags. You can list workflow executions with a specific tag by calling ListOpenWorkflowExecutions or ListClosedWorkflowExecutions and specifying a TagFilter .
             (string) --
             
-:type tagList: list
-:param taskStartToCloseTimeout: Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType .
+    :type tagList: list
+    :param taskStartToCloseTimeout: Specifies the maximum duration of decision tasks for this workflow execution. This parameter overrides the defaultTaskStartToCloseTimout specified when registering the workflow type using RegisterWorkflowType .
             The duration is specified in seconds; an integer greater than or equal to 0. The value 'NONE' can be used to specify unlimited duration.
             Note
             A task start-to-close timeout for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default task start-to-close timeout was specified at registration time then a fault will be returned.
             
-:type taskStartToCloseTimeout: string
-:param childPolicy: If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType .
+    :type taskStartToCloseTimeout: string
+    :param childPolicy: If set, specifies the policy to use for the child workflow executions of this workflow execution if it is terminated, by calling the TerminateWorkflowExecution action explicitly or due to an expired timeout. This policy overrides the default child policy specified when registering the workflow type using RegisterWorkflowType .
             The supported child policies are:
             TERMINATE: the child executions will be terminated.
             REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.
@@ -1128,35 +1092,33 @@ def start_workflow_execution(domain=None, workflowId=None, workflowType=None, ta
             Note
             A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
             
-:type childPolicy: string
-:param lambdaRole: The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions.
+    :type childPolicy: string
+    :param lambdaRole: The ARN of an IAM role that authorizes Amazon SWF to invoke AWS Lambda functions.
             Note
             In order for this workflow execution to invoke AWS Lambda functions, an appropriate IAM role must be specified either as a default for the workflow type or through this field.
             
-:type lambdaRole: string
-"""
+    :type lambdaRole: string
+    """
+    pass
 
 
-def terminate_workflow_execution(domain=None, workflowId=None, runId=None, reason=None, details=None,
-                                 childPolicy=None): pass
-
-
-"""
-:param domain: [REQUIRED]
+def terminate_workflow_execution(domain=None, workflowId=None, runId=None, reason=None, details=None, childPolicy=None):
+    """
+    :param domain: [REQUIRED]
             The domain of the workflow execution to terminate.
             
-:type domain: string
-:param workflowId: [REQUIRED]
+    :type domain: string
+    :param workflowId: [REQUIRED]
             The workflowId of the workflow execution to terminate.
             
-:type workflowId: string
-:param runId: The runId of the workflow execution to terminate.
-:type runId: string
-:param reason: Optional. A descriptive reason for terminating the workflow execution.
-:type reason: string
-:param details: Optional. Details for terminating the workflow execution.
-:type details: string
-:param childPolicy: If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution.
+    :type workflowId: string
+    :param runId: The runId of the workflow execution to terminate.
+    :type runId: string
+    :param reason: Optional. A descriptive reason for terminating the workflow execution.
+    :type reason: string
+    :param details: Optional. Details for terminating the workflow execution.
+    :type details: string
+    :param childPolicy: If set, specifies the policy to use for the child workflow executions of the workflow execution being terminated. This policy overrides the child policy specified for the workflow execution at registration time or when starting the execution.
             The supported child policies are:
             TERMINATE: the child executions will be terminated.
             REQUEST_CANCEL: a request to cancel will be attempted for each child execution by recording a WorkflowExecutionCancelRequested event in its history. It is up to the decider to take appropriate actions when it receives an execution history with this event.
@@ -1164,5 +1126,6 @@ def terminate_workflow_execution(domain=None, workflowId=None, runId=None, reaso
             Note
             A child policy for this workflow execution must be specified either as a default for the workflow type or through this parameter. If neither this parameter is set nor a default child policy was specified at registration time then a fault will be returned.
             
-:type childPolicy: string
-"""
+    :type childPolicy: string
+    """
+    pass

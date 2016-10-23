@@ -23,63 +23,58 @@ SOFTWARE.
 """
 
 
-def add_tags(LoadBalancerNames=None, Tags=None): pass
-
-
-"""
-:param LoadBalancerNames: [REQUIRED]
+def add_tags(LoadBalancerNames=None, Tags=None):
+    """
+    :param LoadBalancerNames: [REQUIRED]
             The name of the load balancer. You can specify one load balancer only.
             (string) --
             
-:type LoadBalancerNames: list
-:param Tags: [REQUIRED]
+    :type LoadBalancerNames: list
+    :param Tags: [REQUIRED]
             The tags.
             (dict) --Information about a tag.
             Key (string) -- [REQUIRED]The key of the tag.
             Value (string) --The value of the tag.
             
             
-:type Tags: list
-"""
+    :type Tags: list
+    """
+    pass
 
 
-def apply_security_groups_to_load_balancer(LoadBalancerName=None, SecurityGroups=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def apply_security_groups_to_load_balancer(LoadBalancerName=None, SecurityGroups=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param SecurityGroups: [REQUIRED]
+    :type LoadBalancerName: string
+    :param SecurityGroups: [REQUIRED]
             The IDs of the security groups to associate with the load balancer. Note that you cannot specify the name of the security group.
             (string) --
             
-:type SecurityGroups: list
-"""
+    :type SecurityGroups: list
+    """
+    pass
 
 
-def attach_load_balancer_to_subnets(LoadBalancerName=None, Subnets=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def attach_load_balancer_to_subnets(LoadBalancerName=None, Subnets=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Subnets: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Subnets: [REQUIRED]
             The IDs of the subnets to add. You can add only one subnet per Availability Zone.
             (string) --
             
-:type Subnets: list
-"""
+    :type Subnets: list
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -88,19 +83,18 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def configure_health_check(LoadBalancerName=None, HealthCheck=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def configure_health_check(LoadBalancerName=None, HealthCheck=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param HealthCheck: [REQUIRED]
+    :type LoadBalancerName: string
+    :param HealthCheck: [REQUIRED]
             The configuration information.
             Target (string) -- [REQUIRED]The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL. The range of valid ports is one (1) through 65535.
             TCP is the default, specified as a TCP: port pair, for example 'TCP:5000'. In this case, a health check simply attempts to open a TCP connection to the instance on the specified port. Failure to connect within the configured timeout is considered unhealthy.
@@ -113,57 +107,54 @@ def configure_health_check(LoadBalancerName=None, HealthCheck=None): pass
             UnhealthyThreshold (integer) -- [REQUIRED]The number of consecutive health check failures required before moving the instance to the Unhealthy state.
             HealthyThreshold (integer) -- [REQUIRED]The number of consecutive health checks successes required before moving the instance to the Healthy state.
             
-:type HealthCheck: dict
-"""
+    :type HealthCheck: dict
+    """
+    pass
 
 
-def create_app_cookie_stickiness_policy(LoadBalancerName=None, PolicyName=None, CookieName=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def create_app_cookie_stickiness_policy(LoadBalancerName=None, PolicyName=None, CookieName=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param PolicyName: [REQUIRED]
+    :type LoadBalancerName: string
+    :param PolicyName: [REQUIRED]
             The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
             
-:type PolicyName: string
-:param CookieName: [REQUIRED]
+    :type PolicyName: string
+    :param CookieName: [REQUIRED]
             The name of the application cookie used for stickiness.
             
-:type CookieName: string
-"""
+    :type CookieName: string
+    """
+    pass
 
 
-def create_lb_cookie_stickiness_policy(LoadBalancerName=None, PolicyName=None, CookieExpirationPeriod=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def create_lb_cookie_stickiness_policy(LoadBalancerName=None, PolicyName=None, CookieExpirationPeriod=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param PolicyName: [REQUIRED]
+    :type LoadBalancerName: string
+    :param PolicyName: [REQUIRED]
             The name of the policy being created. Policy names must consist of alphanumeric characters and dashes (-). This name must be unique within the set of policies for this load balancer.
             
-:type PolicyName: string
-:param CookieExpirationPeriod: The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
-:type CookieExpirationPeriod: integer
-"""
+    :type PolicyName: string
+    :param CookieExpirationPeriod: The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
+    :type CookieExpirationPeriod: integer
+    """
+    pass
 
 
 def create_load_balancer(LoadBalancerName=None, Listeners=None, AvailabilityZones=None, Subnets=None,
-                         SecurityGroups=None, Scheme=None, Tags=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+                         SecurityGroups=None, Scheme=None, Tags=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             This name must be unique within your set of load balancers for the region, must have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and cannot begin or end with a hyphen.
             
-:type LoadBalancerName: string
-:param Listeners: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Listeners: [REQUIRED]
             The listeners.
             For more information, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide .
             (dict) --Information about a listener.
@@ -178,46 +169,45 @@ def create_load_balancer(LoadBalancerName=None, Listeners=None, AvailabilityZone
             SSLCertificateId (string) --The Amazon Resource Name (ARN) of the server certificate.
             
             
-:type Listeners: list
-:param AvailabilityZones: One or more Availability Zones from the same region as the load balancer.
+    :type Listeners: list
+    :param AvailabilityZones: One or more Availability Zones from the same region as the load balancer.
             You must specify at least one Availability Zone.
             You can add more Availability Zones after you create the load balancer using EnableAvailabilityZonesForLoadBalancer .
             (string) --
             
-:type AvailabilityZones: list
-:param Subnets: The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones .
+    :type AvailabilityZones: list
+    :param Subnets: The IDs of the subnets in your VPC to attach to the load balancer. Specify one subnet per Availability Zone specified in AvailabilityZones .
             (string) --
             
-:type Subnets: list
-:param SecurityGroups: The IDs of the security groups to assign to the load balancer.
+    :type Subnets: list
+    :param SecurityGroups: The IDs of the security groups to assign to the load balancer.
             (string) --
             
-:type SecurityGroups: list
-:param Scheme: The type of a load balancer. Valid only for load balancers in a VPC.
+    :type SecurityGroups: list
+    :param Scheme: The type of a load balancer. Valid only for load balancers in a VPC.
             By default, Elastic Load Balancing creates an Internet-facing load balancer with a DNS name that resolves to public IP addresses. For more information about Internet-facing and Internal load balancers, see Load Balancer Scheme in the Elastic Load Balancing User Guide .
             Specify internal to create a load balancer with a DNS name that resolves to private IP addresses.
             
-:type Scheme: string
-:param Tags: A list of tags to assign to the load balancer.
+    :type Scheme: string
+    :param Tags: A list of tags to assign to the load balancer.
             For more information about tagging your load balancer, see Tag Your Classic Load Balancer in the Classic Load Balancers Guide .
             (dict) --Information about a tag.
             Key (string) -- [REQUIRED]The key of the tag.
             Value (string) --The value of the tag.
             
             
-:type Tags: list
-"""
+    :type Tags: list
+    """
+    pass
 
 
-def create_load_balancer_listeners(LoadBalancerName=None, Listeners=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def create_load_balancer_listeners(LoadBalancerName=None, Listeners=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Listeners: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Listeners: [REQUIRED]
             The listeners.
             (dict) --Information about a listener.
             For information about the protocols and the ports supported by Elastic Load Balancing, see Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide .
@@ -231,42 +221,39 @@ def create_load_balancer_listeners(LoadBalancerName=None, Listeners=None): pass
             SSLCertificateId (string) --The Amazon Resource Name (ARN) of the server certificate.
             
             
-:type Listeners: list
-"""
+    :type Listeners: list
+    """
+    pass
 
 
-def create_load_balancer_policy(LoadBalancerName=None, PolicyName=None, PolicyTypeName=None,
-                                PolicyAttributes=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def create_load_balancer_policy(LoadBalancerName=None, PolicyName=None, PolicyTypeName=None, PolicyAttributes=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param PolicyName: [REQUIRED]
+    :type LoadBalancerName: string
+    :param PolicyName: [REQUIRED]
             The name of the load balancer policy to be created. This name must be unique within the set of policies for this load balancer.
             
-:type PolicyName: string
-:param PolicyTypeName: [REQUIRED]
+    :type PolicyName: string
+    :param PolicyTypeName: [REQUIRED]
             The name of the base policy type. To get the list of policy types, use DescribeLoadBalancerPolicyTypes .
             
-:type PolicyTypeName: string
-:param PolicyAttributes: The policy attributes.
+    :type PolicyTypeName: string
+    :param PolicyAttributes: The policy attributes.
             (dict) --Information about a policy attribute.
             AttributeName (string) --The name of the attribute.
             AttributeValue (string) --The value of the attribute.
             
             
-:type PolicyAttributes: list
-"""
+    :type PolicyAttributes: list
+    """
+    pass
 
 
-def delete_load_balancer(LoadBalancerName=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def delete_load_balancer(LoadBalancerName=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             Return typedict
             ReturnsResponse Syntax{}
@@ -274,81 +261,76 @@ def delete_load_balancer(LoadBalancerName=None): pass
             (dict) --Contains the output of DeleteLoadBalancer.
             
             
-:type LoadBalancerName: string
-"""
+    :type LoadBalancerName: string
+    """
+    pass
 
 
-def delete_load_balancer_listeners(LoadBalancerName=None, LoadBalancerPorts=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def delete_load_balancer_listeners(LoadBalancerName=None, LoadBalancerPorts=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param LoadBalancerPorts: [REQUIRED]
+    :type LoadBalancerName: string
+    :param LoadBalancerPorts: [REQUIRED]
             The client port numbers of the listeners.
             (integer) --
             
-:type LoadBalancerPorts: list
-"""
+    :type LoadBalancerPorts: list
+    """
+    pass
 
 
-def delete_load_balancer_policy(LoadBalancerName=None, PolicyName=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def delete_load_balancer_policy(LoadBalancerName=None, PolicyName=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param PolicyName: [REQUIRED]
+    :type LoadBalancerName: string
+    :param PolicyName: [REQUIRED]
             The name of the policy.
             
-:type PolicyName: string
-"""
+    :type PolicyName: string
+    """
+    pass
 
 
-def deregister_instances_from_load_balancer(LoadBalancerName=None, Instances=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def deregister_instances_from_load_balancer(LoadBalancerName=None, Instances=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Instances: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Instances: [REQUIRED]
             The IDs of the instances.
             (dict) --The ID of an EC2 instance.
             InstanceId (string) --The instance ID.
             
             
-:type Instances: list
-"""
+    :type Instances: list
+    """
+    pass
 
 
-def describe_instance_health(LoadBalancerName=None, Instances=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def describe_instance_health(LoadBalancerName=None, Instances=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Instances: The IDs of the instances.
+    :type LoadBalancerName: string
+    :param Instances: The IDs of the instances.
             (dict) --The ID of an EC2 instance.
             InstanceId (string) --The instance ID.
             
             
-:type Instances: list
-"""
+    :type Instances: list
+    """
+    pass
 
 
-def describe_load_balancer_attributes(LoadBalancerName=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def describe_load_balancer_attributes(LoadBalancerName=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             Return typedict
             ReturnsResponse Syntax{
@@ -405,28 +387,26 @@ def describe_load_balancer_attributes(LoadBalancerName=None): pass
             
             
             
-:type LoadBalancerName: string
-"""
+    :type LoadBalancerName: string
+    """
+    pass
 
 
-def describe_load_balancer_policies(LoadBalancerName=None, PolicyNames=None): pass
-
-
-"""
-:param LoadBalancerName: The name of the load balancer.
-:type LoadBalancerName: string
-:param PolicyNames: The names of the policies.
+def describe_load_balancer_policies(LoadBalancerName=None, PolicyNames=None):
+    """
+    :param LoadBalancerName: The name of the load balancer.
+    :type LoadBalancerName: string
+    :param PolicyNames: The names of the policies.
             (string) --
             
-:type PolicyNames: list
-"""
+    :type PolicyNames: list
+    """
+    pass
 
 
-def describe_load_balancer_policy_types(PolicyTypeNames=None): pass
-
-
-"""
-:param PolicyTypeNames: The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
+def describe_load_balancer_policy_types(PolicyTypeNames=None):
+    """
+    :param PolicyTypeNames: The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
             (string) --
             Return typedict
             ReturnsResponse Syntax{
@@ -468,30 +448,28 @@ def describe_load_balancer_policy_types(PolicyTypeNames=None): pass
             
             
             
-:type PolicyTypeNames: list
-"""
+    :type PolicyTypeNames: list
+    """
+    pass
 
 
-def describe_load_balancers(LoadBalancerNames=None, Marker=None, PageSize=None): pass
-
-
-"""
-:param LoadBalancerNames: The names of the load balancers.
+def describe_load_balancers(LoadBalancerNames=None, Marker=None, PageSize=None):
+    """
+    :param LoadBalancerNames: The names of the load balancers.
             (string) --
             
-:type LoadBalancerNames: list
-:param Marker: The marker for the next set of results. (You received this marker from a previous call.)
-:type Marker: string
-:param PageSize: The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
-:type PageSize: integer
-"""
+    :type LoadBalancerNames: list
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+    :type Marker: string
+    :param PageSize: The maximum number of results to return with this call (a number from 1 to 400). The default is 400.
+    :type PageSize: integer
+    """
+    pass
 
 
-def describe_tags(LoadBalancerNames=None): pass
-
-
-"""
-:param LoadBalancerNames: [REQUIRED]
+def describe_tags(LoadBalancerNames=None):
+    """
+    :param LoadBalancerNames: [REQUIRED]
             The names of the load balancers.
             (string) --
             Return typedict
@@ -521,81 +499,76 @@ def describe_tags(LoadBalancerNames=None): pass
             
             
             
-:type LoadBalancerNames: list
-"""
+    :type LoadBalancerNames: list
+    """
+    pass
 
 
-def detach_load_balancer_from_subnets(LoadBalancerName=None, Subnets=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def detach_load_balancer_from_subnets(LoadBalancerName=None, Subnets=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Subnets: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Subnets: [REQUIRED]
             The IDs of the subnets.
             (string) --
             
-:type Subnets: list
-"""
+    :type Subnets: list
+    """
+    pass
 
 
-def disable_availability_zones_for_load_balancer(LoadBalancerName=None, AvailabilityZones=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def disable_availability_zones_for_load_balancer(LoadBalancerName=None, AvailabilityZones=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param AvailabilityZones: [REQUIRED]
+    :type LoadBalancerName: string
+    :param AvailabilityZones: [REQUIRED]
             The Availability Zones.
             (string) --
             
-:type AvailabilityZones: list
-"""
+    :type AvailabilityZones: list
+    """
+    pass
 
 
-def enable_availability_zones_for_load_balancer(LoadBalancerName=None, AvailabilityZones=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def enable_availability_zones_for_load_balancer(LoadBalancerName=None, AvailabilityZones=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param AvailabilityZones: [REQUIRED]
+    :type LoadBalancerName: string
+    :param AvailabilityZones: [REQUIRED]
             The Availability Zones. These must be in the same region as the load balancer.
             (string) --
             
-:type AvailabilityZones: list
-"""
+    :type AvailabilityZones: list
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -607,26 +580,24 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def modify_load_balancer_attributes(LoadBalancerName=None, LoadBalancerAttributes=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def modify_load_balancer_attributes(LoadBalancerName=None, LoadBalancerAttributes=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param LoadBalancerAttributes: [REQUIRED]
+    :type LoadBalancerName: string
+    :param LoadBalancerAttributes: [REQUIRED]
             The attributes of the load balancer.
             CrossZoneLoadBalancing (dict) --If enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones.
             For more information, see Configure Cross-Zone Load Balancing in the Classic Load Balancers Guide .
@@ -651,102 +622,97 @@ def modify_load_balancer_attributes(LoadBalancerName=None, LoadBalancerAttribute
             Value (string) --This parameter is reserved.
             
             
-:type LoadBalancerAttributes: dict
-"""
+    :type LoadBalancerAttributes: dict
+    """
+    pass
 
 
-def register_instances_with_load_balancer(LoadBalancerName=None, Instances=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def register_instances_with_load_balancer(LoadBalancerName=None, Instances=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param Instances: [REQUIRED]
+    :type LoadBalancerName: string
+    :param Instances: [REQUIRED]
             The IDs of the instances.
             (dict) --The ID of an EC2 instance.
             InstanceId (string) --The instance ID.
             
             
-:type Instances: list
-"""
+    :type Instances: list
+    """
+    pass
 
 
-def remove_tags(LoadBalancerNames=None, Tags=None): pass
-
-
-"""
-:param LoadBalancerNames: [REQUIRED]
+def remove_tags(LoadBalancerNames=None, Tags=None):
+    """
+    :param LoadBalancerNames: [REQUIRED]
             The name of the load balancer. You can specify a maximum of one load balancer name.
             (string) --
             
-:type LoadBalancerNames: list
-:param Tags: [REQUIRED]
+    :type LoadBalancerNames: list
+    :param Tags: [REQUIRED]
             The list of tag keys to remove.
             (dict) --The key of a tag.
             Key (string) --The name of the key.
             
             
-:type Tags: list
-"""
+    :type Tags: list
+    """
+    pass
 
 
-def set_load_balancer_listener_ssl_certificate(LoadBalancerName=None, LoadBalancerPort=None,
-                                               SSLCertificateId=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def set_load_balancer_listener_ssl_certificate(LoadBalancerName=None, LoadBalancerPort=None, SSLCertificateId=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param LoadBalancerPort: [REQUIRED]
+    :type LoadBalancerName: string
+    :param LoadBalancerPort: [REQUIRED]
             The port that uses the specified SSL certificate.
             
-:type LoadBalancerPort: integer
-:param SSLCertificateId: [REQUIRED]
+    :type LoadBalancerPort: integer
+    :param SSLCertificateId: [REQUIRED]
             The Amazon Resource Name (ARN) of the SSL certificate.
             
-:type SSLCertificateId: string
-"""
+    :type SSLCertificateId: string
+    """
+    pass
 
 
-def set_load_balancer_policies_for_backend_server(LoadBalancerName=None, InstancePort=None, PolicyNames=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def set_load_balancer_policies_for_backend_server(LoadBalancerName=None, InstancePort=None, PolicyNames=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param InstancePort: [REQUIRED]
+    :type LoadBalancerName: string
+    :param InstancePort: [REQUIRED]
             The port number associated with the EC2 instance.
             
-:type InstancePort: integer
-:param PolicyNames: [REQUIRED]
+    :type InstancePort: integer
+    :param PolicyNames: [REQUIRED]
             The names of the policies. If the list is empty, then all current polices are removed from the EC2 instance.
             (string) --
             
-:type PolicyNames: list
-"""
+    :type PolicyNames: list
+    """
+    pass
 
 
-def set_load_balancer_policies_of_listener(LoadBalancerName=None, LoadBalancerPort=None, PolicyNames=None): pass
-
-
-"""
-:param LoadBalancerName: [REQUIRED]
+def set_load_balancer_policies_of_listener(LoadBalancerName=None, LoadBalancerPort=None, PolicyNames=None):
+    """
+    :param LoadBalancerName: [REQUIRED]
             The name of the load balancer.
             
-:type LoadBalancerName: string
-:param LoadBalancerPort: [REQUIRED]
+    :type LoadBalancerName: string
+    :param LoadBalancerPort: [REQUIRED]
             The external port of the load balancer.
             
-:type LoadBalancerPort: integer
-:param PolicyNames: [REQUIRED]
+    :type LoadBalancerPort: integer
+    :param PolicyNames: [REQUIRED]
             The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
             (string) --
             
-:type PolicyNames: list
-"""
+    :type PolicyNames: list
+    """
+    pass

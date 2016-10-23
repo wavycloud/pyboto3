@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def build_suggesters(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def build_suggesters(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             Return typedict
             ReturnsResponse Syntax{
@@ -44,15 +42,14 @@ def build_suggesters(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -61,15 +58,14 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def create_domain(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def create_domain(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             A name for the domain you are creating. Allowed characters are a-z (lower-case letters), 0-9, and hyphen (-). Domain names must start with a letter or number and be at least 3 and no more than 28 characters long.
             Return typedict
             ReturnsResponse Syntax{
@@ -119,19 +115,18 @@ def create_domain(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def define_analysis_scheme(DomainName=None, AnalysisScheme=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def define_analysis_scheme(DomainName=None, AnalysisScheme=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param AnalysisScheme: [REQUIRED]
+    :type DomainName: string
+    :param AnalysisScheme: [REQUIRED]
             Configuration information for an analysis scheme. Each analysis scheme has a unique name and specifies the language of the text to be processed. The following options can be configured for an analysis scheme: Synonyms , Stopwords , StemmingDictionary , JapaneseTokenizationDictionary and AlgorithmicStemming .
             AnalysisSchemeName (string) -- [REQUIRED]Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             AnalysisSchemeLanguage (string) -- [REQUIRED]An IETF RFC 4646 language code or mul for multiple languages.
@@ -143,36 +138,34 @@ def define_analysis_scheme(DomainName=None, AnalysisScheme=None): pass
             AlgorithmicStemming (string) --The level of algorithmic stemming to perform: none , minimal , light , or full . The available levels vary depending on the language. For more information, see Language Specific Text Processing Settings in the Amazon CloudSearch Developer Guide
             
             
-:type AnalysisScheme: dict
-"""
+    :type AnalysisScheme: dict
+    """
+    pass
 
 
-def define_expression(DomainName=None, Expression=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def define_expression(DomainName=None, Expression=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param Expression: [REQUIRED]
+    :type DomainName: string
+    :param Expression: [REQUIRED]
             A named expression that can be evaluated at search time. Can be used to sort the search results, define other expressions, or return computed information in the search results.
             ExpressionName (string) -- [REQUIRED]Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             ExpressionValue (string) -- [REQUIRED]The expression to evaluate for sorting while processing a search request. The Expression syntax is based on JavaScript expressions. For more information, see Configuring Expressions in the Amazon CloudSearch Developer Guide .
             
-:type Expression: dict
-"""
+    :type Expression: dict
+    """
+    pass
 
 
-def define_index_field(DomainName=None, IndexField=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def define_index_field(DomainName=None, IndexField=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param IndexField: [REQUIRED]
+    :type DomainName: string
+    :param IndexField: [REQUIRED]
             The index field and field options you want to configure.
             IndexFieldName (string) -- [REQUIRED]A string that represents the name of an index field. CloudSearch supports regular index fields as well as dynamic fields. A dynamic field's name defines a pattern that begins or ends with a wildcard. Any document fields that don't map to a regular index field but do match a dynamic field's pattern are configured with the dynamic field's indexing options.
             Regular field names begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore). Dynamic field names must begin or end with a wildcard (*). The wildcard can also be the only character in a dynamic field name. Multiple wildcards, and wildcards embedded within a string are not supported.
@@ -260,19 +253,18 @@ def define_index_field(DomainName=None, IndexField=None): pass
             ReturnEnabled (boolean) --Whether the contents of the field can be returned in the search results.
             
             
-:type IndexField: dict
-"""
+    :type IndexField: dict
+    """
+    pass
 
 
-def define_suggester(DomainName=None, Suggester=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def define_suggester(DomainName=None, Suggester=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param Suggester: [REQUIRED]
+    :type DomainName: string
+    :param Suggester: [REQUIRED]
             Configuration information for a search suggester. Each suggester has a unique name and specifies the text field you want to use for suggestions. The following options can be configured for a suggester: FuzzyMatching , SortExpression .
             SuggesterName (string) -- [REQUIRED]Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             DocumentSuggesterOptions (dict) -- [REQUIRED]Options for a search suggester.
@@ -281,30 +273,28 @@ def define_suggester(DomainName=None, Suggester=None): pass
             SortExpression (string) --An expression that computes a score for each suggestion to control how they are sorted. The scores are rounded to the nearest integer, with a floor of 0 and a ceiling of 2^31-1. A document's relevance score is not computed for suggestions, so sort expressions cannot reference the _score value. To sort suggestions using a numeric field or existing expression, simply specify the name of the field or expression. If no expression is configured for the suggester, the suggestions are sorted with the closest matches listed first.
             
             
-:type Suggester: dict
-"""
+    :type Suggester: dict
+    """
+    pass
 
 
-def delete_analysis_scheme(DomainName=None, AnalysisSchemeName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_analysis_scheme(DomainName=None, AnalysisSchemeName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param AnalysisSchemeName: [REQUIRED]
+    :type DomainName: string
+    :param AnalysisSchemeName: [REQUIRED]
             The name of the analysis scheme you want to delete.
             
-:type AnalysisSchemeName: string
-"""
+    :type AnalysisSchemeName: string
+    """
+    pass
 
 
-def delete_domain(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_domain(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to permanently delete.
             Return typedict
             ReturnsResponse Syntax{
@@ -354,90 +344,84 @@ def delete_domain(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def delete_expression(DomainName=None, ExpressionName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_expression(DomainName=None, ExpressionName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param ExpressionName: [REQUIRED]
+    :type DomainName: string
+    :param ExpressionName: [REQUIRED]
             The name of the `` Expression`` to delete.
             
-:type ExpressionName: string
-"""
+    :type ExpressionName: string
+    """
+    pass
 
 
-def delete_index_field(DomainName=None, IndexFieldName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_index_field(DomainName=None, IndexFieldName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param IndexFieldName: [REQUIRED]
+    :type DomainName: string
+    :param IndexFieldName: [REQUIRED]
             The name of the index field your want to remove from the domain's indexing options.
             
-:type IndexFieldName: string
-"""
+    :type IndexFieldName: string
+    """
+    pass
 
 
-def delete_suggester(DomainName=None, SuggesterName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def delete_suggester(DomainName=None, SuggesterName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param SuggesterName: [REQUIRED]
+    :type DomainName: string
+    :param SuggesterName: [REQUIRED]
             Specifies the name of the suggester you want to delete.
             
-:type SuggesterName: string
-"""
+    :type SuggesterName: string
+    """
+    pass
 
 
-def describe_analysis_schemes(DomainName=None, AnalysisSchemeNames=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_analysis_schemes(DomainName=None, AnalysisSchemeNames=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param AnalysisSchemeNames: The analysis schemes you want to describe.
+    :type DomainName: string
+    :param AnalysisSchemeNames: The analysis schemes you want to describe.
             (string) --Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             
-:type AnalysisSchemeNames: list
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type AnalysisSchemeNames: list
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def describe_availability_options(DomainName=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_availability_options(DomainName=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type DomainName: string
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def describe_domains(DomainNames=None): pass
-
-
-"""
-:param DomainNames: The names of the domains you want to include in the response.
+def describe_domains(DomainNames=None):
+    """
+    :param DomainNames: The names of the domains you want to include in the response.
             (string) --A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             Return typedict
             ReturnsResponse Syntax{
@@ -490,49 +474,46 @@ def describe_domains(DomainNames=None): pass
             
             
             
-:type DomainNames: list
-"""
+    :type DomainNames: list
+    """
+    pass
 
 
-def describe_expressions(DomainName=None, ExpressionNames=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_expressions(DomainName=None, ExpressionNames=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param ExpressionNames: Limits the `` DescribeExpressions`` response to the specified expressions. If not specified, all expressions are shown.
+    :type DomainName: string
+    :param ExpressionNames: Limits the `` DescribeExpressions`` response to the specified expressions. If not specified, all expressions are shown.
             (string) --Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             
-:type ExpressionNames: list
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type ExpressionNames: list
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def describe_index_fields(DomainName=None, FieldNames=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_index_fields(DomainName=None, FieldNames=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param FieldNames: A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
+    :type DomainName: string
+    :param FieldNames: A list of the index fields you want to describe. If not specified, information is returned for all configured index fields.
             (string) --
             
-:type FieldNames: list
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type FieldNames: list
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def describe_scaling_parameters(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_scaling_parameters(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             Return typedict
             ReturnsResponse Syntax{
@@ -571,63 +552,59 @@ def describe_scaling_parameters(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def describe_service_access_policies(DomainName=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_service_access_policies(DomainName=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type DomainName: string
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def describe_suggesters(DomainName=None, SuggesterNames=None, Deployed=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def describe_suggesters(DomainName=None, SuggesterNames=None, Deployed=None):
+    """
+    :param DomainName: [REQUIRED]
             The name of the domain you want to describe.
             
-:type DomainName: string
-:param SuggesterNames: The suggesters you want to describe.
+    :type DomainName: string
+    :param SuggesterNames: The suggesters you want to describe.
             (string) --Names must begin with a letter and can contain the following characters: a-z (lowercase), 0-9, and _ (underscore).
             
-:type SuggesterNames: list
-:param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
-:type Deployed: boolean
-"""
+    :type SuggesterNames: list
+    :param Deployed: Whether to display the deployed configuration (true ) or include any pending changes (false ). Defaults to false .
+    :type Deployed: boolean
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -639,22 +616,20 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def index_documents(DomainName=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def index_documents(DomainName=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             Return typedict
             ReturnsResponse Syntax{
@@ -671,60 +646,57 @@ def index_documents(DomainName=None): pass
             
             
             
-:type DomainName: string
-"""
+    :type DomainName: string
+    """
+    pass
 
 
-def list_domain_names(): pass
+def list_domain_names():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def update_availability_options(DomainName=None, MultiAZ=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_availability_options(DomainName=None, MultiAZ=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param MultiAZ: [REQUIRED]
+    :type DomainName: string
+    :param MultiAZ: [REQUIRED]
             You expand an existing search domain to a second Availability Zone by setting the Multi-AZ option to true. Similarly, you can turn off the Multi-AZ option to downgrade the domain to a single Availability Zone by setting the Multi-AZ option to false .
             
-:type MultiAZ: boolean
-"""
+    :type MultiAZ: boolean
+    """
+    pass
 
 
-def update_scaling_parameters(DomainName=None, ScalingParameters=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_scaling_parameters(DomainName=None, ScalingParameters=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param ScalingParameters: [REQUIRED]
+    :type DomainName: string
+    :param ScalingParameters: [REQUIRED]
             The desired instance type and desired number of replicas of each index partition.
             DesiredInstanceType (string) --The instance type that you want to preconfigure for your domain. For example, search.m1.small .
             DesiredReplicationCount (integer) --The number of replicas you want to preconfigure for each index partition.
             DesiredPartitionCount (integer) --The number of partitions you want to preconfigure for your domain. Only valid when you select m2.2xlarge as the desired instance type.
             
-:type ScalingParameters: dict
-"""
+    :type ScalingParameters: dict
+    """
+    pass
 
 
-def update_service_access_policies(DomainName=None, AccessPolicies=None): pass
-
-
-"""
-:param DomainName: [REQUIRED]
+def update_service_access_policies(DomainName=None, AccessPolicies=None):
+    """
+    :param DomainName: [REQUIRED]
             A string that represents the name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
             
-:type DomainName: string
-:param AccessPolicies: [REQUIRED]
+    :type DomainName: string
+    :param AccessPolicies: [REQUIRED]
             The access rules you want to configure. These rules replace any existing rules.
             
-:type AccessPolicies: string
-"""
+    :type AccessPolicies: string
+    """
+    pass

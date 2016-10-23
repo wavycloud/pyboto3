@@ -23,47 +23,43 @@ SOFTWARE.
 """
 
 
-def add_attachments_to_set(attachmentSetId=None, attachments=None): pass
-
-
-"""
-:param attachmentSetId: The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
-:type attachmentSetId: string
-:param attachments: [REQUIRED]
+def add_attachments_to_set(attachmentSetId=None, attachments=None):
+    """
+    :param attachmentSetId: The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
+    :type attachmentSetId: string
+    :param attachments: [REQUIRED]
             One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment.
             (dict) --An attachment to a case communication. The attachment consists of the file name and the content of the file.
             fileName (string) --The name of the attachment file.
             data (bytes) --The content of the attachment file.
             
             
-:type attachments: list
-"""
+    :type attachments: list
+    """
+    pass
 
 
-def add_communication_to_case(caseId=None, communicationBody=None, ccEmailAddresses=None, attachmentSetId=None): pass
-
-
-"""
-:param caseId: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
-:type caseId: string
-:param communicationBody: [REQUIRED]
+def add_communication_to_case(caseId=None, communicationBody=None, ccEmailAddresses=None, attachmentSetId=None):
+    """
+    :param caseId: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+    :type caseId: string
+    :param communicationBody: [REQUIRED]
             The body of an email communication to add to the support case.
             
-:type communicationBody: string
-:param ccEmailAddresses: The email addresses in the CC line of an email to be added to the support case.
+    :type communicationBody: string
+    :param ccEmailAddresses: The email addresses in the CC line of an email to be added to the support case.
             (string) --
             
-:type ccEmailAddresses: list
-:param attachmentSetId: The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
-:type attachmentSetId: string
-"""
+    :type ccEmailAddresses: list
+    :param attachmentSetId: The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet
+    :type attachmentSetId: string
+    """
+    pass
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -72,50 +68,48 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
 def create_case(subject=None, serviceCode=None, severityCode=None, categoryCode=None, communicationBody=None,
-                ccEmailAddresses=None, language=None, issueType=None, attachmentSetId=None): pass
-
-
-"""
-:param subject: [REQUIRED]
+                ccEmailAddresses=None, language=None, issueType=None, attachmentSetId=None):
+    """
+    :param subject: [REQUIRED]
             The title of the AWS Support case.
             
-:type subject: string
-:param serviceCode: The code for the AWS service returned by the call to DescribeServices .
-:type serviceCode: string
-:param severityCode: The code for the severity level returned by the call to DescribeSeverityLevels .
+    :type subject: string
+    :param serviceCode: The code for the AWS service returned by the call to DescribeServices .
+    :type serviceCode: string
+    :param severityCode: The code for the severity level returned by the call to DescribeSeverityLevels .
             Note
             The availability of severity levels depends on each customer's support subscription. In other words, your subscription may not necessarily require the urgent level of response time.
             
-:type severityCode: string
-:param categoryCode: The category of problem for the AWS Support case.
-:type categoryCode: string
-:param communicationBody: [REQUIRED]
+    :type severityCode: string
+    :param categoryCode: The category of problem for the AWS Support case.
+    :type categoryCode: string
+    :param communicationBody: [REQUIRED]
             The communication body text when you create an AWS Support case by calling CreateCase .
             
-:type communicationBody: string
-:param ccEmailAddresses: A list of email addresses that AWS Support copies on case correspondence.
+    :type communicationBody: string
+    :param ccEmailAddresses: A list of email addresses that AWS Support copies on case correspondence.
             (string) --
             
-:type ccEmailAddresses: list
-:param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
-:type language: string
-:param issueType: The type of issue for the case. You can specify either 'customer-service' or 'technical.' If you do not indicate a value, the default is 'technical.'
-:type issueType: string
-:param attachmentSetId: The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet .
-:type attachmentSetId: string
-"""
+    :type ccEmailAddresses: list
+    :param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
+    :type language: string
+    :param issueType: The type of issue for the case. You can specify either 'customer-service' or 'technical.' If you do not indicate a value, the default is 'technical.'
+    :type issueType: string
+    :param attachmentSetId: The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet .
+    :type attachmentSetId: string
+    """
+    pass
 
 
-def describe_attachment(attachmentId=None): pass
-
-
-"""
-:param attachmentId: [REQUIRED]
+def describe_attachment(attachmentId=None):
+    """
+    :param attachmentId: [REQUIRED]
             The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
             Return typedict
             ReturnsResponse Syntax{
@@ -132,75 +126,71 @@ def describe_attachment(attachmentId=None): pass
             
             
             
-:type attachmentId: string
-"""
+    :type attachmentId: string
+    """
+    pass
 
 
 def describe_cases(caseIdList=None, displayId=None, afterTime=None, beforeTime=None, includeResolvedCases=None,
-                   nextToken=None, maxResults=None, language=None, includeCommunications=None): pass
-
-
-"""
-:param caseIdList: A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
+                   nextToken=None, maxResults=None, language=None, includeCommunications=None):
+    """
+    :param caseIdList: A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
             (string) --
             
-:type caseIdList: list
-:param displayId: The ID displayed for a case in the AWS Support Center user interface.
-:type displayId: string
-:param afterTime: The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-:type afterTime: string
-:param beforeTime: The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-:type beforeTime: string
-:param includeResolvedCases: Specifies whether resolved support cases should be included in the DescribeCases results. The default is false .
-:type includeResolvedCases: boolean
-:param nextToken: A resumption point for pagination.
-:type nextToken: string
-:param maxResults: The maximum number of results to return before paginating.
-:type maxResults: integer
-:param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
-:type language: string
-:param includeCommunications: Specifies whether communications should be included in the DescribeCases results. The default is true .
-:type includeCommunications: boolean
-"""
+    :type caseIdList: list
+    :param displayId: The ID displayed for a case in the AWS Support Center user interface.
+    :type displayId: string
+    :param afterTime: The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    :type afterTime: string
+    :param beforeTime: The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    :type beforeTime: string
+    :param includeResolvedCases: Specifies whether resolved support cases should be included in the DescribeCases results. The default is false .
+    :type includeResolvedCases: boolean
+    :param nextToken: A resumption point for pagination.
+    :type nextToken: string
+    :param maxResults: The maximum number of results to return before paginating.
+    :type maxResults: integer
+    :param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
+    :type language: string
+    :param includeCommunications: Specifies whether communications should be included in the DescribeCases results. The default is true .
+    :type includeCommunications: boolean
+    """
+    pass
 
 
-def describe_communications(caseId=None, beforeTime=None, afterTime=None, nextToken=None, maxResults=None): pass
-
-
-"""
-:param caseId: [REQUIRED]
+def describe_communications(caseId=None, beforeTime=None, afterTime=None, nextToken=None, maxResults=None):
+    """
+    :param caseId: [REQUIRED]
             The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
             
-:type caseId: string
-:param beforeTime: The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-:type beforeTime: string
-:param afterTime: The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
-:type afterTime: string
-:param nextToken: A resumption point for pagination.
-:type nextToken: string
-:param maxResults: The maximum number of results to return before paginating.
-:type maxResults: integer
-"""
+    :type caseId: string
+    :param beforeTime: The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    :type beforeTime: string
+    :param afterTime: The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.
+    :type afterTime: string
+    :param nextToken: A resumption point for pagination.
+    :type nextToken: string
+    :param maxResults: The maximum number of results to return before paginating.
+    :type maxResults: integer
+    """
+    pass
 
 
-def describe_services(serviceCodeList=None, language=None): pass
-
-
-"""
-:param serviceCodeList: A JSON-formatted list of service codes available for AWS services.
+def describe_services(serviceCodeList=None, language=None):
+    """
+    :param serviceCodeList: A JSON-formatted list of service codes available for AWS services.
             (string) --
             
-:type serviceCodeList: list
-:param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
-:type language: string
-"""
+    :type serviceCodeList: list
+    :param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
+    :type language: string
+    """
+    pass
 
 
-def describe_severity_levels(language=None): pass
-
-
-"""
-:param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
+def describe_severity_levels(language=None):
+    """
+    :param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
             Return typedict
             ReturnsResponse Syntax{
               'severityLevels': [
@@ -219,15 +209,14 @@ def describe_severity_levels(language=None): pass
             
             
             
-:type language: string
-"""
+    :type language: string
+    """
+    pass
 
 
-def describe_trusted_advisor_check_refresh_statuses(checkIds=None): pass
-
-
-"""
-:param checkIds: [REQUIRED]
+def describe_trusted_advisor_check_refresh_statuses(checkIds=None):
+    """
+    :param checkIds: [REQUIRED]
             The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
             (string) --
             Return typedict
@@ -250,28 +239,26 @@ def describe_trusted_advisor_check_refresh_statuses(checkIds=None): pass
             
             
             
-:type checkIds: list
-"""
+    :type checkIds: list
+    """
+    pass
 
 
-def describe_trusted_advisor_check_result(checkId=None, language=None): pass
-
-
-"""
-:param checkId: [REQUIRED]
+def describe_trusted_advisor_check_result(checkId=None, language=None):
+    """
+    :param checkId: [REQUIRED]
             The unique identifier for the Trusted Advisor check.
             
-:type checkId: string
-:param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
-:type language: string
-"""
+    :type checkId: string
+    :param language: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
+    :type language: string
+    """
+    pass
 
 
-def describe_trusted_advisor_check_summaries(checkIds=None): pass
-
-
-"""
-:param checkIds: [REQUIRED]
+def describe_trusted_advisor_check_summaries(checkIds=None):
+    """
+    :param checkIds: [REQUIRED]
             The IDs of the Trusted Advisor checks.
             (string) --
             Return typedict
@@ -318,15 +305,14 @@ def describe_trusted_advisor_check_summaries(checkIds=None): pass
             
             
             
-:type checkIds: list
-"""
+    :type checkIds: list
+    """
+    pass
 
 
-def describe_trusted_advisor_checks(language=None): pass
-
-
-"""
-:param language: [REQUIRED]
+def describe_trusted_advisor_checks(language=None):
+    """
+    :param language: [REQUIRED]
             The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ('en') and Japanese ('ja'). Language parameters must be passed explicitly for operations that take them.
             Return typedict
             ReturnsResponse Syntax{
@@ -355,33 +341,31 @@ def describe_trusted_advisor_checks(language=None): pass
             
             
             
-:type language: string
-"""
+    :type language: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -393,22 +377,20 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def refresh_trusted_advisor_check(checkId=None): pass
-
-
-"""
-:param checkId: [REQUIRED]
+def refresh_trusted_advisor_check(checkId=None):
+    """
+    :param checkId: [REQUIRED]
             The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
             Return typedict
             ReturnsResponse Syntax{
@@ -427,15 +409,14 @@ def refresh_trusted_advisor_check(checkId=None): pass
             
             
             
-:type checkId: string
-"""
+    :type checkId: string
+    """
+    pass
 
 
-def resolve_case(caseId=None): pass
-
-
-"""
-:param caseId: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
+def resolve_case(caseId=None):
+    """
+    :param caseId: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
             Return typedict
             ReturnsResponse Syntax{
               'initialCaseStatus': 'string',
@@ -447,5 +428,6 @@ def resolve_case(caseId=None): pass
             finalCaseStatus (string) --The status of the case after the ResolveCase request was processed.
             
             
-:type caseId: string
-"""
+    :type caseId: string
+    """
+    pass

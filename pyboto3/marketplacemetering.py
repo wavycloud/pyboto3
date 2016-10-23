@@ -23,11 +23,9 @@ SOFTWARE.
 """
 
 
-def can_paginate(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def can_paginate(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -36,33 +34,31 @@ def can_paginate(operation_name=None): pass
             ReturnsTrue if the operation can be paginated,
             False otherwise.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None): pass
-
-
-"""
-:param ClientMethod: The client method to presign for
-:type ClientMethod: string
-:param Params: The parameters normally passed to
+def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
+    """
+    :param ClientMethod: The client method to presign for
+    :type ClientMethod: string
+    :param Params: The parameters normally passed to
             ClientMethod.
-:type Params: dict
-:param ExpiresIn: The number of seconds the presigned url is valid
+    :type Params: dict
+    :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-:type ExpiresIn: int
-:param HttpMethod: The http method to use on the generated url. By
+    :type ExpiresIn: int
+    :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-:type HttpMethod: string
-"""
+    :type HttpMethod: string
+    """
+    pass
 
 
-def get_paginator(operation_name=None): pass
-
-
-"""
-:param operation_name: The operation name. This is the same name
+def get_paginator(operation_name=None):
+    """
+    :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
@@ -74,39 +70,38 @@ def get_paginator(operation_name=None): pass
             Return typeL{botocore.paginate.Paginator}
             ReturnsA paginator object.
             
-:type operation_name: string
-"""
+    :type operation_name: string
+    """
+    pass
 
 
-def get_waiter(): pass
+def get_waiter():
+    """
+    """
+    pass
 
 
-"""
-"""
-
-
-def meter_usage(ProductCode=None, Timestamp=None, UsageDimension=None, UsageQuantity=None, DryRun=None): pass
-
-
-"""
-:param ProductCode: [REQUIRED]
+def meter_usage(ProductCode=None, Timestamp=None, UsageDimension=None, UsageQuantity=None, DryRun=None):
+    """
+    :param ProductCode: [REQUIRED]
             Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
             
-:type ProductCode: string
-:param Timestamp: [REQUIRED]
+    :type ProductCode: string
+    :param Timestamp: [REQUIRED]
             Timestamp of the hour, recorded in UTC. The seconds and milliseconds portions of the timestamp will be ignored.
             
-:type Timestamp: datetime
-:param UsageDimension: [REQUIRED]
+    :type Timestamp: datetime
+    :param UsageDimension: [REQUIRED]
             It will be one of the 'fcp dimension name' provided during the publishing of the product.
             
-:type UsageDimension: string
-:param UsageQuantity: [REQUIRED]
+    :type UsageDimension: string
+    :param UsageQuantity: [REQUIRED]
             Consumption value for the hour.
             
-:type UsageQuantity: integer
-:param DryRun: [REQUIRED]
+    :type UsageQuantity: integer
+    :param DryRun: [REQUIRED]
             Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException.
             
-:type DryRun: boolean
-"""
+    :type DryRun: boolean
+    """
+    pass
