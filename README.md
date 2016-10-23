@@ -9,8 +9,6 @@ This package will minimize the time you have to look for AWS documentation onlin
 ![Ctrl+Space Autocomplete Image](https://github.com/gehadshaat/pyboto3/blob/master/img/autocomplete.png)
 ![Ctrl+Q Documentation](https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png)
 
-[[https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png]]
-
 # Installation
 ```python
 pip install pyboto3
