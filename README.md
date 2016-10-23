@@ -1,4 +1,4 @@
-# pyboto3 (not working)
+# pyboto3 interface stubs
 Pythonic Interface for AWS boto3 that gives you autocomplete on all AWS services
 
 The code is not to be imported. you can only use it as a typehint for autocomplete in pycharm.
@@ -29,7 +29,3 @@ Currently testing is limited to the generation of the code, not the code functio
 # Issues
 The package have not been tested. Only code generation is tested. currently the generation is only tested on Windows 10 Python 2.7
 
-# Todo
-* This package have not been tested against AWS API, yet.
-* Test code on Linux, Mac
-* Test code on Python 3
