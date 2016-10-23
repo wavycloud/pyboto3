@@ -5,10 +5,12 @@ The code is not to be imported. you can only use it as a typehint for autocomple
 
 This package will minimize the time you have to look for AWS documentation online. You shouldn't leave your coding environment.
 
-# usage
-
+# Installation
+```python
 pip install pyboto3
+```
 
+# Usage
 ```python
 import boto3
 s3 = boto3.client('s3')
@@ -20,11 +22,6 @@ enjoy autocomplete and navigate to class to read documentation from S3 class cod
 # Contributing
 
 We need your help! The code needs work and testing to make it friendly with python 3 and other systems. Feel free to test, commit and push changes!
-
-## Testing
-
-Currently the test is what generates the code from online documentation https://boto3.readthedocs.io/en/latest/reference/services/index.html
-Currently testing is limited to the generation of the code, not the code functionality.
 
 # Issues
 The package have not been tested. Only code generation is tested. currently the generation is only tested on Windows 10 Python 2.7
