@@ -126,6 +126,9 @@ def test_generate_code():
 def test_generate_rds_code():
     generate_service_code('https://boto3.readthedocs.io/en/latest/reference/services/rds.html',
                           os.path.join(os.path.dirname(__file__), '..', 'pyboto3', 'rds.py'))
+def test_generate_s3_code():
+    generate_service_code('https://boto3.readthedocs.io/en/latest/reference/services/s3.html',
+                          os.path.join(os.path.dirname(__file__), '..', 'pyboto3', 's3.py'))
 
 
 def test_get_services():

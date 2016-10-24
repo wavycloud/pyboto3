@@ -1,4 +1,5 @@
-"""
+'''
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Gehad Shaat
@@ -20,29 +21,86 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-"""
 
+'''
 
 def can_paginate(operation_name=None):
     """
+    Check if an operation can be paginated.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            ReturnsTrue if the operation can be paginated,
-            False otherwise.
-            
-    :type operation_name: string
+
     """
     pass
 
-
 def create_budget(AccountId=None, Budget=None, NotificationsWithSubscribers=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Create a new budget
+    
+    
+    :example: response = client.create_budget(
+        AccountId='string',
+        Budget={
+            'BudgetName': 'string',
+            'BudgetLimit': {
+                'Amount': 'string',
+                'Unit': 'string'
+            },
+            'CostFilters': {
+                'string': [
+                    'string',
+                ]
+            },
+            'CostTypes': {
+                'IncludeTax': True|False,
+                'IncludeSubscription': True|False,
+                'UseBlended': True|False
+            },
+            'TimeUnit': 'MONTHLY'|'QUARTERLY'|'ANNUALLY',
+            'TimePeriod': {
+                'Start': datetime(2015, 1, 1),
+                'End': datetime(2015, 1, 1)
+            },
+            'CalculatedSpend': {
+                'ActualSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                },
+                'ForecastedSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                }
+            },
+            'BudgetType': 'USAGE'|'COST'
+        },
+        NotificationsWithSubscribers=[
+            {
+                'Notification': {
+                    'NotificationType': 'ACTUAL'|'FORECASTED',
+                    'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+                    'Threshold': 123.0
+                },
+                'Subscribers': [
+                    {
+                        'SubscriptionType': 'SNS'|'EMAIL',
+                        'Address': 'string'
+                    },
+                ]
+            },
+        ]
+    )
+    
+    
     :type AccountId: string
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
+    :type Budget: dict
     :param Budget: [REQUIRED] AWS Budget model
             BudgetName (string) -- [REQUIRED] A string represents the budget name. No ':' character is allowed.
             BudgetLimit (dict) -- [REQUIRED] A structure represent either a cost spend or usage spend. Contains an amount and a unit.
@@ -71,7 +129,8 @@ def create_budget(AccountId=None, Budget=None, NotificationsWithSubscribers=None
             
             BudgetType (string) -- [REQUIRED] The type of a budget. Can be COST or USAGE.
             
-    :type Budget: dict
+
+    :type NotificationsWithSubscribers: list
     :param NotificationsWithSubscribers: A list of Notifications, each with a list of subscribers.
             (dict) -- A structure to relate notification and a list of subscribers who belong to the notification.
             Notification (dict) -- [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
@@ -84,204 +143,673 @@ def create_budget(AccountId=None, Budget=None, NotificationsWithSubscribers=None
             Address (string) -- [REQUIRED] A generic String.
             
             
-    :type NotificationsWithSubscribers: list
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of CreateBudget
+    
     """
     pass
 
-
 def create_notification(AccountId=None, BudgetName=None, Notification=None, Subscribers=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Create a new Notification with subscribers for a budget
+    
+    
+    :example: response = client.create_notification(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        Subscribers=[
+            {
+                'SubscriptionType': 'SNS'|'EMAIL',
+                'Address': 'string'
+            },
+        ]
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
+
+    :type Subscribers: list
     :param Subscribers: [REQUIRED] A list of subscribers.
             (dict) -- Subscriber model. Each notification may contain multiple subscribers with different addresses.
             SubscriptionType (string) -- [REQUIRED] The subscription type of the subscriber. It can be SMS or EMAIL.
             Address (string) -- [REQUIRED] A generic String.
             
-    :type Subscribers: list
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of CreateNotification
+    
     """
     pass
-
 
 def create_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscriber=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Create a new Subscriber for a notification
+    
+    
+    :example: response = client.create_subscriber(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        Subscriber={
+            'SubscriptionType': 'SNS'|'EMAIL',
+            'Address': 'string'
+        }
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
+
+    :type Subscriber: dict
     :param Subscriber: [REQUIRED] Subscriber model. Each notification may contain multiple subscribers with different addresses.
             SubscriptionType (string) -- [REQUIRED] The subscription type of the subscriber. It can be SMS or EMAIL.
             Address (string) -- [REQUIRED] A generic String.
             
-    :type Subscriber: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of CreateSubscriber
+    
     """
     pass
-
 
 def delete_budget(AccountId=None, BudgetName=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Delete a budget and related notifications
+    
+    
+    :example: response = client.delete_budget(
+        AccountId='string',
+        BudgetName='string'
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of DeleteBudget
+    
     """
     pass
-
 
 def delete_notification(AccountId=None, BudgetName=None, Notification=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Delete a notification and related subscribers
+    
+    
+    :example: response = client.delete_notification(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        }
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of DeleteNotification
+    
     """
     pass
 
-
 def delete_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscriber=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Delete a Subscriber for a notification
+    
+    
+    :example: response = client.delete_subscriber(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        Subscriber={
+            'SubscriptionType': 'SNS'|'EMAIL',
+            'Address': 'string'
+        }
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
+
+    :type Subscriber: dict
     :param Subscriber: [REQUIRED] Subscriber model. Each notification may contain multiple subscribers with different addresses.
             SubscriptionType (string) -- [REQUIRED] The subscription type of the subscriber. It can be SMS or EMAIL.
             Address (string) -- [REQUIRED] A generic String.
             
-    :type Subscriber: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of DeleteSubscriber
+    
     """
     pass
-
 
 def describe_budget(AccountId=None, BudgetName=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Get a single budget
+    
+    
+    :example: response = client.describe_budget(
+        AccountId='string',
+        BudgetName='string'
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :rtype: dict
+    :return: {
+        'Budget': {
+            'BudgetName': 'string',
+            'BudgetLimit': {
+                'Amount': 'string',
+                'Unit': 'string'
+            },
+            'CostFilters': {
+                'string': [
+                    'string',
+                ]
+            },
+            'CostTypes': {
+                'IncludeTax': True|False,
+                'IncludeSubscription': True|False,
+                'UseBlended': True|False
+            },
+            'TimeUnit': 'MONTHLY'|'QUARTERLY'|'ANNUALLY',
+            'TimePeriod': {
+                'Start': datetime(2015, 1, 1),
+                'End': datetime(2015, 1, 1)
+            },
+            'CalculatedSpend': {
+                'ActualSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                },
+                'ForecastedSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                }
+            },
+            'BudgetType': 'USAGE'|'COST'
+        }
+    }
+    
+    
+    :returns: 
+    (dict) -- Response of DescribeBudget
+    Budget (dict) -- AWS Budget model
+    BudgetName (string) -- A string represents the budget name. No ":" character is allowed.
+    BudgetLimit (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    CostFilters (dict) -- A map represents the cost filters applied to the budget.
+    (string) -- A generic String.
+    (list) --
+    (string) -- A generic String.
+    
+    
+    
+    
+    
+    
+    CostTypes (dict) -- This includes the options for getting the cost of a budget.
+    IncludeTax (boolean) -- A generic boolean value.
+    IncludeSubscription (boolean) -- A generic boolean value.
+    UseBlended (boolean) -- A generic boolean value.
+    
+    
+    TimeUnit (string) -- The time unit of the budget. e.g. weekly, monthly, etc.
+    TimePeriod (dict) -- A time period indicated the start date and end date of a budget.
+    Start (datetime) -- A generic timestamp. In Java it is transformed to a Date object.
+    End (datetime) -- A generic timestamp. In Java it is transformed to a Date object.
+    
+    
+    CalculatedSpend (dict) -- A structure holds the actual and forecasted spend for a budget.
+    ActualSpend (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    ForecastedSpend (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    
+    
+    BudgetType (string) -- The type of a budget. Can be COST or USAGE.
+    
+    
+    
+    
+    
     """
     pass
-
 
 def describe_budgets(AccountId=None, MaxResults=None, NextToken=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Get all budgets for an account
+    
+    
+    :example: response = client.describe_budgets(
+        AccountId='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
     :type AccountId: string
-    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type MaxResults: integer
-    :param NextToken: A generic String.
+    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+
     :type NextToken: string
+    :param NextToken: A generic String.
+
+    :rtype: dict
+    :return: {
+        'Budgets': [
+            {
+                'BudgetName': 'string',
+                'BudgetLimit': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                },
+                'CostFilters': {
+                    'string': [
+                        'string',
+                    ]
+                },
+                'CostTypes': {
+                    'IncludeTax': True|False,
+                    'IncludeSubscription': True|False,
+                    'UseBlended': True|False
+                },
+                'TimeUnit': 'MONTHLY'|'QUARTERLY'|'ANNUALLY',
+                'TimePeriod': {
+                    'Start': datetime(2015, 1, 1),
+                    'End': datetime(2015, 1, 1)
+                },
+                'CalculatedSpend': {
+                    'ActualSpend': {
+                        'Amount': 'string',
+                        'Unit': 'string'
+                    },
+                    'ForecastedSpend': {
+                        'Amount': 'string',
+                        'Unit': 'string'
+                    }
+                },
+                'BudgetType': 'USAGE'|'COST'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) -- Response of DescribeBudgets
+    Budgets (list) -- A list of budgets
+    (dict) -- AWS Budget model
+    BudgetName (string) -- A string represents the budget name. No ":" character is allowed.
+    BudgetLimit (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    CostFilters (dict) -- A map represents the cost filters applied to the budget.
+    (string) -- A generic String.
+    (list) --
+    (string) -- A generic String.
+    
+    
+    
+    
+    
+    
+    CostTypes (dict) -- This includes the options for getting the cost of a budget.
+    IncludeTax (boolean) -- A generic boolean value.
+    IncludeSubscription (boolean) -- A generic boolean value.
+    UseBlended (boolean) -- A generic boolean value.
+    
+    
+    TimeUnit (string) -- The time unit of the budget. e.g. weekly, monthly, etc.
+    TimePeriod (dict) -- A time period indicated the start date and end date of a budget.
+    Start (datetime) -- A generic timestamp. In Java it is transformed to a Date object.
+    End (datetime) -- A generic timestamp. In Java it is transformed to a Date object.
+    
+    
+    CalculatedSpend (dict) -- A structure holds the actual and forecasted spend for a budget.
+    ActualSpend (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    ForecastedSpend (dict) -- A structure represent either a cost spend or usage spend. Contains an amount and a unit.
+    Amount (string) -- A string to represent NumericValue.
+    Unit (string) -- A generic String.
+    
+    
+    
+    
+    BudgetType (string) -- The type of a budget. Can be COST or USAGE.
+    
+    
+    
+    
+    NextToken (string) -- A generic String.
+    
+    
+    
     """
     pass
-
 
 def describe_notifications_for_budget(AccountId=None, BudgetName=None, MaxResults=None, NextToken=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Get notifications of a budget
+    
+    
+    :example: response = client.describe_notifications_for_budget(
+        AccountId='string',
+        BudgetName='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
-    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
     :type MaxResults: integer
-    :param NextToken: A generic String.
+    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+
     :type NextToken: string
+    :param NextToken: A generic String.
+
+    :rtype: dict
+    :return: {
+        'Notifications': [
+            {
+                'NotificationType': 'ACTUAL'|'FORECASTED',
+                'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+                'Threshold': 123.0
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) -- Response of GetNotificationsForBudget
+    Notifications (list) -- A list of notifications.
+    (dict) -- Notification model. Each budget may contain multiple notifications with different settings.
+    NotificationType (string) -- The type of a notification. It should be ACTUAL or FORECASTED.
+    ComparisonOperator (string) -- The comparison operator of a notification. Currently we support less than, equal to and greater than.
+    Threshold (float) -- The threshold of the a notification. It should be a number between 0 and 100.
+    
+    
+    
+    
+    NextToken (string) -- A generic String.
+    
+    
+    
     """
     pass
 
-
-def describe_subscribers_for_notification(AccountId=None, BudgetName=None, Notification=None, MaxResults=None,
-                                          NextToken=None):
+def describe_subscribers_for_notification(AccountId=None, BudgetName=None, Notification=None, MaxResults=None, NextToken=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Get subscribers of a notification
+    
+    
+    :example: response = client.describe_subscribers_for_notification(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
-    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+
     :type MaxResults: integer
-    :param NextToken: A generic String.
+    :param MaxResults: An integer to represent how many entries should a pagianted response contains. Maxium is set to 100.
+
     :type NextToken: string
+    :param NextToken: A generic String.
+
+    :rtype: dict
+    :return: {
+        'Subscribers': [
+            {
+                'SubscriptionType': 'SNS'|'EMAIL',
+                'Address': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) -- Response of DescribeSubscribersForNotification
+    Subscribers (list) -- A list of subscribers.
+    (dict) -- Subscriber model. Each notification may contain multiple subscribers with different addresses.
+    SubscriptionType (string) -- The subscription type of the subscriber. It can be SMS or EMAIL.
+    Address (string) -- A generic String.
+    
+    
+    
+    
+    NextToken (string) -- A generic String.
+    
+    
+    
     """
     pass
-
 
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
-    :param ClientMethod: The client method to presign for
+    Generate a presigned url given a client, its method, and arguments
+    
     :type ClientMethod: string
+    :param ClientMethod: The client method to presign for
+
+    :type Params: dict
     :param Params: The parameters normally passed to
             ClientMethod.
-    :type Params: dict
+
+    :type ExpiresIn: int
     :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-    :type ExpiresIn: int
+
+    :type HttpMethod: string
     :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-    :type HttpMethod: string
+
     """
     pass
 
-
 def get_paginator(operation_name=None):
     """
+    Create a paginator for an operation.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            Raises OperationNotPageableErrorRaised if the operation is not
-            pageable. You can use the client.can_paginate method to
-            check if an operation is pageable.
-            Return typeL{botocore.paginate.Paginator}
-            ReturnsA paginator object.
-            
-    :type operation_name: string
+
+    :rtype: L{botocore.paginate.Paginator}
     """
     pass
-
 
 def get_waiter():
     """
+    
     """
     pass
 
-
 def update_budget(AccountId=None, NewBudget=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Update the information of a budget already created
+    
+    
+    :example: response = client.update_budget(
+        AccountId='string',
+        NewBudget={
+            'BudgetName': 'string',
+            'BudgetLimit': {
+                'Amount': 'string',
+                'Unit': 'string'
+            },
+            'CostFilters': {
+                'string': [
+                    'string',
+                ]
+            },
+            'CostTypes': {
+                'IncludeTax': True|False,
+                'IncludeSubscription': True|False,
+                'UseBlended': True|False
+            },
+            'TimeUnit': 'MONTHLY'|'QUARTERLY'|'ANNUALLY',
+            'TimePeriod': {
+                'Start': datetime(2015, 1, 1),
+                'End': datetime(2015, 1, 1)
+            },
+            'CalculatedSpend': {
+                'ActualSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                },
+                'ForecastedSpend': {
+                    'Amount': 'string',
+                    'Unit': 'string'
+                }
+            },
+            'BudgetType': 'USAGE'|'COST'
+        }
+    )
+    
+    
     :type AccountId: string
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
+    :type NewBudget: dict
     :param NewBudget: [REQUIRED] AWS Budget model
             BudgetName (string) -- [REQUIRED] A string represents the budget name. No ':' character is allowed.
             BudgetLimit (dict) -- [REQUIRED] A structure represent either a cost spend or usage spend. Contains an amount and a unit.
@@ -310,54 +838,124 @@ def update_budget(AccountId=None, NewBudget=None):
             
             BudgetType (string) -- [REQUIRED] The type of a budget. Can be COST or USAGE.
             
-    :type NewBudget: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of UpdateBudget
+    
     """
     pass
 
-
 def update_notification(AccountId=None, BudgetName=None, OldNotification=None, NewNotification=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Update the information about a notification already created
+    
+    
+    :example: response = client.update_notification(
+        AccountId='string',
+        BudgetName='string',
+        OldNotification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        NewNotification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        }
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type OldNotification: dict
     :param OldNotification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type OldNotification: dict
+
+    :type NewNotification: dict
     :param NewNotification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type NewNotification: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of UpdateNotification
+    
     """
     pass
 
-
 def update_subscriber(AccountId=None, BudgetName=None, Notification=None, OldSubscriber=None, NewSubscriber=None):
     """
-    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+    Update a subscriber
+    
+    
+    :example: response = client.update_subscriber(
+        AccountId='string',
+        BudgetName='string',
+        Notification={
+            'NotificationType': 'ACTUAL'|'FORECASTED',
+            'ComparisonOperator': 'GREATER_THAN'|'LESS_THAN'|'EQUAL_TO',
+            'Threshold': 123.0
+        },
+        OldSubscriber={
+            'SubscriptionType': 'SNS'|'EMAIL',
+            'Address': 'string'
+        },
+        NewSubscriber={
+            'SubscriptionType': 'SNS'|'EMAIL',
+            'Address': 'string'
+        }
+    )
+    
+    
     :type AccountId: string
-    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+    :param AccountId: [REQUIRED] Account Id of the customer. It should be a 12 digit number.
+
     :type BudgetName: string
+    :param BudgetName: [REQUIRED] A string represents the budget name. No ':' character is allowed.
+
+    :type Notification: dict
     :param Notification: [REQUIRED] Notification model. Each budget may contain multiple notifications with different settings.
             NotificationType (string) -- [REQUIRED] The type of a notification. It should be ACTUAL or FORECASTED.
             ComparisonOperator (string) -- [REQUIRED] The comparison operator of a notification. Currently we support less than, equal to and greater than.
             Threshold (float) -- [REQUIRED] The threshold of the a notification. It should be a number between 0 and 100.
             
-    :type Notification: dict
+
+    :type OldSubscriber: dict
     :param OldSubscriber: [REQUIRED] Subscriber model. Each notification may contain multiple subscribers with different addresses.
             SubscriptionType (string) -- [REQUIRED] The subscription type of the subscriber. It can be SMS or EMAIL.
             Address (string) -- [REQUIRED] A generic String.
             
-    :type OldSubscriber: dict
+
+    :type NewSubscriber: dict
     :param NewSubscriber: [REQUIRED] Subscriber model. Each notification may contain multiple subscribers with different addresses.
             SubscriptionType (string) -- [REQUIRED] The subscription type of the subscriber. It can be SMS or EMAIL.
             Address (string) -- [REQUIRED] A generic String.
             
-    :type NewSubscriber: dict
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) -- Response of UpdateSubscriber
+    
     """
     pass
+

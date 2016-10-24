@@ -1,4 +1,5 @@
-"""
+'''
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Gehad Shaat
@@ -20,11 +21,65 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-"""
 
+'''
 
 def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None):
     """
+    The BatchGetItem operation returns the attributes of one or more items from one or more tables. You identify requested items by primary key.
+    A single operation can retrieve up to 16 MB of data, which can contain as many as 100 items. BatchGetItem will return a partial result if the response size limit is exceeded, the table's provisioned throughput is exceeded, or an internal processing failure occurs. If a partial result is returned, the operation returns a value for UnprocessedKeys . You can use this value to retry the operation starting with the next item to get.
+    For example, if you ask to retrieve 100 items, but each individual item is 300 KB in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also returns an appropriate UnprocessedKeys value so you can get the next page of results. If desired, your application can include its own logic to assemble the pages of results into one data set.
+    If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem will return a ProvisionedThroughputExceededException . If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys .
+    By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables.
+    In order to minimize response latency, BatchGetItem retrieves items in parallel.
+    When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the AttributesToGet parameter.
+    If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see Capacity Units Calculations in the Amazon DynamoDB Developer Guide .
+    
+    
+    :example: response = client.batch_get_item(
+        RequestItems={
+            'string': {
+                'Keys': [
+                    {
+                        'string': {
+                            'S': 'string',
+                            'N': 'string',
+                            'B': b'bytes',
+                            'SS': [
+                                'string',
+                            ],
+                            'NS': [
+                                'string',
+                            ],
+                            'BS': [
+                                b'bytes',
+                            ],
+                            'M': {
+                                'string': {'... recursive ...'}
+                            },
+                            'L': [
+                                {'... recursive ...'},
+                            ],
+                            'NULL': True|False,
+                            'BOOL': True|False
+                        }
+                    },
+                ],
+                'AttributesToGet': [
+                    'string',
+                ],
+                'ConsistentRead': True|False,
+                'ProjectionExpression': 'string',
+                'ExpressionAttributeNames': {
+                    'string': 'string'
+                }
+            }
+        },
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE'
+    )
+    
+    
+    :type RequestItems: dict
     :param RequestItems: [REQUIRED]
             A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request.
             Each element in the map of items to retrieve consists of the following:
@@ -103,19 +158,186 @@ def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None):
             
             
             
-    :type RequestItems: dict
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
+
+    :rtype: dict
+    :return: {
+        'Responses': {
+            'string': [
+                {
+                    'string': {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    }
+                },
+            ]
+        },
+        'UnprocessedKeys': {
+            'string': {
+                'Keys': [
+                    {
+                        'string': {
+                            'S': 'string',
+                            'N': 'string',
+                            'B': b'bytes',
+                            'SS': [
+                                'string',
+                            ],
+                            'NS': [
+                                'string',
+                            ],
+                            'BS': [
+                                b'bytes',
+                            ],
+                            'M': {
+                                'string': {'... recursive ...'}
+                            },
+                            'L': [
+                                {'... recursive ...'},
+                            ],
+                            'NULL': True|False,
+                            'BOOL': True|False
+                        }
+                    },
+                ],
+                'AttributesToGet': [
+                    'string',
+                ],
+                'ConsistentRead': True|False,
+                'ProjectionExpression': 'string',
+                'ExpressionAttributeNames': {
+                    'string': 'string'
+                }
+            }
+        },
+        'ConsumedCapacity': [
+            {
+                'TableName': 'string',
+                'CapacityUnits': 123.0,
+                'Table': {
+                    'CapacityUnits': 123.0
+                },
+                'LocalSecondaryIndexes': {
+                    'string': {
+                        'CapacityUnits': 123.0
+                    }
+                },
+                'GlobalSecondaryIndexes': {
+                    'string': {
+                        'CapacityUnits': 123.0
+                    }
+                }
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
 def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None):
     """
+    The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put or delete requests. Individual items to be written can be as large as 400 KB.
+    The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed.
+    Note that if none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem will return a ProvisionedThroughputExceededException .
+    With BatchWriteItem , you can efficiently write or delete large amounts of data, such as from Amazon Elastic MapReduce (EMR), or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response.
+    If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem provides an alternative where the API performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application.
+    Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit.
+    If one or more of the following is true, DynamoDB rejects the entire batch write operation:
+    
+    
+    :example: response = client.batch_write_item(
+        RequestItems={
+            'string': [
+                {
+                    'PutRequest': {
+                        'Item': {
+                            'string': {
+                                'S': 'string',
+                                'N': 'string',
+                                'B': b'bytes',
+                                'SS': [
+                                    'string',
+                                ],
+                                'NS': [
+                                    'string',
+                                ],
+                                'BS': [
+                                    b'bytes',
+                                ],
+                                'M': {
+                                    'string': {'... recursive ...'}
+                                },
+                                'L': [
+                                    {'... recursive ...'},
+                                ],
+                                'NULL': True|False,
+                                'BOOL': True|False
+                            }
+                        }
+                    },
+                    'DeleteRequest': {
+                        'Key': {
+                            'string': {
+                                'S': 'string',
+                                'N': 'string',
+                                'B': b'bytes',
+                                'SS': [
+                                    'string',
+                                ],
+                                'NS': [
+                                    'string',
+                                ],
+                                'BS': [
+                                    b'bytes',
+                                ],
+                                'M': {
+                                    'string': {'... recursive ...'}
+                                },
+                                'L': [
+                                    {'... recursive ...'},
+                                ],
+                                'NULL': True|False,
+                                'BOOL': True|False
+                            }
+                        }
+                    }
+                },
+            ]
+        },
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ReturnItemCollectionMetrics='SIZE'|'NONE'
+    )
+    
+    
+    :type RequestItems: dict
     :param RequestItems: [REQUIRED]
             A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest ). Each element in the map consists of the following:
             DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
@@ -181,38 +403,372 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
             
             
             
-    :type RequestItems: dict
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
-    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
     :type ReturnItemCollectionMetrics: string
+    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
+    :rtype: dict
+    :return: {
+        'UnprocessedItems': {
+            'string': [
+                {
+                    'PutRequest': {
+                        'Item': {
+                            'string': {
+                                'S': 'string',
+                                'N': 'string',
+                                'B': b'bytes',
+                                'SS': [
+                                    'string',
+                                ],
+                                'NS': [
+                                    'string',
+                                ],
+                                'BS': [
+                                    b'bytes',
+                                ],
+                                'M': {
+                                    'string': {'... recursive ...'}
+                                },
+                                'L': [
+                                    {'... recursive ...'},
+                                ],
+                                'NULL': True|False,
+                                'BOOL': True|False
+                            }
+                        }
+                    },
+                    'DeleteRequest': {
+                        'Key': {
+                            'string': {
+                                'S': 'string',
+                                'N': 'string',
+                                'B': b'bytes',
+                                'SS': [
+                                    'string',
+                                ],
+                                'NS': [
+                                    'string',
+                                ],
+                                'BS': [
+                                    b'bytes',
+                                ],
+                                'M': {
+                                    'string': {'... recursive ...'}
+                                },
+                                'L': [
+                                    {'... recursive ...'},
+                                ],
+                                'NULL': True|False,
+                                'BOOL': True|False
+                            }
+                        }
+                    }
+                },
+            ]
+        },
+        'ItemCollectionMetrics': {
+            'string': [
+                {
+                    'ItemCollectionKey': {
+                        'string': {
+                            'S': 'string',
+                            'N': 'string',
+                            'B': b'bytes',
+                            'SS': [
+                                'string',
+                            ],
+                            'NS': [
+                                'string',
+                            ],
+                            'BS': [
+                                b'bytes',
+                            ],
+                            'M': {
+                                'string': {'... recursive ...'}
+                            },
+                            'L': [
+                                {'... recursive ...'},
+                            ],
+                            'NULL': True|False,
+                            'BOOL': True|False
+                        }
+                    },
+                    'SizeEstimateRangeGB': [
+                        123.0,
+                    ]
+                },
+            ]
+        },
+        'ConsumedCapacity': [
+            {
+                'TableName': 'string',
+                'CapacityUnits': 123.0,
+                'Table': {
+                    'CapacityUnits': 123.0
+                },
+                'LocalSecondaryIndexes': {
+                    'string': {
+                        'CapacityUnits': 123.0
+                    }
+                },
+                'GlobalSecondaryIndexes': {
+                    'string': {
+                        'CapacityUnits': 123.0
+                    }
+                }
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    RequestItems (dict) -- [REQUIRED]
+    A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest ). Each element in the map consists of the following:
+    
+    DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
+    Key - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
+    
+    
+    PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:
+    Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
+    
+    
+    
+    
+    (string) --
+    (list) --
+    (dict) --Represents an operation to perform - either DeleteItem or PutItem . You can only request one of these operations, not both, in a single WriteRequest . If you do need to perform both of these operations, you will need to provide two separate WriteRequest objects.
+    
+    PutRequest (dict) --A request to perform a PutItem operation.
+    
+    Item (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem . All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
+    
+    (string) --
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    S (string) --A String data type.
+    
+    N (string) --A Number data type.
+    
+    B (bytes) --A Binary data type.
+    
+    SS (list) --A String Set data type.
+    
+    (string) --
+    
+    
+    NS (list) --A Number Set data type.
+    
+    (string) --
+    
+    
+    BS (list) --A Binary Set data type.
+    
+    (bytes) --
+    
+    
+    M (dict) --A Map of attribute values.
+    
+    (string) --
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    
+    
+    
+    
+    L (list) --A List of attribute values.
+    
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    
+    
+    NULL (boolean) --A Null data type.
+    
+    BOOL (boolean) --A Boolean data type.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    DeleteRequest (dict) --A request to perform a DeleteItem operation.
+    
+    Key (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
+    
+    (string) --
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    S (string) --A String data type.
+    
+    N (string) --A Number data type.
+    
+    B (bytes) --A Binary data type.
+    
+    SS (list) --A String Set data type.
+    
+    (string) --
+    
+    
+    NS (list) --A Number Set data type.
+    
+    (string) --
+    
+    
+    BS (list) --A Binary Set data type.
+    
+    (bytes) --
+    
+    
+    M (dict) --A Map of attribute values.
+    
+    (string) --
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    
+    
+    
+    
+    L (list) --A List of attribute values.
+    
+    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
+    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    
+    
+    
+    NULL (boolean) --A Null data type.
+    
+    BOOL (boolean) --A Boolean data type.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ReturnConsumedCapacity (string) -- Determines the level of detail about provisioned throughput consumption that is returned in the response:
+    
+    INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    NONE - No ConsumedCapacity details are included in the response.
+    
+    
+    ReturnItemCollectionMetrics (string) -- Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+    
     """
     pass
 
-
 def can_paginate(operation_name=None):
     """
+    Check if an operation can be paginated.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            ReturnsTrue if the operation can be paginated,
-            False otherwise.
-            
-    :type operation_name: string
+
     """
     pass
 
-
-def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None,
-                 GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None):
+def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None, GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None):
     """
+    The CreateTable operation adds a new table to your account. In an AWS account, table names must be unique within each region. That is, you can have two tables with same name if you create the tables in different regions.
+    You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time.
+    You can use the DescribeTable API to check the table status.
+    
+    
+    :example: response = client.create_table(
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'string',
+                'AttributeType': 'S'|'N'|'B'
+            },
+        ],
+        TableName='string',
+        KeySchema=[
+            {
+                'AttributeName': 'string',
+                'KeyType': 'HASH'|'RANGE'
+            },
+        ],
+        LocalSecondaryIndexes=[
+            {
+                'IndexName': 'string',
+                'KeySchema': [
+                    {
+                        'AttributeName': 'string',
+                        'KeyType': 'HASH'|'RANGE'
+                    },
+                ],
+                'Projection': {
+                    'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                    'NonKeyAttributes': [
+                        'string',
+                    ]
+                }
+            },
+        ],
+        GlobalSecondaryIndexes=[
+            {
+                'IndexName': 'string',
+                'KeySchema': [
+                    {
+                        'AttributeName': 'string',
+                        'KeyType': 'HASH'|'RANGE'
+                    },
+                ],
+                'Projection': {
+                    'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                    'NonKeyAttributes': [
+                        'string',
+                    ]
+                },
+                'ProvisionedThroughput': {
+                    'ReadCapacityUnits': 123,
+                    'WriteCapacityUnits': 123
+                }
+            },
+        ],
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 123,
+            'WriteCapacityUnits': 123
+        },
+        StreamSpecification={
+            'StreamEnabled': True|False,
+            'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+        }
+    )
+    
+    
+    :type AttributeDefinitions: list
     :param AttributeDefinitions: [REQUIRED]
             An array of attributes that describe the key schema for the table and indexes.
             (dict) --Represents an attribute for describing the key schema for the table and indexes.
@@ -223,11 +779,13 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             B - the attribute is of type Binary
             
             
-    :type AttributeDefinitions: list
+
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table to create.
             
-    :type TableName: string
+
+    :type KeySchema: list
     :param KeySchema: [REQUIRED]
             Specifies the attributes that make up the primary key for a table or an index. The attributes in KeySchema must also be defined in the AttributeDefinitions array. For more information, see Data Model in the Amazon DynamoDB Developer Guide .
             Each KeySchemaElement in the array is composed of:
@@ -254,7 +812,8 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
             
             
-    :type KeySchema: list
+
+    :type LocalSecondaryIndexes: list
     :param LocalSecondaryIndexes: One or more local secondary indexes (the maximum is five) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained.
             Each local secondary index in the array includes the following:
             IndexName - The name of the local secondary index. Must be unique only for this table.
@@ -295,7 +854,8 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             (string) --
             
             
-    :type LocalSecondaryIndexes: list
+
+    :type GlobalSecondaryIndexes: list
     :param GlobalSecondaryIndexes: One or more global secondary indexes (the maximum is five) to be created on the table. Each global secondary index in the array includes the following:
             IndexName - The name of the global secondary index. Must be unique only for this table.
             KeySchema - Specifies the key schema for the global secondary index.
@@ -340,14 +900,16 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
             
-    :type GlobalSecondaryIndexes: list
+
+    :type ProvisionedThroughput: dict
     :param ProvisionedThroughput: [REQUIRED]
             Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
-    :type ProvisionedThroughput: dict
+
+    :type StreamSpecification: dict
     :param StreamSpecification: The settings for DynamoDB Streams on the table. These settings consist of:
             StreamEnabled - Indicates whether Streams is to be enabled (true) or disabled (false).
             StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values for StreamViewType are:
@@ -366,19 +928,228 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
             
-    :type StreamSpecification: dict
+
+    :rtype: dict
+    :return: {
+        'TableDescription': {
+            'AttributeDefinitions': [
+                {
+                    'AttributeName': 'string',
+                    'AttributeType': 'S'|'N'|'B'
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
+                    'AttributeName': 'string',
+                    'KeyType': 'HASH'|'RANGE'
+                },
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'LocalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+                    'Backfilling': True|False,
+                    'ProvisionedThroughput': {
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    AttributeName - The name of the attribute.
+    AttributeType - The data type for the attribute.
+    
     """
     pass
 
-
-def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=None, ReturnValues=None,
-                ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionExpression=None,
-                ExpressionAttributeNames=None, ExpressionAttributeValues=None):
+def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
+    Deletes a single item in a table by primary key. You can perform a conditional delete operation that deletes the item if it exists, or if it has an expected attribute value.
+    In addition to deleting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter.
+    Unless you specify conditions, the DeleteItem is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response.
+    Conditional deletes are useful for deleting items only if specific conditions are met. If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not deleted.
+    
+    
+    :example: response = client.delete_item(
+        TableName='string',
+        Key={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        Expected={
+            'string': {
+                'Value': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                },
+                'Exists': True|False,
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH',
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ]
+            }
+        },
+        ConditionalOperator='AND'|'OR',
+        ReturnValues='NONE'|'ALL_OLD'|'UPDATED_OLD'|'ALL_NEW'|'UPDATED_NEW',
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ReturnItemCollectionMetrics='SIZE'|'NONE',
+        ConditionExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        },
+        ExpressionAttributeValues={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        }
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table from which to delete the item.
             
-    :type TableName: string
+
+    :type Key: dict
     :param Key: [REQUIRED]
             A map of attribute names to AttributeValue objects, representing the primary key of the item to delete.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
@@ -406,7 +1177,8 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             BOOL (boolean) --A Boolean data type.
             
             
-    :type Key: dict
+
+    :type Expected: dict
     :param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -527,7 +1299,8 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             
             
             
-    :type Expected: dict
+
+    :type ConditionalOperator: string
     :param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -539,22 +1312,26 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             Note
             This parameter does not support attributes of type List or Map.
             
-    :type ConditionalOperator: string
+
+    :type ReturnValues: string
     :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - The content of the old item is returned.
             Note
             The ReturnValues parameter is used by several DynamoDB operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD .
             
-    :type ReturnValues: string
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
-    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
     :type ReturnItemCollectionMetrics: string
+    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
+    :type ConditionExpression: string
     :param ConditionExpression: A condition that must be satisfied in order for a conditional DeleteItem to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
@@ -564,7 +1341,8 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-    :type ConditionExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -581,7 +1359,8 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :type ExpressionAttributeValues: dict
     :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
@@ -614,587 +1393,409 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExpressionAttributeValues: dict
+
+    :rtype: dict
+    :return: {
+        'Attributes': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        },
+        'ItemCollectionMetrics': {
+            'ItemCollectionKey': {
+                'string': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                }
+            },
+            'SizeEstimateRangeGB': [
+                123.0,
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
-
 
 def delete_table(TableName=None):
     """
+    The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException . If the specified table does not exist, DynamoDB returns a ResourceNotFoundException . If table is already in the DELETING state, no error is returned.
+    When you delete a table, any indexes on that table are also deleted.
+    If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours.
+    Use the DescribeTable API to check the status of the table.
+    
+    
+    :example: response = client.delete_table(
+        TableName='string'
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table to delete.
-            Return typedict
-            ReturnsResponse Syntax{
-              'TableDescription': {
-                'AttributeDefinitions': [
-                  {
+            
+
+    :rtype: dict
+    :return: {
+        'TableDescription': {
+            'AttributeDefinitions': [
+                {
                     'AttributeName': 'string',
                     'AttributeType': 'S'|'N'|'B'
-                  },
-                ],
-                'TableName': 'string',
-                'KeySchema': [
-                  {
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
                     'AttributeName': 'string',
                     'KeyType': 'HASH'|'RANGE'
-                  },
-                ],
-                'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
-                'CreationDateTime': datetime(2015, 1, 1),
-                'ProvisionedThroughput': {
-                  'LastIncreaseDateTime': datetime(2015, 1, 1),
-                  'LastDecreaseDateTime': datetime(2015, 1, 1),
-                  'NumberOfDecreasesToday': 123,
-                  'ReadCapacityUnits': 123,
-                  'WriteCapacityUnits': 123
                 },
-                'TableSizeBytes': 123,
-                'ItemCount': 123,
-                'TableArn': 'string',
-                'LocalSecondaryIndexes': [
-                  {
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'LocalSecondaryIndexes': [
+                {
                     'IndexName': 'string',
                     'KeySchema': [
-                      {
-                        'AttributeName': 'string',
-                        'KeyType': 'HASH'|'RANGE'
-                      },
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
                     ],
                     'Projection': {
-                      'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
-                      'NonKeyAttributes': [
-                        'string',
-                      ]
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
                     },
                     'IndexSizeBytes': 123,
                     'ItemCount': 123,
                     'IndexArn': 'string'
-                  },
-                ],
-                'GlobalSecondaryIndexes': [
-                  {
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
                     'IndexName': 'string',
                     'KeySchema': [
-                      {
-                        'AttributeName': 'string',
-                        'KeyType': 'HASH'|'RANGE'
-                      },
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
                     ],
                     'Projection': {
-                      'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
-                      'NonKeyAttributes': [
-                        'string',
-                      ]
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
                     },
                     'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
                     'Backfilling': True|False,
                     'ProvisionedThroughput': {
-                      'LastIncreaseDateTime': datetime(2015, 1, 1),
-                      'LastDecreaseDateTime': datetime(2015, 1, 1),
-                      'NumberOfDecreasesToday': 123,
-                      'ReadCapacityUnits': 123,
-                      'WriteCapacityUnits': 123
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
                     },
                     'IndexSizeBytes': 123,
                     'ItemCount': 123,
                     'IndexArn': 'string'
-                  },
-                ],
-                'StreamSpecification': {
-                  'StreamEnabled': True|False,
-                  'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
                 },
-                'LatestStreamLabel': 'string',
-                'LatestStreamArn': 'string'
-              }
-            }
-            Response Structure
-            (dict) --Represents the output of a DeleteTable operation.
-            TableDescription (dict) --Represents the properties of a table.
-            AttributeDefinitions (list) --An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema.
-            Each AttributeDefinition object in this array is composed of:
-            AttributeName - The name of the attribute.
-            AttributeType - The data type for the attribute.
-            (dict) --Represents an attribute for describing the key schema for the table and indexes.
-            AttributeName (string) --A name for the attribute.
-            AttributeType (string) --The data type for the attribute, where:
-            S - the attribute is of type String
-            N - the attribute is of type Number
-            B - the attribute is of type Binary
-            
-            TableName (string) --The name of the table.
-            KeySchema (list) --The primary key structure for the table. Each KeySchemaElement consists of:
-            AttributeName - The name of the attribute.
-            KeyType - The role of the attribute:
-            HASH - partition key
-            RANGE - sort key
-            
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide .
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            TableStatus (string) --The current state of the table:
-            CREATING - The table is being created.
-            UPDATING - The table is being updated.
-            DELETING - The table is being deleted.
-            ACTIVE - The table is ready for use.
-            CreationDateTime (datetime) --The date and time when the table was created, in UNIX epoch time format.
-            ProvisionedThroughput (dict) --The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
-            LastIncreaseDateTime (datetime) --The date and time of the last provisioned throughput increase for this table.
-            LastDecreaseDateTime (datetime) --The date and time of the last provisioned throughput decrease for this table.
-            NumberOfDecreasesToday (integer) --The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide .
-            ReadCapacityUnits (integer) --The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
-            WriteCapacityUnits (integer) --The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException .
-            TableSizeBytes (integer) --The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            TableArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the table.
-            LocalSecondaryIndexes (list) --Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:
-            IndexName - The name of the local secondary index.
-            KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.
-            Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
-            ProjectionType - One of the following:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes , summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            If the table is in the DELETING state, no information about indexes will be returned.
-            (dict) --Represents the properties of a local secondary index.
-            IndexName (string) --Represents the name of the local secondary index.
-            KeySchema (list) --The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            Projection (dict) --Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-            ProjectionType (string) --The set of attributes that are projected into the index:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes (list) --Represents the non-key attribute names which will be projected into the index.
-            For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            (string) --
-            
-            IndexSizeBytes (integer) --The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the index.
-            
-            GlobalSecondaryIndexes (list) --The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:
-            Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table; it is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)
-            IndexName - The name of the global secondary index.
-            IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexStatus - The current status of the global secondary index:
-            CREATING - The index is being created.
-            UPDATING - The index is being updated.
-            DELETING - The index is being deleted.
-            ACTIVE - The index is ready for use.
-            ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.
-            Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
-            ProjectionType - One of the following:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes , summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.
-            If the table is in the DELETING state, no information about indexes will be returned.
-            (dict) --Represents the properties of a global secondary index.
-            IndexName (string) --The name of the global secondary index.
-            KeySchema (list) --The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            Projection (dict) --Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-            ProjectionType (string) --The set of attributes that are projected into the index:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes (list) --Represents the non-key attribute names which will be projected into the index.
-            For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            (string) --
-            
-            IndexStatus (string) --The current state of the global secondary index:
-            CREATING - The index is being created.
-            UPDATING - The index is being updated.
-            DELETING - The index is being deleted.
-            ACTIVE - The index is ready for use.
-            Backfilling (boolean) --Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false.
-            Note
-            For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output.
-            ProvisionedThroughput (dict) --Represents the provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
-            LastIncreaseDateTime (datetime) --The date and time of the last provisioned throughput increase for this table.
-            LastDecreaseDateTime (datetime) --The date and time of the last provisioned throughput decrease for this table.
-            NumberOfDecreasesToday (integer) --The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide .
-            ReadCapacityUnits (integer) --The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
-            WriteCapacityUnits (integer) --The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException .
-            IndexSizeBytes (integer) --The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the index.
-            
-            StreamSpecification (dict) --The current DynamoDB Streams configuration for the table.
-            StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
-            StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
-            KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
-            NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
-            OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
-            NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
-            
-            LatestStreamLabel (string) --A timestamp, in ISO 8601 format, for this stream.
-            Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
-            the AWS customer ID.
-            the table name.
-            the StreamLabel .
-            LatestStreamArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
-            
-            
-            
-    :type TableName: string
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    S - the attribute is of type String
+    N - the attribute is of type Number
+    B - the attribute is of type Binary
+    
     """
     pass
-
 
 def describe_limits():
     """
+    Returns the current provisioned-capacity limits for your AWS account in a region, both for the region as a whole and for any one DynamoDB table that you create there.
+    When you establish an AWS account, the account has initial limits on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given region. Also, there are per-table limits that apply when you create a table there. For more information, see Limits page in the Amazon DynamoDB Developer Guide .
+    Although you can increase these limits by filing a case at AWS Support Center , obtaining the increase is not instantaneous. The DescribeLimits API lets you write code to compare the capacity you are currently using to those limits imposed by your account so that you have enough time to apply for an increase before you hit a limit.
+    For example, you could use one of the AWS SDKs to do the following:
+    This will let you see whether you are getting close to your account-level limits.
+    The per-table limits apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes.
+    For existing tables and their GSIs, DynamoDB will not let you increase provisioned capacity extremely rapidly, but the only upper limit that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account limits.
+    The DescribeLimits Request element has no content.
+    
+    
+    :example: response = client.describe_limits()
+    
+    
+    :rtype: dict
+    :return: {
+        'AccountMaxReadCapacityUnits': 123,
+        'AccountMaxWriteCapacityUnits': 123,
+        'TableMaxReadCapacityUnits': 123,
+        'TableMaxWriteCapacityUnits': 123
+    }
+    
+    
     """
     pass
 
-
 def describe_table(TableName=None):
     """
+    Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.
+    
+    
+    :example: response = client.describe_table(
+        TableName='string'
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table to describe.
-            Return typedict
-            ReturnsResponse Syntax{
-              'Table': {
-                'AttributeDefinitions': [
-                  {
+            
+
+    :rtype: dict
+    :return: {
+        'Table': {
+            'AttributeDefinitions': [
+                {
                     'AttributeName': 'string',
                     'AttributeType': 'S'|'N'|'B'
-                  },
-                ],
-                'TableName': 'string',
-                'KeySchema': [
-                  {
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
                     'AttributeName': 'string',
                     'KeyType': 'HASH'|'RANGE'
-                  },
-                ],
-                'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
-                'CreationDateTime': datetime(2015, 1, 1),
-                'ProvisionedThroughput': {
-                  'LastIncreaseDateTime': datetime(2015, 1, 1),
-                  'LastDecreaseDateTime': datetime(2015, 1, 1),
-                  'NumberOfDecreasesToday': 123,
-                  'ReadCapacityUnits': 123,
-                  'WriteCapacityUnits': 123
                 },
-                'TableSizeBytes': 123,
-                'ItemCount': 123,
-                'TableArn': 'string',
-                'LocalSecondaryIndexes': [
-                  {
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'LocalSecondaryIndexes': [
+                {
                     'IndexName': 'string',
                     'KeySchema': [
-                      {
-                        'AttributeName': 'string',
-                        'KeyType': 'HASH'|'RANGE'
-                      },
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
                     ],
                     'Projection': {
-                      'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
-                      'NonKeyAttributes': [
-                        'string',
-                      ]
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
                     },
                     'IndexSizeBytes': 123,
                     'ItemCount': 123,
                     'IndexArn': 'string'
-                  },
-                ],
-                'GlobalSecondaryIndexes': [
-                  {
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
                     'IndexName': 'string',
                     'KeySchema': [
-                      {
-                        'AttributeName': 'string',
-                        'KeyType': 'HASH'|'RANGE'
-                      },
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
                     ],
                     'Projection': {
-                      'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
-                      'NonKeyAttributes': [
-                        'string',
-                      ]
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
                     },
                     'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
                     'Backfilling': True|False,
                     'ProvisionedThroughput': {
-                      'LastIncreaseDateTime': datetime(2015, 1, 1),
-                      'LastDecreaseDateTime': datetime(2015, 1, 1),
-                      'NumberOfDecreasesToday': 123,
-                      'ReadCapacityUnits': 123,
-                      'WriteCapacityUnits': 123
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
                     },
                     'IndexSizeBytes': 123,
                     'ItemCount': 123,
                     'IndexArn': 'string'
-                  },
-                ],
-                'StreamSpecification': {
-                  'StreamEnabled': True|False,
-                  'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
                 },
-                'LatestStreamLabel': 'string',
-                'LatestStreamArn': 'string'
-              }
-            }
-            Response Structure
-            (dict) --Represents the output of a DescribeTable operation.
-            Table (dict) --Represents the properties of a table.
-            AttributeDefinitions (list) --An array of AttributeDefinition objects. Each of these objects describes one attribute in the table and index key schema.
-            Each AttributeDefinition object in this array is composed of:
-            AttributeName - The name of the attribute.
-            AttributeType - The data type for the attribute.
-            (dict) --Represents an attribute for describing the key schema for the table and indexes.
-            AttributeName (string) --A name for the attribute.
-            AttributeType (string) --The data type for the attribute, where:
-            S - the attribute is of type String
-            N - the attribute is of type Number
-            B - the attribute is of type Binary
-            
-            TableName (string) --The name of the table.
-            KeySchema (list) --The primary key structure for the table. Each KeySchemaElement consists of:
-            AttributeName - The name of the attribute.
-            KeyType - The role of the attribute:
-            HASH - partition key
-            RANGE - sort key
-            
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide .
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            TableStatus (string) --The current state of the table:
-            CREATING - The table is being created.
-            UPDATING - The table is being updated.
-            DELETING - The table is being deleted.
-            ACTIVE - The table is ready for use.
-            CreationDateTime (datetime) --The date and time when the table was created, in UNIX epoch time format.
-            ProvisionedThroughput (dict) --The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
-            LastIncreaseDateTime (datetime) --The date and time of the last provisioned throughput increase for this table.
-            LastDecreaseDateTime (datetime) --The date and time of the last provisioned throughput decrease for this table.
-            NumberOfDecreasesToday (integer) --The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide .
-            ReadCapacityUnits (integer) --The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
-            WriteCapacityUnits (integer) --The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException .
-            TableSizeBytes (integer) --The total size of the specified table, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified table. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            TableArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the table.
-            LocalSecondaryIndexes (list) --Represents one or more local secondary indexes on the table. Each index is scoped to a given partition key value. Tables with one or more local secondary indexes are subject to an item collection size limit, where the amount of data within a given item collection cannot exceed 10 GB. Each element is composed of:
-            IndexName - The name of the local secondary index.
-            KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.
-            Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
-            ProjectionType - One of the following:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes , summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            IndexSizeBytes - Represents the total size of the index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount - Represents the number of items in the index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            If the table is in the DELETING state, no information about indexes will be returned.
-            (dict) --Represents the properties of a local secondary index.
-            IndexName (string) --Represents the name of the local secondary index.
-            KeySchema (list) --The complete key schema for the local secondary index, consisting of one or more pairs of attribute names and key types:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            Projection (dict) --Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-            ProjectionType (string) --The set of attributes that are projected into the index:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes (list) --Represents the non-key attribute names which will be projected into the index.
-            For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            (string) --
-            
-            IndexSizeBytes (integer) --The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the index.
-            
-            GlobalSecondaryIndexes (list) --The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:
-            Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table; it is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)
-            IndexName - The name of the global secondary index.
-            IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexStatus - The current status of the global secondary index:
-            CREATING - The index is being created.
-            UPDATING - The index is being updated.
-            DELETING - The index is being deleted.
-            ACTIVE - The index is ready for use.
-            ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.
-            Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
-            ProjectionType - One of the following:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes , summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.
-            If the table is in the DELETING state, no information about indexes will be returned.
-            (dict) --Represents the properties of a global secondary index.
-            IndexName (string) --The name of the global secondary index.
-            KeySchema (list) --The complete key schema for a global secondary index, which consists of one or more pairs of attribute names and key types:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
-            A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
-            A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
-            AttributeName (string) --The name of a key attribute.
-            KeyType (string) --The role that this key attribute will assume:
-            HASH - partition key
-            RANGE - sort key
-            Note
-            The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
-            The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
-            
-            Projection (dict) --Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
-            ProjectionType (string) --The set of attributes that are projected into the index:
-            KEYS_ONLY - Only the index and primary keys are projected into the index.
-            INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
-            ALL - All of the table attributes are projected into the index.
-            NonKeyAttributes (list) --Represents the non-key attribute names which will be projected into the index.
-            For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
-            (string) --
-            
-            IndexStatus (string) --The current state of the global secondary index:
-            CREATING - The index is being created.
-            UPDATING - The index is being updated.
-            DELETING - The index is being deleted.
-            ACTIVE - The index is ready for use.
-            Backfilling (boolean) --Indicates whether the index is currently backfilling. Backfilling is the process of reading items from the table and determining whether they can be added to the index. (Not all items will qualify: For example, a partition key cannot have any duplicate values.) If an item can be added to the index, DynamoDB will do so. After all items have been processed, the backfilling operation is complete and Backfilling is false.
-            Note
-            For indexes that were created during a CreateTable operation, the Backfilling attribute does not appear in the DescribeTable output.
-            ProvisionedThroughput (dict) --Represents the provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
-            LastIncreaseDateTime (datetime) --The date and time of the last provisioned throughput increase for this table.
-            LastDecreaseDateTime (datetime) --The date and time of the last provisioned throughput decrease for this table.
-            NumberOfDecreasesToday (integer) --The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide .
-            ReadCapacityUnits (integer) --The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
-            WriteCapacityUnits (integer) --The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException .
-            IndexSizeBytes (integer) --The total size of the specified index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            ItemCount (integer) --The number of items in the specified index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.
-            IndexArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the index.
-            
-            StreamSpecification (dict) --The current DynamoDB Streams configuration for the table.
-            StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
-            StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
-            KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
-            NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
-            OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
-            NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
-            
-            LatestStreamLabel (string) --A timestamp, in ISO 8601 format, for this stream.
-            Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:
-            the AWS customer ID.
-            the table name.
-            the StreamLabel .
-            LatestStreamArn (string) --The Amazon Resource Name (ARN) that uniquely identifies the latest stream for this table.
-            
-            
-            
-    :type TableName: string
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    S - the attribute is of type String
+    N - the attribute is of type Number
+    B - the attribute is of type Binary
+    
     """
     pass
-
 
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
-    :param ClientMethod: The client method to presign for
+    Generate a presigned url given a client, its method, and arguments
+    
     :type ClientMethod: string
+    :param ClientMethod: The client method to presign for
+
+    :type Params: dict
     :param Params: The parameters normally passed to
             ClientMethod.
-    :type Params: dict
+
+    :type ExpiresIn: int
     :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-    :type ExpiresIn: int
+
+    :type HttpMethod: string
     :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-    :type HttpMethod: string
+
     """
     pass
 
-
-def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None,
-             ProjectionExpression=None, ExpressionAttributeNames=None):
+def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None, ProjectionExpression=None, ExpressionAttributeNames=None):
     """
+    The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data.
+    
+    
+    :example: response = client.get_item(
+        TableName='string',
+        Key={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        AttributesToGet=[
+            'string',
+        ],
+        ConsistentRead=True|False,
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ProjectionExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table containing the requested item.
             
-    :type TableName: string
+
+    :type Key: dict
     :param Key: [REQUIRED]
             A map of attribute names to AttributeValue objects, representing the primary key of the item to retrieve.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
@@ -1222,7 +1823,8 @@ def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None
             BOOL (boolean) --A Boolean data type.
             
             
-    :type Key: dict
+
+    :type AttributesToGet: list
     :param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1231,22 +1833,26 @@ def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None
             Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
             (string) --
             
-    :type AttributesToGet: list
-    :param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
+
     :type ConsistentRead: boolean
+    :param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
+
+    :type ProjectionExpression: string
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-    :type ProjectionExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -1263,54 +1869,241 @@ def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :rtype: dict
+    :return: {
+        'Item': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
 def get_paginator(operation_name=None):
     """
+    Create a paginator for an operation.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            Raises OperationNotPageableErrorRaised if the operation is not
-            pageable. You can use the client.can_paginate method to
-            check if an operation is pageable.
-            Return typeL{botocore.paginate.Paginator}
-            ReturnsA paginator object.
-            
-    :type operation_name: string
+
+    :rtype: L{botocore.paginate.Paginator}
     """
     pass
-
 
 def get_waiter():
     """
+    
     """
     pass
-
 
 def list_tables(ExclusiveStartTableName=None, Limit=None):
     """
-    :param ExclusiveStartTableName: The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
+    Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
+    
+    
+    :example: response = client.list_tables(
+        ExclusiveStartTableName='string',
+        Limit=123
+    )
+    
+    
     :type ExclusiveStartTableName: string
-    :param Limit: A maximum number of table names to return. If this parameter is not specified, the limit is 100.
+    :param ExclusiveStartTableName: The first table name that this operation will evaluate. Use the value that was returned for LastEvaluatedTableName in a previous operation, so that you can obtain the next page of results.
+
     :type Limit: integer
+    :param Limit: A maximum number of table names to return. If this parameter is not specified, the limit is 100.
+
+    :rtype: dict
+    :return: {
+        'TableNames': [
+            'string',
+        ],
+        'LastEvaluatedTableName': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
-def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None,
-             ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None,
-             ExpressionAttributeNames=None, ExpressionAttributeValues=None):
+def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
+    Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values.
+    In addition to putting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter.
+    When you add an item, the primary key attribute(s) are the only required attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes cannot be empty. Requests with empty values will be rejected with a ValidationException exception.
+    You can request that PutItem return either a copy of the original item (before the update) or a copy of the updated item (after the update). For more information, see the ReturnValues description below.
+    For more information about using this API, see Working with Items in the Amazon DynamoDB Developer Guide .
+    
+    
+    :example: response = client.put_item(
+        TableName='string',
+        Item={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        Expected={
+            'string': {
+                'Value': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                },
+                'Exists': True|False,
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH',
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ]
+            }
+        },
+        ReturnValues='NONE'|'ALL_OLD'|'UPDATED_OLD'|'ALL_NEW'|'UPDATED_NEW',
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ReturnItemCollectionMetrics='SIZE'|'NONE',
+        ConditionalOperator='AND'|'OR',
+        ConditionExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        },
+        ExpressionAttributeValues={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        }
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table to contain the item.
             
-    :type TableName: string
+
+    :type Item: dict
     :param Item: [REQUIRED]
             A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item.
             You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key.
@@ -1341,7 +2134,8 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             BOOL (boolean) --A Boolean data type.
             
             
-    :type Item: dict
+
+    :type Expected: dict
     :param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1462,22 +2256,26 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             
             
             
-    :type Expected: dict
+
+    :type ReturnValues: string
     :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.
             Note
             The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD .
             
-    :type ReturnValues: string
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
-    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
     :type ReturnItemCollectionMetrics: string
+    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
+    :type ConditionalOperator: string
     :param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1489,7 +2287,8 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             Note
             This parameter does not support attributes of type List or Map.
             
-    :type ConditionalOperator: string
+
+    :type ConditionExpression: string
     :param ConditionExpression: A condition that must be satisfied in order for a conditional PutItem operation to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
@@ -1499,7 +2298,8 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-    :type ConditionExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -1516,7 +2316,8 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :type ExpressionAttributeValues: dict
     :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
@@ -1549,22 +2350,233 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExpressionAttributeValues: dict
+
+    :rtype: dict
+    :return: {
+        'Attributes': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        },
+        'ItemCollectionMetrics': {
+            'ItemCollectionKey': {
+                'string': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                }
+            },
+            'SizeEstimateRangeGB': [
+                123.0,
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
-def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Limit=None, ConsistentRead=None,
-          KeyConditions=None, QueryFilter=None, ConditionalOperator=None, ScanIndexForward=None, ExclusiveStartKey=None,
-          ReturnConsumedCapacity=None, ProjectionExpression=None, FilterExpression=None, KeyConditionExpression=None,
-          ExpressionAttributeNames=None, ExpressionAttributeValues=None):
+def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Limit=None, ConsistentRead=None, KeyConditions=None, QueryFilter=None, ConditionalOperator=None, ScanIndexForward=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, ProjectionExpression=None, FilterExpression=None, KeyConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
+    A Query operation uses the primary key of a table or a secondary index to directly access items from that table or index.
+    Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression . You can use the ScanIndexForward parameter to get results in forward or reverse order, by sort key.
+    Queries that do not return results consume the minimum number of read capacity units for that type of read operation.
+    If the total number of items meeting the query criteria exceeds the result set size limit of 1 MB, the query stops and results are returned to the user with the LastEvaluatedKey element to continue the query in a subsequent operation. Unlike a Scan operation, a Query operation never returns both an empty result set and a LastEvaluatedKey value. LastEvaluatedKey is only provided if you have used the Limit parameter, or if the result set exceeds 1 MB (prior to applying a filter).
+    You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
+    
+    
+    :example: response = client.query(
+        TableName='string',
+        IndexName='string',
+        Select='ALL_ATTRIBUTES'|'ALL_PROJECTED_ATTRIBUTES'|'SPECIFIC_ATTRIBUTES'|'COUNT',
+        AttributesToGet=[
+            'string',
+        ],
+        Limit=123,
+        ConsistentRead=True|False,
+        KeyConditions={
+            'string': {
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ],
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH'
+            }
+        },
+        QueryFilter={
+            'string': {
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ],
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH'
+            }
+        },
+        ConditionalOperator='AND'|'OR',
+        ScanIndexForward=True|False,
+        ExclusiveStartKey={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ProjectionExpression='string',
+        FilterExpression='string',
+        KeyConditionExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        },
+        ExpressionAttributeValues={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        }
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table containing the requested items.
             
-    :type TableName: string
-    :param IndexName: The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName.
+
     :type IndexName: string
+    :param IndexName: The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName.
+
+    :type Select: string
     :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.
             ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
@@ -1574,7 +2586,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             Note
             If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES . Any other value for Select will return an error.
             
-    :type Select: string
+
+    :type AttributesToGet: list
     :param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1586,13 +2599,16 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             If you query a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
             (string) --
             
-    :type AttributesToGet: list
-    :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+
     :type Limit: integer
+    :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+
+    :type ConsistentRead: boolean
     :param ConsistentRead: Determines the read consistency model: If set to true , then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.
             Strongly consistent reads are not supported on global secondary indexes. If you query a global secondary index with ConsistentRead set to true , you will receive a ValidationException .
             
-    :type ConsistentRead: boolean
+
+    :type KeyConditions: dict
     :param KeyConditions: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use KeyConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1665,7 +2681,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-    :type KeyConditions: dict
+
+    :type QueryFilter: dict
     :param QueryFilter: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1732,7 +2749,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-    :type QueryFilter: dict
+
+    :type ConditionalOperator: string
     :param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1744,12 +2762,14 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             Note
             This parameter does not support attributes of type List or Map.
             
-    :type ConditionalOperator: string
+
+    :type ScanIndexForward: boolean
     :param ScanIndexForward: Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false , the traversal is performed in descending order.
             Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of ASCII character code values. For type Binary, DynamoDB treats each byte of the binary data as unsigned.
             If ScanIndexForward is true , DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false , DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
             
-    :type ScanIndexForward: boolean
+
+    :type ExclusiveStartKey: dict
     :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             (string) --
@@ -1776,20 +2796,23 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExclusiveStartKey: dict
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
+
+    :type ProjectionExpression: string
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-    :type ProjectionExpression: string
+
+    :type FilterExpression: string
     :param FilterExpression: A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
@@ -1797,7 +2820,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             Note
             FilterExpression replaces the legacy QueryFilter and ConditionalOperator parameters.
             
-    :type FilterExpression: string
+
+    :type KeyConditionExpression: string
     :param KeyConditionExpression: The condition that specifies the key value(s) for items to be retrieved by the Query action.
             The condition must perform an equality test on a single partition key value. The condition can also perform one of several comparison tests on a single sort key value. Query can use KeyConditionExpression to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values.
             The partition key equality test is required, and must be specified in the following format:
@@ -1822,7 +2846,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             Note
             KeyConditionExpression replaces the legacy KeyConditions parameter.
             
-    :type KeyConditionExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -1839,7 +2864,8 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :type ExpressionAttributeValues: dict
     :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
@@ -1872,22 +2898,202 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExpressionAttributeValues: dict
+
+    :rtype: dict
+    :return: {
+        'Items': [
+            {
+                'string': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                }
+            },
+        ],
+        'Count': 123,
+        'ScannedCount': 123,
+        'LastEvaluatedKey': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
-def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None,
-         ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None,
-         Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None,
-         ExpressionAttributeValues=None, ConsistentRead=None):
+def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None, ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None, Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None, ConsistentRead=None):
     """
+    The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a ScanFilter operation.
+    If the total number of scanned items exceeds the maximum data set size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.
+    By default, Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide .
+    By default, Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true .
+    
+    
+    :example: response = client.scan(
+        TableName='string',
+        IndexName='string',
+        AttributesToGet=[
+            'string',
+        ],
+        Limit=123,
+        Select='ALL_ATTRIBUTES'|'ALL_PROJECTED_ATTRIBUTES'|'SPECIFIC_ATTRIBUTES'|'COUNT',
+        ScanFilter={
+            'string': {
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ],
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH'
+            }
+        },
+        ConditionalOperator='AND'|'OR',
+        ExclusiveStartKey={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        TotalSegments=123,
+        Segment=123,
+        ProjectionExpression='string',
+        FilterExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        },
+        ExpressionAttributeValues={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        ConsistentRead=True|False
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table containing the requested items; or, if you provide IndexName , the name of the table to which that index belongs.
             
-    :type TableName: string
-    :param IndexName: The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName .
+
     :type IndexName: string
+    :param IndexName: The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName .
+
+    :type AttributesToGet: list
     :param AttributesToGet: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1896,9 +3102,11 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
             (string) --
             
-    :type AttributesToGet: list
-    :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+
     :type Limit: integer
+    :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
+
+    :type Select: string
     :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, or the count of matching items.
             ALL_ATTRIBUTES - Returns all of the item attributes.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
@@ -1906,7 +3114,8 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select .
             If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES . You cannot use both AttributesToGet and Select together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
             
-    :type Select: string
+
+    :type ScanFilter: dict
     :param ScanFilter: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1971,7 +3180,8 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
-    :type ScanFilter: dict
+
+    :type ConditionalOperator: string
     :param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -1983,7 +3193,8 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             Note
             This parameter does not support attributes of type List or Map.
             
-    :type ConditionalOperator: string
+
+    :type ExclusiveStartKey: dict
     :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             In a parallel scan, a Scan request that includes ExclusiveStartKey must specify the same segment whose previous Scan returned the corresponding value of LastEvaluatedKey .
@@ -2011,32 +3222,37 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExclusiveStartKey: dict
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
+
+    :type TotalSegments: integer
     :param TotalSegments: For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4.
             The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel.
             If you specify TotalSegments , you must also specify Segment .
             
-    :type TotalSegments: integer
+
+    :type Segment: integer
     :param Segment: For a parallel Scan request, Segment identifies an individual segment to be scanned by an application worker.
             Segment IDs are zero-based, so the first segment is always 0. For example, if you want to use four application threads to scan a table or an index, then the first thread specifies a Segment value of 0, the second thread specifies 1, and so on.
             The value of LastEvaluatedKey returned from a parallel Scan request must be used as ExclusiveStartKey with the same segment ID in a subsequent Scan operation.
             The value for Segment must be greater than or equal to 0, and less than the value provided for TotalSegments .
             If you provide Segment , you must also provide TotalSegments .
             
-    :type Segment: integer
+
+    :type ProjectionExpression: string
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Note
             ProjectionExpression replaces the legacy AttributesToGet parameter.
             
-    :type ProjectionExpression: string
+
+    :type FilterExpression: string
     :param FilterExpression: A string that contains conditions that DynamoDB applies after the Scan operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
@@ -2044,7 +3260,8 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             Note
             FilterExpression replaces the legacy ScanFilter and ConditionalOperator parameters.
             
-    :type FilterExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -2061,7 +3278,8 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :type ExpressionAttributeValues: dict
     :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
@@ -2094,26 +3312,248 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExpressionAttributeValues: dict
+
+    :type ConsistentRead: boolean
     :param ConsistentRead: A Boolean value that determines the read consistency model during the scan:
             If ConsistentRead is false , then the data returned from Scan might not contain the results from other recently completed write operations (PutItem, UpdateItem or DeleteItem).
             If ConsistentRead is true , then all of the write operations that completed before the Scan began are guaranteed to be contained in the Scan response.
             The default setting for ConsistentRead is false .
             The ConsistentRead parameter is not supported on global secondary indexes. If you scan a global secondary index with ConsistentRead set to true, you will receive a ValidationException .
             
-    :type ConsistentRead: boolean
+
+    :rtype: dict
+    :return: {
+        'Items': [
+            {
+                'string': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                }
+            },
+        ],
+        'Count': 123,
+        'ScannedCount': 123,
+        'LastEvaluatedKey': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
-def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None,
-                ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, UpdateExpression=None,
-                ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
+def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, UpdateExpression=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
+    Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
+    You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
+    
+    
+    :example: response = client.update_item(
+        TableName='string',
+        Key={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        AttributeUpdates={
+            'string': {
+                'Value': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                },
+                'Action': 'ADD'|'PUT'|'DELETE'
+            }
+        },
+        Expected={
+            'string': {
+                'Value': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                },
+                'Exists': True|False,
+                'ComparisonOperator': 'EQ'|'NE'|'IN'|'LE'|'LT'|'GE'|'GT'|'BETWEEN'|'NOT_NULL'|'NULL'|'CONTAINS'|'NOT_CONTAINS'|'BEGINS_WITH',
+                'AttributeValueList': [
+                    {
+                        'S': 'string',
+                        'N': 'string',
+                        'B': b'bytes',
+                        'SS': [
+                            'string',
+                        ],
+                        'NS': [
+                            'string',
+                        ],
+                        'BS': [
+                            b'bytes',
+                        ],
+                        'M': {
+                            'string': {'... recursive ...'}
+                        },
+                        'L': [
+                            {'... recursive ...'},
+                        ],
+                        'NULL': True|False,
+                        'BOOL': True|False
+                    },
+                ]
+            }
+        },
+        ConditionalOperator='AND'|'OR',
+        ReturnValues='NONE'|'ALL_OLD'|'UPDATED_OLD'|'ALL_NEW'|'UPDATED_NEW',
+        ReturnConsumedCapacity='INDEXES'|'TOTAL'|'NONE',
+        ReturnItemCollectionMetrics='SIZE'|'NONE',
+        UpdateExpression='string',
+        ConditionExpression='string',
+        ExpressionAttributeNames={
+            'string': 'string'
+        },
+        ExpressionAttributeValues={
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        }
+    )
+    
+    
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table containing the item to update.
             
-    :type TableName: string
+
+    :type Key: dict
     :param Key: [REQUIRED]
             The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
@@ -2141,7 +3581,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             BOOL (boolean) --A Boolean data type.
             
             
-    :type Key: dict
+
+    :type AttributeUpdates: dict
     :param AttributeUpdates: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use UpdateExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -2206,7 +3647,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             ADD - DynamoDB creates an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are number and number set; no other data types can be specified.
             
             
-    :type AttributeUpdates: dict
+
+    :type Expected: dict
     :param Expected: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -2327,7 +3769,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             
             
             
-    :type Expected: dict
+
+    :type ConditionalOperator: string
     :param ConditionalOperator: 
             Warning
             This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
@@ -2339,7 +3782,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             Note
             This parameter does not support attributes of type List or Map.
             
-    :type ConditionalOperator: string
+
+    :type ReturnValues: string
     :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - If UpdateItem overwrote an attribute name-value pair, then the content of the old item is returned.
@@ -2349,15 +3793,18 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No Read Capacity Units are consumed.
             Values returned are strongly consistent
             
-    :type ReturnValues: string
+
+    :type ReturnConsumedCapacity: string
     :param ReturnConsumedCapacity: Determines the level of detail about provisioned throughput consumption that is returned in the response:
             INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
             TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
             NONE - No ConsumedCapacity details are included in the response.
             
-    :type ReturnConsumedCapacity: string
-    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
     :type ReturnItemCollectionMetrics: string
+    :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+
+    :type UpdateExpression: string
     :param UpdateExpression: An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
             The following action values are available for UpdateExpression .
             SET - Adds one or more attributes and values to an item. If any of these attribute already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val SET supports the following functions:
@@ -2381,7 +3828,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             Note
             UpdateExpression replaces the legacy AttributeUpdates parameter.
             
-    :type UpdateExpression: string
+
+    :type ConditionExpression: string
     :param ConditionExpression: A condition that must be satisfied in order for a conditional update to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
@@ -2391,7 +3839,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             Note
             ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
-    :type ConditionExpression: string
+
+    :type ExpressionAttributeNames: dict
     :param ExpressionAttributeNames: One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -2408,7 +3857,8 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             (string) --
             (string) --
             
-    :type ExpressionAttributeNames: dict
+
+    :type ExpressionAttributeValues: dict
     :param ExpressionAttributeValues: One or more values that can be substituted in an expression.
             Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
             Available | Backordered | Discontinued
@@ -2441,14 +3891,147 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             BOOL (boolean) --A Boolean data type.
             
             
-    :type ExpressionAttributeValues: dict
+
+    :rtype: dict
+    :return: {
+        'Attributes': {
+            'string': {
+                'S': 'string',
+                'N': 'string',
+                'B': b'bytes',
+                'SS': [
+                    'string',
+                ],
+                'NS': [
+                    'string',
+                ],
+                'BS': [
+                    b'bytes',
+                ],
+                'M': {
+                    'string': {'... recursive ...'}
+                },
+                'L': [
+                    {'... recursive ...'},
+                ],
+                'NULL': True|False,
+                'BOOL': True|False
+            }
+        },
+        'ConsumedCapacity': {
+            'TableName': 'string',
+            'CapacityUnits': 123.0,
+            'Table': {
+                'CapacityUnits': 123.0
+            },
+            'LocalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            },
+            'GlobalSecondaryIndexes': {
+                'string': {
+                    'CapacityUnits': 123.0
+                }
+            }
+        },
+        'ItemCollectionMetrics': {
+            'ItemCollectionKey': {
+                'string': {
+                    'S': 'string',
+                    'N': 'string',
+                    'B': b'bytes',
+                    'SS': [
+                        'string',
+                    ],
+                    'NS': [
+                        'string',
+                    ],
+                    'BS': [
+                        b'bytes',
+                    ],
+                    'M': {
+                        'string': {'... recursive ...'}
+                    },
+                    'L': [
+                        {'... recursive ...'},
+                    ],
+                    'NULL': True|False,
+                    'BOOL': True|False
+                }
+            },
+            'SizeEstimateRangeGB': [
+                123.0,
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
     """
     pass
 
-
-def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughput=None,
-                 GlobalSecondaryIndexUpdates=None, StreamSpecification=None):
+def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughput=None, GlobalSecondaryIndexUpdates=None, StreamSpecification=None):
     """
+    Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.
+    You can only perform one of the following operations at once:
+    
+    
+    :example: response = client.update_table(
+        AttributeDefinitions=[
+            {
+                'AttributeName': 'string',
+                'AttributeType': 'S'|'N'|'B'
+            },
+        ],
+        TableName='string',
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 123,
+            'WriteCapacityUnits': 123
+        },
+        GlobalSecondaryIndexUpdates=[
+            {
+                'Update': {
+                    'IndexName': 'string',
+                    'ProvisionedThroughput': {
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    }
+                },
+                'Create': {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'ProvisionedThroughput': {
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    }
+                },
+                'Delete': {
+                    'IndexName': 'string'
+                }
+            },
+        ],
+        StreamSpecification={
+            'StreamEnabled': True|False,
+            'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+        }
+    )
+    
+    
+    :type AttributeDefinitions: list
     :param AttributeDefinitions: An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
             (dict) --Represents an attribute for describing the key schema for the table and indexes.
             AttributeName (string) -- [REQUIRED]A name for the attribute.
@@ -2458,17 +4041,20 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             B - the attribute is of type Binary
             
             
-    :type AttributeDefinitions: list
+
+    :type TableName: string
     :param TableName: [REQUIRED]
             The name of the table to be updated.
             
-    :type TableName: string
+
+    :type ProvisionedThroughput: dict
     :param ProvisionedThroughput: Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
-    :type ProvisionedThroughput: dict
+
+    :type GlobalSecondaryIndexUpdates: list
     :param GlobalSecondaryIndexUpdates: An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
             Create - add a new global secondary index to the table.
             Update - modify the provisioned throughput settings of an existing global secondary index.
@@ -2522,7 +4108,8 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             IndexName (string) -- [REQUIRED]The name of the global secondary index to be deleted.
             
             
-    :type GlobalSecondaryIndexUpdates: list
+
+    :type StreamSpecification: dict
     :param StreamSpecification: Represents the DynamoDB Streams configuration for the table.
             Note
             You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream.
@@ -2536,6 +4123,249 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
             
-    :type StreamSpecification: dict
+
+    :rtype: dict
+    :return: {
+        'TableDescription': {
+            'AttributeDefinitions': [
+                {
+                    'AttributeName': 'string',
+                    'AttributeType': 'S'|'N'|'B'
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
+                    'AttributeName': 'string',
+                    'KeyType': 'HASH'|'RANGE'
+                },
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'LocalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+                    'Backfilling': True|False,
+                    'ProvisionedThroughput': {
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    AttributeDefinitions (list) -- An array of attributes that describe the key schema for the table and indexes. If you are adding a new global secondary index to the table, AttributeDefinitions must include the key element(s) of the new index.
+    
+    (dict) --Represents an attribute for describing the key schema for the table and indexes.
+    
+    AttributeName (string) -- [REQUIRED]A name for the attribute.
+    
+    AttributeType (string) -- [REQUIRED]The data type for the attribute, where:
+    
+    S - the attribute is of type String
+    N - the attribute is of type Number
+    B - the attribute is of type Binary
+    
+    
+    
+    
+    
+    
+    TableName (string) -- [REQUIRED]
+    The name of the table to be updated.
+    
+    ProvisionedThroughput (dict) -- Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+    For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
+    
+    ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    GlobalSecondaryIndexUpdates (list) -- An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
+    
+    Create - add a new global secondary index to the table.
+    Update - modify the provisioned throughput settings of an existing global secondary index.
+    Delete - remove a global secondary index from the table.
+    
+    For more information, see Managing Global Secondary Indexes in the Amazon DynamoDB Developer Guide .
+    
+    (dict) --Represents one of the following:
+    
+    A new global secondary index to be added to an existing table.
+    New provisioned throughput parameters for an existing global secondary index.
+    An existing global secondary index to be removed from an existing table.
+    
+    
+    Update (dict) --The name of an existing global secondary index, along with new provisioned throughput settings to be applied to that index.
+    
+    IndexName (string) -- [REQUIRED]The name of the global secondary index to be updated.
+    
+    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+    For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
+    
+    ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    Create (dict) --The parameters required for creating a global secondary index on an existing table:
+    
+    IndexName
+    KeySchema
+    AttributeDefinitions
+    Projection
+    ProvisionedThroughput
+    
+    
+    IndexName (string) -- [REQUIRED]The name of the global secondary index to be created.
+    
+    KeySchema (list) -- [REQUIRED]The key schema for the global secondary index.
+    
+    (dict) --Represents a single element of a key schema. A key schema specifies the attributes that make up the primary key of a table, or the key attributes of an index.
+    A KeySchemaElement represents exactly one attribute of the primary key. For example, a simple primary key would be represented by one KeySchemaElement (for the partition key). A composite primary key would require one KeySchemaElement for the partition key, and another KeySchemaElement for the sort key.
+    A KeySchemaElement must be a scalar, top-level attribute (not a nested attribute). The data type must be one of String, Number, or Binary. The attribute cannot be nested within a List or a Map.
+    
+    AttributeName (string) -- [REQUIRED]The name of a key attribute.
+    
+    KeyType (string) -- [REQUIRED]The role that this key attribute will assume:
+    
+    HASH - partition key
+    RANGE - sort key
+    
+    
+    Note
+    The partition key of an item is also known as its hash attribute . The term "hash attribute" derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
+    The sort key of an item is also known as its range attribute . The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
+    
+    
+    
+    
+    
+    
+    Projection (dict) -- [REQUIRED]Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
+    
+    ProjectionType (string) --The set of attributes that are projected into the index:
+    
+    KEYS_ONLY - Only the index and primary keys are projected into the index.
+    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
+    ALL - All of the table attributes are projected into the index.
+    
+    
+    NonKeyAttributes (list) --Represents the non-key attribute names which will be projected into the index.
+    For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
+    
+    (string) --
+    
+    
+    
+    
+    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+    For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
+    
+    ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    Delete (dict) --The name of an existing global secondary index to be removed.
+    
+    IndexName (string) -- [REQUIRED]The name of the global secondary index to be deleted.
+    
+    
+    
+    
+    
+    
+    
+    StreamSpecification (dict) -- Represents the DynamoDB Streams configuration for the table.
+    
+    Note
+    You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream.
+    
+    
+    StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
+    
+    StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
+    
+    StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
+    StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
+    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
+    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
+    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
+    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
+    
+    
+    
+    
+    
+    
+    
     """
     pass
+

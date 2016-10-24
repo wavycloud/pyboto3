@@ -1,4 +1,5 @@
-"""
+'''
+
 The MIT License (MIT)
 
 Copyright (c) 2016 Gehad Shaat
@@ -20,126 +21,173 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-"""
 
+'''
 
 def can_paginate(operation_name=None):
     """
+    Check if an operation can be paginated.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            ReturnsTrue if the operation can be paginated,
-            False otherwise.
-            
-    :type operation_name: string
+
     """
     pass
-
 
 def delete_thing_shadow(thingName=None):
     """
+    Deletes the thing shadow for the specified thing.
+    For more information, see DeleteThingShadow in the AWS IoT Developer Guide .
+    
+    
+    :example: response = client.delete_thing_shadow(
+        thingName='string'
+    )
+    
+    
+    :type thingName: string
     :param thingName: [REQUIRED]
             The name of the thing.
-            Return typedict
-            ReturnsResponse Syntax{
-              'payload': StreamingBody()
-            }
-            Response Structure
-            (dict) --The output from the DeleteThingShadow operation.
-            payload (StreamingBody) --The state information, in JSON format.
             
-            
-    :type thingName: string
+
+    :rtype: dict
+    :return: {
+        'payload': StreamingBody()
+    }
+    
+    
     """
     pass
-
 
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
-    :param ClientMethod: The client method to presign for
+    Generate a presigned url given a client, its method, and arguments
+    
     :type ClientMethod: string
+    :param ClientMethod: The client method to presign for
+
+    :type Params: dict
     :param Params: The parameters normally passed to
             ClientMethod.
-    :type Params: dict
+
+    :type ExpiresIn: int
     :param ExpiresIn: The number of seconds the presigned url is valid
             for. By default it expires in an hour (3600 seconds)
-    :type ExpiresIn: int
+
+    :type HttpMethod: string
     :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
-    :type HttpMethod: string
+
     """
     pass
 
-
 def get_paginator(operation_name=None):
     """
+    Create a paginator for an operation.
+    
+    :type operation_name: string
     :param operation_name: The operation name. This is the same name
             as the method name on the client. For example, if the
             method name is create_foo, and you'd normally invoke the
             operation as client.create_foo(**kwargs), if the
             create_foo operation can be paginated, you can use the
             call client.get_paginator('create_foo').
-            Raises OperationNotPageableErrorRaised if the operation is not
-            pageable. You can use the client.can_paginate method to
-            check if an operation is pageable.
-            Return typeL{botocore.paginate.Paginator}
-            ReturnsA paginator object.
-            
-    :type operation_name: string
+
+    :rtype: L{botocore.paginate.Paginator}
     """
     pass
-
 
 def get_thing_shadow(thingName=None):
     """
+    Gets the thing shadow for the specified thing.
+    For more information, see GetThingShadow in the AWS IoT Developer Guide .
+    
+    
+    :example: response = client.get_thing_shadow(
+        thingName='string'
+    )
+    
+    
+    :type thingName: string
     :param thingName: [REQUIRED]
             The name of the thing.
-            Return typedict
-            ReturnsResponse Syntax{
-              'payload': StreamingBody()
-            }
-            Response Structure
-            (dict) --The output from the GetThingShadow operation.
-            payload (StreamingBody) --The state information, in JSON format.
             
-            
-    :type thingName: string
+
+    :rtype: dict
+    :return: {
+        'payload': StreamingBody()
+    }
+    
+    
     """
     pass
-
 
 def get_waiter():
     """
+    
     """
     pass
-
 
 def publish(topic=None, qos=None, payload=None):
     """
+    Publishes state information.
+    For more information, see HTTP Protocol in the AWS IoT Developer Guide .
+    
+    
+    :example: response = client.publish(
+        topic='string',
+        qos=123,
+        payload=b'bytes'|file
+    )
+    
+    
+    :type topic: string
     :param topic: [REQUIRED]
             The name of the MQTT topic.
             
-    :type topic: string
-    :param qos: The Quality of Service (QoS) level.
+
     :type qos: integer
-    :param payload: The state information, in JSON format.
+    :param qos: The Quality of Service (QoS) level.
+
     :type payload: bytes or seekable file-like object
+    :param payload: The state information, in JSON format.
+
     """
     pass
-
 
 def update_thing_shadow(thingName=None, payload=None):
     """
+    Updates the thing shadow for the specified thing.
+    For more information, see UpdateThingShadow in the AWS IoT Developer Guide .
+    
+    
+    :example: response = client.update_thing_shadow(
+        thingName='string',
+        payload=b'bytes'|file
+    )
+    
+    
+    :type thingName: string
     :param thingName: [REQUIRED]
             The name of the thing.
             
-    :type thingName: string
+
+    :type payload: bytes or seekable file-like object
     :param payload: [REQUIRED]
             The state information, in JSON format.
             
-    :type payload: bytes or seekable file-like object
+
+    :rtype: dict
+    :return: {
+        'payload': StreamingBody()
+    }
+    
+    
     """
     pass
+
