@@ -6,7 +6,12 @@ The code is not to be imported. you can only use it as a typehint for autocomple
 This package will minimize the time you have to look for AWS documentation online. You shouldn't leave your coding environment.
 
 # Screenshots
+## Ctrl+Space
+
 ![Ctrl+Space Autocomplete Image](https://github.com/gehadshaat/pyboto3/blob/master/img/autocomplete.png)
+
+## Ctrl+Q
+
 ![Ctrl+Q Documentation](https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png)
 
 # Installation
