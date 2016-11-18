@@ -33,6 +33,6 @@ enjoy autocomplete and navigate to class to read documentation from S3 class cod
 We need your help! The code needs work and testing to make it friendly with python 3 and other systems. Feel free to test, commit and push changes!
 
 # Issues
-The package have not been tested. Only code generation is tested. currently the generation is only tested on Windows 10 Python 2.7
+The package have not been tested on Python 2.7
 
 
