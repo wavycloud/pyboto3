@@ -6,7 +6,12 @@ The code is not to be imported. you can only use it as a typehint for autocomple
 This package will minimize the time you have to look for AWS documentation online. You shouldn't leave your coding environment.
 
 # Screenshots
+## Ctrl+Space
+
 ![Ctrl+Space Autocomplete Image](https://github.com/gehadshaat/pyboto3/blob/master/img/autocomplete.png)
+
+## Ctrl+Q
+
 ![Ctrl+Q Documentation](https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png)
 
 # Installation
@@ -34,6 +39,6 @@ twine upload dist/*
 We need your help! The code needs work and testing to make it friendly with python 3 and other systems. Feel free to test, commit and push changes!
 
 # Issues
-The package have not been tested. Only code generation is tested. currently the generation is only tested on Windows 10 Python 2.7
+The package have been tested on Python 2.7 only
 
 
