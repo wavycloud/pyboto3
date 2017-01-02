@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(name='pyboto3',
-      version='1.3',
+      version='1.4.3',
       packages=find_packages(),
       description='Pythonic Interface for AWS boto3 that gives you autocomplete on every service',
-      author='Gehad Shaat',
+      author='WavyCloud',
       author_email='',
-      url='https://github.com/gehadshaat/pyboto3',
+      url='https://github.com/wavycloud/pyboto3',
       py_modules=['pyboto3'],
       install_requires=[],
       license='MIT License',

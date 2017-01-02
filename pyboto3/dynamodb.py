@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None):
     In order to minimize response latency, BatchGetItem retrieves items in parallel.
     When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the AttributesToGet parameter.
     If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see Capacity Units Calculations in the Amazon DynamoDB Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_item(
@@ -271,6 +272,7 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem provides an alternative where the API performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application.
     Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit.
     If one or more of the following is true, DynamoDB rejects the entire batch write operation:
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_write_item(
@@ -703,6 +705,7 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
     The CreateTable operation adds a new table to your account. In an AWS account, table names must be unique within each region. That is, you can have two tables with same name if you create the tables in different regions.
     You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time.
     You can use the DescribeTable API to check the table status.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_table(
@@ -1029,6 +1032,7 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
     In addition to deleting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter.
     Unless you specify conditions, the DeleteItem is an idempotent operation; running it multiple times on the same item or attribute does not result in an error response.
     Conditional deletes are useful for deleting items only if specific conditions are met. If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_item(
@@ -1481,6 +1485,7 @@ def delete_table(TableName=None):
     When you delete a table, any indexes on that table are also deleted.
     If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours.
     Use the DescribeTable API to check the status of the table.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_table(
@@ -1598,6 +1603,7 @@ def describe_limits():
     The per-table limits apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes.
     For existing tables and their GSIs, DynamoDB will not let you increase provisioned capacity extremely rapidly, but the only upper limit that applies is that the aggregate provisioned capacity over all your tables and GSIs cannot exceed either of the per-account limits.
     The DescribeLimits Request element has no content.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_limits()
@@ -1618,6 +1624,7 @@ def describe_limits():
 def describe_table(TableName=None):
     """
     Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_table(
@@ -1750,6 +1757,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None, ProjectionExpression=None, ExpressionAttributeNames=None):
     """
     The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_item(
@@ -1947,6 +1955,7 @@ def get_waiter():
 def list_tables(ExclusiveStartTableName=None, Limit=None):
     """
     Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tables(
@@ -1983,6 +1992,7 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
     When you add an item, the primary key attribute(s) are the only required attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes cannot be empty. Requests with empty values will be rejected with a ValidationException exception.
     You can request that PutItem return either a copy of the original item (before the update) or a copy of the updated item (after the update). For more information, see the ReturnValues description below.
     For more information about using this API, see Working with Items in the Amazon DynamoDB Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.put_item(
@@ -2439,6 +2449,7 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
     Queries that do not return results consume the minimum number of read capacity units for that type of read operation.
     If the total number of items meeting the query criteria exceeds the result set size limit of 1 MB, the query stops and results are returned to the user with the LastEvaluatedKey element to continue the query in a subsequent operation. Unlike a Scan operation, a Query operation never returns both an empty result set and a LastEvaluatedKey value. LastEvaluatedKey is only provided if you have used the Limit parameter, or if the result set exceeds 1 MB (prior to applying a filter).
     You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
+    See also: AWS API Documentation
     
     
     :example: response = client.query(
@@ -2985,6 +2996,7 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
     If the total number of scanned items exceeds the maximum data set size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.
     By default, Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide .
     By default, Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true .
+    See also: AWS API Documentation
     
     
     :example: response = client.scan(
@@ -3405,6 +3417,7 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
     """
     Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
     You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_item(
@@ -3977,6 +3990,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     """
     Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table.
     You can only perform one of the following operations at once:
+    See also: AWS API Documentation
     
     
     :example: response = client.update_table(

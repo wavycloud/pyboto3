@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def cancel_job(Id=None):
     """
     The CancelJob operation cancels an unfinished job.
+    See also: AWS API Documentation
     
     
     :example: response = client.cancel_job(
@@ -62,10 +63,11 @@ def cancel_job(Id=None):
     """
     pass
 
-def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKeyPrefix=None, Playlists=None, UserMetadata=None):
+def create_job(PipelineId=None, Input=None, Inputs=None, Output=None, Outputs=None, OutputKeyPrefix=None, Playlists=None, UserMetadata=None):
     """
     When you create a job, Elastic Transcoder returns JSON data that includes the values that you specified plus information about the job that is created.
     If you have specified more than one output for your jobs (for example, one output for the Kindle Fire and another output for the Apple iPhone 4s), you currently must use the Elastic Transcoder API to list the jobs (as opposed to the AWS Console).
+    See also: AWS API Documentation
     
     
     :example: response = client.create_job(
@@ -83,6 +85,27 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
                 'KeyMd5': 'string',
                 'InitializationVector': 'string'
             },
+            'TimeSpan': {
+                'StartTime': 'string',
+                'Duration': 'string'
+            },
+            'InputCaptions': {
+                'MergePolicy': 'string',
+                'CaptionSources': [
+                    {
+                        'Key': 'string',
+                        'Language': 'string',
+                        'TimeOffset': 'string',
+                        'Label': 'string',
+                        'Encryption': {
+                            'Mode': 'string',
+                            'Key': 'string',
+                            'KeyMd5': 'string',
+                            'InitializationVector': 'string'
+                        }
+                    },
+                ]
+            },
             'DetectedProperties': {
                 'Width': 123,
                 'Height': 123,
@@ -91,6 +114,50 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
                 'DurationMillis': 123
             }
         },
+        Inputs=[
+            {
+                'Key': 'string',
+                'FrameRate': 'string',
+                'Resolution': 'string',
+                'AspectRatio': 'string',
+                'Interlaced': 'string',
+                'Container': 'string',
+                'Encryption': {
+                    'Mode': 'string',
+                    'Key': 'string',
+                    'KeyMd5': 'string',
+                    'InitializationVector': 'string'
+                },
+                'TimeSpan': {
+                    'StartTime': 'string',
+                    'Duration': 'string'
+                },
+                'InputCaptions': {
+                    'MergePolicy': 'string',
+                    'CaptionSources': [
+                        {
+                            'Key': 'string',
+                            'Language': 'string',
+                            'TimeOffset': 'string',
+                            'Label': 'string',
+                            'Encryption': {
+                                'Mode': 'string',
+                                'Key': 'string',
+                                'KeyMd5': 'string',
+                                'InitializationVector': 'string'
+                            }
+                        },
+                    ]
+                },
+                'DetectedProperties': {
+                    'Width': 123,
+                    'Height': 123,
+                    'FrameRate': 'string',
+                    'FileSize': 123,
+                    'DurationMillis': 123
+                }
+            },
+        ],
         Output={
             'Key': 'string',
             'ThumbnailPattern': 'string',
@@ -305,8 +372,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             
 
     :type Input: dict
-    :param Input: [REQUIRED]
-            A section of the request body that provides information about the file that is being transcoded.
+    :param Input: A section of the request body that provides information about the file that is being transcoded.
             Key (string) --The name of the file to transcode. Elsewhere in the body of the JSON block is the the ID of the pipeline to use for processing the job. The InputBucket object in that pipeline tells Elastic Transcoder which Amazon S3 bucket to get the file from.
             If the file name includes a prefix, such as cooking/lasagna.mpg , include the prefix in the key. If the file isn't in the specified bucket, Elastic Transcoder returns an error.
             FrameRate (string) --The frame rate of the input file. If you want Elastic Transcoder to automatically detect the frame rate of the input file, specify auto . If you want to specify the frame rate for the input file, enter one of the following values:
@@ -321,13 +387,13 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             If you specify a value other than auto , Elastic Transcoder disables automatic detection of interlacing.
             Container (string) --The container type for the input file. If you want Elastic Transcoder to automatically detect the container type of the input file, specify auto . If you want to specify the container type for the input file, enter one of the following values:
             3gp , aac , asf , avi , divx , flv , m4a , mkv , mov , mp3 , mp4 , mpeg , mpeg-ps , mpeg-ts , mxf , ogg , vob , wav , webm
-            Encryption (dict) --The encryption settings, if any, that are used for decrypting your input files. If your input file is encrypted, you must specify the mode that Elastic Transcoder will use to decrypt your file.
+            Encryption (dict) --The encryption settings, if any, that are used for decrypting your input files. If your input file is encrypted, you must specify the mode that Elastic Transcoder uses to decrypt your file.
             Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
             S3: Amazon S3 creates and manages the keys used for encrypting your files.
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -339,6 +405,144 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             The key must also be encrypted by using the Amazon Key Management Service.
             KeyMd5 (string) --The MD5 digest of the key that you used to encrypt your input file, or that you want Elastic Transcoder to use to encrypt your output file. Elastic Transcoder uses the key digest as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            TimeSpan (dict) --Settings for clipping an input. Each input can have different clip settings.
+            StartTime (string) --The place in the input file where you want a clip to start. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder starts at the beginning of the input file.
+            Duration (string) --The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file.
+            If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
+            InputCaptions (dict) --You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:
+            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.
+            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
+            If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
+            Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process.
+            To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain , and pass in a null CaptionSources array.
+            For more information on embedded files, see the Subtitles Wikipedia page.
+            For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
+            MergePolicy (string) --A policy that determines how Elastic Transcoder handles the existence of multiple captions.
+            MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.
+            MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.
+            Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources .
+            MergePolicy cannot be null.
+            CaptionSources (list) --Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
+            (dict) --A source file for the input sidecar captions used during the transcoding process.
+            Key (string) --The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
+            Language (string) --A string that specifies the language of the caption. If you specified multiple inputs with captions, the caption language must match in order to be included in the output. Specify this as one of:
+            2-character ISO 639-1 code
+            3-character ISO 639-2 code
+            For more information on ISO language codes and language names, see the List of ISO 639-1 codes.
+            TimeOffset (string) --For clip generation or captions that do not start at the same time as the associated video file, the TimeOffset tells Elastic Transcoder how much of the video to encode before including captions.
+            Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
+            Label (string) --The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
+            Encryption (dict) --The encryption settings, if any, that Elastic Transcoder needs to decyrpt your caption sources, or that you want Elastic Transcoder to apply to your caption sources.
+            Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
+            S3: Amazon S3 creates and manages the keys used for encrypting your files.
+            S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
+            AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
+            AES-CTR: AES Counter Mode.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
+            For all three AES options, you must provide the following settings, which must be base64-encoded:
+            Key
+            Key MD5
+            Initialization Vector
+            Warning
+            For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data.
+            Key (string) --The data encryption key that you want Elastic Transcoder to use to encrypt your output file, or that was used to encrypt your input file. The key must be base64-encoded and it must be one of the following bit lengths before being base64-encoded:
+            128 , 192 , or 256 .
+            The key must also be encrypted by using the Amazon Key Management Service.
+            KeyMd5 (string) --The MD5 digest of the key that you used to encrypt your input file, or that you want Elastic Transcoder to use to encrypt your output file. Elastic Transcoder uses the key digest as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            
+            
+            DetectedProperties (dict) --The detected properties of the input file.
+            Width (integer) --The detected width of the input file, in pixels.
+            Height (integer) --The detected height of the input file, in pixels.
+            FrameRate (string) --The detected frame rate of the input file, in frames per second.
+            FileSize (integer) --The detected file size of the input file, in bytes.
+            DurationMillis (integer) --The detected duration of the input file, in milliseconds.
+            
+            
+
+    :type Inputs: list
+    :param Inputs: A section of the request body that provides information about the files that are being transcoded.
+            (dict) --Information about the file that you're transcoding.
+            Key (string) --The name of the file to transcode. Elsewhere in the body of the JSON block is the the ID of the pipeline to use for processing the job. The InputBucket object in that pipeline tells Elastic Transcoder which Amazon S3 bucket to get the file from.
+            If the file name includes a prefix, such as cooking/lasagna.mpg , include the prefix in the key. If the file isn't in the specified bucket, Elastic Transcoder returns an error.
+            FrameRate (string) --The frame rate of the input file. If you want Elastic Transcoder to automatically detect the frame rate of the input file, specify auto . If you want to specify the frame rate for the input file, enter one of the following values:
+            10 , 15 , 23.97 , 24 , 25 , 29.97 , 30 , 60
+            If you specify a value other than auto , Elastic Transcoder disables automatic detection of the frame rate.
+            Resolution (string) --This value must be auto , which causes Elastic Transcoder to automatically detect the resolution of the input file.
+            AspectRatio (string) --The aspect ratio of the input file. If you want Elastic Transcoder to automatically detect the aspect ratio of the input file, specify auto . If you want to specify the aspect ratio for the output file, enter one of the following values:
+            1:1 , 4:3 , 3:2 , 16:9
+            If you specify a value other than auto , Elastic Transcoder disables automatic detection of the aspect ratio.
+            Interlaced (string) --Whether the input file is interlaced. If you want Elastic Transcoder to automatically detect whether the input file is interlaced, specify auto . If you want to specify whether the input file is interlaced, enter one of the following values:
+            true , false
+            If you specify a value other than auto , Elastic Transcoder disables automatic detection of interlacing.
+            Container (string) --The container type for the input file. If you want Elastic Transcoder to automatically detect the container type of the input file, specify auto . If you want to specify the container type for the input file, enter one of the following values:
+            3gp , aac , asf , avi , divx , flv , m4a , mkv , mov , mp3 , mp4 , mpeg , mpeg-ps , mpeg-ts , mxf , ogg , vob , wav , webm
+            Encryption (dict) --The encryption settings, if any, that are used for decrypting your input files. If your input file is encrypted, you must specify the mode that Elastic Transcoder uses to decrypt your file.
+            Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
+            S3: Amazon S3 creates and manages the keys used for encrypting your files.
+            S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
+            AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
+            AES-CTR: AES Counter Mode.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
+            For all three AES options, you must provide the following settings, which must be base64-encoded:
+            Key
+            Key MD5
+            Initialization Vector
+            Warning
+            For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data.
+            Key (string) --The data encryption key that you want Elastic Transcoder to use to encrypt your output file, or that was used to encrypt your input file. The key must be base64-encoded and it must be one of the following bit lengths before being base64-encoded:
+            128 , 192 , or 256 .
+            The key must also be encrypted by using the Amazon Key Management Service.
+            KeyMd5 (string) --The MD5 digest of the key that you used to encrypt your input file, or that you want Elastic Transcoder to use to encrypt your output file. Elastic Transcoder uses the key digest as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            TimeSpan (dict) --Settings for clipping an input. Each input can have different clip settings.
+            StartTime (string) --The place in the input file where you want a clip to start. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder starts at the beginning of the input file.
+            Duration (string) --The duration of the clip. The format can be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum value: 86399.999). If you don't specify a value, Elastic Transcoder creates an output file from StartTime to the end of the file.
+            If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
+            InputCaptions (dict) --You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:
+            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.
+            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
+            If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
+            Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process.
+            To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain , and pass in a null CaptionSources array.
+            For more information on embedded files, see the Subtitles Wikipedia page.
+            For more information on sidecar files, see the Extensible Metadata Platform and Sidecar file Wikipedia pages.
+            MergePolicy (string) --A policy that determines how Elastic Transcoder handles the existence of multiple captions.
+            MergeOverride: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the sidecar captions and ignores the embedded captions for that language.
+            MergeRetain: Elastic Transcoder transcodes both embedded and sidecar captions into outputs. If captions for a language are embedded in the input file and also appear in a sidecar file, Elastic Transcoder uses the embedded captions and ignores the sidecar captions for that language. If CaptionSources is empty, Elastic Transcoder omits all sidecar captions from the output files.
+            Override: Elastic Transcoder transcodes only the sidecar captions that you specify in CaptionSources .
+            MergePolicy cannot be null.
+            CaptionSources (list) --Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
+            (dict) --A source file for the input sidecar captions used during the transcoding process.
+            Key (string) --The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
+            Language (string) --A string that specifies the language of the caption. If you specified multiple inputs with captions, the caption language must match in order to be included in the output. Specify this as one of:
+            2-character ISO 639-1 code
+            3-character ISO 639-2 code
+            For more information on ISO language codes and language names, see the List of ISO 639-1 codes.
+            TimeOffset (string) --For clip generation or captions that do not start at the same time as the associated video file, the TimeOffset tells Elastic Transcoder how much of the video to encode before including captions.
+            Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
+            Label (string) --The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
+            Encryption (dict) --The encryption settings, if any, that Elastic Transcoder needs to decyrpt your caption sources, or that you want Elastic Transcoder to apply to your caption sources.
+            Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
+            S3: Amazon S3 creates and manages the keys used for encrypting your files.
+            S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
+            AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
+            AES-CTR: AES Counter Mode.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
+            For all three AES options, you must provide the following settings, which must be base64-encoded:
+            Key
+            Key MD5
+            Initialization Vector
+            Warning
+            For the AES modes, your private encryption keys and your unencrypted data are never stored by AWS; therefore, it is important that you safely manage your encryption keys. If you lose them, you won't be able to unencrypt your data.
+            Key (string) --The data encryption key that you want Elastic Transcoder to use to encrypt your output file, or that was used to encrypt your input file. The key must be base64-encoded and it must be one of the following bit lengths before being base64-encoded:
+            128 , 192 , or 256 .
+            The key must also be encrypted by using the Amazon Key Management Service.
+            KeyMd5 (string) --The MD5 digest of the key that you used to encrypt your input file, or that you want Elastic Transcoder to use to encrypt your output file. Elastic Transcoder uses the key digest as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
+            
+            
             DetectedProperties (dict) --The detected properties of the input file.
             Width (integer) --The detected width of the input file, in pixels.
             Height (integer) --The detected height of the input file, in pixels.
@@ -349,7 +553,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             
 
     :type Output: dict
-    :param Output: The CreateJobOutput structure.
+    :param Output: A section of the request body that provides information about the transcoded (target) file. We strongly recommend that you use the Outputs syntax instead of the Output syntax.
             Key (string) --The name to assign to the transcoded file. Elastic Transcoder saves the file in the Amazon S3 bucket specified by the OutputBucket object in the pipeline that is specified by the pipeline ID. If a file with the specified name already exists in the output bucket, the job fails.
             ThumbnailPattern (string) --Whether you want Elastic Transcoder to create thumbnails for your videos and, if so, how you want Elastic Transcoder to name the files.
             If you don't want Elastic Transcoder to create thumbnails, specify ''.
@@ -366,7 +570,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -397,7 +601,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -411,11 +615,11 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
             
             AlbumArt (dict) --Information about the album art that you want Elastic Transcoder to add to the file during transcoding. You can specify up to twenty album artworks for each output. Settings for each artwork must be defined in the job for the current output.
-            MergePolicy (string) --A policy that determines how Elastic Transcoder will handle the existence of multiple album artwork files.
-            Replace: The specified album art will replace any existing album art.
-            Prepend: The specified album art will be placed in front of any existing album art.
-            Append: The specified album art will be placed after any existing album art.
-            Fallback: If the original input file contains artwork, Elastic Transcoder will use that artwork for the output. If the original input does not contain artwork, Elastic Transcoder will use the specified album art file.
+            MergePolicy (string) --A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.
+            Replace: The specified album art replaces any existing album art.
+            Prepend: The specified album art is placed in front of any existing album art.
+            Append: The specified album art is placed after any existing album art.
+            Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.
             Artwork (list) --The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20. Valid formats are .jpg and .png
             (dict) --The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20.
             To remove artwork or leave the artwork empty, you can either set Artwork to null, or set the Merge Policy to 'Replace' and use an empty Artwork array.
@@ -439,7 +643,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -461,8 +665,8 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
             
             Captions (dict) --You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:
-            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text Valid outputs include: mov-text Elastic Transcoder supports a maximum of one embedded format per output.
-            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
+            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.
+            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
             If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
             Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process.
             To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain , and pass in a null CaptionSources array.
@@ -476,20 +680,20 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             CaptionSources (list) --Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
             (dict) --A source file for the input sidecar captions used during the transcoding process.
             Key (string) --The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
-            Language (string) --A string that specifies the language of the caption. Specify this as one of:
+            Language (string) --A string that specifies the language of the caption. If you specified multiple inputs with captions, the caption language must match in order to be included in the output. Specify this as one of:
             2-character ISO 639-1 code
             3-character ISO 639-2 code
             For more information on ISO language codes and language names, see the List of ISO 639-1 codes.
             TimeOffset (string) --For clip generation or captions that do not start at the same time as the associated video file, the TimeOffset tells Elastic Transcoder how much of the video to encode before including captions.
             Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
             Label (string) --The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
-            Encryption (dict) --The encryption settings, if any, that you want Elastic Transcoder to apply to your caption sources.
+            Encryption (dict) --The encryption settings, if any, that Elastic Transcoder needs to decyrpt your caption sources, or that you want Elastic Transcoder to apply to your caption sources.
             Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
             S3: Amazon S3 creates and manages the keys used for encrypting your files.
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -515,19 +719,20 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             Valid Sidecar Caption Formats: Elastic Transcoder supports dfxp (first div element only), scc, srt, and webvtt. If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
             For FMP4 : dfxp
             Non-FMP4 outputs : All sidecar types
+            
             fmp4 captions have an extension of .ismt
             Pattern (string) --The prefix for caption filenames, in the form description -{language} , where:
             description is a description of the video.
             {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.
-            If you dont include {language} in the file name pattern, Elastic Transcoder automatically appends '{language} ' to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files.
-            For example, suppose youre transcoding into srt format. When you enter 'Sydney-{language}-sunrise', and the language of the captions is English (en), the name of the first caption file will be Sydney-en-sunrise00000.srt.
+            If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends '{language} ' to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files.
+            For example, suppose you're transcoding into srt format. When you enter 'Sydney-{language}-sunrise', and the language of the captions is English (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
             Encryption (dict) --The encryption settings, if any, that you want Elastic Transcoder to apply to your caption formats.
             Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
             S3: Amazon S3 creates and manages the keys used for encrypting your files.
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -547,7 +752,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -581,7 +786,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -612,7 +817,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -626,11 +831,11 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you used to encrypt your input files or that you want Elastic Transcoder to use to encrypt your output files. The initialization vector must be base64-encoded, and it must be exactly 16 bytes long before being base64-encoded.
             
             AlbumArt (dict) --Information about the album art that you want Elastic Transcoder to add to the file during transcoding. You can specify up to twenty album artworks for each output. Settings for each artwork must be defined in the job for the current output.
-            MergePolicy (string) --A policy that determines how Elastic Transcoder will handle the existence of multiple album artwork files.
-            Replace: The specified album art will replace any existing album art.
-            Prepend: The specified album art will be placed in front of any existing album art.
-            Append: The specified album art will be placed after any existing album art.
-            Fallback: If the original input file contains artwork, Elastic Transcoder will use that artwork for the output. If the original input does not contain artwork, Elastic Transcoder will use the specified album art file.
+            MergePolicy (string) --A policy that determines how Elastic Transcoder handles the existence of multiple album artwork files.
+            Replace: The specified album art replaces any existing album art.
+            Prepend: The specified album art is placed in front of any existing album art.
+            Append: The specified album art is placed after any existing album art.
+            Fallback: If the original input file contains artwork, Elastic Transcoder uses that artwork for the output. If the original input does not contain artwork, Elastic Transcoder uses the specified album art file.
             Artwork (list) --The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20. Valid formats are .jpg and .png
             (dict) --The file to be used as album art. There can be multiple artworks associated with an audio file, to a maximum of 20.
             To remove artwork or leave the artwork empty, you can either set Artwork to null, or set the Merge Policy to 'Replace' and use an empty Artwork array.
@@ -654,7 +859,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -676,8 +881,8 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             If you specify a value longer than the duration of the input file, Elastic Transcoder transcodes the file and returns a warning message.
             
             Captions (dict) --You can configure Elastic Transcoder to transcode captions, or subtitles, from one format to another. All captions must be in UTF-8. Elastic Transcoder supports two types of captions:
-            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text Valid outputs include: mov-text Elastic Transcoder supports a maximum of one embedded format per output.
-            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
+            Embedded: Embedded captions are included in the same file as the audio and video. Elastic Transcoder supports only one embedded caption per language, to a maximum of 300 embedded captions per file. Valid input values include: CEA-608 (EIA-608 , first non-empty channel only), CEA-708 (EIA-708 , first non-empty channel only), and mov-text  Valid outputs include: mov-text  Elastic Transcoder supports a maximum of one embedded format per output.
+            Sidecar: Sidecar captions are kept in a separate metadata file from the audio and video data. Sidecar captions require a player that is capable of understanding the relationship between the video file and the sidecar file. Elastic Transcoder supports only one sidecar caption per language, to a maximum of 20 sidecar captions per file. Valid input values include: dfxp (first div element only), ebu-tt , scc , smpt , srt , ttml (first div element only), and webvtt  Valid outputs include: dfxp (first div element only), scc , srt , and webvtt .
             If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
             Elastic Transcoder does not support OCR (Optical Character Recognition), does not accept pictures as a valid input for captions, and is not available for audio-only transcoding. Elastic Transcoder does not preserve text formatting (for example, italics) during the transcoding process.
             To remove captions or leave the captions empty, set Captions to null. To pass through existing captions unchanged, set the MergePolicy to MergeRetain , and pass in a null CaptionSources array.
@@ -691,20 +896,20 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             CaptionSources (list) --Source files for the input sidecar captions used during the transcoding process. To omit all sidecar captions, leave CaptionSources blank.
             (dict) --A source file for the input sidecar captions used during the transcoding process.
             Key (string) --The name of the sidecar caption file that you want Elastic Transcoder to include in the output file.
-            Language (string) --A string that specifies the language of the caption. Specify this as one of:
+            Language (string) --A string that specifies the language of the caption. If you specified multiple inputs with captions, the caption language must match in order to be included in the output. Specify this as one of:
             2-character ISO 639-1 code
             3-character ISO 639-2 code
             For more information on ISO language codes and language names, see the List of ISO 639-1 codes.
             TimeOffset (string) --For clip generation or captions that do not start at the same time as the associated video file, the TimeOffset tells Elastic Transcoder how much of the video to encode before including captions.
             Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
             Label (string) --The label of the caption shown in the player when choosing a language. We recommend that you put the caption language name here, in the language of the captions.
-            Encryption (dict) --The encryption settings, if any, that you want Elastic Transcoder to apply to your caption sources.
+            Encryption (dict) --The encryption settings, if any, that Elastic Transcoder needs to decyrpt your caption sources, or that you want Elastic Transcoder to apply to your caption sources.
             Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
             S3: Amazon S3 creates and manages the keys used for encrypting your files.
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -730,19 +935,20 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             Valid Sidecar Caption Formats: Elastic Transcoder supports dfxp (first div element only), scc, srt, and webvtt. If you want ttml or smpte-tt compatible captions, specify dfxp as your output format.
             For FMP4 : dfxp
             Non-FMP4 outputs : All sidecar types
+            
             fmp4 captions have an extension of .ismt
             Pattern (string) --The prefix for caption filenames, in the form description -{language} , where:
             description is a description of the video.
             {language} is a literal value that Elastic Transcoder replaces with the two- or three-letter code for the language of the caption in the output file names.
-            If you dont include {language} in the file name pattern, Elastic Transcoder automatically appends '{language} ' to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files.
-            For example, suppose youre transcoding into srt format. When you enter 'Sydney-{language}-sunrise', and the language of the captions is English (en), the name of the first caption file will be Sydney-en-sunrise00000.srt.
+            If you don't include {language} in the file name pattern, Elastic Transcoder automatically appends '{language} ' to the value that you specify for the description. In addition, Elastic Transcoder automatically appends the count to the end of the segment files.
+            For example, suppose you're transcoding into srt format. When you enter 'Sydney-{language}-sunrise', and the language of the captions is English (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
             Encryption (dict) --The encryption settings, if any, that you want Elastic Transcoder to apply to your caption formats.
             Mode (string) --The specific server-side encryption mode that you want Elastic Transcoder to use when decrypting your input files or encrypting your output files. Elastic Transcoder supports the following options:
             S3: Amazon S3 creates and manages the keys used for encrypting your files.
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -762,7 +968,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
             AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
             AES-CTR: AES Counter Mode.
-            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+            AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
             For all three AES options, you must provide the following settings, which must be base64-encoded:
             Key
             Key MD5
@@ -785,7 +991,8 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             The maximum number of master playlists in a job is 30.
             (dict) --Information about the master playlist.
             Name (string) --The name that you want Elastic Transcoder to assign to the master playlist, for example, nyc-vacation.m3u8. If the name includes a / character, the section of the name before the last / must be identical for all Name objects. If you create more than one master playlist, the values of all Name objects must be unique.
-            Note: Elastic Transcoder automatically appends the relevant file extension to the file name (.m3u8 for HLSv3 and HLSv4 playlists, and .ism and .ismc for Smooth playlists). If you include a file extension in Name , the file name will have two extensions.
+            Note
+            Elastic Transcoder automatically appends the relevant file extension to the file name (.m3u8 for HLSv3 and HLSv4 playlists, and .ism and .ismc for Smooth playlists). If you include a file extension in Name , the file name will have two extensions.
             Format (string) --The format of the output playlist. Valid formats include HLSv3 , HLSv4 , and Smooth .
             OutputKeys (list) --For each output in this job that you want to include in a master playlist, the value of the Outputs:Key object.
             If your output is not HLS or does not have a segment duration set, the name of the output file is a concatenation of OutputKeyPrefix and Outputs:Key : OutputKeyPrefix``Outputs:Key``
@@ -796,7 +1003,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             (string) --
             HlsContentProtection (dict) --The HLS content protection settings, if any, that you want Elastic Transcoder to apply to the output files associated with this playlist.
             Method (string) --The content protection method for your output. The only valid value is: aes-128 .
-            This value will be written into the method attribute of the EXT-X-KEY metadata tag in the output playlist.
+            This value is written into the method attribute of the EXT-X-KEY metadata tag in the output playlist.
             Key (string) --If you want Elastic Transcoder to generate a key for you, leave this field blank.
             If you choose to supply your own key, you must encrypt the key by using AWS KMS. The key must be base64-encoded, and it must be one of the following bit lengths before being base64-encoded:
             128 , 192 , or 256 .
@@ -813,14 +1020,14 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
             The key must also be encrypted by using AWS KMS.
             KeyMd5 (string) --The MD5 digest of the key used for DRM on your file, and that you want Elastic Transcoder to use as a checksum to make sure your key was not corrupted in transit. The key MD5 must be base64-encoded, and it must be exactly 16 bytes before being base64-encoded.
             KeyId (string) --The ID for your DRM key, so that your DRM license provider knows which key to provide.
-            The key ID must be provided in big endian, and Elastic Transcoder will convert it to little endian before inserting it into the PlayReady DRM headers. If you are unsure whether your license server provides your key ID in big or little endian, check with your DRM provider.
+            The key ID must be provided in big endian, and Elastic Transcoder converts it to little endian before inserting it into the PlayReady DRM headers. If you are unsure whether your license server provides your key ID in big or little endian, check with your DRM provider.
             InitializationVector (string) --The series of random bits created by a random bit generator, unique for every encryption operation, that you want Elastic Transcoder to use to encrypt your files. The initialization vector must be base64-encoded, and it must be exactly 8 bytes long before being base64-encoded. If no initialization vector is provided, Elastic Transcoder generates one for you.
             LicenseAcquisitionUrl (string) --The location of the license key required to play DRM content. The URL must be an absolute path, and is referenced by the PlayReady header. The PlayReady header is referenced in the protection header of the client manifest for Smooth Streaming outputs, and in the EXT-X-DXDRM and EXT-XDXDRMINFO metadata tags for HLS playlist outputs. An example URL looks like this: https://www.example.com/exampleKey/
             
             
 
     :type UserMetadata: dict
-    :param UserMetadata: User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs will be returned in the same order in which you specify them.
+    :param UserMetadata: User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs are returned in the same order in which you specify them.
             (string) --
             (string) --
             
@@ -844,6 +1051,27 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
                     'KeyMd5': 'string',
                     'InitializationVector': 'string'
                 },
+                'TimeSpan': {
+                    'StartTime': 'string',
+                    'Duration': 'string'
+                },
+                'InputCaptions': {
+                    'MergePolicy': 'string',
+                    'CaptionSources': [
+                        {
+                            'Key': 'string',
+                            'Language': 'string',
+                            'TimeOffset': 'string',
+                            'Label': 'string',
+                            'Encryption': {
+                                'Mode': 'string',
+                                'Key': 'string',
+                                'KeyMd5': 'string',
+                                'InitializationVector': 'string'
+                            }
+                        },
+                    ]
+                },
                 'DetectedProperties': {
                     'Width': 123,
                     'Height': 123,
@@ -852,6 +1080,50 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
                     'DurationMillis': 123
                 }
             },
+            'Inputs': [
+                {
+                    'Key': 'string',
+                    'FrameRate': 'string',
+                    'Resolution': 'string',
+                    'AspectRatio': 'string',
+                    'Interlaced': 'string',
+                    'Container': 'string',
+                    'Encryption': {
+                        'Mode': 'string',
+                        'Key': 'string',
+                        'KeyMd5': 'string',
+                        'InitializationVector': 'string'
+                    },
+                    'TimeSpan': {
+                        'StartTime': 'string',
+                        'Duration': 'string'
+                    },
+                    'InputCaptions': {
+                        'MergePolicy': 'string',
+                        'CaptionSources': [
+                            {
+                                'Key': 'string',
+                                'Language': 'string',
+                                'TimeOffset': 'string',
+                                'Label': 'string',
+                                'Encryption': {
+                                    'Mode': 'string',
+                                    'Key': 'string',
+                                    'KeyMd5': 'string',
+                                    'InitializationVector': 'string'
+                                }
+                            },
+                        ]
+                    },
+                    'DetectedProperties': {
+                        'Width': 123,
+                        'Height': 123,
+                        'FrameRate': 'string',
+                        'FileSize': 123,
+                        'DurationMillis': 123
+                    }
+                },
+            ],
             'Output': {
                 'Id': 'string',
                 'Key': 'string',
@@ -1094,7 +1366,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
     S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
     AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
     AES-CTR: AES Counter Mode.
-    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
     
     """
     pass
@@ -1102,6 +1374,7 @@ def create_job(PipelineId=None, Input=None, Output=None, Outputs=None, OutputKey
 def create_pipeline(Name=None, InputBucket=None, OutputBucket=None, Role=None, AwsKmsKeyArn=None, Notifications=None, ContentConfig=None, ThumbnailConfig=None):
     """
     The CreatePipeline operation creates a pipeline with settings that you specify.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_pipeline(
@@ -1348,6 +1621,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
     """
     The CreatePreset operation creates a preset with settings that you specify.
     Elastic Transcoder uses the H.264 video-compression format. For more information, see the International Telecommunication Union publication Recommendation ITU-T H.264: Advanced video coding for generic audiovisual services .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_preset(
@@ -1427,17 +1701,16 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
 
     :type Video: dict
     :param Video: A section of the request body that specifies the video parameters.
-            Codec (string) --The video codec for the output file. Valid values include gif , H.264 , mpeg2 , and vp8 . You can only specify vp8 when the container type is webm , gif when the container type is gif , and mpeg2 when the container type is mpg .
+            Codec (string) --The video codec for the output file. Valid values include gif , H.264 , mpeg2 , vp8 , and vp9 . You can only specify vp8 and vp9 when the container type is webm , gif when the container type is gif , and mpeg2 when the container type is mpg .
             CodecOptions (dict) --
-            Profile (H.264/VP8 Only)
+            Profile (H.264/VP8/VP9 Only)
             The H.264 profile that you want to use for the output file. Elastic Transcoder supports the following profiles:
             baseline : The profile most commonly used for videoconferencing and for mobile applications.
             main : The profile used for standard-definition digital TV broadcasts.
             high : The profile used for high-definition digital TV broadcasts and for Blu-ray discs.
             Level (H.264 Only)
             The H.264 level that you want to use for the output file. Elastic Transcoder supports the following levels:
-            1 , 1b , 1.1 , 1.2 , 1.3 , 2 , 2.1 , 2.2 , 3 , 3.1 , 3.2 , 4 , 4.1
-            MaxReferenceFrames (H.264 Only)
+            1 , 1b , 1.1 , 1.2 , 1.3 , 2 , 2.1 , 2.2 , 3 , 3.1 , 3.2 , 4 , 4.1MaxReferenceFrames (H.264 Only)
             Applicable only when the value of Video:Codec is H.264. The maximum number of previously decoded frames to use as a reference for decoding future frames. Valid values are integers 0 through 16, but we recommend that you not use a value greater than the following:
             Min(Floor(Maximum decoded picture buffer in macroblocks * 256 / (Width in pixels * Height in pixels)), 16)
             where Width in pixels and Height in pixels represent either MaxWidth and MaxHeight, or Resolution. Maximum decoded picture buffer in macroblocks depends on the value of the Level object. See the list below. (A macroblock is a block of pixels measuring 16x16.)
@@ -1454,9 +1727,9 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             3.2 - 20480
             4 - 32768
             4.1 - 32768
-            MaxBitRate (Optional, H.264/MPEG2/VP8 only)
+            MaxBitRate (Optional, H.264/MPEG2/VP8/VP9 only)
             The maximum number of bits per second in a video buffer; the size of the buffer is specified by BufferSize . Specify a value between 16 and 62,500. You can reduce the bandwidth required to stream a video by reducing the maximum bit rate, but this also reduces the quality of the video.
-            BufferSize (Optional, H.264/MPEG2/VP8 only)
+            BufferSize (Optional, H.264/MPEG2/VP8/VP9 only)
             The maximum number of bits in any x seconds of the output video. This window is commonly 10 seconds, the standard segment duration when you're using FMP4 or MPEG-TS for the container type of the output video. Specify an integer greater than 0. If you specify MaxBitRate and omit BufferSize , Elastic Transcoder sets BufferSize to 10 times the value of MaxBitRate .
             InterlacedMode (Optional, H.264/MPEG2 Only)
             The interlace mode for the output video.
@@ -1476,8 +1749,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             If you do not specify a ColorSpaceConversionMode , Elastic Transcoder does not change the color space of a file. If you are unsure what ColorSpaceConversionMode was applied to your output file, you can check the AppliedColorSpaceConversion parameter included in your job response. If your job does not have an AppliedColorSpaceConversion in its response, no ColorSpaceConversionMode was applied.
             ChromaSubsampling
             The sampling pattern for the chroma (color) channels of the output video. Valid values include yuv420p and yuv422p .
-            yuv420p samples the chroma information of every other horizontal and every other vertical line, yuv422p samples the color information of every horizontal line and every other vertical line.
-            LoopCount (Gif Only)
+            yuv420p samples the chroma information of every other horizontal and every other vertical line, yuv422p samples the color information of every horizontal line and every other vertical line.LoopCount (Gif Only)
             The number of times you want the output gif to loop. Valid values include Infinite and integers between 0 and 100 , inclusive.
             (string) --
             (string) --
@@ -1533,7 +1805,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             To better control resolution and aspect ratio of output videos, we recommend that you use the values MaxWidth , MaxHeight , SizingPolicy , PaddingPolicy , and DisplayAspectRatio instead of Resolution and AspectRatio . The two groups of settings are mutually exclusive. Do not use them together.
             The width and height of the video in the output file, in pixels. Valid values are auto and width x height :
             auto : Elastic Transcoder attempts to preserve the width and height of the input file, subject to the following rules.
-            *width* x *height* : The width and height of the output video in pixels.
+            ``width x height `` : The width and height of the output video in pixels.
             Note the following about specifying the width and height:
             The width must be an even integer between 128 and 4096, inclusive.
             The height must be an even integer between 96 and 3072, inclusive.
@@ -1578,11 +1850,10 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             (dict) --Settings for the size, location, and opacity of graphics that you want Elastic Transcoder to overlay over videos that are transcoded using this preset. You can specify settings for up to four watermarks. Watermarks appear in the specified size and location, and with the specified opacity for the duration of the transcoded video.
             Watermarks can be in .png or .jpg format. If you want to display a watermark that is not rectangular, use the .png format, which supports transparency.
             When you create a job that uses this preset, you specify the .png or .jpg graphics that you want Elastic Transcoder to include in the transcoded videos. You can specify fewer graphics in the job than you specify watermark settings in the preset, which allows you to use the same preset for up to four watermarks that have different dimensions.
-            Id (string) -- A unique identifier for the settings for one watermark. The value of Id can be up to 40 characters long.
+            Id (string) --A unique identifier for the settings for one watermark. The value of Id can be up to 40 characters long.
             MaxWidth (string) --The maximum width of the watermark in one of the following formats:
             number of pixels (px): The minimum value is 16 pixels, and the maximum value is the value of MaxWidth .
-            integer percentage (%): The range of valid values is 0 to 100. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the calculation.
-            If you specify the value in pixels, it must be less than or equal to the value of MaxWidth .
+            integer percentage (%): The range of valid values is 0 to 100. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the calculation. If you specify the value in pixels, it must be less than or equal to the value of MaxWidth .
             MaxHeight (string) --The maximum height of the watermark in one of the following formats:
             number of pixels (px): The minimum value is 16 pixels, and the maximum value is the value of MaxHeight .
             integer percentage (%): The range of valid values is 0 to 100. Use the value of Target to specify whether you want Elastic Transcoder to include the black bars that are added by Elastic Transcoder, if any, in the calculation.
@@ -1605,7 +1876,9 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             Top : The top edge of the watermark is aligned with the top border of the video.
             Bottom : The bottom edge of the watermark is aligned with the bottom border of the video.
             Center : The watermark is centered between the top and bottom borders.
-            VerticalOffset (string) -- VerticalOffsetThe amount by which you want the vertical position of the watermark to be offset from the position specified by VerticalAlign:
+            VerticalOffset (string) --
+            VerticalOffset
+            The amount by which you want the vertical position of the watermark to be offset from the position specified by VerticalAlign:
             number of pixels (px): The minimum value is 0 pixels, and the maximum value is the value of MaxHeight .
             integer percentage (%): The range of valid values is 0 to 100.
             For example, if you specify Top for VerticalAlign and 5px for VerticalOffset , the top of the watermark appears 5 pixels from the top border of the output video.
@@ -1616,8 +1889,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             Elastic Transcoder supports transparent .png graphics. If you use a transparent .png, the transparent portion of the video appears as if you had specified a value of 0 for Opacity . The .jpg file format doesn't support transparency.
             Target (string) --A value that determines how Elastic Transcoder interprets values that you specified for HorizontalOffset , VerticalOffset , MaxWidth , and MaxHeight :
             Content : HorizontalOffset and VerticalOffset values are calculated based on the borders of the video excluding black bars added by Elastic Transcoder, if any. In addition, MaxWidth and MaxHeight , if specified as a percentage, are calculated based on the borders of the video excluding black bars added by Elastic Transcoder, if any.
-            Frame : HorizontalOffset and VerticalOffset values are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any.
-            In addition, MaxWidth and MaxHeight , if specified as a percentage, are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any.
+            Frame : HorizontalOffset and VerticalOffset values are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any. In addition, MaxWidth and MaxHeight , if specified as a percentage, are calculated based on the borders of the video including black bars added by Elastic Transcoder, if any.
             
             
 
@@ -1678,7 +1950,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             If you specify auto , Elastic Transcoder chooses a profile based on the bit rate of the output file.
             Profile (string) --You can only choose an audio profile when you specify AAC for the value of Audio:Codec.
             Specify the AAC profile for the output file. Elastic Transcoder supports the following profiles:
-            auto : If you specify auto , Elastic Transcoder will select the profile based on the bit rate selected for the output file.
+            auto : If you specify auto , Elastic Transcoder selects the profile based on the bit rate selected for the output file.
             AAC-LC : The most common AAC profile. Use for bit rates larger than 64 kbps.
             HE-AAC : Not supported on some older players and devices. Use for bit rates between 40 and 80 kbps.
             HE-AACv2 : Not supported on some players and devices. Use for bit rates less than 48 kbps.
@@ -1706,7 +1978,7 @@ def create_preset(Name=None, Description=None, Container=None, Video=None, Audio
             Resolution (string) --
             Warning
             To better control resolution and aspect ratio of thumbnails, we recommend that you use the values MaxWidth , MaxHeight , SizingPolicy , and PaddingPolicy instead of Resolution and AspectRatio . The two groups of settings are mutually exclusive. Do not use them together.
-            The width and height of thumbnail files in pixels. Specify a value in the format *width* x *height* where both values are even integers. The values cannot exceed the width and height that you specified in the Video:Resolution object.
+            The width and height of thumbnail files in pixels. Specify a value in the format `` width `` x `` height `` where both values are even integers. The values cannot exceed the width and height that you specified in the Video:Resolution object.
             AspectRatio (string) --
             Warning
             To better control resolution and aspect ratio of thumbnails, we recommend that you use the values MaxWidth , MaxHeight , SizingPolicy , and PaddingPolicy instead of Resolution and AspectRatio . The two groups of settings are mutually exclusive. Do not use them together.
@@ -1807,6 +2079,7 @@ def delete_pipeline(Id=None):
     """
     The DeletePipeline operation removes a pipeline.
     You can only delete a pipeline that has never been used or that is not currently in use (doesn't contain any active jobs). If the pipeline is currently in use, DeletePipeline returns an error.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_pipeline(
@@ -1829,6 +2102,7 @@ def delete_pipeline(Id=None):
 def delete_preset(Id=None):
     """
     The DeletePreset operation removes a preset that you've added in an AWS region.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_preset(
@@ -1896,6 +2170,7 @@ def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
     """
     The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline.
     Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_jobs_by_pipeline(
@@ -1936,6 +2211,27 @@ def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
                         'KeyMd5': 'string',
                         'InitializationVector': 'string'
                     },
+                    'TimeSpan': {
+                        'StartTime': 'string',
+                        'Duration': 'string'
+                    },
+                    'InputCaptions': {
+                        'MergePolicy': 'string',
+                        'CaptionSources': [
+                            {
+                                'Key': 'string',
+                                'Language': 'string',
+                                'TimeOffset': 'string',
+                                'Label': 'string',
+                                'Encryption': {
+                                    'Mode': 'string',
+                                    'Key': 'string',
+                                    'KeyMd5': 'string',
+                                    'InitializationVector': 'string'
+                                }
+                            },
+                        ]
+                    },
                     'DetectedProperties': {
                         'Width': 123,
                         'Height': 123,
@@ -1944,6 +2240,50 @@ def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
                         'DurationMillis': 123
                     }
                 },
+                'Inputs': [
+                    {
+                        'Key': 'string',
+                        'FrameRate': 'string',
+                        'Resolution': 'string',
+                        'AspectRatio': 'string',
+                        'Interlaced': 'string',
+                        'Container': 'string',
+                        'Encryption': {
+                            'Mode': 'string',
+                            'Key': 'string',
+                            'KeyMd5': 'string',
+                            'InitializationVector': 'string'
+                        },
+                        'TimeSpan': {
+                            'StartTime': 'string',
+                            'Duration': 'string'
+                        },
+                        'InputCaptions': {
+                            'MergePolicy': 'string',
+                            'CaptionSources': [
+                                {
+                                    'Key': 'string',
+                                    'Language': 'string',
+                                    'TimeOffset': 'string',
+                                    'Label': 'string',
+                                    'Encryption': {
+                                        'Mode': 'string',
+                                        'Key': 'string',
+                                        'KeyMd5': 'string',
+                                        'InitializationVector': 'string'
+                                    }
+                                },
+                            ]
+                        },
+                        'DetectedProperties': {
+                            'Width': 123,
+                            'Height': 123,
+                            'FrameRate': 'string',
+                            'FileSize': 123,
+                            'DurationMillis': 123
+                        }
+                    },
+                ],
                 'Output': {
                     'Id': 'string',
                     'Key': 'string',
@@ -2188,7 +2528,7 @@ def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
     S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
     AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
     AES-CTR: AES Counter Mode.
-    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
     
     """
     pass
@@ -2196,6 +2536,7 @@ def list_jobs_by_pipeline(PipelineId=None, Ascending=None, PageToken=None):
 def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
     """
     The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_jobs_by_status(
@@ -2236,6 +2577,27 @@ def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
                         'KeyMd5': 'string',
                         'InitializationVector': 'string'
                     },
+                    'TimeSpan': {
+                        'StartTime': 'string',
+                        'Duration': 'string'
+                    },
+                    'InputCaptions': {
+                        'MergePolicy': 'string',
+                        'CaptionSources': [
+                            {
+                                'Key': 'string',
+                                'Language': 'string',
+                                'TimeOffset': 'string',
+                                'Label': 'string',
+                                'Encryption': {
+                                    'Mode': 'string',
+                                    'Key': 'string',
+                                    'KeyMd5': 'string',
+                                    'InitializationVector': 'string'
+                                }
+                            },
+                        ]
+                    },
                     'DetectedProperties': {
                         'Width': 123,
                         'Height': 123,
@@ -2244,6 +2606,50 @@ def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
                         'DurationMillis': 123
                     }
                 },
+                'Inputs': [
+                    {
+                        'Key': 'string',
+                        'FrameRate': 'string',
+                        'Resolution': 'string',
+                        'AspectRatio': 'string',
+                        'Interlaced': 'string',
+                        'Container': 'string',
+                        'Encryption': {
+                            'Mode': 'string',
+                            'Key': 'string',
+                            'KeyMd5': 'string',
+                            'InitializationVector': 'string'
+                        },
+                        'TimeSpan': {
+                            'StartTime': 'string',
+                            'Duration': 'string'
+                        },
+                        'InputCaptions': {
+                            'MergePolicy': 'string',
+                            'CaptionSources': [
+                                {
+                                    'Key': 'string',
+                                    'Language': 'string',
+                                    'TimeOffset': 'string',
+                                    'Label': 'string',
+                                    'Encryption': {
+                                        'Mode': 'string',
+                                        'Key': 'string',
+                                        'KeyMd5': 'string',
+                                        'InitializationVector': 'string'
+                                    }
+                                },
+                            ]
+                        },
+                        'DetectedProperties': {
+                            'Width': 123,
+                            'Height': 123,
+                            'FrameRate': 'string',
+                            'FileSize': 123,
+                            'DurationMillis': 123
+                        }
+                    },
+                ],
                 'Output': {
                     'Id': 'string',
                     'Key': 'string',
@@ -2488,7 +2894,7 @@ def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
     S3-AWS-KMS: Amazon S3 calls the Amazon Key Management Service, which creates and manages the keys that are used for encrypting your files. If you specify S3-AWS-KMS and you don't want to use the default key, you must add the AWS-KMS key that you want to use to your pipeline.
     AES-CBC-PKCS7: A padded cipher-block mode of operation originally used for HLS files.
     AES-CTR: AES Counter Mode.
-    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with will fail the decryption process.
+    AES-GCM: AES Galois Counter Mode, a mode of operation that is an authenticated encryption format, meaning that a file, key, or initialization vector that has been tampered with fails the decryption process.
     
     """
     pass
@@ -2496,6 +2902,7 @@ def list_jobs_by_status(Status=None, Ascending=None, PageToken=None):
 def list_pipelines(Ascending=None, PageToken=None):
     """
     The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_pipelines(
@@ -2570,6 +2977,7 @@ def list_pipelines(Ascending=None, PageToken=None):
 def list_presets(Ascending=None, PageToken=None):
     """
     The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_presets(
@@ -2667,6 +3075,7 @@ def list_presets(Ascending=None, PageToken=None):
 def read_job(Id=None):
     """
     The ReadJob operation returns detailed information about a job.
+    See also: AWS API Documentation
     
     
     :example: response = client.read_job(
@@ -2698,6 +3107,27 @@ def read_job(Id=None):
                     'KeyMd5': 'string',
                     'InitializationVector': 'string'
                 },
+                'TimeSpan': {
+                    'StartTime': 'string',
+                    'Duration': 'string'
+                },
+                'InputCaptions': {
+                    'MergePolicy': 'string',
+                    'CaptionSources': [
+                        {
+                            'Key': 'string',
+                            'Language': 'string',
+                            'TimeOffset': 'string',
+                            'Label': 'string',
+                            'Encryption': {
+                                'Mode': 'string',
+                                'Key': 'string',
+                                'KeyMd5': 'string',
+                                'InitializationVector': 'string'
+                            }
+                        },
+                    ]
+                },
                 'DetectedProperties': {
                     'Width': 123,
                     'Height': 123,
@@ -2706,6 +3136,50 @@ def read_job(Id=None):
                     'DurationMillis': 123
                 }
             },
+            'Inputs': [
+                {
+                    'Key': 'string',
+                    'FrameRate': 'string',
+                    'Resolution': 'string',
+                    'AspectRatio': 'string',
+                    'Interlaced': 'string',
+                    'Container': 'string',
+                    'Encryption': {
+                        'Mode': 'string',
+                        'Key': 'string',
+                        'KeyMd5': 'string',
+                        'InitializationVector': 'string'
+                    },
+                    'TimeSpan': {
+                        'StartTime': 'string',
+                        'Duration': 'string'
+                    },
+                    'InputCaptions': {
+                        'MergePolicy': 'string',
+                        'CaptionSources': [
+                            {
+                                'Key': 'string',
+                                'Language': 'string',
+                                'TimeOffset': 'string',
+                                'Label': 'string',
+                                'Encryption': {
+                                    'Mode': 'string',
+                                    'Key': 'string',
+                                    'KeyMd5': 'string',
+                                    'InitializationVector': 'string'
+                                }
+                            },
+                        ]
+                    },
+                    'DetectedProperties': {
+                        'Width': 123,
+                        'Height': 123,
+                        'FrameRate': 'string',
+                        'FileSize': 123,
+                        'DurationMillis': 123
+                    }
+                },
+            ],
             'Output': {
                 'Id': 'string',
                 'Key': 'string',
@@ -2954,6 +3428,7 @@ def read_job(Id=None):
 def read_pipeline(Id=None):
     """
     The ReadPipeline operation gets detailed information about a pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.read_pipeline(
@@ -3031,6 +3506,7 @@ def read_pipeline(Id=None):
 def read_preset(Id=None):
     """
     The ReadPreset operation gets detailed information about a preset.
+    See also: AWS API Documentation
     
     
     :example: response = client.read_preset(
@@ -3129,6 +3605,7 @@ def test_role(Role=None, InputBucket=None, OutputBucket=None, Topics=None):
     """
     The TestRole operation tests the IAM role used to create the pipeline.
     The TestRole action lets you determine whether the IAM role you are using has sufficient permissions to let Elastic Transcoder perform tasks associated with the transcoding process. The action attempts to assume the specified IAM role, checks read access to the input and output buckets, and tries to send a test notification to Amazon SNS topics that you specify.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_role(
@@ -3153,7 +3630,7 @@ def test_role(Role=None, InputBucket=None, OutputBucket=None, Topics=None):
 
     :type OutputBucket: string
     :param OutputBucket: [REQUIRED]
-            The Amazon S3 bucket that Elastic Transcoder will write transcoded media files to. The action attempts to read from this bucket.
+            The Amazon S3 bucket that Elastic Transcoder writes transcoded media files to. The action attempts to read from this bucket.
             
 
     :type Topics: list
@@ -3180,6 +3657,7 @@ def test_role(Role=None, InputBucket=None, OutputBucket=None, Topics=None):
 def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyArn=None, Notifications=None, ContentConfig=None, ThumbnailConfig=None):
     """
     Use the UpdatePipeline operation to update settings for a pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_pipeline(
@@ -3245,9 +3723,13 @@ def update_pipeline(Id=None, Name=None, InputBucket=None, Role=None, AwsKmsKeyAr
             
 
     :type Notifications: dict
-    :param Notifications: The Amazon Simple Notification Service (Amazon SNS) topic or topics to notify in order to report job status.
+    :param Notifications: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.
             Warning
             To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.
+            Progressing : The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.
+            Completed : The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.
+            Warning : The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.
+            Error : The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.
             Progressing (string) --The Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process the job.
             Completed (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing the job.
             Warning (string) --The Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition.
@@ -3410,6 +3892,7 @@ def update_pipeline_notifications(Id=None, Notifications=None):
     """
     With the UpdatePipelineNotifications operation, you can update Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline.
     When you update notifications for a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_pipeline_notifications(
@@ -3501,6 +3984,7 @@ def update_pipeline_status(Id=None, Status=None):
     """
     The UpdatePipelineStatus operation pauses or reactivates a pipeline, so that the pipeline stops or restarts the processing of jobs.
     Changing the pipeline status is useful if you want to cancel one or more jobs. You can't cancel jobs after Elastic Transcoder has started processing them; if you pause the pipeline to which you submitted the jobs, you have more time to get the job IDs for the jobs that you want to cancel, and to send a  CancelJob request.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_pipeline_status(

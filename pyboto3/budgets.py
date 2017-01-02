@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def create_budget(AccountId=None, Budget=None, NotificationsWithSubscribers=None):
     """
     Create a new budget
+    See also: AWS API Documentation
     
     
     :example: response = client.create_budget(
@@ -157,6 +158,7 @@ def create_budget(AccountId=None, Budget=None, NotificationsWithSubscribers=None
 def create_notification(AccountId=None, BudgetName=None, Notification=None, Subscribers=None):
     """
     Create a new Notification with subscribers for a budget
+    See also: AWS API Documentation
     
     
     :example: response = client.create_notification(
@@ -209,6 +211,7 @@ def create_notification(AccountId=None, BudgetName=None, Notification=None, Subs
 def create_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscriber=None):
     """
     Create a new Subscriber for a notification
+    See also: AWS API Documentation
     
     
     :example: response = client.create_subscriber(
@@ -258,6 +261,7 @@ def create_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscr
 def delete_budget(AccountId=None, BudgetName=None):
     """
     Delete a budget and related notifications
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_budget(
@@ -285,6 +289,7 @@ def delete_budget(AccountId=None, BudgetName=None):
 def delete_notification(AccountId=None, BudgetName=None, Notification=None):
     """
     Delete a notification and related subscribers
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_notification(
@@ -324,6 +329,7 @@ def delete_notification(AccountId=None, BudgetName=None, Notification=None):
 def delete_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscriber=None):
     """
     Delete a Subscriber for a notification
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_subscriber(
@@ -373,6 +379,7 @@ def delete_subscriber(AccountId=None, BudgetName=None, Notification=None, Subscr
 def describe_budget(AccountId=None, BudgetName=None):
     """
     Get a single budget
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_budget(
@@ -481,6 +488,7 @@ def describe_budget(AccountId=None, BudgetName=None):
 def describe_budgets(AccountId=None, MaxResults=None, NextToken=None):
     """
     Get all budgets for an account
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_budgets(
@@ -600,6 +608,7 @@ def describe_budgets(AccountId=None, MaxResults=None, NextToken=None):
 def describe_notifications_for_budget(AccountId=None, BudgetName=None, MaxResults=None, NextToken=None):
     """
     Get notifications of a budget
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_notifications_for_budget(
@@ -656,6 +665,7 @@ def describe_notifications_for_budget(AccountId=None, BudgetName=None, MaxResult
 def describe_subscribers_for_notification(AccountId=None, BudgetName=None, Notification=None, MaxResults=None, NextToken=None):
     """
     Get subscribers of a notification
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_subscribers_for_notification(
@@ -766,6 +776,7 @@ def get_waiter():
 def update_budget(AccountId=None, NewBudget=None):
     """
     Update the information of a budget already created
+    See also: AWS API Documentation
     
     
     :example: response = client.update_budget(
@@ -852,6 +863,7 @@ def update_budget(AccountId=None, NewBudget=None):
 def update_notification(AccountId=None, BudgetName=None, OldNotification=None, NewNotification=None):
     """
     Update the information about a notification already created
+    See also: AWS API Documentation
     
     
     :example: response = client.update_notification(
@@ -903,6 +915,7 @@ def update_notification(AccountId=None, BudgetName=None, OldNotification=None, N
 def update_subscriber(AccountId=None, BudgetName=None, Notification=None, OldSubscriber=None, NewSubscriber=None):
     """
     Update a subscriber
+    See also: AWS API Documentation
     
     
     :example: response = client.update_subscriber(

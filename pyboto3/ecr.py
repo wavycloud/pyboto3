@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def batch_check_layer_availability(registryId=None, repositoryName=None, layerDigests=None):
     """
     Check the availability of multiple image layers in a specified registry and repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_check_layer_availability(
@@ -58,7 +59,8 @@ def batch_check_layer_availability(registryId=None, repositoryName=None, layerDi
             {
                 'layerDigest': 'string',
                 'layerAvailability': 'AVAILABLE'|'UNAVAILABLE',
-                'layerSize': 123
+                'layerSize': 123,
+                'mediaType': 'string'
             },
         ],
         'failures': [
@@ -77,6 +79,9 @@ def batch_check_layer_availability(registryId=None, repositoryName=None, layerDi
 def batch_delete_image(registryId=None, repositoryName=None, imageIds=None):
     """
     Deletes a list of specified images within a specified repository. Images are specified with either imageTag or imageDigest .
+    You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository.
+    You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_delete_image(
@@ -132,9 +137,10 @@ def batch_delete_image(registryId=None, repositoryName=None, imageIds=None):
     """
     pass
 
-def batch_get_image(registryId=None, repositoryName=None, imageIds=None):
+def batch_get_image(registryId=None, repositoryName=None, imageIds=None, acceptedMediaTypes=None):
     """
     Gets detailed information for specified images within a specified repository. Images are specified with either imageTag or imageDigest .
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_image(
@@ -145,6 +151,9 @@ def batch_get_image(registryId=None, repositoryName=None, imageIds=None):
                 'imageDigest': 'string',
                 'imageTag': 'string'
             },
+        ],
+        acceptedMediaTypes=[
+            'string',
         ]
     )
     
@@ -164,6 +173,12 @@ def batch_get_image(registryId=None, repositoryName=None, imageIds=None):
             imageDigest (string) --The sha256 digest of the image manifest.
             imageTag (string) --The tag used for the image.
             
+            
+
+    :type acceptedMediaTypes: list
+    :param acceptedMediaTypes: The accepted media types for the request.
+            Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json | application/vnd.oci.image.manifest.v1+json
+            (string) --
             
 
     :rtype: dict
@@ -213,6 +228,7 @@ def can_paginate(operation_name=None):
 def complete_layer_upload(registryId=None, repositoryName=None, uploadId=None, layerDigests=None):
     """
     Inform Amazon ECR that the image layer upload for a specified registry, repository name, and upload ID, has completed. You can optionally provide a sha256 digest of the image layer for data validation purposes.
+    See also: AWS API Documentation
     
     
     :example: response = client.complete_layer_upload(
@@ -259,6 +275,7 @@ def complete_layer_upload(registryId=None, repositoryName=None, uploadId=None, l
 def create_repository(repositoryName=None):
     """
     Creates an image repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_repository(
@@ -289,6 +306,7 @@ def create_repository(repositoryName=None):
 def delete_repository(registryId=None, repositoryName=None, force=None):
     """
     Deletes an existing image repository. If a repository contains images, you must use the force option to delete it.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_repository(
@@ -327,6 +345,7 @@ def delete_repository(registryId=None, repositoryName=None, force=None):
 def delete_repository_policy(registryId=None, repositoryName=None):
     """
     Deletes the repository policy from a specified repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_repository_policy(
@@ -356,7 +375,8 @@ def delete_repository_policy(registryId=None, repositoryName=None):
 
 def describe_images(registryId=None, repositoryName=None, imageIds=None, nextToken=None, maxResults=None, filter=None):
     """
-    Returns metadata about the images in a repository, including image size and creation date.
+    Returns metadata about the images in a repository, including image size, image tags, and creation date.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_images(
@@ -377,7 +397,7 @@ def describe_images(registryId=None, repositoryName=None, imageIds=None, nextTok
     
     
     :type registryId: string
-    :param registryId: The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
+    :param registryId: The AWS account ID associated with the registry that contains the repository in which to describe images. If you do not specify a registry, the default registry is assumed.
 
     :type repositoryName: string
     :param repositoryName: [REQUIRED]
@@ -430,6 +450,7 @@ def describe_images(registryId=None, repositoryName=None, imageIds=None, nextTok
 def describe_repositories(registryId=None, repositoryNames=None, nextToken=None, maxResults=None):
     """
     Describes image repositories in a registry.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_repositories(
@@ -503,6 +524,7 @@ def get_authorization_token(registryIds=None):
     """
     Retrieves a token that is valid for a specified registry for 12 hours. This command allows you to use the docker CLI to push and pull images with Amazon ECR. If you do not specify a registry, the default registry is assumed.
     The authorizationToken returned for each registry specified is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The AWS CLI offers an aws ecr get-login command that simplifies the login process.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_authorization_token(
@@ -535,6 +557,7 @@ def get_authorization_token(registryIds=None):
 def get_download_url_for_layer(registryId=None, repositoryName=None, layerDigest=None):
     """
     Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer. You can only get URLs for image layers that are referenced in an image.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_download_url_for_layer(
@@ -586,6 +609,7 @@ def get_paginator(operation_name=None):
 def get_repository_policy(registryId=None, repositoryName=None):
     """
     Retrieves the repository policy for a specified repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_repository_policy(
@@ -622,6 +646,7 @@ def get_waiter():
 def initiate_layer_upload(registryId=None, repositoryName=None):
     """
     Notify Amazon ECR that you intend to upload an image layer.
+    See also: AWS API Documentation
     
     
     :example: response = client.initiate_layer_upload(
@@ -652,6 +677,7 @@ def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults
     """
     Lists all the image IDs for a given repository.
     You can filter images based on whether or not they are tagged by setting the tagStatus parameter to TAGGED or UNTAGGED . For example, you can filter your results to return only UNTAGGED images and then pipe that result to a  BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_images(
@@ -702,15 +728,17 @@ def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults
     """
     pass
 
-def put_image(registryId=None, repositoryName=None, imageManifest=None):
+def put_image(registryId=None, repositoryName=None, imageManifest=None, imageTag=None):
     """
-    Creates or updates the image manifest associated with an image.
+    Creates or updates the image manifest and tags associated with an image.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_image(
         registryId='string',
         repositoryName='string',
-        imageManifest='string'
+        imageManifest='string',
+        imageTag='string'
     )
     
     
@@ -726,6 +754,9 @@ def put_image(registryId=None, repositoryName=None, imageManifest=None):
     :param imageManifest: [REQUIRED]
             The image manifest corresponding to the image to be uploaded.
             
+
+    :type imageTag: string
+    :param imageTag: The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or OCI formats.
 
     :rtype: dict
     :return: {
@@ -747,6 +778,7 @@ def put_image(registryId=None, repositoryName=None, imageManifest=None):
 def set_repository_policy(registryId=None, repositoryName=None, policyText=None, force=None):
     """
     Applies a repository policy on a specified repository to control access permissions.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_repository_policy(
@@ -787,6 +819,7 @@ def set_repository_policy(registryId=None, repositoryName=None, policyText=None,
 def upload_layer_part(registryId=None, repositoryName=None, uploadId=None, partFirstByte=None, partLastByte=None, layerPartBlob=None):
     """
     Uploads an image layer part to Amazon ECR.
+    See also: AWS API Documentation
     
     
     :example: response = client.upload_layer_part(

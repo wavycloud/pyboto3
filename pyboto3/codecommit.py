@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def batch_get_repositories(repositoryNames=None):
     """
     Returns information about one or more repositories.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_repositories(
@@ -88,6 +89,7 @@ def can_paginate(operation_name=None):
 def create_branch(repositoryName=None, branchName=None, commitId=None):
     """
     Creates a new branch in a repository and points the branch to a commit.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_branch(
@@ -118,6 +120,7 @@ def create_branch(repositoryName=None, branchName=None, commitId=None):
 def create_repository(repositoryName=None, repositoryDescription=None):
     """
     Creates a new, empty repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_repository(
@@ -162,6 +165,7 @@ def create_repository(repositoryName=None, repositoryDescription=None):
 def delete_repository(repositoryName=None):
     """
     Deletes a repository. If a specified repository was already deleted, a null repository ID will be returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_repository(
@@ -208,6 +212,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_branch(repositoryName=None, branchName=None):
     """
     Returns information about a repository branch, including its name and the last commit ID.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_branch(
@@ -237,6 +242,7 @@ def get_branch(repositoryName=None, branchName=None):
 def get_commit(repositoryName=None, commitId=None):
     """
     Returns information about a commit, including commit message and committer information.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_commit(
@@ -303,6 +309,7 @@ def get_paginator(operation_name=None):
 def get_repository(repositoryName=None):
     """
     Returns information about a repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_repository(
@@ -338,6 +345,7 @@ def get_repository(repositoryName=None):
 def get_repository_triggers(repositoryName=None):
     """
     Gets information about triggers configured for a repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_repository_triggers(
@@ -382,6 +390,7 @@ def get_waiter():
 def list_branches(repositoryName=None, nextToken=None):
     """
     Gets information about one or more branches in a repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_branches(
@@ -416,6 +425,7 @@ def list_branches(repositoryName=None, nextToken=None):
 def list_repositories(nextToken=None, sortBy=None, order=None):
     """
     Gets information about one or more repositories.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_repositories(
@@ -452,6 +462,7 @@ def list_repositories(nextToken=None, sortBy=None, order=None):
 def put_repository_triggers(repositoryName=None, triggers=None):
     """
     Replaces all triggers for a repository. This can be used to create or delete triggers.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_repository_triggers(
@@ -500,6 +511,7 @@ def put_repository_triggers(repositoryName=None, triggers=None):
 def test_repository_triggers(repositoryName=None, triggers=None):
     """
     Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test will send data from the last commit. If no data is available, sample data will be generated.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_repository_triggers(
@@ -559,6 +571,7 @@ def test_repository_triggers(repositoryName=None, triggers=None):
 def update_default_branch(repositoryName=None, defaultBranchName=None):
     """
     Sets or changes the default branch name for the specified repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_default_branch(
@@ -583,6 +596,7 @@ def update_default_branch(repositoryName=None, defaultBranchName=None):
 def update_repository_description(repositoryName=None, repositoryDescription=None):
     """
     Sets or changes the comment or description for a repository.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_repository_description(
@@ -605,6 +619,7 @@ def update_repository_description(repositoryName=None, repositoryDescription=Non
 def update_repository_name(oldName=None, newName=None):
     """
     Renames a repository. The repository name must be unique across the calling AWS account. In addition, repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix ".git" is prohibited. For a full description of the limits on repository names, see Limits in the AWS CodeCommit User Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_repository_name(

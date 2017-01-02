@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def batch_delete_attributes(DomainName=None, Items=None):
     """
     Performs multiple DeleteAttributes operations in a single call, which reduces round trips and latencies. This enables Amazon SimpleDB to optimize requests, which generally yields better throughput.
     The following limitations are enforced for this operation:
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_delete_attributes(
@@ -96,6 +97,7 @@ def batch_put_attributes(DomainName=None, Items=None):
     Optionally, the requester can supply the Replace parameter for each individual value. Setting this value to true will cause the new attribute values to replace the existing attribute values. For example, if an item I has the attributes { 'a', '1' }, { 'b', '2'} and { 'b', '3' } and the requester does a BatchPutAttributes of {'I', 'b', '4' } with the Replace parameter set to true, the final attributes of the item will be { 'a', '1' } and { 'b', '4' } , replacing the previous values of the 'b' attribute with the new value.
     You can execute multiple BatchPutAttributes operations and other operations in parallel. However, large numbers of concurrent BatchPutAttributes calls can result in Service Unavailable (503) responses.
     The following limitations are enforced for this operation:
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_put_attributes(
@@ -173,6 +175,7 @@ def create_domain(DomainName=None):
     The CreateDomain operation creates a new domain. The domain name should be unique among the domains associated with the Access Key ID provided in the request. The CreateDomain operation may take 10 or more seconds to complete.
     The client can create up to 100 domains per account.
     If the client requires additional domains, go to http://aws.amazon.com/contact-us/simpledb-limit-request/ .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_domain(
@@ -190,6 +193,7 @@ def delete_attributes(DomainName=None, ItemName=None, Attributes=None, Expected=
     """
     Deletes one or more attributes associated with an item. If all attributes of the item are deleted, the item is deleted.
     Because Amazon SimpleDB makes multiple copies of item data and uses an eventual consistency update model, performing a  GetAttributes or  Select operation (read) immediately after a DeleteAttributes or  PutAttributes operation (write) might not return updated item data.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_attributes(
@@ -239,6 +243,7 @@ def delete_attributes(DomainName=None, ItemName=None, Attributes=None, Expected=
 def delete_domain(DomainName=None):
     """
     The DeleteDomain operation deletes a domain. Any items (and their attributes) in the domain are deleted as well. The DeleteDomain operation might take 10 or more seconds to complete.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_domain(
@@ -255,6 +260,7 @@ def delete_domain(DomainName=None):
 def domain_metadata(DomainName=None):
     """
     Returns information about the domain, including when the domain was created, the number of items and attributes in the domain, and the size of the attribute names and values.
+    See also: AWS API Documentation
     
     
     :example: response = client.domain_metadata(
@@ -306,6 +312,7 @@ def get_attributes(DomainName=None, ItemName=None, AttributeNames=None, Consiste
     """
     Returns all of the attributes associated with the specified item. Optionally, the attributes returned can be limited to one or more attributes by specifying an attribute name parameter.
     If the item does not exist on the replica that was accessed for this operation, an empty set is returned. The system does not return an error as it cannot guarantee the item does not exist on other replicas.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_attributes(
@@ -388,6 +395,7 @@ def get_waiter():
 def list_domains(MaxNumberOfDomains=None, NextToken=None):
     """
     The ListDomains operation lists all domains associated with the Access Key ID. It returns domain names up to the limit set by MaxNumberOfDomains . A NextToken is returned if there are more than MaxNumberOfDomains domains. Calling ListDomains successive times with the NextToken provided by the operation returns up to MaxNumberOfDomains more domain names with each successive operation call.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_domains(
@@ -432,6 +440,7 @@ def put_attributes(DomainName=None, ItemName=None, Attributes=None, Expected=Non
     You cannot specify an empty string as an attribute name.
     Because Amazon SimpleDB makes multiple copies of client data and uses an eventual consistency update model, an immediate  GetAttributes or  Select operation (read) immediately after a  PutAttributes or  DeleteAttributes operation (write) might not return the updated data.
     The following limitations are enforced for this operation:
+    See also: AWS API Documentation
     
     
     :example: response = client.put_attributes(
@@ -505,6 +514,7 @@ def select(SelectExpression=None, NextToken=None, ConsistentRead=None):
     The Select operation returns a set of attributes for ItemNames that match the select expression. Select is similar to the standard SQL SELECT statement.
     The total size of the response cannot exceed 1 MB in total size. Amazon SimpleDB automatically adjusts the number of items returned per page to enforce this limit. For example, if the client asks to retrieve 2500 items, but each individual item is 10 kB in size, the system returns 100 items and an appropriate NextToken so the client can access the next page of results.
     For information on how to construct select expressions, see Using Select to Create Amazon SimpleDB Queries in the Developer Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.select(

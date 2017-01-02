@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ def delete_thing_shadow(thingName=None):
     """
     Deletes the thing shadow for the specified thing.
     For more information, see DeleteThingShadow in the AWS IoT Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_thing_shadow(
@@ -106,6 +107,7 @@ def get_thing_shadow(thingName=None):
     """
     Gets the thing shadow for the specified thing.
     For more information, see GetThingShadow in the AWS IoT Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_thing_shadow(
@@ -137,6 +139,7 @@ def publish(topic=None, qos=None, payload=None):
     """
     Publishes state information.
     For more information, see HTTP Protocol in the AWS IoT Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.publish(
@@ -164,6 +167,7 @@ def update_thing_shadow(thingName=None, payload=None):
     """
     Updates the thing shadow for the specified thing.
     For more information, see UpdateThingShadow in the AWS IoT Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_thing_shadow(

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def assign_instance(InstanceId=None, LayerIds=None):
     """
     Assign a registered instance to a layer.
+    See also: AWS API Documentation
     
     
     :example: response = client.assign_instance(
@@ -65,6 +66,7 @@ def assign_instance(InstanceId=None, LayerIds=None):
 def assign_volume(VolumeId=None, InstanceId=None):
     """
     Assigns one of the stack's registered Amazon EBS volumes to a specified instance. The volume must first be registered with the stack by calling  RegisterVolume . After you register the volume, you must call  UpdateVolume to specify a mount point before calling AssignVolume . For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.assign_volume(
@@ -87,6 +89,7 @@ def assign_volume(VolumeId=None, InstanceId=None):
 def associate_elastic_ip(ElasticIp=None, InstanceId=None):
     """
     Associates one of the stack's registered Elastic IP addresses with a specified instance. The address must first be registered with the stack by calling  RegisterElasticIp . For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.associate_elastic_ip(
@@ -109,6 +112,7 @@ def associate_elastic_ip(ElasticIp=None, InstanceId=None):
 def attach_elastic_load_balancer(ElasticLoadBalancerName=None, LayerId=None):
     """
     Attaches an Elastic Load Balancing load balancer to a specified layer. For more information, see Elastic Load Balancing .
+    See also: AWS API Documentation
     
     
     :example: response = client.attach_elastic_load_balancer(
@@ -148,6 +152,7 @@ def can_paginate(operation_name=None):
 def clone_stack(SourceStackId=None, Name=None, Region=None, VpcId=None, Attributes=None, ServiceRoleArn=None, DefaultInstanceProfileArn=None, DefaultOs=None, HostnameTheme=None, DefaultAvailabilityZone=None, DefaultSubnetId=None, CustomJson=None, ConfigurationManager=None, ChefConfiguration=None, UseCustomCookbooks=None, UseOpsworksSecurityGroups=None, CustomCookbooksSource=None, DefaultSshKeyName=None, ClonePermissions=None, CloneAppIds=None, DefaultRootDeviceType=None, AgentVersion=None):
     """
     Creates a clone of a specified stack. For more information, see Clone a Stack . By default, all parameters are set to the values used by the parent stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.clone_stack(
@@ -347,6 +352,7 @@ def clone_stack(SourceStackId=None, Name=None, Region=None, VpcId=None, Attribut
 def create_app(StackId=None, Shortname=None, Name=None, Description=None, DataSources=None, Type=None, AppSource=None, Domains=None, EnableSsl=None, SslConfiguration=None, Attributes=None, Environment=None):
     """
     Creates an app for a specified stack. For more information, see Creating Apps .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_app(
@@ -484,6 +490,7 @@ def create_app(StackId=None, Shortname=None, Name=None, Description=None, DataSo
 def create_deployment(StackId=None, AppId=None, InstanceIds=None, LayerIds=None, Command=None, Comment=None, CustomJson=None):
     """
     Runs deployment or stack commands. For more information, see Deploying Apps and Run Stack Commands .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_deployment(
@@ -578,6 +585,7 @@ def create_deployment(StackId=None, AppId=None, InstanceIds=None, LayerIds=None,
 def create_instance(StackId=None, LayerIds=None, InstanceType=None, AutoScalingType=None, Hostname=None, Os=None, AmiId=None, SshKeyName=None, AvailabilityZone=None, VirtualizationType=None, SubnetId=None, Architecture=None, RootDeviceType=None, BlockDeviceMappings=None, InstallUpdatesOnBoot=None, EbsOptimized=None, AgentVersion=None, Tenancy=None):
     """
     Creates an instance in a specified stack. For more information, see Adding an Instance to a Layer .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_instance(
@@ -721,6 +729,7 @@ def create_instance(StackId=None, LayerIds=None, InstanceType=None, AutoScalingT
 def create_layer(StackId=None, Type=None, Name=None, Shortname=None, Attributes=None, CustomInstanceProfileArn=None, CustomJson=None, CustomSecurityGroupIds=None, Packages=None, VolumeConfigurations=None, EnableAutoHealing=None, AutoAssignElasticIps=None, AutoAssignPublicIps=None, CustomRecipes=None, InstallUpdatesOnBoot=None, UseEbsOptimizedInstances=None, LifecycleEventConfiguration=None):
     """
     Creates a layer. For more information, see How to Create a Layer .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_layer(
@@ -891,6 +900,7 @@ def create_layer(StackId=None, Type=None, Name=None, Shortname=None, Attributes=
 def create_stack(Name=None, Region=None, VpcId=None, Attributes=None, ServiceRoleArn=None, DefaultInstanceProfileArn=None, DefaultOs=None, HostnameTheme=None, DefaultAvailabilityZone=None, DefaultSubnetId=None, CustomJson=None, ConfigurationManager=None, ChefConfiguration=None, UseCustomCookbooks=None, UseOpsworksSecurityGroups=None, CustomCookbooksSource=None, DefaultSshKeyName=None, DefaultRootDeviceType=None, AgentVersion=None):
     """
     Creates a new stack. For more information, see Create a New Stack .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_stack(
@@ -1074,6 +1084,7 @@ def create_stack(Name=None, Region=None, VpcId=None, Attributes=None, ServiceRol
 def create_user_profile(IamUserArn=None, SshUsername=None, SshPublicKey=None, AllowSelfManagement=None):
     """
     Creates a new user profile.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_user_profile(
@@ -1110,6 +1121,7 @@ def create_user_profile(IamUserArn=None, SshUsername=None, SshPublicKey=None, Al
 def delete_app(AppId=None):
     """
     Deletes a specified app.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_app(
@@ -1129,6 +1141,7 @@ def delete_instance(InstanceId=None, DeleteElasticIp=None, DeleteVolumes=None):
     """
     Deletes a specified instance, which terminates the associated Amazon EC2 instance. You must stop an instance before you can delete it.
     For more information, see Deleting Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_instance(
@@ -1155,6 +1168,7 @@ def delete_instance(InstanceId=None, DeleteElasticIp=None, DeleteVolumes=None):
 def delete_layer(LayerId=None):
     """
     Deletes a specified layer. You must first stop and then delete all associated instances or unassign registered instances. For more information, see How to Delete a Layer .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_layer(
@@ -1173,6 +1187,7 @@ def delete_layer(LayerId=None):
 def delete_stack(StackId=None):
     """
     Deletes a specified stack. You must first delete all instances, layers, and apps or deregister registered instances. For more information, see Shut Down a Stack .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_stack(
@@ -1191,6 +1206,7 @@ def delete_stack(StackId=None):
 def delete_user_profile(IamUserArn=None):
     """
     Deletes a user profile.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_user_profile(
@@ -1209,6 +1225,7 @@ def delete_user_profile(IamUserArn=None):
 def deregister_ecs_cluster(EcsClusterArn=None):
     """
     Deregisters a specified Amazon ECS cluster from a stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_ecs_cluster(
@@ -1227,6 +1244,7 @@ def deregister_ecs_cluster(EcsClusterArn=None):
 def deregister_elastic_ip(ElasticIp=None):
     """
     Deregisters a specified Elastic IP address. The address can then be registered by another stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_elastic_ip(
@@ -1245,6 +1263,7 @@ def deregister_elastic_ip(ElasticIp=None):
 def deregister_instance(InstanceId=None):
     """
     Deregister a registered Amazon EC2 or on-premises instance. This action removes the instance from the stack and returns it to your control. This action can not be used with instances that were created with AWS OpsWorks.
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_instance(
@@ -1263,6 +1282,7 @@ def deregister_instance(InstanceId=None):
 def deregister_rds_db_instance(RdsDbInstanceArn=None):
     """
     Deregisters an Amazon RDS instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_rds_db_instance(
@@ -1281,6 +1301,7 @@ def deregister_rds_db_instance(RdsDbInstanceArn=None):
 def deregister_volume(VolumeId=None):
     """
     Deregisters an Amazon EBS volume. The volume can then be registered by another stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_volume(
@@ -1299,6 +1320,7 @@ def deregister_volume(VolumeId=None):
 def describe_agent_versions(StackId=None, ConfigurationManager=None):
     """
     Describes the available AWS OpsWorks agent versions. You must specify a stack ID or a configuration manager. DescribeAgentVersions returns a list of available agent versions for the specified stack or configuration manager.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_agent_versions(
@@ -1339,6 +1361,7 @@ def describe_agent_versions(StackId=None, ConfigurationManager=None):
 def describe_apps(StackId=None, AppIds=None):
     """
     Requests a description of a specified set of apps.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_apps(
@@ -1417,6 +1440,7 @@ def describe_apps(StackId=None, AppIds=None):
 def describe_commands(DeploymentId=None, InstanceId=None, CommandIds=None):
     """
     Describes the results of specified commands.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_commands(
@@ -1470,6 +1494,7 @@ def describe_commands(DeploymentId=None, InstanceId=None, CommandIds=None):
 def describe_deployments(StackId=None, AppId=None, DeploymentIds=None):
     """
     Requests a description of a specified set of deployments.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_deployments(
@@ -1534,6 +1559,7 @@ def describe_deployments(StackId=None, AppId=None, DeploymentIds=None):
 def describe_ecs_clusters(EcsClusterArns=None, StackId=None, NextToken=None, MaxResults=None):
     """
     Describes Amazon ECS clusters that are registered with a stack. If you specify only a stack ID, you can use the MaxResults and NextToken parameters to paginate the response. However, AWS OpsWorks currently supports only one cluster per layer, so the result set has a maximum of one element.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_ecs_clusters(
@@ -1580,6 +1606,7 @@ def describe_ecs_clusters(EcsClusterArns=None, StackId=None, NextToken=None, Max
 def describe_elastic_ips(InstanceId=None, StackId=None, Ips=None):
     """
     Describes Elastic IP addresses .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_elastic_ips(
@@ -1622,6 +1649,7 @@ def describe_elastic_ips(InstanceId=None, StackId=None, Ips=None):
 def describe_elastic_load_balancers(StackId=None, LayerIds=None):
     """
     Describes a stack's Elastic Load Balancing instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_elastic_load_balancers(
@@ -1673,6 +1701,7 @@ def describe_elastic_load_balancers(StackId=None, LayerIds=None):
 def describe_instances(StackId=None, LayerId=None, InstanceIds=None):
     """
     Requests a description of a set of instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_instances(
@@ -1774,6 +1803,7 @@ def describe_instances(StackId=None, LayerId=None, InstanceIds=None):
 def describe_layers(StackId=None, LayerIds=None):
     """
     Requests a description of one or more layers in a specified stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_layers(
@@ -1888,6 +1918,7 @@ def describe_layers(StackId=None, LayerIds=None):
 def describe_load_based_auto_scaling(LayerIds=None):
     """
     Describes load-based auto scaling configurations for specified layers.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_load_based_auto_scaling(
@@ -1945,6 +1976,7 @@ def describe_load_based_auto_scaling(LayerIds=None):
 def describe_my_user_profile():
     """
     Describes a user's SSH information.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_my_user_profile()
@@ -1967,6 +1999,7 @@ def describe_my_user_profile():
 def describe_permissions(IamUserArn=None, StackId=None):
     """
     Describes the permissions for a specified stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_permissions(
@@ -2006,6 +2039,7 @@ def describe_permissions(IamUserArn=None, StackId=None):
 def describe_raid_arrays(InstanceId=None, StackId=None, RaidArrayIds=None):
     """
     Describe an instance's RAID arrays.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_raid_arrays(
@@ -2056,6 +2090,7 @@ def describe_raid_arrays(InstanceId=None, StackId=None, RaidArrayIds=None):
 def describe_rds_db_instances(StackId=None, RdsDbInstanceArns=None):
     """
     Describes Amazon RDS instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_rds_db_instances(
@@ -2100,6 +2135,7 @@ def describe_rds_db_instances(StackId=None, RdsDbInstanceArns=None):
 def describe_service_errors(StackId=None, InstanceId=None, ServiceErrorIds=None):
     """
     Describes AWS OpsWorks service errors.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_service_errors(
@@ -2143,6 +2179,7 @@ def describe_service_errors(StackId=None, InstanceId=None, ServiceErrorIds=None)
 def describe_stack_provisioning_parameters(StackId=None):
     """
     Requests a description of a stack's provisioning parameters.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stack_provisioning_parameters(
@@ -2170,6 +2207,7 @@ def describe_stack_provisioning_parameters(StackId=None):
 def describe_stack_summary(StackId=None):
     """
     Describes the number of layers and apps in a specified stack, and the number of instances in each state, such as running_setup or online .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stack_summary(
@@ -2221,6 +2259,7 @@ def describe_stack_summary(StackId=None):
 def describe_stacks(StackIds=None):
     """
     Requests a description of one or more stacks.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stacks(
@@ -2293,6 +2332,7 @@ def describe_stacks(StackIds=None):
 def describe_time_based_auto_scaling(InstanceIds=None):
     """
     Describes time-based auto scaling configurations for specified instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_time_based_auto_scaling(
@@ -2353,6 +2393,7 @@ def describe_time_based_auto_scaling(InstanceIds=None):
 def describe_user_profiles(IamUserArns=None):
     """
     Describe specified users.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_user_profiles(
@@ -2387,6 +2428,7 @@ def describe_user_profiles(IamUserArns=None):
 def describe_volumes(InstanceId=None, StackId=None, RaidArrayId=None, VolumeIds=None):
     """
     Describes an instance's Amazon EBS volumes.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_volumes(
@@ -2441,6 +2483,7 @@ def describe_volumes(InstanceId=None, StackId=None, RaidArrayId=None, VolumeIds=
 def detach_elastic_load_balancer(ElasticLoadBalancerName=None, LayerId=None):
     """
     Detaches a specified Elastic Load Balancing instance from its layer.
+    See also: AWS API Documentation
     
     
     :example: response = client.detach_elastic_load_balancer(
@@ -2465,6 +2508,7 @@ def detach_elastic_load_balancer(ElasticLoadBalancerName=None, LayerId=None):
 def disassociate_elastic_ip(ElasticIp=None):
     """
     Disassociates an Elastic IP address from its instance. The address remains registered with the stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.disassociate_elastic_ip(
@@ -2505,6 +2549,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_hostname_suggestion(LayerId=None):
     """
     Gets a generated host name for the specified layer, based on the current host name theme.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_hostname_suggestion(
@@ -2552,6 +2597,7 @@ def get_waiter():
 def grant_access(InstanceId=None, ValidForInMinutes=None):
     """
     Grants RDP access to a Windows instance for a specified time period.
+    See also: AWS API Documentation
     
     
     :example: response = client.grant_access(
@@ -2585,6 +2631,7 @@ def grant_access(InstanceId=None, ValidForInMinutes=None):
 def reboot_instance(InstanceId=None):
     """
     Reboots a specified instance. For more information, see Starting, Stopping, and Rebooting Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.reboot_instance(
@@ -2603,6 +2650,7 @@ def reboot_instance(InstanceId=None):
 def register_ecs_cluster(EcsClusterArn=None, StackId=None):
     """
     Registers a specified Amazon ECS cluster with a stack. You can register only one cluster with a stack. A cluster can be registered with only one stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_ecs_cluster(
@@ -2633,6 +2681,7 @@ def register_ecs_cluster(EcsClusterArn=None, StackId=None):
 def register_elastic_ip(ElasticIp=None, StackId=None):
     """
     Registers an Elastic IP address with a specified stack. An address can be registered with only one stack at a time. If the address is already registered, you must first deregister it by calling  DeregisterElasticIp . For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_elastic_ip(
@@ -2663,6 +2712,7 @@ def register_elastic_ip(ElasticIp=None, StackId=None):
 def register_instance(StackId=None, Hostname=None, PublicIp=None, PrivateIp=None, RsaPublicKey=None, RsaPublicKeyFingerprint=None, InstanceIdentity=None):
     """
     Registers instances with a specified stack that were created outside of AWS OpsWorks.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_instance(
@@ -2717,6 +2767,7 @@ def register_instance(StackId=None, Hostname=None, PublicIp=None, PrivateIp=None
 def register_rds_db_instance(StackId=None, RdsDbInstanceArn=None, DbUser=None, DbPassword=None):
     """
     Registers an Amazon RDS instance with a stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_rds_db_instance(
@@ -2753,6 +2804,7 @@ def register_rds_db_instance(StackId=None, RdsDbInstanceArn=None, DbUser=None, D
 def register_volume(Ec2VolumeId=None, StackId=None):
     """
     Registers an Amazon EBS volume with a specified stack. A volume can be registered with only one stack at a time. If the volume is already registered, you must first deregister it by calling  DeregisterVolume . For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_volume(
@@ -2781,6 +2833,7 @@ def register_volume(Ec2VolumeId=None, StackId=None):
 def set_load_based_auto_scaling(LayerId=None, Enable=None, UpScaling=None, DownScaling=None):
     """
     Specify the load-based auto scaling configuration for a specified layer. For more information, see Managing Load with Time-based and Load-based Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_load_based_auto_scaling(
@@ -2853,6 +2906,7 @@ def set_load_based_auto_scaling(LayerId=None, Enable=None, UpScaling=None, DownS
 def set_permission(StackId=None, IamUserArn=None, AllowSsh=None, AllowSudo=None, Level=None):
     """
     Specifies a user's permissions. For more information, see Security and Permissions .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_permission(
@@ -2896,6 +2950,7 @@ def set_permission(StackId=None, IamUserArn=None, AllowSsh=None, AllowSudo=None,
 def set_time_based_auto_scaling(InstanceId=None, AutoScalingSchedule=None):
     """
     Specify the time-based auto scaling configuration for a specified instance. For more information, see Managing Load with Time-based and Load-based Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_time_based_auto_scaling(
@@ -2969,6 +3024,7 @@ def set_time_based_auto_scaling(InstanceId=None, AutoScalingSchedule=None):
 def start_instance(InstanceId=None):
     """
     Starts a specified instance. For more information, see Starting, Stopping, and Rebooting Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.start_instance(
@@ -2987,6 +3043,7 @@ def start_instance(InstanceId=None):
 def start_stack(StackId=None):
     """
     Starts a stack's instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_stack(
@@ -3005,6 +3062,7 @@ def start_stack(StackId=None):
 def stop_instance(InstanceId=None):
     """
     Stops a specified instance. When you stop a standard instance, the data disappears and must be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance without losing data. For more information, see Starting, Stopping, and Rebooting Instances .
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_instance(
@@ -3023,6 +3081,7 @@ def stop_instance(InstanceId=None):
 def stop_stack(StackId=None):
     """
     Stops a specified stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_stack(
@@ -3041,6 +3100,7 @@ def stop_stack(StackId=None):
 def unassign_instance(InstanceId=None):
     """
     Unassigns a registered instance from all of it's layers. The instance remains in the stack as an unassigned instance and can be assigned to another layer, as needed. You cannot use this action with instances that were created with AWS OpsWorks.
+    See also: AWS API Documentation
     
     
     :example: response = client.unassign_instance(
@@ -3059,6 +3119,7 @@ def unassign_instance(InstanceId=None):
 def unassign_volume(VolumeId=None):
     """
     Unassigns an assigned Amazon EBS volume. The volume remains registered with the stack. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.unassign_volume(
@@ -3077,6 +3138,7 @@ def unassign_volume(VolumeId=None):
 def update_app(AppId=None, Name=None, Description=None, DataSources=None, Type=None, AppSource=None, Domains=None, EnableSsl=None, SslConfiguration=None, Attributes=None, Environment=None):
     """
     Updates a specified app.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_app(
@@ -3200,6 +3262,7 @@ def update_app(AppId=None, Name=None, Description=None, DataSources=None, Type=N
 def update_elastic_ip(ElasticIp=None, Name=None):
     """
     Updates a registered Elastic IP address's name. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_elastic_ip(
@@ -3222,6 +3285,7 @@ def update_elastic_ip(ElasticIp=None, Name=None):
 def update_instance(InstanceId=None, LayerIds=None, InstanceType=None, AutoScalingType=None, Hostname=None, Os=None, AmiId=None, SshKeyName=None, Architecture=None, InstallUpdatesOnBoot=None, EbsOptimized=None, AgentVersion=None):
     """
     Updates a specified instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_instance(
@@ -3305,6 +3369,7 @@ def update_instance(InstanceId=None, LayerIds=None, InstanceType=None, AutoScali
 def update_layer(LayerId=None, Name=None, Shortname=None, Attributes=None, CustomInstanceProfileArn=None, CustomJson=None, CustomSecurityGroupIds=None, Packages=None, VolumeConfigurations=None, EnableAutoHealing=None, AutoAssignElasticIps=None, AutoAssignPublicIps=None, CustomRecipes=None, InstallUpdatesOnBoot=None, UseEbsOptimizedInstances=None, LifecycleEventConfiguration=None):
     """
     Updates a specified layer.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_layer(
@@ -3459,6 +3524,7 @@ def update_layer(LayerId=None, Name=None, Shortname=None, Attributes=None, Custo
 def update_my_user_profile(SshPublicKey=None):
     """
     Updates a user's SSH public key.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_my_user_profile(
@@ -3475,6 +3541,7 @@ def update_my_user_profile(SshPublicKey=None):
 def update_rds_db_instance(RdsDbInstanceArn=None, DbUser=None, DbPassword=None):
     """
     Updates an Amazon RDS instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_rds_db_instance(
@@ -3501,6 +3568,7 @@ def update_rds_db_instance(RdsDbInstanceArn=None, DbUser=None, DbPassword=None):
 def update_stack(StackId=None, Name=None, Attributes=None, ServiceRoleArn=None, DefaultInstanceProfileArn=None, DefaultOs=None, HostnameTheme=None, DefaultAvailabilityZone=None, DefaultSubnetId=None, CustomJson=None, ConfigurationManager=None, ChefConfiguration=None, UseCustomCookbooks=None, CustomCookbooksSource=None, DefaultSshKeyName=None, DefaultRootDeviceType=None, UseOpsworksSecurityGroups=None, AgentVersion=None):
     """
     Updates a specified stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_stack(
@@ -3660,6 +3728,7 @@ def update_stack(StackId=None, Name=None, Attributes=None, ServiceRoleArn=None, 
 def update_user_profile(IamUserArn=None, SshUsername=None, SshPublicKey=None, AllowSelfManagement=None):
     """
     Updates a specified user profile.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_user_profile(
@@ -3690,6 +3759,7 @@ def update_user_profile(IamUserArn=None, SshUsername=None, SshPublicKey=None, Al
 def update_volume(VolumeId=None, Name=None, MountPoint=None):
     """
     Updates an Amazon EBS volume's name or mount point. For more information, see Resource Management .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_volume(

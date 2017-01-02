@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ def authorize_cluster_security_group_ingress(ClusterSecurityGroupName=None, CIDR
     If you authorize access to an Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId . The Amazon EC2 security group and Amazon Redshift cluster must be in the same AWS region.
     If you authorize access to a CIDR/IP address range, specify CIDRIP . For an overview of CIDR blocks, see the Wikipedia article on Classless Inter-Domain Routing .
     You must also associate the security group with a cluster so that clients running on these IP addresses or the EC2 instance are authorized to connect to the cluster. For information about managing security groups, go to Working with Security Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.authorize_cluster_security_group_ingress(
@@ -103,6 +104,7 @@ def authorize_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier
     """
     Authorizes the specified AWS customer account to restore the specified snapshot.
     For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.authorize_snapshot_access(
@@ -200,6 +202,7 @@ def copy_cluster_snapshot(SourceSnapshotIdentifier=None, SourceSnapshotClusterId
     Copies the specified automated cluster snapshot to a new manual cluster snapshot. The source must be an automated snapshot and it must be in the available state.
     When you delete a cluster, Amazon Redshift deletes any automated snapshots of the cluster. Also, when the retention period of the snapshot expires, Amazon Redshift automatically deletes it. If you want to keep an automated snapshot for a longer period, you can make a manual copy of the snapshot. Manual snapshots are retained until you delete them.
     For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.copy_cluster_snapshot(
@@ -292,6 +295,7 @@ def create_cluster(DBName=None, ClusterIdentifier=None, ClusterType=None, NodeTy
     """
     Creates a new cluster.
     To create the cluster in Virtual Private Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group identifies the subnets of your VPC that Amazon Redshift uses when creating the cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster(
@@ -647,6 +651,7 @@ def create_cluster_parameter_group(ParameterGroupName=None, ParameterGroupFamily
     Creates an Amazon Redshift parameter group.
     Creating parameter groups is independent of creating clusters. You can associate a cluster with a parameter group when you create the cluster. You can also associate an existing cluster with a parameter group after the cluster is created by using  ModifyCluster .
     Parameters in the parameter group define specific behavior that applies to the databases you create on the cluster. For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster_parameter_group(
@@ -716,6 +721,7 @@ def create_cluster_security_group(ClusterSecurityGroupName=None, Description=Non
     """
     Creates a new Amazon Redshift security group. You use security groups to control access to non-VPC clusters.
     For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster_security_group(
@@ -800,6 +806,7 @@ def create_cluster_snapshot(SnapshotIdentifier=None, ClusterIdentifier=None, Tag
     """
     Creates a manual snapshot of the specified cluster. The cluster must be in the available state.
     For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster_snapshot(
@@ -897,6 +904,7 @@ def create_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
     """
     Creates a new Amazon Redshift subnet group. You must provide a list of one or more subnets in your existing Amazon Virtual Private Cloud (Amazon VPC) when creating Amazon Redshift subnet group.
     For information about subnet groups, go to Amazon Redshift Cluster Subnet Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster_subnet_group(
@@ -977,6 +985,7 @@ def create_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceTyp
     Creates an Amazon Redshift event notification subscription. This action requires an ARN (Amazon Resource Name) of an Amazon SNS topic created by either the Amazon Redshift console, the Amazon SNS console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console.
     You can specify the source type, and lists of Amazon Redshift source IDs, event categories, and event severities. Notifications will be sent for all events you want that match those criteria. For example, you can specify source type = cluster, source ID = my-cluster-1 and mycluster2, event categories = Availability, Backup, and severity = ERROR. The subscription will only send notifications for those ERROR events in the Availability and Backup categories for the specified clusters.
     If you specify both the source type and source IDs, such as source type = cluster and source identifier = my-cluster-1, notifications will be sent for all the cluster events for my-cluster-1. If you specify a source type but do not specify a source identifier, you will receive notice of the events for the objects of that type in your AWS account. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all Amazon Redshift sources belonging to your AWS account. You must specify a source type if you specify a source ID.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_event_subscription(
@@ -1087,6 +1096,7 @@ def create_hsm_client_certificate(HsmClientCertificateIdentifier=None, Tags=None
     """
     Creates an HSM client certificate that an Amazon Redshift cluster will use to connect to the client's HSM in order to store and retrieve the keys used to encrypt the cluster databases.
     The command returns a public key, which you must store in the HSM. In addition to creating the HSM certificate, you must create an Amazon Redshift HSM configuration that provides a cluster the information needed to store and use encryption keys in the HSM. For more information, go to Hardware Security Modules in the Amazon Redshift Cluster Management Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_hsm_client_certificate(
@@ -1135,6 +1145,7 @@ def create_hsm_configuration(HsmConfigurationIdentifier=None, Description=None, 
     """
     Creates an HSM configuration that contains the information required by an Amazon Redshift cluster to store and use database encryption keys in a Hardware Security Module (HSM). After creating the HSM configuration, you can specify it as a parameter when creating a cluster. The cluster will then store its encryption keys in the HSM.
     In addition to creating an HSM configuration, you must also create an HSM client certificate. For more information, go to Hardware Security Modules in the Amazon Redshift Cluster Management Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_hsm_configuration(
@@ -1215,6 +1226,7 @@ def create_snapshot_copy_grant(SnapshotCopyGrantName=None, KmsKeyId=None, Tags=N
     """
     Creates a snapshot copy grant that permits Amazon Redshift to use a customer master key (CMK) from AWS Key Management Service (AWS KMS) to encrypt copied snapshots in a destination region.
     For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_snapshot_copy_grant(
@@ -1274,6 +1286,7 @@ def create_tags(ResourceName=None, Tags=None):
     Adds one or more tags to a specified resource.
     A resource can have up to 10 tags. If you try to create more than 10 tags for a resource, you will receive an error and the attempt will fail.
     If you specify a key that already exists for the resource, the value for that key will be updated with the new value.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_tags(
@@ -1309,6 +1322,7 @@ def delete_cluster(ClusterIdentifier=None, SkipFinalClusterSnapshot=None, FinalC
     Deletes a previously provisioned cluster. A successful response from the web service indicates that the request was received correctly. Use  DescribeClusters to monitor the status of the deletion. The delete operation cannot be canceled or reverted once submitted. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
     If you want to shut down the cluster and retain it for future use, set SkipFinalClusterSnapshot to false and specify a name for FinalClusterSnapshotIdentifier . You can later restore this snapshot to resume using the cluster. If a final cluster snapshot is requested, the status of the cluster will be "final-snapshot" while the snapshot is being taken, then it's "deleting" once Amazon Redshift begins deleting the cluster.
     For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster(
@@ -1476,6 +1490,7 @@ def delete_cluster(ClusterIdentifier=None, SkipFinalClusterSnapshot=None, FinalC
 def delete_cluster_parameter_group(ParameterGroupName=None):
     """
     Deletes a specified Amazon Redshift parameter group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster_parameter_group(
@@ -1498,6 +1513,7 @@ def delete_cluster_security_group(ClusterSecurityGroupName=None):
     """
     Deletes an Amazon Redshift security group.
     For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster_security_group(
@@ -1517,6 +1533,7 @@ def delete_cluster_snapshot(SnapshotIdentifier=None, SnapshotClusterIdentifier=N
     """
     Deletes the specified manual snapshot. The snapshot must be in the available state, with no other users authorized to access the snapshot.
     Unlike automated snapshots, manual snapshots are retained even after you delete your cluster. Amazon Redshift does not delete your manual snapshots. You must delete manual snapshot explicitly to avoid getting charged. If other accounts are authorized to access the snapshot, you must revoke all of the authorizations before you can delete the snapshot.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster_snapshot(
@@ -1594,6 +1611,7 @@ def delete_cluster_snapshot(SnapshotIdentifier=None, SnapshotClusterIdentifier=N
 def delete_cluster_subnet_group(ClusterSubnetGroupName=None):
     """
     Deletes the specified cluster subnet group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster_subnet_group(
@@ -1612,6 +1630,7 @@ def delete_cluster_subnet_group(ClusterSubnetGroupName=None):
 def delete_event_subscription(SubscriptionName=None):
     """
     Deletes an Amazon Redshift event notification subscription.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_event_subscription(
@@ -1630,6 +1649,7 @@ def delete_event_subscription(SubscriptionName=None):
 def delete_hsm_client_certificate(HsmClientCertificateIdentifier=None):
     """
     Deletes the specified HSM client certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_hsm_client_certificate(
@@ -1648,6 +1668,7 @@ def delete_hsm_client_certificate(HsmClientCertificateIdentifier=None):
 def delete_hsm_configuration(HsmConfigurationIdentifier=None):
     """
     Deletes the specified Amazon Redshift HSM configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_hsm_configuration(
@@ -1666,6 +1687,7 @@ def delete_hsm_configuration(HsmConfigurationIdentifier=None):
 def delete_snapshot_copy_grant(SnapshotCopyGrantName=None):
     """
     Deletes the specified snapshot copy grant.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_snapshot_copy_grant(
@@ -1684,6 +1706,7 @@ def delete_snapshot_copy_grant(SnapshotCopyGrantName=None):
 def delete_tags(ResourceName=None, TagKeys=None):
     """
     Deletes a tag or tags from a resource. You must provide the ARN of the resource from which you want to delete the tag or tags.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_tags(
@@ -1714,6 +1737,7 @@ def describe_cluster_parameter_groups(ParameterGroupName=None, MaxRecords=None, 
     For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide .
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all parameter groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all parameter groups that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, parameter groups are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_parameter_groups(
@@ -1778,6 +1802,7 @@ def describe_cluster_parameters(ParameterGroupName=None, Source=None, MaxRecords
     Returns a detailed list of parameters contained within the specified Amazon Redshift parameter group. For each parameter the response includes information such as parameter name, description, data type, value, whether the parameter value is modifiable, and so on.
     You can specify source filter to retrieve parameters of only specific type. For example, to retrieve parameters that were modified by a user action such as from  ModifyClusterParameterGroup , you can specify source equal to user .
     For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_parameters(
@@ -1836,6 +1861,7 @@ def describe_cluster_security_groups(ClusterSecurityGroupName=None, MaxRecords=N
     For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide .
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all security groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all security groups that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, security groups are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_security_groups(
@@ -1928,6 +1954,7 @@ def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, 
     Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by you AWS customer account. No information is returned for snapshots owned by inactive AWS customer accounts.
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all snapshots that have any combination of those values are returned. Only snapshots that you own are returned in the response; shared snapshots are not returned with the tag key and tag value request parameters.
     If both tag keys and values are omitted from the request, snapshots are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_snapshots(
@@ -2054,6 +2081,7 @@ def describe_cluster_subnet_groups(ClusterSubnetGroupName=None, MaxRecords=None,
     Returns one or more cluster subnet group objects, which contain metadata about your cluster subnet groups. By default, this operation returns information about all cluster subnet groups that are defined in you AWS account.
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all subnet groups that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subnet groups that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, subnet groups are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_subnet_groups(
@@ -2126,6 +2154,7 @@ def describe_cluster_subnet_groups(ClusterSubnetGroupName=None, MaxRecords=None,
 def describe_cluster_versions(ClusterVersion=None, ClusterParameterGroupFamily=None, MaxRecords=None, Marker=None):
     """
     Returns descriptions of the available Amazon Redshift cluster versions. You can call this operation even before creating any clusters to learn more about the Amazon Redshift versions. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster_versions(
@@ -2179,6 +2208,7 @@ def describe_clusters(ClusterIdentifier=None, MaxRecords=None, Marker=None, TagK
     Returns properties of provisioned clusters including general cluster properties, cluster database properties, maintenance and backup properties, and security and access properties. This operation supports pagination. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all clusters that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all clusters that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, clusters are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_clusters(
@@ -2357,6 +2387,7 @@ def describe_default_cluster_parameters(ParameterGroupFamily=None, MaxRecords=No
     """
     Returns a list of parameter settings for the specified parameter group family.
     For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_default_cluster_parameters(
@@ -2408,6 +2439,7 @@ def describe_default_cluster_parameters(ParameterGroupFamily=None, MaxRecords=No
 def describe_event_categories(SourceType=None):
     """
     Displays a list of event categories for all event source types, or for a specified source type. For a list of the event categories and source types, go to Amazon Redshift Event Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_event_categories(
@@ -2446,6 +2478,7 @@ def describe_event_categories(SourceType=None):
 def describe_event_subscriptions(SubscriptionName=None, MaxRecords=None, Marker=None):
     """
     Lists descriptions of all the Amazon Redshift event notifications subscription for a customer account. If you specify a subscription name, lists the description for that subscription.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_event_subscriptions(
@@ -2507,6 +2540,7 @@ def describe_event_subscriptions(SubscriptionName=None, MaxRecords=None, Marker=
 def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndTime=None, Duration=None, MaxRecords=None, Marker=None):
     """
     Returns events related to clusters, security groups, snapshots, and parameter groups for the past 14 days. Events specific to a particular cluster, security group, snapshot or parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_events(
@@ -2594,6 +2628,7 @@ def describe_hsm_client_certificates(HsmClientCertificateIdentifier=None, MaxRec
     Returns information about the specified HSM client certificate. If no certificate ID is specified, returns information about all the HSM certificates owned by your AWS customer account.
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM client certificates that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM client certificates that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, HSM client certificates are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_hsm_client_certificates(
@@ -2657,6 +2692,7 @@ def describe_hsm_configurations(HsmConfigurationIdentifier=None, MaxRecords=None
     Returns information about the specified Amazon Redshift HSM configuration. If no configuration ID is specified, returns information about all the HSM configurations owned by your AWS customer account.
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM connections that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all HSM connections that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, HSM connections are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_hsm_configurations(
@@ -2720,6 +2756,7 @@ def describe_hsm_configurations(HsmConfigurationIdentifier=None, MaxRecords=None
 def describe_logging_status(ClusterIdentifier=None):
     """
     Describes whether information, such as queries and connection attempts, is being logged for the specified Amazon Redshift cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_logging_status(
@@ -2750,6 +2787,7 @@ def describe_logging_status(ClusterIdentifier=None):
 def describe_orderable_cluster_options(ClusterVersion=None, NodeType=None, MaxRecords=None, Marker=None):
     """
     Returns a list of orderable cluster options. Before you create a new cluster you can use this operation to find what options are available, such as the EC2 Availability Zones (AZ) in the specific AWS region that you can specify, and the node types you can request. The node types differ by available storage, memory, CPU and price. With the cost involved you might want to obtain a list of cluster options in the specific region and specify values when creating a cluster. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_orderable_cluster_options(
@@ -2803,6 +2841,7 @@ def describe_reserved_node_offerings(ReservedNodeOfferingId=None, MaxRecords=Non
     """
     Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to  PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster.
     For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_reserved_node_offerings(
@@ -2853,6 +2892,7 @@ def describe_reserved_node_offerings(ReservedNodeOfferingId=None, MaxRecords=Non
 def describe_reserved_nodes(ReservedNodeId=None, MaxRecords=None, Marker=None):
     """
     Returns the descriptions of the reserved nodes.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_reserved_nodes(
@@ -2913,6 +2953,7 @@ def describe_resize(ClusterIdentifier=None):
     """
     Returns information about the last resize operation for the specified cluster. If no resize operation has ever been initiated for the specified cluster, a HTTP 404 error is returned. If a resize operation was initiated and completed, the status of the resize remains as SUCCEEDED until the next resize.
     A resize operation can be requested using  ModifyCluster and specifying a different number or type of nodes for the cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_resize(
@@ -2959,6 +3000,7 @@ def describe_snapshot_copy_grants(SnapshotCopyGrantName=None, MaxRecords=None, M
     """
     Returns a list of snapshot copy grants owned by the AWS account in the destination region.
     For more information about managing snapshot copy grants, go to Amazon Redshift Database Encryption in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_snapshot_copy_grants(
@@ -3022,6 +3064,7 @@ def describe_snapshot_copy_grants(SnapshotCopyGrantName=None, MaxRecords=None, M
 def describe_table_restore_status(ClusterIdentifier=None, TableRestoreRequestId=None, MaxRecords=None, Marker=None):
     """
     Lists the status of one or more table restore requests made using the  RestoreTableFromClusterSnapshot API action. If you don't specify a value for the TableRestoreRequestId parameter, then DescribeTableRestoreStatus returns the status of all table restore requests ordered by the date and time of the request in ascending order. Otherwise DescribeTableRestoreStatus returns the status of the table specified by TableRestoreRequestId .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_table_restore_status(
@@ -3077,6 +3120,7 @@ def describe_tags(ResourceName=None, ResourceType=None, MaxRecords=None, Marker=
     The following are limitations for DescribeTags :
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all resources that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all resources that have any combination of those values are returned.
     If both tag keys and values are omitted from the request, resources are returned regardless of whether they have tag keys or values associated with them.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_tags(
@@ -3179,6 +3223,7 @@ def describe_tags(ResourceName=None, ResourceType=None, MaxRecords=None, Marker=
 def disable_logging(ClusterIdentifier=None):
     """
     Stops logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_logging(
@@ -3210,6 +3255,7 @@ def disable_snapshot_copy(ClusterIdentifier=None):
     """
     Disables the automatic copying of snapshots from one region to another region for a specified cluster.
     If your cluster and its snapshots are encrypted using a customer master key (CMK) from AWS KMS, use  DeleteSnapshotCopyGrant to delete the grant that grants Amazon Redshift permission to the CMK in the destination region.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_snapshot_copy(
@@ -3347,6 +3393,7 @@ def disable_snapshot_copy(ClusterIdentifier=None):
 def enable_logging(ClusterIdentifier=None, BucketName=None, S3KeyPrefix=None):
     """
     Starts logging information, such as queries and connection attempts, for the specified Amazon Redshift cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_logging(
@@ -3399,6 +3446,7 @@ def enable_logging(ClusterIdentifier=None, BucketName=None, S3KeyPrefix=None):
 def enable_snapshot_copy(ClusterIdentifier=None, DestinationRegion=None, RetentionPeriod=None, SnapshotCopyGrantName=None):
     """
     Enables the automatic copy of snapshots from one region to another region for a specified cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_snapshot_copy(
@@ -3608,6 +3656,7 @@ def modify_cluster(ClusterIdentifier=None, ClusterType=None, NodeType=None, Numb
     """
     Modifies the settings for a cluster. For example, you can add another security or parameter group, update the preferred maintenance window, or change the master user password. Resetting a cluster password or modifying the security groups associated with a cluster do not need a reboot. However, modifying a parameter group requires a reboot for parameters to take effect. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
     You can also change node type and the number of nodes to scale up or down the cluster. When resizing a cluster, you must specify both the number of nodes and the node type even if one of the parameters does not change.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cluster(
@@ -3886,6 +3935,7 @@ def modify_cluster_iam_roles(ClusterIdentifier=None, AddIamRoles=None, RemoveIam
     """
     Modifies the list of AWS Identity and Access Management (IAM) roles that can be used by the cluster to access other AWS services.
     A cluster can have up to 10 IAM roles associated at any time.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cluster_iam_roles(
@@ -4048,6 +4098,7 @@ def modify_cluster_parameter_group(ParameterGroupName=None, Parameters=None):
     """
     Modifies the parameters of a parameter group.
     For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cluster_parameter_group(
@@ -4104,6 +4155,7 @@ def modify_cluster_parameter_group(ParameterGroupName=None, Parameters=None):
 def modify_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, SubnetIds=None):
     """
     Modifies a cluster subnet group to include the specified list of VPC subnets. The operation replaces the existing list of subnets with the new list of subnets.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cluster_subnet_group(
@@ -4161,6 +4213,7 @@ def modify_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
 def modify_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceType=None, SourceIds=None, EventCategories=None, Severity=None, Enabled=None):
     """
     Modifies an existing Amazon Redshift event notification subscription.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_event_subscription(
@@ -4249,6 +4302,7 @@ def modify_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceTyp
 def modify_snapshot_copy_retention_period(ClusterIdentifier=None, RetentionPeriod=None):
     """
     Modifies the number of days to retain automated snapshots in the destination region after they are copied from the source region.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_snapshot_copy_retention_period(
@@ -4404,6 +4458,7 @@ def purchase_reserved_node_offering(ReservedNodeOfferingId=None, NodeCount=None)
     """
     Allows you to purchase reserved nodes. Amazon Redshift offers a predefined set of reserved node offerings. You can purchase one or more of the offerings. You can call the  DescribeReservedNodeOfferings API to obtain the available reserved node offerings. You can call this API by providing a specific reserved node offering and the number of nodes you want to reserve.
     For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.purchase_reserved_node_offering(
@@ -4457,6 +4512,7 @@ def purchase_reserved_node_offering(ReservedNodeOfferingId=None, NodeCount=None)
 def reboot_cluster(ClusterIdentifier=None):
     """
     Reboots a cluster. This action is taken as soon as possible. It results in a momentary outage to the cluster, during which the cluster status is set to rebooting . A cluster event is created when the reboot is completed. Any pending cluster modifications (see  ModifyCluster ) are applied at this reboot. For more information about managing clusters, go to Amazon Redshift Clusters in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.reboot_cluster(
@@ -4593,6 +4649,7 @@ def reboot_cluster(ClusterIdentifier=None):
 def reset_cluster_parameter_group(ParameterGroupName=None, ResetAllParameters=None, Parameters=None):
     """
     Sets one or more parameters of the specified parameter group to their default values and sets the source values of the parameters to "engine-default". To reset the entire parameter group specify the ResetAllParameters parameter. For parameter changes to take effect you must reboot any associated clusters.
+    See also: AWS API Documentation
     
     
     :example: response = client.reset_cluster_parameter_group(
@@ -4655,6 +4712,7 @@ def restore_from_cluster_snapshot(ClusterIdentifier=None, SnapshotIdentifier=Non
     Creates a new cluster from a snapshot. By default, Amazon Redshift creates the resulting cluster with the same configuration as the original cluster from which the snapshot was created, except that the new cluster is created with the default cluster security and parameter groups. After Amazon Redshift creates the cluster, you can use the  ModifyCluster API to associate a different security group and different parameter group with the restored cluster. If you are using a DS node type, you can also choose to change to another DS node type of the same size during restore.
     If you restore a cluster into a VPC, you must provide a cluster subnet group where you want the cluster restored.
     For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.restore_from_cluster_snapshot(
@@ -4940,6 +4998,7 @@ def restore_table_from_cluster_snapshot(ClusterIdentifier=None, SnapshotIdentifi
     """
     Creates a new table from a table in an Amazon Redshift cluster snapshot. You must create the new table within the Amazon Redshift cluster that the snapshot was taken from.
     You cannot use RestoreTableFromClusterSnapshot to restore a table with the same name as an existing table in an Amazon Redshift cluster. That is, you cannot overwrite an existing table in a cluster with a restored table. If you want to replace your original table with a new, restored table, then rename or drop your original table before you call RestoreTableFromClusterSnapshot . When you have renamed your original table, then you can pass the original name of the table as the NewTableName parameter value in the call to RestoreTableFromClusterSnapshot . This way, you can replace the original table with the table created from the snapshot.
+    See also: AWS API Documentation
     
     
     :example: response = client.restore_table_from_cluster_snapshot(
@@ -5015,6 +5074,7 @@ def restore_table_from_cluster_snapshot(ClusterIdentifier=None, SnapshotIdentifi
 def revoke_cluster_security_group_ingress(ClusterSecurityGroupName=None, CIDRIP=None, EC2SecurityGroupName=None, EC2SecurityGroupOwnerId=None):
     """
     Revokes an ingress rule in an Amazon Redshift security group for a previously authorized IP range or Amazon EC2 security group. To add an ingress rule, see  AuthorizeClusterSecurityGroupIngress . For information about managing security groups, go to Amazon Redshift Cluster Security Groups in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.revoke_cluster_security_group_ingress(
@@ -5088,6 +5148,7 @@ def revoke_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier=No
     """
     Removes the ability of the specified AWS customer account to restore the specified snapshot. If the account is currently restoring the snapshot, the restore will run to completion.
     For more information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift Cluster Management Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.revoke_snapshot_access(
@@ -5168,6 +5229,7 @@ def revoke_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier=No
 def rotate_encryption_key(ClusterIdentifier=None):
     """
     Rotates the encryption keys for a cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.rotate_encryption_key(

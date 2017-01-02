@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def create_cluster(clusterName=None):
     """
     Creates a new Amazon ECS cluster. By default, your account receives a default cluster when you launch your first container instance. However, you can create your own cluster with a unique name with the CreateCluster action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cluster(
@@ -69,14 +70,15 @@ def create_cluster(clusterName=None):
     """
     pass
 
-def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBalancers=None, desiredCount=None, clientToken=None, role=None, deploymentConfiguration=None):
+def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBalancers=None, desiredCount=None, clientToken=None, role=None, deploymentConfiguration=None, placementConstraints=None, placementStrategy=None):
     """
-    Runs and maintains a desired number of tasks from a specified task definition. If the number of tasks running in a service drops below desiredCount , Amazon ECS spawns another instantiation of the task in the specified cluster. To update an existing service, see  UpdateService .
+    Runs and maintains a desired number of tasks from a specified task definition. If the number of tasks running in a service drops below desiredCount , Amazon ECS spawns another copy of the task in the specified cluster. To update an existing service, see  UpdateService .
     In addition to maintaining the desired count of tasks in your service, you can optionally run your service behind a load balancer. The load balancer distributes traffic across the tasks that are associated with the service. For more information, see Service Load Balancing in the Amazon EC2 Container Service Developer Guide .
-    You can optionally specify a deployment configuration for your service. During a deployment (which is triggered by changing the task definition of a service with an  UpdateService operation), the service scheduler uses the minimumHealthyPercent and maximumPercent parameters to determine the deployment strategy.
-    If the minimumHealthyPercent is below 100%, the scheduler can ignore the desiredCount temporarily during a deployment. For example, if your service has a desiredCount of four tasks, a minimumHealthyPercent of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and the container instance it is hosted on is reported as healthy by the load balancer. The default value for minimumHealthyPercent is 50% in the console and 100% for the AWS CLI, the AWS SDKs, and the APIs.
-    The maximumPercent parameter represents an upper limit on the number of running tasks during a deployment, which enables you to define the deployment batch size. For example, if your service has a desiredCount of four tasks, a maximumPercent value of 200% starts four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximumPercent is 200%.
-    When the service scheduler launches new tasks, it attempts to balance them across the Availability Zones in your cluster with the following logic:
+    You can optionally specify a deployment configuration for your service. During a deployment (which is triggered by changing the task definition or the desired count of a service with an  UpdateService operation), the service scheduler uses the minimumHealthyPercent and maximumPercent parameters to determine the deployment strategy.
+    The minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and the container instance it is hosted on is reported as healthy by the load balancer. The default value for minimumHealthyPercent is 50% in the console and 100% for the AWS CLI, the AWS SDKs, and the APIs.
+    The maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default value for maximumPercent is 200%.
+    When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic:
+    See also: AWS API Documentation
     
     
     :example: response = client.create_service(
@@ -97,7 +99,19 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
         deploymentConfiguration={
             'maximumPercent': 123,
             'minimumHealthyPercent': 123
-        }
+        },
+        placementConstraints=[
+            {
+                'type': 'distinctInstance'|'memberOf',
+                'expression': 'string'
+            },
+        ],
+        placementStrategy=[
+            {
+                'type': 'random'|'spread'|'binpack',
+                'field': 'string'
+            },
+        ]
     )
     
     
@@ -115,7 +129,7 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
             
 
     :type loadBalancers: list
-    :param loadBalancers: A load balancer object representing the load balancer to use with your service. Currently, you are limited to one load balancer per service. After you create a service, the load balancer name, container name, and container port specified in the service definition are immutable.
+    :param loadBalancers: A load balancer object representing the load balancer to use with your service. Currently, you are limited to one load balancer or target group per service. After you create a service, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable.
             For Elastic Load Balancing Classic load balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here.
             For Elastic Load Balancing Application load balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here.
             (dict) --Details on a load balancer that is used with a service.
@@ -141,8 +155,24 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
 
     :type deploymentConfiguration: dict
     :param deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-            maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of running tasks that can be running in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
-            minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain running and healthy in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
+            maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
+            minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain in the RUNNING state in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
+            
+
+    :type placementConstraints: list
+    :param placementConstraints: An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
+            (dict) --An object representing a constraint on task placement. For more information, see Task Placement Constraints in the Amazon EC2 Container Service Developer Guide .
+            type (string) --The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates.
+            expression (string) --A cluster query language expression to apply to the constraint. Note you cannot specify an expression if the constraint type is distinctInstance . For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
+            
+            
+
+    :type placementStrategy: list
+    :param placementStrategy: The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules per service.
+            (dict) --The task placement strategy for a task or service. For more information, see Task Placement Strategies in the Amazon EC2 Container Service Developer Guide .
+            type (string) --The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
+            field (string) --The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host , which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone . For the binpack placement strategy, valid values are CPU and MEMORY .
+            
             
 
     :rtype: dict
@@ -188,7 +218,19 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
                     'message': 'string'
                 },
             ],
-            'createdAt': datetime(2015, 1, 1)
+            'createdAt': datetime(2015, 1, 1),
+            'placementConstraints': [
+                {
+                    'type': 'distinctInstance'|'memberOf',
+                    'expression': 'string'
+                },
+            ],
+            'placementStrategy': [
+                {
+                    'type': 'random'|'spread'|'binpack',
+                    'field': 'string'
+                },
+            ]
         }
     }
     
@@ -201,7 +243,7 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
     taskDefinition (string) -- [REQUIRED]
     The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used.
     
-    loadBalancers (list) -- A load balancer object representing the load balancer to use with your service. Currently, you are limited to one load balancer per service. After you create a service, the load balancer name, container name, and container port specified in the service definition are immutable.
+    loadBalancers (list) -- A load balancer object representing the load balancer to use with your service. Currently, you are limited to one load balancer or target group per service. After you create a service, the load balancer name or target group ARN, container name, and container port specified in the service definition are immutable.
     For Elastic Load Balancing Classic load balancers, this object must contain the load balancer name, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance is registered with the load balancer specified here.
     For Elastic Load Balancing Application load balancers, this object must contain the load balancer target group ARN, the container name (as it appears in a container definition), and the container port to access from the load balancer. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group specified here.
     
@@ -228,11 +270,84 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
     
     deploymentConfiguration (dict) -- Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
     
-    maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of running tasks that can be running in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
+    maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
     
-    minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain running and healthy in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
+    minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain in the RUNNING state in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
     
     
+    
+    placementConstraints (list) -- An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
+    
+    (dict) --An object representing a constraint on task placement. For more information, see Task Placement Constraints in the Amazon EC2 Container Service Developer Guide .
+    
+    type (string) --The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates.
+    
+    expression (string) --A cluster query language expression to apply to the constraint. Note you cannot specify an expression if the constraint type is distinctInstance . For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
+    
+    
+    
+    
+    
+    placementStrategy (list) -- The placement strategy objects to use for tasks in your service. You can specify a maximum of 5 strategy rules per service.
+    
+    (dict) --The task placement strategy for a task or service. For more information, see Task Placement Strategies in the Amazon EC2 Container Service Developer Guide .
+    
+    type (string) --The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
+    
+    field (string) --The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host , which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone . For the binpack placement strategy, valid values are CPU and MEMORY .
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
+def delete_attributes(cluster=None, attributes=None):
+    """
+    Deletes one or more attributes from an Amazon ECS resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_attributes(
+        cluster='string',
+        attributes=[
+            {
+                'name': 'string',
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
+            },
+        ]
+    )
+    
+    
+    :type cluster: string
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
+
+    :type attributes: list
+    :param attributes: [REQUIRED]
+            The attributes to delete from your resource. You can specify up to 10 attributes per request. For custom attributes, specify the attribute name and target ID, but do not specify the value. If you specify the target ID using the short form, you must also specify the target type.
+            (dict) --Attributes are name-value pairs associated with various Amazon ECS objects. Attributes allow you to extend the Amazon ECS data model by adding custom metadata to your resources.
+            name (string) -- [REQUIRED]The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
+            value (string) --The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
+            targetType (string) --The type of the target with which to attach the attribute. This parameter is required if you use the short form ID for a resource instead of the full Amazon Resource Name (ARN).
+            targetId (string) --The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
+            
+            
+
+    :rtype: dict
+    :return: {
+        'attributes': [
+            {
+                'name': 'string',
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
+            },
+        ]
+    }
     
     
     """
@@ -241,6 +356,7 @@ def create_service(cluster=None, serviceName=None, taskDefinition=None, loadBala
 def delete_cluster(cluster=None):
     """
     Deletes the specified cluster. You must deregister all container instances from this cluster before you may delete it. You can list the container instances in a cluster with  ListContainerInstances and deregister them with  DeregisterContainerInstance .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cluster(
@@ -273,6 +389,7 @@ def delete_cluster(cluster=None):
 def delete_service(cluster=None, service=None):
     """
     Deletes a specified service within a cluster. You can delete a service if you have no running tasks in it and the desired task count is zero. If the service is actively maintaining tasks, you cannot delete it, and you must update the service to a desired task count of zero. For more information, see  UpdateService .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_service(
@@ -332,7 +449,19 @@ def delete_service(cluster=None, service=None):
                     'message': 'string'
                 },
             ],
-            'createdAt': datetime(2015, 1, 1)
+            'createdAt': datetime(2015, 1, 1),
+            'placementConstraints': [
+                {
+                    'type': 'distinctInstance'|'memberOf',
+                    'expression': 'string'
+                },
+            ],
+            'placementStrategy': [
+                {
+                    'type': 'random'|'spread'|'binpack',
+                    'field': 'string'
+                },
+            ]
         }
     }
     
@@ -345,6 +474,7 @@ def deregister_container_instance(cluster=None, containerInstance=None, force=No
     Deregisters an Amazon ECS container instance from the specified cluster. This instance is no longer available to run tasks.
     If you intend to use the container instance for some other purpose after deregistration, you should stop all of the tasks running on the container instance before deregistration to avoid any orphaned tasks from consuming resources.
     Deregistering a container instance removes the instance from a cluster, but it does not terminate the EC2 instance; if you are finished using the instance, be sure to terminate it in the Amazon EC2 console to stop billing.
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_container_instance(
@@ -363,13 +493,16 @@ def deregister_container_instance(cluster=None, containerInstance=None, force=No
             
 
     :type force: boolean
-    :param force: Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running and they continue to pass Elastic Load Balancing load balancer health checks until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.
+    :param force: Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.
+            Any containers in orphaned service tasks that are registered with a Classic load balancer or an Application load balancer target group are deregistered, and they will begin connection draining according to the settings on the load balancer or target group.
+            
 
     :rtype: dict
     :return: {
         'containerInstance': {
             'containerInstanceArn': 'string',
             'ec2InstanceId': 'string',
+            'version': 123,
             'versionInfo': {
                 'agentVersion': 'string',
                 'agentHash': 'string',
@@ -407,7 +540,9 @@ def deregister_container_instance(cluster=None, containerInstance=None, force=No
             'attributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
                 },
             ]
         }
@@ -424,6 +559,7 @@ def deregister_task_definition(taskDefinition=None):
     """
     Deregisters the specified task definition by family and revision. Upon deregistration, the task definition is marked as INACTIVE . Existing tasks and services that reference an INACTIVE task definition continue to run without disruption. Existing services that reference an INACTIVE task definition can still scale up or down by modifying the service's desired count.
     You cannot use an INACTIVE task definition to run new tasks or create new services, and you cannot update an existing service to reference an INACTIVE task definition (although there may be up to a 10 minute window following deregistration where these restrictions have not yet taken effect).
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_task_definition(
@@ -538,7 +674,15 @@ def deregister_task_definition(taskDefinition=None):
             'requiresAttributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
+                },
+            ],
+            'placementConstraints': [
+                {
+                    'type': 'memberOf',
+                    'expression': 'string'
                 },
             ]
         }
@@ -555,6 +699,7 @@ def deregister_task_definition(taskDefinition=None):
 def describe_clusters(clusters=None):
     """
     Describes one or more of your clusters.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_clusters(
@@ -597,6 +742,7 @@ def describe_clusters(clusters=None):
 def describe_container_instances(cluster=None, containerInstances=None):
     """
     Describes Amazon EC2 Container Service container instances. Returns metadata about registered and remaining resources on each container instance requested.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_container_instances(
@@ -622,6 +768,7 @@ def describe_container_instances(cluster=None, containerInstances=None):
             {
                 'containerInstanceArn': 'string',
                 'ec2InstanceId': 'string',
+                'version': 123,
                 'versionInfo': {
                     'agentVersion': 'string',
                     'agentHash': 'string',
@@ -659,7 +806,9 @@ def describe_container_instances(cluster=None, containerInstances=None):
                 'attributes': [
                     {
                         'name': 'string',
-                        'value': 'string'
+                        'value': 'string',
+                        'targetType': 'container-instance',
+                        'targetId': 'string'
                     },
                 ]
             },
@@ -682,6 +831,7 @@ def describe_container_instances(cluster=None, containerInstances=None):
 def describe_services(cluster=None, services=None):
     """
     Describes the specified services running in your cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_services(
@@ -697,7 +847,7 @@ def describe_services(cluster=None, services=None):
 
     :type services: list
     :param services: [REQUIRED]
-            A list of services to describe.
+            A list of services to describe. You may specify up to 10 services to describe in a single operation.
             (string) --
             
 
@@ -745,7 +895,19 @@ def describe_services(cluster=None, services=None):
                         'message': 'string'
                     },
                 ],
-                'createdAt': datetime(2015, 1, 1)
+                'createdAt': datetime(2015, 1, 1),
+                'placementConstraints': [
+                    {
+                        'type': 'distinctInstance'|'memberOf',
+                        'expression': 'string'
+                    },
+                ],
+                'placementStrategy': [
+                    {
+                        'type': 'random'|'spread'|'binpack',
+                        'field': 'string'
+                    },
+                ]
             },
         ],
         'failures': [
@@ -763,6 +925,7 @@ def describe_services(cluster=None, services=None):
 def describe_task_definition(taskDefinition=None):
     """
     Describes a task definition. You can specify a family and revision to find information about a specific task definition, or you can simply specify the family to find the latest ACTIVE revision in that family.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_task_definition(
@@ -877,7 +1040,15 @@ def describe_task_definition(taskDefinition=None):
             'requiresAttributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
+                },
+            ],
+            'placementConstraints': [
+                {
+                    'type': 'memberOf',
+                    'expression': 'string'
                 },
             ]
         }
@@ -894,6 +1065,7 @@ def describe_task_definition(taskDefinition=None):
 def describe_tasks(cluster=None, tasks=None):
     """
     Describes a specified task or tasks.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_tasks(
@@ -959,10 +1131,12 @@ def describe_tasks(cluster=None, tasks=None):
                     },
                 ],
                 'startedBy': 'string',
+                'version': 123,
                 'stoppedReason': 'string',
                 'createdAt': datetime(2015, 1, 1),
                 'startedAt': datetime(2015, 1, 1),
-                'stoppedAt': datetime(2015, 1, 1)
+                'stoppedAt': datetime(2015, 1, 1),
+                'group': 'string'
             },
         ],
         'failures': [
@@ -983,6 +1157,7 @@ def describe_tasks(cluster=None, tasks=None):
 def discover_poll_endpoint(containerInstance=None, cluster=None):
     """
     Returns an endpoint for the Amazon EC2 Container Service agent to poll for updates.
+    See also: AWS API Documentation
     
     
     :example: response = client.discover_poll_endpoint(
@@ -1051,9 +1226,66 @@ def get_waiter():
     """
     pass
 
+def list_attributes(cluster=None, targetType=None, attributeName=None, attributeValue=None, nextToken=None, maxResults=None):
+    """
+    Lists the attributes for Amazon ECS resources within a specified target type and cluster. When you specify a target type and cluster, LisAttributes returns a list of attribute objects, one for each attribute on each resource. You can filter the list of results to a single attribute name to only return results that have that name. You can also filter the results by attribute name and value, for example, to see which container instances in a cluster are running a Linux AMI (ecs.os-type=linux ).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_attributes(
+        cluster='string',
+        targetType='container-instance',
+        attributeName='string',
+        attributeValue='string',
+        nextToken='string',
+        maxResults=123
+    )
+    
+    
+    :type cluster: string
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster to list attributes. If you do not specify a cluster, the default cluster is assumed.
+
+    :type targetType: string
+    :param targetType: [REQUIRED]
+            The type of the target with which to list attributes.
+            
+
+    :type attributeName: string
+    :param attributeName: The name of the attribute with which to filter the results.
+
+    :type attributeValue: string
+    :param attributeValue: The value of the attribute with which to filter results. You must also specify an attribute name to use this parameter.
+
+    :type nextToken: string
+    :param nextToken: The nextToken value returned from a previous paginated ListAttributes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+            Note
+            This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of cluster results returned by ListAttributes in paginated output. When this parameter is used, ListAttributes only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListAttributes request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListAttributes returns up to 100 results and a nextToken value if applicable.
+
+    :rtype: dict
+    :return: {
+        'attributes': [
+            {
+                'name': 'string',
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def list_clusters(nextToken=None, maxResults=None):
     """
     Returns a list of existing clusters.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_clusters(
@@ -1086,20 +1318,25 @@ def list_clusters(nextToken=None, maxResults=None):
     """
     pass
 
-def list_container_instances(cluster=None, nextToken=None, maxResults=None):
+def list_container_instances(cluster=None, filter=None, nextToken=None, maxResults=None):
     """
-    Returns a list of container instances in a specified cluster.
+    Returns a list of container instances in a specified cluster. You can filter the results of a ListContainerInstances operation with cluster query language statements inside the filter parameter. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_container_instances(
         cluster='string',
+        filter='string',
         nextToken='string',
         maxResults=123
     )
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instances to list. If you do not specify a cluster, the default cluster is assumed.
+
+    :type filter: string
+    :param filter: You can filter the results of a ListContainerInstances operation with cluster query language statements. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
 
     :type nextToken: string
     :param nextToken: The nextToken value returned from a previous paginated ListContainerInstances request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
@@ -1128,6 +1365,7 @@ def list_container_instances(cluster=None, nextToken=None, maxResults=None):
 def list_services(cluster=None, nextToken=None, maxResults=None):
     """
     Lists the services that are running in a specified cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_services(
@@ -1138,7 +1376,7 @@ def list_services(cluster=None, nextToken=None, maxResults=None):
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the services to list. If you do not specify a cluster, the default cluster is assumed.
 
     :type nextToken: string
     :param nextToken: The nextToken value returned from a previous paginated ListServices request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
@@ -1168,6 +1406,7 @@ def list_task_definition_families(familyPrefix=None, status=None, nextToken=None
     """
     Returns a list of task definition families that are registered to your account (which may include task definition families that no longer have any ACTIVE task definition revisions).
     You can filter out task definition families that do not contain any ACTIVE task definition revisions by setting the status parameter to ACTIVE . You can also filter the results with the familyPrefix parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_task_definition_families(
@@ -1211,6 +1450,7 @@ def list_task_definition_families(familyPrefix=None, status=None, nextToken=None
 def list_task_definitions(familyPrefix=None, status=None, sort=None, nextToken=None, maxResults=None):
     """
     Returns a list of task definitions that are registered to your account. You can filter the results by family name with the familyPrefix parameter or by status with the status parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_task_definitions(
@@ -1259,6 +1499,7 @@ def list_tasks(cluster=None, containerInstance=None, family=None, nextToken=None
     """
     Returns a list of tasks for a specified cluster. You can filter the results by family name, by a particular container instance, or by the desired status of the task with the family , containerInstance , and desiredStatus parameters.
     Recently-stopped tasks might appear in the returned results. Currently, stopped tasks appear in the returned results for at least one hour.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tasks(
@@ -1274,7 +1515,7 @@ def list_tasks(cluster=None, containerInstance=None, family=None, nextToken=None
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the tasks to list. If you do not specify a cluster, the default cluster is assumed.
 
     :type containerInstance: string
     :param containerInstance: The container instance ID or full Amazon Resource Name (ARN) of the container instance with which to filter the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
@@ -1318,9 +1559,59 @@ def list_tasks(cluster=None, containerInstance=None, family=None, nextToken=None
     """
     pass
 
+def put_attributes(cluster=None, attributes=None):
+    """
+    Create or update an attribute on an Amazon ECS resource. If the attribute does not already exist on the given target, it is created; if it does exist, it is replaced with the new value.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_attributes(
+        cluster='string',
+        attributes=[
+            {
+                'name': 'string',
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
+            },
+        ]
+    )
+    
+    
+    :type cluster: string
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
+
+    :type attributes: list
+    :param attributes: [REQUIRED]
+            The attributes to apply to your resource. You can specify up to 10 custom attributes per resource. You can specify up to 10 attributes in a single call.
+            (dict) --Attributes are name-value pairs associated with various Amazon ECS objects. Attributes allow you to extend the Amazon ECS data model by adding custom metadata to your resources.
+            name (string) -- [REQUIRED]The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
+            value (string) --The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
+            targetType (string) --The type of the target with which to attach the attribute. This parameter is required if you use the short form ID for a resource instead of the full Amazon Resource Name (ARN).
+            targetId (string) --The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
+            
+            
+
+    :rtype: dict
+    :return: {
+        'attributes': [
+            {
+                'name': 'string',
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
 def register_container_instance(cluster=None, instanceIdentityDocument=None, instanceIdentityDocumentSignature=None, totalResources=None, versionInfo=None, containerInstanceArn=None, attributes=None):
     """
     Registers an EC2 instance into the specified cluster. This instance becomes available to place containers on.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_container_instance(
@@ -1348,14 +1639,16 @@ def register_container_instance(cluster=None, instanceIdentityDocument=None, ins
         attributes=[
             {
                 'name': 'string',
-                'value': 'string'
+                'value': 'string',
+                'targetType': 'container-instance',
+                'targetId': 'string'
             },
         ]
     )
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster with which to register your container instance. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster with which to register your container instance. If you do not specify a cluster, the default cluster is assumed.
 
     :type instanceIdentityDocument: string
     :param instanceIdentityDocument: The instance identity document for the EC2 instance to register. This document can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/document/
@@ -1388,9 +1681,11 @@ def register_container_instance(cluster=None, instanceIdentityDocument=None, ins
 
     :type attributes: list
     :param attributes: The container instance attributes that this container instance supports.
-            (dict) --The attributes applicable to a container instance when it is registered.
-            name (string) -- [REQUIRED]The name of the container instance attribute.
-            value (string) --The value of the container instance attribute (at this time, the value here is Null , but this could change in future revisions for expandability).
+            (dict) --Attributes are name-value pairs associated with various Amazon ECS objects. Attributes allow you to extend the Amazon ECS data model by adding custom metadata to your resources.
+            name (string) -- [REQUIRED]The name of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, and periods are allowed.
+            value (string) --The value of the attribute. Up to 128 letters (uppercase and lowercase), numbers, hyphens, underscores, periods, at signs (@), forward slashes, colons, and spaces are allowed.
+            targetType (string) --The type of the target with which to attach the attribute. This parameter is required if you use the short form ID for a resource instead of the full Amazon Resource Name (ARN).
+            targetId (string) --The ID of the target. You can specify the short form ID for a resource or the full Amazon Resource Name (ARN).
             
             
 
@@ -1399,6 +1694,7 @@ def register_container_instance(cluster=None, instanceIdentityDocument=None, ins
         'containerInstance': {
             'containerInstanceArn': 'string',
             'ec2InstanceId': 'string',
+            'version': 123,
             'versionInfo': {
                 'agentVersion': 'string',
                 'agentHash': 'string',
@@ -1436,7 +1732,9 @@ def register_container_instance(cluster=None, instanceIdentityDocument=None, ins
             'attributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
                 },
             ]
         }
@@ -1449,11 +1747,12 @@ def register_container_instance(cluster=None, instanceIdentityDocument=None, ins
     """
     pass
 
-def register_task_definition(family=None, taskRoleArn=None, networkMode=None, containerDefinitions=None, volumes=None):
+def register_task_definition(family=None, taskRoleArn=None, networkMode=None, containerDefinitions=None, volumes=None, placementConstraints=None):
     """
     Registers a new task definition from the supplied family and containerDefinitions . Optionally, you can add data volumes to your containers with the volumes parameter. For more information about task definition parameters and defaults, see Amazon ECS Task Definitions in the Amazon EC2 Container Service Developer Guide .
     You can specify an IAM role for your task with the taskRoleArn parameter. When you specify an IAM role for a task, its containers can then use the latest versions of the AWS CLI or SDKs to make API requests to the AWS services that are specified in the IAM policy associated with the role. For more information, see IAM Roles for Tasks in the Amazon EC2 Container Service Developer Guide .
     You can specify a Docker networking mode for the containers in your task definition with the networkMode parameter. The available network modes correspond to those described in Network settings in the Docker run reference.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_task_definition(
@@ -1549,6 +1848,12 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
                     'sourcePath': 'string'
                 }
             },
+        ],
+        placementConstraints=[
+            {
+                'type': 'memberOf',
+                'expression': 'string'
+            },
         ]
     )
     
@@ -1559,7 +1864,7 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             
 
     :type taskRoleArn: string
-    :param taskRoleArn: The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role.
+    :param taskRoleArn: The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see IAM Roles for Tasks in the Amazon EC2 Container Service Developer Guide .
 
     :type networkMode: string
     :param networkMode: The Docker networking mode to use for the containers in the task. The valid values are none , bridge , and host .
@@ -1573,6 +1878,9 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             (dict) --Container definitions are used in task definitions to describe the different containers that are launched as part of a task.
             name (string) --The name of a container. If you are linking multiple containers together in a task definition, the name of one container can be entered in the links of another container to connect the containers. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This parameter maps to name in the Create a container section of the Docker Remote API and the --name option to docker run .
             image (string) --The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with `` repository-url /image :tag `` . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run .
+            Note
+            Amazon ECS task definitions currently only support tags as image identifiers within a specified repository (and not sha256 digests).
+            Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.region-name.amazonaws.com/repository-name ).
             Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo ).
             Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent ).
             Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu ).
@@ -1589,7 +1897,7 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             memoryReservation (integer) --The soft limit (in MiB) of memory to reserve for the container. When system memory is under heavy contention, Docker attempts to keep the container memory to this soft limit; however, your container can consume more memory when it needs to, up to either the hard limit specified with the memory parameter (if applicable), or all of the available memory on the container instance, whichever comes first. This parameter maps to MemoryReservation in the Create a container section of the Docker Remote API and the --memory-reservation option to docker run .
             You must specify a non-zero integer for one or both of memory or memoryReservation in container definitions. If you specify both, memory must be greater than memoryReservation . If you specify memoryReservation , then that value is subtracted from the available memory resources for the container instance on which the container is placed; otherwise, the value of memory is used.
             For example, if your container normally uses 128 MiB of memory, but occasionally bursts to 256 MiB of memory for short periods of time, you can set a memoryReservation of 128 MiB, and a memory hard limit of 300 MiB. This configuration would allow the container to only reserve 128 MiB of memory from the remaining resources on the container instance, but also allow the container to consume more memory resources when needed.
-            links (list) --The link parameter allows containers to communicate with each other without the need for port mappings, using the name parameter and optionally, an alias for the link. This construct is analogous to name:alias in Docker links. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed for each name and alias . For more information on linking Docker containers, see https://docs.docker.com/userguide/dockerlinks/ . This parameter maps to Links in the Create a container section of the Docker Remote API and the --link option to docker run .
+            links (list) --The link parameter allows containers to communicate with each other without the need for port mappings, using the name parameter and optionally, an alias for the link. This construct is analogous to name:alias in Docker links. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed for each name and alias . For more information on linking Docker containers, see https://docs.docker.com/engine/userguide/networking/default_network/dockerlinks/ . This parameter maps to Links in the Create a container section of the Docker Remote API and the --link option to docker run .
             Warning
             Containers that are collocated on a single container instance may be able to communicate with each other without requiring links or host port mappings. Network isolation is achieved on the container instance using security groups and VPC settings.
             (string) --
@@ -1600,7 +1908,7 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             containerPort (integer) --The port number on the container that is bound to the user-specified or automatically assigned host port. If you specify a container port and not a host port, your container automatically receives a host port in the ephemeral port range (for more information, see hostPort ). Port mappings that are automatically assigned in this way do not count toward the 100 reserved ports limit of a container instance.
             hostPort (integer) --The port number on the container instance to reserve for your container. You can specify a non-reserved host port for your container port mapping, or you can omit the hostPort (or set it to 0 ) while specifying a containerPort and your container automatically receives a port in the ephemeral port range for your container instance operating system and Docker version.
             The default ephemeral port range is 49153 to 65535, and this range is used for Docker versions prior to 1.6.0. For Docker version 1.6.0 and later, the Docker daemon tries to read the ephemeral port range from /proc/sys/net/ipv4/ip_local_port_range ; if this kernel parameter is unavailable, the default ephemeral port range is used. You should not attempt to specify a host port in the ephemeral port range, because these are reserved for automatic assignment. In general, ports below 32768 are outside of the ephemeral port range.
-            The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent port 51678. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released).The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output, and a container instance may have up to 100 reserved ports at a time, including the default reserved ports (automatically assigned ports do not count toward the 100 reserved ports limit).
+            The default reserved ports are 22 for SSH, the Docker ports 2375 and 2376, and the Amazon ECS container agent ports 51678 and 51679. Any host port that was previously specified in a running task is also reserved while the task is running (after a task stops, the host port is released).The current reserved ports are displayed in the remainingResources of DescribeContainerInstances output, and a container instance may have up to 100 reserved ports at a time, including the default reserved ports (automatically assigned ports do not count toward the 100 reserved ports limit).
             protocol (string) --The protocol used for the port mapping. Valid values are tcp and udp . The default is tcp .
             
             essential (boolean) --If the essential parameter of a container is marked as true , and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false , then its failure does not affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential.
@@ -1608,9 +1916,9 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             entryPoint (list) --
             Warning
             Early versions of the Amazon ECS container agent do not properly handle entryPoint parameters. If you have problems using entryPoint , update your container agent or enter your commands and arguments as command array items instead.
-            The entry point that is passed to the container. This parameter maps to Entrypoint in the Create a container section of the Docker Remote API and the --entrypoint option to docker run . For more information, see https://docs.docker.com/reference/builder/#entrypoint .
+            The entry point that is passed to the container. This parameter maps to Entrypoint in the Create a container section of the Docker Remote API and the --entrypoint option to docker run . For more information, see https://docs.docker.com/engine/reference/builder/#entrypoint .
             (string) --
-            command (list) --The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run . For more information, see https://docs.docker.com/reference/builder/#cmd .
+            command (list) --The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run . For more information, see https://docs.docker.com/engine/reference/builder/#cmd .
             (string) --
             environment (list) --The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run .
             Warning
@@ -1661,7 +1969,7 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             
             logConfiguration (dict) --The log configuration specification for the container. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run . By default, containers use the same logging driver that the Docker daemon uses; however the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.
             Note
-            Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Currently unsupported log drivers may be available in future releases of the Amazon ECS container agent.
+            Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.
             This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep 'Server API version'
             Note
             The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon EC2 Container Service Developer Guide .
@@ -1682,6 +1990,14 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             name (string) --The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints .
             host (dict) --The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
             sourcePath (string) --The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
+            
+            
+
+    :type placementConstraints: list
+    :param placementConstraints: An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints per task (this limit includes constraints in the task definition and those specified at run time).
+            (dict) --An object representing a constraint on task placement in the task definition. For more information, see Task Placement Constraints in the Amazon EC2 Container Service Developer Guide .
+            type (string) --The type of constraint. The DistinctInstance constraint ensures that each task in a particular group is running on a different container instance. The MemberOf constraint restricts selection to be from a group of valid candidates.
+            expression (string) --A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
             
             
 
@@ -1787,7 +2103,15 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
             'requiresAttributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
+                },
+            ],
+            'placementConstraints': [
+                {
+                    'type': 'memberOf',
+                    'expression': 'string'
                 },
             ]
         }
@@ -1795,6 +2119,7 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
     
     
     :returns: 
+    Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.region-name.amazonaws.com/repository-name ).
     Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo ).
     Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent ).
     Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu ).
@@ -1802,9 +2127,12 @@ def register_task_definition(family=None, taskRoleArn=None, networkMode=None, co
     """
     pass
 
-def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, startedBy=None):
+def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, startedBy=None, group=None, placementConstraints=None, placementStrategy=None):
     """
-    Start a task using random placement and the default Amazon ECS scheduler. To use your own scheduler or place a task on a specific container instance, use StartTask instead.
+    Starts a new task using the specified task definition.
+    You can allow Amazon ECS to place tasks for you, or you can customize how Amazon ECS places tasks using placement constraints and placement strategies. For more information, see Scheduling Tasks in the Amazon EC2 Container Service Developer Guide .
+    Alternatively, you can use  StartTask to use your own scheduler or place tasks manually on specific container instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.run_task(
@@ -1828,12 +2156,25 @@ def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, star
             'taskRoleArn': 'string'
         },
         count=123,
-        startedBy='string'
+        startedBy='string',
+        group='string',
+        placementConstraints=[
+            {
+                'type': 'distinctInstance'|'memberOf',
+                'expression': 'string'
+            },
+        ],
+        placementStrategy=[
+            {
+                'type': 'random'|'spread'|'binpack',
+                'field': 'string'
+            },
+        ]
     )
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to run your task. If you do not specify a cluster, the default cluster is assumed.
 
     :type taskDefinition: string
     :param taskDefinition: [REQUIRED]
@@ -1859,14 +2200,30 @@ def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, star
             
 
     :type count: integer
-    :param count: The number of instantiations of the specified task to place on your cluster.
-            Warning
-            The count parameter is limited to 10 tasks per call.
-            
+    :param count: The number of instantiations of the specified task to place on your cluster. You can specify up to 10 tasks per call.
 
     :type startedBy: string
     :param startedBy: An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
             If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
+            
+
+    :type group: string
+    :param group: The task group to associate with the task. By default, if you do not specify a task group, the group family:TASKDEF-FAMILY is applied.
+
+    :type placementConstraints: list
+    :param placementConstraints: An array of placement constraint objects to use for the task. You can specify up to 10 constraints per task (including constraints in the task definition and those specified at run time).
+            (dict) --An object representing a constraint on task placement. For more information, see Task Placement Constraints in the Amazon EC2 Container Service Developer Guide .
+            type (string) --The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict selection to a group of valid candidates.
+            expression (string) --A cluster query language expression to apply to the constraint. Note you cannot specify an expression if the constraint type is distinctInstance . For more information, see Cluster Query Language in the Amazon EC2 Container Service Developer Guide .
+            
+            
+
+    :type placementStrategy: list
+    :param placementStrategy: The placement strategy objects to use for the task. You can specify a maximum of 5 strategy rules per task.
+            (dict) --The task placement strategy for a task or service. For more information, see Task Placement Strategies in the Amazon EC2 Container Service Developer Guide .
+            type (string) --The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
+            field (string) --The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host , which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone . For the binpack placement strategy, valid values are CPU and MEMORY .
+            
             
 
     :rtype: dict
@@ -1915,10 +2272,12 @@ def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, star
                     },
                 ],
                 'startedBy': 'string',
+                'version': 123,
                 'stoppedReason': 'string',
                 'createdAt': datetime(2015, 1, 1),
                 'startedAt': datetime(2015, 1, 1),
-                'stoppedAt': datetime(2015, 1, 1)
+                'stoppedAt': datetime(2015, 1, 1),
+                'group': 'string'
             },
         ],
         'failures': [
@@ -1936,9 +2295,11 @@ def run_task(cluster=None, taskDefinition=None, overrides=None, count=None, star
     """
     pass
 
-def start_task(cluster=None, taskDefinition=None, overrides=None, containerInstances=None, startedBy=None):
+def start_task(cluster=None, taskDefinition=None, overrides=None, containerInstances=None, startedBy=None, group=None):
     """
-    Starts a new task from the specified task definition on the specified container instance or instances. To use the default Amazon ECS scheduler to place your task, use RunTask instead.
+    Starts a new task from the specified task definition on the specified container instance or instances.
+    Alternatively, you can use  RunTask to place tasks for you. For more information, see Scheduling Tasks in the Amazon EC2 Container Service Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.start_task(
@@ -1964,12 +2325,13 @@ def start_task(cluster=None, taskDefinition=None, overrides=None, containerInsta
         containerInstances=[
             'string',
         ],
-        startedBy='string'
+        startedBy='string',
+        group='string'
     )
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster on which to start your task. If you do not specify a cluster, the default cluster is assumed.
 
     :type taskDefinition: string
     :param taskDefinition: [REQUIRED]
@@ -1996,9 +2358,7 @@ def start_task(cluster=None, taskDefinition=None, overrides=None, containerInsta
 
     :type containerInstances: list
     :param containerInstances: [REQUIRED]
-            The container instance IDs or full Amazon Resource Name (ARN) entries for the container instances on which you would like to place your task.
-            Warning
-            The list of container instances to start tasks on is limited to 10.
+            The container instance IDs or full Amazon Resource Name (ARN) entries for the container instances on which you would like to place your task. You can specify up to 10 container instances.
             (string) --
             
 
@@ -2006,6 +2366,9 @@ def start_task(cluster=None, taskDefinition=None, overrides=None, containerInsta
     :param startedBy: An optional tag specified when a task is started. For example if you automatically trigger a task to run a batch process job, you could apply a unique identifier for that job to your task with the startedBy parameter. You can then identify which tasks belong to that job by filtering the results of a ListTasks call with the startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
             If a task is started by an Amazon ECS service, then the startedBy parameter contains the deployment ID of the service that starts it.
             
+
+    :type group: string
+    :param group: The task group to associate with the task. By default, if you do not specify a task group, the default group is family:TASKDEF-FAMILY .
 
     :rtype: dict
     :return: {
@@ -2053,10 +2416,12 @@ def start_task(cluster=None, taskDefinition=None, overrides=None, containerInsta
                     },
                 ],
                 'startedBy': 'string',
+                'version': 123,
                 'stoppedReason': 'string',
                 'createdAt': datetime(2015, 1, 1),
                 'startedAt': datetime(2015, 1, 1),
-                'stoppedAt': datetime(2015, 1, 1)
+                'stoppedAt': datetime(2015, 1, 1),
+                'group': 'string'
             },
         ],
         'failures': [
@@ -2078,6 +2443,7 @@ def stop_task(cluster=None, task=None, reason=None):
     """
     Stops a running task.
     When  StopTask is called on a task, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout, after which SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_task(
@@ -2088,7 +2454,7 @@ def stop_task(cluster=None, task=None, reason=None):
     
     
     :type cluster: string
-    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed..
+    :param cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
 
     :type task: string
     :param task: [REQUIRED]
@@ -2143,10 +2509,12 @@ def stop_task(cluster=None, task=None, reason=None):
                 },
             ],
             'startedBy': 'string',
+            'version': 123,
             'stoppedReason': 'string',
             'createdAt': datetime(2015, 1, 1),
             'startedAt': datetime(2015, 1, 1),
-            'stoppedAt': datetime(2015, 1, 1)
+            'stoppedAt': datetime(2015, 1, 1),
+            'group': 'string'
         }
     }
     
@@ -2160,6 +2528,7 @@ def stop_task(cluster=None, task=None, reason=None):
 def submit_container_state_change(cluster=None, task=None, containerName=None, status=None, exitCode=None, reason=None, networkBindings=None):
     """
     Sent to acknowledge that a container changed states.
+    See also: AWS API Documentation
     
     
     :example: response = client.submit_container_state_change(
@@ -2220,6 +2589,7 @@ def submit_container_state_change(cluster=None, task=None, containerName=None, s
 def submit_task_state_change(cluster=None, task=None, status=None, reason=None):
     """
     Sent to acknowledge that a task changed states.
+    See also: AWS API Documentation
     
     
     :example: response = client.submit_task_state_change(
@@ -2254,6 +2624,7 @@ def submit_task_state_change(cluster=None, task=None, status=None, reason=None):
 def update_container_agent(cluster=None, containerInstance=None):
     """
     Updates the Amazon ECS container agent on a specified container instance. Updating the Amazon ECS container agent does not interrupt running tasks or services on the container instance. The process for updating the agent differs depending on whether your container instance was launched with the Amazon ECS-optimized AMI or another operating system.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_container_agent(
@@ -2275,6 +2646,7 @@ def update_container_agent(cluster=None, containerInstance=None):
         'containerInstance': {
             'containerInstanceArn': 'string',
             'ec2InstanceId': 'string',
+            'version': 123,
             'versionInfo': {
                 'agentVersion': 'string',
                 'agentHash': 'string',
@@ -2312,7 +2684,9 @@ def update_container_agent(cluster=None, containerInstance=None):
             'attributes': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'targetType': 'container-instance',
+                    'targetId': 'string'
                 },
             ]
         }
@@ -2334,7 +2708,9 @@ def update_service(cluster=None, service=None, desiredCount=None, taskDefinition
     If the minimumHealthyPercent is below 100%, the scheduler can ignore the desiredCount temporarily during a deployment. For example, if your service has a desiredCount of four tasks, a minimumHealthyPercent of 50% allows the scheduler to stop two existing tasks before starting two new tasks. Tasks for services that do not use a load balancer are considered healthy if they are in the RUNNING state; tasks for services that do use a load balancer are considered healthy if they are in the RUNNING state and the container instance it is hosted on is reported as healthy by the load balancer.
     The maximumPercent parameter represents an upper limit on the number of running tasks during a deployment, which enables you to define the deployment batch size. For example, if your service has a desiredCount of four tasks, a maximumPercent value of 200% starts four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available).
     When  UpdateService stops a task during a deployment, the equivalent of docker stop is issued to the containers running in the task. This results in a SIGTERM and a 30-second timeout, after which SIGKILL is sent and the containers are forcibly stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from receiving it, no SIGKILL is sent.
-    When the service scheduler launches new tasks, it attempts to balance them across the Availability Zones in your cluster with the following logic:
+    When the service scheduler launches new tasks, it determines task placement in your cluster with the following logic:
+    When the service scheduler stops running tasks, it attempts to maintain balance across the Availability Zones in your cluster with the following logic:
+    See also: AWS API Documentation
     
     
     :example: response = client.update_service(
@@ -2365,8 +2741,8 @@ def update_service(cluster=None, service=None, desiredCount=None, taskDefinition
 
     :type deploymentConfiguration: dict
     :param deploymentConfiguration: Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-            maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of running tasks that can be running in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
-            minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain running and healthy in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
+            maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of tasks that are allowed in the RUNNING or PENDING state in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
+            minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain in the RUNNING state in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
             
 
     :rtype: dict
@@ -2412,26 +2788,26 @@ def update_service(cluster=None, service=None, desiredCount=None, taskDefinition
                     'message': 'string'
                 },
             ],
-            'createdAt': datetime(2015, 1, 1)
+            'createdAt': datetime(2015, 1, 1),
+            'placementConstraints': [
+                {
+                    'type': 'distinctInstance'|'memberOf',
+                    'expression': 'string'
+                },
+            ],
+            'placementStrategy': [
+                {
+                    'type': 'random'|'spread'|'binpack',
+                    'field': 'string'
+                },
+            ]
         }
     }
     
     
     :returns: 
-    cluster (string) -- The short name or full Amazon Resource Name (ARN) of the cluster that your service is running on. If you do not specify a cluster, the default cluster is assumed.
-    service (string) -- [REQUIRED]
-    The name of the service to update.
-    
-    desiredCount (integer) -- The number of instantiations of the task to place and keep running in your service.
-    taskDefinition (string) -- The family and revision (family:revision ) or full Amazon Resource Name (ARN) of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService , Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
-    deploymentConfiguration (dict) -- Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
-    
-    maximumPercent (integer) --The upper limit (as a percentage of the service's desiredCount ) of the number of running tasks that can be running in a service during a deployment. The maximum number of tasks during a deployment is the desiredCount multiplied by the maximumPercent /100, rounded down to the nearest integer value.
-    
-    minimumHealthyPercent (integer) --The lower limit (as a percentage of the service's desiredCount ) of the number of running tasks that must remain running and healthy in a service during a deployment. The minimum healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent /100, rounded up to the nearest integer value.
-    
-    
-    
+    Sort the container instances by the largest number of running tasks for this service in the same Availability Zone as the instance. For example, if zone A has one running service task and zones B and C each have two, container instances in either zone B or C are considered optimal for termination.
+    Stop the task on a container instance in an optimal Availability Zone (based on the previous steps), favoring container instances with the largest number of running tasks for this service.
     
     """
     pass

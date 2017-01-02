@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
     """
     Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The limit on identity pools is 60 per account. The keys for SupportedLoginProviders are as follows:
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_identity_pool(
@@ -94,7 +95,7 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
             
 
     :type CognitoIdentityProviders: list
-    :param CognitoIdentityProviders: An array of Amazon Cognito Identity user pools.
+    :param CognitoIdentityProviders: An array of Amazon Cognito Identity user pools and their client IDs.
             (dict) --A provider representing an Amazon Cognito Identity User Pool and its client ID.
             ProviderName (string) --The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 .
             ClientId (string) --The client ID for the Amazon Cognito Identity User Pool.
@@ -153,7 +154,7 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
     (string) --
     
     
-    CognitoIdentityProviders (list) -- An array of Amazon Cognito Identity user pools.
+    CognitoIdentityProviders (list) -- An array of Amazon Cognito Identity user pools and their client IDs.
     
     (dict) --A provider representing an Amazon Cognito Identity User Pool and its client ID.
     
@@ -178,6 +179,7 @@ def delete_identities(IdentityIdsToDelete=None):
     """
     Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_identities(
@@ -211,6 +213,7 @@ def delete_identity_pool(IdentityPoolId=None):
     """
     Deletes a user pool. Once a pool is deleted, users will not be able to authenticate with the pool.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_identity_pool(
@@ -219,7 +222,9 @@ def delete_identity_pool(IdentityPoolId=None):
     
     
     :type IdentityPoolId: string
-    :param IdentityPoolId: [REQUIRED] An identity pool ID in the format REGION:GUID.
+    :param IdentityPoolId: [REQUIRED]
+            An identity pool ID in the format REGION:GUID.
+            
 
     """
     pass
@@ -228,6 +233,7 @@ def describe_identity(IdentityId=None):
     """
     Returns metadata related to the given identity, including when the identity was created and any associated linked logins.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_identity(
@@ -258,6 +264,7 @@ def describe_identity_pool(IdentityPoolId=None):
     """
     Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_identity_pool(
@@ -266,7 +273,9 @@ def describe_identity_pool(IdentityPoolId=None):
     
     
     :type IdentityPoolId: string
-    :param IdentityPoolId: [REQUIRED] An identity pool ID in the format REGION:GUID.
+    :param IdentityPoolId: [REQUIRED]
+            An identity pool ID in the format REGION:GUID.
+            
 
     :rtype: dict
     :return: {
@@ -324,6 +333,7 @@ def get_credentials_for_identity(IdentityId=None, Logins=None, CustomRoleArn=Non
     """
     Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service with the appropriate role for the token.
     This is a public API. You do not need any credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_credentials_for_identity(
@@ -368,6 +378,7 @@ def get_id(AccountId=None, IdentityPoolId=None, Logins=None):
     """
     Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit linked account.
     This is a public API. You do not need any credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_id(
@@ -383,12 +394,14 @@ def get_id(AccountId=None, IdentityPoolId=None, Logins=None):
     :param AccountId: A standard AWS account ID (9+ digits).
 
     :type IdentityPoolId: string
-    :param IdentityPoolId: [REQUIRED] An identity pool ID in the format REGION:GUID.
+    :param IdentityPoolId: [REQUIRED]
+            An identity pool ID in the format REGION:GUID.
+            
 
     :type Logins: dict
-    :param Logins: A set of optional name-value pairs that map provider names to provider tokens.
-            The available provider names for Logins are as follows:
+    :param Logins: A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:
             Facebook: graph.facebook.com
+            Amazon Cognito Identity Provider: cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789
             Google: accounts.google.com
             Amazon: www.amazon.com
             Twitter: api.twitter.com
@@ -403,12 +416,6 @@ def get_id(AccountId=None, IdentityPoolId=None, Logins=None):
     }
     
     
-    :returns: 
-    (dict) -- Returned in response to a GetId request.
-    IdentityId (string) -- A unique identifier in the format REGION:GUID.
-    
-    
-    
     """
     pass
 
@@ -416,6 +423,7 @@ def get_identity_pool_roles(IdentityPoolId=None):
     """
     Gets the roles for an identity pool.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_identity_pool_roles(
@@ -433,6 +441,22 @@ def get_identity_pool_roles(IdentityPoolId=None):
         'IdentityPoolId': 'string',
         'Roles': {
             'string': 'string'
+        },
+        'RoleMappings': {
+            'string': {
+                'Type': 'Token'|'Rules',
+                'AmbiguousRoleResolution': 'AuthenticatedRole'|'Deny',
+                'RulesConfiguration': {
+                    'Rules': [
+                        {
+                            'Claim': 'string',
+                            'MatchType': 'Equals'|'Contains'|'StartsWith'|'NotEqual',
+                            'Value': 'string',
+                            'RoleARN': 'string'
+                        },
+                    ]
+                }
+            }
         }
     }
     
@@ -445,6 +469,7 @@ def get_open_id_token(IdentityId=None, Logins=None):
     Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by  GetId . You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link.
     The OpenId token is valid for 15 minutes.
     This is a public API. You do not need any credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_open_id_token(
@@ -456,10 +481,12 @@ def get_open_id_token(IdentityId=None, Logins=None):
     
     
     :type IdentityId: string
-    :param IdentityId: [REQUIRED] A unique identifier in the format REGION:GUID.
+    :param IdentityId: [REQUIRED]
+            A unique identifier in the format REGION:GUID.
+            
 
     :type Logins: dict
-    :param Logins: A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com or any other OpenId Connect provider, always include the id_token.
+    :param Logins: A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito Identity Provider, or any other OpenId Connect provider, always include the id_token .
             (string) --
             (string) --
             
@@ -471,13 +498,6 @@ def get_open_id_token(IdentityId=None, Logins=None):
     }
     
     
-    :returns: 
-    (dict) -- Returned in response to a successful GetOpenIdToken request.
-    IdentityId (string) -- A unique identifier in the format REGION:GUID. Note that the IdentityId returned may not match the one passed on input.
-    Token (string) -- An OpenID token, valid for 15 minutes.
-    
-    
-    
     """
     pass
 
@@ -486,6 +506,7 @@ def get_open_id_token_for_developer_identity(IdentityPoolId=None, IdentityId=Non
     Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users.
     You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId . This API will create the identity in the specified IdentityPoolId .
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_open_id_token_for_developer_identity(
@@ -552,6 +573,7 @@ def list_identities(IdentityPoolId=None, MaxResults=None, NextToken=None, HideDi
     """
     Lists the identities in a pool.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_identities(
@@ -563,10 +585,14 @@ def list_identities(IdentityPoolId=None, MaxResults=None, NextToken=None, HideDi
     
     
     :type IdentityPoolId: string
-    :param IdentityPoolId: [REQUIRED] An identity pool ID in the format REGION:GUID.
+    :param IdentityPoolId: [REQUIRED]
+            An identity pool ID in the format REGION:GUID.
+            
 
     :type MaxResults: integer
-    :param MaxResults: [REQUIRED] The maximum number of identities to return.
+    :param MaxResults: [REQUIRED]
+            The maximum number of identities to return.
+            
 
     :type NextToken: string
     :param NextToken: A pagination token.
@@ -601,6 +627,7 @@ def list_identity_pools(MaxResults=None, NextToken=None):
     """
     Lists all of the Cognito identity pools registered for your account.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_identity_pools(
@@ -610,7 +637,9 @@ def list_identity_pools(MaxResults=None, NextToken=None):
     
     
     :type MaxResults: integer
-    :param MaxResults: [REQUIRED] The maximum number of identities to return.
+    :param MaxResults: [REQUIRED]
+            The maximum number of identities to return.
+            
 
     :type NextToken: string
     :param NextToken: A pagination token.
@@ -627,20 +656,6 @@ def list_identity_pools(MaxResults=None, NextToken=None):
     }
     
     
-    :returns: 
-    (dict) -- The result of a successful ListIdentityPools action.
-    IdentityPools (list) -- The identity pools returned by the ListIdentityPools action.
-    (dict) -- A description of the identity pool.
-    IdentityPoolId (string) -- An identity pool ID in the format REGION:GUID.
-    IdentityPoolName (string) -- A string that you provide.
-    
-    
-    
-    
-    NextToken (string) -- A pagination token.
-    
-    
-    
     """
     pass
 
@@ -648,6 +663,7 @@ def lookup_developer_identity(IdentityPoolId=None, IdentityId=None, DeveloperUse
     """
     Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier s associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID . If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.lookup_developer_identity(
@@ -696,6 +712,7 @@ def merge_developer_identities(SourceUserIdentifier=None, DestinationUserIdentif
     """
     Merges two users having different IdentityId s, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier ) with the IdentityId of the DestinationUserIdentifier . Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.merge_developer_identities(
@@ -735,16 +752,33 @@ def merge_developer_identities(SourceUserIdentifier=None, DestinationUserIdentif
     """
     pass
 
-def set_identity_pool_roles(IdentityPoolId=None, Roles=None):
+def set_identity_pool_roles(IdentityPoolId=None, Roles=None, RoleMappings=None):
     """
-    Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action.
+    Sets the roles for an identity pool. These roles are used when making calls to  GetCredentialsForIdentity action.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_identity_pool_roles(
         IdentityPoolId='string',
         Roles={
             'string': 'string'
+        },
+        RoleMappings={
+            'string': {
+                'Type': 'Token'|'Rules',
+                'AmbiguousRoleResolution': 'AuthenticatedRole'|'Deny',
+                'RulesConfiguration': {
+                    'Rules': [
+                        {
+                            'Claim': 'string',
+                            'MatchType': 'Equals'|'Contains'|'StartsWith'|'NotEqual',
+                            'Value': 'string',
+                            'RoleARN': 'string'
+                        },
+                    ]
+                }
+            }
         }
     )
     
@@ -761,6 +795,28 @@ def set_identity_pool_roles(IdentityPoolId=None, Roles=None):
             (string) --
             
 
+    :type RoleMappings: dict
+    :param RoleMappings: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, 'graph.facebook.com' or 'cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id'.
+            Up to 25 rules can be specified per identity provider.
+            (string) --
+            (dict) --A role mapping.
+            Type (string) -- [REQUIRED]The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
+            AmbiguousRoleResolution (string) --If you specify Token or Rules as the Type , AmbiguousRoleResolution is required.
+            Specifies the action to be taken if either no rules match the claim value for the Rules type, or there is no cognito:preferred_role claim and there are multiple cognito:roles matches for the Token type.
+            RulesConfiguration (dict) --The rules to be used for mapping users to roles.
+            If you specify Rules as the role mapping type, RulesConfiguration is required.
+            Rules (list) -- [REQUIRED]An array of rules. You can specify up to 25 rules per identity provider.
+            Rules are evaluated in order. The first one to match specifies the role.
+            (dict) --A rule that maps a claim name, a claim value, and a match type to a role ARN.
+            Claim (string) -- [REQUIRED]The claim name that must be present in the token, for example, 'isAdmin' or 'paid'.
+            MatchType (string) -- [REQUIRED]The match condition that specifies how closely the claim value in the IdP token must match Value .
+            Value (string) -- [REQUIRED]A brief string that the claim must match, for example, 'paid' or 'yes'.
+            RoleARN (string) -- [REQUIRED]The role ARN.
+            
+            
+            
+            
+
     """
     pass
 
@@ -768,6 +824,7 @@ def unlink_developer_identity(IdentityId=None, IdentityPoolId=None, DeveloperPro
     """
     Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.unlink_developer_identity(
@@ -794,7 +851,9 @@ def unlink_developer_identity(IdentityId=None, IdentityPoolId=None, DeveloperPro
             
 
     :type DeveloperUserIdentifier: string
-    :param DeveloperUserIdentifier: [REQUIRED] A unique ID used by your backend authentication process to identify a user.
+    :param DeveloperUserIdentifier: [REQUIRED]
+            A unique ID used by your backend authentication process to identify a user.
+            
 
     """
     pass
@@ -803,6 +862,7 @@ def unlink_identity(IdentityId=None, Logins=None, LoginsToRemove=None):
     """
     Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible.
     This is a public API. You do not need any credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.unlink_identity(
@@ -817,16 +877,20 @@ def unlink_identity(IdentityId=None, Logins=None, LoginsToRemove=None):
     
     
     :type IdentityId: string
-    :param IdentityId: [REQUIRED] A unique identifier in the format REGION:GUID.
+    :param IdentityId: [REQUIRED]
+            A unique identifier in the format REGION:GUID.
+            
 
     :type Logins: dict
-    :param Logins: [REQUIRED] A set of optional name-value pairs that map provider names to provider tokens.
+    :param Logins: [REQUIRED]
+            A set of optional name-value pairs that map provider names to provider tokens.
             (string) --
             (string) --
             
 
     :type LoginsToRemove: list
-    :param LoginsToRemove: [REQUIRED] Provider names to unlink from this identity.
+    :param LoginsToRemove: [REQUIRED]
+            Provider names to unlink from this identity.
             (string) --
             
 
@@ -837,6 +901,7 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
     """
     Updates a user pool.
     You must use AWS Developer credentials to call this API.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_identity_pool(
@@ -863,7 +928,9 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
     
     
     :type IdentityPoolId: string
-    :param IdentityPoolId: [REQUIRED] An identity pool ID in the format REGION:GUID.
+    :param IdentityPoolId: [REQUIRED]
+            An identity pool ID in the format REGION:GUID.
+            
 
     :type IdentityPoolName: string
     :param IdentityPoolName: [REQUIRED]
@@ -871,7 +938,9 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
             
 
     :type AllowUnauthenticatedIdentities: boolean
-    :param AllowUnauthenticatedIdentities: [REQUIRED] TRUE if the identity pool supports unauthenticated logins.
+    :param AllowUnauthenticatedIdentities: [REQUIRED]
+            TRUE if the identity pool supports unauthenticated logins.
+            
 
     :type SupportedLoginProviders: dict
     :param SupportedLoginProviders: Optional key:value pairs mapping provider names to provider app IDs.

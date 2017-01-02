@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def add_custom_attributes(UserPoolId=None, CustomAttributes=None):
     """
     Adds additional user attributes to the user pool schema.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_custom_attributes(
@@ -81,9 +82,43 @@ def add_custom_attributes(UserPoolId=None, CustomAttributes=None):
     """
     pass
 
+def admin_add_user_to_group(UserPoolId=None, Username=None, GroupName=None):
+    """
+    Adds the specified user to the specified group.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_add_user_to_group(
+        UserPoolId='string',
+        Username='string',
+        GroupName='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The username for the user.
+            
+
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The group name.
+            
+
+    """
+    pass
+
 def admin_confirm_sign_up(UserPoolId=None, Username=None):
     """
     Confirms user registration as an admin without using a confirmation code. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_confirm_sign_up(
@@ -113,6 +148,7 @@ def admin_create_user(UserPoolId=None, Username=None, UserAttributes=None, Valid
     """
     Creates a new user in the specified user pool and sends a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to CreateUserPool or UpdateUserPool. This template includes your custom sign-up instructions and placeholders for user name and temporary password.
     Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_create_user(
@@ -229,6 +265,8 @@ def admin_create_user(UserPoolId=None, Username=None, UserAttributes=None, Valid
 def admin_delete_user(UserPoolId=None, Username=None):
     """
     Deletes a user as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_delete_user(
@@ -253,6 +291,8 @@ def admin_delete_user(UserPoolId=None, Username=None):
 def admin_delete_user_attributes(UserPoolId=None, Username=None, UserAttributeNames=None):
     """
     Deletes the user attributes in a user pool as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_delete_user_attributes(
@@ -290,6 +330,8 @@ def admin_delete_user_attributes(UserPoolId=None, Username=None, UserAttributeNa
 def admin_disable_user(UserPoolId=None, Username=None):
     """
     Disables the specified user as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_disable_user(
@@ -318,6 +360,8 @@ def admin_disable_user(UserPoolId=None, Username=None):
 def admin_enable_user(UserPoolId=None, Username=None):
     """
     Enables the specified user as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_enable_user(
@@ -346,6 +390,8 @@ def admin_enable_user(UserPoolId=None, Username=None):
 def admin_forget_device(UserPoolId=None, Username=None, DeviceKey=None):
     """
     Forgets the device, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_forget_device(
@@ -376,6 +422,8 @@ def admin_forget_device(UserPoolId=None, Username=None, DeviceKey=None):
 def admin_get_device(DeviceKey=None, UserPoolId=None, Username=None):
     """
     Gets the device, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_get_device(
@@ -423,6 +471,8 @@ def admin_get_device(DeviceKey=None, UserPoolId=None, Username=None):
 def admin_get_user(UserPoolId=None, Username=None):
     """
     Gets the specified user by user name in a user pool as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_get_user(
@@ -476,6 +526,8 @@ def admin_get_user(UserPoolId=None, Username=None):
 def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParameters=None, ClientMetadata=None):
     """
     Initiates the authentication flow, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_initiate_auth(
@@ -551,6 +603,8 @@ def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParam
 def admin_list_devices(UserPoolId=None, Username=None, Limit=None, PaginationToken=None):
     """
     Lists devices, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_list_devices(
@@ -600,10 +654,95 @@ def admin_list_devices(UserPoolId=None, Username=None, Limit=None, PaginationTok
     """
     pass
 
+def admin_list_groups_for_user(Username=None, UserPoolId=None, Limit=None, NextToken=None):
+    """
+    Lists the groups that the user belongs to.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_list_groups_for_user(
+        Username='string',
+        UserPoolId='string',
+        Limit=123,
+        NextToken='string'
+    )
+    
+    
+    :type Username: string
+    :param Username: [REQUIRED]
+            The username for the user.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Limit: integer
+    :param Limit: The limit of the request to list groups.
+
+    :type NextToken: string
+    :param NextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+    :rtype: dict
+    :return: {
+        'Groups': [
+            {
+                'GroupName': 'string',
+                'UserPoolId': 'string',
+                'Description': 'string',
+                'RoleArn': 'string',
+                'Precedence': 123,
+                'LastModifiedDate': datetime(2015, 1, 1),
+                'CreationDate': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def admin_remove_user_from_group(UserPoolId=None, Username=None, GroupName=None):
+    """
+    Removes the specified user from the specified group.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_remove_user_from_group(
+        UserPoolId='string',
+        Username='string',
+        GroupName='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The username for the user.
+            
+
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The group name.
+            
+
+    """
+    pass
+
 def admin_reset_user_password(UserPoolId=None, Username=None):
     """
     Resets the specified user's password in a user pool as an administrator. Works on any user.
     When a developer calls this API, the current password is invalidated, so it must be changed. If a user tries to sign in after the API is called, the app will get a PasswordResetRequiredException exception back and should direct the user down the flow to reset the password, which is the same as the forgot password flow. In addition, if the user pool has phone verification selected and a verified phone number exists for the user, or if email verification is selected and a verified email exists for the user, calling this API will also result in sending a message to the end user with the code to change their password.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_reset_user_password(
@@ -632,6 +771,8 @@ def admin_reset_user_password(UserPoolId=None, Username=None):
 def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeName=None, ChallengeResponses=None, Session=None):
     """
     Responds to an authentication challenge, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_respond_to_auth_challenge(
@@ -702,6 +843,8 @@ def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeNam
 def admin_set_user_settings(UserPoolId=None, Username=None, MFAOptions=None):
     """
     Sets all the user settings for a specified user name. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_set_user_settings(
@@ -745,6 +888,8 @@ def admin_set_user_settings(UserPoolId=None, Username=None, MFAOptions=None):
 def admin_update_device_status(UserPoolId=None, Username=None, DeviceKey=None, DeviceRememberedStatus=None):
     """
     Updates the device status as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_update_device_status(
@@ -783,6 +928,8 @@ def admin_update_device_status(UserPoolId=None, Username=None, DeviceKey=None, D
 def admin_update_user_attributes(UserPoolId=None, Username=None, UserAttributes=None):
     """
     Updates the specified user's attributes, including developer attributes, as an administrator. Works on any user.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_update_user_attributes(
@@ -826,6 +973,8 @@ def admin_update_user_attributes(UserPoolId=None, Username=None, UserAttributes=
 def admin_user_global_sign_out(UserPoolId=None, Username=None):
     """
     Signs out users from all devices, as an administrator.
+    Requires developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.admin_user_global_sign_out(
@@ -869,6 +1018,7 @@ def can_paginate(operation_name=None):
 def change_password(PreviousPassword=None, ProposedPassword=None, AccessToken=None):
     """
     Changes the password for a specified user in a user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.change_password(
@@ -901,6 +1051,7 @@ def change_password(PreviousPassword=None, ProposedPassword=None, AccessToken=No
 def confirm_device(AccessToken=None, DeviceKey=None, DeviceSecretVerifierConfig=None, DeviceName=None):
     """
     Confirms tracking of the device. This API call is the call that beings device tracking.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_device(
@@ -945,6 +1096,7 @@ def confirm_device(AccessToken=None, DeviceKey=None, DeviceSecretVerifierConfig=
 def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, Password=None):
     """
     Allows a user to enter a code provided when they reset their password to update their password.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_forgot_password(
@@ -989,6 +1141,7 @@ def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, Confi
 def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, ForceAliasCreation=None):
     """
     Confirms registration of a user and handles the existing alias from a previous user.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_sign_up(
@@ -1028,9 +1181,65 @@ def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationC
     """
     pass
 
+def create_group(GroupName=None, UserPoolId=None, Description=None, RoleArn=None, Precedence=None):
+    """
+    Creates a new group in the specified user pool.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_group(
+        GroupName='string',
+        UserPoolId='string',
+        Description='string',
+        RoleArn='string',
+        Precedence=123
+    )
+    
+    
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The name of the group. Must be unique.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Description: string
+    :param Description: A string containing the description of the group.
+
+    :type RoleArn: string
+    :param RoleArn: The role ARN for the group.
+
+    :type Precedence: integer
+    :param Precedence: A nonnegative integer value that specifies the precedence of this group relative to the other groups that a user can belong to in the user pool. Zero is the highest precedence value. Groups with lower Precedence values take precedence over groups with higher or null Precedence values. If a user belongs to two or more groups, it is the group with the lowest precedence value whose role ARN will be used in the cognito:roles and cognito:preferred_role claims in the user's tokens.
+            Two groups can have the same Precedence value. If this happens, neither group takes precedence over the other. If two groups with the same Precedence have the same role ARN, that role is used in the cognito:preferred_role claim in tokens for users in each group. If the two groups have different role ARNs, the cognito:preferred_role claim is not set in users' tokens.
+            The default Precedence value is null.
+            
+
+    :rtype: dict
+    :return: {
+        'Group': {
+            'GroupName': 'string',
+            'UserPoolId': 'string',
+            'Description': 'string',
+            'RoleArn': 'string',
+            'Precedence': 123,
+            'LastModifiedDate': datetime(2015, 1, 1),
+            'CreationDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    """
+    pass
+
 def create_user_import_job(JobName=None, UserPoolId=None, CloudWatchLogsRoleArn=None):
     """
     Creates the user import job.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_user_import_job(
@@ -1088,9 +1297,10 @@ def create_user_import_job(JobName=None, UserPoolId=None, CloudWatchLogsRoleArn=
     """
     pass
 
-def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, AliasAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, AdminCreateUserConfig=None):
+def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, AliasAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None, Schema=None):
     """
     Creates a new Amazon Cognito user pool and sets the password policy for the pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_user_pool(
@@ -1137,6 +1347,9 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             'SnsCallerArn': 'string',
             'ExternalId': 'string'
         },
+        UserPoolTags={
+            'string': 'string'
+        },
         AdminCreateUserConfig={
             'AllowAdminCreateUserOnly': True|False,
             'UnusedAccountValidityDays': 123,
@@ -1145,7 +1358,24 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
                 'EmailMessage': 'string',
                 'EmailSubject': 'string'
             }
-        }
+        },
+        Schema=[
+            {
+                'Name': 'string',
+                'AttributeDataType': 'String'|'Number'|'DateTime'|'Boolean',
+                'DeveloperOnlyAttribute': True|False,
+                'Mutable': True|False,
+                'Required': True|False,
+                'NumberAttributeConstraints': {
+                    'MinValue': 'string',
+                    'MaxValue': 'string'
+                },
+                'StringAttributeConstraints': {
+                    'MinLength': 'string',
+                    'MaxLength': 'string'
+                }
+            },
+        ]
     )
     
     
@@ -1216,18 +1446,41 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
 
     :type SmsConfiguration: dict
     :param SmsConfiguration: The SMS configuration.
-            SnsCallerArn (string) --The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
+            SnsCallerArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
             ExternalId (string) --The external ID.
+            
+
+    :type UserPoolTags: dict
+    :param UserPoolTags: The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool
+            (string) --
+            (string) --
             
 
     :type AdminCreateUserConfig: dict
     :param AdminCreateUserConfig: The configuration for AdminCreateUser requests.
             AllowAdminCreateUserOnly (boolean) --Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
-            UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter.
+            UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter. The default value for this paameter is 7.
             InviteMessageTemplate (dict) --The message template to be used for the welcome message to new users.
             SMSMessage (string) --The message template for SMS messages.
             EmailMessage (string) --The message template for email messages.
             EmailSubject (string) --The subject line for email messages.
+            
+            
+
+    :type Schema: list
+    :param Schema: An array of schema attributes for the new user pool. These attributes can be standard or custom attributes.
+            (dict) --Contains information about the schema attribute.
+            Name (string) --A schema attribute of the name type.
+            AttributeDataType (string) --The attribute data type.
+            DeveloperOnlyAttribute (boolean) --Specifies whether the attribute type is developer only.
+            Mutable (boolean) --Specifies whether the attribute can be changed once it has been created.
+            Required (boolean) --Specifies whether a user pool attribute is required. If the attribute is required and the user does not provide a value, registration or sign-in will fail.
+            NumberAttributeConstraints (dict) --Specifies the constraints for an attribute of the number type.
+            MinValue (string) --The minimum value of an attribute that is of the number data type.
+            MaxValue (string) --The maximum value of an attribute that is of the number data type.
+            StringAttributeConstraints (dict) --Specifies the constraints for an attribute of the string type.
+            MinLength (string) --The minimum length of an attribute value of the string type.
+            MaxLength (string) --The maximum length of an attribute value of the string type.
             
             
 
@@ -1299,6 +1552,9 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
                 'SnsCallerArn': 'string',
                 'ExternalId': 'string'
             },
+            'UserPoolTags': {
+                'string': 'string'
+            },
             'SmsConfigurationFailure': 'string',
             'EmailConfigurationFailure': 'string',
             'AdminCreateUserConfig': {
@@ -1323,6 +1579,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
 def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None):
     """
     Creates the user pool client.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_user_pool_client(
@@ -1356,7 +1613,7 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
     :param GenerateSecret: Boolean to specify whether you want to generate a secret for the user pool client being created.
 
     :type RefreshTokenValidity: integer
-    :param RefreshTokenValidity: Refreshes the token validity.
+    :param RefreshTokenValidity: The validity of the refresh token, in days.
 
     :type ReadAttributes: list
     :param ReadAttributes: The read attributes.
@@ -1402,9 +1659,36 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
     """
     pass
 
+def delete_group(GroupName=None, UserPoolId=None):
+    """
+    Deletes a group. Currently only groups with no members can be deleted.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_group(
+        GroupName='string',
+        UserPoolId='string'
+    )
+    
+    
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The name of the group.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    """
+    pass
+
 def delete_user(AccessToken=None):
     """
     Allows a user to delete one's self.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_user(
@@ -1421,6 +1705,7 @@ def delete_user(AccessToken=None):
 def delete_user_attributes(UserAttributeNames=None, AccessToken=None):
     """
     Deletes the attributes for a user.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_user_attributes(
@@ -1450,6 +1735,7 @@ def delete_user_attributes(UserAttributeNames=None, AccessToken=None):
 def delete_user_pool(UserPoolId=None):
     """
     Deletes the specified Amazon Cognito user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_user_pool(
@@ -1468,6 +1754,7 @@ def delete_user_pool(UserPoolId=None):
 def delete_user_pool_client(UserPoolId=None, ClientId=None):
     """
     Allows the developer to delete the user pool client.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_user_pool_client(
@@ -1492,6 +1779,7 @@ def delete_user_pool_client(UserPoolId=None, ClientId=None):
 def describe_user_import_job(UserPoolId=None, JobId=None):
     """
     Describes the user import job.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_user_import_job(
@@ -1546,6 +1834,7 @@ def describe_user_import_job(UserPoolId=None, JobId=None):
 def describe_user_pool(UserPoolId=None):
     """
     Returns the configuration information and metadata of the specified user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_user_pool(
@@ -1626,6 +1915,9 @@ def describe_user_pool(UserPoolId=None):
                 'SnsCallerArn': 'string',
                 'ExternalId': 'string'
             },
+            'UserPoolTags': {
+                'string': 'string'
+            },
             'SmsConfigurationFailure': 'string',
             'EmailConfigurationFailure': 'string',
             'AdminCreateUserConfig': {
@@ -1650,6 +1942,7 @@ def describe_user_pool(UserPoolId=None):
 def describe_user_pool_client(UserPoolId=None, ClientId=None):
     """
     Client method for returning the configuration information and metadata of the specified user pool client.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_user_pool_client(
@@ -1700,6 +1993,7 @@ def describe_user_pool_client(UserPoolId=None, ClientId=None):
 def forget_device(AccessToken=None, DeviceKey=None):
     """
     Forgets the specified device.
+    See also: AWS API Documentation
     
     
     :example: response = client.forget_device(
@@ -1722,6 +2016,7 @@ def forget_device(AccessToken=None, DeviceKey=None):
 def forgot_password(ClientId=None, SecretHash=None, Username=None):
     """
     Retrieves the password for the specified client ID or username.
+    See also: AWS API Documentation
     
     
     :example: response = client.forgot_password(
@@ -1741,7 +2036,7 @@ def forgot_password(ClientId=None, SecretHash=None, Username=None):
 
     :type Username: string
     :param Username: [REQUIRED]
-            The user name of the user for whom you want to enter a code to retrieve a forgotten password.
+            The user name of the user for whom you want to enter a code to reset a forgotten password.
             
 
     :rtype: dict
@@ -1782,6 +2077,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_csv_header(UserPoolId=None):
     """
     Gets the header information for the .csv file to be used as input for the user import job.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_csv_header(
@@ -1809,6 +2105,7 @@ def get_csv_header(UserPoolId=None):
 def get_device(DeviceKey=None, AccessToken=None):
     """
     Gets the device.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_device(
@@ -1845,6 +2142,46 @@ def get_device(DeviceKey=None, AccessToken=None):
     """
     pass
 
+def get_group(GroupName=None, UserPoolId=None):
+    """
+    Gets a group.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_group(
+        GroupName='string',
+        UserPoolId='string'
+    )
+    
+    
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The name of the group.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :rtype: dict
+    :return: {
+        'Group': {
+            'GroupName': 'string',
+            'UserPoolId': 'string',
+            'Description': 'string',
+            'RoleArn': 'string',
+            'Precedence': 123,
+            'LastModifiedDate': datetime(2015, 1, 1),
+            'CreationDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -1864,6 +2201,7 @@ def get_paginator(operation_name=None):
 def get_user(AccessToken=None):
     """
     Gets the user attributes and metadata for a user.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_user(
@@ -1898,6 +2236,7 @@ def get_user(AccessToken=None):
 def get_user_attribute_verification_code(AccessToken=None, AttributeName=None):
     """
     Gets the user attribute verification code for the specified attribute name.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_user_attribute_verification_code(
@@ -1936,6 +2275,7 @@ def get_waiter():
 def global_sign_out(AccessToken=None):
     """
     Signs out users from all devices.
+    See also: AWS API Documentation
     
     
     :example: response = client.global_sign_out(
@@ -1956,6 +2296,7 @@ def global_sign_out(AccessToken=None):
 def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, ClientId=None):
     """
     Initiates the authentication flow.
+    See also: AWS API Documentation
     
     
     :example: response = client.initiate_auth(
@@ -2025,6 +2366,7 @@ def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, Clien
 def list_devices(AccessToken=None, Limit=None, PaginationToken=None):
     """
     Lists the devices.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_devices(
@@ -2068,9 +2410,55 @@ def list_devices(AccessToken=None, Limit=None, PaginationToken=None):
     """
     pass
 
+def list_groups(UserPoolId=None, Limit=None, NextToken=None):
+    """
+    Lists the groups associated with a user pool.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_groups(
+        UserPoolId='string',
+        Limit=123,
+        NextToken='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Limit: integer
+    :param Limit: The limit of the request to list groups.
+
+    :type NextToken: string
+    :param NextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+    :rtype: dict
+    :return: {
+        'Groups': [
+            {
+                'GroupName': 'string',
+                'UserPoolId': 'string',
+                'Description': 'string',
+                'RoleArn': 'string',
+                'Precedence': 123,
+                'LastModifiedDate': datetime(2015, 1, 1),
+                'CreationDate': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def list_user_import_jobs(UserPoolId=None, MaxResults=None, PaginationToken=None):
     """
     Lists the user import jobs.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_user_import_jobs(
@@ -2132,6 +2520,7 @@ def list_user_import_jobs(UserPoolId=None, MaxResults=None, PaginationToken=None
 def list_user_pool_clients(UserPoolId=None, MaxResults=None, NextToken=None):
     """
     Lists the clients that have been created for the specified user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_user_pool_clients(
@@ -2171,6 +2560,7 @@ def list_user_pool_clients(UserPoolId=None, MaxResults=None, NextToken=None):
 def list_user_pools(NextToken=None, MaxResults=None):
     """
     Lists the user pools associated with an AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_user_pools(
@@ -2218,6 +2608,7 @@ def list_user_pools(NextToken=None, MaxResults=None):
 def list_users(UserPoolId=None, AttributesToGet=None, Limit=None, PaginationToken=None, Filter=None):
     """
     Lists the users in the Amazon Cognito user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_users(
@@ -2287,9 +2678,78 @@ def list_users(UserPoolId=None, AttributesToGet=None, Limit=None, PaginationToke
     """
     pass
 
+def list_users_in_group(UserPoolId=None, GroupName=None, Limit=None, NextToken=None):
+    """
+    Lists the users in the specified group.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_users_in_group(
+        UserPoolId='string',
+        GroupName='string',
+        Limit=123,
+        NextToken='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The name of the group.
+            
+
+    :type Limit: integer
+    :param Limit: The limit of the request to list users.
+
+    :type NextToken: string
+    :param NextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+    :rtype: dict
+    :return: {
+        'Users': [
+            {
+                'Username': 'string',
+                'Attributes': [
+                    {
+                        'Name': 'string',
+                        'Value': 'string'
+                    },
+                ],
+                'UserCreateDate': datetime(2015, 1, 1),
+                'UserLastModifiedDate': datetime(2015, 1, 1),
+                'Enabled': True|False,
+                'UserStatus': 'UNCONFIRMED'|'CONFIRMED'|'ARCHIVED'|'COMPROMISED'|'UNKNOWN'|'RESET_REQUIRED'|'FORCE_CHANGE_PASSWORD',
+                'MFAOptions': [
+                    {
+                        'DeliveryMedium': 'SMS'|'EMAIL',
+                        'AttributeName': 'string'
+                    },
+                ]
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    UNCONFIRMED - User has been created but not confirmed.
+    CONFIRMED - User has been confirmed.
+    ARCHIVED - User is no longer active.
+    COMPROMISED - User is disabled due to a potential security threat.
+    UNKNOWN - User status is not known.
+    
+    """
+    pass
+
 def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
     """
     Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.resend_confirmation_code(
@@ -2328,6 +2788,7 @@ def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
 def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, ChallengeResponses=None):
     """
     Responds to the authentication challenge.
+    See also: AWS API Documentation
     
     
     :example: response = client.respond_to_auth_challenge(
@@ -2392,6 +2853,7 @@ def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, C
 def set_user_settings(AccessToken=None, MFAOptions=None):
     """
     Sets the user settings like multi-factor authentication (MFA). If MFA is to be removed for a particular attribute pass the attribute with code delivery as null. If null list is passed, all MFA options are removed.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_user_settings(
@@ -2429,6 +2891,7 @@ def set_user_settings(AccessToken=None, MFAOptions=None):
 def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAttributes=None, ValidationData=None):
     """
     Registers the user in the specified user pool and creates a user name, password, and user attributes.
+    See also: AWS API Documentation
     
     
     :example: response = client.sign_up(
@@ -2502,6 +2965,7 @@ def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAt
 def start_user_import_job(UserPoolId=None, JobId=None):
     """
     Starts the user import.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_user_import_job(
@@ -2556,6 +3020,7 @@ def start_user_import_job(UserPoolId=None, JobId=None):
 def stop_user_import_job(UserPoolId=None, JobId=None):
     """
     Stops the user import job.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_user_import_job(
@@ -2610,6 +3075,7 @@ def stop_user_import_job(UserPoolId=None, JobId=None):
 def update_device_status(AccessToken=None, DeviceKey=None, DeviceRememberedStatus=None):
     """
     Updates the device status.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_device_status(
@@ -2639,9 +3105,62 @@ def update_device_status(AccessToken=None, DeviceKey=None, DeviceRememberedStatu
     """
     pass
 
+def update_group(GroupName=None, UserPoolId=None, Description=None, RoleArn=None, Precedence=None):
+    """
+    Updates the specified group with the specified attributes.
+    Requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_group(
+        GroupName='string',
+        UserPoolId='string',
+        Description='string',
+        RoleArn='string',
+        Precedence=123
+    )
+    
+    
+    :type GroupName: string
+    :param GroupName: [REQUIRED]
+            The name of the group.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Description: string
+    :param Description: A string containing the new description of the group.
+
+    :type RoleArn: string
+    :param RoleArn: The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
+
+    :type Precedence: integer
+    :param Precedence: The new precedence value for the group. For more information about this parameter, see CreateGroupRequest .
+
+    :rtype: dict
+    :return: {
+        'Group': {
+            'GroupName': 'string',
+            'UserPoolId': 'string',
+            'Description': 'string',
+            'RoleArn': 'string',
+            'Precedence': 123,
+            'LastModifiedDate': datetime(2015, 1, 1),
+            'CreationDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    """
+    pass
+
 def update_user_attributes(UserAttributes=None, AccessToken=None):
     """
     Allows a user to update a specific attribute (one at a time).
+    See also: AWS API Documentation
     
     
     :example: response = client.update_user_attributes(
@@ -2682,9 +3201,10 @@ def update_user_attributes(UserAttributes=None, AccessToken=None):
     """
     pass
 
-def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, AdminCreateUserConfig=None):
+def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None):
     """
     Updates the specified user pool with the specified attributes.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_user_pool(
@@ -2727,6 +3247,9 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
         SmsConfiguration={
             'SnsCallerArn': 'string',
             'ExternalId': 'string'
+        },
+        UserPoolTags={
+            'string': 'string'
         },
         AdminCreateUserConfig={
             'AllowAdminCreateUserOnly': True|False,
@@ -2806,14 +3329,20 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
 
     :type SmsConfiguration: dict
     :param SmsConfiguration: SMS configuration.
-            SnsCallerArn (string) --The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
+            SnsCallerArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
             ExternalId (string) --The external ID.
+            
+
+    :type UserPoolTags: dict
+    :param UserPoolTags: The cost allocation tags for the user pool. For more information, see Adding Cost Allocation Tags to Your User Pool
+            (string) --
+            (string) --
             
 
     :type AdminCreateUserConfig: dict
     :param AdminCreateUserConfig: The configuration for AdminCreateUser requests.
             AllowAdminCreateUserOnly (boolean) --Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
-            UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter.
+            UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter. The default value for this paameter is 7.
             InviteMessageTemplate (dict) --The message template to be used for the welcome message to new users.
             SMSMessage (string) --The message template for SMS messages.
             EmailMessage (string) --The message template for email messages.
@@ -2831,6 +3360,7 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
 def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None):
     """
     Allows the developer to update the specified user pool client and password policy.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_user_pool_client(
@@ -2864,7 +3394,7 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
     :param ClientName: The client name from the update user pool client request.
 
     :type RefreshTokenValidity: integer
-    :param RefreshTokenValidity: The validity of the refresh token.
+    :param RefreshTokenValidity: The validity of the refresh token, in days.
 
     :type ReadAttributes: list
     :param ReadAttributes: The read-only attributes of the user pool.
@@ -2913,6 +3443,7 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
 def verify_user_attribute(AccessToken=None, AttributeName=None, Code=None):
     """
     Verifies the specified user attributes in the user pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.verify_user_attribute(

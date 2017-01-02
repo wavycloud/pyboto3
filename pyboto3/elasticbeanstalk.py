@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def abort_environment_update(EnvironmentId=None, EnvironmentName=None):
     """
     Cancels in-progress environment configuration update or application version deployment.
+    See also: AWS API Documentation
     
     Examples
     The following code aborts a running application version deployment for an environment named my-env:
@@ -57,6 +58,7 @@ def abort_environment_update(EnvironmentId=None, EnvironmentName=None):
 def apply_environment_managed_action(EnvironmentName=None, EnvironmentId=None, ActionId=None):
     """
     Applies a scheduled managed action immediately. A managed action can be applied only if its status is Scheduled . Get the status and action ID of a managed action with  DescribeEnvironmentManagedActions .
+    See also: AWS API Documentation
     
     
     :example: response = client.apply_environment_managed_action(
@@ -107,6 +109,7 @@ def can_paginate(operation_name=None):
 def check_dns_availability(CNAMEPrefix=None):
     """
     Checks if the specified CNAME is available.
+    See also: AWS API Documentation
     
     Examples
     The following operation checks the availability of the subdomain my-cname:
@@ -135,6 +138,7 @@ def check_dns_availability(CNAMEPrefix=None):
 def compose_environments(ApplicationName=None, GroupName=None, VersionLabels=None):
     """
     Create or update a group of environments that each run a separate component of a single application. Takes a list of version labels that specify application source bundles for each of the environments to create or update. The name of each environment and other required information must be included in the source bundles in an environment manifest named env.yaml . See Compose Environments for details.
+    See also: AWS API Documentation
     
     
     :example: response = client.compose_environments(
@@ -214,9 +218,10 @@ def compose_environments(ApplicationName=None, GroupName=None, VersionLabels=Non
     """
     pass
 
-def create_application(ApplicationName=None, Description=None):
+def create_application(ApplicationName=None, Description=None, ResourceLifecycleConfig=None):
     """
     Creates an application that has one configuration template named default and no application versions.
+    See also: AWS API Documentation
     
     Examples
     The following operation creates a new application named my-app:
@@ -224,7 +229,22 @@ def create_application(ApplicationName=None, Description=None):
     
     :example: response = client.create_application(
         ApplicationName='string',
-        Description='string'
+        Description='string',
+        ResourceLifecycleConfig={
+            'ServiceRole': 'string',
+            'VersionLifecycleConfig': {
+                'MaxCountRule': {
+                    'Enabled': True|False,
+                    'MaxCount': 123,
+                    'DeleteSourceFromS3': True|False
+                },
+                'MaxAgeRule': {
+                    'Enabled': True|False,
+                    'MaxAgeInDays': 123,
+                    'DeleteSourceFromS3': True|False
+                }
+            }
+        }
     )
     
     
@@ -236,6 +256,21 @@ def create_application(ApplicationName=None, Description=None):
 
     :type Description: string
     :param Description: Describes the application.
+
+    :type ResourceLifecycleConfig: dict
+    :param ResourceLifecycleConfig: Specify an application resource lifecycle configuration to prevent your application from accumulating too many versions.
+            ServiceRole (string) --The ARN of an IAM service role that Elastic Beanstalk has permission to assume.
+            VersionLifecycleConfig (dict) --The application version lifecycle configuration.
+            MaxCountRule (dict) --Specify a max count rule to restrict the number of application versions that are retained for an application.
+            Enabled (boolean) -- [REQUIRED]Specify true to apply the rule, or false to disable it.
+            MaxCount (integer) --Specify the maximum number of application versions to retain.
+            DeleteSourceFromS3 (boolean) --Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+            MaxAgeRule (dict) --Specify a max age rule to restrict the length of time that application versions are retained for an application.
+            Enabled (boolean) -- [REQUIRED]Specify true to apply the rule, or false to disable it.
+            MaxAgeInDays (integer) --Specify the number of days to retain an application versions.
+            DeleteSourceFromS3 (boolean) --Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+            
+            
 
     :rtype: dict
     :return: {
@@ -249,7 +284,22 @@ def create_application(ApplicationName=None, Description=None):
             ],
             'ConfigurationTemplates': [
                 'string',
-            ]
+            ],
+            'ResourceLifecycleConfig': {
+                'ServiceRole': 'string',
+                'VersionLifecycleConfig': {
+                    'MaxCountRule': {
+                        'Enabled': True|False,
+                        'MaxCount': 123,
+                        'DeleteSourceFromS3': True|False
+                    },
+                    'MaxAgeRule': {
+                        'Enabled': True|False,
+                        'MaxAgeInDays': 123,
+                        'DeleteSourceFromS3': True|False
+                    }
+                }
+            }
         }
     }
     
@@ -260,9 +310,14 @@ def create_application(ApplicationName=None, Description=None):
     """
     pass
 
-def create_application_version(ApplicationName=None, VersionLabel=None, Description=None, SourceBuildInformation=None, SourceBundle=None, AutoCreateApplication=None, Process=None):
+def create_application_version(ApplicationName=None, VersionLabel=None, Description=None, SourceBuildInformation=None, SourceBundle=None, BuildConfiguration=None, AutoCreateApplication=None, Process=None):
     """
-    Creates an application version for the specified application.
+    Creates an application version for the specified application. You can create an application version from a source bundle in Amazon S3, a commit in AWS CodeCommit, or the output of an AWS CodeBuild build as follows:
+    Specify a commit in an AWS CodeCommit repository with SourceBuildInformation .
+    Specify a build in an AWS CodeBuild with SourceBuildInformation and BuildConfiguration .
+    Specify a source bundle in S3 with SourceBundle
+    Omit both SourceBuildInformation and SourceBundle to use the default sample application.
+    See also: AWS API Documentation
     
     Examples
     The following operation creates a new version (v1) of an application named my-app:
@@ -273,13 +328,20 @@ def create_application_version(ApplicationName=None, VersionLabel=None, Descript
         VersionLabel='string',
         Description='string',
         SourceBuildInformation={
-            'SourceType': 'Git',
-            'SourceRepository': 'CodeCommit',
+            'SourceType': 'Git'|'Zip',
+            'SourceRepository': 'CodeCommit'|'S3',
             'SourceLocation': 'string'
         },
         SourceBundle={
             'S3Bucket': 'string',
             'S3Key': 'string'
+        },
+        BuildConfiguration={
+            'ArtifactName': 'string',
+            'CodeBuildServiceRole': 'string',
+            'ComputeType': 'BUILD_GENERAL1_SMALL'|'BUILD_GENERAL1_MEDIUM'|'BUILD_GENERAL1_LARGE',
+            'Image': 'string',
+            'TimeoutInMinutes': 123
         },
         AutoCreateApplication=True|False,
         Process=True|False
@@ -301,27 +363,41 @@ def create_application_version(ApplicationName=None, VersionLabel=None, Descript
     :param Description: Describes this version.
 
     :type SourceBuildInformation: dict
-    :param SourceBuildInformation: 
-            SourceType (string) -- [REQUIRED]
-            SourceRepository (string) -- [REQUIRED]
-            SourceLocation (string) -- [REQUIRED]
+    :param SourceBuildInformation: Specify a commit in an AWS CodeCommit Git repository to use as the source code for the application version.
+            SourceType (string) -- [REQUIRED]The type of repository.
+            Git
+            Zip
+            SourceRepository (string) -- [REQUIRED]Location where the repository is stored.
+            CodeCommit
+            S3
+            SourceLocation (string) -- [REQUIRED]The location of the source code, as a formatted string, depending on the value of SourceRepository
+            For CodeCommit , the format is the repository name and commit ID, separated by a forward slash. For example, my-git-repo/265cfa0cf6af46153527f55d6503ec030551f57a .
+            For S3 , the format is the S3 bucket name and object key, separated by a forward slash. For example, my-s3-bucket/Folders/my-source-file .
             
 
     :type SourceBundle: dict
     :param SourceBundle: The Amazon S3 bucket and key that identify the location of the source bundle for this version.
-            If data found at the Amazon S3 location exceeds the maximum allowed source bundle size, AWS Elastic Beanstalk returns an InvalidParameterValue error. The maximum size allowed is 512 MB.
-            Default: If not specified, AWS Elastic Beanstalk uses a sample application. If only partially specified (for example, a bucket is provided but not the key) or if no data is found at the Amazon S3 location, AWS Elastic Beanstalk returns an InvalidParameterCombination error.
+            Note
+            The Amazon S3 bucket must be in the same region as the environment.
+            Specify a source bundle in S3 or a commit in an AWS CodeCommit repository (with SourceBuildInformation ), but not both. If neither SourceBundle nor SourceBuildInformation are provided, Elastic Beanstalk uses a sample application.
             S3Bucket (string) --The Amazon S3 bucket where the data is located.
             S3Key (string) --The Amazon S3 key where the data is located.
             
 
-    :type AutoCreateApplication: boolean
-    :param AutoCreateApplication: Determines how the system behaves if the specified application for this version does not already exist:
-            true : Automatically creates the specified application for this release if it does not already exist.
-            false : Throws an InvalidParameterValue if the specified application for this release does not already exist.
-            Default: false
-            Valid Values: true | false
+    :type BuildConfiguration: dict
+    :param BuildConfiguration: Settings for an AWS CodeBuild build.
+            ArtifactName (string) --The name of the artifact of the CodeBuild build. If provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket /resources/application-name /codebuild/codebuild-version-label -artifact-name .zip. If not provided, Elastic Beanstalk stores the build artifact in the S3 location S3-bucket /resources/application-name /codebuild/codebuild-version-label .zip.
+            CodeBuildServiceRole (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+            ComputeType (string) --Information about the compute resources the build project will use.
+            BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds
+            BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds
+            BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds
+            Image (string) -- [REQUIRED]The ID of the Docker image to use for this build project.
+            TimeoutInMinutes (integer) --How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
             
+
+    :type AutoCreateApplication: boolean
+    :param AutoCreateApplication: Set to true to create an application with the specified name if it doesn't already exist.
 
     :type Process: boolean
     :param Process: Preprocesses and validates the environment manifest and configuration files in the source bundle. Validating configuration files can identify issues prior to deploying the application version to an environment.
@@ -333,25 +409,25 @@ def create_application_version(ApplicationName=None, VersionLabel=None, Descript
             'Description': 'string',
             'VersionLabel': 'string',
             'SourceBuildInformation': {
-                'SourceType': 'Git',
-                'SourceRepository': 'CodeCommit',
+                'SourceType': 'Git'|'Zip',
+                'SourceRepository': 'CodeCommit'|'S3',
                 'SourceLocation': 'string'
             },
+            'BuildArn': 'string',
             'SourceBundle': {
                 'S3Bucket': 'string',
                 'S3Key': 'string'
             },
             'DateCreated': datetime(2015, 1, 1),
             'DateUpdated': datetime(2015, 1, 1),
-            'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'
+            'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'|'Building'
         }
     }
     
     
     :returns: 
-    SourceType (string) --
-    SourceRepository (string) --
-    SourceLocation (string) --
+    Git
+    Zip
     
     """
     pass
@@ -360,6 +436,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
     """
     Creates a configuration template. Templates are associated with a specific application and are used to deploy different versions of the application with the same configuration settings.
     Related Topics
+    See also: AWS API Documentation
     
     Examples
     The following operation creates a configuration template named my-app-v1 from the settings applied to an environment with the id e-rpqsewtp2j:
@@ -501,6 +578,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
 def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=None, Description=None, CNAMEPrefix=None, Tier=None, Tags=None, VersionLabel=None, TemplateName=None, SolutionStackName=None, OptionSettings=None, OptionsToRemove=None):
     """
     Launches an environment for the specified application using the specified configuration.
+    See also: AWS API Documentation
     
     Examples
     The following operation creates a new environment for version v1 of a java application named my-app:
@@ -672,6 +750,7 @@ def create_storage_location():
     """
     Creates the Amazon S3 storage location for the account.
     This location is used to store user log files.
+    See also: AWS API Documentation
     
     Examples
     The following operation creates a new environment for version v1 of a java application named my-app:
@@ -692,6 +771,7 @@ def create_storage_location():
 def delete_application(ApplicationName=None, TerminateEnvByForce=None):
     """
     Deletes the specified application along with all associated versions and configurations. The application versions will not be deleted from your Amazon S3 bucket.
+    See also: AWS API Documentation
     
     Examples
     The following operation deletes an application named my-app:
@@ -724,6 +804,7 @@ def delete_application(ApplicationName=None, TerminateEnvByForce=None):
 def delete_application_version(ApplicationName=None, VersionLabel=None, DeleteSourceBundle=None):
     """
     Deletes the specified version from the specified application.
+    See also: AWS API Documentation
     
     Examples
     The following operation deletes an application version named 22a0-stage-150819_182129 for an application named my-app:
@@ -738,7 +819,7 @@ def delete_application_version(ApplicationName=None, VersionLabel=None, DeleteSo
     
     :type ApplicationName: string
     :param ApplicationName: [REQUIRED]
-            The name of the application to delete releases from.
+            The name of the application to which the version belongs.
             
 
     :type VersionLabel: string
@@ -747,11 +828,7 @@ def delete_application_version(ApplicationName=None, VersionLabel=None, DeleteSo
             
 
     :type DeleteSourceBundle: boolean
-    :param DeleteSourceBundle: Indicates whether to delete the associated source bundle from Amazon S3:
-            true : An attempt is made to delete the associated Amazon S3 source bundle specified at time of creation.
-            false : No action is taken on the Amazon S3 source bundle specified at time of creation.
-            Valid Values: true | false
-            
+    :param DeleteSourceBundle: Set to true to delete the source bundle from your storage bucket. Otherwise, the application version is deleted only from Elastic Beanstalk and the source bundle remains in Amazon S3.
 
     :return: response = client.delete_application_version(
         ApplicationName='my-app',
@@ -768,6 +845,7 @@ def delete_application_version(ApplicationName=None, VersionLabel=None, DeleteSo
 def delete_configuration_template(ApplicationName=None, TemplateName=None):
     """
     Deletes the specified configuration template.
+    See also: AWS API Documentation
     
     Examples
     The following operation deletes a configuration template named my-template for an application named my-app:
@@ -804,6 +882,7 @@ def delete_environment_configuration(ApplicationName=None, EnvironmentName=None)
     """
     Deletes the draft configuration associated with the running environment.
     Updating a running environment with any configuration changes creates a draft configuration set. You can get the draft configuration using  DescribeConfigurationSettings while the update is in progress or if the update fails. The DeploymentStatus for the draft configuration indicates whether the deployment is in process or has failed. The draft configuration remains in existence until it is deleted with this action.
+    See also: AWS API Documentation
     
     Examples
     The following operation deletes a draft configuration for an environment named my-env:
@@ -838,7 +917,8 @@ def delete_environment_configuration(ApplicationName=None, EnvironmentName=None)
 
 def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxRecords=None, NextToken=None):
     """
-    Retrieve a list of application versions stored in your AWS Elastic Beanstalk storage bucket.
+    Retrieve a list of application versions.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves information about an application version labeled v2:
@@ -855,10 +935,10 @@ def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxR
     
     
     :type ApplicationName: string
-    :param ApplicationName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to only include ones that are associated with the specified application.
+    :param ApplicationName: Specify an application name to show only application versions for that application.
 
     :type VersionLabels: list
-    :param VersionLabels: If specified, restricts the returned descriptions to only include ones that have the specified version labels.
+    :param VersionLabels: Specify a version label to show a specific application version.
             (string) --
             
 
@@ -876,17 +956,18 @@ def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxR
                 'Description': 'string',
                 'VersionLabel': 'string',
                 'SourceBuildInformation': {
-                    'SourceType': 'Git',
-                    'SourceRepository': 'CodeCommit',
+                    'SourceType': 'Git'|'Zip',
+                    'SourceRepository': 'CodeCommit'|'S3',
                     'SourceLocation': 'string'
                 },
+                'BuildArn': 'string',
                 'SourceBundle': {
                     'S3Bucket': 'string',
                     'S3Key': 'string'
                 },
                 'DateCreated': datetime(2015, 1, 1),
                 'DateUpdated': datetime(2015, 1, 1),
-                'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'
+                'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'|'Building'
             },
         ],
         'NextToken': 'string'
@@ -894,9 +975,8 @@ def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxR
     
     
     :returns: 
-    SourceType (string) --
-    SourceRepository (string) --
-    SourceLocation (string) --
+    Git
+    Zip
     
     """
     pass
@@ -904,6 +984,7 @@ def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxR
 def describe_applications(ApplicationNames=None):
     """
     Returns the descriptions of existing applications.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves information about applications in the current region:
@@ -934,7 +1015,22 @@ def describe_applications(ApplicationNames=None):
                 ],
                 'ConfigurationTemplates': [
                     'string',
-                ]
+                ],
+                'ResourceLifecycleConfig': {
+                    'ServiceRole': 'string',
+                    'VersionLifecycleConfig': {
+                        'MaxCountRule': {
+                            'Enabled': True|False,
+                            'MaxCount': 123,
+                            'DeleteSourceFromS3': True|False
+                        },
+                        'MaxAgeRule': {
+                            'Enabled': True|False,
+                            'MaxAgeInDays': 123,
+                            'DeleteSourceFromS3': True|False
+                        }
+                    }
+                }
             },
         ]
     }
@@ -949,6 +1045,7 @@ def describe_applications(ApplicationNames=None):
 def describe_configuration_options(ApplicationName=None, TemplateName=None, EnvironmentName=None, SolutionStackName=None, Options=None):
     """
     Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves descriptions of all available configuration options for an environment named my-env:
@@ -1029,6 +1126,7 @@ def describe_configuration_settings(ApplicationName=None, TemplateName=None, Env
     Returns a description of the settings for the specified configuration set, that is, either a configuration template or the configuration set associated with a running environment.
     When describing the settings for the configuration set associated with a running environment, it is possible to receive two sets of setting descriptions. One is the deployed configuration set, and the other is a draft configuration of an environment that is either in the process of deployment or that failed to deploy.
     Related Topics
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves configuration settings for an environment named my-env:
@@ -1098,6 +1196,7 @@ def describe_configuration_settings(ApplicationName=None, TemplateName=None, Env
 def describe_environment_health(EnvironmentName=None, EnvironmentId=None, AttributeNames=None):
     """
     Returns information about the overall health of the specified environment. The DescribeEnvironmentHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves overall health information for an environment named my-env:
@@ -1113,17 +1212,17 @@ def describe_environment_health(EnvironmentName=None, EnvironmentId=None, Attrib
     
     
     :type EnvironmentName: string
-    :param EnvironmentName: Specifies the AWS Elastic Beanstalk environment name.
-            Condition: You must specify either this or an EnvironmentId, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    :param EnvironmentName: Specify the environment by name.
+            You must specify either this or an EnvironmentName, or both.
             
 
     :type EnvironmentId: string
-    :param EnvironmentId: Specifies the AWS Elastic Beanstalk environment ID.
-            Condition: You must specify either this or an EnvironmentName, or both. If you do not specify either, AWS Elastic Beanstalk returns MissingRequiredParameter error.
+    :param EnvironmentId: Specify the environment by ID.
+            You must specify either this or an EnvironmentName, or both.
             
 
     :type AttributeNames: list
-    :param AttributeNames: Specifies the response elements you wish to receive. If no attribute names are specified, AWS Elastic Beanstalk only returns the name of the environment.
+    :param AttributeNames: Specify the response elements to return. To retrieve all attributes, set to All . If no attribute names are specified, returns the name of the environment.
             (string) --
             
 
@@ -1179,6 +1278,7 @@ def describe_environment_health(EnvironmentName=None, EnvironmentId=None, Attrib
 def describe_environment_managed_action_history(EnvironmentId=None, EnvironmentName=None, NextToken=None, MaxItems=None):
     """
     Lists an environment's completed and failed managed actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_environment_managed_action_history(
@@ -1225,6 +1325,7 @@ def describe_environment_managed_action_history(EnvironmentId=None, EnvironmentN
 def describe_environment_managed_actions(EnvironmentName=None, EnvironmentId=None, Status=None):
     """
     Lists an environment's upcoming and in-progress managed actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_environment_managed_actions(
@@ -1263,6 +1364,7 @@ def describe_environment_managed_actions(EnvironmentName=None, EnvironmentId=Non
 def describe_environment_resources(EnvironmentId=None, EnvironmentName=None):
     """
     Returns AWS resources for this environment.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves information about resources in an environment named my-env:
@@ -1329,6 +1431,7 @@ def describe_environment_resources(EnvironmentId=None, EnvironmentName=None):
 def describe_environments(ApplicationName=None, VersionLabel=None, EnvironmentIds=None, EnvironmentNames=None, IncludeDeleted=None, IncludedDeletedBackTo=None):
     """
     Returns descriptions for existing environments.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves information about an environment named my-env:
@@ -1432,6 +1535,7 @@ def describe_environments(ApplicationName=None, VersionLabel=None, EnvironmentId
 def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, EnvironmentId=None, EnvironmentName=None, RequestId=None, Severity=None, StartTime=None, EndTime=None, MaxRecords=None, NextToken=None):
     """
     Returns list of event descriptions matching criteria up to the last 6 weeks.
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves events for an environment named my-env:
@@ -1508,7 +1612,8 @@ def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, 
 
 def describe_instances_health(EnvironmentName=None, EnvironmentId=None, AttributeNames=None, NextToken=None):
     """
-    Returns more detailed information about the health of the specified instances (for example, CPU utilization, load average, and causes). The DescribeInstancesHealth operation is only available with AWS Elastic Beanstalk Enhanced Health.
+    Retrives detailed information about the health of instances in your AWS Elastic Beanstalk. This operation requires enhanced health reporting .
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves health information for instances in an environment named my-env:
@@ -1525,18 +1630,18 @@ def describe_instances_health(EnvironmentName=None, EnvironmentId=None, Attribut
     
     
     :type EnvironmentName: string
-    :param EnvironmentName: Specifies the AWS Elastic Beanstalk environment name.
+    :param EnvironmentName: Specify the AWS Elastic Beanstalk environment by name.
 
     :type EnvironmentId: string
-    :param EnvironmentId: Specifies the AWS Elastic Beanstalk environment ID.
+    :param EnvironmentId: Specify the AWS Elastic Beanstalk environment by ID.
 
     :type AttributeNames: list
-    :param AttributeNames: Specifies the response elements you wish to receive. If no attribute names are specified, AWS Elastic Beanstalk only returns a list of instances.
+    :param AttributeNames: Specifies the response elements you wish to receive. To retrieve all attributes, set to All . If no attribute names are specified, returns a list of instances.
             (string) --
             
 
     :type NextToken: string
-    :param NextToken: Specifies the next token of the request.
+    :param NextToken: Specify the pagination token returned by a previous call.
 
     :rtype: dict
     :return: {
@@ -1651,6 +1756,7 @@ def get_waiter():
 def list_available_solution_stacks():
     """
     Returns a list of the available solution stack names.
+    See also: AWS API Documentation
     
     Examples
     The following operation lists solution stacks for all currently available platform configurations and any that you have used in the past:
@@ -1684,6 +1790,7 @@ def list_available_solution_stacks():
 def rebuild_environment(EnvironmentId=None, EnvironmentName=None):
     """
     Deletes and recreates all of the AWS resources (for example: the Auto Scaling group, load balancer, etc.) for a specified environment and forces a restart.
+    See also: AWS API Documentation
     
     Examples
     The following operation terminates and recreates the resources in an environment named my-env:
@@ -1722,6 +1829,7 @@ def request_environment_info(EnvironmentId=None, EnvironmentName=None, InfoType=
     Setting the InfoType to bundle compresses the application server log files for every Amazon EC2 instance into a .zip file. Legacy and .NET containers do not support bundle logs.
     Use  RetrieveEnvironmentInfo to obtain the set of logs.
     Related Topics
+    See also: AWS API Documentation
     
     Examples
     The following operation requests logs from an environment named my-env:
@@ -1778,6 +1886,7 @@ def request_environment_info(EnvironmentId=None, EnvironmentName=None, InfoType=
 def restart_app_server(EnvironmentId=None, EnvironmentName=None):
     """
     Causes the environment to restart the application container server running on each Amazon EC2 instance.
+    See also: AWS API Documentation
     
     Examples
     The following operation restarts application servers on all instances in an environment named my-env:
@@ -1813,6 +1922,7 @@ def retrieve_environment_info(EnvironmentId=None, EnvironmentName=None, InfoType
     """
     Retrieves the compiled information from a  RequestEnvironmentInfo request.
     Related Topics
+    See also: AWS API Documentation
     
     Examples
     The following operation retrieves a link to logs from an environment named my-env:
@@ -1874,6 +1984,7 @@ def retrieve_environment_info(EnvironmentId=None, EnvironmentName=None, InfoType
 def swap_environment_cnames(SourceEnvironmentId=None, SourceEnvironmentName=None, DestinationEnvironmentId=None, DestinationEnvironmentName=None):
     """
     Swaps the CNAMEs of two environments.
+    See also: AWS API Documentation
     
     Examples
     The following operation swaps the assigned subdomains of two environments:
@@ -1921,6 +2032,7 @@ def swap_environment_cnames(SourceEnvironmentId=None, SourceEnvironmentName=None
 def terminate_environment(EnvironmentId=None, EnvironmentName=None, TerminateResources=None, ForceTerminate=None):
     """
     Terminates the specified environment.
+    See also: AWS API Documentation
     
     Examples
     The following operation terminates an Elastic Beanstalk environment named my-env:
@@ -2012,6 +2124,7 @@ def terminate_environment(EnvironmentId=None, EnvironmentName=None, TerminateRes
 def update_application(ApplicationName=None, Description=None):
     """
     Updates the specified application to have the specified properties.
+    See also: AWS API Documentation
     
     Examples
     The following operation updates the description of an application named my-app:
@@ -2045,7 +2158,22 @@ def update_application(ApplicationName=None, Description=None):
             ],
             'ConfigurationTemplates': [
                 'string',
-            ]
+            ],
+            'ResourceLifecycleConfig': {
+                'ServiceRole': 'string',
+                'VersionLifecycleConfig': {
+                    'MaxCountRule': {
+                        'Enabled': True|False,
+                        'MaxCount': 123,
+                        'DeleteSourceFromS3': True|False
+                    },
+                    'MaxAgeRule': {
+                        'Enabled': True|False,
+                        'MaxAgeInDays': 123,
+                        'DeleteSourceFromS3': True|False
+                    }
+                }
+            }
         }
     }
     
@@ -2056,9 +2184,81 @@ def update_application(ApplicationName=None, Description=None):
     """
     pass
 
+def update_application_resource_lifecycle(ApplicationName=None, ResourceLifecycleConfig=None):
+    """
+    Modifies lifecycle settings for an application.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_application_resource_lifecycle(
+        ApplicationName='string',
+        ResourceLifecycleConfig={
+            'ServiceRole': 'string',
+            'VersionLifecycleConfig': {
+                'MaxCountRule': {
+                    'Enabled': True|False,
+                    'MaxCount': 123,
+                    'DeleteSourceFromS3': True|False
+                },
+                'MaxAgeRule': {
+                    'Enabled': True|False,
+                    'MaxAgeInDays': 123,
+                    'DeleteSourceFromS3': True|False
+                }
+            }
+        }
+    )
+    
+    
+    :type ApplicationName: string
+    :param ApplicationName: [REQUIRED]
+            The name of the application.
+            
+
+    :type ResourceLifecycleConfig: dict
+    :param ResourceLifecycleConfig: [REQUIRED]
+            The lifecycle configuration.
+            ServiceRole (string) --The ARN of an IAM service role that Elastic Beanstalk has permission to assume.
+            VersionLifecycleConfig (dict) --The application version lifecycle configuration.
+            MaxCountRule (dict) --Specify a max count rule to restrict the number of application versions that are retained for an application.
+            Enabled (boolean) -- [REQUIRED]Specify true to apply the rule, or false to disable it.
+            MaxCount (integer) --Specify the maximum number of application versions to retain.
+            DeleteSourceFromS3 (boolean) --Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+            MaxAgeRule (dict) --Specify a max age rule to restrict the length of time that application versions are retained for an application.
+            Enabled (boolean) -- [REQUIRED]Specify true to apply the rule, or false to disable it.
+            MaxAgeInDays (integer) --Specify the number of days to retain an application versions.
+            DeleteSourceFromS3 (boolean) --Set to true to delete a version's source bundle from Amazon S3 when Elastic Beanstalk deletes the application version.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'ApplicationName': 'string',
+        'ResourceLifecycleConfig': {
+            'ServiceRole': 'string',
+            'VersionLifecycleConfig': {
+                'MaxCountRule': {
+                    'Enabled': True|False,
+                    'MaxCount': 123,
+                    'DeleteSourceFromS3': True|False
+                },
+                'MaxAgeRule': {
+                    'Enabled': True|False,
+                    'MaxAgeInDays': 123,
+                    'DeleteSourceFromS3': True|False
+                }
+            }
+        }
+    }
+    
+    
+    """
+    pass
+
 def update_application_version(ApplicationName=None, VersionLabel=None, Description=None):
     """
     Updates the specified application version to have the specified properties.
+    See also: AWS API Documentation
     
     Examples
     The following operation updates the description of an application version named 22a0-stage-150819_185942:
@@ -2084,7 +2284,7 @@ def update_application_version(ApplicationName=None, VersionLabel=None, Descript
             
 
     :type Description: string
-    :param Description: A new description for this release.
+    :param Description: A new description for this version.
 
     :rtype: dict
     :return: {
@@ -2093,25 +2293,25 @@ def update_application_version(ApplicationName=None, VersionLabel=None, Descript
             'Description': 'string',
             'VersionLabel': 'string',
             'SourceBuildInformation': {
-                'SourceType': 'Git',
-                'SourceRepository': 'CodeCommit',
+                'SourceType': 'Git'|'Zip',
+                'SourceRepository': 'CodeCommit'|'S3',
                 'SourceLocation': 'string'
             },
+            'BuildArn': 'string',
             'SourceBundle': {
                 'S3Bucket': 'string',
                 'S3Key': 'string'
             },
             'DateCreated': datetime(2015, 1, 1),
             'DateUpdated': datetime(2015, 1, 1),
-            'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'
+            'Status': 'Processed'|'Unprocessed'|'Failed'|'Processing'|'Building'
         }
     }
     
     
     :returns: 
-    SourceType (string) --
-    SourceRepository (string) --
-    SourceLocation (string) --
+    Git
+    Zip
     
     """
     pass
@@ -2120,6 +2320,7 @@ def update_configuration_template(ApplicationName=None, TemplateName=None, Descr
     """
     Updates the specified configuration template to have the specified properties or configuration option values.
     Related Topics
+    See also: AWS API Documentation
     
     Examples
     The following operation removes the configured CloudWatch custom health metrics configuration ConfigDocument from a saved configuration template named my-template:
@@ -2253,6 +2454,7 @@ def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName
     Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment.
     Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error.
     When updating the configuration settings to a new template or individual settings, a draft configuration is created and  DescribeConfigurationSettings for this environment returns two setting descriptions with different DeploymentStatus values.
+    See also: AWS API Documentation
     
     Examples
     The following operation updates an environment named "my-env" to version "v2" of the application to which it belongs:
@@ -2405,6 +2607,7 @@ def validate_configuration_settings(ApplicationName=None, TemplateName=None, Env
     """
     Takes a set of configuration settings and either a configuration template or environment, and determines whether those values are valid.
     This action returns a list of messages indicating any errors or warnings associated with the selection of option values.
+    See also: AWS API Documentation
     
     Examples
     The following operation validates a CloudWatch custom metrics config document:

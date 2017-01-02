@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,8 @@ SOFTWARE.
 def add_ip_routes(DirectoryId=None, IpRoutes=None, UpdateSecurityGroupForDirectoryControllers=None):
     """
     If the DNS server for your on-premises domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on AWS to a peer VPC.
+    Before you call AddIpRoutes , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
+    See also: AWS API Documentation
     
     
     :example: response = client.add_ip_routes(
@@ -92,7 +94,8 @@ def add_ip_routes(DirectoryId=None, IpRoutes=None, UpdateSecurityGroupForDirecto
 
 def add_tags_to_resource(ResourceId=None, Tags=None):
     """
-    Adds or overwrites one or more tags for the specified Amazon Directory Services directory. Each directory can have a maximum of 10 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
+    Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags_to_resource(
@@ -113,8 +116,8 @@ def add_tags_to_resource(ResourceId=None, Tags=None):
 
     :type Tags: list
     :param Tags: [REQUIRED]
-            The tags to be assigned to the Amazon Directory Services directory.
-            (dict) --Metadata assigned to an Amazon Directory Services directory consisting of a key-value pair.
+            The tags to be assigned to the directory.
+            (dict) --Metadata assigned to a directory consisting of a key-value pair.
             Key (string) -- [REQUIRED]Required name of the tag. The string value can be Unicode characters and cannot be prefixed with 'aws:'. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             Value (string) -- [REQUIRED]The optional value of the tag. The string value can be Unicode characters. The string can contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
@@ -145,9 +148,43 @@ def can_paginate(operation_name=None):
     """
     pass
 
+def cancel_schema_extension(DirectoryId=None, SchemaExtensionId=None):
+    """
+    Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing , CreatingSnapshot , and UpdatingSchema .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.cancel_schema_extension(
+        DirectoryId='string',
+        SchemaExtensionId='string'
+    )
+    
+    
+    :type DirectoryId: string
+    :param DirectoryId: [REQUIRED]
+            The identifier of the directory whose schema extension will be canceled.
+            
+
+    :type SchemaExtensionId: string
+    :param SchemaExtensionId: [REQUIRED]
+            The identifier of the schema extension that will be canceled.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def connect_directory(Name=None, ShortName=None, Password=None, Description=None, Size=None, ConnectSettings=None):
     """
     Creates an AD Connector to connect to an on-premises directory.
+    Before you call ConnectDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
+    See also: AWS API Documentation
     
     
     :example: response = client.connect_directory(
@@ -216,6 +253,7 @@ def connect_directory(Name=None, ShortName=None, Password=None, Description=None
 def create_alias(DirectoryId=None, Alias=None):
     """
     Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://alias.awsapps.com .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_alias(
@@ -248,6 +286,7 @@ def create_alias(DirectoryId=None, Alias=None):
 def create_computer(DirectoryId=None, ComputerName=None, Password=None, OrganizationalUnitDistinguishedName=None, ComputerAttributes=None):
     """
     Creates a computer account in the specified directory, and joins the computer to the directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_computer(
@@ -311,6 +350,7 @@ def create_computer(DirectoryId=None, ComputerName=None, Password=None, Organiza
 def create_conditional_forwarder(DirectoryId=None, RemoteDomainName=None, DnsIpAddrs=None):
     """
     Creates a conditional forwarder associated with your AWS directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_conditional_forwarder(
@@ -348,6 +388,8 @@ def create_conditional_forwarder(DirectoryId=None, RemoteDomainName=None, DnsIpA
 def create_directory(Name=None, ShortName=None, Password=None, Description=None, Size=None, VpcSettings=None):
     """
     Creates a Simple AD directory.
+    Before you call CreateDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_directory(
@@ -405,6 +447,8 @@ def create_directory(Name=None, ShortName=None, Password=None, Description=None,
 def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=None, VpcSettings=None):
     """
     Creates a Microsoft AD in the AWS cloud.
+    Before you call CreateMicrosoftAD , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_microsoft_ad(
@@ -457,6 +501,7 @@ def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=No
 def create_snapshot(DirectoryId=None, Name=None):
     """
     Creates a snapshot of a Simple AD or Microsoft AD directory in the AWS cloud.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_snapshot(
@@ -486,6 +531,7 @@ def create_trust(DirectoryId=None, RemoteDomainName=None, TrustPassword=None, Tr
     """
     AWS Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Microsoft AD in the AWS cloud, and your existing on-premises Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials.
     This action initiates the creation of the AWS side of a trust relationship between a Microsoft AD in the AWS cloud and an external domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_trust(
@@ -540,6 +586,7 @@ def create_trust(DirectoryId=None, RemoteDomainName=None, TrustPassword=None, Tr
 def delete_conditional_forwarder(DirectoryId=None, RemoteDomainName=None):
     """
     Deletes a conditional forwarder that has been set up for your AWS directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_conditional_forwarder(
@@ -568,6 +615,8 @@ def delete_conditional_forwarder(DirectoryId=None, RemoteDomainName=None):
 def delete_directory(DirectoryId=None):
     """
     Deletes an AWS Directory Service directory.
+    Before you call DeleteDirectory , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_directory(
@@ -592,6 +641,7 @@ def delete_directory(DirectoryId=None):
 def delete_snapshot(SnapshotId=None):
     """
     Deletes a directory snapshot.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_snapshot(
@@ -616,6 +666,7 @@ def delete_snapshot(SnapshotId=None):
 def delete_trust(TrustId=None, DeleteAssociatedConditionalForwarder=None):
     """
     Deletes an existing trust relationship between your Microsoft AD in the AWS cloud and an external domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_trust(
@@ -644,6 +695,7 @@ def delete_trust(TrustId=None, DeleteAssociatedConditionalForwarder=None):
 def deregister_event_topic(DirectoryId=None, TopicName=None):
     """
     Removes the specified directory as a publisher to the specified SNS topic.
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_event_topic(
@@ -673,6 +725,7 @@ def describe_conditional_forwarders(DirectoryId=None, RemoteDomainNames=None):
     """
     Obtains information about the conditional forwarders for this account.
     If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_conditional_forwarders(
@@ -719,6 +772,7 @@ def describe_directories(DirectoryIds=None, NextToken=None, Limit=None):
     You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned.
     This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to  DescribeDirectories to retrieve the next set of items.
     You can also specify a maximum number of return results with the Limit parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_directories(
@@ -815,6 +869,7 @@ def describe_event_topics(DirectoryId=None, TopicNames=None):
     """
     Obtains information about which SNS topics receive status messages from the specified directory.
     If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_event_topics(
@@ -856,6 +911,7 @@ def describe_snapshots(DirectoryId=None, SnapshotIds=None, NextToken=None, Limit
     Obtains information about the directory snapshots that belong to this account.
     This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to  DescribeSnapshots to retrieve the next set of items.
     You can also specify a maximum number of return results with the Limit parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_snapshots(
@@ -905,6 +961,7 @@ def describe_trusts(DirectoryId=None, TrustIds=None, NextToken=None, Limit=None)
     """
     Obtains information about the trust relationships for this account.
     If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_trusts(
@@ -958,6 +1015,7 @@ def describe_trusts(DirectoryId=None, TrustIds=None, NextToken=None, Limit=None)
 def disable_radius(DirectoryId=None):
     """
     Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_radius(
@@ -980,6 +1038,7 @@ def disable_radius(DirectoryId=None):
 def disable_sso(DirectoryId=None, UserName=None, Password=None):
     """
     Disables single-sign on for a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_sso(
@@ -1012,6 +1071,7 @@ def disable_sso(DirectoryId=None, UserName=None, Password=None):
 def enable_radius(DirectoryId=None, RadiusSettings=None):
     """
     Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_radius(
@@ -1059,7 +1119,8 @@ def enable_radius(DirectoryId=None, RadiusSettings=None):
 
 def enable_sso(DirectoryId=None, UserName=None, Password=None):
     """
-    Enables single-sign on for a directory.
+    Enables single sign-on for a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_sso(
@@ -1114,6 +1175,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_directory_limits():
     """
     Obtains directory limit information for the current region.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_directory_limits()
@@ -1157,6 +1219,7 @@ def get_paginator(operation_name=None):
 def get_snapshot_limits(DirectoryId=None):
     """
     Obtains the manual snapshot limits for a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_snapshot_limits(
@@ -1191,6 +1254,7 @@ def get_waiter():
 def list_ip_routes(DirectoryId=None, NextToken=None, Limit=None):
     """
     Lists the address blocks that you have added to a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_ip_routes(
@@ -1230,9 +1294,54 @@ def list_ip_routes(DirectoryId=None, NextToken=None, Limit=None):
     """
     pass
 
+def list_schema_extensions(DirectoryId=None, NextToken=None, Limit=None):
+    """
+    Lists all schema extensions applied to a Microsoft AD Directory.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_schema_extensions(
+        DirectoryId='string',
+        NextToken='string',
+        Limit=123
+    )
+    
+    
+    :type DirectoryId: string
+    :param DirectoryId: [REQUIRED]
+            The identifier of the directory from which to retrieve the schema extension information.
+            
+
+    :type NextToken: string
+    :param NextToken: The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions . Pass null if this is the first call.
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return.
+
+    :rtype: dict
+    :return: {
+        'SchemaExtensionsInfo': [
+            {
+                'DirectoryId': 'string',
+                'SchemaExtensionId': 'string',
+                'Description': 'string',
+                'SchemaExtensionStatus': 'Initializing'|'CreatingSnapshot'|'UpdatingSchema'|'Replicating'|'CancelInProgress'|'RollbackInProgress'|'Cancelled'|'Failed'|'Completed',
+                'SchemaExtensionStatusReason': 'string',
+                'StartDateTime': datetime(2015, 1, 1),
+                'EndDateTime': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def list_tags_for_resource(ResourceId=None, NextToken=None, Limit=None):
     """
-    Lists all tags on an Amazon Directory Services directory.
+    Lists all tags on a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_resource(
@@ -1271,6 +1380,7 @@ def list_tags_for_resource(ResourceId=None, NextToken=None, Limit=None):
 def register_event_topic(DirectoryId=None, TopicName=None):
     """
     Associates a directory with an SNS topic. This establishes the directory as a publisher to the specified SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_event_topic(
@@ -1299,6 +1409,7 @@ def register_event_topic(DirectoryId=None, TopicName=None):
 def remove_ip_routes(DirectoryId=None, CidrIps=None):
     """
     Removes IP address blocks from a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_ip_routes(
@@ -1332,7 +1443,8 @@ def remove_ip_routes(DirectoryId=None, CidrIps=None):
 
 def remove_tags_from_resource(ResourceId=None, TagKeys=None):
     """
-    Removes tags from an Amazon Directory Services directory.
+    Removes tags from a directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags_from_resource(
@@ -1369,6 +1481,7 @@ def restore_from_snapshot(SnapshotId=None):
     Restores a directory using an existing directory snapshot.
     When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten.
     This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the  DescribeDirectories operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active , the restore operation is complete.
+    See also: AWS API Documentation
     
     
     :example: response = client.restore_from_snapshot(
@@ -1388,9 +1501,53 @@ def restore_from_snapshot(SnapshotId=None):
     """
     pass
 
+def start_schema_extension(DirectoryId=None, CreateSnapshotBeforeSchemaExtension=None, LdifContent=None, Description=None):
+    """
+    Applies a schema extension to a Microsoft AD directory.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.start_schema_extension(
+        DirectoryId='string',
+        CreateSnapshotBeforeSchemaExtension=True|False,
+        LdifContent='string',
+        Description='string'
+    )
+    
+    
+    :type DirectoryId: string
+    :param DirectoryId: [REQUIRED]
+            The identifier of the directory for which the schema extension will be applied to.
+            
+
+    :type CreateSnapshotBeforeSchemaExtension: boolean
+    :param CreateSnapshotBeforeSchemaExtension: [REQUIRED]
+            If true, creates a snapshot of the directory before applying the schema extension.
+            
+
+    :type LdifContent: string
+    :param LdifContent: [REQUIRED]
+            The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with n. See the example request below for more details. The file size can be no larger than 1MB.
+            
+
+    :type Description: string
+    :param Description: [REQUIRED]
+            A description of the schema extension.
+            
+
+    :rtype: dict
+    :return: {
+        'SchemaExtensionId': 'string'
+    }
+    
+    
+    """
+    pass
+
 def update_conditional_forwarder(DirectoryId=None, RemoteDomainName=None, DnsIpAddrs=None):
     """
     Updates a conditional forwarder that has been set up for your AWS directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_conditional_forwarder(
@@ -1428,6 +1585,7 @@ def update_conditional_forwarder(DirectoryId=None, RemoteDomainName=None, DnsIpA
 def update_radius(DirectoryId=None, RadiusSettings=None):
     """
     Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector directory.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_radius(
@@ -1477,6 +1635,7 @@ def verify_trust(TrustId=None):
     """
     AWS Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships.
     This action verifies a trust relationship between your Microsoft AD in the AWS cloud and an external domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.verify_trust(

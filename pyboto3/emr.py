@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,8 @@ SOFTWARE.
 
 def add_instance_groups(InstanceGroups=None, JobFlowId=None):
     """
-    AddInstanceGroups adds an instance group to a running cluster.
+    Adds one or more instance groups to a running cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_instance_groups(
@@ -59,6 +60,44 @@ def add_instance_groups(InstanceGroups=None, JobFlowId=None):
                         },
                     ],
                     'EbsOptimized': True|False
+                },
+                'AutoScalingPolicy': {
+                    'Constraints': {
+                        'MinCapacity': 123,
+                        'MaxCapacity': 123
+                    },
+                    'Rules': [
+                        {
+                            'Name': 'string',
+                            'Description': 'string',
+                            'Action': {
+                                'Market': 'ON_DEMAND'|'SPOT',
+                                'SimpleScalingPolicyConfiguration': {
+                                    'AdjustmentType': 'CHANGE_IN_CAPACITY'|'PERCENT_CHANGE_IN_CAPACITY'|'EXACT_CAPACITY',
+                                    'ScalingAdjustment': 123,
+                                    'CoolDown': 123
+                                }
+                            },
+                            'Trigger': {
+                                'CloudWatchAlarmDefinition': {
+                                    'ComparisonOperator': 'GREATER_THAN_OR_EQUAL'|'GREATER_THAN'|'LESS_THAN'|'LESS_THAN_OR_EQUAL',
+                                    'EvaluationPeriods': 123,
+                                    'MetricName': 'string',
+                                    'Namespace': 'string',
+                                    'Period': 123,
+                                    'Statistic': 'SAMPLE_COUNT'|'AVERAGE'|'SUM'|'MINIMUM'|'MAXIMUM',
+                                    'Threshold': 123.0,
+                                    'Unit': 'NONE'|'SECONDS'|'MICRO_SECONDS'|'MILLI_SECONDS'|'BYTES'|'KILO_BYTES'|'MEGA_BYTES'|'GIGA_BYTES'|'TERA_BYTES'|'BITS'|'KILO_BITS'|'MEGA_BITS'|'GIGA_BITS'|'TERA_BITS'|'PERCENT'|'COUNT'|'BYTES_PER_SECOND'|'KILO_BYTES_PER_SECOND'|'MEGA_BYTES_PER_SECOND'|'GIGA_BYTES_PER_SECOND'|'TERA_BYTES_PER_SECOND'|'BITS_PER_SECOND'|'KILO_BITS_PER_SECOND'|'MEGA_BITS_PER_SECOND'|'GIGA_BITS_PER_SECOND'|'TERA_BITS_PER_SECOND'|'COUNT_PER_SECOND',
+                                    'Dimensions': [
+                                        {
+                                            'Key': 'string',
+                                            'Value': 'string'
+                                        },
+                                    ]
+                                }
+                            }
+                        },
+                    ]
                 }
             },
         ],
@@ -68,13 +107,13 @@ def add_instance_groups(InstanceGroups=None, JobFlowId=None):
     
     :type InstanceGroups: list
     :param InstanceGroups: [REQUIRED]
-            Instance Groups to add.
+            Instance groups to add.
             (dict) --Configuration defining a new instance group.
             Name (string) --Friendly name given to the instance group.
-            Market (string) --Market type of the Amazon EC2 instances used to create a cluster node.
+            Market (string) --Market type of the EC2 instances used to create a cluster node.
             InstanceRole (string) -- [REQUIRED]The role of the instance group in the cluster.
-            BidPrice (string) --Bid price for each Amazon EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-            InstanceType (string) -- [REQUIRED]The Amazon EC2 instance type for all instances in the instance group.
+            BidPrice (string) --Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
+            InstanceType (string) -- [REQUIRED]The EC2 instance type for all instances in the instance group.
             InstanceCount (integer) -- [REQUIRED]Target number of instances for the instance group.
             Configurations (list) --
             Note
@@ -91,16 +130,48 @@ def add_instance_groups(InstanceGroups=None, JobFlowId=None):
             (string) --
             
             
-            EbsConfiguration (dict) --EBS configurations that will be attached to each Amazon EC2 instance in the instance group.
-            EbsBlockDeviceConfigs (list) --
+            EbsConfiguration (dict) --EBS configurations that will be attached to each EC2 instance in the instance group.
+            EbsBlockDeviceConfigs (list) --An array of Amazon EBS volume specifications attached to a cluster instance.
             (dict) --Configuration of requested EBS block device associated with the instance group with count of volumes that will be associated to every instance.
-            VolumeSpecification (dict) -- [REQUIRED]EBS volume specifications such as volume type, IOPS, and size(GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+            VolumeSpecification (dict) -- [REQUIRED]EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
             VolumeType (string) -- [REQUIRED]The volume type. Volume types supported are gp2, io1, standard.
             Iops (integer) --The number of I/O operations per second (IOPS) that the volume supports.
             SizeInGB (integer) -- [REQUIRED]The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-            VolumesPerInstance (integer) --Number of EBS volumes with specific volume configuration, that will be associated with every instance in the instance group
+            VolumesPerInstance (integer) --Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
             
-            EbsOptimized (boolean) --
+            EbsOptimized (boolean) --Indicates whether an Amazon EBS volume is EBS-optimized.
+            AutoScalingPolicy (dict) --An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy .
+            Constraints (dict) -- [REQUIRED]The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
+            MinCapacity (integer) -- [REQUIRED]The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
+            MaxCapacity (integer) -- [REQUIRED]The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
+            Rules (list) -- [REQUIRED]The scale-in and scale-out rules that comprise the automatic scaling policy.
+            (dict) --A scale-in or scale-out rule that defines scaling activity, including the CloudWatch metric alarm that triggers activity, how EC2 instances are added or removed, and the periodicity of adjustments. The automatic scaling policy for an instance group can comprise one or more automatic scaling rules.
+            Name (string) -- [REQUIRED]The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
+            Description (string) --A friendly, more verbose description of the automatic scaling rule.
+            Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
+            Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
+            SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal, for example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
+            
+            Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
+            CloudWatchAlarmDefinition (dict) -- [REQUIRED]The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
+            ComparisonOperator (string) -- [REQUIRED]Determines how the metric specified by MetricName is compared to the value specified by Threshold .
+            EvaluationPeriods (integer) --The number of periods, expressed in seconds using Period , during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1 .
+            MetricName (string) -- [REQUIRED]The name of the CloudWatch metric that is watched to determine an alarm condition.
+            Namespace (string) --The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce .
+            Period (integer) -- [REQUIRED]The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300 .
+            Statistic (string) --The statistic to apply to the metric associated with the alarm. The default is AVERAGE .
+            Threshold (float) -- [REQUIRED]The value against which the specified statistic is compared.
+            Unit (string) --The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
+            Dimensions (list) --A CloudWatch metric dimension.
+            (dict) --A CloudWatch dimension, which is specified using a Key (known as a Name in CloudWatch), Value pair. By default, Amazon EMR uses one dimension whose Key is JobFlowID and Value is a variable representing the cluster ID, which is ${emr:cluster_id} . This enables the rule to bootstrap when the cluster ID becomes available, and also enables a single automatic scaling policy to be reused for multiple clusters and instance groups.
+            Key (string) --The dimension name.
+            Value (string) --The dimension value.
+            
+            
+            
             
             
 
@@ -127,10 +198,11 @@ def add_instance_groups(InstanceGroups=None, JobFlowId=None):
 def add_job_flow_steps(JobFlowId=None, Steps=None):
     """
     AddJobFlowSteps adds new steps to a running job flow. A maximum of 256 steps are allowed in each job flow.
-    If your job flow is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, go to Add More than 256 Steps to a Job Flow in the Amazon Elastic MapReduce Developer's Guide .
+    If your job flow is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, see Add More than 256 Steps to a Job Flow in the Amazon EMR Developer's Guide .
     A step specifies the location of a JAR file stored either on the master node of the job flow or in Amazon S3. Each step is performed by the main function of the main class of the JAR file. The main class can be specified either in the manifest of the JAR or by using the MainFunction parameter of the step.
-    Elastic MapReduce executes each step in the order listed. For a step to be considered complete, the main function must exit with a zero exit code and all Hadoop jobs started while the step was running must have completed and run successfully.
+    Amazon EMR executes each step in the order listed. For a step to be considered complete, the main function must exit with a zero exit code and all Hadoop jobs started while the step was running must have completed and run successfully.
     You can only add steps to a job flow that is in one of the following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_job_flow_steps(
@@ -198,6 +270,7 @@ def add_job_flow_steps(JobFlowId=None, Steps=None):
 def add_tags(ResourceId=None, Tags=None):
     """
     Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags(
@@ -218,7 +291,7 @@ def add_tags(ResourceId=None, Tags=None):
 
     :type Tags: list
     :param Tags: [REQUIRED]
-            A list of tags to associate with a cluster and propagate to Amazon EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
+            A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
             (dict) --A key/value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
             Key (string) --A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources .
             Value (string) --A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources .
@@ -247,9 +320,55 @@ def can_paginate(operation_name=None):
     """
     pass
 
+def cancel_steps(ClusterId=None, StepIds=None):
+    """
+    Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee a step will be canceled, even if the request is successfully submitted. You can only cancel steps that are in a PENDING state.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.cancel_steps(
+        ClusterId='string',
+        StepIds=[
+            'string',
+        ]
+    )
+    
+    
+    :type ClusterId: string
+    :param ClusterId: The ClusterID for which specified steps will be canceled. Use RunJobFlow and ListClusters to get ClusterIDs.
+
+    :type StepIds: list
+    :param StepIds: The list of StepIDs to cancel. Use ListSteps to get steps and their states for the specified cluster.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'CancelStepsInfoList': [
+            {
+                'StepId': 'string',
+                'Status': 'SUBMITTED'|'FAILED',
+                'Reason': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (dict) --
+    StepId (string) --
+    Status (string) --
+    Reason (string) --
+    
+    
+    
+    """
+    pass
+
 def create_security_configuration(Name=None, SecurityConfiguration=None):
     """
-    Creates a security configuration using EMR Security Configurations, which are stored in the service. Security Configurations enable you to more easily create a configuration, reuse it, and apply it whenever a cluster is created.
+    Creates a security configuration, which is stored in the service and can be specified when a cluster is created.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_security_configuration(
@@ -281,6 +400,7 @@ def create_security_configuration(Name=None, SecurityConfiguration=None):
 def delete_security_configuration(Name=None):
     """
     Deletes a security configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_security_configuration(
@@ -303,6 +423,7 @@ def delete_security_configuration(Name=None):
 def describe_cluster(ClusterId=None):
     """
     Provides cluster-level details including status, hardware and software configuration, VPC settings, and so on. For information about the cluster steps, see  ListSteps .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cluster(
@@ -384,7 +505,9 @@ def describe_cluster(ClusterId=None):
                     }
                 },
             ],
-            'SecurityConfiguration': 'string'
+            'SecurityConfiguration': 'string',
+            'AutoScalingRole': 'string',
+            'ScaleDownBehavior': 'TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION'
         }
     }
     
@@ -401,7 +524,8 @@ def describe_job_flows(CreatedAfter=None, CreatedBefore=None, JobFlowIds=None, J
     DescribeJobFlows returns a list of job flows that match all of the supplied parameters. The parameters can include a list of job flow IDs, job flow states, and restrictions on job flow creation date and time.
     Regardless of supplied parameters, only job flows created within the last two months are returned.
     If no parameters are supplied, then job flows matching either of the following criteria are returned:
-    Amazon Elastic MapReduce can return a maximum of 512 job flow descriptions.
+    Amazon EMR can return a maximum of 512 job flow descriptions.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_job_flows(
@@ -528,7 +652,9 @@ def describe_job_flows(CreatedAfter=None, CreatedBefore=None, JobFlowIds=None, J
                 ],
                 'VisibleToAllUsers': True|False,
                 'JobFlowRole': 'string',
-                'ServiceRole': 'string'
+                'ServiceRole': 'string',
+                'AutoScalingRole': 'string',
+                'ScaleDownBehavior': 'TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION'
             },
         ]
     }
@@ -555,6 +681,7 @@ def describe_job_flows(CreatedAfter=None, CreatedBefore=None, JobFlowIds=None, J
 def describe_security_configuration(Name=None):
     """
     Provides the details of a security configuration by returning the configuration JSON.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_security_configuration(
@@ -581,6 +708,7 @@ def describe_security_configuration(Name=None):
 def describe_step(ClusterId=None, StepId=None):
     """
     Provides more detail about the cluster step.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_step(
@@ -616,7 +744,7 @@ def describe_step(ClusterId=None, StepId=None):
             },
             'ActionOnFailure': 'TERMINATE_JOB_FLOW'|'TERMINATE_CLUSTER'|'CANCEL_AND_WAIT'|'CONTINUE',
             'Status': {
-                'State': 'PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
+                'State': 'PENDING'|'CANCEL_PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
                 'StateChangeReason': {
                     'Code': 'NONE',
                     'Message': 'string'
@@ -692,6 +820,7 @@ def get_waiter():
 def list_bootstrap_actions(ClusterId=None, Marker=None):
     """
     Provides information about the bootstrap actions associated with a cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_bootstrap_actions(
@@ -702,7 +831,7 @@ def list_bootstrap_actions(ClusterId=None, Marker=None):
     
     :type ClusterId: string
     :param ClusterId: [REQUIRED]
-            The cluster identifier for the bootstrap actions to list .
+            The cluster identifier for the bootstrap actions to list.
             
 
     :type Marker: string
@@ -732,6 +861,7 @@ def list_bootstrap_actions(ClusterId=None, Marker=None):
 def list_clusters(CreatedAfter=None, CreatedBefore=None, ClusterStates=None, Marker=None):
     """
     Provides the status of all clusters visible to this AWS account. Allows you to filter the list of clusters based on certain criteria; for example, filtering by cluster creation date and time or by status. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListClusters calls.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_clusters(
@@ -745,10 +875,10 @@ def list_clusters(CreatedAfter=None, CreatedBefore=None, ClusterStates=None, Mar
     
     
     :type CreatedAfter: datetime
-    :param CreatedAfter: The creation date and time beginning value filter for listing clusters .
+    :param CreatedAfter: The creation date and time beginning value filter for listing clusters.
 
     :type CreatedBefore: datetime
-    :param CreatedBefore: The creation date and time end value filter for listing clusters .
+    :param CreatedBefore: The creation date and time end value filter for listing clusters.
 
     :type ClusterStates: list
     :param ClusterStates: The cluster state filters to apply when listing clusters.
@@ -789,6 +919,7 @@ def list_clusters(CreatedAfter=None, CreatedBefore=None, ClusterStates=None, Mar
 def list_instance_groups(ClusterId=None, Marker=None):
     """
     Provides all available details about the instance groups in a cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_instance_groups(
@@ -860,6 +991,51 @@ def list_instance_groups(ClusterId=None, Marker=None):
                         ],
                         'InstanceTerminationTimeout': 123
                     }
+                },
+                'AutoScalingPolicy': {
+                    'Status': {
+                        'State': 'PENDING'|'ATTACHING'|'ATTACHED'|'DETACHING'|'DETACHED'|'FAILED',
+                        'StateChangeReason': {
+                            'Code': 'USER_REQUEST'|'PROVISION_FAILURE'|'CLEANUP_FAILURE',
+                            'Message': 'string'
+                        }
+                    },
+                    'Constraints': {
+                        'MinCapacity': 123,
+                        'MaxCapacity': 123
+                    },
+                    'Rules': [
+                        {
+                            'Name': 'string',
+                            'Description': 'string',
+                            'Action': {
+                                'Market': 'ON_DEMAND'|'SPOT',
+                                'SimpleScalingPolicyConfiguration': {
+                                    'AdjustmentType': 'CHANGE_IN_CAPACITY'|'PERCENT_CHANGE_IN_CAPACITY'|'EXACT_CAPACITY',
+                                    'ScalingAdjustment': 123,
+                                    'CoolDown': 123
+                                }
+                            },
+                            'Trigger': {
+                                'CloudWatchAlarmDefinition': {
+                                    'ComparisonOperator': 'GREATER_THAN_OR_EQUAL'|'GREATER_THAN'|'LESS_THAN'|'LESS_THAN_OR_EQUAL',
+                                    'EvaluationPeriods': 123,
+                                    'MetricName': 'string',
+                                    'Namespace': 'string',
+                                    'Period': 123,
+                                    'Statistic': 'SAMPLE_COUNT'|'AVERAGE'|'SUM'|'MINIMUM'|'MAXIMUM',
+                                    'Threshold': 123.0,
+                                    'Unit': 'NONE'|'SECONDS'|'MICRO_SECONDS'|'MILLI_SECONDS'|'BYTES'|'KILO_BYTES'|'MEGA_BYTES'|'GIGA_BYTES'|'TERA_BYTES'|'BITS'|'KILO_BITS'|'MEGA_BITS'|'GIGA_BITS'|'TERA_BITS'|'PERCENT'|'COUNT'|'BYTES_PER_SECOND'|'KILO_BYTES_PER_SECOND'|'MEGA_BYTES_PER_SECOND'|'GIGA_BYTES_PER_SECOND'|'TERA_BYTES_PER_SECOND'|'BITS_PER_SECOND'|'KILO_BITS_PER_SECOND'|'MEGA_BITS_PER_SECOND'|'GIGA_BITS_PER_SECOND'|'TERA_BITS_PER_SECOND'|'COUNT_PER_SECOND',
+                                    'Dimensions': [
+                                        {
+                                            'Key': 'string',
+                                            'Value': 'string'
+                                        },
+                                    ]
+                                }
+                            }
+                        },
+                    ]
                 }
             },
         ],
@@ -879,6 +1055,7 @@ def list_instance_groups(ClusterId=None, Marker=None):
 def list_instances(ClusterId=None, InstanceGroupId=None, InstanceGroupTypes=None, InstanceStates=None, Marker=None):
     """
     Provides information about the cluster instances that Amazon EMR provisions on behalf of a user when it creates the cluster. For example, this operation indicates when the EC2 instances reach the Ready state, when instances become available to Amazon EMR to use for jobs, and the IP addresses for cluster instances, etc.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_instances(
@@ -956,6 +1133,7 @@ def list_instances(ClusterId=None, InstanceGroupId=None, InstanceGroupTypes=None
 def list_security_configurations(Marker=None):
     """
     Lists all the security configurations visible to this account, providing their creation dates and times, and their names. This call returns a maximum of 50 clusters per call, but returns a marker to track the paging of the cluster list across multiple ListSecurityConfigurations calls.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_security_configurations(
@@ -983,13 +1161,14 @@ def list_security_configurations(Marker=None):
 
 def list_steps(ClusterId=None, StepStates=None, StepIds=None, Marker=None):
     """
-    Provides a list of steps for the cluster.
+    Provides a list of steps for the cluster in reverse order unless you specify stepIds with the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_steps(
         ClusterId='string',
         StepStates=[
-            'PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
+            'PENDING'|'CANCEL_PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
         ],
         StepIds=[
             'string',
@@ -1034,7 +1213,7 @@ def list_steps(ClusterId=None, StepStates=None, StepIds=None, Marker=None):
                 },
                 'ActionOnFailure': 'TERMINATE_JOB_FLOW'|'TERMINATE_CLUSTER'|'CANCEL_AND_WAIT'|'CONTINUE',
                 'Status': {
-                    'State': 'PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
+                    'State': 'PENDING'|'CANCEL_PENDING'|'RUNNING'|'COMPLETED'|'CANCELLED'|'FAILED'|'INTERRUPTED',
                     'StateChangeReason': {
                         'Code': 'NONE',
                         'Message': 'string'
@@ -1065,12 +1244,14 @@ def list_steps(ClusterId=None, StepStates=None, StepIds=None, Marker=None):
     """
     pass
 
-def modify_instance_groups(InstanceGroups=None):
+def modify_instance_groups(ClusterId=None, InstanceGroups=None):
     """
     ModifyInstanceGroups modifies the number of nodes and configuration settings of an instance group. The input parameters include the new target instance count for the group and the instance group ID. The call will either succeed or fail atomically.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_instance_groups(
+        ClusterId='string',
         InstanceGroups=[
             {
                 'InstanceGroupId': 'string',
@@ -1095,12 +1276,15 @@ def modify_instance_groups(InstanceGroups=None):
     )
     
     
+    :type ClusterId: string
+    :param ClusterId: The ID of the cluster to which the instance group belongs.
+
     :type InstanceGroups: list
     :param InstanceGroups: Instance groups to change.
             (dict) --Modify an instance group size.
             InstanceGroupId (string) -- [REQUIRED]Unique ID of the instance group to expand or shrink.
             InstanceCount (integer) --Target size for the instance group.
-            EC2InstanceIdsToTerminate (list) --The EC2 InstanceIds to terminate. Once you terminate the instances, the instance group will not return to its original requested size.
+            EC2InstanceIdsToTerminate (list) --The EC2 InstanceIds to terminate. After you terminate the instances, the instance group will not return to its original requested size.
             (string) --
             ShrinkPolicy (dict) --Policy for customizing shrink operations.
             DecommissionTimeout (integer) --The desired timeout for decommissioning an instance. Overrides the default YARN decommissioning timeout.
@@ -1114,8 +1298,188 @@ def modify_instance_groups(InstanceGroups=None):
             
             
 
+    """
+    pass
+
+def put_auto_scaling_policy(ClusterId=None, InstanceGroupId=None, AutoScalingPolicy=None):
+    """
+    Creates or updates an automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_auto_scaling_policy(
+        ClusterId='string',
+        InstanceGroupId='string',
+        AutoScalingPolicy={
+            'Constraints': {
+                'MinCapacity': 123,
+                'MaxCapacity': 123
+            },
+            'Rules': [
+                {
+                    'Name': 'string',
+                    'Description': 'string',
+                    'Action': {
+                        'Market': 'ON_DEMAND'|'SPOT',
+                        'SimpleScalingPolicyConfiguration': {
+                            'AdjustmentType': 'CHANGE_IN_CAPACITY'|'PERCENT_CHANGE_IN_CAPACITY'|'EXACT_CAPACITY',
+                            'ScalingAdjustment': 123,
+                            'CoolDown': 123
+                        }
+                    },
+                    'Trigger': {
+                        'CloudWatchAlarmDefinition': {
+                            'ComparisonOperator': 'GREATER_THAN_OR_EQUAL'|'GREATER_THAN'|'LESS_THAN'|'LESS_THAN_OR_EQUAL',
+                            'EvaluationPeriods': 123,
+                            'MetricName': 'string',
+                            'Namespace': 'string',
+                            'Period': 123,
+                            'Statistic': 'SAMPLE_COUNT'|'AVERAGE'|'SUM'|'MINIMUM'|'MAXIMUM',
+                            'Threshold': 123.0,
+                            'Unit': 'NONE'|'SECONDS'|'MICRO_SECONDS'|'MILLI_SECONDS'|'BYTES'|'KILO_BYTES'|'MEGA_BYTES'|'GIGA_BYTES'|'TERA_BYTES'|'BITS'|'KILO_BITS'|'MEGA_BITS'|'GIGA_BITS'|'TERA_BITS'|'PERCENT'|'COUNT'|'BYTES_PER_SECOND'|'KILO_BYTES_PER_SECOND'|'MEGA_BYTES_PER_SECOND'|'GIGA_BYTES_PER_SECOND'|'TERA_BYTES_PER_SECOND'|'BITS_PER_SECOND'|'KILO_BITS_PER_SECOND'|'MEGA_BITS_PER_SECOND'|'GIGA_BITS_PER_SECOND'|'TERA_BITS_PER_SECOND'|'COUNT_PER_SECOND',
+                            'Dimensions': [
+                                {
+                                    'Key': 'string',
+                                    'Value': 'string'
+                                },
+                            ]
+                        }
+                    }
+                },
+            ]
+        }
+    )
+    
+    
+    :type ClusterId: string
+    :param ClusterId: [REQUIRED]
+            Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
+            
+
+    :type InstanceGroupId: string
+    :param InstanceGroupId: [REQUIRED]
+            Specifies the ID of the instance group to which the automatic scaling policy is applied.
+            
+
+    :type AutoScalingPolicy: dict
+    :param AutoScalingPolicy: [REQUIRED]
+            Specifies the definition of the automatic scaling policy.
+            Constraints (dict) -- [REQUIRED]The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
+            MinCapacity (integer) -- [REQUIRED]The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
+            MaxCapacity (integer) -- [REQUIRED]The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
+            Rules (list) -- [REQUIRED]The scale-in and scale-out rules that comprise the automatic scaling policy.
+            (dict) --A scale-in or scale-out rule that defines scaling activity, including the CloudWatch metric alarm that triggers activity, how EC2 instances are added or removed, and the periodicity of adjustments. The automatic scaling policy for an instance group can comprise one or more automatic scaling rules.
+            Name (string) -- [REQUIRED]The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
+            Description (string) --A friendly, more verbose description of the automatic scaling rule.
+            Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
+            Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
+            SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal, for example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
+            
+            Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
+            CloudWatchAlarmDefinition (dict) -- [REQUIRED]The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
+            ComparisonOperator (string) -- [REQUIRED]Determines how the metric specified by MetricName is compared to the value specified by Threshold .
+            EvaluationPeriods (integer) --The number of periods, expressed in seconds using Period , during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1 .
+            MetricName (string) -- [REQUIRED]The name of the CloudWatch metric that is watched to determine an alarm condition.
+            Namespace (string) --The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce .
+            Period (integer) -- [REQUIRED]The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300 .
+            Statistic (string) --The statistic to apply to the metric associated with the alarm. The default is AVERAGE .
+            Threshold (float) -- [REQUIRED]The value against which the specified statistic is compared.
+            Unit (string) --The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
+            Dimensions (list) --A CloudWatch metric dimension.
+            (dict) --A CloudWatch dimension, which is specified using a Key (known as a Name in CloudWatch), Value pair. By default, Amazon EMR uses one dimension whose Key is JobFlowID and Value is a variable representing the cluster ID, which is ${emr:cluster_id} . This enables the rule to bootstrap when the cluster ID becomes available, and also enables a single automatic scaling policy to be reused for multiple clusters and instance groups.
+            Key (string) --The dimension name.
+            Value (string) --The dimension value.
+            
+            
+            
+            
+
+    :rtype: dict
+    :return: {
+        'ClusterId': 'string',
+        'InstanceGroupId': 'string',
+        'AutoScalingPolicy': {
+            'Status': {
+                'State': 'PENDING'|'ATTACHING'|'ATTACHED'|'DETACHING'|'DETACHED'|'FAILED',
+                'StateChangeReason': {
+                    'Code': 'USER_REQUEST'|'PROVISION_FAILURE'|'CLEANUP_FAILURE',
+                    'Message': 'string'
+                }
+            },
+            'Constraints': {
+                'MinCapacity': 123,
+                'MaxCapacity': 123
+            },
+            'Rules': [
+                {
+                    'Name': 'string',
+                    'Description': 'string',
+                    'Action': {
+                        'Market': 'ON_DEMAND'|'SPOT',
+                        'SimpleScalingPolicyConfiguration': {
+                            'AdjustmentType': 'CHANGE_IN_CAPACITY'|'PERCENT_CHANGE_IN_CAPACITY'|'EXACT_CAPACITY',
+                            'ScalingAdjustment': 123,
+                            'CoolDown': 123
+                        }
+                    },
+                    'Trigger': {
+                        'CloudWatchAlarmDefinition': {
+                            'ComparisonOperator': 'GREATER_THAN_OR_EQUAL'|'GREATER_THAN'|'LESS_THAN'|'LESS_THAN_OR_EQUAL',
+                            'EvaluationPeriods': 123,
+                            'MetricName': 'string',
+                            'Namespace': 'string',
+                            'Period': 123,
+                            'Statistic': 'SAMPLE_COUNT'|'AVERAGE'|'SUM'|'MINIMUM'|'MAXIMUM',
+                            'Threshold': 123.0,
+                            'Unit': 'NONE'|'SECONDS'|'MICRO_SECONDS'|'MILLI_SECONDS'|'BYTES'|'KILO_BYTES'|'MEGA_BYTES'|'GIGA_BYTES'|'TERA_BYTES'|'BITS'|'KILO_BITS'|'MEGA_BITS'|'GIGA_BITS'|'TERA_BITS'|'PERCENT'|'COUNT'|'BYTES_PER_SECOND'|'KILO_BYTES_PER_SECOND'|'MEGA_BYTES_PER_SECOND'|'GIGA_BYTES_PER_SECOND'|'TERA_BYTES_PER_SECOND'|'BITS_PER_SECOND'|'KILO_BITS_PER_SECOND'|'MEGA_BITS_PER_SECOND'|'GIGA_BITS_PER_SECOND'|'TERA_BITS_PER_SECOND'|'COUNT_PER_SECOND',
+                            'Dimensions': [
+                                {
+                                    'Key': 'string',
+                                    'Value': 'string'
+                                },
+                            ]
+                        }
+                    }
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
+def remove_auto_scaling_policy(ClusterId=None, InstanceGroupId=None):
+    """
+    Removes an automatic scaling policy from a specified instance group within an EMR cluster.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.remove_auto_scaling_policy(
+        ClusterId='string',
+        InstanceGroupId='string'
+    )
+    
+    
+    :type ClusterId: string
+    :param ClusterId: [REQUIRED]
+            Specifies the ID of a cluster. The instance group to which the automatic scaling policy is applied is within this cluster.
+            
+
+    :type InstanceGroupId: string
+    :param InstanceGroupId: [REQUIRED]
+            Specifies the ID of the instance group to which the scaling policy is applied.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
     :returns: 
-    (string) --
+    (dict) --
     
     """
     pass
@@ -1124,6 +1488,7 @@ def remove_tags(ResourceId=None, TagKeys=None):
     """
     Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
     The following example removes the stack tag with value Prod from a cluster:
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags(
@@ -1152,13 +1517,14 @@ def remove_tags(ResourceId=None, TagKeys=None):
     """
     pass
 
-def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, ReleaseLabel=None, Instances=None, Steps=None, BootstrapActions=None, SupportedProducts=None, NewSupportedProducts=None, Applications=None, Configurations=None, VisibleToAllUsers=None, JobFlowRole=None, ServiceRole=None, Tags=None, SecurityConfiguration=None):
+def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, ReleaseLabel=None, Instances=None, Steps=None, BootstrapActions=None, SupportedProducts=None, NewSupportedProducts=None, Applications=None, Configurations=None, VisibleToAllUsers=None, JobFlowRole=None, ServiceRole=None, Tags=None, SecurityConfiguration=None, AutoScalingRole=None, ScaleDownBehavior=None):
     """
-    RunJobFlow creates and starts running a new job flow. The job flow will run the steps specified. Once the job flow completes, the cluster is stopped and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the  JobFlowInstancesConfig  KeepJobFlowAliveWhenNoSteps parameter is set to TRUE , the job flow will transition to the WAITING state rather than shutting down once the steps have completed.
+    RunJobFlow creates and starts running a new job flow. The job flow will run the steps specified. After the job flow completes, the cluster is stopped and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the  JobFlowInstancesConfig  KeepJobFlowAliveWhenNoSteps parameter is set to TRUE , the job flow will transition to the WAITING state rather than shutting down after the steps have completed.
     For additional protection, you can set the  JobFlowInstancesConfig  TerminationProtected parameter to TRUE to lock the job flow and prevent it from being terminated by API call, user intervention, or in the event of a job flow error.
     A maximum of 256 steps are allowed in each job flow.
-    If your job flow is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, go to Add More than 256 Steps to a Job Flow in the Amazon Elastic MapReduce Developer's Guide .
+    If your job flow is long-running (such as a Hive data warehouse) or complex, you may require more than 256 steps to process your data. You can bypass the 256-step limitation in various ways, including using the SSH shell to connect to the master node and submitting queries directly to the software running on the master node, such as Hive and Hadoop. For more information on how to do this, see Add More than 256 Steps to a Job Flow in the Amazon EMR Management Guide .
     For long running job flows, we recommend that you periodically store your results.
+    See also: AWS API Documentation
     
     
     :example: response = client.run_job_flow(
@@ -1200,6 +1566,44 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
                             },
                         ],
                         'EbsOptimized': True|False
+                    },
+                    'AutoScalingPolicy': {
+                        'Constraints': {
+                            'MinCapacity': 123,
+                            'MaxCapacity': 123
+                        },
+                        'Rules': [
+                            {
+                                'Name': 'string',
+                                'Description': 'string',
+                                'Action': {
+                                    'Market': 'ON_DEMAND'|'SPOT',
+                                    'SimpleScalingPolicyConfiguration': {
+                                        'AdjustmentType': 'CHANGE_IN_CAPACITY'|'PERCENT_CHANGE_IN_CAPACITY'|'EXACT_CAPACITY',
+                                        'ScalingAdjustment': 123,
+                                        'CoolDown': 123
+                                    }
+                                },
+                                'Trigger': {
+                                    'CloudWatchAlarmDefinition': {
+                                        'ComparisonOperator': 'GREATER_THAN_OR_EQUAL'|'GREATER_THAN'|'LESS_THAN'|'LESS_THAN_OR_EQUAL',
+                                        'EvaluationPeriods': 123,
+                                        'MetricName': 'string',
+                                        'Namespace': 'string',
+                                        'Period': 123,
+                                        'Statistic': 'SAMPLE_COUNT'|'AVERAGE'|'SUM'|'MINIMUM'|'MAXIMUM',
+                                        'Threshold': 123.0,
+                                        'Unit': 'NONE'|'SECONDS'|'MICRO_SECONDS'|'MILLI_SECONDS'|'BYTES'|'KILO_BYTES'|'MEGA_BYTES'|'GIGA_BYTES'|'TERA_BYTES'|'BITS'|'KILO_BITS'|'MEGA_BITS'|'GIGA_BITS'|'TERA_BITS'|'PERCENT'|'COUNT'|'BYTES_PER_SECOND'|'KILO_BYTES_PER_SECOND'|'MEGA_BYTES_PER_SECOND'|'GIGA_BYTES_PER_SECOND'|'TERA_BYTES_PER_SECOND'|'BITS_PER_SECOND'|'KILO_BITS_PER_SECOND'|'MEGA_BITS_PER_SECOND'|'GIGA_BITS_PER_SECOND'|'TERA_BITS_PER_SECOND'|'COUNT_PER_SECOND',
+                                        'Dimensions': [
+                                            {
+                                                'Key': 'string',
+                                                'Value': 'string'
+                                            },
+                                        ]
+                                    }
+                                }
+                            },
+                        ]
                     }
                 },
             ],
@@ -1292,7 +1696,9 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
                 'Value': 'string'
             },
         ],
-        SecurityConfiguration='string'
+        SecurityConfiguration='string',
+        AutoScalingRole='string',
+        ScaleDownBehavior='TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION'
     )
     
     
@@ -1314,7 +1720,9 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. The following values are valid:
             The version number of the AMI to use, for example, '2.0.'
             If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20) you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above.
-            For details about the AMI versions currently supported by Amazon Elastic MapReduce, go to AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer's Guide.
+            For details about the AMI versions currently supported by Amazon Elastic MapReduce, see AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer Guide.
+            Note
+            Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later).
             
 
     :type ReleaseLabel: string
@@ -1329,14 +1737,14 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             A specification of the number and type of Amazon EC2 instances on which to run the job flow.
             MasterInstanceType (string) --The EC2 instance type of the master node.
             SlaveInstanceType (string) --The EC2 instance type of the slave nodes.
-            InstanceCount (integer) --The number of Amazon EC2 instances used to execute the job flow.
+            InstanceCount (integer) --The number of EC2 instances used to execute the job flow.
             InstanceGroups (list) --Configuration for the job flow's instance groups.
             (dict) --Configuration defining a new instance group.
             Name (string) --Friendly name given to the instance group.
-            Market (string) --Market type of the Amazon EC2 instances used to create a cluster node.
+            Market (string) --Market type of the EC2 instances used to create a cluster node.
             InstanceRole (string) -- [REQUIRED]The role of the instance group in the cluster.
-            BidPrice (string) --Bid price for each Amazon EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
-            InstanceType (string) -- [REQUIRED]The Amazon EC2 instance type for all instances in the instance group.
+            BidPrice (string) --Bid price for each EC2 instance in the instance group when launching nodes as Spot Instances, expressed in USD.
+            InstanceType (string) -- [REQUIRED]The EC2 instance type for all instances in the instance group.
             InstanceCount (integer) -- [REQUIRED]Target number of instances for the instance group.
             Configurations (list) --
             Note
@@ -1353,18 +1761,50 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             (string) --
             
             
-            EbsConfiguration (dict) --EBS configurations that will be attached to each Amazon EC2 instance in the instance group.
-            EbsBlockDeviceConfigs (list) --
+            EbsConfiguration (dict) --EBS configurations that will be attached to each EC2 instance in the instance group.
+            EbsBlockDeviceConfigs (list) --An array of Amazon EBS volume specifications attached to a cluster instance.
             (dict) --Configuration of requested EBS block device associated with the instance group with count of volumes that will be associated to every instance.
-            VolumeSpecification (dict) -- [REQUIRED]EBS volume specifications such as volume type, IOPS, and size(GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
+            VolumeSpecification (dict) -- [REQUIRED]EBS volume specifications such as volume type, IOPS, and size (GiB) that will be requested for the EBS volume attached to an EC2 instance in the cluster.
             VolumeType (string) -- [REQUIRED]The volume type. Volume types supported are gp2, io1, standard.
             Iops (integer) --The number of I/O operations per second (IOPS) that the volume supports.
             SizeInGB (integer) -- [REQUIRED]The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If the volume type is EBS-optimized, the minimum value is 10.
-            VolumesPerInstance (integer) --Number of EBS volumes with specific volume configuration, that will be associated with every instance in the instance group
+            VolumesPerInstance (integer) --Number of EBS volumes with a specific volume configuration that will be associated with every instance in the instance group
             
-            EbsOptimized (boolean) --
+            EbsOptimized (boolean) --Indicates whether an Amazon EBS volume is EBS-optimized.
+            AutoScalingPolicy (dict) --An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy .
+            Constraints (dict) -- [REQUIRED]The upper and lower EC2 instance limits for an automatic scaling policy. Automatic scaling activity will not cause an instance group to grow above or below these limits.
+            MinCapacity (integer) -- [REQUIRED]The lower boundary of EC2 instances in an instance group below which scaling activities are not allowed to shrink. Scale-in activities will not terminate instances below this boundary.
+            MaxCapacity (integer) -- [REQUIRED]The upper boundary of EC2 instances in an instance group beyond which scaling activities are not allowed to grow. Scale-out activities will not add instances beyond this boundary.
+            Rules (list) -- [REQUIRED]The scale-in and scale-out rules that comprise the automatic scaling policy.
+            (dict) --A scale-in or scale-out rule that defines scaling activity, including the CloudWatch metric alarm that triggers activity, how EC2 instances are added or removed, and the periodicity of adjustments. The automatic scaling policy for an instance group can comprise one or more automatic scaling rules.
+            Name (string) -- [REQUIRED]The name used to identify an automatic scaling rule. Rule names must be unique within a scaling policy.
+            Description (string) --A friendly, more verbose description of the automatic scaling rule.
+            Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
+            Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
+            SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal, for example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
             
-            Ec2KeyName (string) --The name of the Amazon EC2 key pair that can be used to ssh to the master node as the user called 'hadoop.'
+            Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
+            CloudWatchAlarmDefinition (dict) -- [REQUIRED]The definition of a CloudWatch metric alarm. When the defined alarm conditions are met along with other trigger parameters, scaling activity begins.
+            ComparisonOperator (string) -- [REQUIRED]Determines how the metric specified by MetricName is compared to the value specified by Threshold .
+            EvaluationPeriods (integer) --The number of periods, expressed in seconds using Period , during which the alarm condition must exist before the alarm triggers automatic scaling activity. The default value is 1 .
+            MetricName (string) -- [REQUIRED]The name of the CloudWatch metric that is watched to determine an alarm condition.
+            Namespace (string) --The namespace for the CloudWatch metric. The default is AWS/ElasticMapReduce .
+            Period (integer) -- [REQUIRED]The period, in seconds, over which the statistic is applied. EMR CloudWatch metrics are emitted every five minutes (300 seconds), so if an EMR CloudWatch metric is specified, specify 300 .
+            Statistic (string) --The statistic to apply to the metric associated with the alarm. The default is AVERAGE .
+            Threshold (float) -- [REQUIRED]The value against which the specified statistic is compared.
+            Unit (string) --The unit of measure associated with the CloudWatch metric being watched. The value specified for Unit must correspond to the units specified in the CloudWatch metric.
+            Dimensions (list) --A CloudWatch metric dimension.
+            (dict) --A CloudWatch dimension, which is specified using a Key (known as a Name in CloudWatch), Value pair. By default, Amazon EMR uses one dimension whose Key is JobFlowID and Value is a variable representing the cluster ID, which is ${emr:cluster_id} . This enables the rule to bootstrap when the cluster ID becomes available, and also enables a single automatic scaling policy to be reused for multiple clusters and instance groups.
+            Key (string) --The dimension name.
+            Value (string) --The dimension value.
+            
+            
+            
+            
+            Ec2KeyName (string) --The name of the EC2 key pair that can be used to ssh to the master node as the user called 'hadoop.'
             Placement (dict) --The Availability Zone the job flow will run in.
             AvailabilityZone (string) -- [REQUIRED]The Amazon EC2 Availability Zone for the job flow.
             KeepJobFlowAliveWhenNoSteps (boolean) --Specifies whether the job flow should be kept alive after completing all steps.
@@ -1401,11 +1841,11 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
 
     :type BootstrapActions: list
     :param BootstrapActions: A list of bootstrap actions that will be run before Hadoop is started on the cluster nodes.
-            (dict) --
-            Name (string) -- [REQUIRED]
-            ScriptBootstrapAction (dict) -- [REQUIRED]
-            Path (string) -- [REQUIRED]
-            Args (list) --
+            (dict) --Configuration of a bootstrap action.
+            Name (string) -- [REQUIRED]The name of the bootstrap action.
+            ScriptBootstrapAction (dict) -- [REQUIRED]The script run by the bootstrap action.
+            Path (string) -- [REQUIRED]Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system.
+            Args (list) --A list of command line arguments to pass to the bootstrap action script.
             (string) --
             
             
@@ -1414,7 +1854,7 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
     :param SupportedProducts: 
             Note
             For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.
-            A list of strings that indicates third-party software to use with the job flow. For more information, go to Use Third Party Applications with Amazon EMR . Currently supported values are:
+            A list of strings that indicates third-party software to use with the job flow. For more information, see Use Third Party Applications with Amazon EMR . Currently supported values are:
             'mapr-m3' - launch the job flow using MapR M3 Edition.
             'mapr-m5' - launch the job flow using MapR M5 Edition.
             (string) --
@@ -1498,6 +1938,12 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
     :type SecurityConfiguration: string
     :param SecurityConfiguration: The name of a security configuration to apply to the cluster.
 
+    :type AutoScalingRole: string
+    :param AutoScalingRole: An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole . The IAM role provides permissions that the automatic scaling feature requires to launch and terminate EC2 instances in an instance group.
+
+    :type ScaleDownBehavior: string
+    :param ScaleDownBehavior: Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+
     :rtype: dict
     :return: {
         'JobFlowId': 'string'
@@ -1509,10 +1955,11 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
 
 def set_termination_protection(JobFlowIds=None, TerminationProtected=None):
     """
-    SetTerminationProtection locks a job flow so the Amazon EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a job flow is analogous to calling the Amazon EC2 DisableAPITermination API on all of the EC2 instances in a cluster.
+    SetTerminationProtection locks a job flow so the EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a job flow is analogous to calling the Amazon EC2 DisableAPITermination API on all of the EC2 instances in a cluster.
     SetTerminationProtection is used to prevent accidental termination of a job flow and to ensure that in the event of an error, the instances will persist so you can recover any data stored in their ephemeral instance storage.
     To terminate a job flow that has been locked by setting SetTerminationProtection to true , you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false .
-    For more information, go to Protecting a Job Flow from Termination in the Amazon Elastic MapReduce Developer's Guide.
+    For more information, see`Protecting a Job Flow from Termination`_ in the Amazon EMR Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_termination_protection(
@@ -1540,6 +1987,7 @@ def set_termination_protection(JobFlowIds=None, TerminationProtected=None):
 def set_visible_to_all_users(JobFlowIds=None, VisibleToAllUsers=None):
     """
     Sets whether all AWS Identity and Access Management (IAM) users under your account can access the specified job flows. This action works on running job flows. You can also set the visibility of a job flow when you launch it using the VisibleToAllUsers parameter of  RunJobFlow . The SetVisibleToAllUsers action can be called only by an IAM user who created the job flow or the AWS account that owns the job flow.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_visible_to_all_users(
@@ -1567,7 +2015,8 @@ def set_visible_to_all_users(JobFlowIds=None, VisibleToAllUsers=None):
 def terminate_job_flows(JobFlowIds=None):
     """
     TerminateJobFlows shuts a list of job flows down. When a job flow is shut down, any step not yet completed is canceled and the EC2 instances on which the job flow is running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri was specified when the job flow was created.
-    The maximum number of JobFlows allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the job flow, it may take up to 5-20 minutes for the job flow to completely terminate and release allocated resources, such as Amazon EC2 instances.
+    The maximum number of JobFlows allowed is 10. The call to TerminateJobFlows is asynchronous. Depending on the configuration of the job flow, it may take up to 1-5 minutes for the job flow to completely terminate and release allocated resources, such as Amazon EC2 instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.terminate_job_flows(

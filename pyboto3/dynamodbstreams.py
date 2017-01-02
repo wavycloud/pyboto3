@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ def describe_stream(StreamArn=None, Limit=None, ExclusiveStartShardId=None):
     """
     Returns information about a stream, including the current status of the stream, its Amazon Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
     Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber , then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stream(
@@ -143,6 +144,7 @@ def get_records(ShardIterator=None, Limit=None):
     """
     Retrieves the stream records from a given shard.
     Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_records(
@@ -263,6 +265,7 @@ def get_records(ShardIterator=None, Limit=None):
 def get_shard_iterator(StreamArn=None, ShardId=None, ShardIteratorType=None, SequenceNumber=None):
     """
     Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_shard_iterator(
@@ -313,6 +316,7 @@ def get_waiter():
 def list_streams(TableName=None, Limit=None, ExclusiveStartStreamArn=None):
     """
     Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_streams(

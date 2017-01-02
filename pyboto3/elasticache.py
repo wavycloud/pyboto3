@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
     """
     Adds up to 10 cost allocation tags to the named resource. A cost allocation tag is a key-value pair where the key and value are case-sensitive. You can use cost allocation tags to categorize and track your AWS costs.
     When you apply tags to your ElastiCache resources, AWS generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags_to_resource(
@@ -73,6 +74,7 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
 def authorize_cache_security_group_ingress(CacheSecurityGroupName=None, EC2SecurityGroupName=None, EC2SecurityGroupOwnerId=None):
     """
     Allows network ingress to a cache security group. Applications using ElastiCache must be running on Amazon EC2, and Amazon EC2 security groups are used as the authorization mechanism.
+    See also: AWS API Documentation
     
     
     :example: response = client.authorize_cache_security_group_ingress(
@@ -141,6 +143,7 @@ def copy_snapshot(SourceSnapshotName=None, TargetSnapshotName=None, TargetBucket
     """
     Makes a copy of an existing snapshot.
     You could receive the following error messages.
+    See also: AWS API Documentation
     
     
     :example: response = client.copy_snapshot(
@@ -229,9 +232,10 @@ def copy_snapshot(SourceSnapshotName=None, TargetSnapshotName=None, TargetBucket
     """
     pass
 
-def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=None, PreferredAvailabilityZone=None, PreferredAvailabilityZones=None, NumCacheNodes=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None):
+def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=None, PreferredAvailabilityZone=None, PreferredAvailabilityZones=None, NumCacheNodes=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, AuthToken=None):
     """
     Creates a cache cluster. All nodes in the cache cluster run the same protocol-compliant cache engine software, either Memcached or Redis.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cache_cluster(
@@ -269,7 +273,8 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
         NotificationTopicArn='string',
         AutoMinorVersionUpgrade=True|False,
         SnapshotRetentionLimit=123,
-        SnapshotWindow='string'
+        SnapshotWindow='string',
+        AuthToken='string'
     )
     
     
@@ -433,6 +438,15 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
             Note: This parameter is only valid if the Engine parameter is redis .
             
 
+    :type AuthToken: string
+    :param AuthToken: The password used to access a password protected server.
+            Password constraints:
+            Must be only printable ASCII characters.
+            Must be at least 16 characters and no more than 128 characters in length.
+            Cannot contain any of the following characters: '/', ''', or '@'.
+            For more information, see AUTH password at Redis.
+            
+
     :rtype: dict
     :return: {
         'CacheCluster': {
@@ -523,6 +537,7 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
 def create_cache_parameter_group(CacheParameterGroupName=None, CacheParameterGroupFamily=None, Description=None):
     """
     Creates a new cache parameter group. A cache parameter group is a collection of parameters that you apply to all of the nodes in a cache cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cache_parameter_group(
@@ -565,6 +580,7 @@ def create_cache_security_group(CacheSecurityGroupName=None, Description=None):
     """
     Creates a new cache security group. Use a cache security group to control access to one or more cache clusters.
     Cache security groups are only used when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cache cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cache_security_group(
@@ -614,6 +630,7 @@ def create_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescrip
     """
     Creates a new cache subnet group.
     Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cache_subnet_group(
@@ -668,12 +685,13 @@ def create_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescrip
     """
     pass
 
-def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, AutomaticFailoverEnabled=None, NumCacheClusters=None, PreferredCacheClusterAZs=None, NumNodeGroups=None, ReplicasPerNodeGroup=None, NodeGroupConfiguration=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None):
+def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, AutomaticFailoverEnabled=None, NumCacheClusters=None, PreferredCacheClusterAZs=None, NumNodeGroups=None, ReplicasPerNodeGroup=None, NodeGroupConfiguration=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, AuthToken=None):
     """
     Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group.
     A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas.
     A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards).
-    When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group once it has been created.
+    When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_replication_group(
@@ -723,7 +741,8 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
         NotificationTopicArn='string',
         AutoMinorVersionUpgrade=True|False,
         SnapshotRetentionLimit=123,
-        SnapshotWindow='string'
+        SnapshotWindow='string',
+        AuthToken='string'
     )
     
     
@@ -761,7 +780,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :param NumCacheClusters: The number of clusters this replication group initially has.
             This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead.
             If Multi-AZ is enabled , the value of this parameter must be at least 2.
-            The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas). If you need to exceed this limit, fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/ .
+            The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas).
             
 
     :type PreferredCacheClusterAZs: list
@@ -908,6 +927,15 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             This parameter is only valid if the Engine parameter is redis .
             
 
+    :type AuthToken: string
+    :param AuthToken: The password used to access a password protected server.
+            Password constraints:
+            Must be only printable ASCII characters.
+            Must be at least 16 characters and no more than 128 characters in length.
+            Cannot contain any of the following characters: '/', ''', or '@'.
+            For more information, see AUTH password at Redis.
+            
+
     :rtype: dict
     :return: {
         'ReplicationGroup': {
@@ -966,6 +994,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 def create_snapshot(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=None):
     """
     Creates a copy of an entire cache cluster or replication group at a specific moment in time.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_snapshot(
@@ -1054,6 +1083,7 @@ def delete_cache_cluster(CacheClusterId=None, FinalSnapshotIdentifier=None):
     """
     Deletes a previously provisioned cache cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cache cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cache cluster; you cannot cancel or revert this operation.
     This operation cannot be used to delete a cache cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cache cluster from a Redis (cluster mode enabled) replication group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cache_cluster(
@@ -1160,6 +1190,7 @@ def delete_cache_cluster(CacheClusterId=None, FinalSnapshotIdentifier=None):
 def delete_cache_parameter_group(CacheParameterGroupName=None):
     """
     Deletes the specified cache parameter group. You cannot delete a cache parameter group if it is associated with any cache clusters.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cache_parameter_group(
@@ -1180,6 +1211,7 @@ def delete_cache_parameter_group(CacheParameterGroupName=None):
 def delete_cache_security_group(CacheSecurityGroupName=None):
     """
     Deletes a cache security group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cache_security_group(
@@ -1200,6 +1232,7 @@ def delete_cache_security_group(CacheSecurityGroupName=None):
 def delete_cache_subnet_group(CacheSubnetGroupName=None):
     """
     Deletes a cache subnet group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cache_subnet_group(
@@ -1220,6 +1253,7 @@ def delete_replication_group(ReplicationGroupId=None, RetainPrimaryCluster=None,
     """
     Deletes an existing replication group. By default, this operation deletes the entire replication group, including the primary/primaries and all of the read replicas. If the replication group has only one primary, you can optionally delete only the read replicas, while retaining the primary by setting RetainPrimaryCluster=true .
     When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_replication_group(
@@ -1298,6 +1332,7 @@ def delete_replication_group(ReplicationGroupId=None, RetainPrimaryCluster=None,
 def delete_snapshot(SnapshotName=None):
     """
     Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_snapshot(
@@ -1374,6 +1409,7 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
     If the cluster is in the DELETING state, only cluster-level information is displayed.
     If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available , the cluster is ready for use.
     If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_clusters(
@@ -1492,6 +1528,7 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
 def describe_cache_engine_versions(Engine=None, EngineVersion=None, CacheParameterGroupFamily=None, MaxRecords=None, Marker=None, DefaultOnly=None):
     """
     Returns a list of the available cache engines and their versions.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_engine_versions(
@@ -1554,6 +1591,7 @@ def describe_cache_engine_versions(Engine=None, EngineVersion=None, CacheParamet
 def describe_cache_parameter_groups(CacheParameterGroupName=None, MaxRecords=None, Marker=None):
     """
     Returns a list of cache parameter group descriptions. If a cache parameter group name is specified, the list contains only the descriptions for that group.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_parameter_groups(
@@ -1594,6 +1632,7 @@ def describe_cache_parameter_groups(CacheParameterGroupName=None, MaxRecords=Non
 def describe_cache_parameters(CacheParameterGroupName=None, Source=None, MaxRecords=None, Marker=None):
     """
     Returns the detailed parameter list for a particular cache parameter group.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_parameters(
@@ -1666,6 +1705,7 @@ def describe_cache_parameters(CacheParameterGroupName=None, Source=None, MaxReco
 def describe_cache_security_groups(CacheSecurityGroupName=None, MaxRecords=None, Marker=None):
     """
     Returns a list of cache security group descriptions. If a cache security group name is specified, the list contains only the description of that group.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_security_groups(
@@ -1718,6 +1758,7 @@ def describe_cache_security_groups(CacheSecurityGroupName=None, MaxRecords=None,
 def describe_cache_subnet_groups(CacheSubnetGroupName=None, MaxRecords=None, Marker=None):
     """
     Returns a list of cache subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_cache_subnet_groups(
@@ -1770,6 +1811,7 @@ def describe_cache_subnet_groups(CacheSubnetGroupName=None, MaxRecords=None, Mar
 def describe_engine_default_parameters(CacheParameterGroupFamily=None, MaxRecords=None, Marker=None):
     """
     Returns the default engine and system parameter information for the specified cache engine.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_engine_default_parameters(
@@ -1841,6 +1883,7 @@ def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndT
     """
     Returns events related to cache clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cache cluster, cache security group, or cache parameter group by providing the name as a parameter.
     By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_events(
@@ -1898,6 +1941,7 @@ def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndT
 def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker=None):
     """
     Returns information about a particular replication group. If no identifier is specified, DescribeReplicationGroups returns information about all replication groups.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_replication_groups(
@@ -1982,6 +2026,7 @@ def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker
 def describe_reserved_cache_nodes(ReservedCacheNodeId=None, ReservedCacheNodesOfferingId=None, CacheNodeType=None, Duration=None, ProductDescription=None, OfferingType=None, MaxRecords=None, Marker=None):
     """
     Returns information about reserved cache nodes for this account, or about a specified reserved cache node.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_reserved_cache_nodes(
@@ -2088,6 +2133,7 @@ def describe_reserved_cache_nodes(ReservedCacheNodeId=None, ReservedCacheNodesOf
 def describe_reserved_cache_nodes_offerings(ReservedCacheNodesOfferingId=None, CacheNodeType=None, Duration=None, ProductDescription=None, OfferingType=None, MaxRecords=None, Marker=None):
     """
     Lists available reserved cache node offerings.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_reserved_cache_nodes_offerings(
@@ -2188,6 +2234,7 @@ def describe_reserved_cache_nodes_offerings(ReservedCacheNodesOfferingId=None, C
 def describe_snapshots(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=None, SnapshotSource=None, Marker=None, MaxRecords=None, ShowNodeGroupConfig=None):
     """
     Returns information about cache cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_snapshots(
@@ -2223,7 +2270,7 @@ def describe_snapshots(ReplicationGroupId=None, CacheClusterId=None, SnapshotNam
             
 
     :type ShowNodeGroupConfig: boolean
-    :param ShowNodeGroupConfig: A boolean value which if true, the node group (shard) configuration is included in the snapshot description.
+    :param ShowNodeGroupConfig: A Boolean value which if true, the node group (shard) configuration is included in the snapshot description.
 
     :rtype: dict
     :return: {
@@ -2340,6 +2387,7 @@ def list_allowed_node_type_modifications(CacheClusterId=None, ReplicationGroupId
     """
     Lists all available node types that you can scale your Redis cluster's or replication group's current node type up to.
     When you use the ModifyCacheCluster or ModifyReplicationGroup operations to scale up your cluster or replication group, the value of the CacheNodeType parameter must be one of the node types returned by this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_allowed_node_type_modifications(
@@ -2384,6 +2432,7 @@ def list_tags_for_resource(ResourceName=None):
     """
     Lists all cost allocation tags currently on the named resource. A cost allocation tag is a key-value pair where the key is case-sensitive and the value is optional. You can use cost allocation tags to categorize and track your AWS costs.
     You can have a maximum of 10 cost allocation tags on an ElastiCache resource. For more information, see Using Cost Allocation Tags in Amazon ElastiCache .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_resource(
@@ -2414,6 +2463,7 @@ def list_tags_for_resource(ResourceName=None):
 def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsToRemove=None, AZMode=None, NewAvailabilityZones=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, PreferredMaintenanceWindow=None, NotificationTopicArn=None, CacheParameterGroupName=None, NotificationTopicStatus=None, ApplyImmediately=None, EngineVersion=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, CacheNodeType=None):
     """
     Modifies the settings for a cache cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cache_cluster(
@@ -2666,6 +2716,7 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
 def modify_cache_parameter_group(CacheParameterGroupName=None, ParameterNameValues=None):
     """
     Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cache_parameter_group(
@@ -2709,6 +2760,7 @@ def modify_cache_parameter_group(CacheParameterGroupName=None, ParameterNameValu
 def modify_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescription=None, SubnetIds=None):
     """
     Modifies an existing cache subnet group.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_cache_subnet_group(
@@ -2763,6 +2815,7 @@ def modify_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescrip
 def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, SnapshottingClusterId=None, AutomaticFailoverEnabled=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, PreferredMaintenanceWindow=None, NotificationTopicArn=None, CacheParameterGroupName=None, NotificationTopicStatus=None, ApplyImmediately=None, EngineVersion=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, CacheNodeType=None):
     """
     Modifies the settings for a replication group.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_replication_group(
@@ -2940,6 +2993,7 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 def purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId=None, ReservedCacheNodeId=None, CacheNodeCount=None):
     """
     Allows you to purchase a reserved cache node offering.
+    See also: AWS API Documentation
     
     
     :example: response = client.purchase_reserved_cache_nodes_offering(
@@ -3012,6 +3066,7 @@ def reboot_cache_cluster(CacheClusterId=None, CacheNodeIdsToReboot=None):
     Reboots some, or all, of the cache nodes within a provisioned cache cluster. This operation applies any modified cache parameter groups to the cache cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cache cluster. During the reboot, the cache cluster status is set to REBOOTING.
     The reboot causes the contents of the cache (for each cache node being rebooted) to be lost.
     When the reboot is complete, a cache cluster event is created.
+    See also: AWS API Documentation
     
     
     :example: response = client.reboot_cache_cluster(
@@ -3123,6 +3178,7 @@ def reboot_cache_cluster(CacheClusterId=None, CacheNodeIdsToReboot=None):
 def remove_tags_from_resource(ResourceName=None, TagKeys=None):
     """
     Removes the tags identified by the TagKeys list from the named resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags_from_resource(
@@ -3162,6 +3218,7 @@ def remove_tags_from_resource(ResourceName=None, TagKeys=None):
 def reset_cache_parameter_group(CacheParameterGroupName=None, ResetAllParameters=None, ParameterNameValues=None):
     """
     Modifies the parameters of a cache parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire cache parameter group, specify the ResetAllParameters and CacheParameterGroupName parameters.
+    See also: AWS API Documentation
     
     
     :example: response = client.reset_cache_parameter_group(
@@ -3210,6 +3267,7 @@ def reset_cache_parameter_group(CacheParameterGroupName=None, ResetAllParameters
 def revoke_cache_security_group_ingress(CacheSecurityGroupName=None, EC2SecurityGroupName=None, EC2SecurityGroupOwnerId=None):
     """
     Revokes ingress from a cache security group. Use this operation to disallow access from an Amazon EC2 security group that had been previously authorized.
+    See also: AWS API Documentation
     
     
     :example: response = client.revoke_cache_security_group_ingress(

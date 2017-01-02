@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def create_tags(ResourceId=None, Tags=None):
     """
     Creates tags for a WorkSpace.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_tags(
@@ -79,6 +80,7 @@ def create_tags(ResourceId=None, Tags=None):
 def create_workspaces(Workspaces=None):
     """
     Creates one or more WorkSpaces.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_workspaces(
@@ -182,6 +184,7 @@ def create_workspaces(Workspaces=None):
 def delete_tags(ResourceId=None, TagKeys=None):
     """
     Deletes tags from a WorkSpace.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_tags(
@@ -213,6 +216,7 @@ def delete_tags(ResourceId=None, TagKeys=None):
 def describe_tags(ResourceId=None):
     """
     Describes tags for a WorkSpace.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_tags(
@@ -244,6 +248,7 @@ def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
     Obtains information about the WorkSpace bundles that are available to your account in the specified region.
     You can filter the results with either the BundleIds parameter, or the Owner parameter, but not both.
     This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workspace_bundles(
@@ -297,6 +302,7 @@ def describe_workspace_directories(DirectoryIds=None, NextToken=None):
     """
     Retrieves information about the AWS Directory Service directories in the region that are registered with Amazon WorkSpaces and are available to your account.
     This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workspace_directories(
@@ -358,6 +364,7 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
     Obtains information about the specified WorkSpaces.
     Only one of the filter parameters, such as BundleId , DirectoryId , or WorkspaceIds , can be specified at a time.
     This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workspaces(
@@ -426,6 +433,7 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
 def describe_workspaces_connection_status(WorkspaceIds=None, NextToken=None):
     """
     Describes the connection status of a specified WorkSpace.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workspaces_connection_status(
@@ -508,6 +516,7 @@ def get_waiter():
 def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
     """
     Modifies the WorkSpace properties, including the RunningMode and AutoStop time.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_workspace_properties(
@@ -545,6 +554,7 @@ def reboot_workspaces(RebootWorkspaceRequests=None):
     """
     Reboots the specified WorkSpaces.
     To be able to reboot a WorkSpace, the WorkSpace must have a State of AVAILABLE , IMPAIRED , or INOPERABLE .
+    See also: AWS API Documentation
     
     
     :example: response = client.reboot_workspaces(
@@ -584,6 +594,7 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None):
     Rebuilds the specified WorkSpaces.
     Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. Rebuilding a WorkSpace causes the following to occur:
     To be able to rebuild a WorkSpace, the WorkSpace must have a State of AVAILABLE or ERROR .
+    See also: AWS API Documentation
     
     
     :example: response = client.rebuild_workspaces(
@@ -621,6 +632,7 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None):
 def start_workspaces(StartWorkspaceRequests=None):
     """
     Starts the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to STOPPED.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_workspaces(
@@ -658,6 +670,7 @@ def start_workspaces(StartWorkspaceRequests=None):
 def stop_workspaces(StopWorkspaceRequests=None):
     """
     Stops the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_workspaces(
@@ -697,6 +710,7 @@ def terminate_workspaces(TerminateWorkspaceRequests=None):
     Terminates the specified WorkSpaces.
     Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is not maintained and will be destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace.
     You can terminate a WorkSpace that is in any state except SUSPENDED .
+    See also: AWS API Documentation
     
     
     :example: response = client.terminate_workspaces(

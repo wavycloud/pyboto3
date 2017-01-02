@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,7 @@ def assume_role(RoleArn=None, RoleSessionName=None, Policy=None, DurationSeconds
     You can optionally include multi-factor authentication (MFA) information when you call AssumeRole . This is useful for cross-account scenarios in which you want to make sure that the user who is assuming the role has been authenticated using an AWS MFA device. In that scenario, the trust policy of the role being assumed includes a condition that tests for MFA authentication; if the caller does not include valid MFA information, the request to assume the role is denied. The condition in a trust policy that tests for MFA authentication might look like the following example.
     For more information, see Configuring MFA-Protected API Access in the IAM User Guide guide.
     To use MFA with AssumeRole , you pass values for the SerialNumber and TokenCode parameters. The SerialNumber value identifies the user's hardware or virtual MFA device. The TokenCode is the time-based one-time password (TOTP) that the MFA devices produces.
+    See also: AWS API Documentation
     
     
     :example: response = client.assume_role(
@@ -59,7 +60,7 @@ def assume_role(RoleArn=None, RoleSessionName=None, Policy=None, DurationSeconds
     :param RoleSessionName: [REQUIRED]
             An identifier for the assumed role session.
             Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests using the temporary security credentials will expose the role session name to the external account in their CloudTrail logs.
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
             
 
     :type Policy: string
@@ -78,12 +79,12 @@ def assume_role(RoleArn=None, RoleSessionName=None, Policy=None, DurationSeconds
 
     :type ExternalId: string
     :param ExternalId: A unique identifier that is used by third parties when assuming roles in their customers' accounts. For each role that the third party can assume, they should instruct their customers to ensure the role's trust policy checks for the external ID that the third party generated. Each time the third party assumes the role, they should pass the customer's external ID. The external ID is useful in order to help third parties bind a role to the customer who created it. For more information about the external ID, see How to Use an External ID When Granting Access to Your AWS Resources to a Third Party in the IAM User Guide .
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
+            The regex used to validated this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
             
 
     :type SerialNumber: string
     :param SerialNumber: The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678 ) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user ).
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
             
 
     :type TokenCode: string
@@ -120,6 +121,7 @@ def assume_role_with_saml(RoleArn=None, PrincipalArn=None, SAMLAssertion=None, P
     Before your application can call AssumeRoleWithSAML , you must configure your SAML identity provider (IdP) to issue the claims required by AWS. Additionally, you must use AWS Identity and Access Management (IAM) to create a SAML provider entity in your AWS account that represents your identity provider, and create an IAM role that specifies this SAML provider in its trust policy.
     Calling AssumeRoleWithSAML does not require the use of AWS security credentials. The identity of the caller is validated by using keys in the metadata document that is uploaded for the SAML provider entity for your identity provider.
     For more information, see the following resources:
+    See also: AWS API Documentation
     
     
     :example: response = client.assume_role_with_saml(
@@ -221,6 +223,7 @@ def assume_role_with_web_identity(RoleArn=None, RoleSessionName=None, WebIdentit
     Optionally, you can pass an IAM access policy to this operation. If you choose not to pass a policy, the temporary security credentials that are returned by the operation have the permissions that are defined in the access policy of the role that is being assumed. If you pass a policy to this operation, the temporary security credentials that are returned by the operation have the permissions that are allowed by both the access policy of the role that is being assumed, * and * the policy that you pass. This gives you a way to further restrict the permissions for the resulting temporary security credentials. You cannot use the passed policy to grant permissions that are in excess of those allowed by the access policy of the role that is being assumed. For more information, see Permissions for AssumeRole, AssumeRoleWithSAML, and AssumeRoleWithWebIdentity in the IAM User Guide .
     Before your application can call AssumeRoleWithWebIdentity , you must have an identity token from a supported identity provider and create a role that the application can assume. The role that your application assumes must trust the identity provider that is associated with the identity token. In other words, the identity provider must be specified in the role's trust policy.
     For more information about how to use web identity federation and the AssumeRoleWithWebIdentity API, see the following resources:
+    See also: AWS API Documentation
     
     
     :example: response = client.assume_role_with_web_identity(
@@ -241,7 +244,7 @@ def assume_role_with_web_identity(RoleArn=None, RoleSessionName=None, WebIdentit
     :type RoleSessionName: string
     :param RoleSessionName: [REQUIRED]
             An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element.
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
             
 
     :type WebIdentityToken: string
@@ -294,7 +297,7 @@ def assume_role_with_web_identity(RoleArn=None, RoleSessionName=None, WebIdentit
     
     RoleSessionName (string) -- [REQUIRED]
     An identifier for the assumed role session. Typically, you pass the name or identifier that is associated with the user who is using your application. That way, the temporary security credentials that your application will use are associated with that user. This session name is included as part of the ARN and assumed role ID in the AssumedRoleUser response element.
-    The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     
     WebIdentityToken (string) -- [REQUIRED]
     The OAuth 2.0 access token or OpenID Connect ID token that is provided by the identity provider. Your application must get this token by authenticating the user who is using your application with a web identity provider before the application makes an AssumeRoleWithWebIdentity call.
@@ -342,6 +345,7 @@ def decode_authorization_message(EncodedMessage=None):
     For example, if a user is not authorized to perform an action that he or she has requested, the request returns a Client.UnauthorizedOperation response (an HTTP 403 response). Some AWS actions additionally return an encoded message that can provide details about this authorization failure.
     The message is encoded because the details of the authorization status can constitute privileged information that the user who requested the action should not see. To decode an authorization status message, a user must be granted permissions via an IAM policy to request the DecodeAuthorizationMessage (sts:DecodeAuthorizationMessage ) action.
     The decoded message includes the following type of information:
+    See also: AWS API Documentation
     
     
     :example: response = client.decode_authorization_message(
@@ -388,6 +392,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_caller_identity():
     """
     Returns details about the IAM identity whose credentials are used to call the API.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_caller_identity()
@@ -415,6 +420,7 @@ def get_federation_token(Name=None, Policy=None, DurationSeconds=None):
     A typical use case is that the permissions of the IAM user whose credentials are used to call GetFederationToken are designed to allow access to all the actions and resources that any federated user will need. Then, for individual users, you pass a policy to the operation that scopes down the permissions to a level that's appropriate to that individual user, using a policy that allows only a subset of permissions that are granted to the IAM user.
     If you do not pass a policy, the resulting temporary security credentials have no effective permissions. The only exception is when the temporary security credentials are used to access a resource that has a resource-based policy that specifically allows the federated user to access the resource.
     For more information about how permissions work, see Permissions for GetFederationToken . For information about using GetFederationToken to create temporary security credentials, see GetFederationTokenFederation Through a Custom Identity Broker .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_federation_token(
@@ -427,7 +433,7 @@ def get_federation_token(Name=None, Policy=None, DurationSeconds=None):
     :type Name: string
     :param Name: [REQUIRED]
             The name of the federated user. The name is used as an identifier for the temporary security credentials (such as Bob ). For example, you can reference the federated user name in a resource-based policy, such as in an Amazon S3 bucket policy.
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
             
 
     :type Policy: string
@@ -488,6 +494,7 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
     The temporary security credentials created by GetSessionToken can be used to make API calls to any AWS service with the following exceptions:
     The permissions associated with the temporary security credentials returned by GetSessionToken are based on the permissions associated with account or IAM user whose credentials are used to call the action. If GetSessionToken is called using root account credentials, the temporary credentials have root account permissions. Similarly, if GetSessionToken is called using the credentials of an IAM user, the temporary credentials have the same permissions as the IAM user.
     For more information about using GetSessionToken to create temporary credentials, go to Temporary Credentials for Users in Untrusted Environments in the IAM User Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_session_token(
@@ -502,7 +509,7 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
 
     :type SerialNumber: string
     :param SerialNumber: The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678 ) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user ). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.
-            The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
             
 
     :type TokenCode: string
@@ -524,7 +531,7 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
     :returns: 
     DurationSeconds (integer) -- The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129600 seconds (36 hours), with 43200 seconds (12 hours) as the default. Sessions for AWS account owners are restricted to a maximum of 3600 seconds (one hour). If the duration is longer than one hour, the session for AWS account owners defaults to one hour.
     SerialNumber (string) -- The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678 ) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user ). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.
-    The format for this parameter, as described by its regex pattern, is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
     
     TokenCode (string) -- The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, and the user does not provide a code when requesting a set of temporary security credentials, the user will receive an "access denied" response when requesting resources that require MFA authentication.
     The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.

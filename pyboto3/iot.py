@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def accept_certificate_transfer(certificateId=None, setAsActive=None):
     """
     Accepts a pending certificate transfer. The default state of the certificate is INACTIVE.
     To check for pending certificate transfers, call  ListCertificates to enumerate your certificates.
+    See also: AWS API Documentation
     
     
     :example: response = client.accept_certificate_transfer(
@@ -50,6 +51,7 @@ def accept_certificate_transfer(certificateId=None, setAsActive=None):
 def attach_principal_policy(policyName=None, principal=None):
     """
     Attaches the specified policy to the specified principal (certificate or other credential).
+    See also: AWS API Documentation
     
     
     :example: response = client.attach_principal_policy(
@@ -74,6 +76,7 @@ def attach_principal_policy(policyName=None, principal=None):
 def attach_thing_principal(thingName=None, principal=None):
     """
     Attaches the specified principal to the specified thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.attach_thing_principal(
@@ -119,6 +122,7 @@ def cancel_certificate_transfer(certificateId=None):
     Cancels a pending transfer for the specified certificate.
     Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use  RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled.
     After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
+    See also: AWS API Documentation
     
     
     :example: response = client.cancel_certificate_transfer(
@@ -147,6 +151,7 @@ def create_certificate_from_csr(certificateSigningRequest=None, setAsActive=None
     $ ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{}
     On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:
     On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is:
+    See also: AWS API Documentation
     
     
     :example: response = client.create_certificate_from_csr(
@@ -178,6 +183,7 @@ def create_keys_and_certificate(setAsActive=None):
     """
     Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key.
     Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_keys_and_certificate(
@@ -207,6 +213,7 @@ def create_policy(policyName=None, policyDocument=None):
     """
     Creates an AWS IoT policy.
     The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_policy(
@@ -241,6 +248,7 @@ def create_policy_version(policyName=None, policyDocument=None, setAsDefault=Non
     """
     Creates a new version of the specified AWS IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use  DeletePolicyVersion to delete an existing version before you create a new one.
     Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+    See also: AWS API Documentation
     
     
     :example: response = client.create_policy_version(
@@ -278,6 +286,7 @@ def create_policy_version(policyName=None, policyDocument=None, setAsDefault=Non
 def create_thing(thingName=None, thingTypeName=None, attributePayload=None):
     """
     Creates a thing record in the thing registry.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_thing(
@@ -327,6 +336,7 @@ def create_thing(thingName=None, thingTypeName=None, attributePayload=None):
 def create_thing_type(thingTypeName=None, thingTypeProperties=None):
     """
     Creates a new thing type.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_thing_type(
@@ -365,6 +375,7 @@ def create_thing_type(thingTypeName=None, thingTypeProperties=None):
 def create_topic_rule(ruleName=None, topicRulePayload=None):
     """
     Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_topic_rule(
@@ -539,6 +550,7 @@ def create_topic_rule(ruleName=None, topicRulePayload=None):
 def delete_ca_certificate(certificateId=None):
     """
     Deletes a registered CA certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_ca_certificate(
@@ -562,6 +574,7 @@ def delete_certificate(certificateId=None):
     """
     Deletes the specified certificate.
     A certificate cannot be deleted if it has a policy attached to it or if its status is set to ACTIVE. To delete a certificate, first use the  DetachPrincipalPolicy API to detach all policies. Next, use the  UpdateCertificate API to set the certificate to the INACTIVE status.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_certificate(
@@ -583,6 +596,7 @@ def delete_policy(policyName=None):
     A policy cannot be deleted if it has non-default versions or it is attached to any certificate.
     To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy.
     When a policy is deleted using DeletePolicy, its default version is deleted with it.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_policy(
@@ -601,6 +615,7 @@ def delete_policy(policyName=None):
 def delete_policy_version(policyName=None, policyVersionId=None):
     """
     Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use  DeletePolicy . To find out which version of a policy is marked as the default version, use ListPolicyVersions.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_policy_version(
@@ -625,6 +640,7 @@ def delete_policy_version(policyName=None, policyVersionId=None):
 def delete_registration_code():
     """
     Deletes a CA certificate registration code.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_registration_code()
@@ -640,6 +656,7 @@ def delete_registration_code():
 def delete_thing(thingName=None, expectedVersion=None):
     """
     Deletes the specified thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_thing(
@@ -666,6 +683,7 @@ def delete_thing(thingName=None, expectedVersion=None):
 def delete_thing_type(thingTypeName=None):
     """
     Deletes the specified thing type . You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling  DeprecateThingType , then remove any associated things by calling  UpdateThing to change the thing type on any associated thing, and finally use  DeleteThingType to delete the thing type.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_thing_type(
@@ -688,6 +706,7 @@ def delete_thing_type(thingTypeName=None):
 def delete_topic_rule(ruleName=None):
     """
     Deletes the specified rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_topic_rule(
@@ -706,6 +725,7 @@ def delete_topic_rule(ruleName=None):
 def deprecate_thing_type(thingTypeName=None, undoDeprecate=None):
     """
     Deprecates a thing type. You can not associate new things with deprecated thing type.
+    See also: AWS API Documentation
     
     
     :example: response = client.deprecate_thing_type(
@@ -732,6 +752,7 @@ def deprecate_thing_type(thingTypeName=None, undoDeprecate=None):
 def describe_ca_certificate(certificateId=None):
     """
     Describes a registered CA certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_ca_certificate(
@@ -764,6 +785,7 @@ def describe_ca_certificate(certificateId=None):
 def describe_certificate(certificateId=None):
     """
     Gets information about the specified certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_certificate(
@@ -805,6 +827,7 @@ def describe_certificate(certificateId=None):
 def describe_endpoint():
     """
     Returns a unique endpoint specific to the AWS account making the call.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_endpoint()
@@ -822,6 +845,7 @@ def describe_endpoint():
 def describe_thing(thingName=None):
     """
     Gets information about the specified thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_thing(
@@ -852,6 +876,7 @@ def describe_thing(thingName=None):
 def describe_thing_type(thingTypeName=None):
     """
     Gets information about the specified thing type.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_thing_type(
@@ -887,6 +912,7 @@ def describe_thing_type(thingTypeName=None):
 def detach_principal_policy(policyName=None, principal=None):
     """
     Removes the specified policy from the specified certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.detach_principal_policy(
@@ -912,6 +938,7 @@ def detach_principal_policy(policyName=None, principal=None):
 def detach_thing_principal(thingName=None, principal=None):
     """
     Detaches the specified principal from the specified thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.detach_thing_principal(
@@ -940,6 +967,7 @@ def detach_thing_principal(thingName=None, principal=None):
 def disable_topic_rule(ruleName=None):
     """
     Disables the specified rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_topic_rule(
@@ -958,6 +986,7 @@ def disable_topic_rule(ruleName=None):
 def enable_topic_rule(ruleName=None):
     """
     Enables the specified rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_topic_rule(
@@ -998,6 +1027,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_logging_options():
     """
     Gets the logging options.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_logging_options()
@@ -1032,6 +1062,7 @@ def get_paginator(operation_name=None):
 def get_policy(policyName=None):
     """
     Gets information about the specified policy with the policy document of the default version.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_policy(
@@ -1059,6 +1090,7 @@ def get_policy(policyName=None):
 def get_policy_version(policyName=None, policyVersionId=None):
     """
     Gets information about the specified policy version.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_policy_version(
@@ -1093,6 +1125,7 @@ def get_policy_version(policyName=None, policyVersionId=None):
 def get_registration_code():
     """
     Gets a registration code used to register a CA certificate with AWS IoT.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_registration_code()
@@ -1110,6 +1143,7 @@ def get_registration_code():
 def get_topic_rule(ruleName=None):
     """
     Gets information about the specified rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_topic_rule(
@@ -1225,6 +1259,7 @@ def list_ca_certificates(pageSize=None, marker=None, ascendingOrder=None):
     """
     Lists the CA certificates registered for your AWS account.
     The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_ca_certificates(
@@ -1264,6 +1299,7 @@ def list_certificates(pageSize=None, marker=None, ascendingOrder=None):
     """
     Lists the certificates registered in your AWS account.
     The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_certificates(
@@ -1302,6 +1338,7 @@ def list_certificates(pageSize=None, marker=None, ascendingOrder=None):
 def list_certificates_by_ca(caCertificateId=None, pageSize=None, marker=None, ascendingOrder=None):
     """
     List the device certificates signed by the specified CA certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_certificates_by_ca(
@@ -1346,6 +1383,7 @@ def list_certificates_by_ca(caCertificateId=None, pageSize=None, marker=None, as
 def list_outgoing_certificates(pageSize=None, marker=None, ascendingOrder=None):
     """
     Lists certificates that are being transfered but not yet accepted.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_outgoing_certificates(
@@ -1386,6 +1424,7 @@ def list_outgoing_certificates(pageSize=None, marker=None, ascendingOrder=None):
 def list_policies(marker=None, pageSize=None, ascendingOrder=None):
     """
     Lists your policies.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_policies(
@@ -1422,6 +1461,7 @@ def list_policies(marker=None, pageSize=None, ascendingOrder=None):
 def list_policy_principals(policyName=None, marker=None, pageSize=None, ascendingOrder=None):
     """
     Lists the principals associated with the specified policy.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_policy_principals(
@@ -1464,6 +1504,7 @@ def list_policy_principals(policyName=None, marker=None, pageSize=None, ascendin
 def list_policy_versions(policyName=None):
     """
     Lists the versions of the specified policy and identifies the default version.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_policy_versions(
@@ -1494,6 +1535,7 @@ def list_policy_versions(policyName=None):
 def list_principal_policies(principal=None, marker=None, pageSize=None, ascendingOrder=None):
     """
     Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_principal_policies(
@@ -1536,6 +1578,7 @@ def list_principal_policies(principal=None, marker=None, pageSize=None, ascendin
 def list_principal_things(nextToken=None, maxResults=None, principal=None):
     """
     Lists the things associated with the specified principal.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_principal_things(
@@ -1574,6 +1617,7 @@ def list_principal_things(nextToken=None, maxResults=None, principal=None):
 def list_thing_principals(thingName=None):
     """
     Lists the principals associated with the specified thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_thing_principals(
@@ -1600,6 +1644,7 @@ def list_thing_principals(thingName=None):
 def list_thing_types(nextToken=None, maxResults=None, thingTypeName=None):
     """
     Lists the existing thing types.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_thing_types(
@@ -1649,6 +1694,7 @@ def list_thing_types(nextToken=None, maxResults=None, thingTypeName=None):
 def list_things(nextToken=None, maxResults=None, attributeName=None, attributeValue=None, thingTypeName=None):
     """
     Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_things(
@@ -1703,6 +1749,7 @@ def list_things(nextToken=None, maxResults=None, attributeName=None, attributeVa
 def list_topic_rules(topic=None, maxResults=None, nextToken=None, ruleDisabled=None):
     """
     Lists the rules for the specific topic.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_topic_rules(
@@ -1746,6 +1793,7 @@ def list_topic_rules(topic=None, maxResults=None, nextToken=None, ruleDisabled=N
 def register_ca_certificate(caCertificate=None, verificationCertificate=None, setAsActive=None, allowAutoRegistration=None):
     """
     Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field and public key. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_ca_certificate(
@@ -1785,6 +1833,7 @@ def register_ca_certificate(caCertificate=None, verificationCertificate=None, se
 def register_certificate(certificatePem=None, caCertificatePem=None, setAsActive=None, status=None):
     """
     Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_certificate(
@@ -1824,6 +1873,7 @@ def reject_certificate_transfer(certificateId=None, rejectReason=None):
     Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE .
     To check for pending certificate transfers, call  ListCertificates to enumerate your certificates.
     This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
+    See also: AWS API Documentation
     
     
     :example: response = client.reject_certificate_transfer(
@@ -1846,6 +1896,7 @@ def reject_certificate_transfer(certificateId=None, rejectReason=None):
 def replace_topic_rule(ruleName=None, topicRulePayload=None):
     """
     Replaces the specified rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.replace_topic_rule(
@@ -2020,6 +2071,7 @@ def replace_topic_rule(ruleName=None, topicRulePayload=None):
 def set_default_policy_version(policyName=None, policyVersionId=None):
     """
     Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_default_policy_version(
@@ -2044,6 +2096,7 @@ def set_default_policy_version(policyName=None, policyVersionId=None):
 def set_logging_options(loggingOptionsPayload=None):
     """
     Sets the logging options.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_logging_options(
@@ -2071,6 +2124,7 @@ def transfer_certificate(certificateId=None, targetAwsAccount=None, transferMess
     No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target.
     The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate API to deactivate it.
     The certificate must not have any policies attached to it. You can use the DetachPrincipalPolicy API to detach them.
+    See also: AWS API Documentation
     
     
     :example: response = client.transfer_certificate(
@@ -2105,6 +2159,7 @@ def transfer_certificate(certificateId=None, targetAwsAccount=None, transferMess
 def update_ca_certificate(certificateId=None, newStatus=None, newAutoRegistrationStatus=None):
     """
     Updates a registered CA certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_ca_certificate(
@@ -2135,6 +2190,7 @@ def update_certificate(certificateId=None, newStatus=None):
     Updates the status of the specified certificate. This operation is idempotent.
     Moving a certificate from the ACTIVE state (including REVOKED) will not disconnect currently connected devices, but these devices will be unable to reconnect.
     The ACTIVE state is required to authenticate devices connecting to AWS IoT using a certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_certificate(
@@ -2161,6 +2217,7 @@ def update_certificate(certificateId=None, newStatus=None):
 def update_thing(thingName=None, thingTypeName=None, attributePayload=None, expectedVersion=None, removeThingType=None):
     """
     Updates the data for a thing.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_thing(

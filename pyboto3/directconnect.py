@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def allocate_connection_on_interconnect(bandwidth=None, connectionName=None, own
     """
     Creates a hosted connection on an interconnect.
     Allocates a VLAN number and a specified amount of bandwidth for use by a hosted connection on the given interconnect.
+    See also: AWS API Documentation
     
     
     :example: response = client.allocate_connection_on_interconnect(
@@ -108,6 +109,7 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
     Provisions a private virtual interface to be owned by a different customer.
     The owner of a connection calls this function to provision a private virtual interface which will be owned by another AWS customer.
     Virtual interfaces created using this function must be confirmed by the virtual interface owner by calling ConfirmPrivateVirtualInterface. Until this step has been completed, the virtual interface will be in 'Confirming' state, and will not be available for handling traffic.
+    See also: AWS API Documentation
     
     
     :example: response = client.allocate_private_virtual_interface(
@@ -119,6 +121,7 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
             'asn': 123,
             'authKey': 'string',
             'amazonAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
             'customerAddress': 'string'
         }
     )
@@ -149,9 +152,12 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
             authKey (string) --Authentication key for BGP configuration.
             Example: asdf34example
             amazonAddress (string) --IP address assigned to the Amazon interface.
-            Example: 192.168.1.1/30
+            Example: 192.168.1.1/30 or 2001:db8::1/125
+            addressFamily (string) --Indicates the address family for the BGP peer.
+            ipv4 : IPv4 address family
+            ipv6 : IPv6 address family
             customerAddress (string) --IP address assigned to the customer interface.
-            Example: 192.168.1.2/30
+            Example: 192.168.1.2/30 or 2001:db8::2/125
             
 
     :rtype: dict
@@ -167,6 +173,7 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
+        'addressFamily': 'ipv4'|'ipv6',
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
@@ -174,19 +181,24 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
             {
                 'cidr': 'string'
             },
+        ],
+        'bgpPeers': [
+            {
+                'asn': 123,
+                'authKey': 'string',
+                'addressFamily': 'ipv4'|'ipv6',
+                'amazonAddress': 'string',
+                'customerAddress': 'string',
+                'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                'bgpStatus': 'up'|'down'
+            },
         ]
     }
     
     
     :returns: 
-    Confirming : The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
-    Verifying : This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.
-    Pending : A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.
-    Available : A virtual interface that is able to forward traffic.
-    Down : A virtual interface that is BGP down.
-    Deleting : A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.
-    Deleted : A virtual interface that cannot forward traffic.
-    Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
     
     """
     pass
@@ -196,6 +208,8 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
     Provisions a public virtual interface to be owned by a different customer.
     The owner of a connection calls this function to provision a public virtual interface which will be owned by another AWS customer.
     Virtual interfaces created using this function must be confirmed by the virtual interface owner by calling ConfirmPublicVirtualInterface. Until this step has been completed, the virtual interface will be in 'Confirming' state, and will not be available for handling traffic.
+    When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom IPv6 Addresses are currently not supported.
+    See also: AWS API Documentation
     
     
     :example: response = client.allocate_public_virtual_interface(
@@ -208,6 +222,7 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
             'authKey': 'string',
             'amazonAddress': 'string',
             'customerAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
             'routeFilterPrefixes': [
                 {
                     'cidr': 'string'
@@ -241,14 +256,18 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
             Example: 65000
             authKey (string) --Authentication key for BGP configuration.
             Example: asdf34example
-            amazonAddress (string) -- [REQUIRED]IP address assigned to the Amazon interface.
-            Example: 192.168.1.1/30
-            customerAddress (string) -- [REQUIRED]IP address assigned to the customer interface.
-            Example: 192.168.1.2/30
-            routeFilterPrefixes (list) -- [REQUIRED]A list of routes to be advertised to the AWS network in this region (public virtual interface).
+            amazonAddress (string) --IP address assigned to the Amazon interface.
+            Example: 192.168.1.1/30 or 2001:db8::1/125
+            customerAddress (string) --IP address assigned to the customer interface.
+            Example: 192.168.1.2/30 or 2001:db8::2/125
+            addressFamily (string) --Indicates the address family for the BGP peer.
+            ipv4 : IPv4 address family
+            ipv6 : IPv6 address family
+            routeFilterPrefixes (list) --A list of routes to be advertised to the AWS network in this region (public virtual interface).
             (dict) --A route filter prefix that the customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface.
             cidr (string) --CIDR notation for the advertised route. Multiple routes are separated by commas.
-            Example: 10.10.10.0/24,10.10.11.0/24
+            IPv6 CIDRs must be at least a /64 or shorter
+            Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
             
             
 
@@ -265,6 +284,7 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
+        'addressFamily': 'ipv4'|'ipv6',
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
@@ -272,19 +292,24 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
             {
                 'cidr': 'string'
             },
+        ],
+        'bgpPeers': [
+            {
+                'asn': 123,
+                'authKey': 'string',
+                'addressFamily': 'ipv4'|'ipv6',
+                'amazonAddress': 'string',
+                'customerAddress': 'string',
+                'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                'bgpStatus': 'up'|'down'
+            },
         ]
     }
     
     
     :returns: 
-    Confirming : The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
-    Verifying : This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.
-    Pending : A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.
-    Available : A virtual interface that is able to forward traffic.
-    Down : A virtual interface that is BGP down.
-    Deleting : A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.
-    Deleted : A virtual interface that cannot forward traffic.
-    Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
     
     """
     pass
@@ -308,6 +333,7 @@ def confirm_connection(connectionId=None):
     """
     Confirm the creation of a hosted connection on an interconnect.
     Upon creation, the hosted connection is initially in the 'Ordering' state, and will remain in this state until the owner calls ConfirmConnection to confirm creation of the hosted connection.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_connection(
@@ -335,6 +361,7 @@ def confirm_private_virtual_interface(virtualInterfaceId=None, virtualGatewayId=
     """
     Accept ownership of a private virtual interface created by another customer.
     After the virtual interface owner calls this function, the virtual interface will be created and attached to the given virtual private gateway, and will be available for handling traffic.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_private_virtual_interface(
@@ -380,6 +407,7 @@ def confirm_public_virtual_interface(virtualInterfaceId=None):
     """
     Accept ownership of a public virtual interface created by another customer.
     After the virtual interface owner calls this function, the specified virtual interface will be created and made available for handling traffic.
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_public_virtual_interface(
@@ -403,10 +431,99 @@ def confirm_public_virtual_interface(virtualInterfaceId=None):
     """
     pass
 
+def create_bgp_peer(virtualInterfaceId=None, newBGPPeer=None):
+    """
+    Creates a new BGP peer on a specified virtual interface. The BGP peer cannot be in the same address family (IPv4/IPv6) of an existing BGP peer on the virtual interface.
+    You must create a BGP peer for the corresponding address family in order to access AWS resources that also use that address family.
+    When creating a IPv6 BGP peer, the Amazon address and customer address fields must be left blank. IPv6 addresses are automatically assigned from Amazon's pool of IPv6 addresses; you cannot specify custom IPv6 addresses.
+    For a public virtual interface, the Autonomous System Number (ASN) must be private or already whitelisted for the virtual interface.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_bgp_peer(
+        virtualInterfaceId='string',
+        newBGPPeer={
+            'asn': 123,
+            'authKey': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
+            'amazonAddress': 'string',
+            'customerAddress': 'string'
+        }
+    )
+    
+    
+    :type virtualInterfaceId: string
+    :param virtualInterfaceId: The ID of the virtual interface on which the BGP peer will be provisioned.
+            Example: dxvif-456abc78
+            Default: None
+            
+
+    :type newBGPPeer: dict
+    :param newBGPPeer: Detailed information for the BGP peer to be created.
+            Default: None
+            asn (integer) --Autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+            Example: 65000
+            authKey (string) --Authentication key for BGP configuration.
+            Example: asdf34example
+            addressFamily (string) --Indicates the address family for the BGP peer.
+            ipv4 : IPv4 address family
+            ipv6 : IPv6 address family
+            amazonAddress (string) --IP address assigned to the Amazon interface.
+            Example: 192.168.1.1/30 or 2001:db8::1/125
+            customerAddress (string) --IP address assigned to the customer interface.
+            Example: 192.168.1.2/30 or 2001:db8::2/125
+            
+
+    :rtype: dict
+    :return: {
+        'virtualInterface': {
+            'ownerAccount': 'string',
+            'virtualInterfaceId': 'string',
+            'location': 'string',
+            'connectionId': 'string',
+            'virtualInterfaceType': 'string',
+            'virtualInterfaceName': 'string',
+            'vlan': 123,
+            'asn': 123,
+            'authKey': 'string',
+            'amazonAddress': 'string',
+            'customerAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
+            'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
+            'customerRouterConfig': 'string',
+            'virtualGatewayId': 'string',
+            'routeFilterPrefixes': [
+                {
+                    'cidr': 'string'
+                },
+            ],
+            'bgpPeers': [
+                {
+                    'asn': 123,
+                    'authKey': 'string',
+                    'addressFamily': 'ipv4'|'ipv6',
+                    'amazonAddress': 'string',
+                    'customerAddress': 'string',
+                    'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                    'bgpStatus': 'up'|'down'
+                },
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
+    
+    """
+    pass
+
 def create_connection(location=None, bandwidth=None, connectionName=None):
     """
     Creates a new connection between the customer network and a specific AWS Direct Connect location.
     A connection links your internal network to an AWS Direct Connect location over a standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. An AWS Direct Connect location provides access to Amazon Web Services in the region it is associated with. You can establish connections with AWS Direct Connect locations in multiple regions, but a connection in one region does not provide connectivity to other regions.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_connection(
@@ -470,6 +587,7 @@ def create_interconnect(interconnectName=None, bandwidth=None, location=None):
     Creates a new interconnect between a AWS Direct Connect partner's network and a specific AWS Direct Connect location.
     An interconnect is a connection which is capable of hosting other connections. The AWS Direct Connect partner can use an interconnect to provide sub-1Gbps AWS Direct Connect service to tier 2 customers who do not have their own connections. Like a standard connection, an interconnect links the AWS Direct Connect partner's network to an AWS Direct Connect location over a standard 1 Gbps or 10 Gbps Ethernet fiber-optic cable. One end is connected to the partner's router, the other to an AWS Direct Connect router.
     For each end customer, the AWS Direct Connect partner provisions a connection on their interconnect by calling AllocateConnectionOnInterconnect. The end customer can then connect to AWS resources by creating a virtual interface on their connection, using the VLAN assigned to them by the AWS Direct Connect partner.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_interconnect(
@@ -527,6 +645,7 @@ def create_interconnect(interconnectName=None, bandwidth=None, location=None):
 def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterface=None):
     """
     Creates a new private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface supports sending traffic to a single virtual private cloud (VPC).
+    See also: AWS API Documentation
     
     
     :example: response = client.create_private_virtual_interface(
@@ -538,6 +657,7 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
             'authKey': 'string',
             'amazonAddress': 'string',
             'customerAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
             'virtualGatewayId': 'string'
         }
     )
@@ -563,9 +683,12 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
             authKey (string) --Authentication key for BGP configuration.
             Example: asdf34example
             amazonAddress (string) --IP address assigned to the Amazon interface.
-            Example: 192.168.1.1/30
+            Example: 192.168.1.1/30 or 2001:db8::1/125
             customerAddress (string) --IP address assigned to the customer interface.
-            Example: 192.168.1.2/30
+            Example: 192.168.1.2/30 or 2001:db8::2/125
+            addressFamily (string) --Indicates the address family for the BGP peer.
+            ipv4 : IPv4 address family
+            ipv6 : IPv6 address family
             virtualGatewayId (string) -- [REQUIRED]The ID of the virtual private gateway to a VPC. This only applies to private virtual interfaces.
             Example: vgw-123er56
             
@@ -583,6 +706,7 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
+        'addressFamily': 'ipv4'|'ipv6',
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
@@ -590,19 +714,24 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
             {
                 'cidr': 'string'
             },
+        ],
+        'bgpPeers': [
+            {
+                'asn': 123,
+                'authKey': 'string',
+                'addressFamily': 'ipv4'|'ipv6',
+                'amazonAddress': 'string',
+                'customerAddress': 'string',
+                'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                'bgpStatus': 'up'|'down'
+            },
         ]
     }
     
     
     :returns: 
-    Confirming : The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
-    Verifying : This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.
-    Pending : A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.
-    Available : A virtual interface that is able to forward traffic.
-    Down : A virtual interface that is BGP down.
-    Deleting : A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.
-    Deleted : A virtual interface that cannot forward traffic.
-    Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
     
     """
     pass
@@ -610,6 +739,8 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
 def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface=None):
     """
     Creates a new public virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A public virtual interface supports sending traffic to public services of AWS such as Amazon Simple Storage Service (Amazon S3).
+    When creating an IPv6 public virtual interface (addressFamily is 'ipv6'), the customer and amazon address fields should be left blank to use auto-assigned IPv6 space. Custom IPv6 Addresses are currently not supported.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_public_virtual_interface(
@@ -621,6 +752,7 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
             'authKey': 'string',
             'amazonAddress': 'string',
             'customerAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
             'routeFilterPrefixes': [
                 {
                     'cidr': 'string'
@@ -649,14 +781,18 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
             Example: 65000
             authKey (string) --Authentication key for BGP configuration.
             Example: asdf34example
-            amazonAddress (string) -- [REQUIRED]IP address assigned to the Amazon interface.
-            Example: 192.168.1.1/30
-            customerAddress (string) -- [REQUIRED]IP address assigned to the customer interface.
-            Example: 192.168.1.2/30
-            routeFilterPrefixes (list) -- [REQUIRED]A list of routes to be advertised to the AWS network in this region (public virtual interface).
+            amazonAddress (string) --IP address assigned to the Amazon interface.
+            Example: 192.168.1.1/30 or 2001:db8::1/125
+            customerAddress (string) --IP address assigned to the customer interface.
+            Example: 192.168.1.2/30 or 2001:db8::2/125
+            addressFamily (string) --Indicates the address family for the BGP peer.
+            ipv4 : IPv4 address family
+            ipv6 : IPv6 address family
+            routeFilterPrefixes (list) --A list of routes to be advertised to the AWS network in this region (public virtual interface).
             (dict) --A route filter prefix that the customer can advertise through Border Gateway Protocol (BGP) over a public virtual interface.
             cidr (string) --CIDR notation for the advertised route. Multiple routes are separated by commas.
-            Example: 10.10.10.0/24,10.10.11.0/24
+            IPv6 CIDRs must be at least a /64 or shorter
+            Example: 10.10.10.0/24,10.10.11.0/24,2001:db8::/64
             
             
 
@@ -673,6 +809,7 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
+        'addressFamily': 'ipv4'|'ipv6',
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
@@ -680,19 +817,98 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
             {
                 'cidr': 'string'
             },
+        ],
+        'bgpPeers': [
+            {
+                'asn': 123,
+                'authKey': 'string',
+                'addressFamily': 'ipv4'|'ipv6',
+                'amazonAddress': 'string',
+                'customerAddress': 'string',
+                'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                'bgpStatus': 'up'|'down'
+            },
         ]
     }
     
     
     :returns: 
-    Confirming : The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
-    Verifying : This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.
-    Pending : A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.
-    Available : A virtual interface that is able to forward traffic.
-    Down : A virtual interface that is BGP down.
-    Deleting : A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.
-    Deleted : A virtual interface that cannot forward traffic.
-    Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
+    
+    """
+    pass
+
+def delete_bgp_peer(virtualInterfaceId=None, asn=None, customerAddress=None):
+    """
+    Deletes a BGP peer on the specified virtual interface that matches the specified customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_bgp_peer(
+        virtualInterfaceId='string',
+        asn=123,
+        customerAddress='string'
+    )
+    
+    
+    :type virtualInterfaceId: string
+    :param virtualInterfaceId: The ID of the virtual interface from which the BGP peer will be deleted.
+            Example: dxvif-456abc78
+            Default: None
+            
+
+    :type asn: integer
+    :param asn: Autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+            Example: 65000
+            
+
+    :type customerAddress: string
+    :param customerAddress: IP address assigned to the customer interface.
+            Example: 192.168.1.2/30 or 2001:db8::2/125
+            
+
+    :rtype: dict
+    :return: {
+        'virtualInterface': {
+            'ownerAccount': 'string',
+            'virtualInterfaceId': 'string',
+            'location': 'string',
+            'connectionId': 'string',
+            'virtualInterfaceType': 'string',
+            'virtualInterfaceName': 'string',
+            'vlan': 123,
+            'asn': 123,
+            'authKey': 'string',
+            'amazonAddress': 'string',
+            'customerAddress': 'string',
+            'addressFamily': 'ipv4'|'ipv6',
+            'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
+            'customerRouterConfig': 'string',
+            'virtualGatewayId': 'string',
+            'routeFilterPrefixes': [
+                {
+                    'cidr': 'string'
+                },
+            ],
+            'bgpPeers': [
+                {
+                    'asn': 123,
+                    'authKey': 'string',
+                    'addressFamily': 'ipv4'|'ipv6',
+                    'amazonAddress': 'string',
+                    'customerAddress': 'string',
+                    'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                    'bgpStatus': 'up'|'down'
+                },
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
     
     """
     pass
@@ -701,6 +917,7 @@ def delete_connection(connectionId=None):
     """
     Deletes the connection.
     Deleting a connection only stops the AWS Direct Connect port hour and data transfer charges. You need to cancel separately with the providers any services or charges for cross-connects or network circuits that connect you to the AWS Direct Connect location.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_connection(
@@ -736,6 +953,7 @@ def delete_connection(connectionId=None):
 def delete_interconnect(interconnectId=None):
     """
     Deletes the specified interconnect.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_interconnect(
@@ -761,6 +979,7 @@ def delete_interconnect(interconnectId=None):
 def delete_virtual_interface(virtualInterfaceId=None):
     """
     Deletes a virtual interface.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_virtual_interface(
@@ -788,6 +1007,7 @@ def describe_connection_loa(connectionId=None, providerName=None, loaContentType
     """
     Returns the LOA-CFA for a Connection.
     The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN partner or service provider uses when establishing your cross connect to AWS at the colocation facility. For more information, see Requesting Cross Connects at AWS Direct Connect Locations in the AWS Direct Connect user guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_connection_loa(
@@ -830,6 +1050,7 @@ def describe_connections(connectionId=None):
     """
     Displays all connections in this region.
     If a connection ID is provided, the call returns only that particular connection.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_connections(
@@ -868,6 +1089,7 @@ def describe_connections(connectionId=None):
 def describe_connections_on_interconnect(interconnectId=None):
     """
     Return a list of connections that have been provisioned on the given interconnect.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_connections_on_interconnect(
@@ -908,6 +1130,7 @@ def describe_interconnect_loa(interconnectId=None, providerName=None, loaContent
     """
     Returns the LOA-CFA for an Interconnect.
     The Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is used when establishing your cross connect to AWS at the colocation facility. For more information, see Requesting Cross Connects at AWS Direct Connect Locations in the AWS Direct Connect user guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_interconnect_loa(
@@ -949,6 +1172,7 @@ def describe_interconnects(interconnectId=None):
     """
     Returns a list of interconnects owned by the AWS account.
     If an interconnect ID is provided, it will only return this particular interconnect.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_interconnects(
@@ -983,6 +1207,7 @@ def describe_interconnects(interconnectId=None):
 def describe_locations():
     """
     Returns the list of AWS Direct Connect locations in the current AWS region. These are the locations that may be selected when calling CreateConnection or CreateInterconnect.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_locations()
@@ -1002,10 +1227,49 @@ def describe_locations():
     """
     pass
 
+def describe_tags(resourceArns=None):
+    """
+    Describes the tags associated with the specified Direct Connect resources.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_tags(
+        resourceArns=[
+            'string',
+        ]
+    )
+    
+    
+    :type resourceArns: list
+    :param resourceArns: [REQUIRED]
+            The Amazon Resource Names (ARNs) of the Direct Connect resources.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'resourceTags': [
+            {
+                'resourceArn': 'string',
+                'tags': [
+                    {
+                        'key': 'string',
+                        'value': 'string'
+                    },
+                ]
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
 def describe_virtual_gateways():
     """
     Returns a list of virtual private gateways owned by the AWS account.
     You can create one or more AWS Direct Connect private virtual interfaces linking to a virtual private gateway. A virtual private gateway can be managed via Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_virtual_gateways()
@@ -1030,6 +1294,7 @@ def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None):
     Displays all virtual interfaces for an AWS account. Virtual interfaces deleted fewer than 15 minutes before DescribeVirtualInterfaces is called are also returned. If a connection ID is included then only virtual interfaces associated with this connection will be returned. If a virtual interface ID is included then only a single virtual interface will be returned.
     A virtual interface (VLAN) transmits the traffic between the AWS Direct Connect location and the customer.
     If a connection ID is provided, only virtual interfaces provisioned on the specified connection will be returned. If a virtual interface ID is provided, only this particular virtual interface will be returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_virtual_interfaces(
@@ -1065,12 +1330,24 @@ def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None):
                 'authKey': 'string',
                 'amazonAddress': 'string',
                 'customerAddress': 'string',
+                'addressFamily': 'ipv4'|'ipv6',
                 'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
                 'customerRouterConfig': 'string',
                 'virtualGatewayId': 'string',
                 'routeFilterPrefixes': [
                     {
                         'cidr': 'string'
+                    },
+                ],
+                'bgpPeers': [
+                    {
+                        'asn': 123,
+                        'authKey': 'string',
+                        'addressFamily': 'ipv4'|'ipv6',
+                        'amazonAddress': 'string',
+                        'customerAddress': 'string',
+                        'bgpPeerState': 'verifying'|'pending'|'available'|'deleting'|'deleted',
+                        'bgpStatus': 'up'|'down'
                     },
                 ]
             },
@@ -1079,14 +1356,8 @@ def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None):
     
     
     :returns: 
-    Confirming : The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.
-    Verifying : This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.
-    Pending : A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.
-    Available : A virtual interface that is able to forward traffic.
-    Down : A virtual interface that is BGP down.
-    Deleting : A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.
-    Deleted : A virtual interface that cannot forward traffic.
-    Rejected : The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the 'Confirming' state is deleted by the virtual interface owner, the virtual interface will enter the 'Rejected' state.
+    ipv4 : IPv4 address family
+    ipv6 : IPv6 address family
     
     """
     pass
@@ -1131,6 +1402,78 @@ def get_paginator(operation_name=None):
 
 def get_waiter():
     """
+    
+    """
+    pass
+
+def tag_resource(resourceArn=None, tags=None):
+    """
+    Adds the specified tags to the specified Direct Connect resource. Each Direct Connect resource can have a maximum of 50 tags.
+    Each tag consists of a key and an optional value. If a tag with the same key is already associated with the Direct Connect resource, this action updates its value.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_resource(
+        resourceArn='string',
+        tags=[
+            {
+                'key': 'string',
+                'value': 'string'
+            },
+        ]
+    )
+    
+    
+    :type resourceArn: string
+    :param resourceArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the Direct Connect resource.
+            Example: arn:aws:directconnect:us-east-1:123456789012:dxcon/dxcon-fg5678gh
+            
+
+    :type tags: list
+    :param tags: [REQUIRED]
+            The list of tags to add.
+            (dict) --Information about a tag.
+            key (string) -- [REQUIRED]The key of the tag.
+            value (string) --The value of the tag.
+            
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def untag_resource(resourceArn=None, tagKeys=None):
+    """
+    Removes one or more tags from the specified Direct Connect resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_resource(
+        resourceArn='string',
+        tagKeys=[
+            'string',
+        ]
+    )
+    
+    
+    :type resourceArn: string
+    :param resourceArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the Direct Connect resource.
+            
+
+    :type tagKeys: list
+    :param tagKeys: [REQUIRED]
+            The list of tag keys to remove.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {}
+    
     
     """
     pass

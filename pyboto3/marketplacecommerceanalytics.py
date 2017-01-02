@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,10 +42,11 @@ def can_paginate(operation_name=None):
 def generate_data_set(dataSetType=None, dataSetPublicationDate=None, roleNameArn=None, destinationS3BucketName=None, destinationS3Prefix=None, snsTopicArn=None, customerDefinedValues=None):
     """
     Given a data set type and data set publication date, asynchronously publishes the requested data set to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
+    See also: AWS API Documentation
     
     
     :example: response = client.generate_data_set(
-        dataSetType='customer_subscriber_hourly_monthly_subscriptions'|'customer_subscriber_annual_subscriptions'|'daily_business_usage_by_instance_type'|'daily_business_fees'|'daily_business_free_trial_conversions'|'daily_business_new_instances'|'daily_business_new_product_subscribers'|'daily_business_canceled_product_subscribers'|'monthly_revenue_billing_and_revenue_data'|'monthly_revenue_annual_subscriptions'|'disbursed_amount_by_product'|'disbursed_amount_by_product_with_uncollected_funds'|'disbursed_amount_by_customer_geo'|'disbursed_amount_by_age_of_uncollected_funds'|'disbursed_amount_by_age_of_disbursed_funds'|'customer_profile_by_industry'|'customer_profile_by_revenue'|'customer_profile_by_geography',
+        dataSetType='customer_subscriber_hourly_monthly_subscriptions'|'customer_subscriber_annual_subscriptions'|'daily_business_usage_by_instance_type'|'daily_business_fees'|'daily_business_free_trial_conversions'|'daily_business_new_instances'|'daily_business_new_product_subscribers'|'daily_business_canceled_product_subscribers'|'monthly_revenue_billing_and_revenue_data'|'monthly_revenue_annual_subscriptions'|'disbursed_amount_by_product'|'disbursed_amount_by_product_with_uncollected_funds'|'disbursed_amount_by_customer_geo'|'disbursed_amount_by_age_of_uncollected_funds'|'disbursed_amount_by_age_of_disbursed_funds'|'customer_profile_by_industry'|'customer_profile_by_revenue'|'customer_profile_by_geography'|'sales_compensation_billed_revenue',
         dataSetPublicationDate=datetime(2015, 1, 1),
         roleNameArn='string',
         destinationS3BucketName='string',
@@ -78,6 +79,7 @@ def generate_data_set(dataSetType=None, dataSetPublicationDate=None, roleNameArn
             customer_profile_by_industry - Available daily by 5:00 PM Pacific Time since 2015-10-01.
             customer_profile_by_revenue - Available daily by 5:00 PM Pacific Time since 2015-10-01.
             customer_profile_by_geography - Available daily by 5:00 PM Pacific Time since 2015-10-01.
+            sales_compensation_billed_revenue - Available monthly on the 4th day of the month by 5:00 PM Pacific Time since 2016-12.
             
 
     :type dataSetPublicationDate: datetime
@@ -163,6 +165,7 @@ def get_waiter():
 def start_support_data_export(dataSetType=None, fromDate=None, roleNameArn=None, destinationS3BucketName=None, destinationS3Prefix=None, snsTopicArn=None, customerDefinedValues=None):
     """
     Given a data set type and a from date, asynchronously publishes the requested customer support data to the specified S3 bucket and notifies the specified SNS topic once the data is available. Returns a unique request identifier that can be used to correlate requests with notifications from the SNS topic. Data sets will be published in comma-separated values (CSV) format with the file name {data_set_type}_YYYY-MM-DD'T'HH-mm-ss'Z'.csv. If a file with the same name already exists (e.g. if the same data set is requested twice), the original file will be overwritten by the new file. Requires a Role with an attached permissions policy providing Allow permissions for the following actions: s3:PutObject, s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_support_data_export(
@@ -180,13 +183,13 @@ def start_support_data_export(dataSetType=None, fromDate=None, roleNameArn=None,
     
     :type dataSetType: string
     :param dataSetType: [REQUIRED]
-            Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time. Currently, only the test_customer_support_contacts_data value is supported
+            Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.
             customer_support_contacts_data Customer support contact data. The data set will contain all changes (Creates, Updates, and Deletes) to customer support contact data from the date specified in the from_date parameter.
             test_customer_support_contacts_data An example data set containing static test data in the same format as customer_support_contacts_data
             
 
     :type fromDate: datetime
-    :param fromDate: [REQUIRED] The start date from which to retrieve the data set. This parameter only affects the customer_support_contacts_data data set type.
+    :param fromDate: [REQUIRED] The start date from which to retrieve the data set in UTC. This parameter only affects the customer_support_contacts_data data set type.
 
     :type roleNameArn: string
     :param roleNameArn: [REQUIRED] The Amazon Resource Name (ARN) of the Role with an attached permissions policy to interact with the provided AWS services.

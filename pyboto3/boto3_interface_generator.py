@@ -1,7 +1,7 @@
 """
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -238,3 +238,6 @@ def iter_code_lines(soup):
         yield '    """'
         yield "    pass"
         yield ""
+
+if __name__ == '__main__':
+    generate_all_services_code(os.path.dirname(__file__))

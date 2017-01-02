@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,7 @@ def delete_config_rule(ConfigRuleName=None):
     Deletes the specified AWS Config rule and all of its evaluation results.
     AWS Config sets the state of a rule to DELETING until the deletion is complete. You cannot update a rule while it is in this state. If you make a PutConfigRule or DeleteConfigRule request for the rule, you will receive a ResourceInUseException .
     You can check the state of a rule by using the DescribeConfigRules request.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_config_rule(
@@ -64,6 +65,7 @@ def delete_configuration_recorder(ConfigurationRecorderName=None):
     Deletes the configuration recorder.
     After the configuration recorder is deleted, AWS Config will not record resource configuration changes until you create a new configuration recorder.
     This action does not delete the configuration information that was previously recorded. You will be able to access the previously recorded information by using the GetResourceConfigHistory action, but you will not be able to access this information in the AWS Config console until you create a new configuration recorder.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_configuration_recorder(
@@ -83,6 +85,7 @@ def delete_delivery_channel(DeliveryChannelName=None):
     """
     Deletes the delivery channel.
     Before you can delete the delivery channel, you must stop the configuration recorder by using the  StopConfigurationRecorder action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_delivery_channel(
@@ -101,6 +104,7 @@ def delete_delivery_channel(DeliveryChannelName=None):
 def delete_evaluation_results(ConfigRuleName=None):
     """
     Deletes the evaluation results for the specified Config rule. You can specify one Config rule per request. After you delete the evaluation results, you can call the  StartConfigRulesEvaluation API to start evaluating your AWS resources against the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_evaluation_results(
@@ -123,6 +127,7 @@ def delete_evaluation_results(ConfigRuleName=None):
 def deliver_config_snapshot(deliveryChannelName=None):
     """
     Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified delivery channel. After the delivery has started, AWS Config sends following notifications using an Amazon SNS topic that you have specified.
+    See also: AWS API Documentation
     
     
     :example: response = client.deliver_config_snapshot(
@@ -149,6 +154,7 @@ def describe_compliance_by_config_rule(ConfigRuleNames=None, ComplianceTypes=Non
     Indicates whether the specified AWS Config rules are compliant. If a rule is noncompliant, this action returns the number of AWS resources that do not comply with the rule.
     A rule is compliant if all of the evaluated resources comply with it, and it is noncompliant if any of these resources do not comply.
     If AWS Config has no current evaluation results for the rule, it returns INSUFFICIENT_DATA . This result might indicate one of the following conditions:
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_compliance_by_config_rule(
@@ -216,6 +222,7 @@ def describe_compliance_by_resource(ResourceType=None, ResourceId=None, Complian
     Indicates whether the specified AWS resources are compliant. If a resource is noncompliant, this action returns the number of AWS Config rules that the resource does not comply with.
     A resource is compliant if it complies with all the AWS Config rules that evaluate it. It is noncompliant if it does not comply with one or more of these rules.
     If AWS Config has no current evaluation results for the resource, it returns INSUFFICIENT_DATA . This result might indicate one of the following conditions about the rules that evaluate the resource:
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_compliance_by_resource(
@@ -281,21 +288,33 @@ def describe_compliance_by_resource(ResourceType=None, ResourceId=None, Complian
     """
     pass
 
-def describe_config_rule_evaluation_status(ConfigRuleNames=None):
+def describe_config_rule_evaluation_status(ConfigRuleNames=None, NextToken=None, Limit=None):
     """
     Returns status information for each of your AWS managed Config rules. The status includes information such as the last time AWS Config invoked the rule, the last time AWS Config failed to invoke the rule, and the related error for the last failure.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_config_rule_evaluation_status(
         ConfigRuleNames=[
             'string',
-        ]
+        ],
+        NextToken='string',
+        Limit=123
     )
     
     
     :type ConfigRuleNames: list
     :param ConfigRuleNames: The name of the AWS managed Config rules for which you want status information. If you do not specify any names, AWS Config returns status information for all AWS managed Config rules that you use.
             (string) --
+            
+
+    :type NextToken: string
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+
+    :type Limit: integer
+    :param Limit: The number of rule evaluation results that you want returned.
+            This parameter is required if the rule limit for your account is more than the default of 50 rules.
+            For more information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide .
             
 
     :rtype: dict
@@ -314,7 +333,8 @@ def describe_config_rule_evaluation_status(ConfigRuleNames=None):
                 'LastErrorMessage': 'string',
                 'FirstEvaluationStarted': True|False
             },
-        ]
+        ],
+        'NextToken': 'string'
     }
     
     
@@ -328,6 +348,7 @@ def describe_config_rule_evaluation_status(ConfigRuleNames=None):
 def describe_config_rules(ConfigRuleNames=None, NextToken=None):
     """
     Returns details about your AWS Config rules.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_config_rules(
@@ -391,6 +412,7 @@ def describe_config_rules(ConfigRuleNames=None, NextToken=None):
 def describe_configuration_recorder_status(ConfigurationRecorderNames=None):
     """
     Returns the current status of the specified configuration recorder. If a configuration recorder is not specified, this action returns the status of all configuration recorder associated with the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_configuration_recorder_status(
@@ -428,6 +450,7 @@ def describe_configuration_recorder_status(ConfigurationRecorderNames=None):
 def describe_configuration_recorders(ConfigurationRecorderNames=None):
     """
     Returns the details for the specified configuration recorders. If the configuration recorder is not specified, this action returns the details for all configuration recorders associated with the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_configuration_recorders(
@@ -452,7 +475,7 @@ def describe_configuration_recorders(ConfigurationRecorderNames=None):
                     'allSupported': True|False,
                     'includeGlobalResourceTypes': True|False,
                     'resourceTypes': [
-                        'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+                        'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
                     ]
                 }
             },
@@ -469,6 +492,7 @@ def describe_configuration_recorders(ConfigurationRecorderNames=None):
 def describe_delivery_channel_status(DeliveryChannelNames=None):
     """
     Returns the current status of the specified delivery channel. If a delivery channel is not specified, this action returns the current status of all delivery channels associated with the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_delivery_channel_status(
@@ -521,6 +545,7 @@ def describe_delivery_channel_status(DeliveryChannelNames=None):
 def describe_delivery_channels(DeliveryChannelNames=None):
     """
     Returns details about the specified delivery channel. If a delivery channel is not specified, this action returns the details of all delivery channels associated with the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_delivery_channels(
@@ -583,6 +608,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_compliance_details_by_config_rule(ConfigRuleName=None, ComplianceTypes=None, Limit=None, NextToken=None):
     """
     Returns the evaluation results for the specified AWS Config rule. The results indicate which AWS resources were evaluated by the rule, when each resource was last evaluated, and whether each resource complies with the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_compliance_details_by_config_rule(
@@ -641,6 +667,7 @@ def get_compliance_details_by_config_rule(ConfigRuleName=None, ComplianceTypes=N
 def get_compliance_details_by_resource(ResourceType=None, ResourceId=None, ComplianceTypes=None, NextToken=None):
     """
     Returns the evaluation results for the specified AWS resource. The results indicate which AWS Config rules were used to evaluate the resource, when each rule was last used, and whether the resource complies with each rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_compliance_details_by_resource(
@@ -701,6 +728,7 @@ def get_compliance_details_by_resource(ResourceType=None, ResourceId=None, Compl
 def get_compliance_summary_by_config_rule():
     """
     Returns the number of AWS Config rules that are compliant and noncompliant, up to a maximum of 25 for each.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_compliance_summary_by_config_rule()
@@ -728,6 +756,7 @@ def get_compliance_summary_by_config_rule():
 def get_compliance_summary_by_resource_type(ResourceTypes=None):
     """
     Returns the number of resources that are compliant and the number that are noncompliant. You can specify one or more resource types to get these numbers for each resource type. The maximum number returned is 100.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_compliance_summary_by_resource_type(
@@ -787,10 +816,11 @@ def get_resource_config_history(resourceType=None, resourceId=None, laterTime=No
     """
     Returns a list of configuration items for the specified resource. The list contains details about each state of the resource during the specified time interval.
     The response is paginated, and by default, AWS Config returns a limit of 10 configuration items per page. You can customize this number with the limit parameter. The response includes a nextToken string, and to get the next page of results, run the request again and enter this string for the nextToken parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_resource_config_history(
-        resourceType='AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+        resourceType='AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
         resourceId='string',
         laterTime=datetime(2015, 1, 1),
         earlierTime=datetime(2015, 1, 1),
@@ -836,7 +866,7 @@ def get_resource_config_history(resourceType=None, resourceId=None, laterTime=No
                 'configurationStateId': 'string',
                 'configurationItemMD5Hash': 'string',
                 'arn': 'string',
-                'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+                'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
                 'resourceId': 'string',
                 'resourceName': 'string',
                 'awsRegion': 'string',
@@ -850,7 +880,7 @@ def get_resource_config_history(resourceType=None, resourceId=None, laterTime=No
                 ],
                 'relationships': [
                     {
-                        'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+                        'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
                         'resourceId': 'string',
                         'resourceName': 'string',
                         'relationshipName': 'string'
@@ -885,10 +915,11 @@ def list_discovered_resources(resourceType=None, resourceIds=None, resourceName=
     """
     Accepts a resource type and returns a list of resource identifiers for the resources of that type. A resource identifier includes the resource type, ID, and (if available) the custom resource name. The results consist of resources that AWS Config has discovered, including those that AWS Config is not currently recording. You can narrow the results to include only resources that have specific resource IDs or a resource name.
     The response is paginated, and by default AWS Config lists 100 resource identifiers on each page. You can customize this number with the limit parameter. The response includes a nextToken string, and to get the next page of results, run the request again and enter this string for the nextToken parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_discovered_resources(
-        resourceType='AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+        resourceType='AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
         resourceIds=[
             'string',
         ],
@@ -925,7 +956,7 @@ def list_discovered_resources(resourceType=None, resourceIds=None, resourceName=
     :return: {
         'resourceIdentifiers': [
             {
-                'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+                'resourceType': 'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
                 'resourceId': 'string',
                 'resourceName': 'string',
                 'resourceDeletionTime': datetime(2015, 1, 1)
@@ -946,8 +977,10 @@ def put_config_rule(ConfigRule=None):
     If you are adding a new AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see Using AWS Managed Config Rules .
     For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId . These values are generated by AWS Config for new rules.
     If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName , ConfigRuleId , or ConfigRuleArn in the ConfigRule data type that you use in this request.
-    The maximum number of rules that AWS Config supports is 25.
+    The maximum number of rules that AWS Config supports is 50.
+    For more information about requesting a rule limit increase, see AWS Config Limits in the AWS General Reference Guide .
     For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.put_config_rule(
@@ -999,8 +1032,8 @@ def put_config_rule(ConfigRule=None):
             TagValue (string) --The tag value applied to only those AWS resources that you want to trigger an evaluation for the rule. If you specify a value for TagValue , you must also specify a value for TagKey .
             ComplianceResourceId (string) --The IDs of the only AWS resource that you want to trigger an evaluation for the rule. If you specify a resource ID, you must specify one resource type for ComplianceResourceTypes .
             Source (dict) -- [REQUIRED]Provides the rule owner (AWS or customer), the rule identifier, and the notifications that cause the function to evaluate your AWS resources.
-            Owner (string) --Indicates whether AWS or the customer owns and manages the AWS Config rule.
-            SourceIdentifier (string) --For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules .
+            Owner (string) -- [REQUIRED]Indicates whether AWS or the customer owns and manages the AWS Config rule.
+            SourceIdentifier (string) -- [REQUIRED]For AWS Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using AWS Managed Config Rules .
             For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's AWS Lambda function, such as arn:aws:lambda:us-east-1:123456789012:function:custom_rule_name .
             SourceDetails (list) --Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
             (dict) --Provides the source and the message types that trigger AWS Config to evaluate your AWS resources against a rule. It also provides the frequency with which you want AWS Config to run evaluations for the rule if the trigger type is periodic. You can specify the parameter values for SourceDetail only for custom rules.
@@ -1032,6 +1065,7 @@ def put_configuration_recorder(ConfigurationRecorder=None):
     """
     Creates a new configuration recorder to record the selected resource configurations.
     You can use this action to change the role roleARN and/or the recordingGroup of an existing recorder. To change the role, call the action on the existing configuration recorder and specify a role.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_configuration_recorder(
@@ -1042,7 +1076,7 @@ def put_configuration_recorder(ConfigurationRecorder=None):
                 'allSupported': True|False,
                 'includeGlobalResourceTypes': True|False,
                 'resourceTypes': [
-                    'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket',
+                    'AWS::EC2::CustomerGateway'|'AWS::EC2::EIP'|'AWS::EC2::Host'|'AWS::EC2::Instance'|'AWS::EC2::InternetGateway'|'AWS::EC2::NetworkAcl'|'AWS::EC2::NetworkInterface'|'AWS::EC2::RouteTable'|'AWS::EC2::SecurityGroup'|'AWS::EC2::Subnet'|'AWS::CloudTrail::Trail'|'AWS::EC2::Volume'|'AWS::EC2::VPC'|'AWS::EC2::VPNConnection'|'AWS::EC2::VPNGateway'|'AWS::IAM::Group'|'AWS::IAM::Policy'|'AWS::IAM::Role'|'AWS::IAM::User'|'AWS::ACM::Certificate'|'AWS::RDS::DBInstance'|'AWS::RDS::DBSubnetGroup'|'AWS::RDS::DBSecurityGroup'|'AWS::RDS::DBSnapshot'|'AWS::RDS::EventSubscription'|'AWS::ElasticLoadBalancingV2::LoadBalancer'|'AWS::S3::Bucket'|'AWS::SSM::ManagedInstanceInventory'|'AWS::Redshift::Cluster'|'AWS::Redshift::ClusterSnapshot'|'AWS::Redshift::ClusterParameterGroup'|'AWS::Redshift::ClusterSecurityGroup'|'AWS::Redshift::ClusterSubnetGroup'|'AWS::Redshift::EventSubscription',
                 ]
             }
         }
@@ -1078,6 +1112,7 @@ def put_delivery_channel(DeliveryChannel=None):
     Creates a delivery channel object to deliver configuration information to an Amazon S3 bucket and Amazon SNS topic.
     Before you can create a delivery channel, you must create a configuration recorder.
     You can use this action to change the Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values for the S3 bucket and the SNS topic. If you specify a different value for either the S3 bucket or the SNS topic, this action will keep the existing value for the parameter that is not changed.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_delivery_channel(
@@ -1131,6 +1166,7 @@ def put_delivery_channel(DeliveryChannel=None):
 def put_evaluations(Evaluations=None, ResultToken=None):
     """
     Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is required in every AWS Lambda function that is invoked by an AWS Config rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_evaluations(
@@ -1156,7 +1192,7 @@ def put_evaluations(Evaluations=None, ResultToken=None):
             For the Evaluation data type, AWS Config supports only the COMPLIANT , NON_COMPLIANT , and NOT_APPLICABLE values. AWS Config does not support the INSUFFICIENT_DATA value for this data type.
             Similarly, AWS Config does not accept INSUFFICIENT_DATA as the value for ComplianceType from a PutEvaluations request. For example, an AWS Lambda function for a custom Config rule cannot pass an INSUFFICIENT_DATA value to AWS Config.
             Annotation (string) --Supplementary information about how the evaluation determined the compliance.
-            OrderingTimestamp (datetime) -- [REQUIRED]The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config delivered the configuration snapshot that triggered the evaluation.
+            OrderingTimestamp (datetime) -- [REQUIRED]The time of the event in AWS Config that triggered the evaluation. For event-based evaluations, the time indicates when AWS Config created the configuration item that triggered the evaluation. For periodic evaluations, the time indicates when AWS Config triggered the evaluation at the frequency that you specified (for example, every 24 hours).
             
             
 
@@ -1184,9 +1220,11 @@ def put_evaluations(Evaluations=None, ResultToken=None):
 
 def start_config_rules_evaluation(ConfigRuleNames=None):
     """
-    Evaluates your resources against the specified Config rules. You can specify up to 25 Config rules per request.
-    An existing  StartConfigRulesEvaluation call must complete for the specified rules before you can call the API again. If you chose to have AWS Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts.
+    Runs an on-demand evaluation for the specified Config rules against the last known configuration state of the resources. Use StartConfigRulesEvaluation when you want to test a rule that you updated is working as expected. StartConfigRulesEvaluation does not re-record the latest configuration state for your resources; it re-runs an evaluation against the last known state of your resources.
+    You can specify up to 25 Config rules per request.
+    An existing StartConfigRulesEvaluation call must complete for the specified rules before you can call the API again. If you chose to have AWS Config stream to an Amazon SNS topic, you will receive a ConfigRuleEvaluationStarted notification when the evaluation starts.
     The StartConfigRulesEvaluation API is useful if you want to run on-demand evaluations, such as the following example:
+    See also: AWS API Documentation
     
     
     :example: response = client.start_config_rules_evaluation(
@@ -1215,6 +1253,7 @@ def start_configuration_recorder(ConfigurationRecorderName=None):
     """
     Starts recording configurations of the AWS resources you have selected to record in your AWS account.
     You must have created at least one delivery channel to successfully start the configuration recorder.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_configuration_recorder(
@@ -1233,6 +1272,7 @@ def start_configuration_recorder(ConfigurationRecorderName=None):
 def stop_configuration_recorder(ConfigurationRecorderName=None):
     """
     Stops recording configurations of the AWS resources you have selected to record in your AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_configuration_recorder(

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,8 @@ def can_paginate(operation_name=None):
 
 def delete_alarms(AlarmNames=None):
     """
-    Deletes all specified alarms. In the event of an error, no alarms are deleted.
+    Deletes the specified alarms. In the event of an error, no alarms are deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_alarms(
@@ -53,7 +54,7 @@ def delete_alarms(AlarmNames=None):
     
     :type AlarmNames: list
     :param AlarmNames: [REQUIRED]
-            A list of alarms to be deleted.
+            The alarms to be deleted.
             (string) --
             
 
@@ -62,7 +63,9 @@ def delete_alarms(AlarmNames=None):
 
 def describe_alarm_history(AlarmName=None, HistoryItemType=None, StartDate=None, EndDate=None, MaxRecords=None, NextToken=None):
     """
-    Retrieves history for the specified alarm. Filter alarms by date range or item type. If an alarm name is not specified, Amazon CloudWatch returns histories for all of the owner's alarms.
+    Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for all alarms are returned.
+    Note that Amazon CloudWatch retains the history of an alarm even if you delete the alarm.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_alarm_history(
@@ -113,7 +116,8 @@ def describe_alarm_history(AlarmName=None, HistoryItemType=None, StartDate=None,
 
 def describe_alarms(AlarmNames=None, AlarmNamePrefix=None, StateValue=None, ActionPrefix=None, MaxRecords=None, NextToken=None):
     """
-    Retrieves alarms with the specified names. If no name is specified, all alarms for the user are returned. Alarms can be retrieved by using only a prefix for the alarm name, the alarm state, or a prefix for any action.
+    Retrieves the specified alarms. If no alarms are specified, all alarms are returned. Alarms can be retrieved by using only a prefix for the alarm name, the alarm state, or a prefix for any action.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_alarms(
@@ -129,12 +133,12 @@ def describe_alarms(AlarmNames=None, AlarmNamePrefix=None, StateValue=None, Acti
     
     
     :type AlarmNames: list
-    :param AlarmNames: A list of alarm names to retrieve information for.
+    :param AlarmNames: The names of the alarms.
             (string) --
             
 
     :type AlarmNamePrefix: string
-    :param AlarmNamePrefix: The alarm name prefix. AlarmNames cannot be specified if this parameter is specified.
+    :param AlarmNamePrefix: The alarm name prefix. You cannot specify AlarmNames if this parameter is specified.
 
     :type StateValue: string
     :param StateValue: The state value to be used in matching alarms.
@@ -173,6 +177,7 @@ def describe_alarms(AlarmNames=None, AlarmNamePrefix=None, StateValue=None, Acti
                 'MetricName': 'string',
                 'Namespace': 'string',
                 'Statistic': 'SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum',
+                'ExtendedStatistic': 'string',
                 'Dimensions': [
                     {
                         'Name': 'string',
@@ -196,15 +201,17 @@ def describe_alarms(AlarmNames=None, AlarmNamePrefix=None, StateValue=None, Acti
     """
     pass
 
-def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, Dimensions=None, Period=None, Unit=None):
+def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, ExtendedStatistic=None, Dimensions=None, Period=None, Unit=None):
     """
-    Retrieves all alarms for a single metric. Specify a statistic, period, or unit to filter the set of alarms further.
+    Retrieves the alarms for the specified metric. Specify a statistic, period, or unit to filter the results.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_alarms_for_metric(
         MetricName='string',
         Namespace='string',
         Statistic='SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum',
+        ExtendedStatistic='string',
         Dimensions=[
             {
                 'Name': 'string',
@@ -227,19 +234,21 @@ def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, 
             
 
     :type Statistic: string
-    :param Statistic: The statistic for the metric.
+    :param Statistic: The statistic for the metric, other than percentiles. For percentile statistics, use ExtendedStatistics .
+
+    :type ExtendedStatistic: string
+    :param ExtendedStatistic: The percentile statistic for the metric. Specify a value between p0.0 and p100.
 
     :type Dimensions: list
-    :param Dimensions: The list of dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the DescribeAlarmsForMetric to succeed.
-            (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-            For examples that use one or more dimensions, see PutMetricData .
+    :param Dimensions: The dimensions associated with the metric. If the metric has any associated dimensions, you must specify them in order for the call to succeed.
+            (dict) --Expands the identity of a metric.
             Name (string) -- [REQUIRED]The name of the dimension.
-            Value (string) -- [REQUIRED]The value representing the dimension measurement
+            Value (string) -- [REQUIRED]The value representing the dimension measurement.
             
             
 
     :type Period: integer
-    :param Period: The period in seconds over which the statistic is applied.
+    :param Period: The period, in seconds, over which the statistic is applied.
 
     :type Unit: string
     :param Unit: The unit for the metric.
@@ -269,6 +278,7 @@ def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, 
                 'MetricName': 'string',
                 'Namespace': 'string',
                 'Statistic': 'SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum',
+                'ExtendedStatistic': 'string',
                 'Dimensions': [
                     {
                         'Name': 'string',
@@ -293,7 +303,8 @@ def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, 
 
 def disable_alarm_actions(AlarmNames=None):
     """
-    Disables actions for the specified alarms. When an alarm's actions are disabled the alarm's state may change, but none of the alarm's actions will execute.
+    Disables the actions for the specified alarms. When an alarm's actions are disabled, the alarm actions do not execute when the alarm state changes.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_alarm_actions(
@@ -305,7 +316,7 @@ def disable_alarm_actions(AlarmNames=None):
     
     :type AlarmNames: list
     :param AlarmNames: [REQUIRED]
-            The names of the alarms to disable actions for.
+            The names of the alarms.
             (string) --
             
 
@@ -314,7 +325,8 @@ def disable_alarm_actions(AlarmNames=None):
 
 def enable_alarm_actions(AlarmNames=None):
     """
-    Enables actions for the specified alarms.
+    Enables the actions for the specified alarms.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_alarm_actions(
@@ -326,7 +338,7 @@ def enable_alarm_actions(AlarmNames=None):
     
     :type AlarmNames: list
     :param AlarmNames: [REQUIRED]
-            The names of the alarms to enable actions for.
+            The names of the alarms.
             (string) --
             
 
@@ -355,13 +367,15 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
-def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, StartTime=None, EndTime=None, Period=None, Statistics=None, Unit=None):
+def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, StartTime=None, EndTime=None, Period=None, Statistics=None, ExtendedStatistics=None, Unit=None):
     """
     Gets statistics for the specified metric.
-    The maximum number of data points that can be queried is 50,850, whereas the maximum number of data points returned from a single GetMetricStatistics request is 1,440. If you make a request that generates more than 1,440 data points, Amazon CloudWatch returns an error. In such a case, you can alter the request by narrowing the specified time range or increasing the specified period. A period can be as short as one minute (60 seconds) or as long as one day (86,400 seconds). Alternatively, you can make multiple requests across adjacent time ranges. GetMetricStatistics does not return the data in chronological order.
-    Amazon CloudWatch aggregates data points based on the length of the period that you specify. For example, if you request statistics with a one-minute granularity, Amazon CloudWatch aggregates data points with time stamps that fall within the same one-minute period. In such a case, the data points queried can greatly outnumber the data points returned.
-    The following examples show various statistics allowed by the data point query maximum of 50,850 when you call GetMetricStatistics on Amazon EC2 instances with detailed (one-minute) monitoring enabled:
-    For information about the namespace, metric names, and dimensions that other Amazon Web Services products use to send metrics to CloudWatch, go to Amazon CloudWatch Metrics, Namespaces, and Dimensions Reference in the Amazon CloudWatch Developer Guide .
+    Amazon CloudWatch retains metric data as follows:
+    Note that CloudWatch started retaining 5-minute and 1-hour metric data as of 9 July 2016.
+    The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, Amazon CloudWatch returns an error. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. A period can be as short as one minute (60 seconds). Note that data points are not returned in chronological order.
+    Amazon CloudWatch aggregates data points based on the length of the period that you specify. For example, if you request statistics with a one-hour period, Amazon CloudWatch aggregates all data points with time stamps that fall within each one-hour period. Therefore, the number of values aggregated by CloudWatch is larger than the number of data points returned.
+    For a list of metrics and dimensions supported by AWS services, see the Amazon CloudWatch Metrics and Dimensions Reference in the Amazon CloudWatch User Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_metric_statistics(
@@ -379,6 +393,9 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
         Statistics=[
             'SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum',
         ],
+        ExtendedStatistics=[
+            'string',
+        ],
         Unit='Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None'
     )
     
@@ -394,40 +411,49 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
             
 
     :type Dimensions: list
-    :param Dimensions: A list of dimensions describing qualities of the metric.
-            (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-            For examples that use one or more dimensions, see PutMetricData .
+    :param Dimensions: The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide .
+            (dict) --Expands the identity of a metric.
             Name (string) -- [REQUIRED]The name of the dimension.
-            Value (string) -- [REQUIRED]The value representing the dimension measurement
+            Value (string) -- [REQUIRED]The value representing the dimension measurement.
             
             
 
     :type StartTime: datetime
     :param StartTime: [REQUIRED]
-            The time stamp to use for determining the first datapoint to return. The value specified is inclusive; results include datapoints with the time stamp specified. The time stamp must be in ISO 8601 UTC format (e.g., 2014-09-03T23:00:00Z).
-            Note
-            The specified start time is rounded down to the nearest value. Datapoints are returned for start times up to two weeks in the past. Specified start times that are more than two weeks in the past will not return datapoints for metrics that are older than two weeks.
-            Data that is timestamped 24 hours or more in the past may take in excess of 48 hours to become available from submission time using GetMetricStatistics .
+            The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request.
+            The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z).
+            CloudWatch rounds the specified time stamp as follows:
+            Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.
+            Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.
+            Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.
             
 
     :type EndTime: datetime
     :param EndTime: [REQUIRED]
-            The time stamp to use for determining the last datapoint to return. The value specified is exclusive; results will include datapoints up to the time stamp specified. The time stamp must be in ISO 8601 UTC format (e.g., 2014-09-03T23:00:00Z).
+            The time stamp that determines the last data point to return.
+            The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
             
 
     :type Period: integer
     :param Period: [REQUIRED]
-            The granularity, in seconds, of the returned datapoints. A Period can be as short as one minute (60 seconds) or as long as one day (86,400 seconds), and must be a multiple of 60. The default value is 60.
+            The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60.
+            If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:
+            Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
+            Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
             
 
     :type Statistics: list
-    :param Statistics: [REQUIRED]
-            The metric statistics to return. For information about specific statistics returned by GetMetricStatistics, see Statistics in the Amazon CloudWatch Developer Guide .
+    :param Statistics: The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistic .
+            (string) --
+            
+
+    :type ExtendedStatistics: list
+    :param ExtendedStatistics: The percentile statistics. Specify values between p0.0 and p100.
             (string) --
             
 
     :type Unit: string
-    :param Unit: The specific unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit will have no effect.
+    :param Unit: The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
 
     :rtype: dict
     :return: {
@@ -440,7 +466,10 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
                 'Sum': 123.0,
                 'Minimum': 123.0,
                 'Maximum': 123.0,
-                'Unit': 'Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None'
+                'Unit': 'Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None',
+                'ExtendedStatistics': {
+                    'string': 123.0
+                }
             },
         ]
     }
@@ -453,40 +482,51 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
     MetricName (string) -- [REQUIRED]
     The name of the metric, with or without spaces.
     
-    Dimensions (list) -- A list of dimensions describing qualities of the metric.
+    Dimensions (list) -- The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide .
     
-    (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-    For examples that use one or more dimensions, see  PutMetricData .
+    (dict) --Expands the identity of a metric.
     
     Name (string) -- [REQUIRED]The name of the dimension.
     
-    Value (string) -- [REQUIRED]The value representing the dimension measurement
+    Value (string) -- [REQUIRED]The value representing the dimension measurement.
     
     
     
     
     
     StartTime (datetime) -- [REQUIRED]
-    The time stamp to use for determining the first datapoint to return. The value specified is inclusive; results include datapoints with the time stamp specified. The time stamp must be in ISO 8601 UTC format (e.g., 2014-09-03T23:00:00Z).
+    The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request.
+    The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z).
+    CloudWatch rounds the specified time stamp as follows:
     
-    Note
-    The specified start time is rounded down to the nearest value. Datapoints are returned for start times up to two weeks in the past. Specified start times that are more than two weeks in the past will not return datapoints for metrics that are older than two weeks.
-    Data that is timestamped 24 hours or more in the past may take in excess of 48 hours to become available from submission time using GetMetricStatistics .
+    Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.
+    Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.
+    Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.
     
     
     EndTime (datetime) -- [REQUIRED]
-    The time stamp to use for determining the last datapoint to return. The value specified is exclusive; results will include datapoints up to the time stamp specified. The time stamp must be in ISO 8601 UTC format (e.g., 2014-09-03T23:00:00Z).
+    The time stamp that determines the last data point to return.
+    The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
     
     Period (integer) -- [REQUIRED]
-    The granularity, in seconds, of the returned datapoints. A Period can be as short as one minute (60 seconds) or as long as one day (86,400 seconds), and must be a multiple of 60. The default value is 60.
+    The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60.
+    If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:
     
-    Statistics (list) -- [REQUIRED]
-    The metric statistics to return. For information about specific statistics returned by GetMetricStatistics, see Statistics in the Amazon CloudWatch Developer Guide .
+    Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
+    Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
+    
+    
+    Statistics (list) -- The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistic .
     
     (string) --
     
     
-    Unit (string) -- The specific unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit will have no effect.
+    ExtendedStatistics (list) -- The percentile statistics. Specify values between p0.0 and p100.
+    
+    (string) --
+    
+    
+    Unit (string) -- The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
     
     """
     pass
@@ -515,7 +555,10 @@ def get_waiter():
 
 def list_metrics(Namespace=None, MetricName=None, Dimensions=None, NextToken=None):
     """
-    Returns a list of valid metrics stored for the AWS account owner. Returned metrics can be used with  GetMetricStatistics to obtain statistical data for a given metric.
+    List the specified metrics. You can use the returned metrics with  GetMetricStatistics to obtain statistical data.
+    Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls.
+    After you create a metric, allow up to fifteen minutes before the metric appears. Statistics about the metric, however, are available sooner using  GetMetricStatistics .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_metrics(
@@ -538,12 +581,10 @@ def list_metrics(Namespace=None, MetricName=None, Dimensions=None, NextToken=Non
     :param MetricName: The name of the metric to filter against.
 
     :type Dimensions: list
-    :param Dimensions: A list of dimensions to filter against.
-            (dict) --The DimensionFilter data type is used to filter ListMetrics results.
+    :param Dimensions: The dimensions to filter against.
+            (dict) --Represents filters for a dimension.
             Name (string) -- [REQUIRED]The dimension name to be matched.
             Value (string) --The value of the dimension to be matched.
-            Note
-            Specifying a Name without specifying a Value returns all values associated with that Name .
             
             
 
@@ -571,10 +612,17 @@ def list_metrics(Namespace=None, MetricName=None, Dimensions=None, NextToken=Non
     """
     pass
 
-def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None, OKActions=None, AlarmActions=None, InsufficientDataActions=None, MetricName=None, Namespace=None, Statistic=None, Dimensions=None, Period=None, Unit=None, EvaluationPeriods=None, Threshold=None, ComparisonOperator=None):
+def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None, OKActions=None, AlarmActions=None, InsufficientDataActions=None, MetricName=None, Namespace=None, Statistic=None, ExtendedStatistic=None, Dimensions=None, Period=None, Unit=None, EvaluationPeriods=None, Threshold=None, ComparisonOperator=None):
     """
-    Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric. Optionally, this operation can associate one or more Amazon SNS resources with the alarm.
-    When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is evaluated and its StateValue is set appropriately. Any actions associated with the StateValue are then executed.
+    Creates or updates an alarm and associates it with the specified metric. Optionally, this operation can associate one or more Amazon SNS resources with the alarm.
+    When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is evaluated and its state is set appropriately. Any actions associated with the state are then executed.
+    When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm.
+    If you are an AWS Identity and Access Management (IAM) user, you must have Amazon EC2 permissions for some operations:
+    If you have read/write permissions for Amazon CloudWatch but not for Amazon EC2, you can still create an alarm, but the stop or terminate actions won't be performed. However, if you are later granted the required permissions, the alarm actions that you created earlier will be performed.
+    If you are using an IAM role (for example, an Amazon EC2 instance profile), you cannot stop or terminate the instance using alarm actions. However, you can still see the alarm state and perform any other actions such as Amazon SNS notifications or Auto Scaling policies.
+    If you are using temporary security credentials granted using the AWS Security Token Service (AWS STS), you cannot stop or terminate an Amazon EC2 instance using alarm actions.
+    Note that you must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role. After this IAM role is created, you can create stop, terminate, or reboot alarms using a command-line interface or an API.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_metric_alarm(
@@ -593,6 +641,7 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
         MetricName='string',
         Namespace='string',
         Statistic='SampleCount'|'Average'|'Sum'|'Minimum'|'Maximum',
+        ExtendedStatistic='string',
         Dimensions=[
             {
                 'Name': 'string',
@@ -609,71 +658,68 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
     
     :type AlarmName: string
     :param AlarmName: [REQUIRED]
-            The descriptive name for the alarm. This name must be unique within the user's AWS account
+            The name for the alarm. This name must be unique within the AWS account.
             
 
     :type AlarmDescription: string
     :param AlarmDescription: The description for the alarm.
 
     :type ActionsEnabled: boolean
-    :param ActionsEnabled: Indicates whether or not actions should be executed during any changes to the alarm's state.
+    :param ActionsEnabled: Indicates whether actions should be executed during any changes to the alarm state.
 
     :type OKActions: list
-    :param OKActions: The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-            Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    :param OKActions: The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+            Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
             Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-            Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
             (string) --
             
 
     :type AlarmActions: list
-    :param AlarmActions: The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-            Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    :param AlarmActions: The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+            Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
             Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-            Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
             (string) --
             
 
     :type InsufficientDataActions: list
-    :param InsufficientDataActions: The list of actions to execute when this alarm transitions into an INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-            Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    :param InsufficientDataActions: The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+            Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
             Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-            Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
             (string) --
             
 
     :type MetricName: string
     :param MetricName: [REQUIRED]
-            The name for the alarm's associated metric.
+            The name for the metric associated with the alarm.
             
 
     :type Namespace: string
     :param Namespace: [REQUIRED]
-            The namespace for the alarm's associated metric.
+            The namespace for the metric associated with the alarm.
             
 
     :type Statistic: string
-    :param Statistic: [REQUIRED]
-            The statistic to apply to the alarm's associated metric.
-            
+    :param Statistic: The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic .
+
+    :type ExtendedStatistic: string
+    :param ExtendedStatistic: The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
 
     :type Dimensions: list
-    :param Dimensions: The dimensions for the alarm's associated metric.
-            (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-            For examples that use one or more dimensions, see PutMetricData .
+    :param Dimensions: The dimensions for the metric associated with the alarm.
+            (dict) --Expands the identity of a metric.
             Name (string) -- [REQUIRED]The name of the dimension.
-            Value (string) -- [REQUIRED]The value representing the dimension measurement
+            Value (string) -- [REQUIRED]The value representing the dimension measurement.
             
             
 
     :type Period: integer
     :param Period: [REQUIRED]
-            The period in seconds over which the specified statistic is applied.
+            The period, in seconds, over which the specified statistic is applied.
             
 
     :type Unit: string
-    :param Unit: The statistic's unit of measure. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately.
-            Note: If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, this can cause an Amazon CloudWatch alarm to get stuck in the INSUFFICIENT DATA state.
+    :param Unit: The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately.
+            If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the Amazon CloudWatch alarm can get stuck in the INSUFFICIENT DATA state.
             
 
     :type EvaluationPeriods: integer
@@ -688,70 +734,61 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
 
     :type ComparisonOperator: string
     :param ComparisonOperator: [REQUIRED]
-            The arithmetic operation to use when comparing the specified Statistic and Threshold . The specified Statistic value is used as the first operand.
+            The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
             
 
     :returns: 
     AlarmName (string) -- [REQUIRED]
-    The descriptive name for the alarm. This name must be unique within the user's AWS account
+    The name for the alarm. This name must be unique within the AWS account.
     
     AlarmDescription (string) -- The description for the alarm.
-    ActionsEnabled (boolean) -- Indicates whether or not actions should be executed during any changes to the alarm's state.
-    OKActions (list) -- The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-    Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    ActionsEnabled (boolean) -- Indicates whether actions should be executed during any changes to the alarm state.
+    OKActions (list) -- The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+    Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
     Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-    
-    Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
     
     (string) --
     
     
-    AlarmActions (list) -- The list of actions to execute when this alarm transitions into an ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-    Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    AlarmActions (list) -- The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+    Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
     Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-    
-    Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
     
     (string) --
     
     
-    InsufficientDataActions (list) -- The list of actions to execute when this alarm transitions into an INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
-    Valid Values: arn:aws:automate:region (e.g., us-east-1) :ec2:stop | arn:aws:automate:region (e.g., us-east-1) :ec2:terminate | arn:aws:automate:region (e.g., us-east-1) :ec2:recover
+    InsufficientDataActions (list) -- The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN).
+    Valid Values: arn:aws:automate:region :ec2:stop | arn:aws:automate:region :ec2:terminate | arn:aws:automate:region :ec2:recover
     Valid Values (for use with IAM roles): arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Stop/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Terminate/1.0 | arn:aws:swf:us-east-1:{customer-account }:action/actions/AWS_EC2.InstanceId.Reboot/1.0
-    
-    Note: You must create at least one stop, terminate, or reboot alarm using the Amazon EC2 or CloudWatch console to create the EC2ActionsAccess IAM role for the first time. After this IAM role is created, you can create stop, terminate, or reboot alarms using the CLI.
     
     (string) --
     
     
     MetricName (string) -- [REQUIRED]
-    The name for the alarm's associated metric.
+    The name for the metric associated with the alarm.
     
     Namespace (string) -- [REQUIRED]
-    The namespace for the alarm's associated metric.
+    The namespace for the metric associated with the alarm.
     
-    Statistic (string) -- [REQUIRED]
-    The statistic to apply to the alarm's associated metric.
+    Statistic (string) -- The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic .
+    ExtendedStatistic (string) -- The percentile statistic for the metric associated with the alarm. Specify a value between p0.0 and p100.
+    Dimensions (list) -- The dimensions for the metric associated with the alarm.
     
-    Dimensions (list) -- The dimensions for the alarm's associated metric.
-    
-    (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-    For examples that use one or more dimensions, see  PutMetricData .
+    (dict) --Expands the identity of a metric.
     
     Name (string) -- [REQUIRED]The name of the dimension.
     
-    Value (string) -- [REQUIRED]The value representing the dimension measurement
+    Value (string) -- [REQUIRED]The value representing the dimension measurement.
     
     
     
     
     
     Period (integer) -- [REQUIRED]
-    The period in seconds over which the specified statistic is applied.
+    The period, in seconds, over which the specified statistic is applied.
     
-    Unit (string) -- The statistic's unit of measure. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately.
-    
-    Note: If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, this can cause an Amazon CloudWatch alarm to get stuck in the INSUFFICIENT DATA state.
+    Unit (string) -- The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately.
+    If you specify a unit, you must use a unit that is appropriate for the metric. Otherwise, the Amazon CloudWatch alarm can get stuck in the INSUFFICIENT DATA state.
     
     EvaluationPeriods (integer) -- [REQUIRED]
     The number of periods over which data is compared to the specified threshold.
@@ -760,7 +797,7 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
     The value against which the specified statistic is compared.
     
     ComparisonOperator (string) -- [REQUIRED]
-    The arithmetic operation to use when comparing the specified Statistic and Threshold . The specified Statistic value is used as the first operand.
+    The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
     
     
     """
@@ -770,7 +807,9 @@ def put_metric_data(Namespace=None, MetricData=None):
     """
     Publishes metric data points to Amazon CloudWatch. Amazon CloudWatch associates the data points with the specified metric. If the specified metric does not exist, Amazon CloudWatch creates the metric. When Amazon CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to  ListMetrics .
     Each PutMetricData request is limited to 8 KB in size for HTTP GET requests and is limited to 40 KB in size for HTTP POST requests.
-    Data that is timestamped 24 hours or more in the past may take in excess of 48 hours to become available from submission time using GetMetricStatistics .
+    Although the Value parameter accepts numbers of type Double , Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (e.g., NaN, +Infinity, -Infinity) are not supported.
+    Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for  GetMetricStatistics from the time they are submitted.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_metric_data(
@@ -801,26 +840,23 @@ def put_metric_data(Namespace=None, MetricData=None):
     :type Namespace: string
     :param Namespace: [REQUIRED]
             The namespace for the metric data.
-            Note
-            You cannot specify a namespace that begins with 'AWS/'. Namespaces that begin with 'AWS/' are reserved for other Amazon Web Services products that send metrics to Amazon CloudWatch.
+            You cannot specify a namespace that begins with 'AWS/'. Namespaces that begin with 'AWS/' are reserved for use by Amazon Web Services products.
             
 
     :type MetricData: list
     :param MetricData: [REQUIRED]
-            A list of data describing the metric.
-            (dict) --The MetricDatum data type encapsulates the information sent with PutMetricData to either create a new metric or add new values to be aggregated into an existing metric.
+            The data for the metric.
+            (dict) --Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
             MetricName (string) -- [REQUIRED]The name of the metric.
-            Dimensions (list) --A list of dimensions associated with the metric. Note, when using the Dimensions value in a query, you need to append .member.N to it (e.g., Dimensions.member.N).
-            (dict) --The Dimension data type further expands on the identity of a metric using a Name, Value pair.
-            For examples that use one or more dimensions, see PutMetricData .
+            Dimensions (list) --The dimensions associated with the metric.
+            (dict) --Expands the identity of a metric.
             Name (string) -- [REQUIRED]The name of the dimension.
-            Value (string) -- [REQUIRED]The value representing the dimension measurement
+            Value (string) -- [REQUIRED]The value representing the dimension measurement.
             
-            Timestamp (datetime) --The time stamp used for the metric in ISO 8601 Universal Coordinated Time (UTC) format. If not specified, the default value is set to the time the metric data was received.
+            Timestamp (datetime) --The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
             Value (float) --The value for the metric.
-            Warning
-            Although the Value parameter accepts numbers of type Double , Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (e.g., NaN, +Infinity, -Infinity) are not supported.
-            StatisticValues (dict) --A set of statistical values describing the metric.
+            Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+            StatisticValues (dict) --The statistical values for the metric.
             SampleCount (float) -- [REQUIRED]The number of samples used for the statistic set.
             Sum (float) -- [REQUIRED]The sum of values for the sample set.
             Minimum (float) -- [REQUIRED]The minimum value of the sample set.
@@ -834,7 +870,8 @@ def put_metric_data(Namespace=None, MetricData=None):
 
 def set_alarm_state(AlarmName=None, StateValue=None, StateReason=None, StateReasonData=None):
     """
-    Temporarily sets the state of an alarm for testing purposes. When the updated StateValue differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm's state to ALARM sends an Amazon SNS message. The alarm returns to its actual state (often within seconds). Because the alarm state change happens very quickly, it is typically only visible in the alarm's History tab in the Amazon CloudWatch console or through DescribeAlarmHistory .
+    Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an Amazon SNS message. The alarm returns to its actual state (often within seconds). Because the alarm state change happens very quickly, it is typically only visible in the alarm's History tab in the Amazon CloudWatch console or through  DescribeAlarmHistory .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_alarm_state(
@@ -847,7 +884,7 @@ def set_alarm_state(AlarmName=None, StateValue=None, StateReason=None, StateReas
     
     :type AlarmName: string
     :param AlarmName: [REQUIRED]
-            The descriptive name for the alarm. This name must be unique within the user's AWS account. The maximum length is 255 characters.
+            The name for the alarm. This name must be unique within the AWS account. The maximum length is 255 characters.
             
 
     :type StateValue: string
@@ -857,11 +894,11 @@ def set_alarm_state(AlarmName=None, StateValue=None, StateReason=None, StateReas
 
     :type StateReason: string
     :param StateReason: [REQUIRED]
-            The reason that this alarm is set to this specific state (in human-readable text format)
+            The reason that this alarm is set to this specific state, in text format.
             
 
     :type StateReasonData: string
-    :param StateReasonData: The reason that this alarm is set to this specific state (in machine-readable JSON format)
+    :param StateReasonData: The reason that this alarm is set to this specific state, in JSON format.
 
     """
     pass

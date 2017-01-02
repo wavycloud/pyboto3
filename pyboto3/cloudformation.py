@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def cancel_update_stack(StackName=None):
     """
     Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.cancel_update_stack(
@@ -57,26 +58,41 @@ def cancel_update_stack(StackName=None):
     """
     pass
 
-def continue_update_rollback(StackName=None, RoleARN=None):
+def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None):
     """
     For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again.
     A stack goes into the UPDATE_ROLLBACK_FAILED state when AWS CloudFormation cannot roll back all changes after a failed stack update. For example, you might have a stack that is rolling back to an old database instance that was deleted outside of AWS CloudFormation. Because AWS CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
+    See also: AWS API Documentation
     
     
     :example: response = client.continue_update_rollback(
         StackName='string',
-        RoleARN='string'
+        RoleARN='string',
+        ResourcesToSkip=[
+            'string',
+        ]
     )
     
     
     :type StackName: string
     :param StackName: [REQUIRED]
             The name or the unique ID of the stack that you want to continue rolling back.
+            Note
+            Don't specify the name of a nested stack (a stack that was created by using the AWS::CloudFormation::Stack resource). Instead, use this operation on the parent stack (the stack that contains the AWS::CloudFormation::Stack resource).
             
 
     :type RoleARN: string
     :param RoleARN: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to roll back the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege.
             If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
+            
+
+    :type ResourcesToSkip: list
+    :param ResourcesToSkip: A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was canceled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.
+            Warning
+            Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.
+            Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.
+            To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID . You can specify a nested stack resource (the logical ID of an AWS::CloudFormation::Stack resource) only if it's in one of the following states: DELETE_IN_PROGRESS , DELETE_COMPLETE , or DELETE_FAILED .
+            (string) --
             
 
     :rtype: dict
@@ -86,11 +102,12 @@ def continue_update_rollback(StackName=None, RoleARN=None):
     """
     pass
 
-def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviousTemplate=None, Parameters=None, Capabilities=None, ResourceTypes=None, RoleARN=None, NotificationARNs=None, Tags=None, ChangeSetName=None, ClientToken=None, Description=None):
+def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviousTemplate=None, Parameters=None, Capabilities=None, ResourceTypes=None, RoleARN=None, NotificationARNs=None, Tags=None, ChangeSetName=None, ClientToken=None, Description=None, ChangeSetType=None):
     """
-    Creates a list of changes for a stack. AWS CloudFormation generates the change set by comparing the stack's information with the information that you submit. A change set can help you understand which resources AWS CloudFormation will change and how it will change them before you update your stack. Change sets allow you to check before you make a change so that you don't delete or replace critical resources.
+    Creates a list of changes for a stack. AWS CloudFormation generates the change set by comparing the template's information with the information that you submit. A change set can help you understand which resources AWS CloudFormation will change, and how it will change them, before you update your stack. Change sets allow you to check before making a change to avoid deleting or replacing critical resources.
     AWS CloudFormation doesn't make any changes to the stack when you create a change set. To make the specified changes, you must execute the change set by using the  ExecuteChangeSet action.
     After the call successfully completes, AWS CloudFormation starts creating the change set. To check the status of the change set, use the  DescribeChangeSet action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_change_set(
@@ -123,7 +140,8 @@ def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePr
         ],
         ChangeSetName='string',
         ClientToken='string',
-        Description='string'
+        Description='string',
+        ChangeSetType='CREATE'|'UPDATE'
     )
     
     
@@ -169,7 +187,7 @@ def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePr
             
 
     :type RoleARN: string
-    :param RoleARN: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes when executing the change set. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege.
+    :param RoleARN: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes when executing the change set. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege.
             If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
             
 
@@ -200,9 +218,16 @@ def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePr
     :type Description: string
     :param Description: A description to help you identify this change set.
 
+    :type ChangeSetType: string
+    :param ChangeSetType: The type of change set operation. To create a change set for a new stack, specify CREATE . To create a change set for an existing stack, specify UPDATE .
+            If you create a change set for a new stack, AWS Cloudformation creates a stack with a unique stack ID, but no template or resources. The stack will be in the ` REVIEW_IN_PROGRESS http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-describing-stacks.html#d0e11995`_ state until you execute the change set.
+            By default, AWS CloudFormation specifies UPDATE . You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
+            
+
     :rtype: dict
     :return: {
-        'Id': 'string'
+        'Id': 'string',
+        'StackId': 'string'
     }
     
     
@@ -212,6 +237,7 @@ def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePr
 def create_stack(StackName=None, TemplateBody=None, TemplateURL=None, Parameters=None, DisableRollback=None, TimeoutInMinutes=None, NotificationARNs=None, Capabilities=None, ResourceTypes=None, RoleARN=None, OnFailure=None, StackPolicyBody=None, StackPolicyURL=None, Tags=None):
     """
     Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack via the  DescribeStacks API.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_stack(
@@ -341,6 +367,7 @@ def delete_change_set(ChangeSetName=None, StackName=None):
     """
     Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set.
     If the call successfully completes, AWS CloudFormation successfully deleted the change set.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_change_set(
@@ -367,6 +394,7 @@ def delete_change_set(ChangeSetName=None, StackName=None):
 def delete_stack(StackName=None, RetainResources=None, RoleARN=None):
     """
     Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks do not show up in the  DescribeStacks API if the deletion has been completed successfully.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_stack(
@@ -400,6 +428,7 @@ def delete_stack(StackName=None, RetainResources=None, RoleARN=None):
 def describe_account_limits(NextToken=None):
     """
     Retrieves your account's AWS CloudFormation limits, such as the maximum number of stacks that you can create in your account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_account_limits(
@@ -428,6 +457,7 @@ def describe_account_limits(NextToken=None):
 def describe_change_set(ChangeSetName=None, StackName=None, NextToken=None):
     """
     Returns the inputs for the change set and a list of changes that AWS CloudFormation will make if you execute the change set. For more information, see Updating Stacks Using Change Sets in the AWS CloudFormation User Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_change_set(
@@ -518,6 +548,7 @@ def describe_change_set(ChangeSetName=None, StackName=None, NextToken=None):
 def describe_stack_events(StackName=None, NextToken=None):
     """
     Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to Stacks in the AWS CloudFormation User Guide.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stack_events(
@@ -563,6 +594,7 @@ def describe_stack_resource(StackName=None, LogicalResourceId=None):
     """
     Returns a description of the specified resource in the specified stack.
     For deleted stacks, DescribeStackResource returns resource information for up to 90 days after the stack has been deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stack_resource(
@@ -610,6 +642,7 @@ def describe_stack_resources(StackName=None, LogicalResourceId=None, PhysicalRes
     Returns AWS resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned.
     For deleted stacks, DescribeStackResources returns resource information for up to 90 days after the stack has been deleted.
     You must specify either StackName or PhysicalResourceId , but not both. In addition, you can specify LogicalResourceId to filter the returned result. For more information about resources, the LogicalResourceId and PhysicalResourceId , go to the AWS CloudFormation User Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stack_resources(
@@ -663,6 +696,7 @@ def describe_stack_resources(StackName=None, LogicalResourceId=None, PhysicalRes
 def describe_stacks(StackName=None, NextToken=None):
     """
     Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_stacks(
@@ -687,6 +721,7 @@ def describe_stacks(StackName=None, NextToken=None):
             {
                 'StackId': 'string',
                 'StackName': 'string',
+                'ChangeSetId': 'string',
                 'Description': 'string',
                 'Parameters': [
                     {
@@ -697,7 +732,7 @@ def describe_stacks(StackName=None, NextToken=None):
                 ],
                 'CreationTime': datetime(2015, 1, 1),
                 'LastUpdatedTime': datetime(2015, 1, 1),
-                'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE',
+                'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS',
                 'StackStatusReason': 'string',
                 'DisableRollback': True|False,
                 'NotificationARNs': [
@@ -737,6 +772,7 @@ def describe_stacks(StackName=None, NextToken=None):
 def estimate_template_cost(TemplateBody=None, TemplateURL=None, Parameters=None):
     """
     Returns the estimated monthly cost of a template. The return value is an AWS Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
+    See also: AWS API Documentation
     
     
     :example: response = client.estimate_template_cost(
@@ -785,6 +821,7 @@ def execute_change_set(ChangeSetName=None, StackName=None):
     Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, AWS CloudFormation starts updating the stack. Use the  DescribeStacks action to view the status of the update.
     When you execute a change set, AWS CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack.
     If a stack policy is associated with the stack, AWS CloudFormation enforces the policy during the update. You can't specify a temporary stack policy that overrides the current policy.
+    See also: AWS API Documentation
     
     
     :example: response = client.execute_change_set(
@@ -849,6 +886,7 @@ def get_paginator(operation_name=None):
 def get_stack_policy(StackName=None):
     """
     Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_stack_policy(
@@ -870,30 +908,46 @@ def get_stack_policy(StackName=None):
     """
     pass
 
-def get_template(StackName=None):
+def get_template(StackName=None, ChangeSetName=None, TemplateStage=None):
     """
     Returns the template body for a specified stack. You can get the template for running or deleted stacks.
     For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_template(
-        StackName='string'
+        StackName='string',
+        ChangeSetName='string',
+        TemplateStage='Original'|'Processed'
     )
     
     
     :type StackName: string
-    :param StackName: [REQUIRED]
-            The name or the unique stack ID that is associated with the stack, which are not always interchangeable:
+    :param StackName: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:
             Running stacks: You can specify either the stack's name or its unique stack ID.
             Deleted stacks: You must specify the unique stack ID.
             Default: There is no default value.
             
 
+    :type ChangeSetName: string
+    :param ChangeSetName: The name or Amazon Resource Name (ARN) of a change set for which AWS CloudFormation returns the associated template. If you specify a name, you must also specify the StackName .
+
+    :type TemplateStage: string
+    :param TemplateStage: For templates that include transforms, the stage of the template that AWS CloudFormation returns. To get the user-submitted template, specify Original . To get the template after AWS CloudFormation has processed all transforms, specify Processed .
+            If the template doesn't include transforms, Original and Processed return the same template. By default, AWS CloudFormation specifies Original .
+            
+
     :rtype: dict
     :return: {
-        'TemplateBody': 'string'
+        'TemplateBody': {},
+        'StagesAvailable': [
+            'Original'|'Processed',
+        ]
     }
     
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -903,6 +957,7 @@ def get_template_summary(TemplateBody=None, TemplateURL=None, StackName=None):
     Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack.
     You can use the GetTemplateSummary action when you submit a template, or you can get template information for a running or deleted stack.
     For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template does not exist, a ValidationError is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_template_summary(
@@ -952,7 +1007,10 @@ def get_template_summary(TemplateBody=None, TemplateURL=None, StackName=None):
             'string',
         ],
         'Version': 'string',
-        'Metadata': 'string'
+        'Metadata': 'string',
+        'DeclaredTransforms': [
+            'string',
+        ]
     }
     
     
@@ -971,6 +1029,7 @@ def get_waiter():
 def list_change_sets(StackName=None, NextToken=None):
     """
     Returns the ID and status of each active change set for a stack. For example, AWS CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_change_sets(
@@ -1009,10 +1068,78 @@ def list_change_sets(StackName=None, NextToken=None):
     """
     pass
 
+def list_exports(NextToken=None):
+    """
+    Lists all exported output values in the account and region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the ` Fn::ImportValue http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html`_ function.
+    For more information, see AWS CloudFormation Export Stack Output Values .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_exports(
+        NextToken='string'
+    )
+    
+    
+    :type NextToken: string
+    :param NextToken: A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
+
+    :rtype: dict
+    :return: {
+        'Exports': [
+            {
+                'ExportingStackId': 'string',
+                'Name': 'string',
+                'Value': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def list_imports(ExportName=None, NextToken=None):
+    """
+    Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see  ListExports .
+    For more information about importing an exported output value, see the ` Fn::ImportValue http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-importvalue.html`_ function.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_imports(
+        ExportName='string',
+        NextToken='string'
+    )
+    
+    
+    :type ExportName: string
+    :param ExportName: [REQUIRED]
+            The name of the exported output value. AWS CloudFormation returns the stack names that are importing this value.
+            
+
+    :type NextToken: string
+    :param NextToken: A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value.
+
+    :rtype: dict
+    :return: {
+        'Imports': [
+            'string',
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def list_stack_resources(StackName=None, NextToken=None):
     """
     Returns descriptions of all resources of the specified stack.
     For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_stack_resources(
@@ -1054,12 +1181,13 @@ def list_stack_resources(StackName=None, NextToken=None):
 def list_stacks(NextToken=None, StackStatusFilter=None):
     """
     Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
+    See also: AWS API Documentation
     
     
     :example: response = client.list_stacks(
         NextToken='string',
         StackStatusFilter=[
-            'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE',
+            'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS',
         ]
     )
     
@@ -1082,7 +1210,7 @@ def list_stacks(NextToken=None, StackStatusFilter=None):
                 'CreationTime': datetime(2015, 1, 1),
                 'LastUpdatedTime': datetime(2015, 1, 1),
                 'DeletionTime': datetime(2015, 1, 1),
-                'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE',
+                'StackStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'ROLLBACK_IN_PROGRESS'|'ROLLBACK_FAILED'|'ROLLBACK_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'UPDATE_IN_PROGRESS'|'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_COMPLETE'|'UPDATE_ROLLBACK_IN_PROGRESS'|'UPDATE_ROLLBACK_FAILED'|'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS'|'UPDATE_ROLLBACK_COMPLETE'|'REVIEW_IN_PROGRESS',
                 'StackStatusReason': 'string'
             },
         ],
@@ -1096,6 +1224,7 @@ def list_stacks(NextToken=None, StackStatusFilter=None):
 def set_stack_policy(StackName=None, StackPolicyBody=None, StackPolicyURL=None):
     """
     Sets a stack policy for a specified stack.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_stack_policy(
@@ -1122,6 +1251,7 @@ def set_stack_policy(StackName=None, StackPolicyBody=None, StackPolicyURL=None):
 def signal_resource(StackName=None, LogicalResourceId=None, UniqueId=None, Status=None):
     """
     Sends a signal to the specified resource with a success or failure status. You can use the SignalResource API in conjunction with a creation policy or update policy. AWS CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource API is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.signal_resource(
@@ -1160,6 +1290,7 @@ def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviou
     Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack via the  DescribeStacks action.
     To get a copy of the template for an existing stack, you can use the  GetTemplate action.
     For more information about creating an update template, updating a stack, and monitoring the progress of the update, see Updating a Stack .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_stack(
@@ -1291,6 +1422,7 @@ def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviou
 def validate_template(TemplateBody=None, TemplateURL=None):
     """
     Validates a specified template. AWS CloudFormation first checks if the template is valid JSON. If it isn't, AWS CloudFormation checks if the template is valid YAML. If both these checks fail, AWS CloudFormation returns a template validation error.
+    See also: AWS API Documentation
     
     
     :example: response = client.validate_template(
@@ -1323,7 +1455,10 @@ def validate_template(TemplateBody=None, TemplateURL=None):
         'Capabilities': [
             'CAPABILITY_IAM'|'CAPABILITY_NAMED_IAM',
         ],
-        'CapabilitiesReason': 'string'
+        'CapabilitiesReason': 'string',
+        'DeclaredTransforms': [
+            'string',
+        ]
     }
     
     

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -39,9 +39,10 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_api_key(name=None, description=None, enabled=None, generateDistinctId=None, value=None, stageKeys=None):
+def create_api_key(name=None, description=None, enabled=None, generateDistinctId=None, value=None, stageKeys=None, customerId=None):
     """
     Create an  ApiKey resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_api_key(
@@ -55,7 +56,8 @@ def create_api_key(name=None, description=None, enabled=None, generateDistinctId
                 'restApiId': 'string',
                 'stageName': 'string'
             },
-        ]
+        ],
+        customerId='string'
     )
     
     
@@ -82,11 +84,15 @@ def create_api_key(name=None, description=None, enabled=None, generateDistinctId
             
             
 
+    :type customerId: string
+    :param customerId: An AWS Marketplace customer identifier , when integrating with the AWS SaaS Marketplace.
+
     :rtype: dict
     :return: {
         'id': 'string',
         'value': 'string',
         'name': 'string',
+        'customerId': 'string',
         'description': 'string',
         'enabled': True|False,
         'createdDate': datetime(2015, 1, 1),
@@ -106,6 +112,7 @@ def create_api_key(name=None, description=None, enabled=None, generateDistinctId
 def create_authorizer(restApiId=None, name=None, type=None, providerARNs=None, authType=None, authorizerUri=None, authorizerCredentials=None, identitySource=None, identityValidationExpression=None, authorizerResultTtlInSeconds=None):
     """
     Adds a new  Authorizer resource to an existing  RestApi resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_authorizer(
@@ -190,6 +197,7 @@ def create_authorizer(restApiId=None, name=None, type=None, providerARNs=None, a
 def create_base_path_mapping(domainName=None, basePath=None, restApiId=None, stage=None):
     """
     Creates a new  BasePathMapping resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_base_path_mapping(
@@ -230,6 +238,7 @@ def create_base_path_mapping(domainName=None, basePath=None, restApiId=None, sta
 def create_deployment(restApiId=None, stageName=None, stageDescription=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None):
     """
     Creates a  Deployment resource, which makes a specified  RestApi callable over the internet.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_deployment(
@@ -251,9 +260,7 @@ def create_deployment(restApiId=None, stageName=None, stageDescription=None, des
             
 
     :type stageName: string
-    :param stageName: [REQUIRED]
-            The name of the Stage resource for the Deployment resource to create.
-            
+    :param stageName: The name of the Stage resource for the Deployment resource to create.
 
     :type stageDescription: string
     :param stageDescription: The description of the Stage resource for the Deployment resource to create.
@@ -292,9 +299,105 @@ def create_deployment(restApiId=None, stageName=None, stageDescription=None, des
     """
     pass
 
+def create_documentation_part(restApiId=None, location=None, properties=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_documentation_part(
+        restApiId='string',
+        location={
+            'type': 'API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+            'path': 'string',
+            'method': 'string',
+            'statusCode': 'string',
+            'name': 'string'
+        },
+        properties='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-created documentation part.
+            
+
+    :type location: dict
+    :param location: [REQUIRED]
+            [Required] The location of the targeted API entity of the to-be-created documentation part.
+            type (string) -- [REQUIRED]The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHROZER , MODEL , or RESOURCE type.
+            path (string) --The URL path of the target. It is a valid field for the API entity types of RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
+            method (string) --The HTTP verb of a method. It is a valid field for the API entity types of METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
+            statusCode (string) --The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
+            name (string) --The name of the targeted API entity. It is a valid and required field for the API entity types of AUTHORIZER , MODEL , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY and RESPONSE_HEADER . It is an invalid field for any other entity type.
+            
+
+    :type properties: string
+    :param properties: [REQUIRED]
+            [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only Swagger-compliant key-value pairs can be exported and, hence, published.
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'location': {
+            'type': 'API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+            'path': 'string',
+            'method': 'string',
+            'statusCode': 'string',
+            'name': 'string'
+        },
+        'properties': 'string'
+    }
+    
+    
+    """
+    pass
+
+def create_documentation_version(restApiId=None, documentationVersion=None, stageName=None, description=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_documentation_version(
+        restApiId='string',
+        documentationVersion='string',
+        stageName='string',
+        description='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] Specifies the API identifier of the to-be-created documentation version.
+            
+
+    :type documentationVersion: string
+    :param documentationVersion: [REQUIRED]
+            [Required] The version identifier of the new snapshot.
+            
+
+    :type stageName: string
+    :param stageName: The stage name to be associated with the new documentation snapshot.
+
+    :type description: string
+    :param description: A description about the new documentation snapshot.
+
+    :rtype: dict
+    :return: {
+        'version': 'string',
+        'createdDate': datetime(2015, 1, 1),
+        'description': 'string'
+    }
+    
+    
+    """
+    pass
+
 def create_domain_name(domainName=None, certificateName=None, certificateBody=None, certificatePrivateKey=None, certificateChain=None):
     """
     Creates a new domain name.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_domain_name(
@@ -346,6 +449,7 @@ def create_domain_name(domainName=None, certificateName=None, certificateBody=No
 def create_model(restApiId=None, name=None, description=None, schema=None, contentType=None):
     """
     Adds a new  Model resource to an existing  RestApi resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_model(
@@ -394,6 +498,7 @@ def create_model(restApiId=None, name=None, description=None, schema=None, conte
 def create_resource(restApiId=None, parentId=None, pathPart=None):
     """
     Creates a  Resource resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_resource(
@@ -430,6 +535,7 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
                 },
@@ -459,6 +565,7 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                         'string': 'string'
                     },
                     'passthroughBehavior': 'string',
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -472,7 +579,8 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                             },
                             'responseTemplates': {
                                 'string': 'string'
-                            }
+                            },
+                            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
                 }
@@ -490,15 +598,20 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
     """
     pass
 
-def create_rest_api(name=None, description=None, cloneFrom=None):
+def create_rest_api(name=None, description=None, version=None, cloneFrom=None, binaryMediaTypes=None):
     """
     Creates a new  RestApi resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_rest_api(
         name='string',
         description='string',
-        cloneFrom='string'
+        version='string',
+        cloneFrom='string',
+        binaryMediaTypes=[
+            'string',
+        ]
     )
     
     
@@ -510,8 +623,16 @@ def create_rest_api(name=None, description=None, cloneFrom=None):
     :type description: string
     :param description: The description of the RestApi .
 
+    :type version: string
+    :param version: A version identifier for the API.
+
     :type cloneFrom: string
     :param cloneFrom: The ID of the RestApi that you want to clone from.
+
+    :type binaryMediaTypes: list
+    :param binaryMediaTypes: The list of binary media types supported by the RestApi . By default, the RestApi supports only UTF-8-encoded text payloads.
+            (string) --
+            
 
     :rtype: dict
     :return: {
@@ -519,7 +640,11 @@ def create_rest_api(name=None, description=None, cloneFrom=None):
         'name': 'string',
         'description': 'string',
         'createdDate': datetime(2015, 1, 1),
+        'version': 'string',
         'warnings': [
+            'string',
+        ],
+        'binaryMediaTypes': [
             'string',
         ]
     }
@@ -531,9 +656,10 @@ def create_rest_api(name=None, description=None, cloneFrom=None):
     """
     pass
 
-def create_stage(restApiId=None, stageName=None, deploymentId=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None):
+def create_stage(restApiId=None, stageName=None, deploymentId=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None, documentationVersion=None):
     """
     Creates a new  Stage resource that references a pre-existing  Deployment for the API.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_stage(
@@ -545,7 +671,8 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
         cacheClusterSize='0.5'|'1.6'|'6.1'|'13.5'|'28.4'|'58.2'|'118'|'237',
         variables={
             'string': 'string'
-        }
+        },
+        documentationVersion='string'
     )
     
     
@@ -579,6 +706,9 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
             (string) --
             
 
+    :type documentationVersion: string
+    :param documentationVersion: The version of the associated API documentation.
+
     :rtype: dict
     :return: {
         'deploymentId': 'string',
@@ -605,6 +735,7 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
         'variables': {
             'string': 'string'
         },
+        'documentationVersion': 'string',
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -622,6 +753,7 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
 def create_usage_plan(name=None, description=None, apiStages=None, throttle=None, quota=None):
     """
     Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_usage_plan(
@@ -693,7 +825,8 @@ def create_usage_plan(name=None, description=None, apiStages=None, throttle=None
             'limit': 123,
             'offset': 123,
             'period': 'DAY'|'WEEK'|'MONTH'
-        }
+        },
+        'productCode': 'string'
     }
     
     
@@ -703,6 +836,7 @@ def create_usage_plan(name=None, description=None, apiStages=None, throttle=None
 def create_usage_plan_key(usagePlanId=None, keyId=None, keyType=None):
     """
     Creates a usage plan key for adding an existing API key to a usage plan.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_usage_plan_key(
@@ -742,6 +876,7 @@ def create_usage_plan_key(usagePlanId=None, keyId=None, keyType=None):
 def delete_api_key(apiKey=None):
     """
     Deletes the  ApiKey resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_api_key(
@@ -760,6 +895,7 @@ def delete_api_key(apiKey=None):
 def delete_authorizer(restApiId=None, authorizerId=None):
     """
     Deletes an existing  Authorizer resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_authorizer(
@@ -784,6 +920,7 @@ def delete_authorizer(restApiId=None, authorizerId=None):
 def delete_base_path_mapping(domainName=None, basePath=None):
     """
     Deletes the  BasePathMapping resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_base_path_mapping(
@@ -808,6 +945,7 @@ def delete_base_path_mapping(domainName=None, basePath=None):
 def delete_client_certificate(clientCertificateId=None):
     """
     Deletes the  ClientCertificate resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_client_certificate(
@@ -826,6 +964,7 @@ def delete_client_certificate(clientCertificateId=None):
 def delete_deployment(restApiId=None, deploymentId=None):
     """
     Deletes a  Deployment resource. Deleting a deployment will only succeed if there are no  Stage resources associated with it.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_deployment(
@@ -847,9 +986,58 @@ def delete_deployment(restApiId=None, deploymentId=None):
     """
     pass
 
+def delete_documentation_part(restApiId=None, documentationPartId=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_documentation_part(
+        restApiId='string',
+        documentationPartId='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
+            
+
+    :type documentationPartId: string
+    :param documentationPartId: [REQUIRED]
+            [Required] The identifier of the to-be-deleted documentation part.
+            
+
+    """
+    pass
+
+def delete_documentation_version(restApiId=None, documentationVersion=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_documentation_version(
+        restApiId='string',
+        documentationVersion='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of a to-be-deleted documentation snapshot.
+            
+
+    :type documentationVersion: string
+    :param documentationVersion: [REQUIRED]
+            [Required] The version identifier of a to-be-deleted documentation snapshot.
+            
+
+    """
+    pass
+
 def delete_domain_name(domainName=None):
     """
     Deletes the  DomainName resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_domain_name(
@@ -868,6 +1056,7 @@ def delete_domain_name(domainName=None):
 def delete_integration(restApiId=None, resourceId=None, httpMethod=None):
     """
     Represents a delete integration.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_integration(
@@ -898,6 +1087,7 @@ def delete_integration(restApiId=None, resourceId=None, httpMethod=None):
 def delete_integration_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None):
     """
     Represents a delete integration response.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_integration_response(
@@ -934,6 +1124,7 @@ def delete_integration_response(restApiId=None, resourceId=None, httpMethod=None
 def delete_method(restApiId=None, resourceId=None, httpMethod=None):
     """
     Deletes an existing  Method resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_method(
@@ -964,6 +1155,7 @@ def delete_method(restApiId=None, resourceId=None, httpMethod=None):
 def delete_method_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None):
     """
     Deletes an existing  MethodResponse resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_method_response(
@@ -1000,6 +1192,7 @@ def delete_method_response(restApiId=None, resourceId=None, httpMethod=None, sta
 def delete_model(restApiId=None, modelName=None):
     """
     Deletes a model.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_model(
@@ -1024,6 +1217,7 @@ def delete_model(restApiId=None, modelName=None):
 def delete_resource(restApiId=None, resourceId=None):
     """
     Deletes a  Resource resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_resource(
@@ -1048,6 +1242,7 @@ def delete_resource(restApiId=None, resourceId=None):
 def delete_rest_api(restApiId=None):
     """
     Deletes the specified API.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_rest_api(
@@ -1066,6 +1261,7 @@ def delete_rest_api(restApiId=None):
 def delete_stage(restApiId=None, stageName=None):
     """
     Deletes a  Stage resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_stage(
@@ -1090,6 +1286,7 @@ def delete_stage(restApiId=None, stageName=None):
 def delete_usage_plan(usagePlanId=None):
     """
     Deletes a usage plan of a given plan Id.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_usage_plan(
@@ -1108,6 +1305,7 @@ def delete_usage_plan(usagePlanId=None):
 def delete_usage_plan_key(usagePlanId=None, keyId=None):
     """
     Deletes a usage plan key and remove the underlying API key from the associated usage plan.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_usage_plan_key(
@@ -1132,6 +1330,7 @@ def delete_usage_plan_key(usagePlanId=None, keyId=None):
 def flush_stage_authorizers_cache(restApiId=None, stageName=None):
     """
     Flushes all authorizer cache entries on a stage.
+    See also: AWS API Documentation
     
     
     :example: response = client.flush_stage_authorizers_cache(
@@ -1156,6 +1355,7 @@ def flush_stage_authorizers_cache(restApiId=None, stageName=None):
 def flush_stage_cache(restApiId=None, stageName=None):
     """
     Flushes a stage's cache.
+    See also: AWS API Documentation
     
     
     :example: response = client.flush_stage_cache(
@@ -1180,6 +1380,7 @@ def flush_stage_cache(restApiId=None, stageName=None):
 def generate_client_certificate(description=None):
     """
     Generates a  ClientCertificate resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.generate_client_certificate(
@@ -1228,6 +1429,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_account():
     """
     Gets information about the current  Account resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_account()
@@ -1256,6 +1458,7 @@ def get_account():
 def get_api_key(apiKey=None, includeValue=None):
     """
     Gets information about the current  ApiKey resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_api_key(
@@ -1277,6 +1480,7 @@ def get_api_key(apiKey=None, includeValue=None):
         'id': 'string',
         'value': 'string',
         'name': 'string',
+        'customerId': 'string',
         'description': 'string',
         'enabled': True|False,
         'createdDate': datetime(2015, 1, 1),
@@ -1293,15 +1497,17 @@ def get_api_key(apiKey=None, includeValue=None):
     """
     pass
 
-def get_api_keys(position=None, limit=None, nameQuery=None, includeValues=None):
+def get_api_keys(position=None, limit=None, nameQuery=None, customerId=None, includeValues=None):
     """
     Gets information about the current  ApiKeys resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_api_keys(
         position='string',
         limit=123,
         nameQuery='string',
+        customerId='string',
         includeValues=True|False
     )
     
@@ -1314,6 +1520,9 @@ def get_api_keys(position=None, limit=None, nameQuery=None, includeValues=None):
 
     :type nameQuery: string
     :param nameQuery: The name of queried API keys.
+
+    :type customerId: string
+    :param customerId: The identifier of a customer in AWS Marketplace or an external system, such as a developer portal.
 
     :type includeValues: boolean
     :param includeValues: A boolean flag to specify whether (true ) or not (false ) the result contains key values.
@@ -1329,6 +1538,7 @@ def get_api_keys(position=None, limit=None, nameQuery=None, includeValues=None):
                 'id': 'string',
                 'value': 'string',
                 'name': 'string',
+                'customerId': 'string',
                 'description': 'string',
                 'enabled': True|False,
                 'createdDate': datetime(2015, 1, 1),
@@ -1350,6 +1560,7 @@ def get_api_keys(position=None, limit=None, nameQuery=None, includeValues=None):
 def get_authorizer(restApiId=None, authorizerId=None):
     """
     Describe an existing  Authorizer resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_authorizer(
@@ -1394,6 +1605,7 @@ def get_authorizer(restApiId=None, authorizerId=None):
 def get_authorizers(restApiId=None, position=None, limit=None):
     """
     Describe an existing  Authorizers resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_authorizers(
@@ -1445,6 +1657,7 @@ def get_authorizers(restApiId=None, position=None, limit=None):
 def get_base_path_mapping(domainName=None, basePath=None):
     """
     Describe a  BasePathMapping resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_base_path_mapping(
@@ -1477,6 +1690,7 @@ def get_base_path_mapping(domainName=None, basePath=None):
 def get_base_path_mappings(domainName=None, position=None, limit=None):
     """
     Represents a collection of  BasePathMapping resources.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_base_path_mappings(
@@ -1516,6 +1730,7 @@ def get_base_path_mappings(domainName=None, position=None, limit=None):
 def get_client_certificate(clientCertificateId=None):
     """
     Gets information about the current  ClientCertificate resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_client_certificate(
@@ -1544,6 +1759,7 @@ def get_client_certificate(clientCertificateId=None):
 def get_client_certificates(position=None, limit=None):
     """
     Gets a collection of  ClientCertificate resources.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_client_certificates(
@@ -1579,6 +1795,7 @@ def get_client_certificates(position=None, limit=None):
 def get_deployment(restApiId=None, deploymentId=None):
     """
     Gets information about a  Deployment resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployment(
@@ -1619,6 +1836,7 @@ def get_deployment(restApiId=None, deploymentId=None):
 def get_deployments(restApiId=None, position=None, limit=None):
     """
     Gets information about a  Deployments collection.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployments(
@@ -1663,9 +1881,176 @@ def get_deployments(restApiId=None, position=None, limit=None):
     """
     pass
 
+def get_documentation_part(restApiId=None, documentationPartId=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_documentation_part(
+        restApiId='string',
+        documentationPartId='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-retrieved documentation part.
+            
+
+    :type documentationPartId: string
+    :param documentationPartId: [REQUIRED]
+            [Required] The identifier of the to-be-retrieved documentation part.
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'location': {
+            'type': 'API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+            'path': 'string',
+            'method': 'string',
+            'statusCode': 'string',
+            'name': 'string'
+        },
+        'properties': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None, position=None, limit=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_documentation_parts(
+        restApiId='string',
+        type='API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+        nameQuery='string',
+        path='string',
+        position='string',
+        limit=123
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the API of the to-be-retrieved documentation parts.
+            
+
+    :type type: string
+    :param type: The type of API entities of the to-be-retrieved documentation parts.
+
+    :type nameQuery: string
+    :param nameQuery: The name of API entities of the to-be-retrieved documentation parts.
+
+    :type path: string
+    :param path: The path of API entities of the to-be-retrieved documentation parts.
+
+    :type position: string
+    :param position: The position of the to-be-retrieved documentation part in the DocumentationParts collection.
+
+    :type limit: integer
+    :param limit: The size of the paged results.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'id': 'string',
+                'location': {
+                    'type': 'API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+                    'path': 'string',
+                    'method': 'string',
+                    'statusCode': 'string',
+                    'name': 'string'
+                },
+                'properties': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def get_documentation_version(restApiId=None, documentationVersion=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_documentation_version(
+        restApiId='string',
+        documentationVersion='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
+            
+
+    :type documentationVersion: string
+    :param documentationVersion: [REQUIRED]
+            [Required] The version identifier of the to-be-retrieved documentation snapshot.
+            
+
+    :rtype: dict
+    :return: {
+        'version': 'string',
+        'createdDate': datetime(2015, 1, 1),
+        'description': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_documentation_versions(restApiId=None, position=None, limit=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_documentation_versions(
+        restApiId='string',
+        position='string',
+        limit=123
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-retrieved documentation versions.
+            
+
+    :type position: string
+    :param position: The position of the returned DocumentationVersion in the DocumentationVersions collection.
+
+    :type limit: integer
+    :param limit: The page size of the returned documentation versions.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'version': 'string',
+                'createdDate': datetime(2015, 1, 1),
+                'description': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
 def get_domain_name(domainName=None):
     """
     Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_domain_name(
@@ -1693,6 +2078,7 @@ def get_domain_name(domainName=None):
 def get_domain_names(position=None, limit=None):
     """
     Represents a collection of  DomainName resources.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_domain_names(
@@ -1727,6 +2113,7 @@ def get_domain_names(position=None, limit=None):
 def get_export(restApiId=None, stageName=None, exportType=None, parameters=None, accepts=None):
     """
     Exports a deployed version of a  RestApi in a specified format.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_export(
@@ -1778,6 +2165,7 @@ def get_export(restApiId=None, stageName=None, exportType=None, parameters=None,
 def get_integration(restApiId=None, resourceId=None, httpMethod=None):
     """
     Represents a get integration.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_integration(
@@ -1815,6 +2203,7 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
             'string': 'string'
         },
         'passthroughBehavior': 'string',
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -1828,7 +2217,8 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
                 },
                 'responseTemplates': {
                     'string': 'string'
-                }
+                },
+                'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
             }
         }
     }
@@ -1846,6 +2236,7 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
 def get_integration_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None):
     """
     Represents a get integration response.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_integration_response(
@@ -1885,7 +2276,8 @@ def get_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
         },
         'responseTemplates': {
             'string': 'string'
-        }
+        },
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
     }
     
     
@@ -1901,6 +2293,7 @@ def get_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
 def get_method(restApiId=None, resourceId=None, httpMethod=None):
     """
     Describe an existing  Method resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_method(
@@ -1931,6 +2324,7 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'operationName': 'string',
         'requestParameters': {
             'string': True|False
         },
@@ -1960,6 +2354,7 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
                 'string': 'string'
             },
             'passthroughBehavior': 'string',
+            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -1973,7 +2368,8 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
                     },
                     'responseTemplates': {
                         'string': 'string'
-                    }
+                    },
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
         }
@@ -1992,6 +2388,7 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
 def get_method_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None):
     """
     Describes a  MethodResponse resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_method_response(
@@ -2046,6 +2443,7 @@ def get_method_response(restApiId=None, resourceId=None, httpMethod=None, status
 def get_model(restApiId=None, modelName=None, flatten=None):
     """
     Describes an existing model defined for a  RestApi resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_model(
@@ -2084,6 +2482,7 @@ def get_model(restApiId=None, modelName=None, flatten=None):
 def get_model_template(restApiId=None, modelName=None):
     """
     Generates a sample mapping template that can be used to transform a payload into the structure of a model.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_model_template(
@@ -2114,6 +2513,7 @@ def get_model_template(restApiId=None, modelName=None):
 def get_models(restApiId=None, position=None, limit=None):
     """
     Describes existing  Models defined for a  RestApi resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_models(
@@ -2171,6 +2571,7 @@ def get_paginator(operation_name=None):
 def get_resource(restApiId=None, resourceId=None):
     """
     Lists information about a resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_resource(
@@ -2201,6 +2602,7 @@ def get_resource(restApiId=None, resourceId=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
                 },
@@ -2230,6 +2632,7 @@ def get_resource(restApiId=None, resourceId=None):
                         'string': 'string'
                     },
                     'passthroughBehavior': 'string',
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -2243,7 +2646,8 @@ def get_resource(restApiId=None, resourceId=None):
                             },
                             'responseTemplates': {
                                 'string': 'string'
-                            }
+                            },
+                            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
                 }
@@ -2264,6 +2668,7 @@ def get_resource(restApiId=None, resourceId=None):
 def get_resources(restApiId=None, position=None, limit=None):
     """
     Lists information about a collection of  Resource resources.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_resources(
@@ -2299,6 +2704,7 @@ def get_resources(restApiId=None, position=None, limit=None):
                         'authorizationType': 'string',
                         'authorizerId': 'string',
                         'apiKeyRequired': True|False,
+                        'operationName': 'string',
                         'requestParameters': {
                             'string': True|False
                         },
@@ -2328,6 +2734,7 @@ def get_resources(restApiId=None, position=None, limit=None):
                                 'string': 'string'
                             },
                             'passthroughBehavior': 'string',
+                            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
                             'cacheNamespace': 'string',
                             'cacheKeyParameters': [
                                 'string',
@@ -2341,7 +2748,8 @@ def get_resources(restApiId=None, position=None, limit=None):
                                     },
                                     'responseTemplates': {
                                         'string': 'string'
-                                    }
+                                    },
+                                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                                 }
                             }
                         }
@@ -2364,6 +2772,7 @@ def get_resources(restApiId=None, position=None, limit=None):
 def get_rest_api(restApiId=None):
     """
     Lists the  RestApi resource in the collection.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_rest_api(
@@ -2382,11 +2791,18 @@ def get_rest_api(restApiId=None):
         'name': 'string',
         'description': 'string',
         'createdDate': datetime(2015, 1, 1),
+        'version': 'string',
         'warnings': [
+            'string',
+        ],
+        'binaryMediaTypes': [
             'string',
         ]
     }
     
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -2394,6 +2810,7 @@ def get_rest_api(restApiId=None):
 def get_rest_apis(position=None, limit=None):
     """
     Lists the  RestApis resources for your collection.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_rest_apis(
@@ -2417,7 +2834,11 @@ def get_rest_apis(position=None, limit=None):
                 'name': 'string',
                 'description': 'string',
                 'createdDate': datetime(2015, 1, 1),
+                'version': 'string',
                 'warnings': [
+                    'string',
+                ],
+                'binaryMediaTypes': [
                     'string',
                 ]
             },
@@ -2434,6 +2855,7 @@ def get_rest_apis(position=None, limit=None):
 def get_sdk(restApiId=None, stageName=None, sdkType=None, parameters=None):
     """
     Generates a client SDK for a  RestApi and  Stage .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_sdk(
@@ -2478,9 +2900,87 @@ def get_sdk(restApiId=None, stageName=None, sdkType=None, parameters=None):
     """
     pass
 
+def get_sdk_type(id=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_sdk_type(
+        id='string'
+    )
+    
+    
+    :type id: string
+    :param id: [REQUIRED]
+            The identifier of the queried SdkType instance.
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'friendlyName': 'string',
+        'description': 'string',
+        'configurationProperties': [
+            {
+                'name': 'string',
+                'friendlyName': 'string',
+                'description': 'string',
+                'required': True|False,
+                'defaultValue': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def get_sdk_types(position=None, limit=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_sdk_types(
+        position='string',
+        limit=123
+    )
+    
+    
+    :type position: string
+    :param position: The position of the last fetched element in the SdkTypes collection.
+
+    :type limit: integer
+    :param limit: The maximum number of SdkType instances to be returned.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'id': 'string',
+                'friendlyName': 'string',
+                'description': 'string',
+                'configurationProperties': [
+                    {
+                        'name': 'string',
+                        'friendlyName': 'string',
+                        'description': 'string',
+                        'required': True|False,
+                        'defaultValue': 'string'
+                    },
+                ]
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
 def get_stage(restApiId=None, stageName=None):
     """
     Gets information about a  Stage resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_stage(
@@ -2525,6 +3025,7 @@ def get_stage(restApiId=None, stageName=None):
         'variables': {
             'string': 'string'
         },
+        'documentationVersion': 'string',
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -2542,6 +3043,7 @@ def get_stage(restApiId=None, stageName=None):
 def get_stages(restApiId=None, deploymentId=None):
     """
     Gets information about one or more  Stage resources.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_stages(
@@ -2586,6 +3088,7 @@ def get_stages(restApiId=None, deploymentId=None):
                 'variables': {
                     'string': 'string'
                 },
+                'documentationVersion': 'string',
                 'createdDate': datetime(2015, 1, 1),
                 'lastUpdatedDate': datetime(2015, 1, 1)
             },
@@ -2605,6 +3108,7 @@ def get_stages(restApiId=None, deploymentId=None):
 def get_usage(usagePlanId=None, keyId=None, startDate=None, endDate=None, position=None, limit=None):
     """
     Gets the usage data of a usage plan in a specified time interval.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_usage(
@@ -2675,6 +3179,7 @@ def get_usage(usagePlanId=None, keyId=None, startDate=None, endDate=None, positi
 def get_usage_plan(usagePlanId=None):
     """
     Gets a usage plan of a given plan identifier.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_usage_plan(
@@ -2706,7 +3211,8 @@ def get_usage_plan(usagePlanId=None):
             'limit': 123,
             'offset': 123,
             'period': 'DAY'|'WEEK'|'MONTH'
-        }
+        },
+        'productCode': 'string'
     }
     
     
@@ -2716,6 +3222,7 @@ def get_usage_plan(usagePlanId=None):
 def get_usage_plan_key(usagePlanId=None, keyId=None):
     """
     Gets a usage plan key of a given key identifier.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_usage_plan_key(
@@ -2749,6 +3256,7 @@ def get_usage_plan_key(usagePlanId=None, keyId=None):
 def get_usage_plan_keys(usagePlanId=None, position=None, limit=None, nameQuery=None):
     """
     Gets all the usage plan keys representing the API keys added to a specified usage plan.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_usage_plan_keys(
@@ -2793,6 +3301,7 @@ def get_usage_plan_keys(usagePlanId=None, position=None, limit=None, nameQuery=N
 def get_usage_plans(position=None, keyId=None, limit=None):
     """
     Gets all the usage plans of the caller's account.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_usage_plans(
@@ -2833,7 +3342,8 @@ def get_usage_plans(position=None, keyId=None, limit=None):
                     'limit': 123,
                     'offset': 123,
                     'period': 'DAY'|'WEEK'|'MONTH'
-                }
+                },
+                'productCode': 'string'
             },
         ]
     }
@@ -2851,6 +3361,7 @@ def get_waiter():
 def import_api_keys(body=None, format=None, failOnWarnings=None):
     """
     Import API keys from an external source, such as a CSV-formatted file.
+    See also: AWS API Documentation
     
     
     :example: response = client.import_api_keys(
@@ -2890,9 +3401,56 @@ def import_api_keys(body=None, format=None, failOnWarnings=None):
     """
     pass
 
+def import_documentation_parts(restApiId=None, mode=None, failOnWarnings=None, body=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.import_documentation_parts(
+        restApiId='string',
+        mode='merge'|'overwrite',
+        failOnWarnings=True|False,
+        body=b'bytes'|file
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-imported documentation parts.
+            
+
+    :type mode: string
+    :param mode: A query parameter to indicate whether to overwrite (OVERWRITE ) any existing DocumentationParts definition or to merge (MERGE ) the new definition into the existing one. The default value is MERGE .
+
+    :type failOnWarnings: boolean
+    :param failOnWarnings: A query parameter to specify whether to rollback the documentation importation (true ) or not (false ) when a warning is encountered. The default value is false .
+
+    :type body: bytes or seekable file-like object
+    :param body: [REQUIRED]
+            [Required] Raw byte array representing the to-be-imported documentation parts. To import from a Swagger file, this is a JSON object.
+            
+
+    :rtype: dict
+    :return: {
+        'ids': [
+            'string',
+        ],
+        'warnings': [
+            'string',
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def import_rest_api(failOnWarnings=None, parameters=None, body=None):
     """
     A feature of the Amazon API Gateway control service for creating a new API from an external API definition file.
+    See also: AWS API Documentation
     
     
     :example: response = client.import_rest_api(
@@ -2924,7 +3482,11 @@ def import_rest_api(failOnWarnings=None, parameters=None, body=None):
         'name': 'string',
         'description': 'string',
         'createdDate': datetime(2015, 1, 1),
+        'version': 'string',
         'warnings': [
+            'string',
+        ],
+        'binaryMediaTypes': [
             'string',
         ]
     }
@@ -2936,9 +3498,10 @@ def import_rest_api(failOnWarnings=None, parameters=None, body=None):
     """
     pass
 
-def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None, integrationHttpMethod=None, uri=None, credentials=None, requestParameters=None, requestTemplates=None, passthroughBehavior=None, cacheNamespace=None, cacheKeyParameters=None):
+def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None, integrationHttpMethod=None, uri=None, credentials=None, requestParameters=None, requestTemplates=None, passthroughBehavior=None, cacheNamespace=None, cacheKeyParameters=None, contentHandling=None):
     """
     Represents a put integration.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_integration(
@@ -2959,7 +3522,8 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
         cacheNamespace='string',
         cacheKeyParameters=[
             'string',
-        ]
+        ],
+        contentHandling='CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
     )
     
     
@@ -3019,6 +3583,13 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
             (string) --
             
 
+    :type contentHandling: string
+    :param contentHandling: Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors:
+            CONVERT_TO_BINARY : Converts a request payload from a Base64-encoded string to the corresponding binary blob.
+            CONVERT_TO_TEXT : Converts a request payload from a binary blob to a Base64-encoded string.
+            If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
+            
+
     :rtype: dict
     :return: {
         'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
@@ -3032,6 +3603,7 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
             'string': 'string'
         },
         'passthroughBehavior': 'string',
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -3045,7 +3617,8 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
                 },
                 'responseTemplates': {
                     'string': 'string'
-                }
+                },
+                'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
             }
         }
     }
@@ -3060,9 +3633,10 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
     """
     pass
 
-def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None, selectionPattern=None, responseParameters=None, responseTemplates=None):
+def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None, selectionPattern=None, responseParameters=None, responseTemplates=None, contentHandling=None):
     """
     Represents a put integration.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_integration_response(
@@ -3076,7 +3650,8 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
         },
         responseTemplates={
             'string': 'string'
-        }
+        },
+        contentHandling='CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
     )
     
     
@@ -3115,6 +3690,13 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
             (string) --
             
 
+    :type contentHandling: string
+    :param contentHandling: Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT , with the following behaviors:
+            CONVERT_TO_BINARY : Converts a response payload from a Base64-encoded string to the corresponding binary blob.
+            CONVERT_TO_TEXT : Converts a response payload from a binary blob to a Base64-encoded string.
+            If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+            
+
     :rtype: dict
     :return: {
         'statusCode': 'string',
@@ -3124,7 +3706,8 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
         },
         'responseTemplates': {
             'string': 'string'
-        }
+        },
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
     }
     
     
@@ -3137,9 +3720,10 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
     """
     pass
 
-def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, requestParameters=None, requestModels=None):
+def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, operationName=None, requestParameters=None, requestModels=None):
     """
     Add a method to an existing  Resource resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_method(
@@ -3149,6 +3733,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
         authorizationType='string',
         authorizerId='string',
         apiKeyRequired=True|False,
+        operationName='string',
         requestParameters={
             'string': True|False
         },
@@ -3184,6 +3769,9 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
     :type apiKeyRequired: boolean
     :param apiKeyRequired: Specifies whether the method required a valid ApiKey .
 
+    :type operationName: string
+    :param operationName: A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
+
     :type requestParameters: dict
     :param requestParameters: A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
             (string) --
@@ -3202,6 +3790,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'operationName': 'string',
         'requestParameters': {
             'string': True|False
         },
@@ -3231,6 +3820,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
                 'string': 'string'
             },
             'passthroughBehavior': 'string',
+            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -3244,7 +3834,8 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
                     },
                     'responseTemplates': {
                         'string': 'string'
-                    }
+                    },
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
         }
@@ -3263,6 +3854,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
 def put_method_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None, responseParameters=None, responseModels=None):
     """
     Adds a  MethodResponse to an existing  Method resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_method_response(
@@ -3335,6 +3927,7 @@ def put_method_response(restApiId=None, resourceId=None, httpMethod=None, status
 def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None, body=None):
     """
     A feature of the Amazon API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_rest_api(
@@ -3376,7 +3969,11 @@ def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None
         'name': 'string',
         'description': 'string',
         'createdDate': datetime(2015, 1, 1),
+        'version': 'string',
         'warnings': [
+            'string',
+        ],
+        'binaryMediaTypes': [
             'string',
         ]
     }
@@ -3391,6 +3988,7 @@ def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None
 def test_invoke_authorizer(restApiId=None, authorizerId=None, headers=None, pathWithQueryString=None, body=None, stageVariables=None, additionalContext=None):
     """
     Simulate the execution of an  Authorizer in your  RestApi with headers, parameters, and an incoming request body.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_invoke_authorizer(
@@ -3477,6 +4075,7 @@ def test_invoke_authorizer(restApiId=None, authorizerId=None, headers=None, path
 def test_invoke_method(restApiId=None, resourceId=None, httpMethod=None, pathWithQueryString=None, body=None, headers=None, clientCertificateId=None, stageVariables=None):
     """
     Simulate the execution of a  Method in your  RestApi with headers, parameters, and an incoming request body.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_invoke_method(
@@ -3555,6 +4154,7 @@ def test_invoke_method(restApiId=None, resourceId=None, httpMethod=None, pathWit
 def update_account(patchOperations=None):
     """
     Changes information about the current  Account resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_account(
@@ -3602,6 +4202,7 @@ def update_account(patchOperations=None):
 def update_api_key(apiKey=None, patchOperations=None):
     """
     Changes information about an  ApiKey resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_api_key(
@@ -3637,6 +4238,7 @@ def update_api_key(apiKey=None, patchOperations=None):
         'id': 'string',
         'value': 'string',
         'name': 'string',
+        'customerId': 'string',
         'description': 'string',
         'enabled': True|False,
         'createdDate': datetime(2015, 1, 1),
@@ -3656,6 +4258,7 @@ def update_api_key(apiKey=None, patchOperations=None):
 def update_authorizer(restApiId=None, authorizerId=None, patchOperations=None):
     """
     Updates an existing  Authorizer resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_authorizer(
@@ -3718,6 +4321,7 @@ def update_authorizer(restApiId=None, authorizerId=None, patchOperations=None):
 def update_base_path_mapping(domainName=None, basePath=None, patchOperations=None):
     """
     Changes information about the  BasePathMapping resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_base_path_mapping(
@@ -3768,6 +4372,7 @@ def update_base_path_mapping(domainName=None, basePath=None, patchOperations=Non
 def update_client_certificate(clientCertificateId=None, patchOperations=None):
     """
     Changes information about an  ClientCertificate resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_client_certificate(
@@ -3814,6 +4419,7 @@ def update_client_certificate(clientCertificateId=None, patchOperations=None):
 def update_deployment(restApiId=None, deploymentId=None, patchOperations=None):
     """
     Changes information about a  Deployment resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_deployment(
@@ -3869,9 +4475,116 @@ def update_deployment(restApiId=None, deploymentId=None, patchOperations=None):
     """
     pass
 
+def update_documentation_part(restApiId=None, documentationPartId=None, patchOperations=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_documentation_part(
+        restApiId='string',
+        documentationPartId='string',
+        patchOperations=[
+            {
+                'op': 'add'|'remove'|'replace'|'move'|'copy'|'test',
+                'path': 'string',
+                'value': 'string',
+                'from': 'string'
+            },
+        ]
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-updated documentation part.
+            
+
+    :type documentationPartId: string
+    :param documentationPartId: [REQUIRED]
+            [Required] The identifier of the to-be-updated documentation part.
+            
+
+    :type patchOperations: list
+    :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
+            (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
+            value (string) --The new target value of the update operation.
+            from (string) --Not supported.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'location': {
+            'type': 'API'|'AUTHORIZER'|'MODEL'|'RESOURCE'|'METHOD'|'PATH_PARAMETER'|'QUERY_PARAMETER'|'REQUEST_HEADER'|'REQUEST_BODY'|'RESPONSE'|'RESPONSE_HEADER'|'RESPONSE_BODY',
+            'path': 'string',
+            'method': 'string',
+            'statusCode': 'string',
+            'name': 'string'
+        },
+        'properties': 'string'
+    }
+    
+    
+    """
+    pass
+
+def update_documentation_version(restApiId=None, documentationVersion=None, patchOperations=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_documentation_version(
+        restApiId='string',
+        documentationVersion='string',
+        patchOperations=[
+            {
+                'op': 'add'|'remove'|'replace'|'move'|'copy'|'test',
+                'path': 'string',
+                'value': 'string',
+                'from': 'string'
+            },
+        ]
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of an API of the to-be-updated documentation version.
+            
+
+    :type documentationVersion: string
+    :param documentationVersion: [REQUIRED]
+            [Required] The version identifier of the to-be-updated documentation version.
+            
+
+    :type patchOperations: list
+    :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
+            (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
+            value (string) --The new target value of the update operation.
+            from (string) --Not supported.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'version': 'string',
+        'createdDate': datetime(2015, 1, 1),
+        'description': 'string'
+    }
+    
+    
+    """
+    pass
+
 def update_domain_name(domainName=None, patchOperations=None):
     """
     Changes information about the  DomainName resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_domain_name(
@@ -3917,6 +4630,7 @@ def update_domain_name(domainName=None, patchOperations=None):
 def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOperations=None):
     """
     Represents an update integration.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_integration(
@@ -3972,6 +4686,7 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
             'string': 'string'
         },
         'passthroughBehavior': 'string',
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -3985,7 +4700,8 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
                 },
                 'responseTemplates': {
                     'string': 'string'
-                }
+                },
+                'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
             }
         }
     }
@@ -4003,6 +4719,7 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
 def update_integration_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None, patchOperations=None):
     """
     Represents an update integration response.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_integration_response(
@@ -4060,7 +4777,8 @@ def update_integration_response(restApiId=None, resourceId=None, httpMethod=None
         },
         'responseTemplates': {
             'string': 'string'
-        }
+        },
+        'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
     }
     
     
@@ -4076,6 +4794,7 @@ def update_integration_response(restApiId=None, resourceId=None, httpMethod=None
 def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperations=None):
     """
     Updates an existing  Method resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_method(
@@ -4124,6 +4843,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'operationName': 'string',
         'requestParameters': {
             'string': True|False
         },
@@ -4153,6 +4873,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
                 'string': 'string'
             },
             'passthroughBehavior': 'string',
+            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -4166,7 +4887,8 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
                     },
                     'responseTemplates': {
                         'string': 'string'
-                    }
+                    },
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
         }
@@ -4185,6 +4907,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
 def update_method_response(restApiId=None, resourceId=None, httpMethod=None, statusCode=None, patchOperations=None):
     """
     Updates an existing  MethodResponse resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_method_response(
@@ -4257,6 +4980,7 @@ def update_method_response(restApiId=None, resourceId=None, httpMethod=None, sta
 def update_model(restApiId=None, modelName=None, patchOperations=None):
     """
     Changes information about a model.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_model(
@@ -4309,6 +5033,7 @@ def update_model(restApiId=None, modelName=None, patchOperations=None):
 def update_resource(restApiId=None, resourceId=None, patchOperations=None):
     """
     Changes information about a  Resource resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_resource(
@@ -4357,6 +5082,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
                 },
@@ -4386,6 +5112,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                         'string': 'string'
                     },
                     'passthroughBehavior': 'string',
+                    'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -4399,7 +5126,8 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                             },
                             'responseTemplates': {
                                 'string': 'string'
-                            }
+                            },
+                            'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
                 }
@@ -4420,6 +5148,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
 def update_rest_api(restApiId=None, patchOperations=None):
     """
     Changes information about the specified API.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_rest_api(
@@ -4456,7 +5185,11 @@ def update_rest_api(restApiId=None, patchOperations=None):
         'name': 'string',
         'description': 'string',
         'createdDate': datetime(2015, 1, 1),
+        'version': 'string',
         'warnings': [
+            'string',
+        ],
+        'binaryMediaTypes': [
             'string',
         ]
     }
@@ -4471,6 +5204,7 @@ def update_rest_api(restApiId=None, patchOperations=None):
 def update_stage(restApiId=None, stageName=None, patchOperations=None):
     """
     Changes information about a  Stage resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_stage(
@@ -4533,6 +5267,7 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
         'variables': {
             'string': 'string'
         },
+        'documentationVersion': 'string',
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -4550,6 +5285,7 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
 def update_usage(usagePlanId=None, keyId=None, patchOperations=None):
     """
     Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_usage(
@@ -4620,6 +5356,7 @@ def update_usage(usagePlanId=None, keyId=None, patchOperations=None):
 def update_usage_plan(usagePlanId=None, patchOperations=None):
     """
     Updates a usage plan of a given plan Id.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_usage_plan(
@@ -4669,7 +5406,8 @@ def update_usage_plan(usagePlanId=None, patchOperations=None):
             'limit': 123,
             'offset': 123,
             'period': 'DAY'|'WEEK'|'MONTH'
-        }
+        },
+        'productCode': 'string'
     }
     
     

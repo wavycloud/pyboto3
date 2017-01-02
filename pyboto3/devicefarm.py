@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def create_device_pool(projectArn=None, name=None, description=None, rules=None):
     """
     Creates a device pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_device_pool(
@@ -119,6 +120,7 @@ def create_device_pool(projectArn=None, name=None, description=None, rules=None)
 def create_project(name=None):
     """
     Creates a new project.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_project(
@@ -147,6 +149,7 @@ def create_project(name=None):
 def create_remote_access_session(projectArn=None, deviceArn=None, name=None, configuration=None):
     """
     Specifies and starts a remote access session.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_remote_access_session(
@@ -242,6 +245,7 @@ def create_remote_access_session(projectArn=None, deviceArn=None, name=None, con
 def create_upload(projectArn=None, name=None, type=None, contentType=None):
     """
     Uploads an app or test scripts.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_upload(
@@ -328,6 +332,7 @@ def create_upload(projectArn=None, name=None, type=None, contentType=None):
 def delete_device_pool(arn=None):
     """
     Deletes a device pool given the pool ARN. Does not allow deletion of curated pools owned by the system.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_device_pool(
@@ -350,6 +355,7 @@ def delete_device_pool(arn=None):
 def delete_project(arn=None):
     """
     Deletes an AWS Device Farm project, given the project ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_project(
@@ -372,6 +378,7 @@ def delete_project(arn=None):
 def delete_remote_access_session(arn=None):
     """
     Deletes a completed remote access session and its results.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_remote_access_session(
@@ -394,6 +401,7 @@ def delete_remote_access_session(arn=None):
 def delete_run(arn=None):
     """
     Deletes the run, given the run ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_run(
@@ -416,6 +424,7 @@ def delete_run(arn=None):
 def delete_upload(arn=None):
     """
     Deletes an upload given the upload ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_upload(
@@ -460,6 +469,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_account_settings():
     """
     Returns the number of unmetered iOS and/or unmetered Android devices that have been purchased by the account.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_account_settings()
@@ -491,6 +501,7 @@ def get_account_settings():
 def get_device(arn=None):
     """
     Gets information about a unique device type.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_device(
@@ -544,6 +555,7 @@ def get_device(arn=None):
 def get_device_pool(arn=None):
     """
     Gets information about a device pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_device_pool(
@@ -586,6 +598,7 @@ def get_device_pool(arn=None):
 def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None):
     """
     Gets information about compatibility with a device pool.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_device_pool_compatibility(
@@ -711,6 +724,7 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
 def get_job(arn=None):
     """
     Gets information about a job.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_job(
@@ -796,6 +810,7 @@ def get_job(arn=None):
 def get_offering_status(nextToken=None):
     """
     Gets the current status and future status of all offerings purchased by an AWS account. The response indicates how many offerings are currently available and the offerings that will be available in the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_offering_status(
@@ -878,6 +893,7 @@ def get_paginator(operation_name=None):
 def get_project(arn=None):
     """
     Gets information about a project.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_project(
@@ -906,6 +922,7 @@ def get_project(arn=None):
 def get_remote_access_session(arn=None):
     """
     Returns a link to a currently running remote access session.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_remote_access_session(
@@ -981,6 +998,7 @@ def get_remote_access_session(arn=None):
 def get_run(arn=None):
     """
     Gets information about a run.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_run(
@@ -1037,6 +1055,7 @@ def get_run(arn=None):
 def get_suite(arn=None):
     """
     Gets information about a suite.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_suite(
@@ -1096,6 +1115,7 @@ def get_suite(arn=None):
 def get_test(arn=None):
     """
     Gets information about a test.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_test(
@@ -1155,6 +1175,7 @@ def get_test(arn=None):
 def get_upload(arn=None):
     """
     Gets information about an upload.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_upload(
@@ -1201,6 +1222,7 @@ def get_waiter():
 def install_to_remote_access_session(remoteAccessSessionArn=None, appArn=None):
     """
     Installs an application to the device in a remote access session. For Android applications, the file must be in .apk format. For iOS applications, the file must be in .ipa format.
+    See also: AWS API Documentation
     
     
     :example: response = client.install_to_remote_access_session(
@@ -1259,6 +1281,7 @@ def install_to_remote_access_session(remoteAccessSessionArn=None, appArn=None):
 def list_artifacts(arn=None, type=None, nextToken=None):
     """
     Gets information about artifacts.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_artifacts(
@@ -1331,6 +1354,7 @@ def list_artifacts(arn=None, type=None, nextToken=None):
 def list_device_pools(arn=None, type=None, nextToken=None):
     """
     Gets information about device pools.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_device_pools(
@@ -1386,6 +1410,7 @@ def list_device_pools(arn=None, type=None, nextToken=None):
 def list_devices(arn=None, nextToken=None):
     """
     Gets information about unique device types.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_devices(
@@ -1444,6 +1469,7 @@ def list_devices(arn=None, nextToken=None):
 def list_jobs(arn=None, nextToken=None):
     """
     Gets information about jobs.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_jobs(
@@ -1541,6 +1567,7 @@ def list_jobs(arn=None, nextToken=None):
 def list_offering_transactions(nextToken=None):
     """
     Returns a list of all historical purchases, renewals, and system renewal transactions for an AWS account. The list is paginated and ordered by a descending timestamp (most recent transactions are first). The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_offering_transactions(
@@ -1593,6 +1620,7 @@ def list_offering_transactions(nextToken=None):
 def list_offerings(nextToken=None):
     """
     Returns a list of products or offerings that the user can manage through the API. Each offering record indicates the recurring price per unit and the frequency for that offering. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_offerings(
@@ -1632,6 +1660,7 @@ def list_offerings(nextToken=None):
 def list_projects(arn=None, nextToken=None):
     """
     Gets information about projects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_projects(
@@ -1665,6 +1694,7 @@ def list_projects(arn=None, nextToken=None):
 def list_remote_access_sessions(arn=None, nextToken=None):
     """
     Returns a list of all currently running remote access sessions.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_remote_access_sessions(
@@ -1749,6 +1779,7 @@ def list_remote_access_sessions(arn=None, nextToken=None):
 def list_runs(arn=None, nextToken=None):
     """
     Gets information about runs, given an AWS Device Farm project ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_runs(
@@ -1824,6 +1855,7 @@ def list_runs(arn=None, nextToken=None):
 def list_samples(arn=None, nextToken=None):
     """
     Gets information about samples, given an AWS Device Farm project ARN
+    See also: AWS API Documentation
     
     
     :example: response = client.list_samples(
@@ -1878,6 +1910,7 @@ def list_samples(arn=None, nextToken=None):
 def list_suites(arn=None, nextToken=None):
     """
     Gets information about suites.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_suites(
@@ -1949,6 +1982,7 @@ def list_suites(arn=None, nextToken=None):
 def list_tests(arn=None, nextToken=None):
     """
     Gets information about tests.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tests(
@@ -2020,6 +2054,7 @@ def list_tests(arn=None, nextToken=None):
 def list_unique_problems(arn=None, nextToken=None):
     """
     Gets information about unique problems.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_unique_problems(
@@ -2112,6 +2147,7 @@ def list_unique_problems(arn=None, nextToken=None):
 def list_uploads(arn=None, nextToken=None):
     """
     Gets information about uploads, given an AWS Device Farm project ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_uploads(
@@ -2171,6 +2207,7 @@ def list_uploads(arn=None, nextToken=None):
 def purchase_offering(offeringId=None, quantity=None):
     """
     Immediately purchases offerings for an AWS account. Offerings renew with the latest total purchased quantity for an offering, unless the renewal was overridden. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.purchase_offering(
@@ -2224,6 +2261,7 @@ def purchase_offering(offeringId=None, quantity=None):
 def renew_offering(offeringId=None, quantity=None):
     """
     Explicitly sets the quantity of devices to renew for an offering, starting from the effectiveDate of the next period. The API returns a NotEligible error if the user is not permitted to invoke the operation. Please contact aws-devicefarm-support@amazon.com if you believe that you should be able to invoke this operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.renew_offering(
@@ -2277,6 +2315,7 @@ def renew_offering(offeringId=None, quantity=None):
 def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, test=None, configuration=None):
     """
     Schedules a run.
+    See also: AWS API Documentation
     
     
     :example: response = client.schedule_run(
@@ -2431,6 +2470,7 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
 def stop_remote_access_session(arn=None):
     """
     Ends a specified remote access session.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_remote_access_session(
@@ -2506,6 +2546,7 @@ def stop_remote_access_session(arn=None):
 def stop_run(arn=None):
     """
     Initiates a stop request for the current test run. AWS Device Farm will immediately stop the run on devices where tests have not started executing, and you will not be billed for these devices. On devices where tests have started executing, Setup Suite and Teardown Suite tests will run to completion before stopping execution on those devices. You will be billed for Setup, Teardown, and any tests that were in progress or already completed.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_run(
@@ -2562,6 +2603,7 @@ def stop_run(arn=None):
 def update_device_pool(arn=None, name=None, description=None, rules=None):
     """
     Modifies the name, description, and rules in a device pool given the attributes and the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a whole (or not at all).
+    See also: AWS API Documentation
     
     
     :example: response = client.update_device_pool(
@@ -2636,6 +2678,7 @@ def update_device_pool(arn=None, name=None, description=None, rules=None):
 def update_project(arn=None, name=None):
     """
     Modifies the specified project name, given the project ARN and a new name.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_project(

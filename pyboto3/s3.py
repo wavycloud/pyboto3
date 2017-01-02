@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def abort_multipart_upload(Bucket=None, Key=None, UploadId=None, RequestPayer=No
     """
     Aborts a multipart upload.
     To verify that all parts have been removed, so you don't get charged for the part storage, you should call the List Parts operation and ensure the parts list is empty.
+    See also: AWS API Documentation
     
     
     :example: response = client.abort_multipart_upload(
@@ -83,6 +84,7 @@ def can_paginate(operation_name=None):
 def complete_multipart_upload(Bucket=None, Key=None, MultipartUpload=None, UploadId=None, RequestPayer=None):
     """
     Completes a multipart upload by assembling previously uploaded parts.
+    See also: AWS API Documentation
     
     
     :example: response = client.complete_multipart_upload(
@@ -204,9 +206,10 @@ def copy(CopySource=None, Bucket=None, Key=None, ExtraArgs=None, Callback=None, 
     """
     pass
 
-def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentType=None, CopySource=None, CopySourceIfMatch=None, CopySourceIfModifiedSince=None, CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, MetadataDirective=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None, CopySourceSSECustomerKeyMD5=None, RequestPayer=None):
+def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentType=None, CopySource=None, CopySourceIfMatch=None, CopySourceIfModifiedSince=None, CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, MetadataDirective=None, TaggingDirective=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None, CopySourceSSECustomerKeyMD5=None, RequestPayer=None, Tagging=None):
     """
     Creates a copy of an object that is already stored in Amazon S3.
+    See also: AWS API Documentation
     
     
     :example: response = client.copy_object(
@@ -232,6 +235,7 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
             'string': 'string'
         },
         MetadataDirective='COPY'|'REPLACE',
+        TaggingDirective='COPY'|'REPLACE',
         ServerSideEncryption='AES256'|'aws:kms',
         StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
         WebsiteRedirectLocation='string',
@@ -240,7 +244,8 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
         SSEKMSKeyId='string',
         CopySourceSSECustomerAlgorithm='string',
         CopySourceSSECustomerKey='string',
-        RequestPayer='requester'
+        RequestPayer='requester',
+        Tagging='string'
     )
     
     
@@ -307,6 +312,9 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
     :type MetadataDirective: string
     :param MetadataDirective: Specifies whether the metadata is copied from the source object or replaced with metadata provided in the request.
 
+    :type TaggingDirective: string
+    :param TaggingDirective: Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
+
     :type ServerSideEncryption: string
     :param ServerSideEncryption: The Server-side encryption algorithm used when storing this object in S3 (e.g., AES256, aws:kms).
 
@@ -339,6 +347,9 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
 
     :type RequestPayer: string
     :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+
+    :type Tagging: string
+    :param Tagging: The tag-set for the object destination object this value must be used in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query parameters
 
     :rtype: dict
     :return: {
@@ -381,6 +392,7 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
 def create_bucket(ACL=None, Bucket=None, CreateBucketConfiguration=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWrite=None, GrantWriteACP=None):
     """
     Creates a new bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_bucket(
@@ -442,6 +454,7 @@ def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDis
     """
     Initiates a multipart upload and returns an upload ID.
     Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_multipart_upload(
@@ -576,6 +589,7 @@ def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDis
 def delete_bucket(Bucket=None):
     """
     Deletes the bucket. All objects (including all object versions and Delete Markers) in the bucket must be deleted before the bucket itself can be deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket(
@@ -589,9 +603,31 @@ def delete_bucket(Bucket=None):
     """
     pass
 
+def delete_bucket_analytics_configuration(Bucket=None, Id=None):
+    """
+    Deletes an analytics configuration for the bucket (specified by the analytics configuration ID).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_bucket_analytics_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket from which an analytics configuration is deleted.
+
+    :type Id: string
+    :param Id: [REQUIRED] The identifier used to represent an analytics configuration.
+
+    """
+    pass
+
 def delete_bucket_cors(Bucket=None):
     """
     Deletes the cors configuration information set for the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_cors(
@@ -605,9 +641,31 @@ def delete_bucket_cors(Bucket=None):
     """
     pass
 
+def delete_bucket_inventory_configuration(Bucket=None, Id=None):
+    """
+    Deletes an inventory configuration (identified by the inventory ID) from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_bucket_inventory_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the inventory configuration to delete.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the inventory configuration.
+
+    """
+    pass
+
 def delete_bucket_lifecycle(Bucket=None):
     """
     Deletes the lifecycle configuration from the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_lifecycle(
@@ -621,9 +679,31 @@ def delete_bucket_lifecycle(Bucket=None):
     """
     pass
 
+def delete_bucket_metrics_configuration(Bucket=None, Id=None):
+    """
+    Deletes a metrics configuration (specified by the metrics configuration ID) from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_bucket_metrics_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the metrics configuration to delete.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the metrics configuration.
+
+    """
+    pass
+
 def delete_bucket_policy(Bucket=None):
     """
     Deletes the policy from the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_policy(
@@ -640,6 +720,7 @@ def delete_bucket_policy(Bucket=None):
 def delete_bucket_replication(Bucket=None):
     """
     Deletes the replication configuration from the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_replication(
@@ -656,6 +737,7 @@ def delete_bucket_replication(Bucket=None):
 def delete_bucket_tagging(Bucket=None):
     """
     Deletes the tags from the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_tagging(
@@ -672,6 +754,7 @@ def delete_bucket_tagging(Bucket=None):
 def delete_bucket_website(Bucket=None):
     """
     This operation removes the website configuration from the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_bucket_website(
@@ -688,6 +771,7 @@ def delete_bucket_website(Bucket=None):
 def delete_object(Bucket=None, Key=None, MFA=None, VersionId=None, RequestPayer=None):
     """
     Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object. If there isn't a null version, Amazon S3 does not remove any objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_object(
@@ -733,9 +817,47 @@ def delete_object(Bucket=None, Key=None, MFA=None, VersionId=None, RequestPayer=
     """
     pass
 
+def delete_object_tagging(Bucket=None, Key=None, VersionId=None):
+    """
+    Removes the tag-set from an existing object.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_object_tagging(
+        Bucket='string',
+        Key='string',
+        VersionId='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED]
+
+    :type Key: string
+    :param Key: [REQUIRED]
+
+    :type VersionId: string
+    :param VersionId: The versionId of the object that the tag-set will be removed from.
+
+    :rtype: dict
+    :return: {
+        'VersionId': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) --
+    VersionId (string) -- The versionId of the object the tag-set was removed from.
+    
+    
+    
+    """
+    pass
+
 def delete_objects(Bucket=None, Delete=None, MFA=None, RequestPayer=None):
     """
     This operation enables you to delete multiple objects from a bucket using a single HTTP request. You may specify up to 1000 keys.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_objects(
@@ -958,6 +1080,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_bucket_accelerate_configuration(Bucket=None):
     """
     Returns the accelerate configuration of a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_accelerate_configuration(
@@ -980,6 +1103,7 @@ def get_bucket_accelerate_configuration(Bucket=None):
 def get_bucket_acl(Bucket=None):
     """
     Gets the access control policy for the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_acl(
@@ -1014,9 +1138,115 @@ def get_bucket_acl(Bucket=None):
     """
     pass
 
+def get_bucket_analytics_configuration(Bucket=None, Id=None):
+    """
+    Gets an analytics configuration for the bucket (specified by the analytics configuration ID).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_bucket_analytics_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket from which an analytics configuration is retrieved.
+
+    :type Id: string
+    :param Id: [REQUIRED] The identifier used to represent an analytics configuration.
+
+    :rtype: dict
+    :return: {
+        'AnalyticsConfiguration': {
+            'Id': 'string',
+            'Filter': {
+                'Prefix': 'string',
+                'Tag': {
+                    'Key': 'string',
+                    'Value': 'string'
+                },
+                'And': {
+                    'Prefix': 'string',
+                    'Tags': [
+                        {
+                            'Key': 'string',
+                            'Value': 'string'
+                        },
+                    ]
+                }
+            },
+            'StorageClassAnalysis': {
+                'DataExport': {
+                    'OutputSchemaVersion': 'V_1',
+                    'Destination': {
+                        'S3BucketDestination': {
+                            'Format': 'CSV',
+                            'BucketAccountId': 'string',
+                            'Bucket': 'string',
+                            'Prefix': 'string'
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (dict) --
+    AnalyticsConfiguration (dict) -- The configuration and any analyses for the analytics filter.
+    Id (string) -- The identifier used to represent an analytics configuration.
+    Filter (dict) -- The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
+    Prefix (string) -- The prefix to use when evaluating an analytics filter.
+    Tag (dict) -- The tag to use when evaluating an analytics filter.
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
+    Prefix (string) -- The prefix to use when evaluating an AND predicate.
+    Tags (list) -- The list of tags to use when evaluating an AND predicate.
+    (dict) --
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    
+    
+    
+    
+    
+    
+    StorageClassAnalysis (dict) -- If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
+    DataExport (dict) -- A container used to describe how data related to the storage class analysis should be exported.
+    OutputSchemaVersion (string) -- The version of the output schema to use when exporting data. Must be V_1.
+    Destination (dict) -- The place to store the data for an analysis.
+    S3BucketDestination (dict) -- A destination signifying output to an S3 bucket.
+    Format (string) -- The file format used when exporting data to Amazon S3.
+    BucketAccountId (string) -- The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
+    Bucket (string) -- The Amazon resource name (ARN) of the bucket to which data is exported.
+    Prefix (string) -- The prefix to use when exporting data. The exported data begins with this prefix.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
 def get_bucket_cors(Bucket=None):
     """
     Returns the cors configuration for the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_cors(
@@ -1052,9 +1282,91 @@ def get_bucket_cors(Bucket=None):
     """
     pass
 
+def get_bucket_inventory_configuration(Bucket=None, Id=None):
+    """
+    Returns an inventory configuration (identified by the inventory ID) from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_bucket_inventory_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the inventory configuration to retrieve.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the inventory configuration.
+
+    :rtype: dict
+    :return: {
+        'InventoryConfiguration': {
+            'Destination': {
+                'S3BucketDestination': {
+                    'AccountId': 'string',
+                    'Bucket': 'string',
+                    'Format': 'CSV',
+                    'Prefix': 'string'
+                }
+            },
+            'IsEnabled': True|False,
+            'Filter': {
+                'Prefix': 'string'
+            },
+            'Id': 'string',
+            'IncludedObjectVersions': 'All'|'Current',
+            'OptionalFields': [
+                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+            ],
+            'Schedule': {
+                'Frequency': 'Daily'|'Weekly'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (dict) --
+    InventoryConfiguration (dict) -- Specifies the inventory configuration.
+    Destination (dict) -- Contains information about where to publish the inventory results.
+    S3BucketDestination (dict) -- Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
+    AccountId (string) -- The ID of the account that owns the destination bucket.
+    Bucket (string) -- The Amazon resource name (ARN) of the bucket where inventory results will be published.
+    Format (string) -- Specifies the output format of the inventory results.
+    Prefix (string) -- The prefix that is prepended to all inventory results.
+    
+    
+    
+    
+    IsEnabled (boolean) -- Specifies whether the inventory is enabled or disabled.
+    Filter (dict) -- Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
+    Prefix (string) -- The prefix that an object must have to be included in the inventory results.
+    
+    
+    Id (string) -- The ID used to identify the inventory configuration.
+    IncludedObjectVersions (string) -- Specifies which object version(s) to included in the inventory results.
+    OptionalFields (list) -- Contains the optional fields that are included in the inventory results.
+    (string) --
+    
+    
+    Schedule (dict) -- Specifies the schedule for generating inventory results.
+    Frequency (string) -- Specifies how frequently inventory results are produced.
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
 def get_bucket_lifecycle(Bucket=None):
     """
     Deprecated, see the GetBucketLifecycleConfiguration operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_lifecycle(
@@ -1103,6 +1415,7 @@ def get_bucket_lifecycle(Bucket=None):
 def get_bucket_lifecycle_configuration(Bucket=None):
     """
     Returns the lifecycle configuration information set on the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_lifecycle_configuration(
@@ -1124,6 +1437,22 @@ def get_bucket_lifecycle_configuration(Bucket=None):
                 },
                 'ID': 'string',
                 'Prefix': 'string',
+                'Filter': {
+                    'Prefix': 'string',
+                    'Tag': {
+                        'Key': 'string',
+                        'Value': 'string'
+                    },
+                    'And': {
+                        'Prefix': 'string',
+                        'Tags': [
+                            {
+                                'Key': 'string',
+                                'Value': 'string'
+                            },
+                        ]
+                    }
+                },
                 'Status': 'Enabled'|'Disabled',
                 'Transitions': [
                     {
@@ -1155,6 +1484,7 @@ def get_bucket_lifecycle_configuration(Bucket=None):
 def get_bucket_location(Bucket=None):
     """
     Returns the region the bucket resides in.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_location(
@@ -1177,6 +1507,7 @@ def get_bucket_location(Bucket=None):
 def get_bucket_logging(Bucket=None):
     """
     Returns the logging status of a bucket and the permissions users have to view and modify that status. To use GET, you must be the bucket owner.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_logging(
@@ -1211,9 +1542,85 @@ def get_bucket_logging(Bucket=None):
     """
     pass
 
+def get_bucket_metrics_configuration(Bucket=None, Id=None):
+    """
+    Gets a metrics configuration (specified by the metrics configuration ID) from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_bucket_metrics_configuration(
+        Bucket='string',
+        Id='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the metrics configuration to retrieve.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the metrics configuration.
+
+    :rtype: dict
+    :return: {
+        'MetricsConfiguration': {
+            'Id': 'string',
+            'Filter': {
+                'Prefix': 'string',
+                'Tag': {
+                    'Key': 'string',
+                    'Value': 'string'
+                },
+                'And': {
+                    'Prefix': 'string',
+                    'Tags': [
+                        {
+                            'Key': 'string',
+                            'Value': 'string'
+                        },
+                    ]
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (dict) --
+    MetricsConfiguration (dict) -- Specifies the metrics configuration.
+    Id (string) -- The ID used to identify the metrics configuration.
+    Filter (dict) -- Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
+    Prefix (string) -- The prefix used when evaluating a metrics filter.
+    Tag (dict) -- The tag used when evaluating a metrics filter.
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
+    Prefix (string) -- The prefix used when evaluating an AND predicate.
+    Tags (list) -- The list of tags used when evaluating an AND predicate.
+    (dict) --
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
 def get_bucket_notification(Bucket=None):
     """
     Deprecated, see the GetBucketNotificationConfiguration operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_notification(
@@ -1260,6 +1667,7 @@ def get_bucket_notification(Bucket=None):
 def get_bucket_notification_configuration(Bucket=None):
     """
     Returns the notification configuration of a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_notification_configuration(
@@ -1338,6 +1746,7 @@ def get_bucket_notification_configuration(Bucket=None):
 def get_bucket_policy(Bucket=None):
     """
     Returns the policy of a specified bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_policy(
@@ -1360,6 +1769,7 @@ def get_bucket_policy(Bucket=None):
 def get_bucket_replication(Bucket=None):
     """
     Returns the replication configuration of a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_replication(
@@ -1395,6 +1805,7 @@ def get_bucket_replication(Bucket=None):
 def get_bucket_request_payment(Bucket=None):
     """
     Returns the request payment configuration of a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_request_payment(
@@ -1417,6 +1828,7 @@ def get_bucket_request_payment(Bucket=None):
 def get_bucket_tagging(Bucket=None):
     """
     Returns the tag set associated with the bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_tagging(
@@ -1444,6 +1856,7 @@ def get_bucket_tagging(Bucket=None):
 def get_bucket_versioning(Bucket=None):
     """
     Returns the versioning state of a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_versioning(
@@ -1467,6 +1880,7 @@ def get_bucket_versioning(Bucket=None):
 def get_bucket_website(Bucket=None):
     """
     Returns the website configuration for a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bucket_website(
@@ -1513,6 +1927,7 @@ def get_bucket_website(Bucket=None):
 def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None, Key=None, Range=None, ResponseCacheControl=None, ResponseContentDisposition=None, ResponseContentEncoding=None, ResponseContentLanguage=None, ResponseContentType=None, ResponseExpires=None, VersionId=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, RequestPayer=None, PartNumber=None):
     """
     Retrieves objects from Amazon S3.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_object(
@@ -1624,7 +2039,8 @@ def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None
         'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
         'RequestCharged': 'requester',
         'ReplicationStatus': 'COMPLETE'|'PENDING'|'FAILED'|'REPLICA',
-        'PartsCount': 123
+        'PartsCount': 123,
+        'TagCount': 123
     }
     
     
@@ -1663,6 +2079,7 @@ def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None
     RequestCharged (string) -- If present, indicates that the requester was successfully charged for the request.
     ReplicationStatus (string) --
     PartsCount (integer) -- The count of parts this object has.
+    TagCount (integer) -- The number of tags, if any, on the object.
     
     
     
@@ -1672,6 +2089,7 @@ def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None
 def get_object_acl(Bucket=None, Key=None, VersionId=None, RequestPayer=None):
     """
     Returns the access control list (ACL) of an object.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_object_acl(
@@ -1745,9 +2163,61 @@ def get_object_acl(Bucket=None, Key=None, VersionId=None, RequestPayer=None):
     """
     pass
 
+def get_object_tagging(Bucket=None, Key=None, VersionId=None):
+    """
+    Returns the tag-set of an object.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_object_tagging(
+        Bucket='string',
+        Key='string',
+        VersionId='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED]
+
+    :type Key: string
+    :param Key: [REQUIRED]
+
+    :type VersionId: string
+    :param VersionId: 
+
+    :rtype: dict
+    :return: {
+        'VersionId': 'string',
+        'TagSet': [
+            {
+                'Key': 'string',
+                'Value': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (dict) --
+    VersionId (string) --
+    TagSet (list) --
+    (dict) --
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
 def get_object_torrent(Bucket=None, Key=None, RequestPayer=None):
     """
     Return torrent files from a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_object_torrent(
@@ -1808,6 +2278,7 @@ def get_waiter():
 def head_bucket(Bucket=None):
     """
     This operation is useful to determine if a bucket exists and you have permission to access it.
+    See also: AWS API Documentation
     
     
     :example: response = client.head_bucket(
@@ -1824,6 +2295,7 @@ def head_bucket(Bucket=None):
 def head_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None, IfUnmodifiedSince=None, Key=None, Range=None, VersionId=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, RequestPayer=None, PartNumber=None):
     """
     The HEAD operation retrieves metadata from an object without returning the object itself. This operation is useful if you're only interested in an object's metadata. To use HEAD, you must have READ access to the object.
+    See also: AWS API Documentation
     
     
     :example: response = client.head_object(
@@ -1952,9 +2424,304 @@ def head_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=Non
     """
     pass
 
+def list_bucket_analytics_configurations(Bucket=None, ContinuationToken=None):
+    """
+    Lists the analytics configurations for the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_bucket_analytics_configurations(
+        Bucket='string',
+        ContinuationToken='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket from which analytics configurations are retrieved.
+
+    :type ContinuationToken: string
+    :param ContinuationToken: The ContinuationToken that represents a placeholder from where this request should begin.
+
+    :rtype: dict
+    :return: {
+        'IsTruncated': True|False,
+        'ContinuationToken': 'string',
+        'NextContinuationToken': 'string',
+        'AnalyticsConfigurationList': [
+            {
+                'Id': 'string',
+                'Filter': {
+                    'Prefix': 'string',
+                    'Tag': {
+                        'Key': 'string',
+                        'Value': 'string'
+                    },
+                    'And': {
+                        'Prefix': 'string',
+                        'Tags': [
+                            {
+                                'Key': 'string',
+                                'Value': 'string'
+                            },
+                        ]
+                    }
+                },
+                'StorageClassAnalysis': {
+                    'DataExport': {
+                        'OutputSchemaVersion': 'V_1',
+                        'Destination': {
+                            'S3BucketDestination': {
+                                'Format': 'CSV',
+                                'BucketAccountId': 'string',
+                                'Bucket': 'string',
+                                'Prefix': 'string'
+                            }
+                        }
+                    }
+                }
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (dict) --
+    IsTruncated (boolean) -- Indicates whether the returned list of analytics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+    ContinuationToken (string) -- The ContinuationToken that represents where this request began.
+    NextContinuationToken (string) -- NextContinuationToken is sent when isTruncated is true, which indicates that there are more analytics configurations to list. The next request must include this NextContinuationToken. The token is obfuscated and is not a usable value.
+    AnalyticsConfigurationList (list) -- The list of analytics configurations for a bucket.
+    (dict) --
+    Id (string) -- The identifier used to represent an analytics configuration.
+    Filter (dict) -- The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
+    Prefix (string) -- The prefix to use when evaluating an analytics filter.
+    Tag (dict) -- The tag to use when evaluating an analytics filter.
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
+    Prefix (string) -- The prefix to use when evaluating an AND predicate.
+    Tags (list) -- The list of tags to use when evaluating an AND predicate.
+    (dict) --
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    
+    
+    
+    
+    
+    
+    StorageClassAnalysis (dict) -- If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
+    DataExport (dict) -- A container used to describe how data related to the storage class analysis should be exported.
+    OutputSchemaVersion (string) -- The version of the output schema to use when exporting data. Must be V_1.
+    Destination (dict) -- The place to store the data for an analysis.
+    S3BucketDestination (dict) -- A destination signifying output to an S3 bucket.
+    Format (string) -- The file format used when exporting data to Amazon S3.
+    BucketAccountId (string) -- The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
+    Bucket (string) -- The Amazon resource name (ARN) of the bucket to which data is exported.
+    Prefix (string) -- The prefix to use when exporting data. The exported data begins with this prefix.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
+def list_bucket_inventory_configurations(Bucket=None, ContinuationToken=None):
+    """
+    Returns a list of inventory configurations for the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_bucket_inventory_configurations(
+        Bucket='string',
+        ContinuationToken='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the inventory configurations to retrieve.
+
+    :type ContinuationToken: string
+    :param ContinuationToken: The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+
+    :rtype: dict
+    :return: {
+        'ContinuationToken': 'string',
+        'InventoryConfigurationList': [
+            {
+                'Destination': {
+                    'S3BucketDestination': {
+                        'AccountId': 'string',
+                        'Bucket': 'string',
+                        'Format': 'CSV',
+                        'Prefix': 'string'
+                    }
+                },
+                'IsEnabled': True|False,
+                'Filter': {
+                    'Prefix': 'string'
+                },
+                'Id': 'string',
+                'IncludedObjectVersions': 'All'|'Current',
+                'OptionalFields': [
+                    'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+                ],
+                'Schedule': {
+                    'Frequency': 'Daily'|'Weekly'
+                }
+            },
+        ],
+        'IsTruncated': True|False,
+        'NextContinuationToken': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) --
+    ContinuationToken (string) -- If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
+    InventoryConfigurationList (list) -- The list of inventory configurations for a bucket.
+    (dict) --
+    Destination (dict) -- Contains information about where to publish the inventory results.
+    S3BucketDestination (dict) -- Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
+    AccountId (string) -- The ID of the account that owns the destination bucket.
+    Bucket (string) -- The Amazon resource name (ARN) of the bucket where inventory results will be published.
+    Format (string) -- Specifies the output format of the inventory results.
+    Prefix (string) -- The prefix that is prepended to all inventory results.
+    
+    
+    
+    
+    IsEnabled (boolean) -- Specifies whether the inventory is enabled or disabled.
+    Filter (dict) -- Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
+    Prefix (string) -- The prefix that an object must have to be included in the inventory results.
+    
+    
+    Id (string) -- The ID used to identify the inventory configuration.
+    IncludedObjectVersions (string) -- Specifies which object version(s) to included in the inventory results.
+    OptionalFields (list) -- Contains the optional fields that are included in the inventory results.
+    (string) --
+    
+    
+    Schedule (dict) -- Specifies the schedule for generating inventory results.
+    Frequency (string) -- Specifies how frequently inventory results are produced.
+    
+    
+    
+    
+    
+    
+    IsTruncated (boolean) -- Indicates whether the returned list of inventory configurations is truncated in this response. A value of true indicates that the list is truncated.
+    NextContinuationToken (string) -- The marker used to continue this inventory configuration listing. Use the NextContinuationToken from this response to continue the listing in a subsequent request. The continuation token is an opaque value that Amazon S3 understands.
+    
+    
+    
+    """
+    pass
+
+def list_bucket_metrics_configurations(Bucket=None, ContinuationToken=None):
+    """
+    Lists the metrics configurations for the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_bucket_metrics_configurations(
+        Bucket='string',
+        ContinuationToken='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the metrics configurations to retrieve.
+
+    :type ContinuationToken: string
+    :param ContinuationToken: The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+
+    :rtype: dict
+    :return: {
+        'IsTruncated': True|False,
+        'ContinuationToken': 'string',
+        'NextContinuationToken': 'string',
+        'MetricsConfigurationList': [
+            {
+                'Id': 'string',
+                'Filter': {
+                    'Prefix': 'string',
+                    'Tag': {
+                        'Key': 'string',
+                        'Value': 'string'
+                    },
+                    'And': {
+                        'Prefix': 'string',
+                        'Tags': [
+                            {
+                                'Key': 'string',
+                                'Value': 'string'
+                            },
+                        ]
+                    }
+                }
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (dict) --
+    IsTruncated (boolean) -- Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
+    ContinuationToken (string) -- The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
+    NextContinuationToken (string) -- The marker used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
+    MetricsConfigurationList (list) -- The list of metrics configurations for a bucket.
+    (dict) --
+    Id (string) -- The ID used to identify the metrics configuration.
+    Filter (dict) -- Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
+    Prefix (string) -- The prefix used when evaluating a metrics filter.
+    Tag (dict) -- The tag used when evaluating a metrics filter.
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
+    Prefix (string) -- The prefix used when evaluating an AND predicate.
+    Tags (list) -- The list of tags used when evaluating an AND predicate.
+    (dict) --
+    Key (string) -- Name of the tag.
+    Value (string) -- Value of the tag.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
 def list_buckets():
     """
     Returns a list of all buckets owned by the authenticated sender of the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_buckets()
@@ -1981,6 +2748,7 @@ def list_buckets():
 def list_multipart_uploads(Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxUploads=None, Prefix=None, UploadIdMarker=None):
     """
     This operation lists in-progress multipart uploads.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_multipart_uploads(
@@ -2099,6 +2867,7 @@ def list_multipart_uploads(Bucket=None, Delimiter=None, EncodingType=None, KeyMa
 def list_object_versions(Bucket=None, Delimiter=None, EncodingType=None, KeyMarker=None, MaxKeys=None, Prefix=None, VersionIdMarker=None):
     """
     Returns metadata about all of the versions of objects in a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_object_versions(
@@ -2241,6 +3010,7 @@ def list_object_versions(Bucket=None, Delimiter=None, EncodingType=None, KeyMark
 def list_objects(Bucket=None, Delimiter=None, EncodingType=None, Marker=None, MaxKeys=None, Prefix=None, RequestPayer=None):
     """
     Returns some or all (up to 1000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_objects(
@@ -2348,6 +3118,7 @@ def list_objects(Bucket=None, Delimiter=None, EncodingType=None, Marker=None, Ma
 def list_objects_v2(Bucket=None, Delimiter=None, EncodingType=None, MaxKeys=None, Prefix=None, ContinuationToken=None, FetchOwner=None, StartAfter=None, RequestPayer=None):
     """
     Returns some or all (up to 1000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. Note: ListObjectsV2 is the revised List Objects API and we recommend you use this revised API for new application development.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_objects_v2(
@@ -2467,6 +3238,7 @@ def list_objects_v2(Bucket=None, Delimiter=None, EncodingType=None, MaxKeys=None
 def list_parts(Bucket=None, Key=None, MaxParts=None, PartNumberMarker=None, UploadId=None, RequestPayer=None):
     """
     Lists the parts that have been uploaded for a specific multipart upload.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_parts(
@@ -2571,6 +3343,7 @@ def list_parts(Bucket=None, Key=None, MaxParts=None, PartNumberMarker=None, Uplo
 def put_bucket_accelerate_configuration(Bucket=None, AccelerateConfiguration=None):
     """
     Sets the accelerate configuration of an existing bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_accelerate_configuration(
@@ -2595,6 +3368,7 @@ def put_bucket_accelerate_configuration(Bucket=None, AccelerateConfiguration=Non
 def put_bucket_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWrite=None, GrantWriteACP=None):
     """
     Sets the permissions on a bucket using access control lists (ACL).
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_acl(
@@ -2667,9 +3441,92 @@ def put_bucket_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullCon
     """
     pass
 
+def put_bucket_analytics_configuration(Bucket=None, Id=None, AnalyticsConfiguration=None):
+    """
+    Sets an analytics configuration for the bucket (specified by the analytics configuration ID).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_bucket_analytics_configuration(
+        Bucket='string',
+        Id='string',
+        AnalyticsConfiguration={
+            'Id': 'string',
+            'Filter': {
+                'Prefix': 'string',
+                'Tag': {
+                    'Key': 'string',
+                    'Value': 'string'
+                },
+                'And': {
+                    'Prefix': 'string',
+                    'Tags': [
+                        {
+                            'Key': 'string',
+                            'Value': 'string'
+                        },
+                    ]
+                }
+            },
+            'StorageClassAnalysis': {
+                'DataExport': {
+                    'OutputSchemaVersion': 'V_1',
+                    'Destination': {
+                        'S3BucketDestination': {
+                            'Format': 'CSV',
+                            'BucketAccountId': 'string',
+                            'Bucket': 'string',
+                            'Prefix': 'string'
+                        }
+                    }
+                }
+            }
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket to which an analytics configuration is stored.
+
+    :type Id: string
+    :param Id: [REQUIRED] The identifier used to represent an analytics configuration.
+
+    :type AnalyticsConfiguration: dict
+    :param AnalyticsConfiguration: [REQUIRED] The configuration and any analyses for the analytics filter.
+            Id (string) -- [REQUIRED] The identifier used to represent an analytics configuration.
+            Filter (dict) -- The filter used to describe a set of objects for analyses. A filter must have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator). If no filter is provided, all objects will be considered in any analysis.
+            Prefix (string) -- The prefix to use when evaluating an analytics filter.
+            Tag (dict) -- The tag to use when evaluating an analytics filter.
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
+            Prefix (string) -- The prefix to use when evaluating an AND predicate.
+            Tags (list) -- The list of tags to use when evaluating an AND predicate.
+            (dict) --
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            
+            
+            StorageClassAnalysis (dict) -- [REQUIRED] If present, it indicates that data related to access patterns will be collected and made available to analyze the tradeoffs between different storage classes.
+            DataExport (dict) -- A container used to describe how data related to the storage class analysis should be exported.
+            OutputSchemaVersion (string) -- [REQUIRED] The version of the output schema to use when exporting data. Must be V_1.
+            Destination (dict) -- [REQUIRED] The place to store the data for an analysis.
+            S3BucketDestination (dict) -- [REQUIRED] A destination signifying output to an S3 bucket.
+            Format (string) -- [REQUIRED] The file format used when exporting data to Amazon S3.
+            BucketAccountId (string) -- The account ID that owns the destination bucket. If no account ID is provided, the owner will not be validated prior to exporting data.
+            Bucket (string) -- [REQUIRED] The Amazon resource name (ARN) of the bucket to which data is exported.
+            Prefix (string) -- The prefix to use when exporting data. The exported data begins with this prefix.
+            
+            
+            
+
+    """
+    pass
+
 def put_bucket_cors(Bucket=None, CORSConfiguration=None):
     """
     Sets the cors configuration for a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_cors(
@@ -2719,9 +3576,73 @@ def put_bucket_cors(Bucket=None, CORSConfiguration=None):
     """
     pass
 
+def put_bucket_inventory_configuration(Bucket=None, Id=None, InventoryConfiguration=None):
+    """
+    Adds an inventory configuration (identified by the inventory ID) from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_bucket_inventory_configuration(
+        Bucket='string',
+        Id='string',
+        InventoryConfiguration={
+            'Destination': {
+                'S3BucketDestination': {
+                    'AccountId': 'string',
+                    'Bucket': 'string',
+                    'Format': 'CSV',
+                    'Prefix': 'string'
+                }
+            },
+            'IsEnabled': True|False,
+            'Filter': {
+                'Prefix': 'string'
+            },
+            'Id': 'string',
+            'IncludedObjectVersions': 'All'|'Current',
+            'OptionalFields': [
+                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+            ],
+            'Schedule': {
+                'Frequency': 'Daily'|'Weekly'
+            }
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket where the inventory configuration will be stored.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the inventory configuration.
+
+    :type InventoryConfiguration: dict
+    :param InventoryConfiguration: [REQUIRED] Specifies the inventory configuration.
+            Destination (dict) -- [REQUIRED] Contains information about where to publish the inventory results.
+            S3BucketDestination (dict) -- [REQUIRED] Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
+            AccountId (string) -- The ID of the account that owns the destination bucket.
+            Bucket (string) -- [REQUIRED] The Amazon resource name (ARN) of the bucket where inventory results will be published.
+            Format (string) -- [REQUIRED] Specifies the output format of the inventory results.
+            Prefix (string) -- The prefix that is prepended to all inventory results.
+            
+            IsEnabled (boolean) -- [REQUIRED] Specifies whether the inventory is enabled or disabled.
+            Filter (dict) -- Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
+            Prefix (string) -- [REQUIRED] The prefix that an object must have to be included in the inventory results.
+            Id (string) -- [REQUIRED] The ID used to identify the inventory configuration.
+            IncludedObjectVersions (string) -- [REQUIRED] Specifies which object version(s) to included in the inventory results.
+            OptionalFields (list) -- Contains the optional fields that are included in the inventory results.
+            (string) --
+            Schedule (dict) -- [REQUIRED] Specifies the schedule for generating inventory results.
+            Frequency (string) -- [REQUIRED] Specifies how frequently inventory results are produced.
+            
+
+    """
+    pass
+
 def put_bucket_lifecycle(Bucket=None, LifecycleConfiguration=None):
     """
     Deprecated, see the PutBucketLifecycleConfiguration operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_lifecycle(
@@ -2792,6 +3713,7 @@ def put_bucket_lifecycle(Bucket=None, LifecycleConfiguration=None):
 def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None):
     """
     Sets lifecycle configuration for your bucket. If a lifecycle configuration exists, it replaces it.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_lifecycle_configuration(
@@ -2806,6 +3728,22 @@ def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None)
                     },
                     'ID': 'string',
                     'Prefix': 'string',
+                    'Filter': {
+                        'Prefix': 'string',
+                        'Tag': {
+                            'Key': 'string',
+                            'Value': 'string'
+                        },
+                        'And': {
+                            'Prefix': 'string',
+                            'Tags': [
+                                {
+                                    'Key': 'string',
+                                    'Value': 'string'
+                                },
+                            ]
+                        }
+                    },
                     'Status': 'Enabled'|'Disabled',
                     'Transitions': [
                         {
@@ -2844,7 +3782,20 @@ def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None)
             Days (integer) -- Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
             ExpiredObjectDeleteMarker (boolean) -- Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired; if set to false the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
             ID (string) -- Unique identifier for the rule. The value cannot be longer than 255 characters.
-            Prefix (string) -- [REQUIRED] Prefix identifying one or more objects to which the rule applies.
+            Prefix (string) -- Prefix identifying one or more objects to which the rule applies. This is deprecated; use Filter instead.
+            Filter (dict) -- The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, or And specified.
+            Prefix (string) -- Prefix identifying one or more objects to which the rule applies.
+            Tag (dict) -- This tag must exist in the object's tag set in order for the rule to apply.
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            And (dict) -- This is used in a Lifecycle Rule Filter to apply a logical AND to two or more predicates. The Lifecycle Rule will apply to any object matching all of the predicates configured inside the And operator.
+            Prefix (string) --
+            Tags (list) -- All of these tags must exist in the object's tag set in order for the rule to apply.
+            (dict) --
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            
+            
             Status (string) -- [REQUIRED] If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
             Transitions (list) --
             (dict) --
@@ -2870,6 +3821,7 @@ def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None)
 def put_bucket_logging(Bucket=None, BucketLoggingStatus=None):
     """
     Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. To set the logging status of a bucket, you must be the bucket owner.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_logging(
@@ -2919,9 +3871,68 @@ def put_bucket_logging(Bucket=None, BucketLoggingStatus=None):
     """
     pass
 
+def put_bucket_metrics_configuration(Bucket=None, Id=None, MetricsConfiguration=None):
+    """
+    Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_bucket_metrics_configuration(
+        Bucket='string',
+        Id='string',
+        MetricsConfiguration={
+            'Id': 'string',
+            'Filter': {
+                'Prefix': 'string',
+                'Tag': {
+                    'Key': 'string',
+                    'Value': 'string'
+                },
+                'And': {
+                    'Prefix': 'string',
+                    'Tags': [
+                        {
+                            'Key': 'string',
+                            'Value': 'string'
+                        },
+                    ]
+                }
+            }
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket for which the metrics configuration is set.
+
+    :type Id: string
+    :param Id: [REQUIRED] The ID used to identify the metrics configuration.
+
+    :type MetricsConfiguration: dict
+    :param MetricsConfiguration: [REQUIRED] Specifies the metrics configuration.
+            Id (string) -- [REQUIRED] The ID used to identify the metrics configuration.
+            Filter (dict) -- Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, a tag, or a conjunction (MetricsAndOperator).
+            Prefix (string) -- The prefix used when evaluating a metrics filter.
+            Tag (dict) -- The tag used when evaluating a metrics filter.
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            And (dict) -- A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
+            Prefix (string) -- The prefix used when evaluating an AND predicate.
+            Tags (list) -- The list of tags used when evaluating an AND predicate.
+            (dict) --
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            
+            
+            
+
+    """
+    pass
+
 def put_bucket_notification(Bucket=None, NotificationConfiguration=None):
     """
     Deprecated, see the PutBucketNotificationConfiguraiton operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_notification(
@@ -2988,6 +3999,7 @@ def put_bucket_notification(Bucket=None, NotificationConfiguration=None):
 def put_bucket_notification_configuration(Bucket=None, NotificationConfiguration=None):
     """
     Enables notifications of specified events for a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_notification_configuration(
@@ -3112,6 +4124,7 @@ def put_bucket_notification_configuration(Bucket=None, NotificationConfiguration
 def put_bucket_policy(Bucket=None, Policy=None):
     """
     Replaces a policy on a bucket. If the bucket already has a policy, the one in this request completely replaces it.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_policy(
@@ -3132,6 +4145,7 @@ def put_bucket_policy(Bucket=None, Policy=None):
 def put_bucket_replication(Bucket=None, ReplicationConfiguration=None):
     """
     Creates a new replication configuration (or replaces an existing one, if present).
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_replication(
@@ -3176,6 +4190,7 @@ def put_bucket_replication(Bucket=None, ReplicationConfiguration=None):
 def put_bucket_request_payment(Bucket=None, RequestPaymentConfiguration=None):
     """
     Sets the request payment configuration for a bucket. By default, the bucket owner pays for downloads from the bucket. This configuration parameter enables the bucket owner (only) to specify that the person requesting the download will be charged for the download. Documentation on requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_request_payment(
@@ -3200,6 +4215,7 @@ def put_bucket_request_payment(Bucket=None, RequestPaymentConfiguration=None):
 def put_bucket_tagging(Bucket=None, Tagging=None):
     """
     Sets the tags for a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_tagging(
@@ -3233,6 +4249,7 @@ def put_bucket_tagging(Bucket=None, Tagging=None):
 def put_bucket_versioning(Bucket=None, MFA=None, VersioningConfiguration=None):
     """
     Sets the versioning state of an existing bucket. To set the versioning state, you must be the bucket owner.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_versioning(
@@ -3263,6 +4280,7 @@ def put_bucket_versioning(Bucket=None, MFA=None, VersioningConfiguration=None):
 def put_bucket_website(Bucket=None, WebsiteConfiguration=None):
     """
     Set the website configuration for a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_bucket_website(
@@ -3326,9 +4344,10 @@ def put_bucket_website(Bucket=None, WebsiteConfiguration=None):
     """
     pass
 
-def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentLength=None, ContentMD5=None, ContentType=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None):
+def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentLength=None, ContentMD5=None, ContentType=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None, Tagging=None):
     """
     Adds an object to a bucket.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_object(
@@ -3357,7 +4376,8 @@ def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDispo
         SSECustomerAlgorithm='string',
         SSECustomerKey='string',
         SSEKMSKeyId='string',
-        RequestPayer='requester'
+        RequestPayer='requester',
+        Tagging='string'
     )
     
     
@@ -3439,6 +4459,9 @@ def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDispo
     :type RequestPayer: string
     :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
 
+    :type Tagging: string
+    :param Tagging: The tag-set for the object. The tag-set must be encoded as URL Query parameters
+
     :rtype: dict
     :return: {
         'Expiration': 'string',
@@ -3471,6 +4494,7 @@ def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDispo
 def put_object_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWrite=None, GrantWriteACP=None, Key=None, RequestPayer=None, VersionId=None):
     """
     uses the acl subresource to set the access control list (ACL) permissions for an object that already exists in a bucket
+    See also: AWS API Documentation
     
     
     :example: response = client.put_object_acl(
@@ -3567,9 +4591,68 @@ def put_object_acl(ACL=None, AccessControlPolicy=None, Bucket=None, GrantFullCon
     """
     pass
 
+def put_object_tagging(Bucket=None, Key=None, VersionId=None, ContentMD5=None, Tagging=None):
+    """
+    Sets the supplied tag-set to an object that already exists in a bucket
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_object_tagging(
+        Bucket='string',
+        Key='string',
+        VersionId='string',
+        ContentMD5='string',
+        Tagging={
+            'TagSet': [
+                {
+                    'Key': 'string',
+                    'Value': 'string'
+                },
+            ]
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED]
+
+    :type Key: string
+    :param Key: [REQUIRED]
+
+    :type VersionId: string
+    :param VersionId: 
+
+    :type ContentMD5: string
+    :param ContentMD5: 
+
+    :type Tagging: dict
+    :param Tagging: [REQUIRED]
+            TagSet (list) -- [REQUIRED]
+            (dict) --
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'VersionId': 'string'
+    }
+    
+    
+    :returns: 
+    (dict) --
+    VersionId (string) --
+    
+    
+    
+    """
+    pass
+
 def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, RequestPayer=None):
     """
     Restores an archived copy of an object back into Amazon S3
+    See also: AWS API Documentation
     
     
     :example: response = client.restore_object(
@@ -3577,7 +4660,10 @@ def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, R
         Key='string',
         VersionId='string',
         RestoreRequest={
-            'Days': 123
+            'Days': 123,
+            'GlacierJobParameters': {
+                'Tier': 'Standard'|'Bulk'|'Expedited'
+            }
         },
         RequestPayer='requester'
     )
@@ -3595,6 +4681,8 @@ def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, R
     :type RestoreRequest: dict
     :param RestoreRequest: 
             Days (integer) -- [REQUIRED] Lifetime of the active copy in days
+            GlacierJobParameters (dict) -- Glacier related prameters pertaining to this job.
+            Tier (string) -- [REQUIRED] Glacier retrieval tier at which the restore will be processed.
             
 
     :type RequestPayer: string
@@ -3675,6 +4763,7 @@ def upload_part(Body=None, Bucket=None, ContentLength=None, ContentMD5=None, Key
     """
     Uploads a part in a multipart upload.
     Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+    See also: AWS API Documentation
     
     
     :example: response = client.upload_part(
@@ -3752,6 +4841,7 @@ def upload_part(Body=None, Bucket=None, ContentLength=None, ContentMD5=None, Key
 def upload_part_copy(Bucket=None, CopySource=None, CopySourceIfMatch=None, CopySourceIfModifiedSince=None, CopySourceIfNoneMatch=None, CopySourceIfUnmodifiedSince=None, CopySourceRange=None, Key=None, PartNumber=None, UploadId=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, CopySourceSSECustomerAlgorithm=None, CopySourceSSECustomerKey=None, CopySourceSSECustomerKeyMD5=None, RequestPayer=None):
     """
     Uploads a part by copying data from an existing object as data source.
+    See also: AWS API Documentation
     
     
     :example: response = client.upload_part_copy(

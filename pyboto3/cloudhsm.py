@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def add_tags_to_resource(ResourceArn=None, TagList=None):
     """
     Adds or overwrites one or more tags for the specified AWS CloudHSM resource.
     Each tag consists of a key and a value. Tag keys must be unique to each resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags_to_resource(
@@ -82,6 +83,7 @@ def can_paginate(operation_name=None):
 def create_hapg(Label=None):
     """
     Creates a high-availability partition group. A high-availability partition group is a group of partitions that spans multiple physical HSMs.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_hapg(
@@ -107,6 +109,7 @@ def create_hsm(SubnetId=None, SshKey=None, EniIp=None, IamRoleArn=None, External
     """
     Creates an uninitialized HSM instance.
     There is an upfront fee charged for each HSM instance that you create with the  CreateHsm operation. If you accidentally provision an HSM and want to request a refund, delete the instance using the  DeleteHsm operation, go to the AWS Support Center , create a new case, and select Account and Billing Support .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_hsm(
@@ -169,6 +172,7 @@ def create_hsm(SubnetId=None, SshKey=None, EniIp=None, IamRoleArn=None, External
 def create_luna_client(Label=None, Certificate=None):
     """
     Creates an HSM client.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_luna_client(
@@ -197,6 +201,7 @@ def create_luna_client(Label=None, Certificate=None):
 def delete_hapg(HapgArn=None):
     """
     Deletes a high-availability partition group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_hapg(
@@ -221,6 +226,7 @@ def delete_hapg(HapgArn=None):
 def delete_hsm(HsmArn=None):
     """
     Deletes an HSM. After completion, this operation cannot be undone and your key material cannot be recovered.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_hsm(
@@ -245,6 +251,7 @@ def delete_hsm(HsmArn=None):
 def delete_luna_client(ClientArn=None):
     """
     Deletes a client.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_luna_client(
@@ -269,6 +276,7 @@ def delete_luna_client(ClientArn=None):
 def describe_hapg(HapgArn=None):
     """
     Retrieves information about a high-availability partition group.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_hapg(
@@ -309,6 +317,7 @@ def describe_hapg(HapgArn=None):
 def describe_hsm(HsmArn=None, HsmSerialNumber=None):
     """
     Retrieves information about an HSM. You can identify the HSM by its ARN or its serial number.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_hsm(
@@ -361,6 +370,7 @@ def describe_hsm(HsmArn=None, HsmSerialNumber=None):
 def describe_luna_client(ClientArn=None, CertificateFingerprint=None):
     """
     Retrieves information about an HSM client.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_luna_client(
@@ -413,6 +423,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_config(ClientArn=None, ClientVersion=None, HapgList=None):
     """
     Gets the configuration files necessary to connect to all high availability partition groups the client is associated with.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_config(
@@ -476,6 +487,7 @@ def get_waiter():
 def list_available_zones():
     """
     Lists the Availability Zones that have available AWS CloudHSM capacity.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_available_zones()
@@ -496,6 +508,7 @@ def list_hapgs(NextToken=None):
     """
     Lists the high-availability partition groups for the account.
     This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListHapgs to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_hapgs(
@@ -522,6 +535,7 @@ def list_hsms(NextToken=None):
     """
     Retrieves the identifiers of all of the HSMs provisioned for the current customer.
     This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListHsms to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_hsms(
@@ -548,6 +562,7 @@ def list_luna_clients(NextToken=None):
     """
     Lists all of the clients.
     This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListLunaClients to retrieve the next set of items.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_luna_clients(
@@ -573,6 +588,7 @@ def list_luna_clients(NextToken=None):
 def list_tags_for_resource(ResourceArn=None):
     """
     Returns a list of all tags for the specified AWS CloudHSM resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_resource(
@@ -602,6 +618,7 @@ def list_tags_for_resource(ResourceArn=None):
 def modify_hapg(HapgArn=None, Label=None, PartitionSerialList=None):
     """
     Modifies an existing high-availability partition group.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_hapg(
@@ -638,6 +655,7 @@ def modify_hapg(HapgArn=None, Label=None, PartitionSerialList=None):
 def modify_hsm(HsmArn=None, SubnetId=None, EniIp=None, IamRoleArn=None, ExternalId=None, SyslogIp=None):
     """
     Modifies an HSM.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_hsm(
@@ -685,6 +703,7 @@ def modify_luna_client(ClientArn=None, Certificate=None):
     """
     Modifies the certificate used by the client.
     This action can potentially start a workflow to install the new certificate on the client's HSMs.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_luna_client(
@@ -716,6 +735,7 @@ def remove_tags_from_resource(ResourceArn=None, TagKeyList=None):
     """
     Removes one or more tags from the specified AWS CloudHSM resource.
     To remove a tag, specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use  AddTagsToResource .
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags_from_resource(

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def check_domain_availability(DomainName=None, IdnLangCode=None):
     """
     This operation checks the availability of one domain name. Note that if the availability status of a domain is pending, you must submit another request to determine the availability of the domain name.
+    See also: AWS API Documentation
     
     
     :example: response = client.check_domain_availability(
@@ -85,6 +86,7 @@ def delete_tags_for_domain(DomainName=None, TagsToDelete=None):
     """
     This operation deletes the specified tags for a domain.
     All tag operations are eventually consistent; subsequent operations may not immediately represent all issued operations.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_tags_for_domain(
@@ -128,6 +130,7 @@ def delete_tags_for_domain(DomainName=None, TagsToDelete=None):
 def disable_domain_auto_renew(DomainName=None):
     """
     This operation disables automatic renewal of domain registration for the specified domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_domain_auto_renew(
@@ -148,6 +151,7 @@ def disable_domain_auto_renew(DomainName=None):
 def disable_domain_transfer_lock(DomainName=None):
     """
     This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers. We recommend you refrain from performing this action unless you intend to transfer the domain to a different registrar. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_domain_transfer_lock(
@@ -177,6 +181,7 @@ def enable_domain_auto_renew(DomainName=None):
     """
     This operation configures Amazon Route 53 to automatically renew the specified domain before the domain registration expires. The cost of renewing your domain registration is billed to your AWS account.
     The period during which you can renew a domain name varies by TLD. For a list of TLDs and their renewal policies, see "Renewal, restoration, and deletion times" on the website for our registrar partner, Gandi. Route 53 requires that you renew before the end of the renewal period that is listed on the Gandi website so we can complete processing before the deadline.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_domain_auto_renew(
@@ -197,6 +202,7 @@ def enable_domain_auto_renew(DomainName=None):
 def enable_domain_transfer_lock(DomainName=None):
     """
     This operation sets the transfer lock on the domain (specifically the clientTransferProhibited status) to prevent domain transfers. Successful submission returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_domain_transfer_lock(
@@ -248,6 +254,7 @@ def get_contact_reachability_status(domainName=None):
     """
     For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded.
     If you want us to resend the email, use the ResendContactReachabilityEmail operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_contact_reachability_status(
@@ -275,6 +282,7 @@ def get_contact_reachability_status(domainName=None):
 def get_domain_detail(DomainName=None):
     """
     This operation returns detailed information about the domain. The domain's contact information is also returned as part of the output.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_domain_detail(
@@ -396,6 +404,7 @@ def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=
     """
     The GetDomainSuggestions operation returns a list of suggested domain names given a string, which can either be a domain name or simply a word or phrase (without spaces).
     Parameters:
+    See also: AWS API Documentation
     
     
     :example: response = client.get_domain_suggestions(
@@ -436,6 +445,7 @@ def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=
 def get_operation_detail(OperationId=None):
     """
     This operation returns the current status of an operation that is not completed.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_operation_detail(
@@ -490,6 +500,7 @@ def get_waiter():
 def list_domains(Marker=None, MaxItems=None):
     """
     This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_domains(
@@ -534,6 +545,7 @@ def list_domains(Marker=None, MaxItems=None):
 def list_operations(Marker=None, MaxItems=None):
     """
     This operation returns the operation IDs of operations that are not yet complete.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_operations(
@@ -578,6 +590,7 @@ def list_tags_for_domain(DomainName=None):
     """
     This operation returns all of the tags that are associated with the specified domain.
     All tag operations are eventually consistent; subsequent operations may not immediately represent all issued operations.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_domain(
@@ -608,6 +621,7 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     """
     This operation registers a domain. Domains are registered by the AWS registrar partner, Gandi. For some top-level domains (TLDs), this operation requires extra parameters.
     When you register a domain, Amazon Route 53 does the following:
+    See also: AWS API Documentation
     
     
     :example: response = client.register_domain(
@@ -1493,6 +1507,7 @@ def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None):
     """
     This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your AWS account.
     We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 documentation.
+    See also: AWS API Documentation
     
     
     :example: response = client.renew_domain(
@@ -1540,6 +1555,7 @@ def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None):
 def resend_contact_reachability_email(domainName=None):
     """
     For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation resends the confirmation email to the current email address for the registrant contact.
+    See also: AWS API Documentation
     
     
     :example: response = client.resend_contact_reachability_email(
@@ -1568,6 +1584,7 @@ def resend_contact_reachability_email(domainName=None):
 def retrieve_domain_auth_code(DomainName=None):
     """
     This operation returns the AuthCode for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.
+    See also: AWS API Documentation
     
     
     :example: response = client.retrieve_domain_auth_code(
@@ -1599,6 +1616,7 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
     For transfer requirements, a detailed procedure, and information about viewing the status of a domain transfer, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide.
     If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you consider transferring your DNS service to Amazon Route 53 or to another DNS service provider before you transfer your registration. Some registrars provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar will not renew your domain registration and could end your DNS service at any time.
     If the transfer is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.transfer_domain(
@@ -2095,6 +2113,7 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
     """
     This operation updates the contact information for a particular domain. Information for at least one contact (registrant, administrator, or technical) must be supplied for update.
     If the update is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_domain_contact(
@@ -2505,6 +2524,7 @@ def update_domain_contact_privacy(DomainName=None, AdminPrivacy=None, Registrant
     """
     This operation updates the specified domain contact's privacy setting. When the privacy option is enabled, personal information such as postal or email address is hidden from the results of a public WHOIS query. The privacy services are provided by the AWS registrar, Gandi. For more information, see the Gandi privacy features .
     This operation only affects the privacy of the specified contact type (registrant, administrator, or tech). Successful acceptance returns an operation ID that you can use with GetOperationDetail to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_domain_contact_privacy(
@@ -2561,6 +2581,7 @@ def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None)
     """
     This operation replaces the current set of name servers for the domain with the specified set of name servers. If you use Amazon Route 53 as your DNS service, specify the four name servers in the delegation set for the hosted zone for the domain.
     If successful, this operation returns an operation ID that you can use to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_domain_nameservers(
@@ -2621,6 +2642,7 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None):
     """
     This operation adds or updates tags for a specified domain.
     All tag operations are eventually consistent; subsequent operations may not immediately represent all issued operations.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_tags_for_domain(
@@ -2682,6 +2704,7 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None):
 def view_billing(Start=None, End=None, Marker=None, MaxItems=None):
     """
     This operation returns all the domain-related billing records for the current AWS account for a specified period
+    See also: AWS API Documentation
     
     
     :example: response = client.view_billing(

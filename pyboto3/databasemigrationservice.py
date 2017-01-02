@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def add_tags_to_resource(ResourceArn=None, Tags=None):
     """
     Adds metadata tags to a DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags_to_resource(
@@ -82,6 +83,7 @@ def can_paginate(operation_name=None):
 def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None, Tags=None, CertificateArn=None, SslMode=None):
     """
     Creates an endpoint using the provided settings.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_endpoint(
@@ -118,28 +120,20 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
 
     :type EngineName: string
     :param EngineName: [REQUIRED]
-            The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, and SQLSERVER.
+            The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
             
 
     :type Username: string
-    :param Username: [REQUIRED]
-            The user name to be used to login to the endpoint database.
-            
+    :param Username: The user name to be used to login to the endpoint database.
 
     :type Password: string
-    :param Password: [REQUIRED]
-            The password to be used to login to the endpoint database.
-            
+    :param Password: The password to be used to login to the endpoint database.
 
     :type ServerName: string
-    :param ServerName: [REQUIRED]
-            The name of the server where the endpoint database resides.
-            
+    :param ServerName: The name of the server where the endpoint database resides.
 
     :type Port: integer
-    :param Port: [REQUIRED]
-            The port used by the endpoint database.
-            
+    :param Port: The port used by the endpoint database.
 
     :type DatabaseName: string
     :param DatabaseName: The name of the endpoint database.
@@ -193,6 +187,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
 def create_replication_instance(ReplicationInstanceIdentifier=None, AllocatedStorage=None, ReplicationInstanceClass=None, VpcSecurityGroupIds=None, AvailabilityZone=None, ReplicationSubnetGroupIdentifier=None, PreferredMaintenanceWindow=None, MultiAZ=None, EngineVersion=None, AutoMinorVersionUpgrade=None, Tags=None, KmsKeyId=None, PubliclyAccessible=None):
     """
     Creates the replication instance using the specified parameters.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_replication_instance(
@@ -335,7 +330,8 @@ def create_replication_instance(ReplicationInstanceIdentifier=None, AllocatedSto
             'ReplicationInstancePrivateIpAddresses': [
                 'string',
             ],
-            'PubliclyAccessible': True|False
+            'PubliclyAccessible': True|False,
+            'SecondaryAvailabilityZone': 'string'
         }
     }
     
@@ -351,6 +347,7 @@ def create_replication_instance(ReplicationInstanceIdentifier=None, AllocatedSto
 def create_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, ReplicationSubnetGroupDescription=None, SubnetIds=None, Tags=None):
     """
     Creates a replication subnet group given a list of the subnet IDs in a VPC.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_replication_subnet_group(
@@ -420,6 +417,7 @@ def create_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, Repli
 def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=None, TargetEndpointArn=None, ReplicationInstanceArn=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None, Tags=None):
     """
     Creates a replication task using the specified parameters.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_replication_task(
@@ -476,7 +474,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
             
 
     :type ReplicationTaskSettings: string
-    :param ReplicationTaskSettings: Settings for the task, such as target metadata settings.
+    :param ReplicationTaskSettings: Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks .
 
     :type CdcStartTime: datetime
     :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
@@ -501,6 +499,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
             'ReplicationTaskSettings': 'string',
             'Status': 'string',
             'LastFailureMessage': 'string',
+            'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
             'ReplicationTaskArn': 'string',
@@ -527,6 +526,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
 def delete_certificate(CertificateArn=None):
     """
     Deletes the specified certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_certificate(
@@ -536,7 +536,7 @@ def delete_certificate(CertificateArn=None):
     
     :type CertificateArn: string
     :param CertificateArn: [REQUIRED]
-            the Amazon Resource Name (ARN) of the deleted certificate.
+            The Amazon Resource Name (ARN) of the deleted certificate.
             
 
     :rtype: dict
@@ -545,6 +545,7 @@ def delete_certificate(CertificateArn=None):
             'CertificateIdentifier': 'string',
             'CertificateCreationDate': datetime(2015, 1, 1),
             'CertificatePem': 'string',
+            'CertificateWallet': b'bytes',
             'CertificateArn': 'string',
             'CertificateOwner': 'string',
             'ValidFromDate': datetime(2015, 1, 1),
@@ -561,6 +562,7 @@ def delete_certificate(CertificateArn=None):
 def delete_endpoint(EndpointArn=None):
     """
     Deletes the specified endpoint.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_endpoint(
@@ -599,6 +601,7 @@ def delete_endpoint(EndpointArn=None):
 def delete_replication_instance(ReplicationInstanceArn=None):
     """
     Deletes the specified replication instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_replication_instance(
@@ -661,7 +664,8 @@ def delete_replication_instance(ReplicationInstanceArn=None):
             'ReplicationInstancePrivateIpAddresses': [
                 'string',
             ],
-            'PubliclyAccessible': True|False
+            'PubliclyAccessible': True|False,
+            'SecondaryAvailabilityZone': 'string'
         }
     }
     
@@ -675,6 +679,7 @@ def delete_replication_instance(ReplicationInstanceArn=None):
 def delete_replication_subnet_group(ReplicationSubnetGroupIdentifier=None):
     """
     Deletes a subnet group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_replication_subnet_group(
@@ -697,6 +702,7 @@ def delete_replication_subnet_group(ReplicationSubnetGroupIdentifier=None):
 def delete_replication_task(ReplicationTaskArn=None):
     """
     Deletes the specified replication task.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_replication_task(
@@ -721,6 +727,7 @@ def delete_replication_task(ReplicationTaskArn=None):
             'ReplicationTaskSettings': 'string',
             'Status': 'string',
             'LastFailureMessage': 'string',
+            'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
             'ReplicationTaskArn': 'string',
@@ -743,6 +750,7 @@ def describe_account_attributes():
     """
     Lists all of the AWS DMS attributes for a customer account. The attributes include AWS DMS quotas for the account, such as the number of replication instances allowed. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value.
     This command does not take any parameters.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_account_attributes()
@@ -766,6 +774,7 @@ def describe_account_attributes():
 def describe_certificates(Filters=None, MaxRecords=None, Marker=None):
     """
     Provides a description of the certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_certificates(
@@ -807,6 +816,7 @@ def describe_certificates(Filters=None, MaxRecords=None, Marker=None):
                 'CertificateIdentifier': 'string',
                 'CertificateCreationDate': datetime(2015, 1, 1),
                 'CertificatePem': 'string',
+                'CertificateWallet': b'bytes',
                 'CertificateArn': 'string',
                 'CertificateOwner': 'string',
                 'ValidFromDate': datetime(2015, 1, 1),
@@ -824,6 +834,7 @@ def describe_certificates(Filters=None, MaxRecords=None, Marker=None):
 def describe_connections(Filters=None, MaxRecords=None, Marker=None):
     """
     Describes the status of the connections that have been made between the replication instance and an endpoint. Connections are created when you test an endpoint.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_connections(
@@ -881,6 +892,7 @@ def describe_connections(Filters=None, MaxRecords=None, Marker=None):
 def describe_endpoint_types(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about the type of endpoints available.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_endpoint_types(
@@ -935,6 +947,7 @@ def describe_endpoint_types(Filters=None, MaxRecords=None, Marker=None):
 def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about the endpoints for your account in the current region.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_endpoints(
@@ -999,6 +1012,7 @@ def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
 def describe_orderable_replication_instances(MaxRecords=None, Marker=None):
     """
     Returns information about the replication instance types that can be created in the specified region.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_orderable_replication_instances(
@@ -1039,6 +1053,7 @@ def describe_orderable_replication_instances(MaxRecords=None, Marker=None):
 def describe_refresh_schemas_status(EndpointArn=None):
     """
     Returns the status of the RefreshSchemas operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_refresh_schemas_status(
@@ -1069,6 +1084,7 @@ def describe_refresh_schemas_status(EndpointArn=None):
 def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about replication instances for your account in the current region.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_replication_instances(
@@ -1156,7 +1172,8 @@ def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None):
                 'ReplicationInstancePrivateIpAddresses': [
                     'string',
                 ],
-                'PubliclyAccessible': True|False
+                'PubliclyAccessible': True|False,
+                'SecondaryAvailabilityZone': 'string'
             },
         ]
     }
@@ -1173,6 +1190,7 @@ def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None):
 def describe_replication_subnet_groups(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about the replication subnet groups.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_replication_subnet_groups(
@@ -1236,6 +1254,7 @@ def describe_replication_subnet_groups(Filters=None, MaxRecords=None, Marker=Non
 def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about replication tasks for your account in the current region.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_replication_tasks(
@@ -1285,6 +1304,7 @@ def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
                 'ReplicationTaskSettings': 'string',
                 'Status': 'string',
                 'LastFailureMessage': 'string',
+                'StopReason': 'string',
                 'ReplicationTaskCreationDate': datetime(2015, 1, 1),
                 'ReplicationTaskStartDate': datetime(2015, 1, 1),
                 'ReplicationTaskArn': 'string',
@@ -1312,6 +1332,7 @@ def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
 def describe_schemas(EndpointArn=None, MaxRecords=None, Marker=None):
     """
     Returns information about the schema for the specified endpoint.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_schemas(
@@ -1353,6 +1374,7 @@ def describe_schemas(EndpointArn=None, MaxRecords=None, Marker=None):
 def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=None):
     """
     Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_table_statistics(
@@ -1443,24 +1465,29 @@ def get_waiter():
     """
     pass
 
-def import_certificate(CertificateIdentifier=None, CertificatePem=None):
+def import_certificate(CertificateIdentifier=None, CertificatePem=None, CertificateWallet=None):
     """
     Uploads the specified certificate.
+    See also: AWS API Documentation
     
     
     :example: response = client.import_certificate(
         CertificateIdentifier='string',
-        CertificatePem='string'
+        CertificatePem='string',
+        CertificateWallet=b'bytes'
     )
     
     
     :type CertificateIdentifier: string
     :param CertificateIdentifier: [REQUIRED]
-            The customer-assigned name of the certificate. Valid characters are [A-z_0-9].
+            The customer-assigned name of the certificate. Valid characters are A-z and 0-9.
             
 
     :type CertificatePem: string
-    :param CertificatePem: The contents of the .pem X.509 certificate file.
+    :param CertificatePem: The contents of the .pem X.509 certificate file for the certificate.
+
+    :type CertificateWallet: bytes
+    :param CertificateWallet: The location of the imported Oracle Wallet certificate for use with SSL.
 
     :rtype: dict
     :return: {
@@ -1468,6 +1495,7 @@ def import_certificate(CertificateIdentifier=None, CertificatePem=None):
             'CertificateIdentifier': 'string',
             'CertificateCreationDate': datetime(2015, 1, 1),
             'CertificatePem': 'string',
+            'CertificateWallet': b'bytes',
             'CertificateArn': 'string',
             'CertificateOwner': 'string',
             'ValidFromDate': datetime(2015, 1, 1),
@@ -1484,6 +1512,7 @@ def import_certificate(CertificateIdentifier=None, CertificatePem=None):
 def list_tags_for_resource(ResourceArn=None):
     """
     Lists all tags for an AWS DMS resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_resource(
@@ -1513,6 +1542,7 @@ def list_tags_for_resource(ResourceArn=None):
 def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None):
     """
     Modifies the specified endpoint.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_endpoint(
@@ -1543,7 +1573,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
     :param EndpointType: The type of endpoint.
 
     :type EngineName: string
-    :param EngineName: The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, and SQLSERVER.
+    :param EngineName: The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
 
     :type Username: string
     :param Username: The user name to be used to login to the endpoint database.
@@ -1599,6 +1629,7 @@ def modify_replication_instance(ReplicationInstanceArn=None, AllocatedStorage=No
     """
     Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request.
     Some settings are applied during the maintenance window.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_replication_instance(
@@ -1714,7 +1745,8 @@ def modify_replication_instance(ReplicationInstanceArn=None, AllocatedStorage=No
             'ReplicationInstancePrivateIpAddresses': [
                 'string',
             ],
-            'PubliclyAccessible': True|False
+            'PubliclyAccessible': True|False,
+            'SecondaryAvailabilityZone': 'string'
         }
     }
     
@@ -1730,6 +1762,7 @@ def modify_replication_instance(ReplicationInstanceArn=None, AllocatedStorage=No
 def modify_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, ReplicationSubnetGroupDescription=None, SubnetIds=None):
     """
     Modifies the settings for the specified replication subnet group.
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_replication_subnet_group(
@@ -1778,9 +1811,92 @@ def modify_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, Repli
     """
     pass
 
+def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None):
+    """
+    Modifies the specified replication task.
+    You can't modify the task endpoints. The task must be stopped before you can modify it.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.modify_replication_task(
+        ReplicationTaskArn='string',
+        ReplicationTaskIdentifier='string',
+        MigrationType='full-load'|'cdc'|'full-load-and-cdc',
+        TableMappings='string',
+        ReplicationTaskSettings='string',
+        CdcStartTime=datetime(2015, 1, 1)
+    )
+    
+    
+    :type ReplicationTaskArn: string
+    :param ReplicationTaskArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the replication task.
+            
+
+    :type ReplicationTaskIdentifier: string
+    :param ReplicationTaskIdentifier: The replication task identifier.
+            Constraints:
+            Must contain from 1 to 63 alphanumeric characters or hyphens.
+            First character must be a letter.
+            Cannot end with a hyphen or contain two consecutive hyphens.
+            
+
+    :type MigrationType: string
+    :param MigrationType: The migration type.
+            Valid values: full-load | cdc | full-load-and-cdc
+            
+
+    :type TableMappings: string
+    :param TableMappings: The path of the JSON file that contains the table mappings. Preceed the path with 'file://'.
+            For example, --table-mappings file://mappingfile.json
+            
+
+    :type ReplicationTaskSettings: string
+    :param ReplicationTaskSettings: JSON file that contains settings for the task, such as target metadata settings.
+
+    :type CdcStartTime: datetime
+    :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+
+    :rtype: dict
+    :return: {
+        'ReplicationTask': {
+            'ReplicationTaskIdentifier': 'string',
+            'SourceEndpointArn': 'string',
+            'TargetEndpointArn': 'string',
+            'ReplicationInstanceArn': 'string',
+            'MigrationType': 'full-load'|'cdc'|'full-load-and-cdc',
+            'TableMappings': 'string',
+            'ReplicationTaskSettings': 'string',
+            'Status': 'string',
+            'LastFailureMessage': 'string',
+            'StopReason': 'string',
+            'ReplicationTaskCreationDate': datetime(2015, 1, 1),
+            'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'ReplicationTaskArn': 'string',
+            'ReplicationTaskStats': {
+                'FullLoadProgressPercent': 123,
+                'ElapsedTimeMillis': 123,
+                'TablesLoaded': 123,
+                'TablesLoading': 123,
+                'TablesQueued': 123,
+                'TablesErrored': 123
+            }
+        }
+    }
+    
+    
+    :returns: 
+    Must contain from 1 to 63 alphanumeric characters or hyphens.
+    First character must be a letter.
+    Cannot end with a hyphen or contain two consecutive hyphens.
+    
+    """
+    pass
+
 def refresh_schemas(EndpointArn=None, ReplicationInstanceArn=None):
     """
     Populates the schema for the specified endpoint. This is an asynchronous operation and can take several minutes. You can check the status of this operation by calling the DescribeRefreshSchemasStatus operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.refresh_schemas(
@@ -1817,6 +1933,7 @@ def refresh_schemas(EndpointArn=None, ReplicationInstanceArn=None):
 def remove_tags_from_resource(ResourceArn=None, TagKeys=None):
     """
     Removes metadata tags from a DMS resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags_from_resource(
@@ -1851,6 +1968,7 @@ def remove_tags_from_resource(ResourceArn=None, TagKeys=None):
 def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None):
     """
     Starts the replication task.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_replication_task(
@@ -1885,6 +2003,7 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
             'ReplicationTaskSettings': 'string',
             'Status': 'string',
             'LastFailureMessage': 'string',
+            'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
             'ReplicationTaskArn': 'string',
@@ -1911,6 +2030,7 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
 def stop_replication_task(ReplicationTaskArn=None):
     """
     Stops the replication task.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_replication_task(
@@ -1935,6 +2055,7 @@ def stop_replication_task(ReplicationTaskArn=None):
             'ReplicationTaskSettings': 'string',
             'Status': 'string',
             'LastFailureMessage': 'string',
+            'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
             'ReplicationTaskArn': 'string',
@@ -1956,6 +2077,7 @@ def stop_replication_task(ReplicationTaskArn=None):
 def test_connection(ReplicationInstanceArn=None, EndpointArn=None):
     """
     Tests the connection between the replication instance and the endpoint.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_connection(

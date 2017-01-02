@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def acknowledge_job(jobId=None, nonce=None):
     """
     Returns information about a specified job and whether that job has been received by the job worker. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.acknowledge_job(
@@ -42,7 +43,7 @@ def acknowledge_job(jobId=None, nonce=None):
 
     :type nonce: string
     :param nonce: [REQUIRED]
-            A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. This number must be returned in the response.
+            A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
             
 
     :rtype: dict
@@ -57,6 +58,7 @@ def acknowledge_job(jobId=None, nonce=None):
 def acknowledge_third_party_job(jobId=None, nonce=None, clientToken=None):
     """
     Confirms a job worker has received the specified job. Only used for partner actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.acknowledge_third_party_job(
@@ -73,7 +75,7 @@ def acknowledge_third_party_job(jobId=None, nonce=None, clientToken=None):
 
     :type nonce: string
     :param nonce: [REQUIRED]
-            A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. This number must be returned in the response.
+            A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
             
 
     :type clientToken: string
@@ -108,6 +110,7 @@ def can_paginate(operation_name=None):
 def create_custom_action_type(category=None, provider=None, version=None, settings=None, configurationProperties=None, inputArtifactDetails=None, outputArtifactDetails=None):
     """
     Creates a new custom action that can be used in all pipelines associated with the AWS account. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_custom_action_type(
@@ -242,6 +245,7 @@ def create_custom_action_type(category=None, provider=None, version=None, settin
 def create_pipeline(pipeline=None):
     """
     Creates a pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_pipeline(
@@ -415,6 +419,7 @@ def create_pipeline(pipeline=None):
 def delete_custom_action_type(category=None, provider=None, version=None):
     """
     Marks a custom action as deleted. PollForJobs for the custom action will fail after the action is marked for deletion. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_custom_action_type(
@@ -445,6 +450,7 @@ def delete_custom_action_type(category=None, provider=None, version=None):
 def delete_pipeline(name=None):
     """
     Deletes the specified pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_pipeline(
@@ -463,6 +469,7 @@ def delete_pipeline(name=None):
 def disable_stage_transition(pipelineName=None, stageName=None, transitionType=None, reason=None):
     """
     Prevents artifacts in a pipeline from transitioning to the next stage in the pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_stage_transition(
@@ -499,6 +506,7 @@ def disable_stage_transition(pipelineName=None, stageName=None, transitionType=N
 def enable_stage_transition(pipelineName=None, stageName=None, transitionType=None):
     """
     Enables artifacts in a pipeline to transition to a stage in a pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_stage_transition(
@@ -551,6 +559,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_job_details(jobId=None):
     """
     Returns information about a job. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_job_details(
@@ -652,6 +661,7 @@ def get_paginator(operation_name=None):
 def get_pipeline(name=None, version=None):
     """
     Returns the metadata, structure, stages, and actions of a pipeline. Can be used to return the entire structure of a pipeline in JSON format, which can then be modified and used to update the pipeline structure with  UpdatePipeline .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_pipeline(
@@ -735,6 +745,7 @@ def get_pipeline(name=None, version=None):
 def get_pipeline_execution(pipelineName=None, pipelineExecutionId=None):
     """
     Returns information about an execution of a pipeline, including details about artifacts, the pipeline execution ID, and the name, version, and status of the pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_pipeline_execution(
@@ -786,6 +797,7 @@ def get_pipeline_execution(pipelineName=None, pipelineExecutionId=None):
 def get_pipeline_state(name=None):
     """
     Returns information about the state of a pipeline, including the stages and actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_pipeline_state(
@@ -854,6 +866,7 @@ def get_pipeline_state(name=None):
 def get_third_party_job_details(jobId=None, clientToken=None):
     """
     Requests the details of a job for a third party action. Only used for partner actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_third_party_job_details(
@@ -957,6 +970,7 @@ def get_waiter():
 def list_action_types(actionOwnerFilter=None, nextToken=None):
     """
     Gets a summary of all AWS CodePipeline action types associated with your account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_action_types(
@@ -1018,6 +1032,7 @@ def list_action_types(actionOwnerFilter=None, nextToken=None):
 def list_pipelines(nextToken=None):
     """
     Gets a summary of all of the pipelines associated with your account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_pipelines(
@@ -1048,6 +1063,7 @@ def list_pipelines(nextToken=None):
 def poll_for_jobs(actionTypeId=None, maxBatchSize=None, queryParam=None):
     """
     Returns information about any jobs for AWS CodePipeline to act upon.
+    See also: AWS API Documentation
     
     
     :example: response = client.poll_for_jobs(
@@ -1164,6 +1180,7 @@ def poll_for_jobs(actionTypeId=None, maxBatchSize=None, queryParam=None):
 def poll_for_third_party_jobs(actionTypeId=None, maxBatchSize=None):
     """
     Determines whether there are any third party jobs for a job worker to act on. Only used for partner actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.poll_for_third_party_jobs(
@@ -1206,6 +1223,7 @@ def poll_for_third_party_jobs(actionTypeId=None, maxBatchSize=None):
 def put_action_revision(pipelineName=None, stageName=None, actionName=None, actionRevision=None):
     """
     Provides information to AWS CodePipeline about new revisions to a source.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_action_revision(
@@ -1256,6 +1274,7 @@ def put_action_revision(pipelineName=None, stageName=None, actionName=None, acti
 def put_approval_result(pipelineName=None, stageName=None, actionName=None, result=None, token=None):
     """
     Provides the response to a manual approval request to AWS CodePipeline. Valid responses include Approved and Rejected.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_approval_result(
@@ -1309,6 +1328,7 @@ def put_approval_result(pipelineName=None, stageName=None, actionName=None, resu
 def put_job_failure_result(jobId=None, failureDetails=None):
     """
     Represents the failure of a job as returned to the pipeline by a job worker. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_job_failure_result(
@@ -1340,6 +1360,7 @@ def put_job_failure_result(jobId=None, failureDetails=None):
 def put_job_success_result(jobId=None, currentRevision=None, continuationToken=None, executionDetails=None):
     """
     Represents the success of a job as returned to the pipeline by a job worker. Only used for custom actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_job_success_result(
@@ -1388,6 +1409,7 @@ def put_job_success_result(jobId=None, currentRevision=None, continuationToken=N
 def put_third_party_job_failure_result(jobId=None, clientToken=None, failureDetails=None):
     """
     Represents the failure of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_third_party_job_failure_result(
@@ -1425,6 +1447,7 @@ def put_third_party_job_failure_result(jobId=None, clientToken=None, failureDeta
 def put_third_party_job_success_result(jobId=None, clientToken=None, currentRevision=None, continuationToken=None, executionDetails=None):
     """
     Represents the success of a third party job as returned to the pipeline by a job worker. Only used for partner actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_third_party_job_success_result(
@@ -1479,6 +1502,7 @@ def put_third_party_job_success_result(jobId=None, clientToken=None, currentRevi
 def retry_stage_execution(pipelineName=None, stageName=None, pipelineExecutionId=None, retryMode=None):
     """
     Resumes the pipeline execution by retrying the last failed actions in a stage.
+    See also: AWS API Documentation
     
     
     :example: response = client.retry_stage_execution(
@@ -1521,6 +1545,7 @@ def retry_stage_execution(pipelineName=None, stageName=None, pipelineExecutionId
 def start_pipeline_execution(name=None):
     """
     Starts the specified pipeline. Specifically, it begins processing the latest commit to the source location specified as part of the pipeline.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_pipeline_execution(
@@ -1545,6 +1570,7 @@ def start_pipeline_execution(name=None):
 def update_pipeline(pipeline=None):
     """
     Updates a specified pipeline with edits or changes to its structure. Use a JSON file with the pipeline structure in conjunction with UpdatePipeline to provide the full structure of the pipeline. Updating the pipeline increases the version number of the pipeline by 1.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_pipeline(

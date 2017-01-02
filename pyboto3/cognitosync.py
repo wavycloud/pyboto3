@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,7 @@ def bulk_publish(IdentityPoolId=None):
     """
     Initiates a bulk publish of all existing datasets for an Identity Pool to the configured stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is an asynchronous request, customers can see the status of the request via the GetBulkPublishDetails operation.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.bulk_publish(
@@ -66,6 +67,7 @@ def delete_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None):
     """
     Deletes the specific dataset. The dataset will be deleted permanently, and the action can't be undone. Datasets that this dataset was merged with will no longer report the merge. Any subsequent operation on this dataset will result in a ResourceNotFoundException.
     This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_dataset(
@@ -120,6 +122,7 @@ def describe_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None):
     """
     Gets meta data about a dataset by identity and dataset name. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data.
     This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_dataset(
@@ -174,6 +177,7 @@ def describe_identity_pool_usage(IdentityPoolId=None):
     """
     Gets usage details (for example, data storage) about a particular identity pool.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_identity_pool_usage(
@@ -202,6 +206,7 @@ def describe_identity_usage(IdentityPoolId=None, IdentityId=None):
     """
     Gets usage information for an identity, including number of datasets and data usage.
     This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_identity_usage(
@@ -270,6 +275,7 @@ def get_bulk_publish_details(IdentityPoolId=None):
     """
     Get the status of the last BulkPublish operation for an identity pool.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_bulk_publish_details(
@@ -297,6 +303,7 @@ def get_cognito_events(IdentityPoolId=None):
     """
     Gets the events and the corresponding Lambda functions associated with an identity pool.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_cognito_events(
@@ -324,6 +331,7 @@ def get_identity_pool_configuration(IdentityPoolId=None):
     """
     Gets the configuration settings of an identity pool.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_identity_pool_configuration(
@@ -382,6 +390,7 @@ def list_datasets(IdentityPoolId=None, IdentityId=None, NextToken=None, MaxResul
     """
     Lists datasets for an identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data.
     ListDatasets can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use the Cognito Identity credentials to make this API call.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_datasets(
@@ -449,6 +458,7 @@ def list_identity_pool_usage(NextToken=None, MaxResults=None):
     """
     Gets a list of identity pools registered with Cognito.
     ListIdentityPool can only be called with developer credentials. You cannot make this API call with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_identity_pool_usage(
@@ -504,6 +514,7 @@ def list_records(IdentityPoolId=None, IdentityId=None, DatasetName=None, LastSyn
     """
     Gets paginated records, optionally changed after a particular sync count for a dataset and identity. With Amazon Cognito Sync, each identity has access only to its own data. Thus, the credentials used to make this API call need to have access to the identity data.
     ListRecords can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_records(
@@ -598,6 +609,7 @@ def register_device(IdentityPoolId=None, IdentityId=None, Platform=None, Token=N
     """
     Registers a device to receive push sync notifications.
     This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_device(
@@ -641,6 +653,7 @@ def set_cognito_events(IdentityPoolId=None, Events=None):
     """
     Sets the AWS Lambda function for a given event type for an identity pool. This request only updates the key/value pair specified. Other key/values pairs are not updated. To remove a key value pair, pass a empty value for the particular key.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_cognito_events(
@@ -670,6 +683,7 @@ def set_identity_pool_configuration(IdentityPoolId=None, PushSync=None, CognitoS
     """
     Sets the necessary configuration for push sync.
     This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_identity_pool_configuration(
@@ -735,6 +749,7 @@ def subscribe_to_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=None,
     """
     Subscribes to receive notifications when a dataset is modified by another device.
     This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.subscribe_to_dataset(
@@ -776,6 +791,7 @@ def unsubscribe_from_dataset(IdentityPoolId=None, IdentityId=None, DatasetName=N
     """
     Unsubscribes from receiving notifications when a dataset is modified by another device.
     This API can only be called with temporary credentials provided by Cognito Identity. You cannot call this API with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.unsubscribe_from_dataset(
@@ -819,6 +835,7 @@ def update_records(IdentityPoolId=None, IdentityId=None, DatasetName=None, Devic
     The sync count in the record patch is your last known sync count for that record. The server will reject an UpdateRecords request with a ResourceConflictException if you try to patch a record with a new value but a stale sync count.
     For example, if the sync count on the server is 5 for a key called highScore and you try and submit a new highScore with sync count of 4, the request will be rejected. To obtain the current sync count for a record, call ListRecords. On a successful update of the record, the response returns the new sync count for that record. You should present that sync count the next time you try to update that same record. When the record does not exist, specify the sync count as 0.
     This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_records(

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +47,7 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
     This operation also takes an optional PerformanceMode parameter that you choose for your file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. For more information, see Amazon EFS: Performance Modes .
     After the file system is fully created, Amazon EFS sets its lifecycle state to available , at which point you can create one or more mount targets for the file system in your VPC. For more information, see  CreateMountTarget . You mount your Amazon EFS file system on an EC2 instances in your VPC via the mount target. For more information, see Amazon EFS: How it Works .
     This operation requires permissions for the elasticfilesystem:CreateFileSystem action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_file_system(
@@ -102,6 +103,7 @@ def create_mount_target(FileSystemId=None, SubnetId=None, IpAddress=None, Securi
     We recommend you create a mount target in each of the Availability Zones. There are cost considerations for using a file system in an Availability Zone through a mount target created in another Availability Zone. For more information, see Amazon EFS . In addition, by always using a mount target local to the instance's Availability Zone, you eliminate a partial failure scenario. If the Availability Zone in which your mount target is created goes down, then you won't be able to access your file system through that mount target.
     This operation requires permissions for the following action on the file system:
     This operation also requires permissions for the following Amazon EC2 actions:
+    See also: AWS API Documentation
     
     
     :example: response = client.create_mount_target(
@@ -155,6 +157,7 @@ def create_tags(FileSystemId=None, Tags=None):
     """
     Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the  DescribeFileSystems operation.
     This operation requires permission for the elasticfilesystem:CreateTags action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_tags(
@@ -190,6 +193,7 @@ def delete_file_system(FileSystemId=None):
     Deletes a file system, permanently severing access to its contents. Upon return, the file system no longer exists and you can't access any contents of the deleted file system.
     You can't delete a file system that is in use. That is, if the file system has any mount targets, you must first delete them. For more information, see  DescribeMountTargets and  DeleteMountTarget .
     This operation requires permissions for the elasticfilesystem:DeleteFileSystem action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_file_system(
@@ -211,6 +215,7 @@ def delete_mount_target(MountTargetId=None):
     This operation forcibly breaks any mounts of the file system via the mount target that is being deleted, which might disrupt instances or applications using those mounts. To avoid applications getting cut off abruptly, you might consider unmounting any mounts of the mount target, if feasible. The operation also deletes the associated network interface. Uncommitted writes may be lost, but breaking a mount target using this operation does not corrupt the file system itself. The file system you created remains. You can mount an EC2 instance in your VPC via another mount target.
     This operation requires permissions for the following action on the file system:
     The operation also requires permissions for the following Amazon EC2 action on the mount target's network interface:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_mount_target(
@@ -233,6 +238,7 @@ def delete_tags(FileSystemId=None, TagKeys=None):
     """
     Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that does not exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see Tag Restrictions in the AWS Billing and Cost Management User Guide .
     This operation requires permissions for the elasticfilesystem:DeleteTags action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_tags(
@@ -265,6 +271,7 @@ def describe_file_systems(MaxItems=None, Marker=None, CreationToken=None, FileSy
     The implementation may return fewer than MaxItems file system descriptions while still including a NextMarker value.
     The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multi-call iteration is unspecified.
     This operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_file_systems(
@@ -317,6 +324,7 @@ def describe_mount_target_security_groups(MountTargetId=None):
     """
     Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted .
     This operation requires permissions for the following actions:
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_mount_target_security_groups(
@@ -347,6 +355,7 @@ def describe_mount_targets(MaxItems=None, Marker=None, FileSystemId=None, MountT
     """
     Returns the descriptions of all the current mount targets, or a specific mount target, for a file system. When requesting all of the current mount targets, the order of mount targets returned in the response is unspecified.
     This operation requires permissions for the elasticfilesystem:DescribeMountTargets action, on either the file system ID that you specify in FileSystemId , or on the file system of the mount target that you specify in MountTargetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_mount_targets(
@@ -394,6 +403,7 @@ def describe_tags(MaxItems=None, Marker=None, FileSystemId=None):
     """
     Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multi-call iteration (when using pagination) is unspecified.
     This operation requires permissions for the elasticfilesystem:DescribeTags action.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_tags(
@@ -479,6 +489,7 @@ def modify_mount_target_security_groups(MountTargetId=None, SecurityGroups=None)
     Modifies the set of security groups in effect for a mount target.
     When you create a mount target, Amazon EFS also creates a new network interface. For more information, see  CreateMountTarget . This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted .
     The operation requires permissions for the following actions:
+    See also: AWS API Documentation
     
     
     :example: response = client.modify_mount_target_security_groups(

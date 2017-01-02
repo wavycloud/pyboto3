@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -45,6 +45,7 @@ def count_closed_workflow_executions(domain=None, startTimeFilter=None, closeTim
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.count_closed_workflow_executions(
@@ -210,6 +211,7 @@ def count_open_workflow_executions(domain=None, startTimeFilter=None, typeFilter
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.count_open_workflow_executions(
@@ -327,6 +329,7 @@ def count_pending_activity_tasks(domain=None, taskList=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.count_pending_activity_tasks(
@@ -376,6 +379,7 @@ def count_pending_decision_tasks(domain=None, taskList=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.count_pending_decision_tasks(
@@ -425,6 +429,7 @@ def deprecate_activity_type(domain=None, activityType=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.deprecate_activity_type(
@@ -483,6 +488,7 @@ def deprecate_domain(name=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.deprecate_domain(
@@ -504,6 +510,7 @@ def deprecate_workflow_type(domain=None, workflowType=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.deprecate_workflow_type(
@@ -562,6 +569,7 @@ def describe_activity_type(domain=None, activityType=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_activity_type(
@@ -645,6 +653,7 @@ def describe_domain(name=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_domain(
@@ -683,6 +692,7 @@ def describe_workflow_execution(domain=None, execution=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workflow_execution(
@@ -775,6 +785,7 @@ def describe_workflow_type(domain=None, workflowType=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_workflow_type(
@@ -902,6 +913,7 @@ def get_workflow_execution_history(domain=None, execution=None, nextPageToken=No
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_workflow_execution_history(
@@ -1392,6 +1404,7 @@ def list_activity_types(domain=None, name=None, registrationStatus=None, nextPag
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_activity_types(
@@ -1473,6 +1486,7 @@ def list_closed_workflow_executions(domain=None, startTimeFilter=None, closeTime
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_closed_workflow_executions(
@@ -1684,6 +1698,7 @@ def list_domains(nextPageToken=None, registrationStatus=None, maximumPageSize=No
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_domains(
@@ -1746,6 +1761,7 @@ def list_open_workflow_executions(domain=None, startTimeFilter=None, typeFilter=
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_open_workflow_executions(
@@ -1909,6 +1925,7 @@ def list_workflow_types(domain=None, name=None, registrationStatus=None, nextPag
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_workflow_types(
@@ -1990,6 +2007,7 @@ def poll_for_activity_task(domain=None, taskList=None, identity=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.poll_for_activity_task(
@@ -2057,6 +2075,7 @@ def poll_for_decision_task(domain=None, taskList=None, identity=None, nextPageTo
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.poll_for_decision_task(
@@ -2571,6 +2590,7 @@ def record_activity_task_heartbeat(taskToken=None, details=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.record_activity_task_heartbeat(
@@ -2614,6 +2634,7 @@ def register_activity_type(domain=None, name=None, version=None, description=Non
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_activity_type(
@@ -2732,6 +2753,7 @@ def register_domain(name=None, description=None, workflowExecutionRetentionPerio
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_domain(
@@ -2779,6 +2801,7 @@ def register_workflow_type(domain=None, name=None, version=None, description=Non
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.register_workflow_type(
@@ -2905,6 +2928,7 @@ def request_cancel_workflow_execution(domain=None, workflowId=None, runId=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.request_cancel_workflow_execution(
@@ -2947,6 +2971,7 @@ def respond_activity_task_canceled(taskToken=None, details=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.respond_activity_task_canceled(
@@ -2985,6 +3010,7 @@ def respond_activity_task_completed(taskToken=None, result=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.respond_activity_task_completed(
@@ -3023,6 +3049,7 @@ def respond_activity_task_failed(taskToken=None, reason=None, details=None):
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.respond_activity_task_failed(
@@ -3065,6 +3092,7 @@ def respond_decision_task_completed(taskToken=None, decisions=None, executionCon
     A DecisionTaskCompleted event is added to the workflow history. The executionContext specified is attached to the event in the workflow execution history.
     Access Control
     If an IAM policy grants permission to use RespondDecisionTaskCompleted , it can express permissions for the list of decisions in the decisions parameter. Each of the decisions has one or more parameters, much like a regular API call. To allow for policies to be as readable as possible, you can express permissions on decisions as if they were actual API calls, including applying conditions to some parameters. For more information, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.respond_decision_task_completed(
@@ -3398,6 +3426,7 @@ def signal_workflow_execution(domain=None, workflowId=None, runId=None, signalNa
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.signal_workflow_execution(
@@ -3453,6 +3482,7 @@ def start_workflow_execution(domain=None, workflowId=None, workflowType=None, ta
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.start_workflow_execution(
@@ -3643,6 +3673,7 @@ def terminate_workflow_execution(domain=None, workflowId=None, runId=None, reaso
     Access Control
     You can use IAM policies to control this action's access to Amazon SWF resources as follows:
     If the caller does not have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter will be set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF Workflows .
+    See also: AWS API Documentation
     
     
     :example: response = client.terminate_workflow_execution(

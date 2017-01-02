@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def delete_rule(Name=None):
     """
     Deletes a rule. You must remove all targets from a rule using  RemoveTargets before you can delete the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_rule(
@@ -60,6 +61,7 @@ def delete_rule(Name=None):
 def describe_rule(Name=None):
     """
     Describes the details of the specified rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_rule(
@@ -90,6 +92,7 @@ def describe_rule(Name=None):
 def disable_rule(Name=None):
     """
     Disables a rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression.
+    See also: AWS API Documentation
     
     
     :example: response = client.disable_rule(
@@ -108,6 +111,7 @@ def disable_rule(Name=None):
 def enable_rule(Name=None):
     """
     Enables a rule. If the rule does not exist, the operation fails.
+    See also: AWS API Documentation
     
     
     :example: response = client.enable_rule(
@@ -170,6 +174,7 @@ def get_waiter():
 def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None):
     """
     Lists the names of the rules that the given target is put to. You can see which of the rules in Amazon CloudWatch Events can invoke a specific target in your account. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat ListRulesByTarget until the NextToken in the response is returned as null.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_rule_names_by_target(
@@ -208,6 +213,7 @@ def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None):
 def list_rules(NamePrefix=None, NextToken=None, Limit=None):
     """
     Lists the Amazon CloudWatch Events rules in your account. You can either list all the rules or you can provide a prefix to match to the rule names. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat ListRules until the NextToken in the response is returned as null.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_rules(
@@ -249,6 +255,7 @@ def list_rules(NamePrefix=None, NextToken=None, Limit=None):
 def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
     """
     Lists of targets assigned to the rule.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_targets_by_rule(
@@ -294,6 +301,7 @@ def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
 def put_events(Entries=None):
     """
     Sends custom events to Amazon CloudWatch Events so that they can be matched to rules.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_events(
@@ -344,6 +352,7 @@ def put_rule(Name=None, ScheduleExpression=None, EventPattern=None, State=None, 
     """
     Creates or updates a rule. Rules are enabled by default, or based on value of the State parameter. You can disable a rule using  DisableRule .
     A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule will trigger on matching events as well as on a schedule.
+    See also: AWS API Documentation
     
     
     :example: response = client.put_rule(
@@ -390,6 +399,7 @@ def put_targets(Rule=None, Targets=None):
     Adds target(s) to a rule. Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets. Updates the target(s) if they are already associated with the role. In other words, if there is already a target with the given target ID, then the target associated with that ID is updated.
     In order to be able to make API calls against the resources you own, Amazon CloudWatch Events needs the appropriate permissions. For AWS Lambda and Amazon SNS resources, CloudWatch Events relies on resource-based policies. For Amazon Kinesis streams, CloudWatch Events relies on IAM roles. For more information, see Permissions for Sending Events to Targets in the *Amazon CloudWatch Developer Guide* .
     Input and InputPath are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:
+    See also: AWS API Documentation
     
     
     :example: response = client.put_targets(
@@ -472,6 +482,7 @@ def put_targets(Rule=None, Targets=None):
 def remove_targets(Rule=None, Ids=None):
     """
     Removes target(s) from a rule so that when the rule is triggered, those targets will no longer be invoked.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_targets(
@@ -512,6 +523,7 @@ def remove_targets(Rule=None, Ids=None):
 def test_event_pattern(EventPattern=None, Event=None):
     """
     Tests whether an event pattern matches the provided event.
+    See also: AWS API Documentation
     
     
     :example: response = client.test_event_pattern(

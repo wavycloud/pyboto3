@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def add_permission(TopicArn=None, Label=None, AWSAccountId=None, ActionName=None):
     """
     Adds a statement to a topic's access control policy, granting access for the specified AWS accounts to the specified actions.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_permission(
@@ -86,6 +87,7 @@ def check_if_phone_number_is_opted_out(phoneNumber=None):
     """
     Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your account. You cannot send SMS messages to a number that is opted out.
     To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
+    See also: AWS API Documentation
     
     
     :example: response = client.check_if_phone_number_is_opted_out(
@@ -110,6 +112,7 @@ def check_if_phone_number_is_opted_out(phoneNumber=None):
 def confirm_subscription(TopicArn=None, Token=None, AuthenticateOnUnsubscribe=None):
     """
     Verifies an endpoint owner's intent to receive messages by validating the token sent to the endpoint by an earlier Subscribe action. If the token is valid, the action creates a new subscription and returns its Amazon Resource Name (ARN). This call requires an AWS signature only when the AuthenticateOnUnsubscribe flag is set to "true".
+    See also: AWS API Documentation
     
     
     :example: response = client.confirm_subscription(
@@ -145,6 +148,7 @@ def create_platform_application(Name=None, Platform=None, Attributes=None):
     """
     Creates a platform application object for one of the supported push notification services, such as APNS and GCM, to which devices and mobile apps may register. You must specify PlatformPrincipal and PlatformCredential attributes when using the CreatePlatformApplication action. The PlatformPrincipal is received from the notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is "SSL certificate". For GCM, PlatformPrincipal is not applicable. For ADM, PlatformPrincipal is "client id". The PlatformCredential is also received from the notification service. For WNS, PlatformPrincipal is "Package Security Identifier". For MPNS, PlatformPrincipal is "TLS certificate". For Baidu, PlatformPrincipal is "API key".
     For APNS/APNS_SANDBOX, PlatformCredential is "private key". For GCM, PlatformCredential is "API key". For ADM, PlatformCredential is "client secret". For WNS, PlatformCredential is "secret key". For MPNS, PlatformCredential is "private key". For Baidu, PlatformCredential is "secret key". The PlatformApplicationArn that is returned when using CreatePlatformApplication is then used as an attribute for the CreatePlatformEndpoint action. For more information, see Using Amazon SNS Mobile Push Notifications . For more information about obtaining the PlatformPrincipal and PlatformCredential for each of the supported push notification services, see Getting Started with Apple Push Notification Service , Getting Started with Amazon Device Messaging , Getting Started with Baidu Cloud Push , Getting Started with Google Cloud Messaging for Android , Getting Started with MPNS , or Getting Started with WNS .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_platform_application(
@@ -186,6 +190,7 @@ def create_platform_endpoint(PlatformApplicationArn=None, Token=None, CustomUser
     """
     Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication . The EndpointArn that is returned when using CreatePlatformEndpoint can then be used by the Publish action to send a message to a mobile app or by the Subscribe action for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same device token and attributes, that endpoint's ARN is returned without creating a new endpoint. For more information, see Using Amazon SNS Mobile Push Notifications .
     When using CreatePlatformEndpoint with Baidu, two attributes must be provided: ChannelId and UserId. The token field must also contain the ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_platform_endpoint(
@@ -229,6 +234,7 @@ def create_platform_endpoint(PlatformApplicationArn=None, Token=None, CustomUser
 def create_topic(Name=None):
     """
     Creates a topic to which notifications can be published. Users can create at most 100,000 topics. For more information, see http://aws.amazon.com/sns . This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_topic(
@@ -255,6 +261,7 @@ def delete_endpoint(EndpointArn=None):
     """
     Deletes the endpoint for a device and mobile app from Amazon SNS. This action is idempotent. For more information, see Using Amazon SNS Mobile Push Notifications .
     When you delete an endpoint that is also subscribed to a topic, then you must also unsubscribe the endpoint from the topic.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_endpoint(
@@ -273,6 +280,7 @@ def delete_endpoint(EndpointArn=None):
 def delete_platform_application(PlatformApplicationArn=None):
     """
     Deletes a platform application object for one of the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_platform_application(
@@ -291,6 +299,7 @@ def delete_platform_application(PlatformApplicationArn=None):
 def delete_topic(TopicArn=None):
     """
     Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_topic(
@@ -331,6 +340,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_endpoint_attributes(EndpointArn=None):
     """
     Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_endpoint_attributes(
@@ -379,6 +389,7 @@ def get_paginator(operation_name=None):
 def get_platform_application_attributes(PlatformApplicationArn=None):
     """
     Retrieves the attributes of the platform application object for the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_platform_application_attributes(
@@ -412,6 +423,7 @@ def get_sms_attributes(attributes=None):
     """
     Returns the settings for sending SMS messages from your account.
     These settings are set with the SetSMSAttributes action.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_sms_attributes(
@@ -448,6 +460,7 @@ def get_sms_attributes(attributes=None):
 def get_subscription_attributes(SubscriptionArn=None):
     """
     Returns all of the properties of a subscription.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_subscription_attributes(
@@ -480,6 +493,7 @@ def get_subscription_attributes(SubscriptionArn=None):
 def get_topic_attributes(TopicArn=None):
     """
     Returns all of the properties of a topic. Topic properties returned might differ based on the authorization of the user.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_topic_attributes(
@@ -518,6 +532,7 @@ def get_waiter():
 def list_endpoints_by_platform_application(PlatformApplicationArn=None, NextToken=None):
     """
     Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_endpoints_by_platform_application(
@@ -561,6 +576,7 @@ def list_phone_numbers_opted_out(nextToken=None):
     """
     Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them.
     The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are available after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_phone_numbers_opted_out(
@@ -586,6 +602,7 @@ def list_phone_numbers_opted_out(nextToken=None):
 def list_platform_applications(NextToken=None):
     """
     Lists the platform application objects for the supported push notification services, such as APNS and GCM. The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_platform_applications(
@@ -616,6 +633,7 @@ def list_platform_applications(NextToken=None):
 def list_subscriptions(NextToken=None):
     """
     Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_subscriptions(
@@ -647,6 +665,7 @@ def list_subscriptions(NextToken=None):
 def list_subscriptions_by_topic(TopicArn=None, NextToken=None):
     """
     Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_subscriptions_by_topic(
@@ -684,6 +703,7 @@ def list_subscriptions_by_topic(TopicArn=None, NextToken=None):
 def list_topics(NextToken=None):
     """
     Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_topics(
@@ -712,6 +732,7 @@ def opt_in_phone_number(phoneNumber=None):
     """
     Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number.
     You can opt in a phone number only once every 30 days.
+    See also: AWS API Documentation
     
     
     :example: response = client.opt_in_phone_number(
@@ -736,6 +757,7 @@ def publish(TopicArn=None, TargetArn=None, PhoneNumber=None, Message=None, Subje
     Sends a message to all of a topic's subscribed endpoints. When a messageId is returned, the message has been saved and Amazon SNS will attempt to deliver it to the topic's subscribers shortly. The format of the outgoing message to each subscribed endpoint depends on the notification protocol.
     To use the Publish action for sending a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action.
     For more information about formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile Devices .
+    See also: AWS API Documentation
     
     
     :example: response = client.publish(
@@ -825,6 +847,7 @@ def publish(TopicArn=None, TargetArn=None, PhoneNumber=None, Message=None, Subje
 def remove_permission(TopicArn=None, Label=None):
     """
     Removes a statement from a topic's access control policy.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_permission(
@@ -849,6 +872,7 @@ def remove_permission(TopicArn=None, Label=None):
 def set_endpoint_attributes(EndpointArn=None, Attributes=None):
     """
     Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM and APNS. For more information, see Using Amazon SNS Mobile Push Notifications .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_endpoint_attributes(
@@ -880,6 +904,7 @@ def set_endpoint_attributes(EndpointArn=None, Attributes=None):
 def set_platform_application_attributes(PlatformApplicationArn=None, Attributes=None):
     """
     Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM. For more information, see Using Amazon SNS Mobile Push Notifications . For information on configuring attributes for message delivery status, see Using Amazon SNS Application Attributes for Message Delivery Status .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_platform_application_attributes(
@@ -918,6 +943,7 @@ def set_sms_attributes(attributes=None):
     """
     Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports.
     You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see Sending an SMS Message in the Amazon SNS Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.set_sms_attributes(
@@ -974,6 +1000,7 @@ def set_sms_attributes(attributes=None):
 def set_subscription_attributes(SubscriptionArn=None, AttributeName=None, AttributeValue=None):
     """
     Allows a subscription owner to set an attribute of the topic to a new value.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_subscription_attributes(
@@ -1003,6 +1030,7 @@ def set_subscription_attributes(SubscriptionArn=None, AttributeName=None, Attrib
 def set_topic_attributes(TopicArn=None, AttributeName=None, AttributeValue=None):
     """
     Allows a topic owner to set an attribute of the topic to a new value.
+    See also: AWS API Documentation
     
     
     :example: response = client.set_topic_attributes(
@@ -1032,6 +1060,7 @@ def set_topic_attributes(TopicArn=None, AttributeName=None, AttributeValue=None)
 def subscribe(TopicArn=None, Protocol=None, Endpoint=None):
     """
     Prepares to subscribe an endpoint by sending the endpoint a confirmation message. To actually create a subscription, the endpoint owner must call the ConfirmSubscription action with the token from the confirmation message. Confirmation tokens are valid for three days.
+    See also: AWS API Documentation
     
     
     :example: response = client.subscribe(
@@ -1083,6 +1112,7 @@ def subscribe(TopicArn=None, Protocol=None, Endpoint=None):
 def unsubscribe(SubscriptionArn=None):
     """
     Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended.
+    See also: AWS API Documentation
     
     
     :example: response = client.unsubscribe(

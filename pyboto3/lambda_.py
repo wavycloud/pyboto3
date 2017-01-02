@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=N
     For information about the push model, see AWS Lambda: How it Works .
     If you are using versioning, the permissions you add are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:AddPermission action.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_permission(
@@ -72,7 +73,7 @@ def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=N
             
 
     :type SourceAccount: string
-    :param SourceAccount: This parameter is used for S3 and SES only. The AWS account ID (without a hyphen) of the source owner. For example, if the SourceArn identifies a bucket, then this is the bucket owner's account ID. You can use this additional condition to ensure the bucket you specify is owned by a specific account (it is possible the bucket owner deleted the bucket and some other AWS account created the bucket). You can also use this condition to specify all sources (that is, you don't specify the SourceArn ) owned by a specific account.
+    :param SourceAccount: This parameter is used for S3, SES, CloudWatch Logs and CloudWatch Rules only. The AWS account ID (without a hyphen) of the source owner. For example, if the SourceArn identifies a bucket, then this is the bucket owner's account ID. You can use this additional condition to ensure the bucket you specify is owned by a specific account (it is possible the bucket owner deleted the bucket and some other AWS account created the bucket). You can also use this condition to specify all sources (that is, you don't specify the SourceArn ) owned by a specific account.
 
     :type EventSourceToken: string
     :param EventSourceToken: A unique token that must be supplied by the principal invoking the function. This is currently only used for Alexa Smart Home functions.
@@ -114,6 +115,7 @@ def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
     """
     Creates an alias that points to the specified Lambda function version. For more information, see Introduction to AWS Lambda Aliases .
     Alias names are unique for a given function. This requires permission for the lambda:CreateAlias action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_alias(
@@ -154,7 +156,7 @@ def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
     """
     pass
 
-def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=None, BatchSize=None, StartingPosition=None):
+def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=None, BatchSize=None, StartingPosition=None, StartingPositionTimestamp=None):
     """
     Identifies a stream as an event source for a Lambda function. It can be either an Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda invokes the specified function when records are posted to the stream.
     This association between a stream source and a Lambda function is called the event source mapping.
@@ -162,6 +164,7 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
     Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated with multiple AWS Lambda function. A given Lambda function can be associated with multiple AWS event sources.
     If you are using versioning, you can specify a specific function version or an alias via the function name parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:CreateEventSourceMapping action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_event_source_mapping(
@@ -169,7 +172,8 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
         FunctionName='string',
         Enabled=True|False,
         BatchSize=123,
-        StartingPosition='TRIM_HORIZON'|'LATEST'
+        StartingPosition='TRIM_HORIZON'|'LATEST'|'AT_TIMESTAMP',
+        StartingPositionTimestamp=datetime(2015, 1, 1)
     )
     
     
@@ -195,8 +199,11 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
 
     :type StartingPosition: string
     :param StartingPosition: [REQUIRED]
-            The position in the stream where AWS Lambda should start reading. For more information, go to ShardIteratorType in the Amazon Kinesis API Reference .
+            The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, go to ShardIteratorType in the Amazon Kinesis API Reference .
             
+
+    :type StartingPositionTimestamp: datetime
+    :param StartingPositionTimestamp: The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams.
 
     :rtype: dict
     :return: {
@@ -214,16 +221,17 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
     """
     pass
 
-def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Code=None, Description=None, Timeout=None, MemorySize=None, Publish=None, VpcConfig=None):
+def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Code=None, Description=None, Timeout=None, MemorySize=None, Publish=None, VpcConfig=None, DeadLetterConfig=None, Environment=None, KMSKeyArn=None):
     """
     Creates a new Lambda function. The function metadata is created from the request parameters, and the code for the function is provided by a .zip file in the request body. If the function name already exists, the operation will fail. Note that the function name is case-sensitive.
     If you are using versioning, you can also publish a version of the Lambda function you are creating using the Publish parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:CreateFunction action.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_function(
         FunctionName='string',
-        Runtime='nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        Runtime='nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         Role='string',
         Handler='string',
         Code={
@@ -243,7 +251,16 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             'SecurityGroupIds': [
                 'string',
             ]
-        }
+        },
+        DeadLetterConfig={
+            'TargetArn': 'string'
+        },
+        Environment={
+            'Variables': {
+                'string': 'string'
+            }
+        },
+        KMSKeyArn='string'
     )
     
     
@@ -256,6 +273,8 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     :param Runtime: [REQUIRED]
             The runtime environment for the Lambda function you are uploading.
             To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use earlier runtime (v0.10.42), set the value to 'nodejs'.
+            Note
+            You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017 but we recommend you migrate them to nodejs4.3 runtime version as soon as possible.
             
 
     :type Role: string
@@ -297,11 +316,27 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             (string) --
             
 
+    :type DeadLetterConfig: dict
+    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
+            TargetArn (string) --The ARN (Amazon Resource Value) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+            
+
+    :type Environment: dict
+    :param Environment: The parent object that contains your environment's configuration settings.
+            Variables (dict) --The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ','.
+            (string) --
+            (string) --
+            
+            
+
+    :type KMSKeyArn: string
+    :param KMSKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If not provided, AWS Lambda will use a default service key.
+
     :rtype: dict
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -319,7 +354,20 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
                 'string',
             ],
             'VpcId': 'string'
-        }
+        },
+        'DeadLetterConfig': {
+            'TargetArn': 'string'
+        },
+        'Environment': {
+            'Variables': {
+                'string': 'string'
+            },
+            'Error': {
+                'ErrorCode': 'string',
+                'Message': 'string'
+            }
+        },
+        'KMSKeyArn': 'string'
     }
     
     
@@ -333,6 +381,7 @@ def delete_alias(FunctionName=None, Name=None):
     """
     Deletes the specified Lambda function alias. For more information, see Introduction to AWS Lambda Aliases .
     This requires permission for the lambda:DeleteAlias action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_alias(
@@ -358,6 +407,7 @@ def delete_event_source_mapping(UUID=None):
     """
     Removes an event source mapping. This means AWS Lambda will no longer invoke the function for events in the associated source.
     This operation requires permission for the lambda:DeleteEventSourceMapping action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_event_source_mapping(
@@ -392,6 +442,7 @@ def delete_function(FunctionName=None, Qualifier=None):
     If you are using the versioning feature and you don't specify a function version in your DeleteFunction request, AWS Lambda will delete the function, including all its versions, and any aliases pointing to the function versions. To delete a specific function version, you must provide the function version via the Qualifier parameter. For information about function versioning, see AWS Lambda Function Versioning and Aliases .
     When you delete a function the associated resource policy is also deleted. You will need to delete the event source mappings explicitly.
     This operation requires permission for the lambda:DeleteFunction action.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_function(
@@ -437,10 +488,39 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
+def get_account_settings():
+    """
+    Returns a customer's account settings.
+    You can use this operation to retrieve Lambda limit information such as code size and concurrency limits. For more information on limits, see AWS Lambda Limits . You can also retrieve resource usage statistics such as code storage usage and function count.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_account_settings()
+    
+    
+    :rtype: dict
+    :return: {
+        'AccountLimit': {
+            'TotalCodeSize': 123,
+            'CodeSizeUnzipped': 123,
+            'CodeSizeZipped': 123,
+            'ConcurrentExecutions': 123
+        },
+        'AccountUsage': {
+            'TotalCodeSize': 123,
+            'FunctionCount': 123
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_alias(FunctionName=None, Name=None):
     """
     Returns the specified alias information such as the alias ARN, description, and function version it is pointing to. For more information, see Introduction to AWS Lambda Aliases .
     This requires permission for the lambda:GetAlias action.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_alias(
@@ -475,6 +555,7 @@ def get_event_source_mapping(UUID=None):
     """
     Returns configuration information for the specified event source mapping (see  CreateEventSourceMapping ).
     This operation requires permission for the lambda:GetEventSourceMapping action.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_event_source_mapping(
@@ -508,6 +589,7 @@ def get_function(FunctionName=None, Qualifier=None):
     Returns the configuration information of the Lambda function and a presigned URL link to the .zip file you uploaded with  CreateFunction so you can download the .zip file. Note that the URL is valid for up to 10 minutes. The configuration information is the same information you provided as parameters when uploading the function.
     Using the optional Qualifier parameter, you can specify a specific function version for which you want this information. If you don't specify this parameter, the API uses unqualified function ARN which return information about the $LATEST version of the Lambda function. For more information, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:GetFunction action.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_function(
@@ -530,7 +612,7 @@ def get_function(FunctionName=None, Qualifier=None):
         'Configuration': {
             'FunctionName': 'string',
             'FunctionArn': 'string',
-            'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+            'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
             'Role': 'string',
             'Handler': 'string',
             'CodeSize': 123,
@@ -548,7 +630,20 @@ def get_function(FunctionName=None, Qualifier=None):
                     'string',
                 ],
                 'VpcId': 'string'
-            }
+            },
+            'DeadLetterConfig': {
+                'TargetArn': 'string'
+            },
+            'Environment': {
+                'Variables': {
+                    'string': 'string'
+                },
+                'Error': {
+                    'ErrorCode': 'string',
+                    'Message': 'string'
+                }
+            },
+            'KMSKeyArn': 'string'
         },
         'Code': {
             'RepositoryType': 'string',
@@ -568,6 +663,7 @@ def get_function_configuration(FunctionName=None, Qualifier=None):
     Returns the configuration information of the Lambda function. This the same information you provided as parameters when uploading the function by using  CreateFunction .
     If you are using the versioning feature, you can retrieve this information for a specific function version by using the optional Qualifier parameter and specifying the function version or alias that points to it. If you don't provide it, the API returns information about the $LATEST version of the function. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:GetFunctionConfiguration operation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_function_configuration(
@@ -591,7 +687,7 @@ def get_function_configuration(FunctionName=None, Qualifier=None):
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -609,7 +705,20 @@ def get_function_configuration(FunctionName=None, Qualifier=None):
                 'string',
             ],
             'VpcId': 'string'
-        }
+        },
+        'DeadLetterConfig': {
+            'TargetArn': 'string'
+        },
+        'Environment': {
+            'Variables': {
+                'string': 'string'
+            },
+            'Error': {
+                'ErrorCode': 'string',
+                'Message': 'string'
+            }
+        },
+        'KMSKeyArn': 'string'
     }
     
     
@@ -641,6 +750,7 @@ def get_policy(FunctionName=None, Qualifier=None):
     If you are using the versioning feature, you can get the resource policy associated with the specific Lambda function version or alias by specifying the version or alias name using the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     For information about adding permissions, see  AddPermission .
     You need permission for the lambda:GetPolicy action.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_policy(
@@ -675,9 +785,10 @@ def get_waiter():
 
 def invoke(FunctionName=None, InvocationType=None, LogType=None, ClientContext=None, Payload=None, Qualifier=None):
     """
-    Invokes a specific Lambda function.
+    Invokes a specific Lambda function. For an example, see Create the Lambda Function and Test It Manually .
     If you are using the versioning feature, you can invoke the specific function version by providing function version or alias name that is pointing to the function version using the Qualifier parameter in the request. If you don't provide the Qualifier parameter, the $LATEST version of the Lambda function is invoked. Invocations occur at least once in response to an event and functions must be idempotent to handle this. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:InvokeFunction action.
+    See also: AWS API Documentation
     
     
     :example: response = client.invoke(
@@ -731,6 +842,7 @@ def invoke_async(FunctionName=None, InvokeArgs=None):
     """
     Submits an invocation request to AWS Lambda. Upon receiving the request, Lambda executes the specified function asynchronously. To see the logs generated by the Lambda function execution, see the CloudWatch Logs console.
     This operation requires permission for the lambda:InvokeFunction action.
+    See also: AWS API Documentation
     
     
     :example: response = client.invoke_async(
@@ -762,6 +874,7 @@ def list_aliases(FunctionName=None, FunctionVersion=None, Marker=None, MaxItems=
     """
     Returns list of aliases created for a Lambda function. For each alias, the response includes information such as the alias ARN, description, alias name, and the function version to which it points. For more information, see Introduction to AWS Lambda Aliases .
     This requires permission for the lambda:ListAliases action.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_aliases(
@@ -809,6 +922,7 @@ def list_event_source_mappings(EventSourceArn=None, FunctionName=None, Marker=No
     For each mapping, the API returns configuration information. You can optionally specify filters to retrieve specific event source mappings.
     If you are using the versioning feature, you can get list of event source mappings for a specific Lambda function version or an alias as described in the FunctionName parameter. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:ListEventSourceMappings action.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_event_source_mappings(
@@ -859,6 +973,7 @@ def list_functions(Marker=None, MaxItems=None):
     Returns a list of your Lambda functions. For each function, the response includes the function configuration information. You must use  GetFunction to retrieve the code for your function.
     This operation requires permission for the lambda:ListFunctions action.
     If you are using versioning feature, the response returns list of $LATEST versions of your functions. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_functions(
@@ -880,7 +995,7 @@ def list_functions(Marker=None, MaxItems=None):
             {
                 'FunctionName': 'string',
                 'FunctionArn': 'string',
-                'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+                'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
                 'Role': 'string',
                 'Handler': 'string',
                 'CodeSize': 123,
@@ -898,7 +1013,20 @@ def list_functions(Marker=None, MaxItems=None):
                         'string',
                     ],
                     'VpcId': 'string'
-                }
+                },
+                'DeadLetterConfig': {
+                    'TargetArn': 'string'
+                },
+                'Environment': {
+                    'Variables': {
+                        'string': 'string'
+                    },
+                    'Error': {
+                        'ErrorCode': 'string',
+                        'Message': 'string'
+                    }
+                },
+                'KMSKeyArn': 'string'
             },
         ]
     }
@@ -913,6 +1041,7 @@ def list_functions(Marker=None, MaxItems=None):
 def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
     """
     List all versions of a function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
+    See also: AWS API Documentation
     
     
     :example: response = client.list_versions_by_function(
@@ -940,7 +1069,7 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
             {
                 'FunctionName': 'string',
                 'FunctionArn': 'string',
-                'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+                'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
                 'Role': 'string',
                 'Handler': 'string',
                 'CodeSize': 123,
@@ -958,7 +1087,20 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
                         'string',
                     ],
                     'VpcId': 'string'
-                }
+                },
+                'DeadLetterConfig': {
+                    'TargetArn': 'string'
+                },
+                'Environment': {
+                    'Variables': {
+                        'string': 'string'
+                    },
+                    'Error': {
+                        'ErrorCode': 'string',
+                        'Message': 'string'
+                    }
+                },
+                'KMSKeyArn': 'string'
             },
         ]
     }
@@ -973,6 +1115,7 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
 def publish_version(FunctionName=None, CodeSha256=None, Description=None):
     """
     Publishes a version of your function from the current snapshot of $LATEST. That is, AWS Lambda takes a snapshot of the function code and configuration information from $LATEST and publishes a new version. The code and configuration cannot be modified after publication. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
+    See also: AWS API Documentation
     
     
     :example: response = client.publish_version(
@@ -997,7 +1140,7 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1015,7 +1158,20 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
                 'string',
             ],
             'VpcId': 'string'
-        }
+        },
+        'DeadLetterConfig': {
+            'TargetArn': 'string'
+        },
+        'Environment': {
+            'Variables': {
+                'string': 'string'
+            },
+            'Error': {
+                'ErrorCode': 'string',
+                'Message': 'string'
+            }
+        },
+        'KMSKeyArn': 'string'
     }
     
     
@@ -1031,6 +1187,7 @@ def remove_permission(FunctionName=None, StatementId=None, Qualifier=None):
     If you are using versioning, the permissions you remove are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     Note that removal of a permission will cause an active event source to lose permission to the function.
     You need permission for the lambda:RemovePermission action.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_permission(
@@ -1061,6 +1218,7 @@ def update_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
     """
     Using this API you can update the function version to which the alias points and the alias description. For more information, see Introduction to AWS Lambda Aliases .
     This requires permission for the lambda:UpdateAlias action.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_alias(
@@ -1105,6 +1263,7 @@ def update_event_source_mapping(UUID=None, FunctionName=None, Enabled=None, Batc
     If you are using the versioning feature, you can update the event source mapping to map to a specific Lambda function version or alias as described in the FunctionName parameter. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     If you disable the event source mapping, AWS Lambda stops polling. If you enable again, it will resume polling from the time it had stopped polling, so you don't lose processing of any records. However, if you delete event source mapping and create it again, it will reset.
     This operation requires permission for the lambda:UpdateEventSourceMapping action.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_event_source_mapping(
@@ -1154,6 +1313,7 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
     Updates the code for the specified Lambda function. This operation must only be used on an existing Lambda function and cannot be used to update the function configuration.
     If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:UpdateFunctionCode action.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_function_code(
@@ -1193,7 +1353,7 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1211,7 +1371,20 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
                 'string',
             ],
             'VpcId': 'string'
-        }
+        },
+        'DeadLetterConfig': {
+            'TargetArn': 'string'
+        },
+        'Environment': {
+            'Variables': {
+                'string': 'string'
+            },
+            'Error': {
+                'ErrorCode': 'string',
+                'Message': 'string'
+            }
+        },
+        'KMSKeyArn': 'string'
     }
     
     
@@ -1221,11 +1394,12 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
     """
     pass
 
-def update_function_configuration(FunctionName=None, Role=None, Handler=None, Description=None, Timeout=None, MemorySize=None, VpcConfig=None, Runtime=None):
+def update_function_configuration(FunctionName=None, Role=None, Handler=None, Description=None, Timeout=None, MemorySize=None, VpcConfig=None, Environment=None, Runtime=None, DeadLetterConfig=None, KMSKeyArn=None):
     """
     Updates the configuration parameters for the specified Lambda function by using the values provided in the request. You provide only the parameters you want to change. This operation must only be used on an existing Lambda function and cannot be used to update the function's code.
     If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:UpdateFunctionConfiguration action.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_function_configuration(
@@ -1243,7 +1417,16 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
                 'string',
             ]
         },
-        Runtime='nodejs'|'nodejs4.3'|'java8'|'python2.7'
+        Environment={
+            'Variables': {
+                'string': 'string'
+            }
+        },
+        Runtime='nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
+        DeadLetterConfig={
+            'TargetArn': 'string'
+        },
+        KMSKeyArn='string'
     )
     
     
@@ -1276,16 +1459,34 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
             (string) --
             
 
+    :type Environment: dict
+    :param Environment: The parent object that contains your environment's configuration settings.
+            Variables (dict) --The key-value pairs that represent your environment's configuration settings. The value you specify cannot contain a ','.
+            (string) --
+            (string) --
+            
+            
+
     :type Runtime: string
     :param Runtime: The runtime environment for the Lambda function.
             To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use earlier runtime (v0.10.42), set the value to 'nodejs'.
+            Note
+            You can no longer downgrade to the v0.10.42 runtime version. This version will no longer be supported as of early 2017.
             
+
+    :type DeadLetterConfig: dict
+    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
+            TargetArn (string) --The ARN (Amazon Resource Value) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+            
+
+    :type KMSKeyArn: string
+    :param KMSKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt your function's environment variables. If you elect to use the AWS Lambda default service key, pass in an empty string ('') for this parameter.
 
     :rtype: dict
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7',
+        'Runtime': 'nodejs'|'nodejs4.3'|'java8'|'python2.7'|'dotnetcore1.0'|'nodejs4.3-edge',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1303,7 +1504,20 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
                 'string',
             ],
             'VpcId': 'string'
-        }
+        },
+        'DeadLetterConfig': {
+            'TargetArn': 'string'
+        },
+        'Environment': {
+            'Variables': {
+                'string': 'string'
+            },
+            'Error': {
+                'ErrorCode': 'string',
+                'Message': 'string'
+            }
+        },
+        'KMSKeyArn': 'string'
     }
     
     

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,8 @@ SOFTWARE.
 
 def add_tags(ResourceId=None, TagsList=None):
     """
-    Adds one or more tags to a trail, up to a limit of 10. Tags must be unique per trail. Overwrites an existing tag's value when a new value is specified for an existing tag key. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail that applies to all regions only from the region in which the trail was created (that is, from its home region).
+    Adds one or more tags to a trail, up to a limit of 50. Tags must be unique per trail. Overwrites an existing tag's value when a new value is specified for an existing tag key. If you specify a key without a value, the tag will be created with the specified key and a value of null. You can tag a trail that applies to all regions only from the region in which the trail was created (that is, from its home region).
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags(
@@ -47,7 +48,7 @@ def add_tags(ResourceId=None, TagsList=None):
             
 
     :type TagsList: list
-    :param TagsList: Contains a list of CloudTrail tags, up to a limit of 10.
+    :param TagsList: Contains a list of CloudTrail tags, up to a limit of 50
             (dict) --A custom key-value pair associated with a resource such as a CloudTrail trail.
             Key (string) -- [REQUIRED]The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
             Value (string) --The value in a key-value pair of a tag. The value must be no longer than 256 Unicode characters.
@@ -79,6 +80,7 @@ def can_paginate(operation_name=None):
 def create_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None, IncludeGlobalServiceEvents=None, IsMultiRegionTrail=None, EnableLogFileValidation=None, CloudWatchLogsLogGroupArn=None, CloudWatchLogsRoleArn=None, KmsKeyId=None):
     """
     Creates a trail that specifies the settings for delivery of log data to an Amazon S3 bucket. A maximum of five trails can exist in a region, irrespective of the region in which they were created.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_trail(
@@ -166,6 +168,7 @@ def create_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=No
 def delete_trail(Name=None):
     """
     Deletes a trail. This operation must be called from the region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other regions) of a trail that is enabled in all regions.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_trail(
@@ -175,8 +178,7 @@ def delete_trail(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is:
-            arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
+            Specifies the name or the CloudTrail ARN of the trail to be deleted. The format of a trail ARN is: arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
             
 
     :rtype: dict
@@ -189,6 +191,7 @@ def delete_trail(Name=None):
 def describe_trails(trailNameList=None, includeShadowTrails=None):
     """
     Retrieves settings for the trail associated with the current region for your account.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_trails(
@@ -229,7 +232,8 @@ def describe_trails(trailNameList=None, includeShadowTrails=None):
                 'LogFileValidationEnabled': True|False,
                 'CloudWatchLogsLogGroupArn': 'string',
                 'CloudWatchLogsRoleArn': 'string',
-                'KmsKeyId': 'string'
+                'KmsKeyId': 'string',
+                'HasCustomEventSelectors': True|False
             },
         ]
     }
@@ -260,6 +264,59 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
+def get_event_selectors(TrailName=None):
+    """
+    Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:
+    For more information, see Configuring Event Selectors for Trails in the AWS CloudTrail User Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_event_selectors(
+        TrailName='string'
+    )
+    
+    
+    :type TrailName: string
+    :param TrailName: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+            Start with a letter or number, and end with a letter or number
+            Be between 3 and 128 characters
+            Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
+            Not be in IP address format (for example, 192.168.5.4)
+            If you specify a trail ARN, it must be in the format:
+            arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
+            
+
+    :rtype: dict
+    :return: {
+        'TrailARN': 'string',
+        'EventSelectors': [
+            {
+                'ReadWriteType': 'ReadOnly'|'WriteOnly'|'All',
+                'IncludeManagementEvents': True|False,
+                'DataResources': [
+                    {
+                        'Type': 'string',
+                        'Values': [
+                            'string',
+                        ]
+                    },
+                ]
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+    Start with a letter or number, and end with a letter or number
+    Be between 3 and 128 characters
+    Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
+    Not be in IP address format (for example, 192.168.5.4)
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -279,6 +336,7 @@ def get_paginator(operation_name=None):
 def get_trail_status(Name=None):
     """
     Returns a JSON-formatted list of information about the specified trail. Fields include information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging times for each trail. This operation returns trail status from a single region. To return trail status from all regions, you must call the operation on each region.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_trail_status(
@@ -326,6 +384,7 @@ def get_waiter():
 def list_public_keys(StartTime=None, EndTime=None, NextToken=None):
     """
     Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_public_keys(
@@ -364,6 +423,7 @@ def list_public_keys(StartTime=None, EndTime=None, NextToken=None):
 def list_tags(ResourceIdList=None, NextToken=None):
     """
     Lists the tags for the trail in the current region.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags(
@@ -406,13 +466,15 @@ def list_tags(ResourceIdList=None, NextToken=None):
 
 def lookup_events(LookupAttributes=None, StartTime=None, EndTime=None, MaxResults=None, NextToken=None):
     """
-    Looks up API activity events captured by CloudTrail that create, update, or delete resources in your account. Events for a region can be looked up for the times in which you had CloudTrail turned on in that region during the last seven days. Lookup supports five different attributes: time range (defined by a start time and end time), user name, event name, resource type, and resource name. All attributes are optional. The maximum number of attributes that can be specified in any one lookup request are time range and one other attribute. The default number of results returned is 10, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.
+    Looks up API activity events captured by CloudTrail that create, update, or delete resources in your account. Events for a region can be looked up for the times in which you had CloudTrail turned on in that region during the last seven days. Lookup supports the following attributes:
+    All attributes are optional. The default number of results returned is 10, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results.
+    See also: AWS API Documentation
     
     
     :example: response = client.lookup_events(
         LookupAttributes=[
             {
-                'AttributeKey': 'EventId'|'EventName'|'Username'|'ResourceType'|'ResourceName',
+                'AttributeKey': 'EventId'|'EventName'|'Username'|'ResourceType'|'ResourceName'|'EventSource',
                 'AttributeValue': 'string'
             },
         ],
@@ -450,6 +512,7 @@ def lookup_events(LookupAttributes=None, StartTime=None, EndTime=None, MaxResult
                 'EventId': 'string',
                 'EventName': 'string',
                 'EventTime': datetime(2015, 1, 1),
+                'EventSource': 'string',
                 'Username': 'string',
                 'Resources': [
                     {
@@ -464,12 +527,176 @@ def lookup_events(LookupAttributes=None, StartTime=None, EndTime=None, MaxResult
     }
     
     
+    :returns: 
+    LookupAttributes (list) -- Contains a list of lookup attributes. Currently the list can contain only one item.
+    
+    (dict) --Specifies an attribute and value that filter the events returned.
+    
+    AttributeKey (string) -- [REQUIRED]Specifies an attribute on which to filter the events returned.
+    
+    AttributeValue (string) -- [REQUIRED]Specifies a value for the specified AttributeKey.
+    
+    
+    
+    
+    
+    StartTime (datetime) -- Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+    EndTime (datetime) -- Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+    MaxResults (integer) -- The number of events to return. Possible values are 1 through 50. The default is 10.
+    NextToken (string) -- The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the the original call. For example, if the original call specified an AttributeKey of 'Username' with a value of 'root', the call with NextToken should include those same parameters.
+    
+    """
+    pass
+
+def put_event_selectors(TrailName=None, EventSelectors=None):
+    """
+    Configures an event selector for your trail. Use event selectors to specify the type of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+    Example
+    The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
+    You can configure up to five event selectors for each trail. For more information, see Configuring Event Selectors for Trails in the AWS CloudTrail User Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_event_selectors(
+        TrailName='string',
+        EventSelectors=[
+            {
+                'ReadWriteType': 'ReadOnly'|'WriteOnly'|'All',
+                'IncludeManagementEvents': True|False,
+                'DataResources': [
+                    {
+                        'Type': 'string',
+                        'Values': [
+                            'string',
+                        ]
+                    },
+                ]
+            },
+        ]
+    )
+    
+    
+    :type TrailName: string
+    :param TrailName: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+            Start with a letter or number, and end with a letter or number
+            Be between 3 and 128 characters
+            Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
+            Not be in IP address format (for example, 192.168.5.4)
+            If you specify a trail ARN, it must be in the format:
+            arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
+            
+
+    :type EventSelectors: list
+    :param EventSelectors: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+            (dict) --Use event selectors to specify the types of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+            You can configure up to five event selectors for a trail.
+            ReadWriteType (string) --Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.
+            By default, the value is All .
+            IncludeManagementEvents (boolean) --Specify if you want your event selector to include management events for your trail.
+            For more information, see Management Events in the AWS CloudTrail User Guide .
+            By default, the value is true .
+            DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 50 S3 buckets and object prefixes for an event selector.
+            For more information, see Data Events in the AWS CloudTrail User Guide .
+            (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 50 S3 buckets and object prefixes for an event selector.
+            Example
+            You create an event selector for a trail and specify an S3 bucket and an empty prefix, such as arn:aws:s3:::bucket-1/ .
+            You upload an image file to bucket-1 .
+            The PutObject API operation occurs on an object in the S3 bucket that you specified in the event selector. The trail processes and logs the event.
+            You upload another image file to a different S3 bucket named arn:aws:s3:::bucket-2 .
+            The event occurs on an object in an S3 bucket that you didn't specify in the event selector. The trail doesn t log the event.
+            Type (string) --The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object .
+            Values (list) --A list of ARN-like strings for the specified S3 objects.
+            To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/ . The trail logs data events for all objects in this S3 bucket.
+            To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images . The trail logs data events for objects in this S3 bucket that match the prefix.
+            (string) --
+            
+            
+            
+
+    :rtype: dict
+    :return: {
+        'TrailARN': 'string',
+        'EventSelectors': [
+            {
+                'ReadWriteType': 'ReadOnly'|'WriteOnly'|'All',
+                'IncludeManagementEvents': True|False,
+                'DataResources': [
+                    {
+                        'Type': 'string',
+                        'Values': [
+                            'string',
+                        ]
+                    },
+                ]
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    TrailName (string) -- Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+    
+    Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
+    Start with a letter or number, and end with a letter or number
+    Be between 3 and 128 characters
+    Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are invalid.
+    Not be in IP address format (for example, 192.168.5.4)
+    
+    If you specify a trail ARN, it must be in the format:
+    
+    arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
+    
+    EventSelectors (list) -- Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+    
+    (dict) --Use event selectors to specify the types of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+    You can configure up to five event selectors for a trail.
+    
+    ReadWriteType (string) --Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.
+    By default, the value is All .
+    
+    IncludeManagementEvents (boolean) --Specify if you want your event selector to include management events for your trail.
+    For more information, see Management Events in the AWS CloudTrail User Guide .
+    By default, the value is true .
+    
+    DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 50 S3 buckets and object prefixes for an event selector.
+    For more information, see Data Events in the AWS CloudTrail User Guide .
+    
+    (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 50 S3 buckets and object prefixes for an event selector.
+    Example
+    
+    You create an event selector for a trail and specify an S3 bucket and an empty prefix, such as arn:aws:s3:::bucket-1/ .
+    You upload an image file to bucket-1 .
+    The PutObject API operation occurs on an object in the S3 bucket that you specified in the event selector. The trail processes and logs the event.
+    You upload another image file to a different S3 bucket named arn:aws:s3:::bucket-2 .
+    The event occurs on an object in an S3 bucket that you didn't specify in the event selector. The trail doesnt log the event.
+    
+    
+    Type (string) --The resource type in which you want to log data events. You can specify only the following value: AWS::S3::Object .
+    
+    Values (list) --A list of ARN-like strings for the specified S3 objects.
+    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/ . The trail logs data events for all objects in this S3 bucket.
+    To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images . The trail logs data events for objects in this S3 bucket that match the prefix.
+    
+    (string) --
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     """
     pass
 
 def remove_tags(ResourceId=None, TagsList=None):
     """
     Removes the specified tags from a trail.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags(
@@ -507,6 +734,7 @@ def remove_tags(ResourceId=None, TagsList=None):
 def start_logging(Name=None):
     """
     Starts the recording of AWS API calls and log file delivery for a trail. For a trail that is enabled in all regions, this operation must be called from the region in which the trail was created. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail that is enabled in all regions.
+    See also: AWS API Documentation
     
     
     :example: response = client.start_logging(
@@ -530,6 +758,7 @@ def start_logging(Name=None):
 def stop_logging(Name=None):
     """
     Suspends the recording of AWS API calls and log file delivery for the specified trail. Under most circumstances, there is no need to use this action. You can update a trail without stopping it first. This action is the only way to stop recording. For a trail enabled in all regions, this operation must be called from the region in which the trail was created, or an InvalidHomeRegionException will occur. This operation cannot be called on the shadow trails (replicated trails in other regions) of a trail enabled in all regions.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_logging(
@@ -553,6 +782,7 @@ def stop_logging(Name=None):
 def update_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=None, IncludeGlobalServiceEvents=None, IsMultiRegionTrail=None, EnableLogFileValidation=None, CloudWatchLogsLogGroupArn=None, CloudWatchLogsRoleArn=None, KmsKeyId=None):
     """
     Updates the settings that specify delivery of log files. Changes to a trail do not require stopping the CloudTrail service. Use this action to designate an existing bucket for log delivery. If the existing bucket has previously been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_trail(

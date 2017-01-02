@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -43,6 +43,7 @@ def create_alias(Name=None, Description=None, RoutingStrategy=None):
     """
     Creates an alias for a fleet. You can use an alias to anonymize your fleet by referencing an alias instead of a specific fleet when you create game sessions. Amazon GameLift supports two types of routing strategies for aliases: simple and terminal. Use a simple alias to point to an active fleet. Use a terminal alias to display a message to incoming traffic instead of routing players to an active fleet. This option is useful when a game server is no longer supported but you want to provide better messaging than a standard 404 error.
     To create a fleet alias, specify an alias name, routing strategy, and optional description. If successful, a new alias record is returned, including an alias ID, which you can reference when creating a game session. To reassign the alias to another fleet ID, call  UpdateAlias .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_alias(
@@ -103,6 +104,7 @@ def create_build(Name=None, Version=None, StorageLocation=None, OperatingSystem=
     """
     Initializes a new build record and generates information required to upload a game build to Amazon GameLift. Once the build record has been created and its status is INITIALIZED , you can upload your game build.
     To create a new build, identify the operating system of the game server binaries. All game servers in a build must use the same operating system. Optionally, specify a build name and version; this metadata is stored with other properties in the build record and is displayed in the GameLift console (it is not visible to players). If successful, this action returns the newly created build record along with the Amazon S3 storage location and AWS account credentials. Use the location and credentials to upload your game build.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_build(
@@ -118,10 +120,10 @@ def create_build(Name=None, Version=None, StorageLocation=None, OperatingSystem=
     
     
     :type Name: string
-    :param Name: Descriptive label associated with a build. Build names do not need to be unique. A build name can be changed later using `` UpdateBuild `` .
+    :param Name: Descriptive label associated with a build. Build names do not need to be unique. A build name can be changed later using`` UpdateBuild `` .
 
     :type Version: string
-    :param Version: Version associated with this build. Version strings do not need to be unique to a build. A build version can be changed later using `` UpdateBuild `` .
+    :param Version: Version associated with this build. Version strings do not need to be unique to a build. A build version can be changed later using`` UpdateBuild `` .
 
     :type StorageLocation: dict
     :param StorageLocation: Location in Amazon Simple Storage Service (Amazon S3) where a build's files are stored. This location is assigned in response to a CreateBuild call, and is always in the same region as the service used to create the build. For more details see the Amazon S3 documentation .
@@ -171,6 +173,7 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
     To create a new fleet, provide a fleet name, an EC2 instance type, and a build ID of the game build to deploy. You can also configure the new fleet with the following settings: (1) a runtime configuration describing what server processes to run on each instance in the fleet (required to create fleet), (2) access permissions for inbound traffic, (3) fleet-wide game session protection, and (4) the location of default log files for GameLift to upload and store.
     If the CreateFleet call is successful, Amazon GameLift performs the following tasks:
     After a fleet is created, use the following actions to change fleet properties and configuration:
+    See also: AWS API Documentation
     
     
     :example: response = client.create_fleet(
@@ -228,7 +231,7 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
     :param ServerLaunchParameters: This parameter is no longer used. Instead, specify server launch parameters in the RuntimeConfiguration parameter. (Requests that specify a server launch path and launch parameters instead of a runtime configuration will continue to work.)
 
     :type LogPaths: list
-    :param LogPaths: Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide . If no default log path for a fleet is specified, GameLift will automatically upload logs stored on each instance at C:\game\logs . Use the GameLift console to access stored logs.
+    :param LogPaths: Location of default log files. When a server process is shut down, Amazon GameLift captures and stores any log files in this location. These logs are in addition to game session logs; see more on game session logs in the Amazon GameLift Developer Guide . If no default log path for a fleet is specified, GameLift will automatically upload logs stored on each instance at C:\game\logs (for Windows) or /local/game/logs (for Linux). Use the GameLift console to access stored logs.
             (string) --
             
 
@@ -257,7 +260,7 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
     :param RuntimeConfiguration: Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance. A CreateFleet request must include a runtime configuration with at least one server process configuration; otherwise the request will fail with an invalid request exception. (This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters ; requests that contain values for these parameters instead of a runtime configuration will continue to work.)
             ServerProcesses (list) --Collection of server process configurations describing what server processes to run on each instance in a fleet
             (dict) --A set of instructions for launching server processes on each instance in a fleet. Each instruction set identifies the location of the server executable, optional launch parameters, and the number of server processes with this configuration to maintain concurrently on the instance. Server process configurations make up a fleet's `` RuntimeConfiguration `` .
-            LaunchPath (string) -- [REQUIRED]Location in the game build of the server executable. All game builds are installed on instances at the root C:\game\... , so an executable file located at MyGame\latest\server.exe has a launch path of 'C:\game\MyGame\latest\server.exe '.
+            LaunchPath (string) -- [REQUIRED]Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game , and for Linux instances /local/game . A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of 'C:\game\MyGame\latest\server.exe '. A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of '/local/game/MyGame/latest/server.exe '.
             Parameters (string) --Optional list of parameters to pass to the server executable on launch.
             ConcurrentExecutions (integer) -- [REQUIRED]Number of server processes using this configuration to run concurrently on an instance.
             
@@ -265,8 +268,8 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
 
     :type ResourceCreationLimitPolicy: dict
     :param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time for this fleet.
-            NewGameSessionsPerCreator (integer) --Maximum number of game sessions an individual can create during the policy period.
-            PolicyPeriodInMinutes (integer) --Time span used to evaluate the resource creation limit policy.
+            NewGameSessionsPerCreator (integer) --Maximum number of game sessions that an individual can create during the policy period.
+            PolicyPeriodInMinutes (integer) --Time span used in evaluating the resource creation limit policy.
             
 
     :rtype: dict
@@ -305,8 +308,10 @@ def create_fleet(Name=None, Description=None, BuildId=None, ServerLaunchPath=Non
 
 def create_game_session(FleetId=None, AliasId=None, MaximumPlayerSessionCount=None, Name=None, GameProperties=None, CreatorId=None, GameSessionId=None):
     """
-    Creates a multiplayer game session for players. This action creates a game session record and assigns the new session to an instance in the specified fleet, which initializes a new server process to host the game session. A fleet must be in an ACTIVE status before a game session can be created in it.
-    To create a game session, specify either a fleet ID or an alias ID and indicate the maximum number of players the game session allows. You can also provide a name and a set of properties for your game (optional). If successful, a  GameSession object is returned containing session properties, including an IP address. By default, newly created game sessions are set to accept adding any new players to the game session. Use  UpdateGameSession to change the creation policy.
+    Creates a multiplayer game session for players. This action creates a game session record and assigns an available server process in the specified fleet to host the game session. A fleet must be in an ACTIVE status before a game session can be created in it.
+    To create a game session, specify either fleet ID or alias ID, and indicate a maximum number of players to allow in the game session. You can also provide a name and game-specific properties for this game session. If successful, a  GameSession object is returned containing session properties, including an IP address. By default, newly created game sessions allow new players to join. Use  UpdateGameSession to change the game sessions player session creation policy.
+    When creating a game session on a fleet with a resource limit creation policy, the request should include a creator ID. If none is provided, GameLift does not evaluate the fleet's resource limit creation policy.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_game_session(
@@ -351,7 +356,7 @@ def create_game_session(FleetId=None, AliasId=None, MaximumPlayerSessionCount=No
     :param CreatorId: Player ID identifying the person or entity creating the game session. This ID is used to enforce a resource protection policy (if one exists) that limits the number of concurrent active game sessions one player can have.
 
     :type GameSessionId: string
-    :param GameSessionId: Custom string to include in the game session ID, with a maximum length of 48 characters. If this parameter is set, GameLift creates a game session ID in the following format: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/custom ID string'. For example, this full game session ID: 'arn:aws:gamelift:us-west-2::gamesession/fleet-2ec2aae5-c2c7-43ca-b19d-8249fe5fddf2/my-game-session' includes the custom ID string 'my-game-session'. If this parameter is not set, GameLift creates a game session ID in the same format with an auto-generated ID string.
+    :param GameSessionId: Custom string to include in the game session ID, with a maximum length of 48 characters. If this parameter is set, GameLift creates a game session ID in the following format: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/custom ID string'. For example, this full game session ID: 'arn:aws:gamelift:us-west-2::gamesession/fleet-2ec2aae5-c2c7-43ca-b19d-8249fe5fddf2/my-game-session' includes the custom ID string 'my-game-session'. If this parameter is not set, GameLift creates a game session ID in the same format with an autogenerated ID string.
 
     :rtype: dict
     :return: {
@@ -385,6 +390,7 @@ def create_player_session(GameSessionId=None, PlayerId=None):
     """
     Adds a player to a game session and creates a player session record. A game session must be in an ACTIVE status, have a creation policy of ALLOW_ALL , and have an open player slot before players can be added to the session.
     To create a player session, specify a game session ID and player ID. If successful, the player is added to the game session and a new  PlayerSession object is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_player_session(
@@ -395,7 +401,7 @@ def create_player_session(GameSessionId=None, PlayerId=None):
     
     :type GameSessionId: string
     :param GameSessionId: [REQUIRED]
-            Unique identifier for the game session to add a player to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+            Unique identifier for the game session to add a player to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
             
 
     :type PlayerId: string
@@ -432,6 +438,7 @@ def create_player_sessions(GameSessionId=None, PlayerIds=None):
     """
     Adds a group of players to a game session. Similar to  CreatePlayerSession , this action allows you to add multiple players in a single call, which is useful for games that provide party and/or matchmaking features. A game session must be in an ACTIVE status, have a creation policy of ALLOW_ALL , and have an open player slot before players can be added to the session.
     To create player sessions, specify a game session ID and a list of player IDs. If successful, the players are added to the game session and a set of new  PlayerSession objects is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_player_sessions(
@@ -444,7 +451,7 @@ def create_player_sessions(GameSessionId=None, PlayerIds=None):
     
     :type GameSessionId: string
     :param GameSessionId: [REQUIRED]
-            Unique identifier for the game session to add players to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+            Unique identifier for the game session to add players to. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
             
 
     :type PlayerIds: list
@@ -483,6 +490,7 @@ def create_player_sessions(GameSessionId=None, PlayerIds=None):
 def delete_alias(AliasId=None):
     """
     Deletes an alias. This action removes all record of the alias; game clients attempting to access a server process using the deleted alias receive an error. To delete an alias, specify the alias ID to be deleted.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_alias(
@@ -502,6 +510,7 @@ def delete_build(BuildId=None):
     """
     Deletes a build. This action permanently deletes the build record and any uploaded build files.
     To delete a build, specify its ID. Deleting a build does not affect the status of any active fleets using the build, but you can no longer create new fleets with the deleted build.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_build(
@@ -521,6 +530,7 @@ def delete_fleet(FleetId=None):
     """
     Deletes everything related to a fleet. Before deleting a fleet, you must set the fleet's desired capacity to zero. See  UpdateFleetCapacity .
     This action removes the fleet's resources and the fleet record. Once a fleet is deleted, you can no longer use that fleet.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_fleet(
@@ -539,6 +549,7 @@ def delete_fleet(FleetId=None):
 def delete_scaling_policy(Name=None, FleetId=None):
     """
     Deletes a fleet scaling policy. This action means that the policy is no longer in force and removes all record of it. To delete a scaling policy, specify both the scaling policy name and the fleet ID it is associated with.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_scaling_policy(
@@ -563,6 +574,7 @@ def delete_scaling_policy(Name=None, FleetId=None):
 def describe_alias(AliasId=None):
     """
     Retrieves properties for a specified alias. To get the alias, specify an alias ID. If successful, an  Alias object is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_alias(
@@ -598,6 +610,7 @@ def describe_alias(AliasId=None):
 def describe_build(BuildId=None):
     """
     Retrieves properties for a build. To get a build record, specify a build ID. If successful, an object containing the build properties is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_build(
@@ -631,6 +644,7 @@ def describe_ec2_instance_limits(EC2InstanceType=None):
     """
     Retrieves the following information for the specified EC2 instance type:
     Service limits vary depending on region. Available regions for GameLift can be found in the AWS Management Console for GameLift (see the drop-down list in the upper right corner).
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_ec2_instance_limits(
@@ -659,6 +673,7 @@ def describe_ec2_instance_limits(EC2InstanceType=None):
 def describe_fleet_attributes(FleetIds=None, Limit=None, NextToken=None):
     """
     Retrieves fleet properties, including metadata, status, and configuration, for one or more fleets. You can request attributes for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  FleetAttributes object is returned for each requested fleet ID. When specifying a list of fleet IDs, attribute objects are returned only for fleets that currently exist.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_fleet_attributes(
@@ -723,6 +738,7 @@ def describe_fleet_attributes(FleetIds=None, Limit=None, NextToken=None):
 def describe_fleet_capacity(FleetIds=None, Limit=None, NextToken=None):
     """
     Retrieves the current status of fleet capacity for one or more fleets. This information includes the number of instances that have been requested for the fleet and the number currently active. You can request capacity for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  FleetCapacity object is returned for each requested fleet ID. When specifying a list of fleet IDs, attribute objects are returned only for fleets that currently exist.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_fleet_capacity(
@@ -772,6 +788,7 @@ def describe_fleet_capacity(FleetIds=None, Limit=None, NextToken=None):
 def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None, NextToken=None):
     """
     Retrieves entries from the specified fleet's event log. You can specify a time range to limit the result set. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a collection of event log entries matching the request are returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_fleet_events(
@@ -789,10 +806,10 @@ def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None
             
 
     :type StartTime: datetime
-    :param StartTime: Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
+    :param StartTime: Earliest date to retrieve event logs for. If no start time is specified, this call returns entries starting from when the fleet was created to the specified end time. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057').
 
     :type EndTime: datetime
-    :param EndTime: Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057'.
+    :param EndTime: Most recent date to retrieve event logs for. If no end time is specified, this call returns entries from the specified start time up to the present. Format is a number expressed in Unix time as milliseconds (ex: '1469498468.057').
 
     :type Limit: integer
     :param Limit: Maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
@@ -806,7 +823,7 @@ def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None
             {
                 'EventId': 'string',
                 'ResourceId': 'string',
-                'EventCode': 'GENERIC_EVENT'|'FLEET_CREATED'|'FLEET_DELETED'|'FLEET_SCALING_EVENT'|'FLEET_STATE_DOWNLOADING'|'FLEET_STATE_VALIDATING'|'FLEET_STATE_BUILDING'|'FLEET_STATE_ACTIVATING'|'FLEET_STATE_ACTIVE'|'FLEET_STATE_ERROR'|'FLEET_INITIALIZATION_FAILED'|'FLEET_BINARY_DOWNLOAD_FAILED'|'FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND'|'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE'|'FLEET_VALIDATION_TIMED_OUT'|'FLEET_ACTIVATION_FAILED'|'FLEET_ACTIVATION_FAILED_NO_INSTANCES'|'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED',
+                'EventCode': 'GENERIC_EVENT'|'FLEET_CREATED'|'FLEET_DELETED'|'FLEET_SCALING_EVENT'|'FLEET_STATE_DOWNLOADING'|'FLEET_STATE_VALIDATING'|'FLEET_STATE_BUILDING'|'FLEET_STATE_ACTIVATING'|'FLEET_STATE_ACTIVE'|'FLEET_STATE_ERROR'|'FLEET_INITIALIZATION_FAILED'|'FLEET_BINARY_DOWNLOAD_FAILED'|'FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND'|'FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE'|'FLEET_VALIDATION_TIMED_OUT'|'FLEET_ACTIVATION_FAILED'|'FLEET_ACTIVATION_FAILED_NO_INSTANCES'|'FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED'|'SERVER_PROCESS_INVALID_PATH'|'SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT'|'SERVER_PROCESS_PROCESS_READY_TIMEOUT'|'SERVER_PROCESS_CRASHED'|'SERVER_PROCESS_TERMINATED_UNHEALTHY'|'SERVER_PROCESS_FORCE_TERMINATED'|'SERVER_PROCESS_PROCESS_EXIT_TIMEOUT',
                 'Message': 'string',
                 'EventTime': datetime(2015, 1, 1)
             },
@@ -821,6 +838,7 @@ def describe_fleet_events(FleetId=None, StartTime=None, EndTime=None, Limit=None
 def describe_fleet_port_settings(FleetId=None):
     """
     Retrieves the inbound connection permissions for a fleet. Connection permissions include a range of IP addresses and port settings that incoming traffic can use to access server processes in the fleet. To get a fleet's inbound connection permissions, specify a fleet ID. If successful, a collection of  IpPermission objects is returned for the requested fleet ID. If the requested fleet has been deleted, the result set is empty.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_fleet_port_settings(
@@ -852,6 +870,7 @@ def describe_fleet_port_settings(FleetId=None):
 def describe_fleet_utilization(FleetIds=None, Limit=None, NextToken=None):
     """
     Retrieves utilization statistics for one or more fleets. You can request utilization data for all fleets, or specify a list of one or more fleet IDs. When requesting multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  FleetUtilization object is returned for each requested fleet ID. When specifying a list of fleet IDs, utilization objects are returned only for fleets that currently exist.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_fleet_utilization(
@@ -896,6 +915,7 @@ def describe_game_session_details(FleetId=None, GameSessionId=None, AliasId=None
     """
     Retrieves properties, including the protection policy in force, for one or more game sessions. This action can be used in several ways: (1) provide a GameSessionId to request details for a specific game session; (2) provide either a FleetId or an AliasId to request properties for all game sessions running on a fleet.
     To get game session record(s), specify just one of the following: game session ID, fleet ID, or alias ID. You can filter this request by game session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  GameSessionDetail object is returned for each session matching the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_game_session_details(
@@ -912,7 +932,7 @@ def describe_game_session_details(FleetId=None, GameSessionId=None, AliasId=None
     :param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
 
     :type GameSessionId: string
-    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
 
     :type AliasId: string
     :param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
@@ -968,6 +988,7 @@ def describe_game_sessions(FleetId=None, GameSessionId=None, AliasId=None, Statu
     """
     Retrieves a set of one or more game sessions and properties. This action can be used in several ways: (1) provide a GameSessionId to request properties for a specific game session; (2) provide a FleetId or an AliasId to request properties for all game sessions running on a fleet. You can also use  SearchGameSessions , which allows you to retrieve all game sessions or filter on certain criteria, but only returns game sessions with a status of ACTIVE. If you need to retrieve the protection policy for each game session, use  DescribeGameSessionDetails .
     To get game session record(s), specify just one of the following: game session ID, fleet ID, or alias ID. You can filter this request by game session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  GameSession object is returned for each session matching the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_game_sessions(
@@ -984,7 +1005,7 @@ def describe_game_sessions(FleetId=None, GameSessionId=None, AliasId=None, Statu
     :param FleetId: Unique identifier for a fleet. Specify a fleet to retrieve information on all game sessions active on the fleet.
 
     :type GameSessionId: string
-    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :param GameSessionId: Unique identifier for the game session to retrieve information on. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
 
     :type AliasId: string
     :param AliasId: Unique identifier for a fleet alias. Specify an alias to retrieve information on all game sessions active on the fleet.
@@ -1031,8 +1052,9 @@ def describe_game_sessions(FleetId=None, GameSessionId=None, AliasId=None, Statu
 
 def describe_instances(FleetId=None, InstanceId=None, Limit=None, NextToken=None):
     """
-    Retrieves information about instances in a fleet.
-    To get information on a specific instance, specify both a fleet ID and instance ID. To get information for all instances in a fleet, specify a fleet ID only. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, an  Instance object is returned for each result.
+    Retrieves information about a fleet's instances, including instance IDs. Use this action to get details on all instances in the fleet or get details on one specific instance.
+    To get a specific instance, specify fleet ID and instance ID. To get all instances in a fleet, specify a fleet ID only. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, an  Instance object is returned for each result.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_instances(
@@ -1086,6 +1108,7 @@ def describe_player_sessions(GameSessionId=None, PlayerId=None, PlayerSessionId=
     """
     Retrieves properties for one or more player sessions. This action can be used in several ways: (1) provide a PlayerSessionId parameter to request properties for a specific player session; (2) provide a GameSessionId parameter to request properties for all player sessions in the specified game session; (3) provide a PlayerId parameter to request properties for all player sessions of a specified player.
     To get game session record(s), specify only one of the following: a player session ID, a game session ID, or a player ID. You can filter this request by player session status. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a  PlayerSession object is returned for each session matching the request.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_player_sessions(
@@ -1099,7 +1122,7 @@ def describe_player_sessions(GameSessionId=None, PlayerId=None, PlayerSessionId=
     
     
     :type GameSessionId: string
-    :param GameSessionId: Unique identifier for the game session to get player sessions for.Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+    :param GameSessionId: Unique identifier for the game session to get player sessions for. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
 
     :type PlayerId: string
     :param PlayerId: Unique identifier for a player.
@@ -1153,6 +1176,7 @@ def describe_player_sessions(GameSessionId=None, PlayerId=None, PlayerSessionId=
 def describe_runtime_configuration(FleetId=None):
     """
     Retrieves the current runtime configuration for the specified fleet. The runtime configuration tells GameLift how to launch server processes on instances in the fleet.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_runtime_configuration(
@@ -1186,6 +1210,7 @@ def describe_scaling_policies(FleetId=None, StatusFilter=None, Limit=None, NextT
     """
     Retrieves all scaling policies applied to a fleet.
     To get a fleet's scaling policies, specify the fleet ID. You can filter this request by policy status, such as to retrieve only active scaling policies. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, set of  ScalingPolicy objects is returned for the fleet.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_scaling_policies(
@@ -1274,6 +1299,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_game_session_log_url(GameSessionId=None):
     """
     Retrieves the location of stored game session logs for a specified game session. When a game session is terminated, Amazon GameLift automatically stores the logs in Amazon S3. Use this URL to download the logs.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_game_session_log_url(
@@ -1283,12 +1309,54 @@ def get_game_session_log_url(GameSessionId=None):
     
     :type GameSessionId: string
     :param GameSessionId: [REQUIRED]
-            Unique identifier for the game session to get logs for. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+            Unique identifier for the game session to get logs for. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
             
 
     :rtype: dict
     :return: {
         'PreSignedUrl': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_instance_access(FleetId=None, InstanceId=None):
+    """
+    Requests remote access to a fleet instance. Remote access is useful for debugging, gathering benchmarking data, or watching activity in real time.
+    Access requires credentials that match the operating system of the instance. For a Windows instance, GameLift returns a username and password as strings for use with a Windows Remote Desktop client. For a Linux instance, GameLift returns a username and RSA private key, also as strings, for use with an SSH client. The private key must be saved in the proper format to a .pem file before using. If you're making this request using the AWS CLI, saving the secret can be handled as part of the GetInstanceAccess request (see the example later in this topic). For more information on remote access, see Remotely Accessing an Instance .
+    To request access to a specific instance, specify the IDs of the instance and the fleet it belongs to. If successful, an  InstanceAccess object is returned containing the instance's IP address and a set of credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_instance_access(
+        FleetId='string',
+        InstanceId='string'
+    )
+    
+    
+    :type FleetId: string
+    :param FleetId: [REQUIRED]
+            Unique identifier for a fleet. Specify the fleet that contain the instance you want access to. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status can be accessed for a few hours before being deleted.
+            
+
+    :type InstanceId: string
+    :param InstanceId: [REQUIRED]
+            Unique identifier for an instance. Specify the instance you want to get access to. You can access an instance in any status.
+            
+
+    :rtype: dict
+    :return: {
+        'InstanceAccess': {
+            'FleetId': 'string',
+            'InstanceId': 'string',
+            'IpAddress': 'string',
+            'OperatingSystem': 'WINDOWS_2012'|'AMAZON_LINUX',
+            'Credentials': {
+                'UserName': 'string',
+                'Secret': 'string'
+            }
+        }
     }
     
     
@@ -1320,6 +1388,7 @@ def get_waiter():
 def list_aliases(RoutingStrategyType=None, Name=None, Limit=None, NextToken=None):
     """
     Retrieves a collection of alias records for this AWS account. You can filter the result set by alias name and/or routing strategy type. Use the pagination parameters to retrieve results in sequential pages.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_aliases(
@@ -1376,6 +1445,7 @@ def list_aliases(RoutingStrategyType=None, Name=None, Limit=None, NextToken=None
 def list_builds(Status=None, Limit=None, NextToken=None):
     """
     Retrieves build records for all builds associated with the AWS account in use. You can limit results to builds that are in a specific status by using the Status parameter. Use the pagination parameters to retrieve results in a set of sequential pages.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_builds(
@@ -1427,6 +1497,7 @@ def list_builds(Status=None, Limit=None, NextToken=None):
 def list_fleets(BuildId=None, Limit=None, NextToken=None):
     """
     Retrieves a collection of fleet records for this AWS account. You can filter the result set by build ID. Use the pagination parameters to retrieve results in sequential pages.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_fleets(
@@ -1468,6 +1539,7 @@ def put_scaling_policy(Name=None, FleetId=None, ScalingAdjustment=None, ScalingA
     For example, this policy: "If the number of idle instances exceeds 20 for more than 15 minutes, then reduce the fleet capacity by 10 instances" could be implemented as the following rule statement:
     If [IdleInstances] is [GreaterThanOrEqualToThreshold] [20] for [15] minutes, then [ChangeInCapacity] by [-10].
     To create or update a scaling policy, specify a unique combination of name and fleet ID, and set the rule values. All parameters for this action are required. If successful, the policy name is returned. Scaling policies cannot be suspended or made inactive. To stop enforcing a scaling policy, call  DeleteScalingPolicy .
+    See also: AWS API Documentation
     
     
     :example: response = client.put_scaling_policy(
@@ -1544,6 +1616,7 @@ def request_upload_credentials(BuildId=None):
     """
     Retrieves a fresh set of upload credentials and the assigned Amazon S3 storage location for a specific build. Valid credentials are required to upload your game build files to Amazon S3.
     Upload credentials are returned when you create the build, but they have a limited lifespan. You can get fresh credentials and use them to re-upload game files until the status of that build changes to READY . Once this happens, you must create a brand new build.
+    See also: AWS API Documentation
     
     
     :example: response = client.request_upload_credentials(
@@ -1577,6 +1650,7 @@ def request_upload_credentials(BuildId=None):
 def resolve_alias(AliasId=None):
     """
     Retrieves the fleet ID that a specified alias is currently pointing to.
+    See also: AWS API Documentation
     
     
     :example: response = client.resolve_alias(
@@ -1603,6 +1677,7 @@ def search_game_sessions(FleetId=None, AliasId=None, FilterExpression=None, Sort
     Retrieves a set of game sessions that match a set of search criteria and sorts them in a specified order. Currently a game session search is limited to a single fleet. Search results include only game sessions that are in ACTIVE status. If you need to retrieve game sessions with a status other than active, use  DescribeGameSessions . If you need to retrieve the protection policy for each game session, use  DescribeGameSessionDetails .
     You can search or sort by the following game session attributes:
     To search or sort, specify either a fleet ID or an alias ID, and provide a search filter expression, a sort expression, or both. Use the pagination parameters to retrieve results as a set of sequential pages. If successful, a collection of  GameSession objects matching the request is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.search_game_sessions(
@@ -1715,6 +1790,7 @@ def search_game_sessions(FleetId=None, AliasId=None, FilterExpression=None, Sort
 def update_alias(AliasId=None, Name=None, Description=None, RoutingStrategy=None):
     """
     Updates properties for an alias. To update properties, specify the alias ID to be updated and provide the information to be changed. To reassign an alias to another fleet, provide an updated routing strategy. If successful, the updated alias record is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_alias(
@@ -1777,6 +1853,7 @@ def update_alias(AliasId=None, Name=None, Description=None, RoutingStrategy=None
 def update_build(BuildId=None, Name=None, Version=None):
     """
     Updates metadata in a build record, including the build name and version. To update the metadata, specify the build ID to update and provide the new values. If successful, a build object containing the updated metadata is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_build(
@@ -1822,6 +1899,7 @@ def update_build(BuildId=None, Name=None, Version=None):
 def update_fleet_attributes(FleetId=None, Name=None, Description=None, NewGameSessionProtectionPolicy=None, ResourceCreationLimitPolicy=None):
     """
     Updates fleet properties, including name and description, for a fleet. To update metadata, specify the fleet ID and the property values you want to change. If successful, the fleet ID for the updated fleet is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_fleet_attributes(
@@ -1855,8 +1933,8 @@ def update_fleet_attributes(FleetId=None, Name=None, Description=None, NewGameSe
 
     :type ResourceCreationLimitPolicy: dict
     :param ResourceCreationLimitPolicy: Policy that limits the number of game sessions an individual player can create over a span of time.
-            NewGameSessionsPerCreator (integer) --Maximum number of game sessions an individual can create during the policy period.
-            PolicyPeriodInMinutes (integer) --Time span used to evaluate the resource creation limit policy.
+            NewGameSessionsPerCreator (integer) --Maximum number of game sessions that an individual can create during the policy period.
+            PolicyPeriodInMinutes (integer) --Time span used in evaluating the resource creation limit policy.
             
 
     :rtype: dict
@@ -1873,6 +1951,7 @@ def update_fleet_capacity(FleetId=None, DesiredInstances=None, MinSize=None, Max
     Updates capacity settings for a fleet. Use this action to specify the number of EC2 instances (hosts) that you want this fleet to contain. Before calling this action, you may want to call  DescribeEC2InstanceLimits to get the maximum capacity based on the fleet's EC2 instance type.
     If you're using autoscaling (see  PutScalingPolicy ), you may want to specify a minimum and/or maximum capacity. If you don't provide these, autoscaling can set capacity anywhere between zero and the service limits .
     To update fleet capacity, specify the fleet ID and the number of instances you want the fleet to host. If successful, Amazon GameLift starts or terminates instances so that the fleet's active instance count matches the desired instance count. You can view a fleet's current capacity information by calling  DescribeFleetCapacity . If the desired instance count is higher than the instance type's limit, the "Limit Exceeded" exception occurs.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_fleet_capacity(
@@ -1909,6 +1988,7 @@ def update_fleet_capacity(FleetId=None, DesiredInstances=None, MinSize=None, Max
 def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=None, InboundPermissionRevocations=None):
     """
     Updates port settings for a fleet. To update settings, specify the fleet ID to be updated and list the permissions you want to update. List the permissions you want to add in InboundPermissionAuthorizations , and permissions you want to remove in InboundPermissionRevocations . Permissions to be removed must match existing fleet permissions. If successful, the fleet ID for the updated fleet is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_fleet_port_settings(
@@ -1969,6 +2049,7 @@ def update_fleet_port_settings(FleetId=None, InboundPermissionAuthorizations=Non
 def update_game_session(GameSessionId=None, MaximumPlayerSessionCount=None, Name=None, PlayerSessionCreationPolicy=None, ProtectionPolicy=None):
     """
     Updates game session properties. This includes the session name, maximum player count, protection policy, which controls whether or not an active game session can be terminated during a scale-down event, and the player session creation policy, which controls whether or not new players can join the session. To update a game session, specify the game session ID and the values you want to change. If successful, an updated  GameSession object is returned.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_game_session(
@@ -1982,7 +2063,7 @@ def update_game_session(GameSessionId=None, MaximumPlayerSessionCount=None, Name
     
     :type GameSessionId: string
     :param GameSessionId: [REQUIRED]
-            Unique identifier for the game session to update. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an auto-generated string.
+            Unique identifier for the game session to update. Game session ID format is as follows: 'arn:aws:gamelift:region::gamesession/fleet-fleet ID/ID string'. The value of ID stringis either a custom ID string (if one was specified when the game session was created) an autogenerated string.
             
 
     :type MaximumPlayerSessionCount: integer
@@ -2033,6 +2114,7 @@ def update_runtime_configuration(FleetId=None, RuntimeConfiguration=None):
     Updates the current runtime configuration for the specified fleet, which tells GameLift how to launch server processes on instances in the fleet. You can update a fleet's runtime configuration at any time after the fleet is created; it does not need to be in an ACTIVE status.
     To update runtime configuration, specify the fleet ID and provide a RuntimeConfiguration object with the updated collection of server process configurations.
     Each instance in a GameLift fleet checks regularly for an updated runtime configuration and changes how it launches server processes to comply with the latest version. Existing server processes are not affected by the update; they continue to run until they end, while GameLift simply adds new server processes to fit the current runtime configuration. As a result, the runtime configuration changes are applied gradually as existing processes shut down and new processes are launched in GameLift's normal process recycling activity.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_runtime_configuration(
@@ -2059,7 +2141,7 @@ def update_runtime_configuration(FleetId=None, RuntimeConfiguration=None):
             Instructions for launching server processes on each instance in the fleet. The runtime configuration for a fleet has a collection of server process configurations, one for each type of server process to run on an instance. A server process configuration specifies the location of the server executable, launch parameters, and the number of concurrent processes with that configuration to maintain on each instance.
             ServerProcesses (list) --Collection of server process configurations describing what server processes to run on each instance in a fleet
             (dict) --A set of instructions for launching server processes on each instance in a fleet. Each instruction set identifies the location of the server executable, optional launch parameters, and the number of server processes with this configuration to maintain concurrently on the instance. Server process configurations make up a fleet's `` RuntimeConfiguration `` .
-            LaunchPath (string) -- [REQUIRED]Location in the game build of the server executable. All game builds are installed on instances at the root C:\game\... , so an executable file located at MyGame\latest\server.exe has a launch path of 'C:\game\MyGame\latest\server.exe '.
+            LaunchPath (string) -- [REQUIRED]Location of the server executable in a game build. All game builds are installed on instances at the root : for Windows instances C:\game , and for Linux instances /local/game . A Windows game build with an executable file located at MyGame\latest\server.exe must have a launch path of 'C:\game\MyGame\latest\server.exe '. A Linux game build with an executable file located at MyGame/latest/server.exe must have a launch path of '/local/game/MyGame/latest/server.exe '.
             Parameters (string) --Optional list of parameters to pass to the server executable on launch.
             ConcurrentExecutions (integer) -- [REQUIRED]Number of server processes using this configuration to run concurrently on an instance.
             

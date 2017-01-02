@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def add_tags(ARN=None, TagList=None):
     """
     Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See Tagging Amazon Elasticsearch Service Domains for more information.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags(
@@ -75,6 +76,7 @@ def can_paginate(operation_name=None):
 def create_elasticsearch_domain(DomainName=None, ElasticsearchVersion=None, ElasticsearchClusterConfig=None, EBSOptions=None, AccessPolicies=None, SnapshotOptions=None, AdvancedOptions=None):
     """
     Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_elasticsearch_domain(
@@ -192,6 +194,7 @@ def create_elasticsearch_domain(DomainName=None, ElasticsearchVersion=None, Elas
 def delete_elasticsearch_domain(DomainName=None):
     """
     Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain is deleted, it cannot be recovered.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_elasticsearch_domain(
@@ -246,6 +249,7 @@ def delete_elasticsearch_domain(DomainName=None):
 def describe_elasticsearch_domain(DomainName=None):
     """
     Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_elasticsearch_domain(
@@ -300,6 +304,7 @@ def describe_elasticsearch_domain(DomainName=None):
 def describe_elasticsearch_domain_config(DomainName=None):
     """
     Provides cluster configuration information about the specified Elasticsearch domain, such as the state, creation date, update version, and update date for cluster options.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_elasticsearch_domain_config(
@@ -401,6 +406,7 @@ def describe_elasticsearch_domain_config(DomainName=None):
 def describe_elasticsearch_domains(DomainNames=None):
     """
     Returns domain configuration information about the specified Elasticsearch domains, including the domain ID, domain endpoint, and domain ARN.
+    See also: AWS API Documentation
     
     
     :example: response = client.describe_elasticsearch_domains(
@@ -504,6 +510,7 @@ def get_waiter():
 def list_domain_names():
     """
     Returns the name of all Elasticsearch domains owned by the current user's account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_domain_names()
@@ -525,6 +532,7 @@ def list_domain_names():
 def list_tags(ARN=None):
     """
     Returns all tags for the given Elasticsearch domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags(
@@ -554,6 +562,7 @@ def list_tags(ARN=None):
 def remove_tags(ARN=None, TagKeys=None):
     """
     Removes the specified set of tags from the specified Elasticsearch domain.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags(
@@ -581,6 +590,7 @@ def remove_tags(ARN=None, TagKeys=None):
 def update_elasticsearch_domain_config(DomainName=None, ElasticsearchClusterConfig=None, EBSOptions=None, SnapshotOptions=None, AdvancedOptions=None, AccessPolicies=None):
     """
     Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_elasticsearch_domain_config(

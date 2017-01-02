@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ def can_paginate(operation_name=None):
 def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None):
     """
     Creates a new origin access identity. If you're using Amazon S3 for your origin, you can use an origin access identity to require users to access your content using a CloudFront URL instead of the Amazon S3 URL. For more information about how to use origin access identities, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_cloud_front_origin_access_identity(
@@ -83,6 +84,7 @@ def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
 def create_distribution(DistributionConfig=None):
     """
     Creates a new web distribution. Send a GET request to the /*CloudFront API version* /distribution /distribution ID resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_distribution(
@@ -178,7 +180,16 @@ def create_distribution(DistributionConfig=None):
                 'SmoothStreaming': True|False,
                 'DefaultTTL': 123,
                 'MaxTTL': 123,
-                'Compress': True|False
+                'Compress': True|False,
+                'LambdaFunctionAssociations': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'LambdaFunctionARN': 'string',
+                            'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                        },
+                    ]
+                }
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -234,7 +245,16 @@ def create_distribution(DistributionConfig=None):
                         'SmoothStreaming': True|False,
                         'DefaultTTL': 123,
                         'MaxTTL': 123,
-                        'Compress': True|False
+                        'Compress': True|False,
+                        'LambdaFunctionAssociations': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'LambdaFunctionARN': 'string',
+                                    'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                },
+                            ]
+                        }
                     },
                 ]
             },
@@ -425,6 +445,19 @@ def create_distribution(DistributionConfig=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true ; if not, specify false . For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -511,6 +544,19 @@ def create_distribution(DistributionConfig=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -558,9 +604,9 @@ def create_distribution(DistributionConfig=None):
             Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
             The minimum protocol version that you want CloudFront to use when communicating with viewers
             For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --If you want viewers to use HTTPS to request your objects and you're using the CloudFront domain name of your distribution in your object URLs (for example, https://d111111abcdef8.cloudfront.net/logo.jpg ), set to true . Omit this value if you are setting an ACMCertificateArn or IAMCertificateId .
-            IAMCertificateId (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the IAM certificate identifier of the custom viewer certificate for this distribution. Specify either this value, ACMCertificateArn , or CloudFrontDefaultCertificate .
-            ACMCertificateArn (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the ACM certificate ARN of the custom viewer certificate for this distribution. Specify either this value, IAMCertificateId , or CloudFrontDefaultCertificate .
+            CloudFrontDefaultCertificate (boolean) --
+            IAMCertificateId (string) --
+            ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
             vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
@@ -741,7 +787,16 @@ def create_distribution(DistributionConfig=None):
                     'SmoothStreaming': True|False,
                     'DefaultTTL': 123,
                     'MaxTTL': 123,
-                    'Compress': True|False
+                    'Compress': True|False,
+                    'LambdaFunctionAssociations': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'LambdaFunctionARN': 'string',
+                                'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                            },
+                        ]
+                    }
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -797,7 +852,16 @@ def create_distribution(DistributionConfig=None):
                             'SmoothStreaming': True|False,
                             'DefaultTTL': 123,
                             'MaxTTL': 123,
-                            'Compress': True|False
+                            'Compress': True|False,
+                            'LambdaFunctionAssociations': {
+                                'Quantity': 123,
+                                'Items': [
+                                    {
+                                        'LambdaFunctionARN': 'string',
+                                        'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                    },
+                                ]
+                            }
                         },
                     ]
                 },
@@ -861,6 +925,7 @@ def create_distribution(DistributionConfig=None):
 def create_distribution_with_tags(DistributionConfigWithTags=None):
     """
     Create a new distribution with tags.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_distribution_with_tags(
@@ -957,7 +1022,16 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                     'SmoothStreaming': True|False,
                     'DefaultTTL': 123,
                     'MaxTTL': 123,
-                    'Compress': True|False
+                    'Compress': True|False,
+                    'LambdaFunctionAssociations': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'LambdaFunctionARN': 'string',
+                                'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                            },
+                        ]
+                    }
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -1013,7 +1087,16 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                             'SmoothStreaming': True|False,
                             'DefaultTTL': 123,
                             'MaxTTL': 123,
-                            'Compress': True|False
+                            'Compress': True|False,
+                            'LambdaFunctionAssociations': {
+                                'Quantity': 123,
+                                'Items': [
+                                    {
+                                        'LambdaFunctionARN': 'string',
+                                        'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                    },
+                                ]
+                            }
                         },
                     ]
                 },
@@ -1214,6 +1297,19 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true ; if not, specify false . For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -1300,6 +1396,19 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -1347,9 +1456,9 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
             The minimum protocol version that you want CloudFront to use when communicating with viewers
             For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --If you want viewers to use HTTPS to request your objects and you're using the CloudFront domain name of your distribution in your object URLs (for example, https://d111111abcdef8.cloudfront.net/logo.jpg ), set to true . Omit this value if you are setting an ACMCertificateArn or IAMCertificateId .
-            IAMCertificateId (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the IAM certificate identifier of the custom viewer certificate for this distribution. Specify either this value, ACMCertificateArn , or CloudFrontDefaultCertificate .
-            ACMCertificateArn (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the ACM certificate ARN of the custom viewer certificate for this distribution. Specify either this value, IAMCertificateId , or CloudFrontDefaultCertificate .
+            CloudFrontDefaultCertificate (boolean) --
+            IAMCertificateId (string) --
+            ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
             vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
@@ -1539,7 +1648,16 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                     'SmoothStreaming': True|False,
                     'DefaultTTL': 123,
                     'MaxTTL': 123,
-                    'Compress': True|False
+                    'Compress': True|False,
+                    'LambdaFunctionAssociations': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'LambdaFunctionARN': 'string',
+                                'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                            },
+                        ]
+                    }
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -1595,7 +1713,16 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                             'SmoothStreaming': True|False,
                             'DefaultTTL': 123,
                             'MaxTTL': 123,
-                            'Compress': True|False
+                            'Compress': True|False,
+                            'LambdaFunctionAssociations': {
+                                'Quantity': 123,
+                                'Items': [
+                                    {
+                                        'LambdaFunctionARN': 'string',
+                                        'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                    },
+                                ]
+                            }
                         },
                     ]
                 },
@@ -1659,6 +1786,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
 def create_invalidation(DistributionId=None, InvalidationBatch=None):
     """
     Create a new invalidation.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_invalidation(
@@ -1725,6 +1853,7 @@ def create_streaming_distribution(StreamingDistributionConfig=None):
     To create a new web distribution, submit a POST request to the CloudFront API version /distribution resource. The request body must include a document with a StreamingDistributionConfig element. The response echoes the StreamingDistributionConfig element and returns other information about the RTMP distribution.
     To get the status of your request, use the GET StreamingDistribution API action. When the value of Enabled is true and the value of Status is Deployed , your distribution is ready. A distribution usually deploys in less than 15 minutes.
     For more information about web distributions, see Working with RTMP Distributions in the Amazon CloudFront Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_streaming_distribution(
@@ -1857,6 +1986,7 @@ def create_streaming_distribution(StreamingDistributionConfig=None):
 def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=None):
     """
     Create a new streaming distribution with tags.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_streaming_distribution_with_tags(
@@ -2009,6 +2139,7 @@ def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=
 def delete_cloud_front_origin_access_identity(Id=None, IfMatch=None):
     """
     Delete an origin access identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_cloud_front_origin_access_identity(
@@ -2031,6 +2162,7 @@ def delete_cloud_front_origin_access_identity(Id=None, IfMatch=None):
 def delete_distribution(Id=None, IfMatch=None):
     """
     Delete a distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_distribution(
@@ -2054,6 +2186,7 @@ def delete_streaming_distribution(Id=None, IfMatch=None):
     """
     Delete a streaming distribution. To delete an RTMP distribution using the CloudFront API, perform the following steps.
     For information about deleting a distribution using the CloudFront console, see Deleting a Distribution in the Amazon CloudFront Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_streaming_distribution(
@@ -2104,6 +2237,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_cloud_front_origin_access_identity(Id=None):
     """
     Get the information about an origin access identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_cloud_front_origin_access_identity(
@@ -2136,6 +2270,7 @@ def get_cloud_front_origin_access_identity(Id=None):
 def get_cloud_front_origin_access_identity_config(Id=None):
     """
     Get the configuration information about an origin access identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_cloud_front_origin_access_identity_config(
@@ -2164,6 +2299,7 @@ def get_cloud_front_origin_access_identity_config(Id=None):
 def get_distribution(Id=None):
     """
     Get the information about a distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_distribution(
@@ -2292,7 +2428,16 @@ def get_distribution(Id=None):
                     'SmoothStreaming': True|False,
                     'DefaultTTL': 123,
                     'MaxTTL': 123,
-                    'Compress': True|False
+                    'Compress': True|False,
+                    'LambdaFunctionAssociations': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'LambdaFunctionARN': 'string',
+                                'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                            },
+                        ]
+                    }
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -2348,7 +2493,16 @@ def get_distribution(Id=None):
                             'SmoothStreaming': True|False,
                             'DefaultTTL': 123,
                             'MaxTTL': 123,
-                            'Compress': True|False
+                            'Compress': True|False,
+                            'LambdaFunctionAssociations': {
+                                'Quantity': 123,
+                                'Items': [
+                                    {
+                                        'LambdaFunctionARN': 'string',
+                                        'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                    },
+                                ]
+                            }
                         },
                     ]
                 },
@@ -2408,6 +2562,7 @@ def get_distribution(Id=None):
 def get_distribution_config(Id=None):
     """
     Get the configuration information about a distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_distribution_config(
@@ -2514,7 +2669,16 @@ def get_distribution_config(Id=None):
                 'SmoothStreaming': True|False,
                 'DefaultTTL': 123,
                 'MaxTTL': 123,
-                'Compress': True|False
+                'Compress': True|False,
+                'LambdaFunctionAssociations': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'LambdaFunctionARN': 'string',
+                            'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                        },
+                    ]
+                }
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -2570,7 +2734,16 @@ def get_distribution_config(Id=None):
                         'SmoothStreaming': True|False,
                         'DefaultTTL': 123,
                         'MaxTTL': 123,
-                        'Compress': True|False
+                        'Compress': True|False,
+                        'LambdaFunctionAssociations': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'LambdaFunctionARN': 'string',
+                                    'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                },
+                            ]
+                        }
                     },
                 ]
             },
@@ -2632,6 +2805,7 @@ def get_distribution_config(Id=None):
 def get_invalidation(DistributionId=None, Id=None):
     """
     Get the information about an invalidation.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_invalidation(
@@ -2694,6 +2868,7 @@ def get_paginator(operation_name=None):
 def get_streaming_distribution(Id=None):
     """
     Gets information about a specified RTMP distribution, including the distribution configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_streaming_distribution(
@@ -2771,6 +2946,7 @@ def get_streaming_distribution(Id=None):
 def get_streaming_distribution_config(Id=None):
     """
     Get the configuration information about a streaming distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_streaming_distribution_config(
@@ -2832,6 +3008,7 @@ def get_waiter():
 def list_cloud_front_origin_access_identities(Marker=None, MaxItems=None):
     """
     Lists origin access identities.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_cloud_front_origin_access_identities(
@@ -2871,6 +3048,7 @@ def list_cloud_front_origin_access_identities(Marker=None, MaxItems=None):
 def list_distributions(Marker=None, MaxItems=None):
     """
     List distributions.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_distributions(
@@ -2989,7 +3167,16 @@ def list_distributions(Marker=None, MaxItems=None):
                         'SmoothStreaming': True|False,
                         'DefaultTTL': 123,
                         'MaxTTL': 123,
-                        'Compress': True|False
+                        'Compress': True|False,
+                        'LambdaFunctionAssociations': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'LambdaFunctionARN': 'string',
+                                    'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                },
+                            ]
+                        }
                     },
                     'CacheBehaviors': {
                         'Quantity': 123,
@@ -3045,7 +3232,16 @@ def list_distributions(Marker=None, MaxItems=None):
                                 'SmoothStreaming': True|False,
                                 'DefaultTTL': 123,
                                 'MaxTTL': 123,
-                                'Compress': True|False
+                                'Compress': True|False,
+                                'LambdaFunctionAssociations': {
+                                    'Quantity': 123,
+                                    'Items': [
+                                        {
+                                            'LambdaFunctionARN': 'string',
+                                            'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                        },
+                                    ]
+                                }
                             },
                         ]
                     },
@@ -3099,6 +3295,7 @@ def list_distributions(Marker=None, MaxItems=None):
 def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
     """
     List the distributions that are associated with a specified AWS WAF web ACL.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_distributions_by_web_acl_id(
@@ -3223,7 +3420,16 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                         'SmoothStreaming': True|False,
                         'DefaultTTL': 123,
                         'MaxTTL': 123,
-                        'Compress': True|False
+                        'Compress': True|False,
+                        'LambdaFunctionAssociations': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'LambdaFunctionARN': 'string',
+                                    'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                },
+                            ]
+                        }
                     },
                     'CacheBehaviors': {
                         'Quantity': 123,
@@ -3279,7 +3485,16 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                                 'SmoothStreaming': True|False,
                                 'DefaultTTL': 123,
                                 'MaxTTL': 123,
-                                'Compress': True|False
+                                'Compress': True|False,
+                                'LambdaFunctionAssociations': {
+                                    'Quantity': 123,
+                                    'Items': [
+                                        {
+                                            'LambdaFunctionARN': 'string',
+                                            'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                        },
+                                    ]
+                                }
                             },
                         ]
                     },
@@ -3333,6 +3548,7 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
 def list_invalidations(DistributionId=None, Marker=None, MaxItems=None):
     """
     Lists invalidation batches.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_invalidations(
@@ -3378,6 +3594,7 @@ def list_invalidations(DistributionId=None, Marker=None, MaxItems=None):
 def list_streaming_distributions(Marker=None, MaxItems=None):
     """
     List streaming distributions.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_streaming_distributions(
@@ -3442,6 +3659,7 @@ def list_streaming_distributions(Marker=None, MaxItems=None):
 def list_tags_for_resource(Resource=None):
     """
     List tags for a CloudFront resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_tags_for_resource(
@@ -3473,6 +3691,7 @@ def list_tags_for_resource(Resource=None):
 def tag_resource(Resource=None, Tags=None):
     """
     Add tags to a CloudFront resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.tag_resource(
@@ -3511,6 +3730,7 @@ def tag_resource(Resource=None, Tags=None):
 def untag_resource(Resource=None, TagKeys=None):
     """
     Remove tags from a CloudFront resource.
+    See also: AWS API Documentation
     
     
     :example: response = client.untag_resource(
@@ -3543,6 +3763,7 @@ def untag_resource(Resource=None, TagKeys=None):
 def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConfig=None, Id=None, IfMatch=None):
     """
     Update an origin access identity.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_cloud_front_origin_access_identity(
@@ -3593,6 +3814,7 @@ def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
 def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
     """
     Update a distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_distribution(
@@ -3688,7 +3910,16 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                 'SmoothStreaming': True|False,
                 'DefaultTTL': 123,
                 'MaxTTL': 123,
-                'Compress': True|False
+                'Compress': True|False,
+                'LambdaFunctionAssociations': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'LambdaFunctionARN': 'string',
+                            'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                        },
+                    ]
+                }
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -3744,7 +3975,16 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                         'SmoothStreaming': True|False,
                         'DefaultTTL': 123,
                         'MaxTTL': 123,
-                        'Compress': True|False
+                        'Compress': True|False,
+                        'LambdaFunctionAssociations': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'LambdaFunctionARN': 'string',
+                                    'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                },
+                            ]
+                        }
                     },
                 ]
             },
@@ -3937,6 +4177,19 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true ; if not, specify false . For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -4023,6 +4276,19 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             DefaultTTL (integer) --The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             MaxTTL (integer) --The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age , Cache-Control s-maxage , and Expires to objects. For more information, see Specifying How Long Objects and Errors Stay in a CloudFront Edge Cache (Expiration) in the Amazon CloudFront Developer Guide .
             Compress (boolean) --Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see Serving Compressed Files in the Amazon CloudFront Developer Guide .
+            LambdaFunctionAssociations (dict) --A complex type that contains zero or more Lambda function associations for a cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of Lambda function associations for this cache behavior.
+            Items (list) --
+            Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
+            (dict) --A complex type that contains a Lambda function association.
+            LambdaFunctionARN (string) --The ARN of the Lambda function.
+            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
+            viewer-request
+            origin-request
+            viewer-response
+            origin-response
+            
+            
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -4070,9 +4336,9 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
             The minimum protocol version that you want CloudFront to use when communicating with viewers
             For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --If you want viewers to use HTTPS to request your objects and you're using the CloudFront domain name of your distribution in your object URLs (for example, https://d111111abcdef8.cloudfront.net/logo.jpg ), set to true . Omit this value if you are setting an ACMCertificateArn or IAMCertificateId .
-            IAMCertificateId (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the IAM certificate identifier of the custom viewer certificate for this distribution. Specify either this value, ACMCertificateArn , or CloudFrontDefaultCertificate .
-            ACMCertificateArn (string) --If you want viewers to use HTTPS to request your objects and you're using an alternate domain name in your object URLs (for example, https://example.com/logo.jpg) , specify the ACM certificate ARN of the custom viewer certificate for this distribution. Specify either this value, IAMCertificateId , or CloudFrontDefaultCertificate .
+            CloudFrontDefaultCertificate (boolean) --
+            IAMCertificateId (string) --
+            ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
             vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
@@ -4261,7 +4527,16 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                     'SmoothStreaming': True|False,
                     'DefaultTTL': 123,
                     'MaxTTL': 123,
-                    'Compress': True|False
+                    'Compress': True|False,
+                    'LambdaFunctionAssociations': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'LambdaFunctionARN': 'string',
+                                'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                            },
+                        ]
+                    }
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -4317,7 +4592,16 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                             'SmoothStreaming': True|False,
                             'DefaultTTL': 123,
                             'MaxTTL': 123,
-                            'Compress': True|False
+                            'Compress': True|False,
+                            'LambdaFunctionAssociations': {
+                                'Quantity': 123,
+                                'Items': [
+                                    {
+                                        'LambdaFunctionARN': 'string',
+                                        'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
+                                    },
+                                ]
+                            }
                         },
                     ]
                 },
@@ -4378,6 +4662,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
 def update_streaming_distribution(StreamingDistributionConfig=None, Id=None, IfMatch=None):
     """
     Update a streaming distribution.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_streaming_distribution(

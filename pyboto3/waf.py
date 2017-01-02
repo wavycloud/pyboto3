@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,6 +44,7 @@ def create_byte_match_set(Name=None, ChangeToken=None):
     Creates a ByteMatchSet . You then use  UpdateByteMatchSet to identify the part of a web request that you want AWS WAF to inspect, such as the values of the User-Agent header or the query string. For example, you can create a ByteMatchSet that matches any requests with User-Agent headers that contain the string BadBot . You can then configure AWS WAF to reject those requests.
     To create and configure a ByteMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_byte_match_set(
@@ -99,6 +100,7 @@ def create_ip_set(Name=None, ChangeToken=None):
     Creates an  IPSet , which you use to specify which web requests you want to allow or block based on the IP addresses that the requests originate from. For example, if you're receiving a lot of requests from one or more individual IP addresses or one or more ranges of IP addresses and you want to block the requests, you can create an IPSet that contains those IP addresses and then configure AWS WAF to block the requests.
     To create and configure an IPSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_ip_set(
@@ -150,6 +152,7 @@ def create_rule(Name=None, MetricName=None, ChangeToken=None):
     You then add the Rule to a WebACL and specify that you want to blocks requests that satisfy the Rule . For a request to be blocked, it must come from the IP address 192.0.2.44 and the User-Agent header in the request must contain the value BadBot .
     To create and configure a Rule , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_rule(
@@ -208,6 +211,7 @@ def create_size_constraint_set(Name=None, ChangeToken=None):
     Creates a SizeConstraintSet . You then use  UpdateSizeConstraintSet to identify the part of a web request that you want AWS WAF to check for length, such as the length of the User-Agent header or the length of the query string. For example, you can create a SizeConstraintSet that matches any requests that have a query string that is longer than 100 bytes. You can then configure AWS WAF to reject those requests.
     To create and configure a SizeConstraintSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_size_constraint_set(
@@ -263,6 +267,7 @@ def create_sql_injection_match_set(Name=None, ChangeToken=None):
     Creates a  SqlInjectionMatchSet , which you use to allow, block, or count requests that contain snippets of SQL code in a specified part of web requests. AWS WAF searches for character sequences that are likely to be malicious strings.
     To create and configure a SqlInjectionMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_sql_injection_match_set(
@@ -317,6 +322,7 @@ def create_web_acl(Name=None, MetricName=None, DefaultAction=None, ChangeToken=N
     You also specify a default action, either ALLOW or BLOCK . If a web request doesn't match any of the Rules in a WebACL , AWS WAF responds to the request with the default action.
     To create and configure a WebACL , perform the following steps:
     For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_web_acl(
@@ -407,6 +413,7 @@ def create_xss_match_set(Name=None, ChangeToken=None):
     Creates an  XssMatchSet , which you use to allow, block, or count requests that contain cross-site scripting attacks in the specified part of web requests. AWS WAF searches for character sequences that are likely to be malicious strings.
     To create and configure an XssMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.create_xss_match_set(
@@ -460,6 +467,7 @@ def delete_byte_match_set(ByteMatchSetId=None, ChangeToken=None):
     Permanently deletes a  ByteMatchSet . You can't delete a ByteMatchSet if it's still used in any Rules or if it still includes any  ByteMatchTuple objects (any filters).
     If you just want to remove a ByteMatchSet from a Rule , use  UpdateRule .
     To permanently delete a ByteMatchSet , perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_byte_match_set(
@@ -500,6 +508,7 @@ def delete_ip_set(IPSetId=None, ChangeToken=None):
     Permanently deletes an  IPSet . You can't delete an IPSet if it's still used in any Rules or if it still includes any IP addresses.
     If you just want to remove an IPSet from a Rule , use  UpdateRule .
     To permanently delete an IPSet from AWS WAF, perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_ip_set(
@@ -540,6 +549,7 @@ def delete_rule(RuleId=None, ChangeToken=None):
     Permanently deletes a  Rule . You can't delete a Rule if it's still used in any WebACL objects or if it still includes any predicates, such as ByteMatchSet objects.
     If you just want to remove a Rule from a WebACL , use  UpdateWebACL .
     To permanently delete a Rule from AWS WAF, perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_rule(
@@ -580,6 +590,7 @@ def delete_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None):
     Permanently deletes a  SizeConstraintSet . You can't delete a SizeConstraintSet if it's still used in any Rules or if it still includes any  SizeConstraint objects (any filters).
     If you just want to remove a SizeConstraintSet from a Rule , use  UpdateRule .
     To permanently delete a SizeConstraintSet , perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_size_constraint_set(
@@ -620,6 +631,7 @@ def delete_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
     Permanently deletes a  SqlInjectionMatchSet . You can't delete a SqlInjectionMatchSet if it's still used in any Rules or if it still contains any  SqlInjectionMatchTuple objects.
     If you just want to remove a SqlInjectionMatchSet from a Rule , use  UpdateRule .
     To permanently delete a SqlInjectionMatchSet from AWS WAF, perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_sql_injection_match_set(
@@ -659,6 +671,7 @@ def delete_web_acl(WebACLId=None, ChangeToken=None):
     """
     Permanently deletes a  WebACL . You can't delete a WebACL if it still contains any Rules .
     To delete a WebACL , perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_web_acl(
@@ -699,6 +712,7 @@ def delete_xss_match_set(XssMatchSetId=None, ChangeToken=None):
     Permanently deletes an  XssMatchSet . You can't delete an XssMatchSet if it's still used in any Rules or if it still contains any  XssMatchTuple objects.
     If you just want to remove an XssMatchSet from a Rule , use  UpdateRule .
     To permanently delete an XssMatchSet from AWS WAF, perform the following steps:
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_xss_match_set(
@@ -759,6 +773,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_byte_match_set(ByteMatchSetId=None):
     """
     Returns the  ByteMatchSet specified by ByteMatchSetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_byte_match_set(
@@ -806,6 +821,7 @@ def get_change_token():
     When you want to create, update, or delete AWS WAF objects, get a change token and include the change token in the create, update, or delete request. Change tokens ensure that your application doesn't submit conflicting requests to AWS WAF.
     Each create, update, or delete request must use a unique change token. If your application submits a GetChangeToken request and then submits a second GetChangeToken request before submitting a create, update, or delete request, the second GetChangeToken request returns the same value as the first GetChangeToken request.
     When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING , which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the status of your change token.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_change_token()
@@ -823,6 +839,7 @@ def get_change_token():
 def get_change_token_status(ChangeToken=None):
     """
     Returns the status of a ChangeToken that you got by calling  GetChangeToken . ChangeTokenStatus is one of the following values:
+    See also: AWS API Documentation
     
     
     :example: response = client.get_change_token_status(
@@ -847,6 +864,7 @@ def get_change_token_status(ChangeToken=None):
 def get_ip_set(IPSetId=None):
     """
     Returns the  IPSet that is specified by IPSetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_ip_set(
@@ -900,6 +918,7 @@ def get_paginator(operation_name=None):
 def get_rule(RuleId=None):
     """
     Returns the  Rule that is specified by the RuleId that you included in the GetRule request.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_rule(
@@ -935,6 +954,7 @@ def get_rule(RuleId=None):
 def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=None):
     """
     Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 100 requests, and you can specify any time range in the previous three hours.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_sampled_requests(
@@ -962,9 +982,9 @@ def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=N
 
     :type TimeWindow: dict
     :param TimeWindow: [REQUIRED]
-            The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in Unix time format (in seconds). You can specify any time range in the previous three hours.
-            StartTime (datetime) -- [REQUIRED]The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You can specify any time range in the previous three hours.
-            EndTime (datetime) -- [REQUIRED]The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. You can specify any time range in the previous three hours.
+            The start date and time and the end date and time of the range for which you want GetSampledRequests to return a sample of requests. Specify the date and time in the following format: '2016-09-27T14:50Z' . You can specify any time range in the previous three hours.
+            StartTime (datetime) -- [REQUIRED]The beginning of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: '2016-09-27T14:50Z' . You can specify any time range in the previous three hours.
+            EndTime (datetime) -- [REQUIRED]The end of the time range from which you want GetSampledRequests to return a sample of the requests that your AWS resource received. Specify the date and time in the following format: '2016-09-27T14:50Z' . You can specify any time range in the previous three hours.
             
 
     :type MaxItems: integer
@@ -1012,6 +1032,7 @@ def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=N
 def get_size_constraint_set(SizeConstraintSetId=None):
     """
     Returns the  SizeConstraintSet specified by SizeConstraintSetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_size_constraint_set(
@@ -1057,6 +1078,7 @@ def get_size_constraint_set(SizeConstraintSetId=None):
 def get_sql_injection_match_set(SqlInjectionMatchSetId=None):
     """
     Returns the  SqlInjectionMatchSet that is specified by SqlInjectionMatchSetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_sql_injection_match_set(
@@ -1106,6 +1128,7 @@ def get_waiter():
 def get_web_acl(WebACLId=None):
     """
     Returns the  WebACL that is specified by WebACLId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_web_acl(
@@ -1151,6 +1174,7 @@ def get_web_acl(WebACLId=None):
 def get_xss_match_set(XssMatchSetId=None):
     """
     Returns the  XssMatchSet that is specified by XssMatchSetId .
+    See also: AWS API Documentation
     
     
     :example: response = client.get_xss_match_set(
@@ -1194,6 +1218,7 @@ def get_xss_match_set(XssMatchSetId=None):
 def list_byte_match_sets(NextMarker=None, Limit=None):
     """
     Returns an array of  ByteMatchSetSummary objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_byte_match_sets(
@@ -1226,6 +1251,7 @@ def list_byte_match_sets(NextMarker=None, Limit=None):
 def list_ip_sets(NextMarker=None, Limit=None):
     """
     Returns an array of  IPSetSummary objects in the response.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_ip_sets(
@@ -1258,6 +1284,7 @@ def list_ip_sets(NextMarker=None, Limit=None):
 def list_rules(NextMarker=None, Limit=None):
     """
     Returns an array of  RuleSummary objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_rules(
@@ -1290,6 +1317,7 @@ def list_rules(NextMarker=None, Limit=None):
 def list_size_constraint_sets(NextMarker=None, Limit=None):
     """
     Returns an array of  SizeConstraintSetSummary objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_size_constraint_sets(
@@ -1322,6 +1350,7 @@ def list_size_constraint_sets(NextMarker=None, Limit=None):
 def list_sql_injection_match_sets(NextMarker=None, Limit=None):
     """
     Returns an array of  SqlInjectionMatchSet objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_sql_injection_match_sets(
@@ -1354,6 +1383,7 @@ def list_sql_injection_match_sets(NextMarker=None, Limit=None):
 def list_web_acls(NextMarker=None, Limit=None):
     """
     Returns an array of  WebACLSummary objects in the response.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_web_acls(
@@ -1386,6 +1416,7 @@ def list_web_acls(NextMarker=None, Limit=None):
 def list_xss_match_sets(NextMarker=None, Limit=None):
     """
     Returns an array of  XssMatchSet objects.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_xss_match_sets(
@@ -1421,6 +1452,7 @@ def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None):
     For example, you can add a ByteMatchSetUpdate object that matches web requests in which User-Agent headers contain the string BadBot . You can then configure AWS WAF to block those requests.
     To create and configure a ByteMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_byte_match_set(
@@ -1549,11 +1581,13 @@ def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None):
 def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None):
     """
     Inserts or deletes  IPSetDescriptor objects in an IPSet . For each IPSetDescriptor object, you specify the following values:
-    AWS WAF supports /8, /16, /24, and /32 IP address ranges. For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing .
+    AWS WAF supports /8, /16, /24, and /32 IP address ranges for IPv4, and /24, /32, /48, /56, /64 and /128 for IPv6. For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing .
+    IPv6 addresses can be represented using any of the following formats:
     You use an IPSet to specify which web requests you want to allow or block based on the IP addresses that the requests originated from. For example, if you're receiving a lot of requests from one or a small number of IP addresses and you want to block the requests, you can create an IPSet that specifies those IP addresses, and then configure AWS WAF to block the requests.
     To create and configure an IPSet , perform the following steps:
     When you update an IPSet , you specify the IP addresses that you want to add and/or the IP addresses that you want to delete. If you want to change an IP address, you delete the existing IP address and add the new one.
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_ip_set(
@@ -1588,13 +1622,15 @@ def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None):
             IPSetDescriptor : Contains Type and Value
             (dict) --Specifies the type of update to perform to an IPSet with UpdateIPSet .
             Action (string) -- [REQUIRED]Specifies whether to insert or delete an IP address with UpdateIPSet .
-            IPSetDescriptor (dict) -- [REQUIRED]The IP address type (IPV4 ) and the IP address range (in CIDR notation) that web requests originate from.
-            Type (string) -- [REQUIRED]Specify IPV4 .
+            IPSetDescriptor (dict) -- [REQUIRED]The IP address type (IPV4 or IPV6 ) and the IP address range (in CIDR notation) that web requests originate from.
+            Type (string) -- [REQUIRED]Specify IPV4 or IPV6 .
             Value (string) -- [REQUIRED]Specify an IPv4 address by using CIDR notation. For example:
             To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32 .
             To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24 .
-            AWS WAF supports only /8, /16, /24, and /32 IP addresses.
             For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing .
+            Specify an IPv6 address by using CIDR notation. For example:
+            To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128 .
+            To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64 .
             
             
 
@@ -1605,9 +1641,10 @@ def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None):
     
     
     :returns: 
-    Submit a  CreateIPSet request.
-    Use  GetChangeToken to get the change token that you provide in the ChangeToken parameter of an  UpdateIPSet request.
-    Submit an UpdateIPSet request to specify the IP addresses that you want AWS WAF to watch for.
+    1111:0000:0000:0000:0000:0000:0000:0111/128
+    1111:0:0:0:0:0:0:0111/128
+    1111::0111/128
+    1111::111/128
     
     """
     pass
@@ -1619,6 +1656,7 @@ def update_rule(RuleId=None, ChangeToken=None, Updates=None):
     To create and configure a Rule , perform the following steps:
     If you want to replace one ByteMatchSet or IPSet with another, you delete the existing one and add the new one.
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_rule(
@@ -1685,6 +1723,7 @@ def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updat
     For example, you can add a SizeConstraintSetUpdate object that matches web requests in which the length of the User-Agent header is greater than 100 bytes. You can then configure AWS WAF to block those requests.
     To create and configure a SizeConstraintSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_size_constraint_set(
@@ -1726,7 +1765,7 @@ def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updat
             (dict) --Specifies the part of a web request that you want to inspect the size of and indicates whether you want to add the specification to a SizeConstraintSet or delete it from a SizeConstraintSet .
             Action (string) -- [REQUIRED]Specify INSERT to add a SizeConstraintSetUpdate to a SizeConstraintSet . Use DELETE to remove a SizeConstraintSetUpdate from a SizeConstraintSet .
             SizeConstraint (dict) -- [REQUIRED]Specifies a constraint on the size of a part of the web request. AWS WAF uses the Size , ComparisonOperator , and FieldToMatch to build an expression in the form of 'Size ComparisonOperator size in bytes of FieldToMatch '. If that expression is true, the SizeConstraint is considered to match.
-            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for TargetString .
+            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for the size constraint.
             Type (string) -- [REQUIRED]The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:
             HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data .
             METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT .
@@ -1798,6 +1837,7 @@ def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
     You use SqlInjectionMatchSet objects to specify which CloudFront requests you want to allow, block, or count. For example, if you're receiving requests that contain snippets of SQL code in the query string and you want to block the requests, you can create a SqlInjectionMatchSet with the applicable settings, and then configure AWS WAF to block the requests.
     To create and configure a SqlInjectionMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_sql_injection_match_set(
@@ -1837,7 +1877,7 @@ def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
             (dict) --Specifies the part of a web request that you want to inspect for snippets of malicious SQL code and indicates whether you want to add the specification to a SqlInjectionMatchSet or delete it from a SqlInjectionMatchSet .
             Action (string) -- [REQUIRED]Specify INSERT to add a SqlInjectionMatchSetUpdate to a SqlInjectionMatchSet . Use DELETE to remove a SqlInjectionMatchSetUpdate from a SqlInjectionMatchSet .
             SqlInjectionMatchTuple (dict) -- [REQUIRED]Specifies the part of a web request that you want AWS WAF to inspect for snippets of malicious SQL code and, if you want AWS WAF to inspect a header, the name of the header.
-            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for TargetString .
+            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for snippets of malicious SQL code.
             Type (string) -- [REQUIRED]The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:
             HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data .
             METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT .
@@ -1898,6 +1938,7 @@ def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=
     Inserts or deletes  ActivatedRule objects in a WebACL . Each Rule identifies web requests that you want to allow, block, or count. When you update a WebACL , you specify the following values:
     To create and configure a WebACL , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_web_acl(
@@ -1940,7 +1981,6 @@ def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=
             (dict) --Specifies whether to insert a Rule into or delete a Rule from a WebACL .
             Action (string) -- [REQUIRED]Specifies whether to insert a Rule into or delete a Rule from a WebACL .
             ActivatedRule (dict) -- [REQUIRED]The ActivatedRule object in an UpdateWebACL request specifies a Rule that you want to insert or delete, the priority of the Rule in the WebACL , and the action that you want AWS WAF to take when a web request matches the Rule (ALLOW , BLOCK , or COUNT ).
-            To specify whether to insert or delete a Rule , use the Action parameter in the WebACLUpdate data type.
             Priority (integer) -- [REQUIRED]Specifies the order in which the Rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before Rules with a higher value. The value must be a unique integer. If you add multiple Rules to a WebACL , the values don't need to be consecutive.
             RuleId (string) -- [REQUIRED]The RuleId for a Rule . You use RuleId to get more information about a Rule (see GetRule ), update a Rule (see UpdateRule ), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL ), or delete a Rule from AWS WAF (see DeleteRule ).
             RuleId is returned by CreateRule and by ListRules .
@@ -1957,7 +1997,7 @@ def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=
             
 
     :type DefaultAction: dict
-    :param DefaultAction: For the action that is associated with a rule in a WebACL , specifies the action that you want AWS WAF to perform when a web request matches all of the conditions in a rule. For the default action in a WebACL , specifies the action that you want AWS WAF to take when a web request doesn't match all of the conditions in any of the rules in a WebACL .
+    :param DefaultAction: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
             Type (string) -- [REQUIRED]Specifies how you want AWS WAF to respond to requests that match the settings in a Rule . Valid settings include the following:
             ALLOW : AWS WAF allows requests
             BLOCK : AWS WAF blocks requests
@@ -1986,6 +2026,7 @@ def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None):
     You use XssMatchSet objects to specify which CloudFront requests you want to allow, block, or count. For example, if you're receiving requests that contain cross-site scripting attacks in the request body and you want to block the requests, you can create an XssMatchSet with the applicable settings, and then configure AWS WAF to block the requests.
     To create and configure an XssMatchSet , perform the following steps:
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
+    See also: AWS API Documentation
     
     
     :example: response = client.update_xss_match_set(
@@ -2025,7 +2066,7 @@ def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None):
             (dict) --Specifies the part of a web request that you want to inspect for cross-site scripting attacks and indicates whether you want to add the specification to an XssMatchSet or delete it from an XssMatchSet .
             Action (string) -- [REQUIRED]Specify INSERT to add a XssMatchSetUpdate to an XssMatchSet . Use DELETE to remove a XssMatchSetUpdate from an XssMatchSet .
             XssMatchTuple (dict) -- [REQUIRED]Specifies the part of a web request that you want AWS WAF to inspect for cross-site scripting attacks and, if you want AWS WAF to inspect a header, the name of the header.
-            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for TargetString .
+            FieldToMatch (dict) -- [REQUIRED]Specifies where in a web request to look for cross-site scripting attacks.
             Type (string) -- [REQUIRED]The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:
             HEADER : A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data .
             METHOD : The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE , GET , HEAD , OPTIONS , PATCH , POST , and PUT .

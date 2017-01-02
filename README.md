@@ -10,7 +10,7 @@ This package will minimize the time you have to look for AWS documentation onlin
 ![Ctrl+Q Documentation](https://github.com/gehadshaat/pyboto3/blob/master/img/documentation.png)
 
 # Installation
-```python
+```
 pip install pyboto3
 ```
 
@@ -22,6 +22,12 @@ s3 = boto3.client('s3')
 # s3. -> will give you autocomplete for s3 methods in pycharm
 ```
 enjoy autocomplete and navigate to class to read documentation from S3 class code
+
+# Release Instructions
+```
+python setup.py sdist
+twine upload dist/*
+```
 
 # Contributing
 

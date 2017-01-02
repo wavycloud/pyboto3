@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Gehad Shaat
+Copyright (c) 2016 WavyCloud
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,6 +27,7 @@ SOFTWARE.
 def add_tags_to_on_premises_instances(tags=None, instanceNames=None):
     """
     Adds tags to on-premises instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.add_tags_to_on_premises_instances(
@@ -64,6 +65,7 @@ def add_tags_to_on_premises_instances(tags=None, instanceNames=None):
 def batch_get_application_revisions(applicationName=None, revisions=None):
     """
     Gets information about one or more application revisions.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_application_revisions(
@@ -161,6 +163,7 @@ def batch_get_application_revisions(applicationName=None, revisions=None):
 def batch_get_applications(applicationNames=None):
     """
     Gets information about one or more applications.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_applications(
@@ -193,7 +196,8 @@ def batch_get_applications(applicationNames=None):
 
 def batch_get_deployment_groups(applicationName=None, deploymentGroupNames=None):
     """
-    Get information about one or more deployment groups.
+    Gets information about one or more deployment groups.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_deployment_groups(
@@ -299,6 +303,7 @@ def batch_get_deployment_groups(applicationName=None, deploymentGroupNames=None)
 def batch_get_deployment_instances(deploymentId=None, instanceIds=None):
     """
     Gets information about one or more instance that are part of a deployment group.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_deployment_instances(
@@ -362,6 +367,7 @@ def batch_get_deployment_instances(deploymentId=None, instanceIds=None):
 def batch_get_deployments(deploymentIds=None):
     """
     Gets information about one or more deployments.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_deployments(
@@ -443,6 +449,7 @@ def batch_get_deployments(deploymentIds=None):
 def batch_get_on_premises_instances(instanceNames=None):
     """
     Gets information about one or more on-premises instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.batch_get_on_premises_instances(
@@ -462,6 +469,7 @@ def batch_get_on_premises_instances(instanceNames=None):
         'instanceInfos': [
             {
                 'instanceName': 'string',
+                'iamSessionArn': 'string',
                 'iamUserArn': 'string',
                 'instanceArn': 'string',
                 'registerTime': datetime(2015, 1, 1),
@@ -498,6 +506,7 @@ def can_paginate(operation_name=None):
 def create_application(applicationName=None):
     """
     Creates an application.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_application(
@@ -522,6 +531,7 @@ def create_application(applicationName=None):
 def create_deployment(applicationName=None, deploymentGroupName=None, revision=None, deploymentConfigName=None, description=None, ignoreApplicationStopFailures=None, autoRollbackConfiguration=None, updateOutdatedInstancesOnly=None):
     """
     Deploys an application revision through the specified deployment group.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_deployment(
@@ -620,6 +630,7 @@ def create_deployment(applicationName=None, deploymentGroupName=None, revision=N
 def create_deployment_config(deploymentConfigName=None, minimumHealthyHosts=None):
     """
     Creates a deployment configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_deployment_config(
@@ -664,6 +675,7 @@ def create_deployment_config(deploymentConfigName=None, minimumHealthyHosts=None
 def create_deployment_group(applicationName=None, deploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None):
     """
     Creates a deployment group to which application revisions will be deployed.
+    See also: AWS API Documentation
     
     
     :example: response = client.create_deployment_group(
@@ -727,16 +739,8 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
 
     :type deploymentConfigName: string
     :param deploymentConfigName: If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation.
-            Note
             CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group.
-            The predefined deployment configurations include the following:
-            CodeDeployDefault.AllAtOnce attempts to deploy an application revision to as many instances as possible at once. The status of the overall deployment will be displayed as Succeeded if the application revision is deployed to one or more of the instances. The status of the overall deployment will be displayed as Failed if the application revision is not deployed to any of the instances. Using an example of nine instances, CodeDeployDefault.AllAtOnce will attempt to deploy to all nine instances at once. The overall deployment will succeed if deployment to even a single instance is successful; it will fail only if deployments to all nine instances fail.
-            CodeDeployDefault.HalfAtATime deploys to up to half of the instances at a time (with fractions rounded down). The overall deployment succeeds if the application revision is deployed to at least half of the instances (with fractions rounded up); otherwise, the deployment fails. In the example of nine instances, it will deploy to up to four instances at a time. The overall deployment succeeds if deployment to five or more instances succeed; otherwise, the deployment fails. The deployment may be successfully deployed to some instances even if the overall deployment fails.
-            CodeDeployDefault.OneAtATime deploys the application revision to only one instance at a time. For deployment groups that contain more than one instance:
-            The overall deployment succeeds if the application revision is deployed to all of the instances. The exception to this rule is if deployment to the last instance fails, the overall deployment still succeeds. This is because AWS CodeDeploy allows only one instance at a time to be taken offline with the CodeDeployDefault.OneAtATime configuration.
-            The overall deployment fails as soon as the application revision fails to be deployed to any but the last instance. The deployment may be successfully deployed to some instances even if the overall deployment fails.
-            In an example using nine instances, it will deploy to one instance at a time. The overall deployment succeeds if deployment to the first eight instances is successful; the overall deployment fails if deployment to any of the first eight instances fails.
-            For deployment groups that contain only one instance, the overall deployment is successful only if deployment to the single instance is successful
+            For more information about the predefined deployment configurations in AWS CodeDeploy, see see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
             
 
     :type ec2TagFilters: list
@@ -814,6 +818,7 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
 def delete_application(applicationName=None):
     """
     Deletes an application.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_application(
@@ -832,6 +837,7 @@ def delete_application(applicationName=None):
 def delete_deployment_config(deploymentConfigName=None):
     """
     Deletes a deployment configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_deployment_config(
@@ -850,6 +856,7 @@ def delete_deployment_config(deploymentConfigName=None):
 def delete_deployment_group(applicationName=None, deploymentGroupName=None):
     """
     Deletes a deployment group.
+    See also: AWS API Documentation
     
     
     :example: response = client.delete_deployment_group(
@@ -885,6 +892,7 @@ def delete_deployment_group(applicationName=None, deploymentGroupName=None):
 def deregister_on_premises_instance(instanceName=None):
     """
     Deregisters an on-premises instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.deregister_on_premises_instance(
@@ -925,6 +933,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_application(applicationName=None):
     """
     Gets information about an application.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_application(
@@ -954,6 +963,7 @@ def get_application(applicationName=None):
 def get_application_revision(applicationName=None, revision=None):
     """
     Gets information about an application revision.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_application_revision(
@@ -1043,6 +1053,7 @@ def get_application_revision(applicationName=None, revision=None):
 def get_deployment(deploymentId=None):
     """
     Gets information about a deployment.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployment(
@@ -1121,6 +1132,7 @@ def get_deployment(deploymentId=None):
 def get_deployment_config(deploymentConfigName=None):
     """
     Gets information about a deployment configuration.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployment_config(
@@ -1153,6 +1165,7 @@ def get_deployment_config(deploymentConfigName=None):
 def get_deployment_group(applicationName=None, deploymentGroupName=None):
     """
     Gets information about a deployment group.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployment_group(
@@ -1252,6 +1265,7 @@ def get_deployment_group(applicationName=None, deploymentGroupName=None):
 def get_deployment_instance(deploymentId=None, instanceId=None):
     """
     Gets information about an instance as part of a deployment.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_deployment_instance(
@@ -1309,6 +1323,7 @@ def get_deployment_instance(deploymentId=None, instanceId=None):
 def get_on_premises_instance(instanceName=None):
     """
     Gets information about an on-premises instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.get_on_premises_instance(
@@ -1325,6 +1340,7 @@ def get_on_premises_instance(instanceName=None):
     :return: {
         'instanceInfo': {
             'instanceName': 'string',
+            'iamSessionArn': 'string',
             'iamUserArn': 'string',
             'instanceArn': 'string',
             'registerTime': datetime(2015, 1, 1),
@@ -1367,6 +1383,7 @@ def get_waiter():
 def list_application_revisions(applicationName=None, sortBy=None, sortOrder=None, s3Bucket=None, s3KeyPrefix=None, deployed=None, nextToken=None):
     """
     Lists information about revisions for an application.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_application_revisions(
@@ -1451,6 +1468,7 @@ def list_application_revisions(applicationName=None, sortBy=None, sortOrder=None
 def list_applications(nextToken=None):
     """
     Lists the applications registered with the applicable IAM user or AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_applications(
@@ -1476,6 +1494,7 @@ def list_applications(nextToken=None):
 def list_deployment_configs(nextToken=None):
     """
     Lists the deployment configurations with the applicable IAM user or AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_deployment_configs(
@@ -1501,6 +1520,7 @@ def list_deployment_configs(nextToken=None):
 def list_deployment_groups(applicationName=None, nextToken=None):
     """
     Lists the deployment groups for an application registered with the applicable IAM user or AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_deployment_groups(
@@ -1536,6 +1556,7 @@ def list_deployment_groups(applicationName=None, nextToken=None):
 def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusFilter=None):
     """
     Lists the instance for a deployment associated with the applicable IAM user or AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_deployment_instances(
@@ -1584,6 +1605,7 @@ def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusF
 def list_deployments(applicationName=None, deploymentGroupName=None, includeOnlyStatuses=None, createTimeRange=None, nextToken=None):
     """
     Lists the deployments in a deployment group for an application registered with the applicable IAM user or AWS account.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_deployments(
@@ -1649,6 +1671,7 @@ def list_on_premises_instances(registrationStatus=None, tagFilters=None, nextTok
     """
     Gets a list of names for one or more on-premises instances.
     Unless otherwise specified, both registered and deregistered on-premises instance names will be listed. To list only registered or deregistered on-premises instance names, use the registration status parameter.
+    See also: AWS API Documentation
     
     
     :example: response = client.list_on_premises_instances(
@@ -1703,6 +1726,7 @@ def list_on_premises_instances(registrationStatus=None, tagFilters=None, nextTok
 def register_application_revision(applicationName=None, description=None, revision=None):
     """
     Registers with AWS CodeDeploy a revision for the specified application.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_application_revision(
@@ -1760,13 +1784,15 @@ def register_application_revision(applicationName=None, description=None, revisi
     """
     pass
 
-def register_on_premises_instance(instanceName=None, iamUserArn=None):
+def register_on_premises_instance(instanceName=None, iamSessionArn=None, iamUserArn=None):
     """
     Registers an on-premises instance.
+    See also: AWS API Documentation
     
     
     :example: response = client.register_on_premises_instance(
         instanceName='string',
+        iamSessionArn='string',
         iamUserArn='string'
     )
     
@@ -1776,10 +1802,11 @@ def register_on_premises_instance(instanceName=None, iamUserArn=None):
             The name of the on-premises instance to register.
             
 
+    :type iamSessionArn: string
+    :param iamSessionArn: The ARN of the IAM session to associate with the on-premises instance.
+
     :type iamUserArn: string
-    :param iamUserArn: [REQUIRED]
-            The ARN of the IAM user to associate with the on-premises instance.
-            
+    :param iamUserArn: The ARN of the IAM user to associate with the on-premises instance.
 
     """
     pass
@@ -1787,6 +1814,7 @@ def register_on_premises_instance(instanceName=None, iamUserArn=None):
 def remove_tags_from_on_premises_instances(tags=None, instanceNames=None):
     """
     Removes one or more tags from one or more on-premises instances.
+    See also: AWS API Documentation
     
     
     :example: response = client.remove_tags_from_on_premises_instances(
@@ -1823,6 +1851,7 @@ def remove_tags_from_on_premises_instances(tags=None, instanceNames=None):
 def stop_deployment(deploymentId=None, autoRollbackEnabled=None):
     """
     Attempts to stop an ongoing deployment.
+    See also: AWS API Documentation
     
     
     :example: response = client.stop_deployment(
@@ -1856,6 +1885,7 @@ def stop_deployment(deploymentId=None, autoRollbackEnabled=None):
 def update_application(applicationName=None, newApplicationName=None):
     """
     Changes the name of an application.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_application(
@@ -1876,6 +1906,7 @@ def update_application(applicationName=None, newApplicationName=None):
 def update_deployment_group(applicationName=None, currentDeploymentGroupName=None, newDeploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None):
     """
     Changes information about a deployment group.
+    See also: AWS API Documentation
     
     
     :example: response = client.update_deployment_group(
