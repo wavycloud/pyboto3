@@ -490,8 +490,7 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
     """
     Copies the specified DB snapshot. The source DB snapshot must be in the "available" state.
     To copy a DB snapshot from a shared manual DB snapshot, SourceDBSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB snapshot.
-    You can not copy an encrypted DB snapshot from another AWS region.
-    You can copy an encrypted DB snapshot from another AWS region. In that case, the region where you call the CopyDBSnapshot action is the destination region for the encrypted DB snapshot to be copied to. To copy an encrypted DB snapshot from another region, you must provide the following values:
+    You can copy an encrypted DB snapshot from another AWS Region. In that case, the region where you call the CopyDBSnapshot action is the destination region for the encrypted DB snapshot to be copied to. To copy an encrypted DB snapshot from another region, you must provide the following values:
     To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
     For more information on copying encrypted snapshots from one region to another, see Copying an Encrypted DB Snapshot to Another Region in the Amazon RDS User Guide.
     See also: AWS API Documentation
@@ -559,9 +558,10 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
 
     :type PreSignedUrl: string
     :param PreSignedUrl: The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the AWS region that contains the source DB snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB snapshot from another AWS region.
-            The pre-signed URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The pre-signed URL request must contain the following parameter values:
-            KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.
-            SourceDBSnapshotIdentifier - the DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115 .
+            The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:
+            DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL. For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.
+            KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.
+            SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115 .
             To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
             
 
@@ -601,8 +601,8 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
     
     
     :returns: 
-    TargetDBSnapshotIdentifier - the identifier for the new copy of the DB snapshot in the destination region.
-    SourceDBSnapshotIdentifier - the DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the ARN format for the source region and is the same value as the SourceDBSnapshotIdentifier in the pre-signed URL.
+    TargetDBSnapshotIdentifier - The identifier for the new copy of the DB snapshot in the destination region.
+    SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the ARN format for the source region and is the same value as the SourceDBSnapshotIdentifier in the presigned URL.
     
     """
     pass
@@ -3674,6 +3674,7 @@ def describe_db_instances(DBInstanceIdentifier=None, Filters=None, MaxRecords=No
     :type Filters: list
     :param Filters: A filter that specifies one or more DB instances to describe.
             Supported filters:
+            db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB Clusters identified by these ARNs.
             db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.
             (dict) --This type is not currently supported.
             Name (string) -- [REQUIRED]This parameter is not currently supported.
@@ -8197,7 +8198,7 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
     :type Engine: string
     :param Engine: The database engine to use for the new instance.
             Default: The same as source
-            Constraint: Must be compatible with the engine of the source
+            Constraint: Must be compatible with the engine of the source. You can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot.
             Valid Values: MySQL | mariadb | oracle-se1 | oracle-se | oracle-ee | sqlserver-ee | sqlserver-se | sqlserver-ex | sqlserver-web | postgres | aurora
             
 

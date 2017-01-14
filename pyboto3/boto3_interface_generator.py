@@ -144,13 +144,22 @@ def iter_all_services(services_url='https://boto3.readthedocs.io/en/latest/refer
 
 
 def generate_service_code(url, dist_filepath):
-    soup = BeautifulSoup(requests.get(url)._content, 'html.parser')
+    import tempfile
+    tempdir = tempfile.gettempdir()
+    cache_file = os.path.join(tempdir, os.path.basename(url))
+    if os.path.exists(cache_file):
+        content = open(cache_file, 'r').read()
+    else:
+        content = requests.get(url)._content
+        with open(cache_file, 'w+') as f:
+            f.write(content)
+    soup = BeautifulSoup(content, 'html.parser')
     import codecs
     with codecs.open(dist_filepath, 'w+', encoding='utf-8') as f:
         for line in iter_code_lines(soup):
             f.write('{}\n'.format(re.sub(r'[^\x00-\x7F]+', ' ', line)))
 
-    return get_class_name(soup)
+    return soup
 
 
 def get_init_path():
@@ -163,22 +172,37 @@ def append_class_to_init(service_name, class_name):
         f.write(line)
 
 
+replacement_name = {
+    'lambda': 'lambda_'
+}
 def get_filename(service_name):
     filename = service_name.lower()
-    if filename == 'lambda':
-        filename = 'lambda_'
+    if filename in replacement_name:
+        filename = replacement_name[filename]
     return filename
 
 
 def generate_all_services_code(dir_path):
     open(get_init_path(), 'w+').close()
+    clients = []
     for service_name, url in iter_all_services():
         filename = get_filename(service_name)
         dist_filepath = os.path.join(dir_path, '{}.py'.format(filename))
         logging.info("Generating code for service {} to {}".format(service_name, dist_filepath))
-        generate_service_code(url, dist_filepath)
+        service_soup = generate_service_code(url, dist_filepath)
+        client_name = get_client_name(service_soup)
         logging.info("Code for service {} generated successfully to {}".format(service_name, dist_filepath))
+        clients.append(client_name)
 
+
+    with open(os.path.join(os.path.dirname(get_init_path()), 'clients.py'), 'w+') as f:
+        f.write('import boto3{}'.format(os.linesep))
+        for client in clients:
+            var_name = client.replace('-', '_')
+            if var_name in replacement_name:
+                var_name = replacement_name[var_name]
+            f.write('{} = boto3.client("{}"){}'.format(var_name, client, os.linesep))
+            f.write('""":type : pyboto3.{}"""{}'.format(var_name, os.linesep))
 
 def get_method_description(method_soup):
     return method_soup.dd.p.text
@@ -204,7 +228,17 @@ def get_class_name(service_soup):
     :return:
     :returns
     """
-    return clean_class_name(service_soup.find(class_='highlight').find(class_='s1').text.strip("'"))
+    return clean_class_name(service_soup.find(class_='descclassname').text.strip('.'))
+
+def get_client_name(service_soup):
+    """
+    :
+    :param service_soup:
+    :return:
+    :returns
+    """
+    return service_soup.find(class_='highlight').find(class_='s1').text.strip("'")
+
 
 
 def iter_code_lines(soup):

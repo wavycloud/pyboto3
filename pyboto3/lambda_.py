@@ -199,7 +199,7 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
 
     :type StartingPosition: string
     :param StartingPosition: [REQUIRED]
-            The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, go to ShardIteratorType in the Amazon Kinesis API Reference .
+            The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference .
             
 
     :type StartingPositionTimestamp: datetime
@@ -266,7 +266,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     
     :type FunctionName: string
     :param FunctionName: [REQUIRED]
-            The name you want to assign to the function you are uploading. The function names appear in the console and are returned in the ListFunctions API. Function names are used to specify functions to other AWS Lambda APIs, such as Invoke .
+            The name you want to assign to the function you are uploading. The function names appear in the console and are returned in the ListFunctions API. Function names are used to specify functions to other AWS Lambda API operations, such as Invoke .
             
 
     :type Runtime: string
@@ -274,7 +274,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             The runtime environment for the Lambda function you are uploading.
             To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use earlier runtime (v0.10.42), set the value to 'nodejs'.
             Note
-            You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017 but we recommend you migrate them to nodejs4.3 runtime version as soon as possible.
+            You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017, but we recommend you migrate them to nodejs4.3 runtime version as soon as possible.
             
 
     :type Role: string
@@ -290,7 +290,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     :type Code: dict
     :param Code: [REQUIRED]
             The code for the Lambda function.
-            ZipFile (bytes) --The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, go to Execution Permissions in the AWS Lambda Developer Guide .
+            ZipFile (bytes) --The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide .
             S3Bucket (string) --Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS region where you are creating the Lambda function.
             S3Key (string) --The Amazon S3 object (the deployment package) key name you want to upload.
             S3ObjectVersion (string) --The Amazon S3 object (the deployment package) version you want to upload.
@@ -317,8 +317,8 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             
 
     :type DeadLetterConfig: dict
-    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
-            TargetArn (string) --The ARN (Amazon Resource Value) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+    :param DeadLetterConfig: The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
             
 
     :type Environment: dict
@@ -491,7 +491,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_account_settings():
     """
     Returns a customer's account settings.
-    You can use this operation to retrieve Lambda limit information such as code size and concurrency limits. For more information on limits, see AWS Lambda Limits . You can also retrieve resource usage statistics such as code storage usage and function count.
+    You can use this operation to retrieve Lambda limits information, such as code size and concurrency limits. For more information about limits, see AWS Lambda Limits . You can also retrieve resource usage statistics, such as code storage usage and function count.
     See also: AWS API Documentation
     
     
@@ -1333,12 +1333,12 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
             
 
     :type ZipFile: bytes
-    :param ZipFile: The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, go to Execution Permissions in the AWS Lambda Developer Guide .
+    :param ZipFile: The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide .
             This value will be base64 encoded automatically. Do not base64 encode this value prior to performing the operation.
             
 
     :type S3Bucket: string
-    :param S3Bucket: Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS region where you are creating the Lambda function.
+    :param S3Bucket: Amazon S3 bucket name where the .zip file containing your deployment package is stored. This bucket must reside in the same AWS Region where you are creating the Lambda function.
 
     :type S3Key: string
     :param S3Key: The Amazon S3 object (the deployment package) key name you want to upload.
@@ -1475,8 +1475,8 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
             
 
     :type DeadLetterConfig: dict
-    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
-            TargetArn (string) --The ARN (Amazon Resource Value) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+    :param DeadLetterConfig: The parent object that contains the target Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
+            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
             
 
     :type KMSKeyArn: string

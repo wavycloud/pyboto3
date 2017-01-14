@@ -72,7 +72,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
     
     :type SourceImage: dict
     :param SourceImage: [REQUIRED]
-            Source image either as bytes or an Amazon S3 object
+            Source image either as bytes or an S3 object
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.
@@ -83,7 +83,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
 
     :type TargetImage: dict
     :param TargetImage: [REQUIRED]
-            Target image either as bytes or an Amazon S3 object
+            Target image either as bytes or an S3 object
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.
@@ -128,7 +128,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
 
 def create_collection(CollectionId=None):
     """
-    Creates a collection in an AWS region. You can add faces to the collection using the operation.
+    Creates a collection in an AWS Region. You can add faces to the collection using the operation.
     For example, you might create collections, one for each of your application users. A user can then index faces using the IndexFaces operation and persist results in a specific collection. Then, a user can search the collection for faces in the user-specific container.
     For an example, see  example1 .
     This operation requires permissions to perform the rekognition:CreateCollection action.
@@ -259,7 +259,7 @@ def detect_faces(Image=None, Attributes=None):
 
     :type Attributes: list
     :param Attributes: A list of facial attributes you would like to be returned. By default, the API returns subset of facial attributes.
-            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Rekognition performs additional detection.
+            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Amazon Rekognition performs additional detection.
             (string) --
             
 
@@ -446,7 +446,7 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
     Detects faces in the input image and adds them to the specified collection.
     Amazon Rekognition does not save the actual faces detected. Instead, the underlying detection algorithm first detects the faces in the input image, and for each face extracts facial features into a feature vector, and stores it in the back-end database. Amazon Rekognition uses feature vectors when performing face match and search operations using the and operations.
     If you provide the optional externalImageID for the input image you provided, Amazon Rekognition associates this ID with all faces that it detects. When you call the operation, the response returns the external ID. You can use this external image ID to create a client-side index to associate the faces with each image. You can then use the index to find all faces in an image.
-    In response, the operation returns an array of metadata for all detected faces. This includes, the bounding box of the detected face, confidence value (indicating the bounding box contains a face), a face ID assigned by the service for each face that is detected and stored, and an image ID assigned by the service for the input image If you request all facial attributes (using the detectionAttributes parameter, Rekognition returns detailed facial attributes such as facial landmarks (for example, location of eye and mount) and other facial attributes such gender. If you provide the same image, specify the same collection, and use the same external ID in the IndexFaces operation, Rekognition doesn't save duplicate face metadata.
+    In response, the operation returns an array of metadata for all detected faces. This includes, the bounding box of the detected face, confidence value (indicating the bounding box contains a face), a face ID assigned by the service for each face that is detected and stored, and an image ID assigned by the service for the input image If you request all facial attributes (using the detectionAttributes parameter, Amazon Rekognition returns detailed facial attributes such as facial landmarks (for example, location of eye and mount) and other facial attributes such gender. If you provide the same image, specify the same collection, and use the same external ID in the IndexFaces operation, Amazon Rekognition doesn't save duplicate face metadata.
     For an example, see  example2 .
     This operation requires permissions to perform the rekognition:IndexFaces action.
     See also: AWS API Documentation
@@ -477,6 +477,9 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
     :type Image: dict
     :param Image: [REQUIRED]
             Provides the source image either as bytes or an S3 object.
+            The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations.
+            You may need to Base64-encode the image bytes depending on the language you are using and whether or not you are using the AWS SDK. For more information, see example4 .
+            For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see manage-access-resource-policies .
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.
@@ -490,7 +493,7 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
 
     :type DetectionAttributes: list
     :param DetectionAttributes: (Optional) Returns detailed attributes of indexed faces. By default, the operation returns a subset of the facial attributes.
-            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], Rekognition uses the logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, the service performs additional detection, in addition to the default.
+            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], Amazon Rekognition uses the logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, the service performs additional detection, in addition to the default.
             (string) --
             
 
@@ -667,7 +670,7 @@ def list_faces(CollectionId=None, NextToken=None, MaxResults=None):
 
 def search_faces(CollectionId=None, FaceId=None, MaxFaces=None, FaceMatchThreshold=None):
     """
-    For a given input face ID, searches the specified collection for matching faces. You get a face ID when you add a face to the collection using the  IndexFaces operation. The operation compares the features of the input face with faces in the specified collection.
+    For a given input face ID, searches for matching faces in the collection the face belongs to. You get a face ID when you add a face to the collection using the  IndexFaces operation. The operation compares the features of the input face with faces in the specified collection.
     The operation response returns an array of faces that match, ordered by similarity score with the highest similarity first. More specifically, it is an array of metadata for each face match that is found. Along with the metadata, the response also includes a confidence value for each face match, indicating the confidence that the specific face matches the input face.
     For an example, see  example3 .
     This operation requires permissions to perform the rekognition:SearchFaces action.
@@ -684,7 +687,7 @@ def search_faces(CollectionId=None, FaceId=None, MaxFaces=None, FaceMatchThresho
     
     :type CollectionId: string
     :param CollectionId: [REQUIRED]
-            ID of the collection to search.
+            ID of the collection the face belongs to.
             
 
     :type FaceId: string
@@ -693,7 +696,7 @@ def search_faces(CollectionId=None, FaceId=None, MaxFaces=None, FaceMatchThresho
             
 
     :type MaxFaces: integer
-    :param MaxFaces: Maximum number of faces to return. The API will return the maximum number of faces with the highest confidence in the match.
+    :param MaxFaces: Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
 
     :type FaceMatchThreshold: float
     :param FaceMatchThreshold: Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%.
@@ -727,7 +730,7 @@ def search_faces(CollectionId=None, FaceId=None, MaxFaces=None, FaceMatchThresho
 def search_faces_by_image(CollectionId=None, Image=None, MaxFaces=None, FaceMatchThreshold=None):
     """
     For a given input image, first detects the largest face in the image, and then searches the specified collection for matching faces. The operation compares the features of the input face with faces in the specified collection.
-    The response returns an array of faces that match, ordered by similarity score with the highest similarity first. More specifically, it is an array of metadata for each face match found. Along with the metadata, the response also includes a similarity indicating how similar the face is to the input face. In the response, the API also returns the bounding box (and a confidence level that the bounding box contains a face) of the face that Rekognition used for the input image.
+    The response returns an array of faces that match, ordered by similarity score with the highest similarity first. More specifically, it is an array of metadata for each face match found. Along with the metadata, the response also includes a similarity indicating how similar the face is to the input face. In the response, the operation also returns the bounding box (and a confidence level that the bounding box contains a face) of the face that Amazon Rekognition used for the input image.
     For an example, see  example3 .
     This operation requires permissions to perform the rekognition:SearchFacesByImage action.
     See also: AWS API Documentation
@@ -756,6 +759,9 @@ def search_faces_by_image(CollectionId=None, Image=None, MaxFaces=None, FaceMatc
     :type Image: dict
     :param Image: [REQUIRED]
             Provides the source image either as bytes or an S3 object.
+            The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations.
+            You may need to Base64-encode the image bytes depending on the language you are using and whether or not you are using the AWS SDK. For more information, see example4 .
+            For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see manage-access-resource-policies .
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.

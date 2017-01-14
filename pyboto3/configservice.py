@@ -389,7 +389,7 @@ def describe_config_rules(ConfigRuleNames=None, NextToken=None):
                     'SourceDetails': [
                         {
                             'EventSource': 'aws.config',
-                            'MessageType': 'ConfigurationItemChangeNotification'|'ConfigurationSnapshotDeliveryCompleted'|'ScheduledNotification',
+                            'MessageType': 'ConfigurationItemChangeNotification'|'ConfigurationSnapshotDeliveryCompleted'|'ScheduledNotification'|'OversizedConfigurationItemChangeNotification',
                             'MaximumExecutionFrequency': 'One_Hour'|'Three_Hours'|'Six_Hours'|'Twelve_Hours'|'TwentyFour_Hours'
                         },
                     ]
@@ -1003,7 +1003,7 @@ def put_config_rule(ConfigRule=None):
                 'SourceDetails': [
                     {
                         'EventSource': 'aws.config',
-                        'MessageType': 'ConfigurationItemChangeNotification'|'ConfigurationSnapshotDeliveryCompleted'|'ScheduledNotification',
+                        'MessageType': 'ConfigurationItemChangeNotification'|'ConfigurationSnapshotDeliveryCompleted'|'ScheduledNotification'|'OversizedConfigurationItemChangeNotification',
                         'MaximumExecutionFrequency': 'One_Hour'|'Three_Hours'|'Six_Hours'|'Twelve_Hours'|'TwentyFour_Hours'
                     },
                 ]
@@ -1038,9 +1038,12 @@ def put_config_rule(ConfigRule=None):
             SourceDetails (list) --Provides the source and type of the event that causes AWS Config to evaluate your AWS resources.
             (dict) --Provides the source and the message types that trigger AWS Config to evaluate your AWS resources against a rule. It also provides the frequency with which you want AWS Config to run evaluations for the rule if the trigger type is periodic. You can specify the parameter values for SourceDetail only for custom rules.
             EventSource (string) --The source of the event, such as an AWS service, that triggers AWS Config to evaluate your AWS resources.
-            MessageType (string) --The type of notification that triggers AWS Config to run an evaluation. You can specify the following notification types:
-            ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item change notification.ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency .
+            MessageType (string) --The type of notification that triggers AWS Config to run an evaluation for a rule. You can specify the following notification types:
+            ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.
+            OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.
+            ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency .
             ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.
+            If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification .
             MaximumExecutionFrequency (string) --The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency , then MessageType must use the ScheduledNotification value.
             
             InputParameters (string) --A string in JSON format that is passed to the AWS Config rule Lambda function.
@@ -1055,8 +1058,10 @@ def put_config_rule(ConfigRule=None):
             
 
     :returns: 
-    You are using an AWS managed rule that is triggered at a periodic frequency.
-    Your custom rule is triggered when AWS Config delivers the configuration snapshot.
+    ConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers a configuration item as a result of a resource change.
+    OversizedConfigurationItemChangeNotification - Triggers an evaluation when AWS Config delivers an oversized configuration item. AWS Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.
+    ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency .
+    ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.
     
     """
     pass

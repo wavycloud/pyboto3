@@ -228,7 +228,7 @@ def change_password(OldPassword=None, NewPassword=None):
     :type NewPassword: string
     :param NewPassword: [REQUIRED]
             The new password. The new password must conform to the AWS account's password policy, if one exists.
-            This parameter allows (per its regex pattern ) a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+            The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
             
 
     """
@@ -404,7 +404,7 @@ def create_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     :type Password: string
     :param Password: [REQUIRED]
             The new password for the user.
-            This parameter allows (per its regex pattern ) a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+            The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
             
 
     :type PasswordResetRequired: boolean
@@ -506,7 +506,7 @@ def create_policy(PolicyName=None, Path=None, PolicyDocument=None, Description=N
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The JSON policy document that you want to use as the content for the new policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type Description: string
@@ -559,7 +559,7 @@ def create_policy_version(PolicyArn=None, PolicyDocument=None, SetAsDefault=None
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The JSON policy document that you want to use as the content for this new version of the policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type SetAsDefault: boolean
@@ -610,7 +610,7 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None):
     :type AssumeRolePolicyDocument: string
     :param AssumeRolePolicyDocument: [REQUIRED]
             The trust relationship policy document that grants an entity permission to assume the role.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :rtype: dict
@@ -1714,7 +1714,7 @@ def get_context_keys_for_custom_policy(PolicyInputList=None):
     :type PolicyInputList: list
     :param PolicyInputList: [REQUIRED]
             A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             (string) --
             
 
@@ -1756,7 +1756,7 @@ def get_context_keys_for_principal_policy(PolicySourceArn=None, PolicyInputList=
 
     :type PolicyInputList: list
     :param PolicyInputList: An optional list of additional policies for which you want the list of context keys that are referenced.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             (string) --
             
 
@@ -3588,7 +3588,7 @@ def put_group_policy(GroupName=None, PolicyName=None, PolicyDocument=None):
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     """
@@ -3625,7 +3625,7 @@ def put_role_policy(RoleName=None, PolicyName=None, PolicyDocument=None):
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     """
@@ -3661,7 +3661,7 @@ def put_user_policy(UserName=None, PolicyName=None, PolicyDocument=None):
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     """
@@ -3901,7 +3901,7 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
     :type PolicyInputList: list
     :param PolicyInputList: [REQUIRED]
             A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be 'scope-down' policies, such as you could include in a call to GetFederationToken or one of the AssumeRole APIs to restrict what a user can do while using the temporary credentials.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             (string) --
             
 
@@ -3921,7 +3921,7 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
 
     :type ResourcePolicy: string
     :param ResourcePolicy: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type ResourceOwner: string
@@ -4076,7 +4076,7 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
 
     :type PolicyInputList: list
     :param PolicyInputList: An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             (string) --
             
 
@@ -4095,7 +4095,7 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
 
     :type ResourcePolicy: string
     :param ResourcePolicy: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type ResourceOwner: string
@@ -4328,7 +4328,7 @@ def update_assume_role_policy(RoleName=None, PolicyDocument=None):
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy that grants an entity permission to assume the role.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     """
@@ -4388,7 +4388,7 @@ def update_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
 
     :type Password: string
     :param Password: The new password for the specified IAM user.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy .
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy .
             
 
     :type PasswordResetRequired: boolean
@@ -4658,18 +4658,18 @@ def upload_server_certificate(Path=None, ServerCertificateName=None, Certificate
     :type CertificateBody: string
     :param CertificateBody: [REQUIRED]
             The contents of the public key certificate in PEM-encoded format.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type PrivateKey: string
     :param PrivateKey: [REQUIRED]
             The contents of the private key in PEM-encoded format.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :type CertificateChain: string
     :param CertificateChain: The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :rtype: dict
@@ -4709,7 +4709,7 @@ def upload_signing_certificate(UserName=None, CertificateBody=None):
     :type CertificateBody: string
     :param CertificateBody: [REQUIRED]
             The contents of the signing certificate.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :rtype: dict
@@ -4749,7 +4749,7 @@ def upload_ssh_public_key(UserName=None, SSHPublicKeyBody=None):
     :type SSHPublicKeyBody: string
     :param SSHPublicKeyBody: [REQUIRED]
             The SSH public key. The public key must be encoded in ssh-rsa format or PEM format.
-            This parameter allows (per its regex pattern ) a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range (u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
     :rtype: dict
