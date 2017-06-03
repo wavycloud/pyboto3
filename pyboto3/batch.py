@@ -44,6 +44,9 @@ def cancel_job(jobId=None, reason=None):
     Cancels jobs in an AWS Batch job queue. Jobs that are in the SUBMITTED , PENDING , or RUNNABLE state are cancelled. Jobs that have progressed to STARTING or RUNNING are not cancelled (but the API operation still succeeds, even if no jobs are cancelled); these jobs must be terminated with the  TerminateJob operation.
     See also: AWS API Documentation
     
+    Examples
+    This example cancels a job with the specified job ID.
+    Expected Output:
     
     :example: response = client.cancel_job(
         jobId='string',
@@ -78,6 +81,11 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
     In an unmanaged compute environment, you can manage your own compute resources. This provides more compute resource configuration options, such as using a custom AMI, but you must ensure that your AMI meets the Amazon ECS container instance AMI specification. For more information, see Container Instance AMIs in the Amazon EC2 Container Service Developer Guide . After you have created your unmanaged compute environment, you can use the  DescribeComputeEnvironments operation to find the Amazon ECS cluster that is associated with it and then manually launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS Container Instance in the Amazon EC2 Container Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a managed compute environment with specific C4 instance types that are launched on demand. The compute environment is called C4OnDemand.
+    Expected Output:
+    This example creates a managed compute environment with the M4 instance type that is launched when the Spot bid price is at or below 20% of the On-Demand price for the instance type. The compute environment is called M4Spot.
+    Expected Output:
     
     :example: response = client.create_compute_environment(
         computeEnvironmentName='string',
@@ -91,6 +99,7 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
             'instanceTypes': [
                 'string',
             ],
+            'imageId': 'string',
             'subnets': [
                 'string',
             ],
@@ -130,6 +139,7 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
             desiredvCpus (integer) --The desired number of EC2 vCPUS in the compute environment.
             instanceTypes (list) -- [REQUIRED]The instances types that may launched.
             (string) --
+            imageId (string) --The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
             subnets (list) -- [REQUIRED]The VPC subnets into which the compute resources are launched.
             (string) --
             securityGroupIds (list) -- [REQUIRED]The EC2 security group that is associated with instances launched in the compute environment.
@@ -165,6 +175,11 @@ def create_job_queue(jobQueueName=None, state=None, priority=None, computeEnviro
     You also set a priority to the job queue that determines the order in which the AWS Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that compute environment.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a job queue called LowPriority that uses the M4Spot compute environment.
+    Expected Output:
+    This example creates a job queue called HighPriority that uses the C4OnDemand compute environment with an order of 1 and the M4Spot compute environment with an order of 2.
+    Expected Output:
     
     :example: response = client.create_job_queue(
         jobQueueName='string',
@@ -217,6 +232,9 @@ def delete_compute_environment(computeEnvironment=None):
     Before you can delete a compute environment, you must set its state to DISABLED with the  UpdateComputeEnvironment API operation and disassociate it from any job queues with the  UpdateJobQueue API operation.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the P2OnDemand compute environment.
+    Expected Output:
     
     :example: response = client.delete_compute_environment(
         computeEnvironment='string'
@@ -241,6 +259,9 @@ def delete_job_queue(jobQueue=None):
     It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the GPGPU job queue.
+    Expected Output:
     
     :example: response = client.delete_job_queue(
         jobQueue='string'
@@ -264,6 +285,9 @@ def deregister_job_definition(jobDefinition=None):
     Deregisters an AWS Batch job definition.
     See also: AWS API Documentation
     
+    Examples
+    This example deregisters a job definition called sleep10.
+    Expected Output:
     
     :example: response = client.deregister_job_definition(
         jobDefinition='string'
@@ -288,6 +312,9 @@ def describe_compute_environments(computeEnvironments=None, maxResults=None, nex
     If you are using an unmanaged compute environment, you can use the DescribeComputeEnvironment operation to determine the ecsClusterArn that you should launch your Amazon ECS container instances into.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the P2OnDemand compute environment.
+    Expected Output:
     
     :example: response = client.describe_compute_environments(
         computeEnvironments=[
@@ -331,6 +358,7 @@ def describe_compute_environments(computeEnvironments=None, maxResults=None, nex
                     'instanceTypes': [
                         'string',
                     ],
+                    'imageId': 'string',
                     'subnets': [
                         'string',
                     ],
@@ -363,6 +391,9 @@ def describe_job_definitions(jobDefinitions=None, maxResults=None, jobDefinition
     Describes a list of job definitions. You can specify a status (such as ACTIVE ) to only return job definitions that match that status.
     See also: AWS API Documentation
     
+    Examples
+    This example describes all of your active job definitions.
+    Expected Output:
     
     :example: response = client.describe_job_definitions(
         jobDefinitions=[
@@ -406,6 +437,9 @@ def describe_job_definitions(jobDefinitions=None, maxResults=None, jobDefinition
                 'type': 'string',
                 'parameters': {
                     'string': 'string'
+                },
+                'retryStrategy': {
+                    'attempts': 123
                 },
                 'containerProperties': {
                     'image': 'string',
@@ -467,6 +501,9 @@ def describe_job_queues(jobQueues=None, maxResults=None, nextToken=None):
     Describes one or more of your job queues.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the HighPriority job queue.
+    Expected Output:
     
     :example: response = client.describe_job_queues(
         jobQueues=[
@@ -521,6 +558,9 @@ def describe_jobs(jobs=None):
     Describes a list of AWS Batch jobs.
     See also: AWS API Documentation
     
+    Examples
+    This example describes a job with the specified job ID.
+    Expected Output:
     
     :example: response = client.describe_jobs(
         jobs=[
@@ -543,8 +583,24 @@ def describe_jobs(jobs=None):
                 'jobId': 'string',
                 'jobQueue': 'string',
                 'status': 'SUBMITTED'|'PENDING'|'RUNNABLE'|'STARTING'|'RUNNING'|'SUCCEEDED'|'FAILED',
+                'attempts': [
+                    {
+                        'container': {
+                            'containerInstanceArn': 'string',
+                            'taskArn': 'string',
+                            'exitCode': 123,
+                            'reason': 'string'
+                        },
+                        'startedAt': 123,
+                        'stoppedAt': 123,
+                        'statusReason': 'string'
+                    },
+                ],
                 'statusReason': 'string',
                 'createdAt': 123,
+                'retryStrategy': {
+                    'attempts': 123
+                },
                 'startedAt': 123,
                 'stoppedAt': 123,
                 'dependsOn': [
@@ -597,7 +653,8 @@ def describe_jobs(jobs=None):
                     'user': 'string',
                     'exitCode': 123,
                     'reason': 'string',
-                    'containerInstanceArn': 'string'
+                    'containerInstanceArn': 'string',
+                    'taskArn': 'string'
                 }
             },
         ]
@@ -662,6 +719,11 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
     Returns a list of task jobs for a specified job queue. You can filter the results by job status with the jobStatus parameter.
     See also: AWS API Documentation
     
+    Examples
+    This example lists the running jobs in the HighPriority job queue.
+    Expected Output:
+    This example lists jobs in the HighPriority job queue that are in the SUBMITTED job status.
+    Expected Output:
     
     :example: response = client.list_jobs(
         jobQueue='string',
@@ -703,11 +765,14 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
     """
     pass
 
-def register_job_definition(jobDefinitionName=None, type=None, parameters=None, containerProperties=None):
+def register_job_definition(jobDefinitionName=None, type=None, parameters=None, containerProperties=None, retryStrategy=None):
     """
     Registers an AWS Batch job definition.
     See also: AWS API Documentation
     
+    Examples
+    This example registers a job definition for a simple container job.
+    Expected Output:
     
     :example: response = client.register_job_definition(
         jobDefinitionName='string',
@@ -754,6 +819,9 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
                 },
             ],
             'user': 'string'
+        },
+        retryStrategy={
+            'attempts': 123
         }
     )
     
@@ -800,7 +868,7 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
             value (string) --The value of the key value pair. For environment variables, this is the value of the environment variable.
             
             mountPoints (list) --The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run .
-            (dict) --Details on a volume mount point that is used in a job's container properties.
+            (dict) --Details on a Docker volume mount point that is used in a job's container properties.
             containerPath (string) --The path on the container at which to mount the host volume.
             readOnly (boolean) --If this value is true , the container has read-only access to the volume; otherwise, the container can write to the volume. The default value is false .
             sourceVolume (string) --The name of the volume to mount.
@@ -816,6 +884,11 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
             user (string) --The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run .
             
 
+    :type retryStrategy: dict
+    :param retryStrategy: The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here.
+            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+            
+
     :rtype: dict
     :return: {
         'jobDefinitionName': 'string',
@@ -827,11 +900,14 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
     """
     pass
 
-def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, parameters=None, containerOverrides=None):
+def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, parameters=None, containerOverrides=None, retryStrategy=None):
     """
     Submits an AWS Batch job from a job definition. Parameters specified during  SubmitJob override parameters defined in the job definition.
     See also: AWS API Documentation
     
+    Examples
+    This example submits a simple container job called example to the HighPriority job queue.
+    Expected Output:
     
     :example: response = client.submit_job(
         jobName='string',
@@ -857,13 +933,17 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
                     'value': 'string'
                 },
             ]
+        },
+        retryStrategy={
+            'attempts': 123
         }
     )
     
     
     :type jobName: string
     :param jobName: [REQUIRED]
-            The name of the job.
+            The name of the job. A name must be 1 to 128 characters in length.
+            Pattern: ^[a-zA-Z0-9_]+$
             
 
     :type jobQueue: string
@@ -872,7 +952,7 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
             
 
     :type dependsOn: list
-    :param dependsOn: A list of job names or IDs on which this job depends. A job can depend upon a maximum of 100 jobs.
+    :param dependsOn: A list of job IDs on which this job depends. A job can depend upon a maximum of 100 jobs.
             (dict) --An object representing an AWS Batch job dependency.
             jobId (string) --The job ID of the AWS Batch job associated with this dependency.
             
@@ -902,6 +982,11 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
             
             
 
+    :type retryStrategy: dict
+    :param retryStrategy: The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
+            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+            
+
     :rtype: dict
     :return: {
         'jobName': 'string',
@@ -917,6 +1002,9 @@ def terminate_job(jobId=None, reason=None):
     Terminates jobs in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled.
     See also: AWS API Documentation
     
+    Examples
+    This example terminates a job with the specified job ID.
+    Expected Output:
     
     :example: response = client.terminate_job(
         jobId='string',
@@ -949,6 +1037,9 @@ def update_compute_environment(computeEnvironment=None, state=None, computeResou
     Updates an AWS Batch compute environment.
     See also: AWS API Documentation
     
+    Examples
+    This example disables the P2OnDemand compute environment so it can be deleted.
+    Expected Output:
     
     :example: response = client.update_compute_environment(
         computeEnvironment='string',
@@ -995,6 +1086,9 @@ def update_job_queue(jobQueue=None, state=None, priority=None, computeEnvironmen
     Updates a job queue.
     See also: AWS API Documentation
     
+    Examples
+    This example disables a job queue so that it can be deleted.
+    Expected Output:
     
     :example: response = client.update_job_queue(
         jobQueue='string',

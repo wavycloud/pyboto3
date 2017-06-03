@@ -45,6 +45,9 @@ def delete_lexicon(Name=None):
     For more information, see Managing Lexicons .
     See also: AWS API Documentation
     
+    Examples
+    Deletes a specified pronunciation lexicon stored in an AWS Region.
+    Expected Output:
     
     :example: response = client.delete_lexicon(
         Name='string'
@@ -72,6 +75,9 @@ def describe_voices(LanguageCode=None, NextToken=None):
     This operation requires permissions to perform the polly:DescribeVoices action.
     See also: AWS API Documentation
     
+    Examples
+    Returns the list of voices that are available for use when requesting speech synthesis. Displayed languages are those within the specified language code. If no language code is specified, voices for all available languages are displayed.
+    Expected Output:
     
     :example: response = client.describe_voices(
         LanguageCode='cy-GB'|'da-DK'|'de-DE'|'en-AU'|'en-GB'|'en-GB-WLS'|'en-IN'|'en-US'|'es-ES'|'es-US'|'fr-CA'|'fr-FR'|'is-IS'|'it-IT'|'ja-JP'|'nb-NO'|'nl-NL'|'pl-PL'|'pt-BR'|'pt-PT'|'ro-RO'|'ru-RU'|'sv-SE'|'tr-TR',
@@ -90,7 +96,7 @@ def describe_voices(LanguageCode=None, NextToken=None):
         'Voices': [
             {
                 'Gender': 'Female'|'Male',
-                'Id': 'Geraint'|'Gwyneth'|'Mads'|'Naja'|'Hans'|'Marlene'|'Nicole'|'Russell'|'Amy'|'Brian'|'Emma'|'Raveena'|'Ivy'|'Joanna'|'Joey'|'Justin'|'Kendra'|'Kimberly'|'Salli'|'Conchita'|'Enrique'|'Miguel'|'Penelope'|'Chantal'|'Celine'|'Mathieu'|'Dora'|'Karl'|'Carla'|'Giorgio'|'Mizuki'|'Liv'|'Lotte'|'Ruben'|'Ewa'|'Jacek'|'Jan'|'Maja'|'Ricardo'|'Vitoria'|'Cristiano'|'Ines'|'Carmen'|'Maxim'|'Tatyana'|'Astrid'|'Filiz',
+                'Id': 'Geraint'|'Gwyneth'|'Mads'|'Naja'|'Hans'|'Marlene'|'Nicole'|'Russell'|'Amy'|'Brian'|'Emma'|'Raveena'|'Ivy'|'Joanna'|'Joey'|'Justin'|'Kendra'|'Kimberly'|'Salli'|'Conchita'|'Enrique'|'Miguel'|'Penelope'|'Chantal'|'Celine'|'Mathieu'|'Dora'|'Karl'|'Carla'|'Giorgio'|'Mizuki'|'Liv'|'Lotte'|'Ruben'|'Ewa'|'Jacek'|'Jan'|'Maja'|'Ricardo'|'Vitoria'|'Cristiano'|'Ines'|'Carmen'|'Maxim'|'Tatyana'|'Astrid'|'Filiz'|'Vicki',
                 'LanguageCode': 'cy-GB'|'da-DK'|'de-DE'|'en-AU'|'en-GB'|'en-GB-WLS'|'en-IN'|'en-US'|'es-ES'|'es-US'|'fr-CA'|'fr-FR'|'is-IS'|'it-IT'|'ja-JP'|'nb-NO'|'nl-NL'|'pl-PL'|'pt-BR'|'pt-PT'|'ro-RO'|'ru-RU'|'sv-SE'|'tr-TR',
                 'LanguageName': 'string',
                 'Name': 'string'
@@ -130,6 +136,9 @@ def get_lexicon(Name=None):
     Returns the content of the specified pronunciation lexicon stored in an AWS Region. For more information, see Managing Lexicons .
     See also: AWS API Documentation
     
+    Examples
+    Returns the content of the specified pronunciation lexicon stored in an AWS Region.
+    Expected Output:
     
     :example: response = client.get_lexicon(
         Name='string'
@@ -188,6 +197,9 @@ def list_lexicons(NextToken=None):
     Returns a list of pronunciation lexicons stored in an AWS Region. For more information, see Managing Lexicons .
     See also: AWS API Documentation
     
+    Examples
+    Returns a list of pronunciation lexicons stored in an AWS Region.
+    Expected Output:
     
     :example: response = client.list_lexicons(
         NextToken='string'
@@ -225,6 +237,9 @@ def put_lexicon(Name=None, Content=None):
     For more information, see Managing Lexicons .
     See also: AWS API Documentation
     
+    Examples
+    Stores a pronunciation lexicon in an AWS Region.
+    Expected Output:
     
     :example: response = client.put_lexicon(
         Name='string',
@@ -252,21 +267,27 @@ def put_lexicon(Name=None, Content=None):
     """
     pass
 
-def synthesize_speech(LexiconNames=None, OutputFormat=None, SampleRate=None, Text=None, TextType=None, VoiceId=None):
+def synthesize_speech(LexiconNames=None, OutputFormat=None, SampleRate=None, SpeechMarkTypes=None, Text=None, TextType=None, VoiceId=None):
     """
     Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works .
     See also: AWS API Documentation
     
+    Examples
+    Synthesizes plain text or SSML into a file of human-like speech.
+    Expected Output:
     
     :example: response = client.synthesize_speech(
         LexiconNames=[
             'string',
         ],
-        OutputFormat='mp3'|'ogg_vorbis'|'pcm',
+        OutputFormat='json'|'mp3'|'ogg_vorbis'|'pcm',
         SampleRate='string',
+        SpeechMarkTypes=[
+            'sentence'|'ssml'|'viseme'|'word',
+        ],
         Text='string',
         TextType='ssml'|'text',
-        VoiceId='Geraint'|'Gwyneth'|'Mads'|'Naja'|'Hans'|'Marlene'|'Nicole'|'Russell'|'Amy'|'Brian'|'Emma'|'Raveena'|'Ivy'|'Joanna'|'Joey'|'Justin'|'Kendra'|'Kimberly'|'Salli'|'Conchita'|'Enrique'|'Miguel'|'Penelope'|'Chantal'|'Celine'|'Mathieu'|'Dora'|'Karl'|'Carla'|'Giorgio'|'Mizuki'|'Liv'|'Lotte'|'Ruben'|'Ewa'|'Jacek'|'Jan'|'Maja'|'Ricardo'|'Vitoria'|'Cristiano'|'Ines'|'Carmen'|'Maxim'|'Tatyana'|'Astrid'|'Filiz'
+        VoiceId='Geraint'|'Gwyneth'|'Mads'|'Naja'|'Hans'|'Marlene'|'Nicole'|'Russell'|'Amy'|'Brian'|'Emma'|'Raveena'|'Ivy'|'Joanna'|'Joey'|'Justin'|'Kendra'|'Kimberly'|'Salli'|'Conchita'|'Enrique'|'Miguel'|'Penelope'|'Chantal'|'Celine'|'Mathieu'|'Dora'|'Karl'|'Carla'|'Giorgio'|'Mizuki'|'Liv'|'Lotte'|'Ruben'|'Ewa'|'Jacek'|'Jan'|'Maja'|'Ricardo'|'Vitoria'|'Cristiano'|'Ines'|'Carmen'|'Maxim'|'Tatyana'|'Astrid'|'Filiz'|'Vicki'
     )
     
     
@@ -277,13 +298,18 @@ def synthesize_speech(LexiconNames=None, OutputFormat=None, SampleRate=None, Tex
 
     :type OutputFormat: string
     :param OutputFormat: [REQUIRED]
-            The audio format in which the resulting stream will be encoded.
+            The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
             
 
     :type SampleRate: string
     :param SampleRate: The audio frequency specified in Hz.
             The valid values for mp3 and ogg_vorbis are '8000', '16000', and '22050'. The default value is '22050'.
             Valid values for pcm are '8000' and '16000' The default value is '16000'.
+            
+
+    :type SpeechMarkTypes: list
+    :param SpeechMarkTypes: The type of speech marks returned for the input text.
+            (string) --
             
 
     :type Text: string
@@ -310,7 +336,8 @@ def synthesize_speech(LexiconNames=None, OutputFormat=None, SampleRate=None, Tex
     :returns: 
     If you request mp3 as the OutputFormat , the ContentType returned is audio/mpeg.
     If you request ogg_vorbis as the OutputFormat , the ContentType returned is audio/ogg.
-    If you request pcm as the OutputFormat , the ContentType returned is audio/pcm.
+    If you request pcm as the OutputFormat , the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
+    If you request json as the OutputFormat , the ContentType returned is audio/json.
     
     """
     pass

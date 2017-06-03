@@ -83,6 +83,9 @@ def batch_delete_image(registryId=None, repositoryName=None, imageIds=None):
     You can completely delete an image (and all of its tags) by specifying the image's digest in your request.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes images with the tags precise and trusty in a repository called ubuntu in the default registry for an account.
+    Expected Output:
     
     :example: response = client.batch_delete_image(
         registryId='string',
@@ -142,6 +145,9 @@ def batch_get_image(registryId=None, repositoryName=None, imageIds=None, accepte
     Gets detailed information for specified images within a specified repository. Images are specified with either imageTag or imageDigest .
     See also: AWS API Documentation
     
+    Examples
+    This example obtains information for an image with a specified image digest ID from the repository named ubuntu in the current account.
+    Expected Output:
     
     :example: response = client.batch_get_image(
         registryId='string',
@@ -277,6 +283,9 @@ def create_repository(repositoryName=None):
     Creates an image repository.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a repository called nginx-web-app inside the project-a namespace in the default registry for an account.
+    Expected Output:
     
     :example: response = client.create_repository(
         repositoryName='string'
@@ -308,6 +317,9 @@ def delete_repository(registryId=None, repositoryName=None, force=None):
     Deletes an existing image repository. If a repository contains images, you must use the force option to delete it.
     See also: AWS API Documentation
     
+    Examples
+    This example force deletes a repository named ubuntu in the default registry for an account. The force parameter is required if the repository contains images.
+    Expected Output:
     
     :example: response = client.delete_repository(
         registryId='string',
@@ -347,6 +359,9 @@ def delete_repository_policy(registryId=None, repositoryName=None):
     Deletes the repository policy from a specified repository.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the policy associated with the repository named ubuntu in the current account.
+    Expected Output:
     
     :example: response = client.delete_repository_policy(
         registryId='string',
@@ -452,6 +467,9 @@ def describe_repositories(registryId=None, repositoryNames=None, nextToken=None,
     Describes image repositories in a registry.
     See also: AWS API Documentation
     
+    Examples
+    The following example obtains a list and description of all repositories in the default registry to which the current user has access.
+    Expected Output:
     
     :example: response = client.describe_repositories(
         registryId='string',
@@ -526,6 +544,9 @@ def get_authorization_token(registryIds=None):
     The authorizationToken returned for each registry specified is a base64 encoded string that can be decoded and used in a docker login command to authenticate to a registry. The AWS CLI offers an aws ecr get-login command that simplifies the login process.
     See also: AWS API Documentation
     
+    Examples
+    This example gets an authorization token for your default registry.
+    Expected Output:
     
     :example: response = client.get_authorization_token(
         registryIds=[
@@ -611,6 +632,9 @@ def get_repository_policy(registryId=None, repositoryName=None):
     Retrieves the repository policy for a specified repository.
     See also: AWS API Documentation
     
+    Examples
+    This example obtains the repository policy for the repository named ubuntu.
+    Expected Output:
     
     :example: response = client.get_repository_policy(
         registryId='string',
@@ -679,6 +703,9 @@ def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults
     You can filter images based on whether or not they are tagged by setting the tagStatus parameter to TAGGED or UNTAGGED . For example, you can filter your results to return only UNTAGGED images and then pipe that result to a  BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
     See also: AWS API Documentation
     
+    Examples
+    This example lists all of the images in the repository named ubuntu in the default registry in the current account.
+    Expected Output:
     
     :example: response = client.list_images(
         registryId='string',

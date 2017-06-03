@@ -39,6 +39,8 @@ def assume_role(RoleArn=None, RoleSessionName=None, Policy=None, DurationSeconds
     To use MFA with AssumeRole , you pass values for the SerialNumber and TokenCode parameters. The SerialNumber value identifies the user's hardware or virtual MFA device. The TokenCode is the time-based one-time password (TOTP) that the MFA devices produces.
     See also: AWS API Documentation
     
+    Examples
+    Expected Output:
     
     :example: response = client.assume_role(
         RoleArn='string',
@@ -225,6 +227,8 @@ def assume_role_with_web_identity(RoleArn=None, RoleSessionName=None, WebIdentit
     For more information about how to use web identity federation and the AssumeRoleWithWebIdentity API, see the following resources:
     See also: AWS API Documentation
     
+    Examples
+    Expected Output:
     
     :example: response = client.assume_role_with_web_identity(
         RoleArn='string',
@@ -347,6 +351,8 @@ def decode_authorization_message(EncodedMessage=None):
     The decoded message includes the following type of information:
     See also: AWS API Documentation
     
+    Examples
+    Expected Output:
     
     :example: response = client.decode_authorization_message(
         EncodedMessage='string'
@@ -394,6 +400,13 @@ def get_caller_identity():
     Returns details about the IAM identity whose credentials are used to call the API.
     See also: AWS API Documentation
     
+    Examples
+    This example shows a request and response made with the credentials for a user named Alice in the AWS account 123456789012.
+    Expected Output:
+    This example shows a request and response made with temporary credentials created by AssumeRole. The name of the assumed role is my-role-name, and the RoleSessionName is set to my-role-session-name.
+    Expected Output:
+    This example shows a request and response made with temporary credentials created by using GetFederationToken. The Name parameter is set to my-federated-user-name.
+    Expected Output:
     
     :example: response = client.get_caller_identity()
     
@@ -422,6 +435,8 @@ def get_federation_token(Name=None, Policy=None, DurationSeconds=None):
     For more information about how permissions work, see Permissions for GetFederationToken . For information about using GetFederationToken to create temporary security credentials, see GetFederationTokenFederation Through a Custom Identity Broker .
     See also: AWS API Documentation
     
+    Examples
+    Expected Output:
     
     :example: response = client.get_federation_token(
         Name='string',
@@ -496,6 +511,8 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
     For more information about using GetSessionToken to create temporary credentials, go to Temporary Credentials for Users in Untrusted Environments in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    Expected Output:
     
     :example: response = client.get_session_token(
         DurationSeconds=123,
@@ -509,7 +526,7 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
 
     :type SerialNumber: string
     :param SerialNumber: The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678 ) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user ). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.
-            The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+            The regex used to validated this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
             
 
     :type TokenCode: string
@@ -531,7 +548,7 @@ def get_session_token(DurationSeconds=None, SerialNumber=None, TokenCode=None):
     :returns: 
     DurationSeconds (integer) -- The duration, in seconds, that the credentials should remain valid. Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129600 seconds (36 hours), with 43200 seconds (12 hours) as the default. Sessions for AWS account owners are restricted to a maximum of 3600 seconds (one hour). If the duration is longer than one hour, the session for AWS account owners defaults to one hour.
     SerialNumber (string) -- The identification number of the MFA device that is associated with the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a policy that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678 ) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user ). You can find the device for an IAM user by going to the AWS Management Console and viewing the user's security credentials.
-    The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@-
+    The regex used to validated this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     
     TokenCode (string) -- The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, and the user does not provide a code when requesting a set of temporary security credentials, the user will receive an "access denied" response when requesting resources that require MFA authentication.
     The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.

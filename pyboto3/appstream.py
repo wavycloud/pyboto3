@@ -71,7 +71,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=None, VpcConfig=None, MaxUserDurationInSeconds=None, DisconnectTimeoutInSeconds=None, Description=None, DisplayName=None):
+def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=None, VpcConfig=None, MaxUserDurationInSeconds=None, DisconnectTimeoutInSeconds=None, Description=None, DisplayName=None, EnableDefaultInternetAccess=None):
     """
     Creates a new fleet.
     See also: AWS API Documentation
@@ -92,7 +92,8 @@ def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=N
         MaxUserDurationInSeconds=123,
         DisconnectTimeoutInSeconds=123,
         Description='string',
-        DisplayName='string'
+        DisplayName='string',
+        EnableDefaultInternetAccess=True|False
     )
     
     
@@ -119,21 +120,24 @@ def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=N
 
     :type VpcConfig: dict
     :param VpcConfig: The VPC configuration for the fleet.
-            SubnetIds (list) -- [REQUIRED]The list of subnets to which a network interface is established from the fleet instance.
+            SubnetIds (list) --The list of subnets to which a network interface is established from the fleet instance.
             (string) --
             
 
     :type MaxUserDurationInSeconds: integer
-    :param MaxUserDurationInSeconds: The maximum time up to which a streaming session can run.
+    :param MaxUserDurationInSeconds: The maximum time for which a streaming session can run. The input can be any numeric value in seconds between 600 and 57600.
 
     :type DisconnectTimeoutInSeconds: integer
-    :param DisconnectTimeoutInSeconds: The time after disconnection when a session is considered to have ended. If a user who got disconnected reconnects within this timeout interval, the user is connected back to his/her previous session.
+    :param DisconnectTimeoutInSeconds: The time after disconnection when a session is considered to have ended. If a user who got disconnected reconnects within this timeout interval, the user is connected back to their previous session. The input can be any numeric value in seconds between 60 and 57600.
 
     :type Description: string
     :param Description: The description of the fleet.
 
     :type DisplayName: string
     :param DisplayName: The display name of the fleet.
+
+    :type EnableDefaultInternetAccess: boolean
+    :param EnableDefaultInternetAccess: Enables or disables default Internet access for the fleet.
 
     :rtype: dict
     :return: {
@@ -164,7 +168,8 @@ def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=N
                     'ErrorCode': 'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'|'NETWORK_INTERFACE_LIMIT_EXCEEDED'|'INTERNAL_SERVICE_ERROR'|'IAM_SERVICE_ROLE_IS_MISSING'|'SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'|'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'|'SUBNET_NOT_FOUND'|'IMAGE_NOT_FOUND'|'INVALID_SUBNET_CONFIGURATION',
                     'ErrorMessage': 'string'
                 },
-            ]
+            ],
+            'EnableDefaultInternetAccess': True|False
         }
     }
     
@@ -175,7 +180,7 @@ def create_fleet(Name=None, ImageName=None, InstanceType=None, ComputeCapacity=N
     """
     pass
 
-def create_stack(Name=None, Description=None, DisplayName=None):
+def create_stack(Name=None, Description=None, DisplayName=None, StorageConnectors=None):
     """
     Create a new stack.
     See also: AWS API Documentation
@@ -184,7 +189,13 @@ def create_stack(Name=None, Description=None, DisplayName=None):
     :example: response = client.create_stack(
         Name='string',
         Description='string',
-        DisplayName='string'
+        DisplayName='string',
+        StorageConnectors=[
+            {
+                'ConnectorType': 'HOMEFOLDERS',
+                'ResourceIdentifier': 'string'
+            },
+        ]
     )
     
     
@@ -199,6 +210,14 @@ def create_stack(Name=None, Description=None, DisplayName=None):
     :type DisplayName: string
     :param DisplayName: The name displayed to end users on the AppStream 2.0 portal.
 
+    :type StorageConnectors: list
+    :param StorageConnectors: The storage connectors to be enabled for the stack.
+            (dict) --Contains the parameters for a storage connector.
+            ConnectorType (string) -- [REQUIRED]The type of storage connector. The possible values include: HOMEFOLDERS.
+            ResourceIdentifier (string) --The ARN associated with the storage connector.
+            
+            
+
     :rtype: dict
     :return: {
         'Stack': {
@@ -206,7 +225,19 @@ def create_stack(Name=None, Description=None, DisplayName=None):
             'Name': 'string',
             'Description': 'string',
             'DisplayName': 'string',
-            'CreatedTime': datetime(2015, 1, 1)
+            'CreatedTime': datetime(2015, 1, 1),
+            'StorageConnectors': [
+                {
+                    'ConnectorType': 'HOMEFOLDERS',
+                    'ResourceIdentifier': 'string'
+                },
+            ],
+            'StackErrors': [
+                {
+                    'ErrorCode': 'STORAGE_CONNECTOR_ERROR'|'INTERNAL_SERVICE_ERROR',
+                    'ErrorMessage': 'string'
+                },
+            ]
         }
     }
     
@@ -249,7 +280,7 @@ def create_streaming_url(StackName=None, FleetName=None, UserId=None, Applicatio
     :param ApplicationId: The ID of the application that must be launched after the session starts.
 
     :type Validity: integer
-    :param Validity: The validity duration of the URL in seconds. After this duration, the URL returned by this operation becomes invalid.
+    :param Validity: The duration up to which the URL returned by this action is valid. The input can be any numeric value in seconds between 1 and 604800 seconds.
 
     :type SessionContext: string
     :param SessionContext: The sessionContext of the streaming URL.
@@ -362,7 +393,8 @@ def describe_fleets(Names=None, NextToken=None):
                         'ErrorCode': 'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'|'NETWORK_INTERFACE_LIMIT_EXCEEDED'|'INTERNAL_SERVICE_ERROR'|'IAM_SERVICE_ROLE_IS_MISSING'|'SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'|'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'|'SUBNET_NOT_FOUND'|'IMAGE_NOT_FOUND'|'INVALID_SUBNET_CONFIGURATION',
                         'ErrorMessage': 'string'
                     },
-                ]
+                ],
+                'EnableDefaultInternetAccess': True|False
             },
         ],
         'NextToken': 'string'
@@ -403,6 +435,7 @@ def describe_images(Names=None):
                 'DisplayName': 'string',
                 'State': 'PENDING'|'AVAILABLE'|'FAILED'|'DELETING',
                 'Visibility': 'PUBLIC'|'PRIVATE',
+                'ImageBuilderSupported': True|False,
                 'Platform': 'WINDOWS',
                 'Description': 'string',
                 'StateChangeReason': {
@@ -422,7 +455,8 @@ def describe_images(Names=None):
                         }
                     },
                 ],
-                'CreatedTime': datetime(2015, 1, 1)
+                'CreatedTime': datetime(2015, 1, 1),
+                'PublicBaseImageReleasedDate': datetime(2015, 1, 1)
             },
         ]
     }
@@ -437,9 +471,9 @@ def describe_images(Names=None):
     """
     pass
 
-def describe_sessions(StackName=None, FleetName=None, UserId=None, NextToken=None, Limit=None):
+def describe_sessions(StackName=None, FleetName=None, UserId=None, NextToken=None, Limit=None, AuthenticationType=None):
     """
-    Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items.
+    Describes the streaming sessions for a stack and a fleet. If a user ID is provided, this operation returns streaming sessions for only that user. Pass this value for the nextToken parameter in a subsequent call to this operation to retrieve the next set of items. If an authentication type is not provided, the operation defaults to users authenticated using a streaming URL.
     See also: AWS API Documentation
     
     
@@ -448,7 +482,8 @@ def describe_sessions(StackName=None, FleetName=None, UserId=None, NextToken=Non
         FleetName='string',
         UserId='string',
         NextToken='string',
-        Limit=123
+        Limit=123,
+        AuthenticationType='API'|'SAML'
     )
     
     
@@ -471,6 +506,9 @@ def describe_sessions(StackName=None, FleetName=None, UserId=None, NextToken=Non
     :type Limit: integer
     :param Limit: The size of each page of results. The default value is 20 and the maximum supported value is 50.
 
+    :type AuthenticationType: string
+    :param AuthenticationType: The authentication method of the user. It can be API for a user authenticated using a streaming URL, or SAML for a SAML federated user. If an authentication type is not provided, the operation defaults to users authenticated using a streaming URL.
+
     :rtype: dict
     :return: {
         'Sessions': [
@@ -479,7 +517,8 @@ def describe_sessions(StackName=None, FleetName=None, UserId=None, NextToken=Non
                 'UserId': 'string',
                 'StackName': 'string',
                 'FleetName': 'string',
-                'State': 'ACTIVE'|'PENDING'|'EXPIRED'
+                'State': 'ACTIVE'|'PENDING'|'EXPIRED',
+                'AuthenticationType': 'API'|'SAML'
             },
         ],
         'NextToken': 'string'
@@ -519,7 +558,19 @@ def describe_stacks(Names=None, NextToken=None):
                 'Name': 'string',
                 'Description': 'string',
                 'DisplayName': 'string',
-                'CreatedTime': datetime(2015, 1, 1)
+                'CreatedTime': datetime(2015, 1, 1),
+                'StorageConnectors': [
+                    {
+                        'ConnectorType': 'HOMEFOLDERS',
+                        'ResourceIdentifier': 'string'
+                    },
+                ],
+                'StackErrors': [
+                    {
+                        'ErrorCode': 'STORAGE_CONNECTOR_ERROR'|'INTERNAL_SERVICE_ERROR',
+                        'ErrorMessage': 'string'
+                    },
+                ]
             },
         ],
         'NextToken': 'string'
@@ -744,9 +795,9 @@ def stop_fleet(Name=None):
     """
     pass
 
-def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=None, VpcConfig=None, MaxUserDurationInSeconds=None, DisconnectTimeoutInSeconds=None, DeleteVpcConfig=None, Description=None, DisplayName=None):
+def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=None, VpcConfig=None, MaxUserDurationInSeconds=None, DisconnectTimeoutInSeconds=None, DeleteVpcConfig=None, Description=None, DisplayName=None, EnableDefaultInternetAccess=None):
     """
-    Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. Only ComputeCapacity and ImageName can be updated in any other state.
+    Updates an existing fleet. All the attributes except the fleet name can be updated in the STOPPED state. When a fleet is in the RUNNING state, only DisplayName and ComputeCapacity can be updated. A fleet cannot be updated in a status of STARTING or STOPPING .
     See also: AWS API Documentation
     
     
@@ -766,7 +817,8 @@ def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=N
         DisconnectTimeoutInSeconds=123,
         DeleteVpcConfig=True|False,
         Description='string',
-        DisplayName='string'
+        DisplayName='string',
+        EnableDefaultInternetAccess=True|False
     )
     
     
@@ -788,15 +840,15 @@ def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=N
 
     :type VpcConfig: dict
     :param VpcConfig: The VPC configuration for the fleet.
-            SubnetIds (list) -- [REQUIRED]The list of subnets to which a network interface is established from the fleet instance.
+            SubnetIds (list) --The list of subnets to which a network interface is established from the fleet instance.
             (string) --
             
 
     :type MaxUserDurationInSeconds: integer
-    :param MaxUserDurationInSeconds: The maximum time during which a streaming session can run.
+    :param MaxUserDurationInSeconds: The maximum time for which a streaming session can run. The input can be any numeric value in seconds between 600 and 57600.
 
     :type DisconnectTimeoutInSeconds: integer
-    :param DisconnectTimeoutInSeconds: The time after disconnection when a session is considered to have ended. When the user reconnects after a disconnection, the user is connected to the same instance within this time interval.
+    :param DisconnectTimeoutInSeconds: The time after disconnection when a session is considered to have ended. If a user who got disconnected reconnects within this timeout interval, the user is connected back to their previous session. The input can be any numeric value in seconds between 60 and 57600.
 
     :type DeleteVpcConfig: boolean
     :param DeleteVpcConfig: Delete the VPC association for the specified fleet.
@@ -806,6 +858,9 @@ def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=N
 
     :type DisplayName: string
     :param DisplayName: The name displayed to end users on the AppStream 2.0 portal.
+
+    :type EnableDefaultInternetAccess: boolean
+    :param EnableDefaultInternetAccess: Enables or disables default Internet access for the fleet.
 
     :rtype: dict
     :return: {
@@ -836,7 +891,8 @@ def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=N
                     'ErrorCode': 'IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION'|'IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION'|'NETWORK_INTERFACE_LIMIT_EXCEEDED'|'INTERNAL_SERVICE_ERROR'|'IAM_SERVICE_ROLE_IS_MISSING'|'SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES'|'IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION'|'SUBNET_NOT_FOUND'|'IMAGE_NOT_FOUND'|'INVALID_SUBNET_CONFIGURATION',
                     'ErrorMessage': 'string'
                 },
-            ]
+            ],
+            'EnableDefaultInternetAccess': True|False
         }
     }
     
@@ -847,7 +903,7 @@ def update_fleet(ImageName=None, Name=None, InstanceType=None, ComputeCapacity=N
     """
     pass
 
-def update_stack(DisplayName=None, Description=None, Name=None):
+def update_stack(DisplayName=None, Description=None, Name=None, StorageConnectors=None, DeleteStorageConnectors=None):
     """
     Updates the specified fields in the stack with the specified name.
     See also: AWS API Documentation
@@ -856,7 +912,14 @@ def update_stack(DisplayName=None, Description=None, Name=None):
     :example: response = client.update_stack(
         DisplayName='string',
         Description='string',
-        Name='string'
+        Name='string',
+        StorageConnectors=[
+            {
+                'ConnectorType': 'HOMEFOLDERS',
+                'ResourceIdentifier': 'string'
+            },
+        ],
+        DeleteStorageConnectors=True|False
     )
     
     
@@ -871,6 +934,17 @@ def update_stack(DisplayName=None, Description=None, Name=None):
             The name of the stack to update.
             
 
+    :type StorageConnectors: list
+    :param StorageConnectors: The storage connectors to be enabled for the stack.
+            (dict) --Contains the parameters for a storage connector.
+            ConnectorType (string) -- [REQUIRED]The type of storage connector. The possible values include: HOMEFOLDERS.
+            ResourceIdentifier (string) --The ARN associated with the storage connector.
+            
+            
+
+    :type DeleteStorageConnectors: boolean
+    :param DeleteStorageConnectors: Remove all the storage connectors currently enabled for the stack.
+
     :rtype: dict
     :return: {
         'Stack': {
@@ -878,7 +952,19 @@ def update_stack(DisplayName=None, Description=None, Name=None):
             'Name': 'string',
             'Description': 'string',
             'DisplayName': 'string',
-            'CreatedTime': datetime(2015, 1, 1)
+            'CreatedTime': datetime(2015, 1, 1),
+            'StorageConnectors': [
+                {
+                    'ConnectorType': 'HOMEFOLDERS',
+                    'ResourceIdentifier': 'string'
+                },
+            ],
+            'StackErrors': [
+                {
+                    'ErrorCode': 'STORAGE_CONNECTOR_ERROR'|'INTERNAL_SERVICE_ERROR',
+                    'ErrorMessage': 'string'
+                },
+            ]
         }
     }
     

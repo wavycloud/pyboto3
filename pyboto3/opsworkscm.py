@@ -26,6 +26,9 @@ SOFTWARE.
 
 def associate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     """
+    Associates a new node with the Chef server. This command is an alternative to knife bootstrap . For more information about how to disassociate a node, see  DisassociateNode .
+    A node can can only be associated with servers that are in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. The AssociateNode API call can be integrated into Auto Scaling configurations, AWS Cloudformation templates, or the user data of a server's instance.
+    Example: aws opsworks-cm associate-node --server-name *MyServer* --node-name *MyManagedNode* --engine-attributes "Name=*MyOrganization* ,Value=default" "Name=*Chef_node_public_key* ,Value=*Public_key_contents* "
     See also: AWS API Documentation
     
     
@@ -43,13 +46,21 @@ def associate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     
     :type ServerName: string
     :param ServerName: [REQUIRED]
+            The name of the server with which to associate the node.
+            
 
     :type NodeName: string
     :param NodeName: [REQUIRED]
+            The name of the Chef client node.
+            
 
     :type EngineAttributes: list
-    :param EngineAttributes: 
-            (dict) --A name/value pair that is specific to the engine of the server.
+    :param EngineAttributes: [REQUIRED]
+            Engine attributes used for associating the node.
+            Attributes accepted in a AssociateNode request:
+            CHEF_ORGANIZATION : The Chef organization with which the node is associated. By default only one organization named default can exist.
+            CHEF_NODE_PUBLIC_KEY : A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.
+            (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
             Value (string) --The value of the engine attribute.
             
@@ -59,12 +70,6 @@ def associate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     :return: {
         'NodeAssociationStatusToken': 'string'
     }
-    
-    
-    :returns: 
-    (dict) --
-    NodeAssociationStatusToken (string) --
-    
     
     
     """
@@ -87,11 +92,10 @@ def can_paginate(operation_name=None):
 
 def create_backup(ServerName=None, Description=None):
     """
-    Creates an application-level backup of a server. While the server is BACKING_UP , the server can not be modified and no additional backup can be created.
-    Backups can be created for RUNNING , HEALTHY and UNHEALTHY servers.
-    This operation is asnychronous.
-    By default 50 manual backups can be created.
-    A LimitExceededException is thrown then the maximum number of manual backup is reached. A InvalidStateException is thrown when the server is not in any of RUNNING, HEALTHY, UNHEALTHY. A ResourceNotFoundException is thrown when the server is not found. A ValidationException is thrown when parameters of the request are not valid.
+    Creates an application-level backup of a server. While the server is in the BACKING_UP state, the server cannot be changed, and no additional backup can be created.
+    Backups can be created for servers in RUNNING , HEALTHY , and UNHEALTHY states. By default, you can create a maximum of 50 manual backups.
+    This operation is asynchronous.
+    A LimitExceededException is thrown when the maximum number of manual backups is reached. An InvalidStateException is thrown when the server is not in any of the following states: RUNNING, HEALTHY, or UNHEALTHY. A ResourceNotFoundException is thrown when the server is not found. A ValidationException is thrown when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -150,18 +154,18 @@ def create_backup(ServerName=None, Description=None):
     """
     pass
 
-def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, EngineVersion=None, EngineAttributes=None, BackupRetentionCount=None, ServerName=None, InstanceProfileArn=None, InstanceType=None, KeyPair=None, PreferredMaintenanceWindow=None, PreferredBackupWindow=None, SecurityGroupIds=None, ServiceRoleArn=None, SubnetIds=None, BackupId=None):
+def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, Engine=None, EngineModel=None, EngineVersion=None, EngineAttributes=None, BackupRetentionCount=None, ServerName=None, InstanceProfileArn=None, InstanceType=None, KeyPair=None, PreferredMaintenanceWindow=None, PreferredBackupWindow=None, SecurityGroupIds=None, ServiceRoleArn=None, SubnetIds=None, BackupId=None):
     """
-    Creates and immedately starts a new Server. The server can be used once it has reached the HEALTHY state.
-    This operation is asnychronous.
-    A LimitExceededException is thrown then the maximum number of server backup is reached. A ResourceAlreadyExistsException is raise when a server with the same name already exists in the account. A ResourceNotFoundException is thrown when a backupId is passed, but the backup does not exist. A ValidationException is thrown when parameters of the request are not valid.
-    By default 10 servers can be created. A LimitExceededException is raised when the limit is exceeded.
-    When no security groups are provided by using SecurityGroupIds , AWS OpsWorks creates a new security group. This security group opens the Chef server to the world on TCP port 443. If a KeyName is present, SSH access is enabled. SSH is also open to the world on TCP port 22.
+    Creates and immedately starts a new server. The server is ready to use when it is in the HEALTHY state. By default, you can create a maximum of 10 servers.
+    This operation is asynchronous.
+    A LimitExceededException is thrown when you have created the maximum number of servers (10). A ResourceAlreadyExistsException is thrown when a server with the same name already exists in the account. A ResourceNotFoundException is thrown when you specify a backup ID that is not valid or is for a backup that does not exist. A ValidationException is thrown when parameters of the request are not valid.
+    If you do not specify a security group by adding the SecurityGroupIds parameter, AWS OpsWorks creates a new security group. The default security group opens the Chef server to the world on TCP port 443. If a KeyName is present, AWS OpsWorks enables SSH access. SSH is also open to the world on TCP port 22.
     By default, the Chef Server is accessible from any IP address. We recommend that you update your security group rules to allow access from known IP addresses and address ranges only. To edit security group rules, open Security Groups in the navigation pane of the EC2 management console.
     See also: AWS API Documentation
     
     
     :example: response = client.create_server(
+        AssociatePublicIpAddress=True|False,
         DisableAutomatedBackup=True|False,
         Engine='string',
         EngineModel='string',
@@ -190,6 +194,9 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
     )
     
     
+    :type AssociatePublicIpAddress: boolean
+    :param AssociatePublicIpAddress: Associate a public IP address with a server that you are launching. Valid values are true or false . The default value is true .
+
     :type DisableAutomatedBackup: boolean
     :param DisableAutomatedBackup: Enable or disable scheduled backups. Valid values are true or false . The default value is true .
 
@@ -203,10 +210,11 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
     :param EngineVersion: The major release version of the engine that you want to use. Values depend on the engine that you choose.
 
     :type EngineAttributes: list
-    :param EngineAttributes: Engine attributes on a specified server.
+    :param EngineAttributes: Optional engine attributes on a specified server.
             Attributes accepted in a createServer request:
-            CHEF_PIVOTAL_KEY : A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.
-            (dict) --A name/value pair that is specific to the engine of the server.
+            CHEF_PIVOTAL_KEY : A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.
+            CHEF_DELIVERY_ADMIN_PASSWORD : The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.
+            (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
             Value (string) --The value of the engine attribute.
             
@@ -217,19 +225,21 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
 
     :type ServerName: string
     :param ServerName: [REQUIRED]
-            The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 32 characters.
+            The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
             
 
     :type InstanceProfileArn: string
     :param InstanceProfileArn: [REQUIRED]
-            The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, in this release of AWS OpsWorks for Chef Automate, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a stack that includes the instance profile you need.
+            The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need.
             
 
     :type InstanceType: string
-    :param InstanceType: The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, c3.large .
+    :param InstanceType: [REQUIRED]
+            The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large . Valid values are t2.medium , m4.large , or m4.2xlarge .
+            
 
     :type KeyPair: string
-    :param KeyPair: The Amazon EC2 key pair to set for the instance. You may specify this parameter to connect to your instances by using SSH.
+    :param KeyPair: The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH.
 
     :type PreferredMaintenanceWindow: string
     :param PreferredMaintenanceWindow: The start time for a one-hour period each week during which AWS OpsWorks for Chef Automate performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM . The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.
@@ -237,7 +247,7 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
             
 
     :type PreferredBackupWindow: string
-    :param PreferredBackupWindow: The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if backups are enabled. Valid values must be specified in one of the following formats:
+    :param PreferredBackupWindow: The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:
             HH:MM for daily backups
             DDD:HH:MM for weekly backups
             The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.
@@ -252,7 +262,7 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
 
     :type ServiceRoleArn: string
     :param ServiceRoleArn: [REQUIRED]
-            The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks console typically creates the service role for you, in this release of AWS OpsWorks for Chef Automate, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a stack that includes the service role that you need.
+            The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a CloudFormation stack that includes the service role that you need.
             
 
     :type SubnetIds: list
@@ -269,9 +279,11 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
     :rtype: dict
     :return: {
         'Server': {
+            'AssociatePublicIpAddress': True|False,
             'BackupRetentionCount': 123,
             'ServerName': 'string',
             'CreatedAt': datetime(2015, 1, 1),
+            'CloudFormationStackArn': 'string',
             'DisableAutomatedBackup': True|False,
             'Endpoint': 'string',
             'Engine': 'string',
@@ -293,7 +305,7 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
                 'string',
             ],
             'ServiceRoleArn': 'string',
-            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY',
+            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'RESTORING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY'|'TERMINATED',
             'StatusReason': 'string',
             'SubnetIds': [
                 'string',
@@ -312,9 +324,8 @@ def create_server(DisableAutomatedBackup=None, Engine=None, EngineModel=None, En
 
 def delete_backup(BackupId=None):
     """
-    Deletes a backup. You can delete both manual and automated backups.
-    This operation is asynchronous.
-    A InvalidStateException is thrown then a backup is already deleting. A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is thrown when parameters of the request are not valid.
+    Deletes a backup. You can delete both manual and automated backups. This operation is asynchronous.
+    An InvalidStateException is thrown when a backup deletion is already in progress. A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is thrown when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -337,9 +348,9 @@ def delete_backup(BackupId=None):
 
 def delete_server(ServerName=None):
     """
-    Deletes the server and the underlying AWS CloudFormation stack (including the server's EC2 instance). The server status updated to DELETING . Once the server is successfully deleted, it will no longer be returned by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted, the server cannot be deleted.
+    Deletes the server and the underlying AWS CloudFormation stack (including the server's EC2 instance). When you run this command, the server state is updated to DELETING . After the server is deleted, it is no longer returned by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted, the server cannot be deleted.
     This operation is asynchronous.
-    A InvalidStateException is thrown then a server is already deleting. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    An InvalidStateException is thrown when a server deletion is already in progress. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -389,7 +400,7 @@ def describe_backups(BackupId=None, ServerName=None, NextToken=None, MaxResults=
     """
     Describes backups. The results are ordered by time, with newest backups first. If you do not specify a BackupId or ServerName, the command returns all backups.
     This operation is synchronous.
-    A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is raised when parameters of the request are invalid.
+    A ResourceNotFoundException is thrown when the backup does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -461,7 +472,7 @@ def describe_events(ServerName=None, NextToken=None, MaxResults=None):
     """
     Describes events for a specified server. Results are ordered by time, with newest events first.
     This operation is synchronous.
-    A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -502,6 +513,8 @@ def describe_events(ServerName=None, NextToken=None, MaxResults=None):
 
 def describe_node_association_status(NodeAssociationStatusToken=None, ServerName=None):
     """
+    Returns the current status of an existing association or disassociation request.
+    A ResourceNotFoundException is thrown when no recent association or disassociation request with the specified token is found, or when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -516,6 +529,8 @@ def describe_node_association_status(NodeAssociationStatusToken=None, ServerName
 
     :type ServerName: string
     :param ServerName: [REQUIRED]
+            The name of the server from which to disassociate the node.
+            
 
     :rtype: dict
     :return: {
@@ -524,10 +539,9 @@ def describe_node_association_status(NodeAssociationStatusToken=None, ServerName
     
     
     :returns: 
-    (dict) --
-    NodeAssociationStatus (string) --
-    
-    
+    SUCCESS : The association or disassociation succeeded.
+    FAILED : The association or disassociation failed.
+    IN_PROGRESS : The association or disassociation is still in progress.
     
     """
     pass
@@ -536,7 +550,7 @@ def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
     """
     Lists all configuration management servers that are identified with your account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks for Chef Automate does not query other services.
     This operation is synchronous.
-    A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -560,9 +574,11 @@ def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
     :return: {
         'Servers': [
             {
+                'AssociatePublicIpAddress': True|False,
                 'BackupRetentionCount': 123,
                 'ServerName': 'string',
                 'CreatedAt': datetime(2015, 1, 1),
+                'CloudFormationStackArn': 'string',
                 'DisableAutomatedBackup': True|False,
                 'Endpoint': 'string',
                 'Engine': 'string',
@@ -584,7 +600,7 @@ def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
                     'string',
                 ],
                 'ServiceRoleArn': 'string',
-                'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY',
+                'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'RESTORING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY'|'TERMINATED',
                 'StatusReason': 'string',
                 'SubnetIds': [
                     'string',
@@ -605,6 +621,8 @@ def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
 
 def disassociate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     """
+    Disassociates a node from a Chef server, and removes the node from the Chef server's managed nodes. After a node is disassociated, the node key pair is no longer valid for accessing the Chef API. For more information about how to associate a node, see  AssociateNode .
+    A node can can only be disassociated from a server that is in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -622,13 +640,19 @@ def disassociate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     
     :type ServerName: string
     :param ServerName: [REQUIRED]
+            The name of the server from which to disassociate the node.
+            
 
     :type NodeName: string
     :param NodeName: [REQUIRED]
+            The name of the Chef client node.
+            
 
     :type EngineAttributes: list
-    :param EngineAttributes: 
-            (dict) --A name/value pair that is specific to the engine of the server.
+    :param EngineAttributes: Engine attributes used for disassociating the node.
+            Attributes accepted in a DisassociateNode request:
+            CHEF_ORGANIZATION : The Chef organization with which the node was associated. By default only one organization named default can exist.
+            (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
             Value (string) --The value of the engine attribute.
             
@@ -638,12 +662,6 @@ def disassociate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     :return: {
         'NodeAssociationStatusToken': 'string'
     }
-    
-    
-    :returns: 
-    (dict) --
-    NodeAssociationStatusToken (string) --
-    
     
     
     """
@@ -695,9 +713,9 @@ def get_waiter():
 
 def restore_server(BackupId=None, ServerName=None, InstanceType=None, KeyPair=None):
     """
-    Restores a backup to a server that is in a RUNNING , FAILED , or HEALTHY state. When you run RestoreServer, the server's EC2 instance is deleted, and a new EC2 instance is configured. RestoreServer maintains the existing server endpoint, so configuration management of all of the server's client devices should continue to work.
+    Restores a backup to a server that is in a CONNECTION_LOST , HEALTHY , RUNNING , UNHEALTHY , or TERMINATED state. When you run RestoreServer, the server's EC2 instance is deleted, and a new EC2 instance is configured. RestoreServer maintains the existing server endpoint, so configuration management of the server's client devices (nodes) should continue to work.
     This operation is asynchronous.
-    A InvalidStateException is thrown when the server is not in a valid state. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    An InvalidStateException is thrown when the server is not in a valid state. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -720,10 +738,10 @@ def restore_server(BackupId=None, ServerName=None, InstanceType=None, KeyPair=No
             
 
     :type InstanceType: string
-    :param InstanceType: The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, c3.large . If you do not specify this parameter, RestoreServer uses the instance type from the specified backup.
+    :param InstanceType: The type of the instance to create. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large . Valid values are t2.medium , m4.large , and m4.2xlarge . If you do not specify this parameter, RestoreServer uses the instance type from the specified backup.
 
     :type KeyPair: string
-    :param KeyPair: The name of the key pair to set on the new EC2 instance. This can be helpful if any of the administrators who manage the server no longer have the SSH key.
+    :param KeyPair: The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key.
 
     :rtype: dict
     :return: {}
@@ -737,8 +755,8 @@ def restore_server(BackupId=None, ServerName=None, InstanceType=None, KeyPair=No
 
 def start_maintenance(ServerName=None):
     """
-    Manually starts server maintenance. This command can be useful if an earlier maintenance attempt failed, and the underlying cause of maintenance failure has been resolved. The server will switch to UNDER_MAINTENANCE state, while maintenace is in progress.
-    Maintenace can only be started for HEALTHY and UNHEALTHY servers. A InvalidStateException is thrown otherwise. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    Manually starts server maintenance. This command can be useful if an earlier maintenance attempt failed, and the underlying cause of maintenance failure has been resolved. The server is in an UNDER_MAINTENANCE state while maintenance is in progress.
+    Maintenance can only be started on servers in HEALTHY and UNHEALTHY states. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -755,9 +773,11 @@ def start_maintenance(ServerName=None):
     :rtype: dict
     :return: {
         'Server': {
+            'AssociatePublicIpAddress': True|False,
             'BackupRetentionCount': 123,
             'ServerName': 'string',
             'CreatedAt': datetime(2015, 1, 1),
+            'CloudFormationStackArn': 'string',
             'DisableAutomatedBackup': True|False,
             'Endpoint': 'string',
             'Engine': 'string',
@@ -779,7 +799,7 @@ def start_maintenance(ServerName=None):
                 'string',
             ],
             'ServiceRoleArn': 'string',
-            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY',
+            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'RESTORING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY'|'TERMINATED',
             'StatusReason': 'string',
             'SubnetIds': [
                 'string',
@@ -825,23 +845,23 @@ def update_server(DisableAutomatedBackup=None, BackupRetentionCount=None, Server
     :type PreferredMaintenanceWindow: string
     :param PreferredMaintenanceWindow: 
             DDD:HH:MM (weekly start time) or HH:MM (daily start time).
-            Time windows always use coordinated universal time (UTC).
-            Valid strings for day of week (DDD ) are: Mon, Tue, Wed, Thr, Fri, Sat, Sun.
+            Time windows always use coordinated universal time (UTC). Valid strings for day of week (DDD ) are: Mon , Tue , Wed , Thr , Fri , Sat , or Sun .
             
 
     :type PreferredBackupWindow: string
     :param PreferredBackupWindow: 
             DDD:HH:MM (weekly start time) or HH:MM (daily start time).
-            Time windows always use coordinated universal time (UTC).
-            Valid strings for day of week (DDD ) are: Mon, Tue, Wed, Thr, Fri, Sat, Sun.
+            Time windows always use coordinated universal time (UTC). Valid strings for day of week (DDD ) are: Mon , Tue , Wed , Thr , Fri , Sat , or Sun .
             
 
     :rtype: dict
     :return: {
         'Server': {
+            'AssociatePublicIpAddress': True|False,
             'BackupRetentionCount': 123,
             'ServerName': 'string',
             'CreatedAt': datetime(2015, 1, 1),
+            'CloudFormationStackArn': 'string',
             'DisableAutomatedBackup': True|False,
             'Endpoint': 'string',
             'Engine': 'string',
@@ -863,7 +883,7 @@ def update_server(DisableAutomatedBackup=None, BackupRetentionCount=None, Server
                 'string',
             ],
             'ServiceRoleArn': 'string',
-            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY',
+            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'RESTORING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY'|'TERMINATED',
             'StatusReason': 'string',
             'SubnetIds': [
                 'string',
@@ -882,10 +902,9 @@ def update_server(DisableAutomatedBackup=None, BackupRetentionCount=None, Server
 
 def update_server_engine_attributes(ServerName=None, AttributeName=None, AttributeValue=None):
     """
-    Updates engine specific attributes on a specified server. Server will enter the MODIFYING state when this operation is in progress. Only one update can take place at a time.
-    This operation can be use to reset Chef Server main API key (CHEF_PIVOTAL_KEY ).
+    Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset the Chef server's private key (CHEF_PIVOTAL_KEY ).
     This operation is asynchronous.
-    This operation can only be called for HEALTHY and UNHEALTHY servers. Otherwise a InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are invalid.
+    This operation can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
     
@@ -912,9 +931,11 @@ def update_server_engine_attributes(ServerName=None, AttributeName=None, Attribu
     :rtype: dict
     :return: {
         'Server': {
+            'AssociatePublicIpAddress': True|False,
             'BackupRetentionCount': 123,
             'ServerName': 'string',
             'CreatedAt': datetime(2015, 1, 1),
+            'CloudFormationStackArn': 'string',
             'DisableAutomatedBackup': True|False,
             'Endpoint': 'string',
             'Engine': 'string',
@@ -936,7 +957,7 @@ def update_server_engine_attributes(ServerName=None, AttributeName=None, Attribu
                 'string',
             ],
             'ServiceRoleArn': 'string',
-            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY',
+            'Status': 'BACKING_UP'|'CONNECTION_LOST'|'CREATING'|'DELETING'|'MODIFYING'|'FAILED'|'HEALTHY'|'RUNNING'|'RESTORING'|'SETUP'|'UNDER_MAINTENANCE'|'UNHEALTHY'|'TERMINATED',
             'StatusReason': 'string',
             'SubnetIds': [
                 'string',

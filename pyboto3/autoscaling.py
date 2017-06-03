@@ -28,10 +28,13 @@ def attach_instances(InstanceIds=None, AutoScalingGroupName=None):
     """
     Attaches one or more EC2 instances to the specified Auto Scaling group.
     When you attach instances, Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails.
-    If there is a Classic load balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups.
+    If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups.
     For more information, see Attach EC2 Instances to Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example attaches the specified instance to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.attach_instances(
         InstanceIds=[
@@ -51,6 +54,16 @@ def attach_instances(InstanceIds=None, AutoScalingGroupName=None):
             The name of the group.
             
 
+    :return: response = client.attach_instances(
+        AutoScalingGroupName='my-auto-scaling-group',
+        InstanceIds=[
+            'i-93633f9b',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -61,6 +74,9 @@ def attach_load_balancer_target_groups(AutoScalingGroupName=None, TargetGroupARN
     For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example attaches the specified target group to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.attach_load_balancer_target_groups(
         AutoScalingGroupName='string',
@@ -93,12 +109,15 @@ def attach_load_balancer_target_groups(AutoScalingGroupName=None, TargetGroupARN
 
 def attach_load_balancers(AutoScalingGroupName=None, LoadBalancerNames=None):
     """
-    Attaches one or more Classic load balancers to the specified Auto Scaling group.
-    To attach an Application load balancer instead, see  AttachLoadBalancerTargetGroups .
+    Attaches one or more Classic Load Balancers to the specified Auto Scaling group.
+    To attach an Application Load Balancer instead, see  AttachLoadBalancerTargetGroups .
     To describe the load balancers for an Auto Scaling group, use  DescribeLoadBalancers . To detach the load balancer from the Auto Scaling group, use  DetachLoadBalancers .
     For more information, see Attach a Load Balancer to Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example attaches the specified load balancer to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.attach_load_balancers(
         AutoScalingGroupName='string',
@@ -122,6 +141,9 @@ def attach_load_balancers(AutoScalingGroupName=None, LoadBalancerNames=None):
     :rtype: dict
     :return: {}
     
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -148,6 +170,9 @@ def complete_lifecycle_action(LifecycleHookName=None, AutoScalingGroupName=None,
     For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example notifies Auto Scaling that the specified lifecycle action is complete so that it can finish launching or terminating the instance.
+    Expected Output:
     
     :example: response = client.complete_lifecycle_action(
         LifecycleHookName='string',
@@ -206,6 +231,13 @@ def create_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName
     For more information, see Auto Scaling Groups in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates an Auto Scaling group.
+    Expected Output:
+    This example creates an Auto Scaling group and attaches the specified Classic Load Balancer.
+    Expected Output:
+    This example creates an Auto Scaling group and attaches the specified target group.
+    Expected Output:
     
     :example: response = client.create_auto_scaling_group(
         AutoScalingGroupName='string',
@@ -269,7 +301,7 @@ def create_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName
             
 
     :type DesiredCapacity: integer
-    :param DesiredCapacity: The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
+    :param DesiredCapacity: The number of EC2 instances that should be running in the group. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
 
     :type DefaultCooldown: integer
     :param DefaultCooldown: The amount of time, in seconds, after a scaling activity completes before another scaling activity can start. The default is 300.
@@ -282,7 +314,7 @@ def create_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName
             
 
     :type LoadBalancerNames: list
-    :param LoadBalancerNames: One or more Classic load balancers. To specify an Application load balancer, use TargetGroupARNs instead.
+    :param LoadBalancerNames: One or more Classic Load Balancers. To specify an Application Load Balancer, use TargetGroupARNs instead.
             For more information, see Using a Load Balancer With an Auto Scaling Group in the Auto Scaling User Guide .
             (string) --
             
@@ -333,6 +365,17 @@ def create_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName
             
             
 
+    :return: response = client.create_auto_scaling_group(
+        AutoScalingGroupName='my-auto-scaling-group',
+        LaunchConfigurationName='my-launch-config',
+        MaxSize=3,
+        MinSize=1,
+        VPCZoneIdentifier='subnet-4176792c',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -343,6 +386,9 @@ def create_launch_configuration(LaunchConfigurationName=None, ImageId=None, KeyN
     For more information, see Launch Configurations in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a launch configuration.
+    Expected Output:
     
     :example: response = client.create_launch_configuration(
         LaunchConfigurationName='string',
@@ -392,7 +438,10 @@ def create_launch_configuration(LaunchConfigurationName=None, ImageId=None, KeyN
             
 
     :type ImageId: string
-    :param ImageId: The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide .
+    :param ImageId: The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances.
+            If you do not specify InstanceId , you must specify ImageId .
+            For more information, see Finding an AMI in the Amazon Elastic Compute Cloud User Guide .
+            
 
     :type KeyName: string
     :param KeyName: The name of the key pair. For more information, see Amazon EC2 Key Pairs in the Amazon Elastic Compute Cloud User Guide .
@@ -418,14 +467,17 @@ def create_launch_configuration(LaunchConfigurationName=None, ImageId=None, KeyN
             
 
     :type InstanceId: string
-    :param InstanceId: The ID of the instance to use to create the launch configuration.
-            The new launch configuration derives attributes from the instance, with the exception of the block device mapping.
+    :param InstanceId: The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, with the exception of the block device mapping.
+            If you do not specify InstanceId , you must specify both ImageId and InstanceType .
             To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request.
             For more information, see Create a Launch Configuration Using an EC2 Instance in the Auto Scaling User Guide .
             
 
     :type InstanceType: string
-    :param InstanceType: The instance type of the EC2 instance. For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide.
+    :param InstanceType: The instance type of the EC2 instance.
+            If you do not specify InstanceId , you must specify InstanceType .
+            For information about available instance types, see Available Instance Types in the Amazon Elastic Compute Cloud User Guide.
+            
 
     :type KernelId: string
     :param KernelId: The ID of the kernel associated with the AMI.
@@ -456,8 +508,8 @@ def create_launch_configuration(LaunchConfigurationName=None, ImageId=None, KeyN
             
 
     :type InstanceMonitoring: dict
-    :param InstanceMonitoring: Enables detailed monitoring (true ) or basic monitoring (false ) for the Auto Scaling instances.
-            Enabled (boolean) --If True , instance monitoring is enabled.
+    :param InstanceMonitoring: Enables detailed monitoring (true ) or basic monitoring (false ) for the Auto Scaling instances. The default is true .
+            Enabled (boolean) --If true , detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
             
 
     :type SpotPrice: string
@@ -485,6 +537,19 @@ def create_launch_configuration(LaunchConfigurationName=None, ImageId=None, KeyN
             Valid values: default | dedicated
             
 
+    :return: response = client.create_launch_configuration(
+        IamInstanceProfile='my-iam-role',
+        ImageId='ami-12345678',
+        InstanceType='m3.medium',
+        LaunchConfigurationName='my-launch-config',
+        SecurityGroups=[
+            'sg-eb2af88e',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -495,6 +560,9 @@ def create_or_update_tags(Tags=None):
     For more information, see Tagging Auto Scaling Groups and Instances in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example adds two tags to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.create_or_update_tags(
         Tags=[
@@ -521,6 +589,28 @@ def create_or_update_tags(Tags=None):
             
             
 
+    :return: response = client.create_or_update_tags(
+        Tags=[
+            {
+                'Key': 'Role',
+                'PropagateAtLaunch': True,
+                'ResourceId': 'my-auto-scaling-group',
+                'ResourceType': 'auto-scaling-group',
+                'Value': 'WebServer',
+            },
+            {
+                'Key': 'Dept',
+                'PropagateAtLaunch': True,
+                'ResourceId': 'my-auto-scaling-group',
+                'ResourceType': 'auto-scaling-group',
+                'Value': 'Research',
+            },
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -533,6 +623,11 @@ def delete_auto_scaling_group(AutoScalingGroupName=None, ForceDelete=None):
     To terminate all instances before deleting the Auto Scaling group, call  UpdateAutoScalingGroup and set the minimum size and desired capacity of the Auto Scaling group to zero.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified Auto Scaling group.
+    Expected Output:
+    This example deletes the specified Auto Scaling group and all its instances.
+    Expected Output:
     
     :example: response = client.delete_auto_scaling_group(
         AutoScalingGroupName='string',
@@ -548,6 +643,13 @@ def delete_auto_scaling_group(AutoScalingGroupName=None, ForceDelete=None):
     :type ForceDelete: boolean
     :param ForceDelete: Specifies that the group will be deleted along with all instances associated with the group, without waiting for all instances to be terminated. This parameter also deletes any lifecycle actions associated with the group.
 
+    :return: response = client.delete_auto_scaling_group(
+        AutoScalingGroupName='my-auto-scaling-group',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -557,6 +659,9 @@ def delete_launch_configuration(LaunchConfigurationName=None):
     The launch configuration must not be attached to an Auto Scaling group. When this call completes, the launch configuration is no longer available for use.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified launch configuration.
+    Expected Output:
     
     :example: response = client.delete_launch_configuration(
         LaunchConfigurationName='string'
@@ -568,6 +673,13 @@ def delete_launch_configuration(LaunchConfigurationName=None):
             The name of the launch configuration.
             
 
+    :return: response = client.delete_launch_configuration(
+        LaunchConfigurationName='my-launch-config',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -577,6 +689,9 @@ def delete_lifecycle_hook(LifecycleHookName=None, AutoScalingGroupName=None):
     If there are any outstanding lifecycle actions, they are completed first (ABANDON for launching instances, CONTINUE for terminating instances).
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified lifecycle hook.
+    Expected Output:
     
     :example: response = client.delete_lifecycle_hook(
         LifecycleHookName='string',
@@ -598,6 +713,9 @@ def delete_lifecycle_hook(LifecycleHookName=None, AutoScalingGroupName=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -606,6 +724,9 @@ def delete_notification_configuration(AutoScalingGroupName=None, TopicARN=None):
     Deletes the specified notification.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified notification from the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.delete_notification_configuration(
         AutoScalingGroupName='string',
@@ -623,6 +744,14 @@ def delete_notification_configuration(AutoScalingGroupName=None, TopicARN=None):
             The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic.
             
 
+    :return: response = client.delete_notification_configuration(
+        AutoScalingGroupName='my-auto-scaling-group',
+        TopicARN='arn:aws:sns:us-west-2:123456789012:my-sns-topic',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -632,6 +761,9 @@ def delete_policy(AutoScalingGroupName=None, PolicyName=None):
     Deleting a policy deletes the underlying alarm action, but does not delete the alarm, even if it no longer has an associated action.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified Auto Scaling policy.
+    Expected Output:
     
     :example: response = client.delete_policy(
         AutoScalingGroupName='string',
@@ -647,6 +779,14 @@ def delete_policy(AutoScalingGroupName=None, PolicyName=None):
             The name or Amazon Resource Name (ARN) of the policy.
             
 
+    :return: response = client.delete_policy(
+        AutoScalingGroupName='my-auto-scaling-group',
+        PolicyName='ScaleIn',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -655,6 +795,9 @@ def delete_scheduled_action(AutoScalingGroupName=None, ScheduledActionName=None)
     Deletes the specified scheduled action.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified scheduled action from the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.delete_scheduled_action(
         AutoScalingGroupName='string',
@@ -672,6 +815,14 @@ def delete_scheduled_action(AutoScalingGroupName=None, ScheduledActionName=None)
             The name of the action to delete.
             
 
+    :return: response = client.delete_scheduled_action(
+        AutoScalingGroupName='my-auto-scaling-group',
+        ScheduledActionName='my-scheduled-action',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -680,6 +831,9 @@ def delete_tags(Tags=None):
     Deletes the specified tags.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified tag from the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.delete_tags(
         Tags=[
@@ -706,6 +860,20 @@ def delete_tags(Tags=None):
             
             
 
+    :return: response = client.delete_tags(
+        Tags=[
+            {
+                'Key': 'Dept',
+                'ResourceId': 'my-auto-scaling-group',
+                'ResourceType': 'auto-scaling-group',
+                'Value': 'Research',
+            },
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -715,6 +883,9 @@ def describe_account_limits():
     For information about requesting an increase in these limits, see AWS Service Limits in the Amazon Web Services General Reference .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the Auto Scaling limits for your AWS account.
+    Expected Output:
     
     :example: response = client.describe_account_limits()
     
@@ -736,6 +907,9 @@ def describe_adjustment_types():
     Describes the policy adjustment types for use with  PutScalingPolicy .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the available adjustment types.
+    Expected Output:
     
     :example: response = client.describe_adjustment_types()
     
@@ -758,6 +932,9 @@ def describe_auto_scaling_groups(AutoScalingGroupNames=None, NextToken=None, Max
     Describes one or more Auto Scaling groups.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_auto_scaling_groups(
         AutoScalingGroupNames=[
@@ -777,7 +954,7 @@ def describe_auto_scaling_groups(AutoScalingGroupNames=None, NextToken=None, Max
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -857,6 +1034,9 @@ def describe_auto_scaling_instances(InstanceIds=None, MaxRecords=None, NextToken
     Describes one or more Auto Scaling instances.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified Auto Scaling instance.
+    Expected Output:
     
     :example: response = client.describe_auto_scaling_instances(
         InstanceIds=[
@@ -873,7 +1053,7 @@ def describe_auto_scaling_instances(InstanceIds=None, MaxRecords=None, NextToken
             
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :type NextToken: string
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
@@ -903,6 +1083,9 @@ def describe_auto_scaling_notification_types():
     Describes the notification types that are supported by Auto Scaling.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the available notification types.
+    Expected Output:
     
     :example: response = client.describe_auto_scaling_notification_types()
     
@@ -923,6 +1106,9 @@ def describe_launch_configurations(LaunchConfigurationNames=None, NextToken=None
     Describes one or more launch configurations.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified launch configuration.
+    Expected Output:
     
     :example: response = client.describe_launch_configurations(
         LaunchConfigurationNames=[
@@ -942,7 +1128,7 @@ def describe_launch_configurations(LaunchConfigurationNames=None, NextToken=None
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call. The default is 100.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1004,6 +1190,9 @@ def describe_lifecycle_hook_types():
     Describes the available types of lifecycle hooks.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the available lifecycle hook types.
+    Expected Output:
     
     :example: response = client.describe_lifecycle_hook_types()
     
@@ -1024,6 +1213,9 @@ def describe_lifecycle_hooks(AutoScalingGroupName=None, LifecycleHookNames=None)
     Describes the lifecycle hooks for the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the lifecycle hooks for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_lifecycle_hooks(
         AutoScalingGroupName='string',
@@ -1073,6 +1265,9 @@ def describe_load_balancer_target_groups(AutoScalingGroupName=None, NextToken=No
     Describes the target groups for the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the target groups attached to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_load_balancer_target_groups(
         AutoScalingGroupName='string',
@@ -1090,7 +1285,7 @@ def describe_load_balancer_target_groups(AutoScalingGroupName=None, NextToken=No
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1117,9 +1312,12 @@ def describe_load_balancer_target_groups(AutoScalingGroupName=None, NextToken=No
 def describe_load_balancers(AutoScalingGroupName=None, NextToken=None, MaxRecords=None):
     """
     Describes the load balancers for the specified Auto Scaling group.
-    Note that this operation describes only Classic load balancers. If you have Application load balancers, use  DescribeLoadBalancerTargetGroups instead.
+    Note that this operation describes only Classic Load Balancers. If you have Application Load Balancers, use  DescribeLoadBalancerTargetGroups instead.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the load balancers attached to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_load_balancers(
         AutoScalingGroupName='string',
@@ -1137,7 +1335,7 @@ def describe_load_balancers(AutoScalingGroupName=None, NextToken=None, MaxRecord
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1167,6 +1365,9 @@ def describe_metric_collection_types():
     Note that the GroupStandbyInstances metric is not returned by default. You must explicitly request this metric when calling  EnableMetricsCollection .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the available metric collection types.
+    Expected Output:
     
     :example: response = client.describe_metric_collection_types()
     
@@ -1194,6 +1395,9 @@ def describe_notification_configurations(AutoScalingGroupNames=None, NextToken=N
     Describes the notification actions associated with the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the notification configurations for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_notification_configurations(
         AutoScalingGroupNames=[
@@ -1213,7 +1417,7 @@ def describe_notification_configurations(AutoScalingGroupNames=None, NextToken=N
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1243,6 +1447,9 @@ def describe_policies(AutoScalingGroupName=None, PolicyNames=None, PolicyTypes=N
     Describes the policies for the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the policies for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_policies(
         AutoScalingGroupName='string',
@@ -1274,7 +1481,7 @@ def describe_policies(AutoScalingGroupName=None, PolicyNames=None, PolicyTypes=N
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to be returned with each call.
+    :param MaxRecords: The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1322,6 +1529,9 @@ def describe_scaling_activities(ActivityIds=None, AutoScalingGroupName=None, Max
     Describes one or more scaling activities for the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the scaling activities for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_scaling_activities(
         ActivityIds=[
@@ -1342,7 +1552,7 @@ def describe_scaling_activities(ActivityIds=None, AutoScalingGroupName=None, Max
     :param AutoScalingGroupName: The name of the group.
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 100.
 
     :type NextToken: string
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
@@ -1375,6 +1585,9 @@ def describe_scaling_process_types():
     Describes the scaling process types for use with  ResumeProcesses and  SuspendProcesses .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the Auto Scaling process types.
+    Expected Output:
     
     :example: response = client.describe_scaling_process_types()
     
@@ -1397,6 +1610,9 @@ def describe_scheduled_actions(AutoScalingGroupName=None, ScheduledActionNames=N
     Describes the actions scheduled for your Auto Scaling group that haven't run. To describe the actions that have already run, use  DescribeScalingActivities .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the scheduled actions for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_scheduled_actions(
         AutoScalingGroupName='string',
@@ -1429,7 +1645,7 @@ def describe_scheduled_actions(AutoScalingGroupName=None, ScheduledActionNames=N
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1461,6 +1677,9 @@ def describe_tags(Filters=None, NextToken=None, MaxRecords=None):
     You can also specify multiple filters. The result includes information for a particular tag only if it matches all the filters. If there's no match, no special message is returned.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the tags for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.describe_tags(
         Filters=[
@@ -1489,7 +1708,7 @@ def describe_tags(Filters=None, NextToken=None, MaxRecords=None):
     :param NextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type MaxRecords: integer
-    :param MaxRecords: The maximum number of items to return with this call.
+    :param MaxRecords: The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
 
     :rtype: dict
     :return: {
@@ -1514,6 +1733,9 @@ def describe_termination_policy_types():
     Describes the termination policies supported by Auto Scaling.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the available termination policy types.
+    Expected Output:
     
     :example: response = client.describe_termination_policy_types()
     
@@ -1532,12 +1754,15 @@ def describe_termination_policy_types():
 def detach_instances(InstanceIds=None, AutoScalingGroupName=None, ShouldDecrementDesiredCapacity=None):
     """
     Removes one or more instances from the specified Auto Scaling group.
-    After the instances are detached, you can manage them independently from the rest of the Auto Scaling group.
+    After the instances are detached, you can manage them independent of the Auto Scaling group.
     If you do not specify the option to decrement the desired capacity, Auto Scaling launches instances to replace the ones that are detached.
-    If there is a Classic load balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups.
+    If there is a Classic Load Balancer attached to the Auto Scaling group, the instances are deregistered from the load balancer. If there are target groups attached to the Auto Scaling group, the instances are deregistered from the target groups.
     For more information, see Detach EC2 Instances from Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example detaches the specified instance from the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.detach_instances(
         InstanceIds=[
@@ -1590,6 +1815,9 @@ def detach_load_balancer_target_groups(AutoScalingGroupName=None, TargetGroupARN
     Detaches one or more target groups from the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example detaches the specified target group from the specified Auto Scaling group
+    Expected Output:
     
     :example: response = client.detach_load_balancer_target_groups(
         AutoScalingGroupName='string',
@@ -1622,11 +1850,14 @@ def detach_load_balancer_target_groups(AutoScalingGroupName=None, TargetGroupARN
 
 def detach_load_balancers(AutoScalingGroupName=None, LoadBalancerNames=None):
     """
-    Detaches one or more Classic load balancers from the specified Auto Scaling group.
-    Note that this operation detaches only Classic load balancers. If you have Application load balancers, use  DetachLoadBalancerTargetGroups instead.
+    Detaches one or more Classic Load Balancers from the specified Auto Scaling group.
+    Note that this operation detaches only Classic Load Balancers. If you have Application Load Balancers, use  DetachLoadBalancerTargetGroups instead.
     When you detach a load balancer, it enters the Removing state while deregistering the instances in the group. When all instances are deregistered, then you can no longer describe the load balancer using  DescribeLoadBalancers . Note that the instances remain running.
     See also: AWS API Documentation
     
+    Examples
+    This example detaches the specified load balancer from the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.detach_load_balancers(
         AutoScalingGroupName='string',
@@ -1651,6 +1882,9 @@ def detach_load_balancers(AutoScalingGroupName=None, LoadBalancerNames=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -1659,6 +1893,9 @@ def disable_metrics_collection(AutoScalingGroupName=None, Metrics=None):
     Disables group metrics for the specified Auto Scaling group.
     See also: AWS API Documentation
     
+    Examples
+    This example disables collecting data for the GroupDesiredCapacity metric for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.disable_metrics_collection(
         AutoScalingGroupName='string',
@@ -1686,6 +1923,16 @@ def disable_metrics_collection(AutoScalingGroupName=None, Metrics=None):
             (string) --
             
 
+    :return: response = client.disable_metrics_collection(
+        AutoScalingGroupName='my-auto-scaling-group',
+        Metrics=[
+            'GroupDesiredCapacity',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1694,6 +1941,9 @@ def enable_metrics_collection(AutoScalingGroupName=None, Metrics=None, Granulari
     Enables group metrics for the specified Auto Scaling group. For more information, see Monitoring Your Auto Scaling Groups and Instances in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example enables data collection for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.enable_metrics_collection(
         AutoScalingGroupName='string',
@@ -1727,15 +1977,26 @@ def enable_metrics_collection(AutoScalingGroupName=None, Metrics=None, Granulari
             The granularity to associate with the metrics to collect. The only valid value is 1Minute .
             
 
+    :return: response = client.enable_metrics_collection(
+        AutoScalingGroupName='my-auto-scaling-group',
+        Granularity='1Minute',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
 def enter_standby(InstanceIds=None, AutoScalingGroupName=None, ShouldDecrementDesiredCapacity=None):
     """
-    Moves the specified instances into Standby mode.
-    For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide .
+    Moves the specified instances into the standby state.
+    For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example puts the specified instance into standby mode.
+    Expected Output:
     
     :example: response = client.enter_standby(
         InstanceIds=[
@@ -1788,6 +2049,9 @@ def execute_policy(AutoScalingGroupName=None, PolicyName=None, HonorCooldown=Non
     Executes the specified policy.
     See also: AWS API Documentation
     
+    Examples
+    This example executes the specified Auto Scaling policy for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.execute_policy(
         AutoScalingGroupName='string',
@@ -1823,15 +2087,27 @@ def execute_policy(AutoScalingGroupName=None, PolicyName=None, HonorCooldown=Non
             This parameter is required if the policy type is StepScaling and not supported otherwise.
             
 
+    :return: response = client.execute_policy(
+        AutoScalingGroupName='my-auto-scaling-group',
+        HonorCooldown=True,
+        PolicyName='ScaleIn',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
 def exit_standby(InstanceIds=None, AutoScalingGroupName=None):
     """
-    Moves the specified instances out of Standby mode.
-    For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide .
+    Moves the specified instances out of the standby state.
+    For more information, see Temporarily Removing Instances from Your Auto Scaling Group in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example moves the specified instance out of standby mode.
+    Expected Output:
     
     :example: response = client.exit_standby(
         InstanceIds=[
@@ -1926,6 +2202,9 @@ def put_lifecycle_hook(LifecycleHookName=None, AutoScalingGroupName=None, Lifecy
     If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling group, the call fails. For information about updating this limit, see AWS Service Limits in the Amazon Web Services General Reference .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a lifecycle hook.
+    Expected Output:
     
     :example: response = client.put_lifecycle_hook(
         LifecycleHookName='string',
@@ -2009,6 +2288,9 @@ def put_notification_configuration(AutoScalingGroupName=None, TopicARN=None, Not
     For more information see Getting SNS Notifications When Your Auto Scaling Group Scales in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example adds the specified notification to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.put_notification_configuration(
         AutoScalingGroupName='string',
@@ -2035,6 +2317,17 @@ def put_notification_configuration(AutoScalingGroupName=None, TopicARN=None, Not
             (string) --
             
 
+    :return: response = client.put_notification_configuration(
+        AutoScalingGroupName='my-auto-scaling-group',
+        NotificationTypes=[
+            'autoscaling:TEST_NOTIFICATION',
+        ],
+        TopicARN='arn:aws:sns:us-west-2:123456789012:my-sns-topic',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2044,6 +2337,9 @@ def put_scaling_policy(AutoScalingGroupName=None, PolicyName=None, PolicyType=No
     If you exceed your maximum limit of step adjustments, which by default is 20 per region, the call fails. For information about updating this limit, see AWS Service Limits in the Amazon Web Services General Reference .
     See also: AWS API Documentation
     
+    Examples
+    This example adds the specified policy to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.put_scaling_policy(
         AutoScalingGroupName='string',
@@ -2146,6 +2442,9 @@ def put_scheduled_update_group_action(AutoScalingGroupName=None, ScheduledAction
     For more information, see Scheduled Scaling in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example adds the specified scheduled action to the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.put_scheduled_update_group_action(
         AutoScalingGroupName='string',
@@ -2194,6 +2493,19 @@ def put_scheduled_update_group_action(AutoScalingGroupName=None, ScheduledAction
     :type DesiredCapacity: integer
     :param DesiredCapacity: The number of EC2 instances that should be running in the group.
 
+    :return: response = client.put_scheduled_update_group_action(
+        AutoScalingGroupName='my-auto-scaling-group',
+        DesiredCapacity=4,
+        EndTime=datetime(2014, 5, 12, 8, 0, 0, 0, 132, 0),
+        MaxSize=6,
+        MinSize=2,
+        ScheduledActionName='my-scheduled-action',
+        StartTime=datetime(2014, 5, 12, 8, 0, 0, 0, 132, 0),
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2204,6 +2516,9 @@ def record_lifecycle_action_heartbeat(LifecycleHookName=None, AutoScalingGroupNa
     For more information, see Auto Scaling Lifecycle in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example records a lifecycle action heartbeat to keep the instance in a pending state.
+    Expected Output:
     
     :example: response = client.record_lifecycle_action_heartbeat(
         LifecycleHookName='string',
@@ -2252,6 +2567,9 @@ def resume_processes(AutoScalingGroupName=None, ScalingProcesses=None):
     For more information, see Suspending and Resuming Auto Scaling Processes in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example resumes the specified suspended scaling process for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.resume_processes(
         AutoScalingGroupName='string',
@@ -2279,6 +2597,16 @@ def resume_processes(AutoScalingGroupName=None, ScalingProcesses=None):
             (string) --
             
 
+    :return: response = client.resume_processes(
+        AutoScalingGroupName='my-auto-scaling-group',
+        ScalingProcesses=[
+            'AlarmNotification',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2288,6 +2616,9 @@ def set_desired_capacity(AutoScalingGroupName=None, DesiredCapacity=None, HonorC
     For more information about desired capacity, see What Is Auto Scaling? in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example sets the desired capacity for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.set_desired_capacity(
         AutoScalingGroupName='string',
@@ -2309,6 +2640,15 @@ def set_desired_capacity(AutoScalingGroupName=None, DesiredCapacity=None, HonorC
     :type HonorCooldown: boolean
     :param HonorCooldown: By default, SetDesiredCapacity overrides any cooldown period associated with the Auto Scaling group. Specify True to make Auto Scaling to wait for the cool-down period associated with the Auto Scaling group to complete before initiating a scaling activity to set your Auto Scaling group to its new capacity.
 
+    :return: response = client.set_desired_capacity(
+        AutoScalingGroupName='my-auto-scaling-group',
+        DesiredCapacity=2,
+        HonorCooldown=True,
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2318,6 +2658,9 @@ def set_instance_health(InstanceId=None, HealthStatus=None, ShouldRespectGracePe
     For more information, see Health Checks in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example sets the health status of the specified instance to Unhealthy.
+    Expected Output:
     
     :example: response = client.set_instance_health(
         InstanceId='string',
@@ -2341,6 +2684,14 @@ def set_instance_health(InstanceId=None, HealthStatus=None, ShouldRespectGracePe
             For more information, see the description of the health check grace period for CreateAutoScalingGroup .
             
 
+    :return: response = client.set_instance_health(
+        HealthStatus='Unhealthy',
+        InstanceId='i-93633f9b',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2350,6 +2701,11 @@ def set_instance_protection(InstanceIds=None, AutoScalingGroupName=None, Protect
     For more information, see Instance Protection in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example enables instance protection for the specified instance.
+    Expected Output:
+    This example disables instance protection for the specified instance.
+    Expected Output:
     
     :example: response = client.set_instance_protection(
         InstanceIds=[
@@ -2380,6 +2736,9 @@ def set_instance_protection(InstanceIds=None, AutoScalingGroupName=None, Protect
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -2391,6 +2750,9 @@ def suspend_processes(AutoScalingGroupName=None, ScalingProcesses=None):
     For more information, see Suspending and Resuming Auto Scaling Processes in the Auto Scaling User Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example suspends the specified scaling process for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.suspend_processes(
         AutoScalingGroupName='string',
@@ -2418,6 +2780,16 @@ def suspend_processes(AutoScalingGroupName=None, ScalingProcesses=None):
             (string) --
             
 
+    :return: response = client.suspend_processes(
+        AutoScalingGroupName='my-auto-scaling-group',
+        ScalingProcesses=[
+            'AlarmNotification',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2427,6 +2799,9 @@ def terminate_instance_in_auto_scaling_group(InstanceId=None, ShouldDecrementDes
     This call simply makes a termination request. The instance is not terminated immediately.
     See also: AWS API Documentation
     
+    Examples
+    This example terminates the specified instance from the specified Auto Scaling group without updating the size of the group. Auto Scaling launches a replacement instance after the specified instance terminates.
+    Expected Output:
     
     :example: response = client.terminate_instance_in_auto_scaling_group(
         InstanceId='string',
@@ -2467,11 +2842,18 @@ def terminate_instance_in_auto_scaling_group(InstanceId=None, ShouldDecrementDes
 def update_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName=None, MinSize=None, MaxSize=None, DesiredCapacity=None, DefaultCooldown=None, AvailabilityZones=None, HealthCheckType=None, HealthCheckGracePeriod=None, PlacementGroup=None, VPCZoneIdentifier=None, TerminationPolicies=None, NewInstancesProtectedFromScaleIn=None):
     """
     Updates the configuration for the specified Auto Scaling group.
-    To update an Auto Scaling group with a launch configuration with InstanceMonitoring set to False , you must first disable the collection of group metrics. Otherwise, you will get an error. If you have previously enabled the collection of group metrics, you can disable it using  DisableMetricsCollection .
-    The new settings are registered upon the completion of this call. Any launch configuration settings take effect on any triggers after this call returns. Scaling activities that are currently in progress aren't affected.
+    The new settings take effect on any scaling activities after this call returns. Scaling activities that are currently in progress aren't affected.
+    To update an Auto Scaling group with a launch configuration with InstanceMonitoring set to false , you must first disable the collection of group metrics. Otherwise, you will get an error. If you have previously enabled the collection of group metrics, you can disable it using  DisableMetricsCollection .
     Note the following:
     See also: AWS API Documentation
     
+    Examples
+    This example updates the launch configuration of the specified Auto Scaling group.
+    Expected Output:
+    This example updates the minimum size and maximum size of the specified Auto Scaling group.
+    Expected Output:
+    This example enables instance protection for the specified Auto Scaling group.
+    Expected Output:
     
     :example: response = client.update_auto_scaling_group(
         AutoScalingGroupName='string',
@@ -2547,6 +2929,14 @@ def update_auto_scaling_group(AutoScalingGroupName=None, LaunchConfigurationName
     :type NewInstancesProtectedFromScaleIn: boolean
     :param NewInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Auto Scaling when scaling in.
 
+    :return: response = client.update_auto_scaling_group(
+        AutoScalingGroupName='my-auto-scaling-group',
+        LaunchConfigurationName='new-launch-config',
+    )
+    
+    print(response)
+    
+    
     :returns: 
     AutoScalingGroupName (string) -- [REQUIRED]
     The name of the Auto Scaling group.

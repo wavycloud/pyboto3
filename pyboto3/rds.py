@@ -54,6 +54,9 @@ def add_source_identifier_to_subscription(SubscriptionName=None, SourceIdentifie
     Adds a source identifier to an existing RDS event notification subscription.
     See also: AWS API Documentation
     
+    Examples
+    This example add a source identifier to an event notification subscription.
+    Expected Output:
     
     :example: response = client.add_source_identifier_to_subscription(
         SubscriptionName='string',
@@ -109,6 +112,9 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
     For an overview on tagging Amazon RDS resources, see Tagging Amazon RDS Resources .
     See also: AWS API Documentation
     
+    Examples
+    This example adds a tag to an option group.
+    Expected Output:
     
     :example: response = client.add_tags_to_resource(
         ResourceName='string',
@@ -135,6 +141,19 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
             
             
 
+    :return: response = client.add_tags_to_resource(
+        ResourceName='arn:aws:rds:us-east-1:992648334831:og:mymysqloptiongroup',
+        Tags=[
+            {
+                'Key': 'Staging',
+                'Value': 'LocationDB',
+            },
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -143,6 +162,9 @@ def apply_pending_maintenance_action(ResourceIdentifier=None, ApplyAction=None, 
     Applies a pending maintenance action to a resource (for example, to a DB instance).
     See also: AWS API Documentation
     
+    Examples
+    This example immediately applies a pending system update to a DB instance.
+    Expected Output:
     
     :example: response = client.apply_pending_maintenance_action(
         ResourceIdentifier='string',
@@ -198,6 +220,9 @@ def authorize_db_security_group_ingress(DBSecurityGroupName=None, CIDRIP=None, E
     For an overview of CIDR ranges, go to the Wikipedia Tutorial .
     See also: AWS API Documentation
     
+    Examples
+    This example authorizes access to the specified security group by the specified CIDR block.
+    Expected Output:
     
     :example: response = client.authorize_db_security_group_ingress(
         DBSecurityGroupName='string',
@@ -280,6 +305,9 @@ def copy_db_cluster_parameter_group(SourceDBClusterParameterGroupIdentifier=None
     Copies the specified DB cluster parameter group.
     See also: AWS API Documentation
     
+    Examples
+    This example copies a DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.copy_db_cluster_parameter_group(
         SourceDBClusterParameterGroupIdentifier='string',
@@ -341,31 +369,47 @@ def copy_db_cluster_parameter_group(SourceDBClusterParameterGroupIdentifier=None
     """
     pass
 
-def copy_db_cluster_snapshot(SourceDBClusterSnapshotIdentifier=None, TargetDBClusterSnapshotIdentifier=None, Tags=None):
+def copy_db_cluster_snapshot(SourceDBClusterSnapshotIdentifier=None, TargetDBClusterSnapshotIdentifier=None, KmsKeyId=None, PreSignedUrl=None, CopyTags=None, Tags=None, SourceRegion=None):
     """
-    Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
+    Copies a snapshot of a DB cluster.
+    To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot.
+    You can copy an encrypted DB cluster snapshot from another AWS region. In that case, the region where you call the CopyDBClusterSnapshot action is the destination region for the encrypted DB cluster snapshot to be copied to. To copy an encrypted DB cluster snapshot from another region, you must provide the following values:
+    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
+    To cancel the copy operation once it is in progress, delete the target DB cluster snapshot identified by TargetDBClusterSnapshotIdentifier while that DB cluster snapshot is in "copying" status.
+    For more information on copying encrypted DB cluster snapshots from one region to another, see Copying a DB Cluster Snapshot in the Same Account, Either in the Same Region or Across Regions in the Amazon RDS User Guide.
+    For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    The following example copies an automated snapshot of a DB cluster to a new DB cluster snapshot.
+    Expected Output:
     
     :example: response = client.copy_db_cluster_snapshot(
         SourceDBClusterSnapshotIdentifier='string',
         TargetDBClusterSnapshotIdentifier='string',
+        KmsKeyId='string',
+        CopyTags=True|False,
         Tags=[
             {
                 'Key': 'string',
                 'Value': 'string'
             },
-        ]
+        ],
+        SourceRegion='string'
     )
     
     
     :type SourceDBClusterSnapshotIdentifier: string
     :param SourceDBClusterSnapshotIdentifier: [REQUIRED]
             The identifier of the DB cluster snapshot to copy. This parameter is not case-sensitive.
+            You cannot copy an encrypted, shared DB cluster snapshot from one AWS region to another.
             Constraints:
             Must contain from 1 to 63 alphanumeric characters or hyphens.
             First character must be a letter.
             Cannot end with a hyphen or contain two consecutive hyphens.
+            Must specify a valid system snapshot in the 'available' state.
+            If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier.
+            If the source snapshot is in a different region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to Copying a DB Snapshot or DB Cluster Snapshot .
             Example: my-cluster-snapshot1
             
 
@@ -379,6 +423,27 @@ def copy_db_cluster_snapshot(SourceDBClusterSnapshotIdentifier=None, TargetDBClu
             Example: my-cluster-snapshot2
             
 
+    :type KmsKeyId: string
+    :param KmsKeyId: The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+            If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB cluster snapshot using the specified KMS encryption key.
+            If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.
+            If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId .
+            To copy an encrypted DB cluster snapshot to another region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
+            
+
+    :type PreSignedUrl: string
+    :param PreSignedUrl: The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS region.
+            The pre-signed URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:
+            KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination region, and the action contained in the pre-signed URL.
+            DestinationRegion - The name of the region that the DB cluster snapshot will be created in.
+            SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115 .
+            To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
+            Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+            
+
+    :type CopyTags: boolean
+    :param CopyTags: True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot; otherwise false. The default is false.
+
     :type Tags: list
     :param Tags: A list of tags.
             (dict) --Metadata assigned to an Amazon RDS resource consisting of a key-value pair.
@@ -386,6 +451,9 @@ def copy_db_cluster_snapshot(SourceDBClusterSnapshotIdentifier=None, TargetDBClu
             Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'rds:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
             
             
+
+    :type SourceRegion: string
+    :param SourceRegion: The ID of the region that contains the snapshot to be copied.
 
     :rtype: dict
     :return: {
@@ -409,14 +477,16 @@ def copy_db_cluster_snapshot(SourceDBClusterSnapshotIdentifier=None, TargetDBClu
             'PercentProgress': 123,
             'StorageEncrypted': True|False,
             'KmsKeyId': 'string',
-            'DBClusterSnapshotArn': 'string'
+            'DBClusterSnapshotArn': 'string',
+            'SourceDBClusterSnapshotArn': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
     
     :returns: 
-    CreateDBClusterSnapshot
-    DeleteDBClusterSnapshot
+    TargetDBClusterSnapshotIdentifier - The identifier for the new copy of the DB cluster snapshot in the destination region.
+    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the ARN format for the source region and is the same value as the SourceDBClusterSnapshotIdentifier in the pre-signed URL.
     
     """
     pass
@@ -426,6 +496,9 @@ def copy_db_parameter_group(SourceDBParameterGroupIdentifier=None, TargetDBParam
     Copies the specified DB parameter group.
     See also: AWS API Documentation
     
+    Examples
+    This example copies a DB parameter group.
+    Expected Output:
     
     :example: response = client.copy_db_parameter_group(
         SourceDBParameterGroupIdentifier='string',
@@ -490,11 +563,14 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
     """
     Copies the specified DB snapshot. The source DB snapshot must be in the "available" state.
     To copy a DB snapshot from a shared manual DB snapshot, SourceDBSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB snapshot.
-    You can copy an encrypted DB snapshot from another AWS Region. In that case, the region where you call the CopyDBSnapshot action is the destination region for the encrypted DB snapshot to be copied to. To copy an encrypted DB snapshot from another region, you must provide the following values:
+    You can copy an encrypted DB snapshot from another AWS region. In that case, the region where you call the CopyDBSnapshot action is the destination region for the encrypted DB snapshot to be copied to. To copy an encrypted DB snapshot from another region, you must provide the following values:
     To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
-    For more information on copying encrypted snapshots from one region to another, see Copying an Encrypted DB Snapshot to Another Region in the Amazon RDS User Guide.
+    For more information on copying encrypted snapshots from one region to another, see Copying a DB Snapshot in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example copies a DB snapshot.
+    Expected Output:
     
     :example: response = client.copy_db_snapshot(
         SourceDBSnapshotIdentifier='string',
@@ -507,7 +583,6 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
             },
         ],
         CopyTags=True|False,
-        PreSignedUrl='string',
         SourceRegion='string'
     )
     
@@ -520,7 +595,7 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
             Constraints:
             Must specify a valid system snapshot in the 'available' state.
             If the source snapshot is in the same region as the copy, specify a valid DB snapshot identifier.
-            If the source snapshot is in a different region than the copy, specify a valid DB snapshot ARN. For more information, go to Copying a DB Snapshot .
+            If the source snapshot is in a different region than the copy, specify a valid DB snapshot ARN. For more information, go to Copying a DB Snapshot or DB Cluster Snapshot .
             Example: rds:mydb-2012-04-02-00-01
             Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
             
@@ -540,7 +615,7 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
     :param KmsKeyId: The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
             If you copy an unencrypted DB snapshot and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target DB snapshot using the specified KMS encryption key.
             If you copy an encrypted DB snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.
-            If you copy an encrypted DB snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot. If you copy an encrypted snapshot to a different AWS region, then you must specify a KMS key for the destination AWS region.
+            If you copy an encrypted snapshot to a different AWS region, then you must specify a KMS key for the destination AWS region.
             If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId .
             To copy an encrypted DB snapshot to another region, you must set KmsKeyId to the KMS key ID used to encrypt the copy of the DB snapshot in the destination region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
             
@@ -561,8 +636,9 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
             The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:
             DestinationRegion - The AWS Region that the encrypted DB snapshot will be copied to. This region is the same one where the CopyDBSnapshot action is called that contains this presigned URL. For example, if you copy an encrypted DB snapshot from the us-west-2 region to the us-east-1 region, then you will call the CopyDBSnapshot action in the us-east-1 region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.
             KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination region, and the action contained in the presigned URL.
-            SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115 .
+            SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB snapshot from the us-west-2 region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115 .
             To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
+            Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
             
 
     :type SourceRegion: string
@@ -595,7 +671,8 @@ def copy_db_snapshot(SourceDBSnapshotIdentifier=None, TargetDBSnapshotIdentifier
             'Encrypted': True|False,
             'KmsKeyId': 'string',
             'DBSnapshotArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -612,6 +689,9 @@ def copy_option_group(SourceOptionGroupIdentifier=None, TargetOptionGroupIdentif
     Copies the specified option group.
     See also: AWS API Documentation
     
+    Examples
+    This example copies an option group.
+    Expected Output:
     
     :example: response = client.copy_option_group(
         SourceOptionGroupIdentifier='string',
@@ -717,13 +797,16 @@ def copy_option_group(SourceOptionGroupIdentifier=None, TargetOptionGroupIdentif
     """
     pass
 
-def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, CharacterSetName=None, DatabaseName=None, DBClusterIdentifier=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, DBSubnetGroupName=None, Engine=None, EngineVersion=None, Port=None, MasterUsername=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, ReplicationSourceIdentifier=None, Tags=None, StorageEncrypted=None, KmsKeyId=None):
+def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, CharacterSetName=None, DatabaseName=None, DBClusterIdentifier=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, DBSubnetGroupName=None, Engine=None, EngineVersion=None, Port=None, MasterUsername=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, ReplicationSourceIdentifier=None, Tags=None, StorageEncrypted=None, KmsKeyId=None, PreSignedUrl=None, EnableIAMDatabaseAuthentication=None, SourceRegion=None):
     """
     Creates a new Amazon Aurora DB cluster.
-    You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster.
+    You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon RDS MySQL DB instance. For cross-region replication where the DB cluster identified by ReplicationSourceIdentifier is encrypted, you must also specify the PreSignedUrl parameter.
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB cluster.
+    Expected Output:
     
     :example: response = client.create_db_cluster(
         AvailabilityZones=[
@@ -754,7 +837,9 @@ def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, Charac
             },
         ],
         StorageEncrypted=True|False,
-        KmsKeyId='string'
+        KmsKeyId='string',
+        EnableIAMDatabaseAuthentication=True|False,
+        SourceRegion='string'
     )
     
     
@@ -774,7 +859,7 @@ def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, Charac
     :param CharacterSetName: A value that indicates that the DB cluster should be associated with the specified CharacterSet.
 
     :type DatabaseName: string
-    :param DatabaseName: The name for your database of up to 8 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
+    :param DatabaseName: The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon RDS will not create a database in the DB cluster you are creating.
 
     :type DBClusterIdentifier: string
     :param DBClusterIdentifier: [REQUIRED]
@@ -859,7 +944,7 @@ def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, Charac
             
 
     :type ReplicationSourceIdentifier: string
-    :param ReplicationSourceIdentifier: The Amazon Resource Name (ARN) of the source DB cluster if this DB cluster is created as a Read Replica.
+    :param ReplicationSourceIdentifier: The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a Read Replica.
 
     :type Tags: list
     :param Tags: A list of tags.
@@ -874,9 +959,29 @@ def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, Charac
 
     :type KmsKeyId: string
     :param KmsKeyId: The KMS key identifier for an encrypted DB cluster.
-            The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key.
+            The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key.
             If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
+            If you create a Read Replica of an encrypted DB cluster in another region, you must set KmsKeyId to a KMS key ID that is valid in the destination region. This key is used to encrypt the Read Replica in that region.
             
+
+    :type PreSignedUrl: string
+    :param PreSignedUrl: A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source region where the DB cluster will be replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster.
+            The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source region that contains the encrypted DB cluster to be copied.
+            The pre-signed URL request must contain the following parameter values:
+            KmsKeyId - The KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination region, and the action contained in the pre-signed URL.
+            DestinationRegion - The name of the region that Aurora Read Replica will be created in.
+            ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you are copying an encrypted DB cluster from the us-west-2 region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1 .
+            To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
+            Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+            
+
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.
+            Default: false
+            
+
+    :type SourceRegion: string
+    :param SourceRegion: The ID of the region that contains the source for the db cluster.
 
     :rtype: dict
     :return: {
@@ -939,6 +1044,7 @@ def create_db_cluster(AvailabilityZones=None, BackupRetentionPeriod=None, Charac
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -963,6 +1069,9 @@ def create_db_cluster_parameter_group(DBClusterParameterGroupName=None, DBParame
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.create_db_cluster_parameter_group(
         DBClusterParameterGroupName='string',
@@ -1025,6 +1134,9 @@ def create_db_cluster_snapshot(DBClusterSnapshotIdentifier=None, DBClusterIdenti
     Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB cluster snapshot.
+    Expected Output:
     
     :example: response = client.create_db_cluster_snapshot(
         DBClusterSnapshotIdentifier='string',
@@ -1088,7 +1200,9 @@ def create_db_cluster_snapshot(DBClusterSnapshotIdentifier=None, DBClusterIdenti
             'PercentProgress': 123,
             'StorageEncrypted': True|False,
             'KmsKeyId': 'string',
-            'DBClusterSnapshotArn': 'string'
+            'DBClusterSnapshotArn': 'string',
+            'SourceDBClusterSnapshotArn': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -1100,11 +1214,14 @@ def create_db_cluster_snapshot(DBClusterSnapshotIdentifier=None, DBClusterIdenti
     """
     pass
 
-def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=None, DBInstanceClass=None, Engine=None, MasterUsername=None, MasterUserPassword=None, DBSecurityGroups=None, VpcSecurityGroupIds=None, AvailabilityZone=None, DBSubnetGroupName=None, PreferredMaintenanceWindow=None, DBParameterGroupName=None, BackupRetentionPeriod=None, PreferredBackupWindow=None, Port=None, MultiAZ=None, EngineVersion=None, AutoMinorVersionUpgrade=None, LicenseModel=None, Iops=None, OptionGroupName=None, CharacterSetName=None, PubliclyAccessible=None, Tags=None, DBClusterIdentifier=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, StorageEncrypted=None, KmsKeyId=None, Domain=None, CopyTagsToSnapshot=None, MonitoringInterval=None, MonitoringRoleArn=None, DomainIAMRoleName=None, PromotionTier=None, Timezone=None):
+def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=None, DBInstanceClass=None, Engine=None, MasterUsername=None, MasterUserPassword=None, DBSecurityGroups=None, VpcSecurityGroupIds=None, AvailabilityZone=None, DBSubnetGroupName=None, PreferredMaintenanceWindow=None, DBParameterGroupName=None, BackupRetentionPeriod=None, PreferredBackupWindow=None, Port=None, MultiAZ=None, EngineVersion=None, AutoMinorVersionUpgrade=None, LicenseModel=None, Iops=None, OptionGroupName=None, CharacterSetName=None, PubliclyAccessible=None, Tags=None, DBClusterIdentifier=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, StorageEncrypted=None, KmsKeyId=None, Domain=None, CopyTagsToSnapshot=None, MonitoringInterval=None, MonitoringRoleArn=None, DomainIAMRoleName=None, PromotionTier=None, Timezone=None, EnableIAMDatabaseAuthentication=None):
     """
     Creates a new DB instance.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB instance.
+    Expected Output:
     
     :example: response = client.create_db_instance(
         DBName='string',
@@ -1153,7 +1270,8 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
         MonitoringRoleArn='string',
         DomainIAMRoleName='string',
         PromotionTier=123,
-        Timezone='string'
+        Timezone='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -1177,7 +1295,7 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             Must begin with a letter or an underscore. Subsequent characters can be letters, underscores, or digits (0-9).
             Cannot be a word reserved by the specified database engine
             Oracle
-            The Oracle System ID (SID) of the created DB instance.
+            The Oracle System ID (SID) of the created DB instance. If you specify null , the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName .
             Default: ORCL
             Constraints:
             Cannot be longer than 8 characters
@@ -1203,6 +1321,8 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
     :type AllocatedStorage: integer
     :param AllocatedStorage: The amount of storage (in gigabytes) to be initially allocated for the database instance.
             Type: Integer
+            Amazon Aurora
+            Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.
             MySQL
             Constraints: Must be an integer from 5 to 6144.
             MariaDB
@@ -1217,7 +1337,7 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
 
     :type DBInstanceClass: string
     :param DBInstanceClass: [REQUIRED]
-            The compute and memory capacity of the DB instance.
+            The compute and memory capacity of the DB instance. Note that not all instance classes are available in all regions for all DB engines.
             Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large
             
 
@@ -1229,25 +1349,26 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             
 
     :type MasterUsername: string
-    :param MasterUsername: The name of master user for the client DB instance.
+    :param MasterUsername: The name for the master database user.
+            Amazon Aurora
+            Not applicable. You specify the name for the master database user when you create your DB cluster.
+            MariaDB
+            Constraints:
+            Must be 1 to 16 alphanumeric characters.
+            Cannot be a reserved word for the chosen database engine.
+            Microsoft SQL Server
+            Constraints:
+            Must be 1 to 128 alphanumeric characters.
+            First character must be a letter.
+            Cannot be a reserved word for the chosen database engine.
             MySQL
             Constraints:
             Must be 1 to 16 alphanumeric characters.
             First character must be a letter.
             Cannot be a reserved word for the chosen database engine.
-            MariaDB
-            Constraints:
-            Must be 1 to 16 alphanumeric characters.
-            Cannot be a reserved word for the chosen database engine.
-            Type: String
             Oracle
             Constraints:
             Must be 1 to 30 alphanumeric characters.
-            First character must be a letter.
-            Cannot be a reserved word for the chosen database engine.
-            SQL Server
-            Constraints:
-            Must be 1 to 128 alphanumeric characters.
             First character must be a letter.
             Cannot be a reserved word for the chosen database engine.
             PostgreSQL
@@ -1259,19 +1380,18 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
 
     :type MasterUserPassword: string
     :param MasterUserPassword: The password for the master database user. Can be any printable ASCII character except '/', ''', or '@'.
-            Type: String
-            MySQL
-            Constraints: Must contain from 8 to 41 characters.
+            Amazon Aurora
+            Not applicable. You specify the password for the master database user when you create your DB cluster.
             MariaDB
+            Constraints: Must contain from 8 to 41 characters.
+            Microsoft SQL Server
+            Constraints: Must contain from 8 to 128 characters.
+            MySQL
             Constraints: Must contain from 8 to 41 characters.
             Oracle
             Constraints: Must contain from 8 to 30 characters.
-            SQL Server
-            Constraints: Must contain from 8 to 128 characters.
             PostgreSQL
             Constraints: Must contain from 8 to 128 characters.
-            Amazon Aurora
-            Constraints: Must contain from 8 to 41 characters.
             
 
     :type DBSecurityGroups: list
@@ -1324,7 +1444,7 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
 
     :type PreferredBackupWindow: string
     :param PreferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see DB Instance Backups .
-            Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.
+            Default: A 30-minute window selected at random from an 8-hour block of time per region. To see the time blocks available, see Adjusting the Preferred DB Instance Maintenance Window .
             Constraints:
             Must be in the format hh24:mi-hh24:mi .
             Times should be in Universal Coordinated Time (UTC).
@@ -1392,23 +1512,19 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             Version 5.6 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.6.23
             Version 5.6 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.6.19a | 5.6.19b | 5.6.21 | 5.6.21b | 5.6.22
             Version 5.5 (available in all AWS regions): 5.5.46
-            Version 5.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.5.42
-            Version 5.5 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.5.40b | 5.5.41
-            Version 5.5 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.5.40 | 5.5.40a
+            Version 5.1 (only available in AWS regions ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 5.1.73a | 5.1.73b
             Oracle 12c
+            12.1.0.2.v8 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
+            12.1.0.2.v7 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v6 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v5 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v4 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v3 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v2 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
             12.1.0.2.v1 (supported for EE in all AWS regions, and SE2 in all AWS regions except us-gov-west-1)
-            12.1.0.1.v6 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
-            12.1.0.1.v5 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
-            12.1.0.1.v4 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
-            12.1.0.1.v3 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
-            12.1.0.1.v2 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
-            12.1.0.1.v1 (supported for EE, SE1, and SE, in all AWS regions except ap-south-1, ap-northeast-2)
             Oracle 11g
+            11.2.0.4.v12 (supported for EE, SE1, and SE, in all AWS regions)
+            11.2.0.4.v11 (supported for EE, SE1, and SE, in all AWS regions)
             11.2.0.4.v10 (supported for EE, SE1, and SE, in all AWS regions)
             11.2.0.4.v9 (supported for EE, SE1, and SE, in all AWS regions)
             11.2.0.4.v8 (supported for EE, SE1, and SE, in all AWS regions)
@@ -1419,16 +1535,10 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             11.2.0.4.v3 (supported for EE, SE1, and SE, in all AWS regions)
             11.2.0.4.v1 (supported for EE, SE1, and SE, in all AWS regions)
             PostgreSQL
-            Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2): 9.5.4
-            Version 9.5 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2): 9.5.2
-            Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2): 9.4.9
-            Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2): 9.4.7
-            Version 9.4 (available in all AWS regions): 9.4.5
-            Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 9.4.4
-            Version 9.4 (available in these AWS regions: ap-northeast-1, ap-northeast-2, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-east-2, us-gov-west-1, us-west-1, us-west-2): 9.4.1
-            Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 9.3.10 | 9.3.3 | 9.3.5 | 9.3.6 | 9.3.9
-            Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-west-1, sa-east-1, us-east-1, us-gov-west-1, us-west-1, us-west-2): 9.3.1 | 9.3.2
-            Version 9.3 (available in these AWS regions: ap-northeast-1, ap-southeast-1, ap-southeast-2, eu-central-1, eu-west-1, sa-east-1, us-east-1, us-west-1, us-west-2): 9.3.12 | 9.3.14
+            Version 9.6.x: 9.6.1 | 9.6.2
+            Version 9.5.x: 9.5.6 | 9.5.4 | 9.5.2
+            Version 9.4.x: 9.4.11 | 9.4.9 | 9.4.7
+            Version 9.3.x: 9.3.16 | 9.3.14 | 9.3.12
             
 
     :type AutoMinorVersionUpgrade: boolean
@@ -1513,7 +1623,7 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             
 
     :type MonitoringRoleArn: string
-    :param MonitoringRoleArn: The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring .
+    :param MonitoringRoleArn: The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess . For information on creating a monitoring role, go to Setting Up and Enabling Enhanced Monitoring .
             If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
             
 
@@ -1528,6 +1638,14 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
 
     :type Timezone: string
     :param Timezone: The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server .
+
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.
+            You can enable IAM database authentication for the following database engines
+            For MySQL 5.6, minor version 5.6.34 or higher
+            For MySQL 5.7, minor version 5.7.16 or higher
+            Default: false
+            
 
     :rtype: dict
     :return: {
@@ -1606,6 +1724,9 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -1647,7 +1768,8 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -1660,12 +1782,18 @@ def create_db_instance(DBName=None, DBInstanceIdentifier=None, AllocatedStorage=
     """
     pass
 
-def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceIdentifier=None, DBInstanceClass=None, AvailabilityZone=None, Port=None, AutoMinorVersionUpgrade=None, Iops=None, OptionGroupName=None, PubliclyAccessible=None, Tags=None, DBSubnetGroupName=None, StorageType=None, CopyTagsToSnapshot=None, MonitoringInterval=None, MonitoringRoleArn=None):
+def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceIdentifier=None, DBInstanceClass=None, AvailabilityZone=None, Port=None, AutoMinorVersionUpgrade=None, Iops=None, OptionGroupName=None, PubliclyAccessible=None, Tags=None, DBSubnetGroupName=None, StorageType=None, CopyTagsToSnapshot=None, MonitoringInterval=None, MonitoringRoleArn=None, KmsKeyId=None, PreSignedUrl=None, EnableIAMDatabaseAuthentication=None, SourceRegion=None):
     """
     Creates a DB instance for a DB instance running MySQL, MariaDB, or PostgreSQL that acts as a Read Replica of a source DB instance.
     All Read Replica DB instances are created as Single-AZ deployments with backups disabled. All other DB instance attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance, except as specified below.
+    You can create an encrypted Read Replica in a different AWS Region than the source DB instance. In that case, the region where you call the CreateDBInstanceReadReplica action is the destination region of the encrypted Read Replica. The source DB instance must be encrypted.
+    To create an encrypted Read Replica in another AWS Region, you must provide the following values:
+    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB instance read replica.
+    Expected Output:
     
     :example: response = client.create_db_instance_read_replica(
         DBInstanceIdentifier='string',
@@ -1687,7 +1815,10 @@ def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceI
         StorageType='string',
         CopyTagsToSnapshot=True|False,
         MonitoringInterval=123,
-        MonitoringRoleArn='string'
+        MonitoringRoleArn='string',
+        KmsKeyId='string',
+        EnableIAMDatabaseAuthentication=True|False,
+        SourceRegion='string'
     )
     
     
@@ -1702,14 +1833,14 @@ def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceI
             Constraints:
             Must be the identifier of an existing MySQL, MariaDB, or PostgreSQL DB instance.
             Can specify a DB instance that is a MySQL Read Replica only if the source is running MySQL 5.6.
-            Can specify a DB instance that is a PostgreSQL Read Replica only if the source is running PostgreSQL 9.3.5.
+            Can specify a DB instance that is a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later.
             The specified DB instance must have automatic backups enabled, its backup retention period must be greater than 0.
             If the source DB instance is in the same region as the Read Replica, specify a valid DB instance identifier.
             If the source DB instance is in a different region than the Read Replica, specify a valid DB instance ARN. For more information, go to Constructing a Amazon RDS Amazon Resource Name (ARN) .
             
 
     :type DBInstanceClass: string
-    :param DBInstanceClass: The compute and memory capacity of the Read Replica.
+    :param DBInstanceClass: The compute and memory capacity of the Read Replica. Note that not all instance classes are available in all regions for all DB engines.
             Valid Values: db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge |db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large
             Default: Inherits from the source DB instance.
             
@@ -1786,6 +1917,35 @@ def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceI
             If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
             
 
+    :type KmsKeyId: string
+    :param KmsKeyId: The AWS KMS key ID for an encrypted Read Replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
+            If you create an unencrypted Read Replica and specify a value for the KmsKeyId parameter, Amazon RDS encrypts the target Read Replica using the specified KMS encryption key.
+            If you create an encrypted Read Replica from your AWS account, you can specify a value for KmsKeyId to encrypt the Read Replica with a new KMS encryption key. If you don't specify a value for KmsKeyId , then the Read Replica is encrypted with the same KMS key as the source DB instance.
+            If you create an encrypted Read Replica in a different AWS region, then you must specify a KMS key for the destination AWS region. KMS encryption keys are specific to the region that they are created in, and you cannot use encryption keys from one region in another region.
+            
+
+    :type PreSignedUrl: string
+    :param PreSignedUrl: The URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API action in the AWS region that contains the source DB instance. The PreSignedUrl parameter must be used when encrypting a Read Replica from another AWS region.
+            The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source region that contains the encrypted DB instance. The presigned URL request must contain the following parameter values:
+            DestinationRegion - The AWS Region that the Read Replica is created in. This region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL. For example, if you create an encrypted Read Replica in the us-east-1 region, and the source DB instance is in the west-2 region, then you call the CreateDBInstanceReadReplica action in the us-east-1 region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 region.
+            KmsKeyId - The KMS key identifier for the key to use to encrypt the Read Replica in the destination region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination region, and the action contained in the presigned URL.
+            SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica to be created. This identifier must be in the Amazon Resource Name (ARN) format for the source region. For example, if you create an encrypted Read Replica from a DB instance in the us-west-2 region, then your SourceDBInstanceIdentifier would look like this example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-instance-20161115 .
+            To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process .
+            Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+            
+
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.
+            You can enable IAM database authentication for the following database engines
+            For MySQL 5.6, minor version 5.6.34 or higher
+            For MySQL 5.7, minor version 5.7.16 or higher
+            Aurora 5.6 or higher.
+            Default: false
+            
+
+    :type SourceRegion: string
+    :param SourceRegion: The ID of the region that contains the source for the read replica.
+
     :rtype: dict
     :return: {
         'DBInstance': {
@@ -1863,6 +2023,9 @@ def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceI
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -1904,15 +2067,15 @@ def create_db_instance_read_replica(DBInstanceIdentifier=None, SourceDBInstanceI
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
     
     :returns: 
-    CreateDBInstance
-    DeleteDBInstance
-    ModifyDBInstance
+    DBInstanceIdentifier - The identifier for the encrypted Read Replica in the destination region.
+    SourceDBInstanceIdentifier - The DB instance identifier for the encrypted Read Replica. This identifier must be in the ARN format for the source region and is the same value as the SourceDBInstanceIdentifier in the presigned URL.
     
     """
     pass
@@ -1923,6 +2086,9 @@ def create_db_parameter_group(DBParameterGroupName=None, DBParameterGroupFamily=
     A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup . Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance . When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB parameter group.
+    Expected Output:
     
     :example: response = client.create_db_parameter_group(
         DBParameterGroupName='string',
@@ -1985,6 +2151,9 @@ def create_db_security_group(DBSecurityGroupName=None, DBSecurityGroupDescriptio
     Creates a new DB security group. DB security groups control access to a DB instance.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB security group.
+    Expected Output:
     
     :example: response = client.create_db_security_group(
         DBSecurityGroupName='string',
@@ -2062,6 +2231,9 @@ def create_db_snapshot(DBSnapshotIdentifier=None, DBInstanceIdentifier=None, Tag
     Creates a DBSnapshot. The source DBInstance must be in "available" state.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB snapshot.
+    Expected Output:
     
     :example: response = client.create_db_snapshot(
         DBSnapshotIdentifier='string',
@@ -2130,7 +2302,8 @@ def create_db_snapshot(DBSnapshotIdentifier=None, DBInstanceIdentifier=None, Tag
             'Encrypted': True|False,
             'KmsKeyId': 'string',
             'DBSnapshotArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -2147,6 +2320,9 @@ def create_db_subnet_group(DBSubnetGroupName=None, DBSubnetGroupDescription=None
     Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the region.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a DB subnet group.
+    Expected Output:
     
     :example: response = client.create_db_subnet_group(
         DBSubnetGroupName='string',
@@ -2226,6 +2402,9 @@ def create_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceTyp
     If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you will be notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you will receive notice of the events for that source type for all your RDS sources. If you do not specify either the SourceType nor the SourceIdentifier, you will be notified of events generated from all RDS sources belonging to your customer account.
     See also: AWS API Documentation
     
+    Examples
+    This example creates an event notification subscription.
+    Expected Output:
     
     :example: response = client.create_event_subscription(
         SubscriptionName='string',
@@ -2322,6 +2501,9 @@ def create_option_group(OptionGroupName=None, EngineName=None, MajorEngineVersio
     Creates a new option group. You can create up to 20 option groups.
     See also: AWS API Documentation
     
+    Examples
+    This example creates an option group.
+    Expected Output:
     
     :example: response = client.create_option_group(
         OptionGroupName='string',
@@ -2434,6 +2616,9 @@ def delete_db_cluster(DBClusterIdentifier=None, SkipFinalSnapshot=None, FinalDBS
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB cluster.
+    Expected Output:
     
     :example: response = client.delete_db_cluster(
         DBClusterIdentifier='string',
@@ -2529,6 +2714,7 @@ def delete_db_cluster(DBClusterIdentifier=None, SkipFinalSnapshot=None, FinalDBS
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -2551,6 +2737,9 @@ def delete_db_cluster_parameter_group(DBClusterParameterGroupName=None):
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.delete_db_cluster_parameter_group(
         DBClusterParameterGroupName='string'
@@ -2566,6 +2755,13 @@ def delete_db_cluster_parameter_group(DBClusterParameterGroupName=None):
             Cannot be associated with any DB clusters.
             
 
+    :return: response = client.delete_db_cluster_parameter_group(
+        DBClusterParameterGroupName='mydbclusterparametergroup',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2575,6 +2771,9 @@ def delete_db_cluster_snapshot(DBClusterSnapshotIdentifier=None):
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB cluster snapshot.
+    Expected Output:
     
     :example: response = client.delete_db_cluster_snapshot(
         DBClusterSnapshotIdentifier='string'
@@ -2609,7 +2808,9 @@ def delete_db_cluster_snapshot(DBClusterSnapshotIdentifier=None):
             'PercentProgress': 123,
             'StorageEncrypted': True|False,
             'KmsKeyId': 'string',
-            'DBClusterSnapshotArn': 'string'
+            'DBClusterSnapshotArn': 'string',
+            'SourceDBClusterSnapshotArn': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -2629,6 +2830,9 @@ def delete_db_instance(DBInstanceIdentifier=None, SkipFinalSnapshot=None, FinalD
     To delete a DB instance in this case, first call the  PromoteReadReplicaDBCluster API action to promote the DB cluster so it's no longer a Read Replica. After the promotion completes, then call the DeleteDBInstance API action to delete the final instance in the DB cluster.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB instance.
+    Expected Output:
     
     :example: response = client.delete_db_instance(
         DBInstanceIdentifier='string',
@@ -2743,6 +2947,9 @@ def delete_db_instance(DBInstanceIdentifier=None, SkipFinalSnapshot=None, FinalD
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -2784,7 +2991,8 @@ def delete_db_instance(DBInstanceIdentifier=None, SkipFinalSnapshot=None, FinalD
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -2830,6 +3038,9 @@ def delete_db_parameter_group(DBParameterGroupName=None):
     Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted cannot be associated with any DB instances.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a DB parameter group.
+    Expected Output:
     
     :example: response = client.delete_db_parameter_group(
         DBParameterGroupName='string'
@@ -2845,6 +3056,13 @@ def delete_db_parameter_group(DBParameterGroupName=None):
             Cannot be associated with any DB instances
             
 
+    :return: response = client.delete_db_parameter_group(
+        DBParameterGroupName='mydbparamgroup3',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2853,6 +3071,9 @@ def delete_db_security_group(DBSecurityGroupName=None):
     Deletes a DB security group.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a DB security group.
+    Expected Output:
     
     :example: response = client.delete_db_security_group(
         DBSecurityGroupName='string'
@@ -2871,6 +3092,13 @@ def delete_db_security_group(DBSecurityGroupName=None):
             Must not be 'Default'
             
 
+    :return: response = client.delete_db_security_group(
+        DBSecurityGroupName='mysecgroup',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2879,6 +3107,9 @@ def delete_db_snapshot(DBSnapshotIdentifier=None):
     Deletes a DBSnapshot. If the snapshot is being copied, the copy operation is terminated.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB snapshot.
+    Expected Output:
     
     :example: response = client.delete_db_snapshot(
         DBSnapshotIdentifier='string'
@@ -2918,7 +3149,8 @@ def delete_db_snapshot(DBSnapshotIdentifier=None):
             'Encrypted': True|False,
             'KmsKeyId': 'string',
             'DBSnapshotArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -2931,6 +3163,9 @@ def delete_db_subnet_group(DBSubnetGroupName=None):
     Deletes a DB subnet group.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB subnetgroup.
+    Expected Output:
     
     :example: response = client.delete_db_subnet_group(
         DBSubnetGroupName='string'
@@ -2947,6 +3182,13 @@ def delete_db_subnet_group(DBSubnetGroupName=None):
             Example: mySubnetgroup
             
 
+    :return: response = client.delete_db_subnet_group(
+        DBSubnetGroupName='mydbsubnetgroup',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2955,6 +3197,9 @@ def delete_event_subscription(SubscriptionName=None):
     Deletes an RDS event notification subscription.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified DB event subscription.
+    Expected Output:
     
     :example: response = client.delete_event_subscription(
         SubscriptionName='string'
@@ -2998,6 +3243,9 @@ def delete_option_group(OptionGroupName=None):
     Deletes an existing option group.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified option group.
+    Expected Output:
     
     :example: response = client.delete_option_group(
         OptionGroupName='string'
@@ -3011,6 +3259,13 @@ def delete_option_group(OptionGroupName=None):
             You cannot delete default option groups.
             
 
+    :return: response = client.delete_option_group(
+        OptionGroupName='mydboptiongroup',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3020,6 +3275,9 @@ def describe_account_attributes():
     This command does not take any parameters.
     See also: AWS API Documentation
     
+    Examples
+    This example lists account attributes.
+    Expected Output:
     
     :example: response = client.describe_account_attributes()
     
@@ -3044,6 +3302,9 @@ def describe_certificates(CertificateIdentifier=None, Filters=None, MaxRecords=N
     Lists the set of CA certificates provided by Amazon RDS for this AWS account.
     See also: AWS API Documentation
     
+    Examples
+    This example lists up to 20 certificates for the specified certificate identifier.
+    Expected Output:
     
     :example: response = client.describe_certificates(
         CertificateIdentifier='string',
@@ -3111,6 +3372,9 @@ def describe_db_cluster_parameter_groups(DBClusterParameterGroupName=None, Filte
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.describe_db_cluster_parameter_groups(
         DBClusterParameterGroupName='string',
@@ -3176,6 +3440,9 @@ def describe_db_cluster_parameters(DBClusterParameterGroupName=None, Source=None
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists system parameters for the specified DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.describe_db_cluster_parameters(
         DBClusterParameterGroupName='string',
@@ -3253,6 +3520,9 @@ def describe_db_cluster_snapshot_attributes(DBClusterSnapshotIdentifier=None):
     To add or remove access for an AWS account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the  ModifyDBClusterSnapshotAttribute API action.
     See also: AWS API Documentation
     
+    Examples
+    This example lists attributes for the specified DB cluster snapshot.
+    Expected Output:
     
     :example: response = client.describe_db_cluster_snapshot_attributes(
         DBClusterSnapshotIdentifier='string'
@@ -3289,6 +3559,9 @@ def describe_db_cluster_snapshots(DBClusterIdentifier=None, DBClusterSnapshotIde
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified, manually-created cluster snapshot.
+    Expected Output:
     
     :example: response = client.describe_db_cluster_snapshots(
         DBClusterIdentifier='string',
@@ -3388,7 +3661,9 @@ def describe_db_cluster_snapshots(DBClusterIdentifier=None, DBClusterSnapshotIde
                 'PercentProgress': 123,
                 'StorageEncrypted': True|False,
                 'KmsKeyId': 'string',
-                'DBClusterSnapshotArn': 'string'
+                'DBClusterSnapshotArn': 'string',
+                'SourceDBClusterSnapshotArn': 'string',
+                'IAMDatabaseAuthenticationEnabled': True|False
             },
         ]
     }
@@ -3407,6 +3682,9 @@ def describe_db_clusters(DBClusterIdentifier=None, Filters=None, MaxRecords=None
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified DB cluster.
+    Expected Output:
     
     :example: response = client.describe_db_clusters(
         DBClusterIdentifier='string',
@@ -3514,6 +3792,7 @@ def describe_db_clusters(DBClusterIdentifier=None, Filters=None, MaxRecords=None
                         'Status': 'string'
                     },
                 ],
+                'IAMDatabaseAuthenticationEnabled': True|False,
                 'ClusterCreateTime': datetime(2015, 1, 1)
             },
         ]
@@ -3536,6 +3815,9 @@ def describe_db_engine_versions(Engine=None, EngineVersion=None, DBParameterGrou
     Returns a list of the available DB engines.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified DB engine version.
+    Expected Output:
     
     :example: response = client.describe_db_engine_versions(
         Engine='string',
@@ -3647,6 +3929,9 @@ def describe_db_instances(DBInstanceIdentifier=None, Filters=None, MaxRecords=No
     Returns information about provisioned RDS instances. This API supports pagination.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified DB instance.
+    Expected Output:
     
     :example: response = client.describe_db_instances(
         DBInstanceIdentifier='string',
@@ -3771,6 +4056,9 @@ def describe_db_instances(DBInstanceIdentifier=None, Filters=None, MaxRecords=No
                 'ReadReplicaDBInstanceIdentifiers': [
                     'string',
                 ],
+                'ReadReplicaDBClusterIdentifiers': [
+                    'string',
+                ],
                 'LicenseModel': 'string',
                 'Iops': 123,
                 'OptionGroupMemberships': [
@@ -3812,7 +4100,8 @@ def describe_db_instances(DBInstanceIdentifier=None, Filters=None, MaxRecords=No
                 'MonitoringRoleArn': 'string',
                 'PromotionTier': 123,
                 'DBInstanceArn': 'string',
-                'Timezone': 'string'
+                'Timezone': 'string',
+                'IAMDatabaseAuthenticationEnabled': True|False
             },
         ]
     }
@@ -3831,6 +4120,9 @@ def describe_db_log_files(DBInstanceIdentifier=None, FilenameContains=None, File
     Returns a list of DB log files for the DB instance.
     See also: AWS API Documentation
     
+    Examples
+    This example lists matching log file names for the specified DB instance, file name pattern, last write date in POSIX time with milleseconds, and minimum file size.
+    Expected Output:
     
     :example: response = client.describe_db_log_files(
         DBInstanceIdentifier='string',
@@ -3904,6 +4196,9 @@ def describe_db_parameter_groups(DBParameterGroupName=None, Filters=None, MaxRec
     Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information about the specified DB parameter group.
+    Expected Output:
     
     :example: response = client.describe_db_parameter_groups(
         DBParameterGroupName='string',
@@ -3968,6 +4263,9 @@ def describe_db_parameters(DBParameterGroupName=None, Source=None, Filters=None,
     Returns the detailed parameter list for a particular DB parameter group.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for up to the first 20 system parameters for the specified DB parameter group.
+    Expected Output:
     
     :example: response = client.describe_db_parameters(
         DBParameterGroupName='string',
@@ -4046,6 +4344,9 @@ def describe_db_security_groups(DBSecurityGroupName=None, Filters=None, MaxRecor
     Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.
     See also: AWS API Documentation
     
+    Examples
+    This example lists settings for the specified security group.
+    Expected Output:
     
     :example: response = client.describe_db_security_groups(
         DBSecurityGroupName='string',
@@ -4128,6 +4429,9 @@ def describe_db_snapshot_attributes(DBSnapshotIdentifier=None):
     To add or remove access for an AWS account to copy or restore a manual DB snapshot, or to make the manual DB snapshot public or private, use the  ModifyDBSnapshotAttribute API action.
     See also: AWS API Documentation
     
+    Examples
+    This example lists attributes for the specified DB snapshot.
+    Expected Output:
     
     :example: response = client.describe_db_snapshot_attributes(
         DBSnapshotIdentifier='string'
@@ -4163,6 +4467,9 @@ def describe_db_snapshots(DBInstanceIdentifier=None, DBSnapshotIdentifier=None, 
     Returns information about DB snapshots. This API action supports pagination.
     See also: AWS API Documentation
     
+    Examples
+    This example lists all manually-created, shared snapshots for the specified DB instance.
+    Expected Output:
     
     :example: response = client.describe_db_snapshots(
         DBInstanceIdentifier='string',
@@ -4267,7 +4574,8 @@ def describe_db_snapshots(DBInstanceIdentifier=None, DBSnapshotIdentifier=None, 
                 'Encrypted': True|False,
                 'KmsKeyId': 'string',
                 'DBSnapshotArn': 'string',
-                'Timezone': 'string'
+                'Timezone': 'string',
+                'IAMDatabaseAuthenticationEnabled': True|False
             },
         ]
     }
@@ -4286,6 +4594,9 @@ def describe_db_subnet_groups(DBSubnetGroupName=None, Filters=None, MaxRecords=N
     For an overview of CIDR ranges, go to the Wikipedia Tutorial .
     See also: AWS API Documentation
     
+    Examples
+    This example lists information about the specified DB subnet group.
+    Expected Output:
     
     :example: response = client.describe_db_subnet_groups(
         DBSubnetGroupName='string',
@@ -4362,6 +4673,9 @@ def describe_engine_default_cluster_parameters(DBParameterGroupFamily=None, Filt
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists default parameters for the specified DB cluster engine.
+    Expected Output:
     
     :example: response = client.describe_engine_default_cluster_parameters(
         DBParameterGroupFamily='string',
@@ -4432,6 +4746,9 @@ def describe_engine_default_parameters(DBParameterGroupFamily=None, Filters=None
     Returns the default engine and system parameter information for the specified database engine.
     See also: AWS API Documentation
     
+    Examples
+    This example lists default parameters for the specified DB engine.
+    Expected Output:
     
     :example: response = client.describe_engine_default_parameters(
         DBParameterGroupFamily='string',
@@ -4502,6 +4819,9 @@ def describe_event_categories(SourceType=None, Filters=None):
     Displays a list of categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in the Events topic in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example lists all DB instance event categories.
+    Expected Output:
     
     :example: response = client.describe_event_categories(
         SourceType='string',
@@ -4555,6 +4875,9 @@ def describe_event_subscriptions(SubscriptionName=None, Filters=None, MaxRecords
     If you specify a SubscriptionName, lists the description for that subscription.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for the specified DB event notification subscription.
+    Expected Output:
     
     :example: response = client.describe_event_subscriptions(
         SubscriptionName='string',
@@ -4627,6 +4950,9 @@ def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndT
     Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all backup-related events for the specified DB instance for the past 7 days (7 days * 24 hours * 60 minutes = 10,080 minutes).
+    Expected Output:
     
     :example: response = client.describe_events(
         SourceIdentifier='string',
@@ -4731,6 +5057,9 @@ def describe_option_group_options(EngineName=None, MajorEngineVersion=None, Filt
     Describes all available options.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all option group options for the specified DB engine.
+    Expected Output:
     
     :example: response = client.describe_option_group_options(
         EngineName='string',
@@ -4826,6 +5155,9 @@ def describe_option_groups(OptionGroupName=None, Filters=None, Marker=None, MaxR
     Describes the available option groups.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all option groups for the specified DB engine.
+    Expected Output:
     
     :example: response = client.describe_option_groups(
         OptionGroupName='string',
@@ -4937,6 +5269,9 @@ def describe_orderable_db_instance_options(Engine=None, EngineVersion=None, DBIn
     Returns a list of orderable DB instance options for the specified engine.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all orderable DB instance options for the specified DB engine, engine version, DB instance class, license model, and VPC settings.
+    Expected Output:
     
     :example: response = client.describe_orderable_db_instance_options(
         Engine='string',
@@ -5011,7 +5346,8 @@ def describe_orderable_db_instance_options(Engine=None, EngineVersion=None, DBIn
                 'SupportsStorageEncryption': True|False,
                 'StorageType': 'string',
                 'SupportsIops': True|False,
-                'SupportsEnhancedMonitoring': True|False
+                'SupportsEnhancedMonitoring': True|False,
+                'SupportsIAMDatabaseAuthentication': True|False
             },
         ],
         'Marker': 'string'
@@ -5029,6 +5365,9 @@ def describe_pending_maintenance_actions(ResourceIdentifier=None, Filters=None, 
     Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all pending maintenance actions for the specified DB instance.
+    Expected Output:
     
     :example: response = client.describe_pending_maintenance_actions(
         ResourceIdentifier='string',
@@ -5098,6 +5437,9 @@ def describe_reserved_db_instances(ReservedDBInstanceId=None, ReservedDBInstance
     Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all reserved DB instances for the specified DB instance class, duration, product, offering type, and availability zone settings.
+    Expected Output:
     
     :example: response = client.describe_reserved_db_instances(
         ReservedDBInstanceId='string',
@@ -5201,6 +5543,9 @@ def describe_reserved_db_instances_offerings(ReservedDBInstancesOfferingId=None,
     Lists available reserved DB instance offerings.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for all reserved DB instance offerings for the specified DB instance class, duration, product, offering type, and availability zone settings.
+    Expected Output:
     
     :example: response = client.describe_reserved_db_instances_offerings(
         ReservedDBInstancesOfferingId='string',
@@ -5297,6 +5642,9 @@ def describe_source_regions(RegionName=None, MaxRecords=None, Marker=None, Filte
     Returns a list of the source AWS regions where the current AWS region can create a Read Replica or copy a DB snapshot from. This API action supports pagination.
     See also: AWS API Documentation
     
+    Examples
+    To list the AWS regions where a Read Replica can be created.
+    Expected Output:
     
     :example: response = client.describe_source_regions(
         RegionName='string',
@@ -5358,6 +5706,9 @@ def download_db_log_file_portion(DBInstanceIdentifier=None, LogFileName=None, Ma
     Downloads all or a portion of the specified log file, up to 1 MB in size.
     See also: AWS API Documentation
     
+    Examples
+    This example lists information for the specified log file for the specified DB instance.
+    Expected Output:
     
     :example: response = client.download_db_log_file_portion(
         DBInstanceIdentifier='string',
@@ -5412,6 +5763,9 @@ def failover_db_cluster(DBClusterIdentifier=None, TargetDBInstanceIdentifier=Non
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example performs a failover for the specified DB cluster to the specified DB instance.
+    Expected Output:
     
     :example: response = client.failover_db_cluster(
         DBClusterIdentifier='string',
@@ -5493,6 +5847,7 @@ def failover_db_cluster(DBClusterIdentifier=None, TargetDBInstanceIdentifier=Non
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -5506,6 +5861,26 @@ def failover_db_cluster(DBClusterIdentifier=None, TargetDBInstanceIdentifier=Non
     RestoreDBClusterFromSnapshot
     RestoreDBClusterToPointInTime
     
+    """
+    pass
+
+def generate_db_auth_token(DBHostname=None, Port=None, DBUsername=None, Region=None):
+    """
+    Generates an auth token used to connect to a db with IAM credentials.
+    
+    :type DBHostname: str
+    :param DBHostname: The hostname of the database to connect to.
+
+    :type Port: int
+    :param Port: The port number the database is listening on.
+
+    :type DBUsername: str
+    :param DBUsername: The username to log in as.
+
+    :type Region: str
+    :param Region: The region the database is in. If None, the client
+            region will be used.
+
     """
     pass
 
@@ -5559,6 +5934,9 @@ def list_tags_for_resource(ResourceName=None, Filters=None):
     For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources .
     See also: AWS API Documentation
     
+    Examples
+    This example lists information about all tags associated with the specified DB option group.
+    Expected Output:
     
     :example: response = client.list_tags_for_resource(
         ResourceName='string',
@@ -5601,11 +5979,14 @@ def list_tags_for_resource(ResourceName=None, Filters=None):
     """
     pass
 
-def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, ApplyImmediately=None, BackupRetentionPeriod=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, Port=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None):
+def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, ApplyImmediately=None, BackupRetentionPeriod=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, Port=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, EnableIAMDatabaseAuthentication=None):
     """
     Modify a setting for an Amazon Aurora DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example changes the specified settings for the specified DB cluster.
+    Expected Output:
     
     :example: response = client.modify_db_cluster(
         DBClusterIdentifier='string',
@@ -5620,7 +6001,8 @@ def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, App
         MasterUserPassword='string',
         OptionGroupName='string',
         PreferredBackupWindow='string',
-        PreferredMaintenanceWindow='string'
+        PreferredMaintenanceWindow='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -5660,7 +6042,7 @@ def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, App
     :param DBClusterParameterGroupName: The name of the DB cluster parameter group to use for the DB cluster.
 
     :type VpcSecurityGroupIds: list
-    :param VpcSecurityGroupIds: A lst of VPC security groups that the DB cluster will belong to.
+    :param VpcSecurityGroupIds: A list of VPC security groups that the DB cluster will belong to.
             (string) --
             
 
@@ -5696,6 +6078,11 @@ def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, App
             Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. To see the time blocks available, see Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.
             Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun
             Constraints: Minimum 30-minute window.
+            
+
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.
+            Default: false
             
 
     :rtype: dict
@@ -5759,6 +6146,7 @@ def modify_db_cluster(DBClusterIdentifier=None, NewDBClusterIdentifier=None, App
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -5781,6 +6169,9 @@ def modify_db_cluster_parameter_group(DBClusterParameterGroupName=None, Paramete
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example immediately changes the specified setting for the specified DB cluster parameter group.
+    Expected Output:
     
     :example: response = client.modify_db_cluster_parameter_group(
         DBClusterParameterGroupName='string',
@@ -5841,11 +6232,13 @@ def modify_db_cluster_parameter_group(DBClusterParameterGroupName=None, Paramete
 def modify_db_cluster_snapshot_attribute(DBClusterSnapshotIdentifier=None, AttributeName=None, ValuesToAdd=None, ValuesToRemove=None):
     """
     Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot.
-    To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
+    To share a manual DB cluster snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
     To view which AWS accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the  DescribeDBClusterSnapshotAttributes API action.
-    If a manual DB cluster snapshot is encrypted, it cannot be shared.
     See also: AWS API Documentation
     
+    Examples
+    The following example gives two AWS accounts access to a manual DB cluster snapshot and ensures that the DB cluster snapshot is private by removing the value "all".
+    Expected Output:
     
     :example: response = client.modify_db_cluster_snapshot_attribute(
         DBClusterSnapshotIdentifier='string',
@@ -5904,11 +6297,14 @@ def modify_db_cluster_snapshot_attribute(DBClusterSnapshotIdentifier=None, Attri
     """
     pass
 
-def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInstanceClass=None, DBSubnetGroupName=None, DBSecurityGroups=None, VpcSecurityGroupIds=None, ApplyImmediately=None, MasterUserPassword=None, DBParameterGroupName=None, BackupRetentionPeriod=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, MultiAZ=None, EngineVersion=None, AllowMajorVersionUpgrade=None, AutoMinorVersionUpgrade=None, LicenseModel=None, Iops=None, OptionGroupName=None, NewDBInstanceIdentifier=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, CACertificateIdentifier=None, Domain=None, CopyTagsToSnapshot=None, MonitoringInterval=None, DBPortNumber=None, PubliclyAccessible=None, MonitoringRoleArn=None, DomainIAMRoleName=None, PromotionTier=None):
+def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInstanceClass=None, DBSubnetGroupName=None, DBSecurityGroups=None, VpcSecurityGroupIds=None, ApplyImmediately=None, MasterUserPassword=None, DBParameterGroupName=None, BackupRetentionPeriod=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, MultiAZ=None, EngineVersion=None, AllowMajorVersionUpgrade=None, AutoMinorVersionUpgrade=None, LicenseModel=None, Iops=None, OptionGroupName=None, NewDBInstanceIdentifier=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, CACertificateIdentifier=None, Domain=None, CopyTagsToSnapshot=None, MonitoringInterval=None, DBPortNumber=None, PubliclyAccessible=None, MonitoringRoleArn=None, DomainIAMRoleName=None, PromotionTier=None, EnableIAMDatabaseAuthentication=None):
     """
     Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     See also: AWS API Documentation
     
+    Examples
+    This example immediately changes the specified settings for the specified DB instance.
+    Expected Output:
     
     :example: response = client.modify_db_instance(
         DBInstanceIdentifier='string',
@@ -5946,7 +6342,8 @@ def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInsta
         PubliclyAccessible=True|False,
         MonitoringRoleArn='string',
         DomainIAMRoleName='string',
-        PromotionTier=123
+        PromotionTier=123,
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -5987,7 +6384,7 @@ def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInsta
             
 
     :type DBInstanceClass: string
-    :param DBInstanceClass: The new compute and memory capacity of the DB instance. To determine the instance classes that are available for a particular DB engine, use the DescribeOrderableDBInstanceOptions action.
+    :param DBInstanceClass: The new compute and memory capacity of the DB instance. To determine the instance classes that are available for a particular DB engine, use the DescribeOrderableDBInstanceOptions action. Note that not all instance classes are available in all regions for all DB engines.
             Passing a value for this setting causes an outage during the change and is applied during the next maintenance window, unless ApplyImmediately is specified as true for this request.
             Default: Uses existing setting
             Valid Values: db.t1.micro | db.m1.small | db.m1.medium | db.m1.large | db.m1.xlarge | db.m2.xlarge | db.m2.2xlarge | db.m2.4xlarge | db.m3.medium | db.m3.large | db.m3.xlarge | db.m3.2xlarge | db.m4.large | db.m4.xlarge | db.m4.2xlarge | db.m4.4xlarge | db.m4.10xlarge | db.r3.large | db.r3.xlarge | db.r3.2xlarge | db.r3.4xlarge | db.r3.8xlarge | db.t2.micro | db.t2.small | db.t2.medium | db.t2.large
@@ -6188,6 +6585,14 @@ def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInsta
             Valid Values: 0 - 15
             
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.
+            You can enable IAM database authentication for the following database engines
+            For MySQL 5.6, minor version 5.6.34 or higher
+            For MySQL 5.7, minor version 5.7.16 or higher
+            Default: false
+            
+
     :rtype: dict
     :return: {
         'DBInstance': {
@@ -6265,6 +6670,9 @@ def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInsta
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -6306,7 +6714,8 @@ def modify_db_instance(DBInstanceIdentifier=None, AllocatedStorage=None, DBInsta
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -6324,6 +6733,9 @@ def modify_db_parameter_group(DBParameterGroupName=None, Parameters=None):
     Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName , ParameterValue , and ApplyMethod . A maximum of 20 parameters can be modified in a single request.
     See also: AWS API Documentation
     
+    Examples
+    This example immediately changes the specified setting for the specified DB parameter group.
+    Expected Output:
     
     :example: response = client.modify_db_parameter_group(
         DBParameterGroupName='string',
@@ -6384,14 +6796,77 @@ def modify_db_parameter_group(DBParameterGroupName=None, Parameters=None):
     """
     pass
 
+def modify_db_snapshot(DBSnapshotIdentifier=None, EngineVersion=None):
+    """
+    Updates a manual DB snapshot, which can be encrypted or not encrypted, with a new engine version. You can update the engine version to either a new major or minor engine version.
+    Amazon RDS supports upgrading a MySQL DB snapshot from MySQL 5.1 to MySQL 5.5.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.modify_db_snapshot(
+        DBSnapshotIdentifier='string',
+        EngineVersion='string'
+    )
+    
+    
+    :type DBSnapshotIdentifier: string
+    :param DBSnapshotIdentifier: [REQUIRED]
+            The identifier of the DB snapshot to modify.
+            
+
+    :type EngineVersion: string
+    :param EngineVersion: The engine version to update the DB snapshot to.
+
+    :rtype: dict
+    :return: {
+        'DBSnapshot': {
+            'DBSnapshotIdentifier': 'string',
+            'DBInstanceIdentifier': 'string',
+            'SnapshotCreateTime': datetime(2015, 1, 1),
+            'Engine': 'string',
+            'AllocatedStorage': 123,
+            'Status': 'string',
+            'Port': 123,
+            'AvailabilityZone': 'string',
+            'VpcId': 'string',
+            'InstanceCreateTime': datetime(2015, 1, 1),
+            'MasterUsername': 'string',
+            'EngineVersion': 'string',
+            'LicenseModel': 'string',
+            'SnapshotType': 'string',
+            'Iops': 123,
+            'OptionGroupName': 'string',
+            'PercentProgress': 123,
+            'SourceRegion': 'string',
+            'SourceDBSnapshotIdentifier': 'string',
+            'StorageType': 'string',
+            'TdeCredentialArn': 'string',
+            'Encrypted': True|False,
+            'KmsKeyId': 'string',
+            'DBSnapshotArn': 'string',
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    CreateDBSnapshot
+    DeleteDBSnapshot
+    
+    """
+    pass
+
 def modify_db_snapshot_attribute(DBSnapshotIdentifier=None, AttributeName=None, ValuesToAdd=None, ValuesToRemove=None):
     """
     Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot.
-    To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts.
+    To share a manual DB snapshot with other AWS accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the AWS accounts that are authorized to restore the manual DB snapshot. Uses the value all to make the manual DB snapshot public, which means it can be copied or restored by all AWS accounts. Do not add the all value for any manual DB snapshots that contain private information that you don't want available to all AWS accounts. If the manual DB snapshot is encrypted, it can be shared, but only by specifying a list of authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case.
     To view which AWS accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the  DescribeDBSnapshotAttributes API action.
-    If the manual DB snapshot is encrypted, it cannot be shared.
     See also: AWS API Documentation
     
+    Examples
+    This example adds the specified attribute for the specified DB snapshot.
+    Expected Output:
     
     :example: response = client.modify_db_snapshot_attribute(
         DBSnapshotIdentifier='string',
@@ -6455,6 +6930,9 @@ def modify_db_subnet_group(DBSubnetGroupName=None, DBSubnetGroupDescription=None
     Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the region.
     See also: AWS API Documentation
     
+    Examples
+    This example changes the specified setting for the specified DB subnet group.
+    Expected Output:
     
     :example: response = client.modify_db_subnet_group(
         DBSubnetGroupName='string',
@@ -6517,6 +6995,9 @@ def modify_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceTyp
     You can see a list of the event categories for a given SourceType in the Events topic in the Amazon RDS User Guide or by using the DescribeEventCategories action.
     See also: AWS API Documentation
     
+    Examples
+    This example changes the specified setting for the specified event notification subscription.
+    Expected Output:
     
     :example: response = client.modify_event_subscription(
         SubscriptionName='string',
@@ -6582,6 +7063,9 @@ def modify_option_group(OptionGroupName=None, OptionsToInclude=None, OptionsToRe
     Modifies an existing option group.
     See also: AWS API Documentation
     
+    Examples
+    The following example adds an option to an option group.
+    Expected Output:
     
     :example: response = client.modify_option_group(
         OptionGroupName='string',
@@ -6720,6 +7204,9 @@ def promote_read_replica(DBInstanceIdentifier=None, BackupRetentionPeriod=None, 
     Promotes a Read Replica DB instance to a standalone DB instance.
     See also: AWS API Documentation
     
+    Examples
+    This example promotes the specified read replica and sets its backup retention period and preferred backup window.
+    Expected Output:
     
     :example: response = client.promote_read_replica(
         DBInstanceIdentifier='string',
@@ -6833,6 +7320,9 @@ def promote_read_replica(DBInstanceIdentifier=None, BackupRetentionPeriod=None, 
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -6874,7 +7364,8 @@ def promote_read_replica(DBInstanceIdentifier=None, BackupRetentionPeriod=None, 
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -6969,6 +7460,7 @@ def promote_read_replica_db_cluster(DBClusterIdentifier=None):
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -6990,6 +7482,9 @@ def purchase_reserved_db_instances_offering(ReservedDBInstancesOfferingId=None, 
     Purchases a reserved DB instance offering.
     See also: AWS API Documentation
     
+    Examples
+    This example purchases a reserved DB instance offering that matches the specified settings.
+    Expected Output:
     
     :example: response = client.purchase_reserved_db_instances_offering(
         ReservedDBInstancesOfferingId='string',
@@ -7065,6 +7560,9 @@ def reboot_db_instance(DBInstanceIdentifier=None, ForceFailover=None):
     The time required to reboot is a function of the specific database engine's crash recovery process. To improve the reboot time, we recommend that you reduce database activities as much as possible during the reboot process to reduce rollback activity for in-transit transactions.
     See also: AWS API Documentation
     
+    Examples
+    This example reboots the specified DB instance without forcing a failover.
+    Expected Output:
     
     :example: response = client.reboot_db_instance(
         DBInstanceIdentifier='string',
@@ -7163,6 +7661,9 @@ def reboot_db_instance(DBInstanceIdentifier=None, ForceFailover=None):
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -7204,7 +7705,8 @@ def reboot_db_instance(DBInstanceIdentifier=None, ForceFailover=None):
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -7231,7 +7733,7 @@ def remove_role_from_db_cluster(DBClusterIdentifier=None, RoleArn=None):
     
     :type DBClusterIdentifier: string
     :param DBClusterIdentifier: [REQUIRED]
-            The name of the DB cluster to disassociate the IAM role rom.
+            The name of the DB cluster to disassociate the IAM role from.
             
 
     :type RoleArn: string
@@ -7247,6 +7749,9 @@ def remove_source_identifier_from_subscription(SubscriptionName=None, SourceIden
     Removes a source identifier from an existing RDS event notification subscription.
     See also: AWS API Documentation
     
+    Examples
+    This example removes the specified source identifier from the specified DB event subscription.
+    Expected Output:
     
     :example: response = client.remove_source_identifier_from_subscription(
         SubscriptionName='string',
@@ -7297,6 +7802,9 @@ def remove_tags_from_resource(ResourceName=None, TagKeys=None):
     For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources .
     See also: AWS API Documentation
     
+    Examples
+    This example removes the specified tag associated with the specified DB option group.
+    Expected Output:
     
     :example: response = client.remove_tags_from_resource(
         ResourceName='string',
@@ -7317,6 +7825,16 @@ def remove_tags_from_resource(ResourceName=None, TagKeys=None):
             (string) --
             
 
+    :return: response = client.remove_tags_from_resource(
+        ResourceName='arn:aws:rds:us-east-1:992648334831:og:mydboptiongroup',
+        TagKeys=[
+            'MyKey',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -7327,6 +7845,9 @@ def reset_db_cluster_parameter_group(DBClusterParameterGroupName=None, ResetAllP
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    This example resets all parameters for the specified DB cluster parameter group to their default values.
+    Expected Output:
     
     :example: response = client.reset_db_cluster_parameter_group(
         DBClusterParameterGroupName='string',
@@ -7389,9 +7910,12 @@ def reset_db_cluster_parameter_group(DBClusterParameterGroupName=None, ResetAllP
 
 def reset_db_parameter_group(DBParameterGroupName=None, ResetAllParameters=None, Parameters=None):
     """
-    Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod . To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
+    Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
     See also: AWS API Documentation
     
+    Examples
+    This example resets all parameters for the specified DB parameter group to their default values.
+    Expected Output:
     
     :example: response = client.reset_db_parameter_group(
         DBParameterGroupName='string',
@@ -7428,7 +7952,7 @@ def reset_db_parameter_group(DBParameterGroupName=None, ResetAllParameters=None,
             
 
     :type Parameters: list
-    :param Parameters: An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request.
+    :param Parameters: To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod . A maximum of 20 parameters can be modified in a single request.
             MySQL
             Valid Values (for Apply method): immediate | pending-reboot
             You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.
@@ -7461,7 +7985,7 @@ def reset_db_parameter_group(DBParameterGroupName=None, ResetAllParameters=None,
     """
     pass
 
-def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=None, CharacterSetName=None, DatabaseName=None, DBClusterIdentifier=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, DBSubnetGroupName=None, Engine=None, EngineVersion=None, Port=None, MasterUsername=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, Tags=None, StorageEncrypted=None, KmsKeyId=None, SourceEngine=None, SourceEngineVersion=None, S3BucketName=None, S3Prefix=None, S3IngestionRoleArn=None):
+def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=None, CharacterSetName=None, DatabaseName=None, DBClusterIdentifier=None, DBClusterParameterGroupName=None, VpcSecurityGroupIds=None, DBSubnetGroupName=None, Engine=None, EngineVersion=None, Port=None, MasterUsername=None, MasterUserPassword=None, OptionGroupName=None, PreferredBackupWindow=None, PreferredMaintenanceWindow=None, Tags=None, StorageEncrypted=None, KmsKeyId=None, EnableIAMDatabaseAuthentication=None, SourceEngine=None, SourceEngineVersion=None, S3BucketName=None, S3Prefix=None, S3IngestionRoleArn=None):
     """
     Creates an Amazon Aurora DB cluster from data stored in an Amazon S3 bucket. Amazon RDS must be authorized to access the Amazon S3 bucket and the data must be created using the Percona XtraBackup utility as described in Migrating Data from MySQL by Using an Amazon S3 Bucket .
     See also: AWS API Documentation
@@ -7496,6 +8020,7 @@ def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=Non
         ],
         StorageEncrypted=True|False,
         KmsKeyId='string',
+        EnableIAMDatabaseAuthentication=True|False,
         SourceEngine='string',
         SourceEngineVersion='string',
         S3BucketName='string',
@@ -7623,6 +8148,11 @@ def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=Non
             If the StorageEncrypted parameter is true, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
             
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.
+            Default: false
+            
+
     :type SourceEngine: string
     :param SourceEngine: [REQUIRED]
             The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.
@@ -7710,6 +8240,7 @@ def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=Non
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -7726,12 +8257,15 @@ def restore_db_cluster_from_s3(AvailabilityZones=None, BackupRetentionPeriod=Non
     """
     pass
 
-def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier=None, SnapshotIdentifier=None, Engine=None, EngineVersion=None, Port=None, DBSubnetGroupName=None, DatabaseName=None, OptionGroupName=None, VpcSecurityGroupIds=None, Tags=None, KmsKeyId=None):
+def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier=None, SnapshotIdentifier=None, Engine=None, EngineVersion=None, Port=None, DBSubnetGroupName=None, DatabaseName=None, OptionGroupName=None, VpcSecurityGroupIds=None, Tags=None, KmsKeyId=None, EnableIAMDatabaseAuthentication=None):
     """
     Creates a new DB cluster from a DB cluster snapshot. The target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group.
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    The following example restores an Amazon Aurora DB cluster from a DB cluster snapshot.
+    Expected Output:
     
     :example: response = client.restore_db_cluster_from_snapshot(
         AvailabilityZones=[
@@ -7754,7 +8288,8 @@ def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier
                 'Value': 'string'
             },
         ],
-        KmsKeyId='string'
+        KmsKeyId='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -7831,6 +8366,11 @@ def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier
             If the DB cluster snapshot is not encrypted, then the restored DB cluster is encrypted using the specified encryption key.
             
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.
+            Default: false
+            
+
     :rtype: dict
     :return: {
         'DBCluster': {
@@ -7892,6 +8432,7 @@ def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -7908,12 +8449,15 @@ def restore_db_cluster_from_snapshot(AvailabilityZones=None, DBClusterIdentifier
     """
     pass
 
-def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBClusterIdentifier=None, RestoreToTime=None, UseLatestRestorableTime=None, Port=None, DBSubnetGroupName=None, OptionGroupName=None, VpcSecurityGroupIds=None, Tags=None, KmsKeyId=None):
+def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBClusterIdentifier=None, RestoreToTime=None, UseLatestRestorableTime=None, Port=None, DBSubnetGroupName=None, OptionGroupName=None, VpcSecurityGroupIds=None, Tags=None, KmsKeyId=None, EnableIAMDatabaseAuthentication=None):
     """
     Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group.
     For more information on Amazon Aurora, see Aurora on Amazon RDS in the Amazon RDS User Guide.
     See also: AWS API Documentation
     
+    Examples
+    The following example restores a DB cluster to a new DB cluster at a point in time from the source DB cluster.
+    Expected Output:
     
     :example: response = client.restore_db_cluster_to_point_in_time(
         DBClusterIdentifier='string',
@@ -7932,7 +8476,8 @@ def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBCluste
                 'Value': 'string'
             },
         ],
-        KmsKeyId='string'
+        KmsKeyId='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -8008,6 +8553,11 @@ def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBCluste
             If DBClusterIdentifier refers to a DB cluster that is note encrypted, then the restore request is rejected.
             
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: A Boolean value that is true to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false.
+            Default: false
+            
+
     :rtype: dict
     :return: {
         'DBCluster': {
@@ -8069,6 +8619,7 @@ def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBCluste
                     'Status': 'string'
                 },
             ],
+            'IAMDatabaseAuthenticationEnabled': True|False,
             'ClusterCreateTime': datetime(2015, 1, 1)
         }
     }
@@ -8085,7 +8636,7 @@ def restore_db_cluster_to_point_in_time(DBClusterIdentifier=None, SourceDBCluste
     """
     pass
 
-def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotIdentifier=None, DBInstanceClass=None, Port=None, AvailabilityZone=None, DBSubnetGroupName=None, MultiAZ=None, PubliclyAccessible=None, AutoMinorVersionUpgrade=None, LicenseModel=None, DBName=None, Engine=None, Iops=None, OptionGroupName=None, Tags=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, Domain=None, CopyTagsToSnapshot=None, DomainIAMRoleName=None):
+def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotIdentifier=None, DBInstanceClass=None, Port=None, AvailabilityZone=None, DBSubnetGroupName=None, MultiAZ=None, PubliclyAccessible=None, AutoMinorVersionUpgrade=None, LicenseModel=None, DBName=None, Engine=None, Iops=None, OptionGroupName=None, Tags=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, Domain=None, CopyTagsToSnapshot=None, DomainIAMRoleName=None, EnableIAMDatabaseAuthentication=None):
     """
     Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with the most of original configuration with the default security group and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored AZ deployment and not a single-AZ deployment.
     If your intent is to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot action. RDS does not allow two DB instances with the same name. Once you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot action. The result is that you will replace the original DB instance with the DB instance created from the snapshot.
@@ -8119,7 +8670,8 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
         TdeCredentialPassword='string',
         Domain='string',
         CopyTagsToSnapshot=True|False,
-        DomainIAMRoleName='string'
+        DomainIAMRoleName='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -8244,6 +8796,15 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
     :type DomainIAMRoleName: string
     :param DomainIAMRoleName: Specify the name of the IAM role to be used when making API calls to the Directory Service.
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.
+            You can enable IAM database authentication for the following database engines
+            For MySQL 5.6, minor version 5.6.34 or higher
+            For MySQL 5.7, minor version 5.7.16 or higher
+            Aurora 5.6 or higher.
+            Default: false
+            
+
     :rtype: dict
     :return: {
         'DBInstance': {
@@ -8321,6 +8882,9 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -8362,7 +8926,8 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -8375,7 +8940,7 @@ def restore_db_instance_from_db_snapshot(DBInstanceIdentifier=None, DBSnapshotId
     """
     pass
 
-def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, TargetDBInstanceIdentifier=None, RestoreTime=None, UseLatestRestorableTime=None, DBInstanceClass=None, Port=None, AvailabilityZone=None, DBSubnetGroupName=None, MultiAZ=None, PubliclyAccessible=None, AutoMinorVersionUpgrade=None, LicenseModel=None, DBName=None, Engine=None, Iops=None, OptionGroupName=None, CopyTagsToSnapshot=None, Tags=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, Domain=None, DomainIAMRoleName=None):
+def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, TargetDBInstanceIdentifier=None, RestoreTime=None, UseLatestRestorableTime=None, DBInstanceClass=None, Port=None, AvailabilityZone=None, DBSubnetGroupName=None, MultiAZ=None, PubliclyAccessible=None, AutoMinorVersionUpgrade=None, LicenseModel=None, DBName=None, Engine=None, Iops=None, OptionGroupName=None, CopyTagsToSnapshot=None, Tags=None, StorageType=None, TdeCredentialArn=None, TdeCredentialPassword=None, Domain=None, DomainIAMRoleName=None, EnableIAMDatabaseAuthentication=None):
     """
     Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property.
     The target database is created with most of the original configuration, but in a system-selected availability zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.
@@ -8410,7 +8975,8 @@ def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, Target
         TdeCredentialArn='string',
         TdeCredentialPassword='string',
         Domain='string',
-        DomainIAMRoleName='string'
+        DomainIAMRoleName='string',
+        EnableIAMDatabaseAuthentication=True|False
     )
     
     
@@ -8550,6 +9116,15 @@ def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, Target
     :type DomainIAMRoleName: string
     :param DomainIAMRoleName: Specify the name of the IAM role to be used when making API calls to the Directory Service.
 
+    :type EnableIAMDatabaseAuthentication: boolean
+    :param EnableIAMDatabaseAuthentication: True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts; otherwise false.
+            You can enable IAM database authentication for the following database engines
+            For MySQL 5.6, minor version 5.6.34 or higher
+            For MySQL 5.7, minor version 5.7.16 or higher
+            Aurora 5.6 or higher.
+            Default: false
+            
+
     :rtype: dict
     :return: {
         'DBInstance': {
@@ -8627,6 +9202,9 @@ def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, Target
             'ReadReplicaDBInstanceIdentifiers': [
                 'string',
             ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
             'LicenseModel': 'string',
             'Iops': 123,
             'OptionGroupMemberships': [
@@ -8668,7 +9246,8 @@ def restore_db_instance_to_point_in_time(SourceDBInstanceIdentifier=None, Target
             'MonitoringRoleArn': 'string',
             'PromotionTier': 123,
             'DBInstanceArn': 'string',
-            'Timezone': 'string'
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
         }
     }
     
@@ -8686,6 +9265,9 @@ def revoke_db_security_group_ingress(DBSecurityGroupName=None, CIDRIP=None, EC2S
     Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC Security Groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId).
     See also: AWS API Documentation
     
+    Examples
+    This example revokes ingress for the specified CIDR block associated with the specified DB security group.
+    Expected Output:
     
     :example: response = client.revoke_db_security_group_ingress(
         DBSecurityGroupName='string',
@@ -8744,6 +9326,313 @@ def revoke_db_security_group_ingress(DBSecurityGroupName=None, CIDRIP=None, EC2S
     AuthorizeDBSecurityGroupIngress
     CreateDBSecurityGroup
     RevokeDBSecurityGroupIngress
+    
+    """
+    pass
+
+def start_db_instance(DBInstanceIdentifier=None):
+    """
+    Starts a DB instance that was stopped using the AWS console, the stop-db-instance AWS CLI command, or the StopDBInstance action. For more information, see Stopping and Starting a DB instance in the AWS RDS user guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.start_db_instance(
+        DBInstanceIdentifier='string'
+    )
+    
+    
+    :type DBInstanceIdentifier: string
+    :param DBInstanceIdentifier: [REQUIRED]
+            The user-supplied instance identifier.
+            
+
+    :rtype: dict
+    :return: {
+        'DBInstance': {
+            'DBInstanceIdentifier': 'string',
+            'DBInstanceClass': 'string',
+            'Engine': 'string',
+            'DBInstanceStatus': 'string',
+            'MasterUsername': 'string',
+            'DBName': 'string',
+            'Endpoint': {
+                'Address': 'string',
+                'Port': 123,
+                'HostedZoneId': 'string'
+            },
+            'AllocatedStorage': 123,
+            'InstanceCreateTime': datetime(2015, 1, 1),
+            'PreferredBackupWindow': 'string',
+            'BackupRetentionPeriod': 123,
+            'DBSecurityGroups': [
+                {
+                    'DBSecurityGroupName': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'VpcSecurityGroups': [
+                {
+                    'VpcSecurityGroupId': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'DBParameterGroups': [
+                {
+                    'DBParameterGroupName': 'string',
+                    'ParameterApplyStatus': 'string'
+                },
+            ],
+            'AvailabilityZone': 'string',
+            'DBSubnetGroup': {
+                'DBSubnetGroupName': 'string',
+                'DBSubnetGroupDescription': 'string',
+                'VpcId': 'string',
+                'SubnetGroupStatus': 'string',
+                'Subnets': [
+                    {
+                        'SubnetIdentifier': 'string',
+                        'SubnetAvailabilityZone': {
+                            'Name': 'string'
+                        },
+                        'SubnetStatus': 'string'
+                    },
+                ],
+                'DBSubnetGroupArn': 'string'
+            },
+            'PreferredMaintenanceWindow': 'string',
+            'PendingModifiedValues': {
+                'DBInstanceClass': 'string',
+                'AllocatedStorage': 123,
+                'MasterUserPassword': 'string',
+                'Port': 123,
+                'BackupRetentionPeriod': 123,
+                'MultiAZ': True|False,
+                'EngineVersion': 'string',
+                'LicenseModel': 'string',
+                'Iops': 123,
+                'DBInstanceIdentifier': 'string',
+                'StorageType': 'string',
+                'CACertificateIdentifier': 'string',
+                'DBSubnetGroupName': 'string'
+            },
+            'LatestRestorableTime': datetime(2015, 1, 1),
+            'MultiAZ': True|False,
+            'EngineVersion': 'string',
+            'AutoMinorVersionUpgrade': True|False,
+            'ReadReplicaSourceDBInstanceIdentifier': 'string',
+            'ReadReplicaDBInstanceIdentifiers': [
+                'string',
+            ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
+            'LicenseModel': 'string',
+            'Iops': 123,
+            'OptionGroupMemberships': [
+                {
+                    'OptionGroupName': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'CharacterSetName': 'string',
+            'SecondaryAvailabilityZone': 'string',
+            'PubliclyAccessible': True|False,
+            'StatusInfos': [
+                {
+                    'StatusType': 'string',
+                    'Normal': True|False,
+                    'Status': 'string',
+                    'Message': 'string'
+                },
+            ],
+            'StorageType': 'string',
+            'TdeCredentialArn': 'string',
+            'DbInstancePort': 123,
+            'DBClusterIdentifier': 'string',
+            'StorageEncrypted': True|False,
+            'KmsKeyId': 'string',
+            'DbiResourceId': 'string',
+            'CACertificateIdentifier': 'string',
+            'DomainMemberships': [
+                {
+                    'Domain': 'string',
+                    'Status': 'string',
+                    'FQDN': 'string',
+                    'IAMRoleName': 'string'
+                },
+            ],
+            'CopyTagsToSnapshot': True|False,
+            'MonitoringInterval': 123,
+            'EnhancedMonitoringResourceArn': 'string',
+            'MonitoringRoleArn': 'string',
+            'PromotionTier': 123,
+            'DBInstanceArn': 'string',
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    ModifyDBInstance
+    RebootDBInstance
+    RestoreDBInstanceFromDBSnapshot
+    RestoreDBInstanceToPointInTime
+    
+    """
+    pass
+
+def stop_db_instance(DBInstanceIdentifier=None, DBSnapshotIdentifier=None):
+    """
+    Stops a DB instance. When you stop a DB instance, Amazon RDS retains the DB instance's metadata, including its endpoint, DB parameter group, and option group membership. Amazon RDS also retains the transaction logs so you can do a point-in-time restore if necessary. For more information, see Stopping and Starting a DB instance in the AWS RDS user guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.stop_db_instance(
+        DBInstanceIdentifier='string',
+        DBSnapshotIdentifier='string'
+    )
+    
+    
+    :type DBInstanceIdentifier: string
+    :param DBInstanceIdentifier: [REQUIRED]
+            The user-supplied instance identifier.
+            
+
+    :type DBSnapshotIdentifier: string
+    :param DBSnapshotIdentifier: The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
+
+    :rtype: dict
+    :return: {
+        'DBInstance': {
+            'DBInstanceIdentifier': 'string',
+            'DBInstanceClass': 'string',
+            'Engine': 'string',
+            'DBInstanceStatus': 'string',
+            'MasterUsername': 'string',
+            'DBName': 'string',
+            'Endpoint': {
+                'Address': 'string',
+                'Port': 123,
+                'HostedZoneId': 'string'
+            },
+            'AllocatedStorage': 123,
+            'InstanceCreateTime': datetime(2015, 1, 1),
+            'PreferredBackupWindow': 'string',
+            'BackupRetentionPeriod': 123,
+            'DBSecurityGroups': [
+                {
+                    'DBSecurityGroupName': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'VpcSecurityGroups': [
+                {
+                    'VpcSecurityGroupId': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'DBParameterGroups': [
+                {
+                    'DBParameterGroupName': 'string',
+                    'ParameterApplyStatus': 'string'
+                },
+            ],
+            'AvailabilityZone': 'string',
+            'DBSubnetGroup': {
+                'DBSubnetGroupName': 'string',
+                'DBSubnetGroupDescription': 'string',
+                'VpcId': 'string',
+                'SubnetGroupStatus': 'string',
+                'Subnets': [
+                    {
+                        'SubnetIdentifier': 'string',
+                        'SubnetAvailabilityZone': {
+                            'Name': 'string'
+                        },
+                        'SubnetStatus': 'string'
+                    },
+                ],
+                'DBSubnetGroupArn': 'string'
+            },
+            'PreferredMaintenanceWindow': 'string',
+            'PendingModifiedValues': {
+                'DBInstanceClass': 'string',
+                'AllocatedStorage': 123,
+                'MasterUserPassword': 'string',
+                'Port': 123,
+                'BackupRetentionPeriod': 123,
+                'MultiAZ': True|False,
+                'EngineVersion': 'string',
+                'LicenseModel': 'string',
+                'Iops': 123,
+                'DBInstanceIdentifier': 'string',
+                'StorageType': 'string',
+                'CACertificateIdentifier': 'string',
+                'DBSubnetGroupName': 'string'
+            },
+            'LatestRestorableTime': datetime(2015, 1, 1),
+            'MultiAZ': True|False,
+            'EngineVersion': 'string',
+            'AutoMinorVersionUpgrade': True|False,
+            'ReadReplicaSourceDBInstanceIdentifier': 'string',
+            'ReadReplicaDBInstanceIdentifiers': [
+                'string',
+            ],
+            'ReadReplicaDBClusterIdentifiers': [
+                'string',
+            ],
+            'LicenseModel': 'string',
+            'Iops': 123,
+            'OptionGroupMemberships': [
+                {
+                    'OptionGroupName': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'CharacterSetName': 'string',
+            'SecondaryAvailabilityZone': 'string',
+            'PubliclyAccessible': True|False,
+            'StatusInfos': [
+                {
+                    'StatusType': 'string',
+                    'Normal': True|False,
+                    'Status': 'string',
+                    'Message': 'string'
+                },
+            ],
+            'StorageType': 'string',
+            'TdeCredentialArn': 'string',
+            'DbInstancePort': 123,
+            'DBClusterIdentifier': 'string',
+            'StorageEncrypted': True|False,
+            'KmsKeyId': 'string',
+            'DbiResourceId': 'string',
+            'CACertificateIdentifier': 'string',
+            'DomainMemberships': [
+                {
+                    'Domain': 'string',
+                    'Status': 'string',
+                    'FQDN': 'string',
+                    'IAMRoleName': 'string'
+                },
+            ],
+            'CopyTagsToSnapshot': True|False,
+            'MonitoringInterval': 123,
+            'EnhancedMonitoringResourceArn': 'string',
+            'MonitoringRoleArn': 'string',
+            'PromotionTier': 123,
+            'DBInstanceArn': 'string',
+            'Timezone': 'string',
+            'IAMDatabaseAuthenticationEnabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    CreateDBInstance
+    DeleteDBInstance
+    ModifyDBInstance
     
     """
     pass

@@ -30,6 +30,9 @@ def add_client_id_to_open_id_connect_provider(OpenIDConnectProviderArn=None, Cli
     This action is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     See also: AWS API Documentation
     
+    Examples
+    The following add-client-id-to-open-id-connect-provider command adds the client ID my-application-ID to the OIDC provider named server.example.com:
+    Expected Output:
     
     :example: response = client.add_client_id_to_open_id_connect_provider(
         OpenIDConnectProviderArn='string',
@@ -47,15 +50,26 @@ def add_client_id_to_open_id_connect_provider(OpenIDConnectProviderArn=None, Cli
             The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
             
 
+    :return: response = client.add_client_id_to_open_id_connect_provider(
+        ClientID='my-application-ID',
+        OpenIDConnectProviderArn='arn:aws:iam::123456789012:oidc-provider/server.example.com',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
 def add_role_to_instance_profile(InstanceProfileName=None, RoleName=None):
     """
-    Adds the specified IAM role to the specified instance profile.
+    Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased.
     For more information about roles, go to Working with Roles . For more information about instance profiles, go to About Instance Profiles .
     See also: AWS API Documentation
     
+    Examples
+    The following command adds the role named S3Access to the instance profile named Webserver:
+    Expected Output:
     
     :example: response = client.add_role_to_instance_profile(
         InstanceProfileName='string',
@@ -72,9 +86,17 @@ def add_role_to_instance_profile(InstanceProfileName=None, RoleName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to add.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
+    :return: response = client.add_role_to_instance_profile(
+        InstanceProfileName='Webserver',
+        RoleName='S3Access',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -83,6 +105,9 @@ def add_user_to_group(GroupName=None, UserName=None):
     Adds the specified user to the specified group.
     See also: AWS API Documentation
     
+    Examples
+    The following command adds an IAM user named Bob to the IAM group named Admins:
+    Expected Output:
     
     :example: response = client.add_user_to_group(
         GroupName='string',
@@ -102,6 +127,14 @@ def add_user_to_group(GroupName=None, UserName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.add_user_to_group(
+        GroupName='Admins',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -112,6 +145,9 @@ def attach_group_policy(GroupName=None, PolicyArn=None):
     For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command attaches the AWS managed policy named ReadOnlyAccess to the IAM group named Finance.
+    Expected Output:
     
     :example: response = client.attach_group_policy(
         GroupName='string',
@@ -131,16 +167,26 @@ def attach_group_policy(GroupName=None, PolicyArn=None):
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
+    :return: response = client.attach_group_policy(
+        GroupName='Finance',
+        PolicyArn='arn:aws:iam::aws:policy/ReadOnlyAccess',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
 def attach_role_policy(RoleName=None, PolicyArn=None):
     """
-    Attaches the specified managed policy to the specified IAM role.
-    When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy. You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using  CreateRole . You can update a role's trust policy using  UpdateAssumeRolePolicy .
+    Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.
     Use this API to attach a managed policy to a role. To embed an inline policy in a role, use  PutRolePolicy . For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command attaches the AWS managed policy named ReadOnlyAccess to the IAM role named ReadOnlyRole.
+    Expected Output:
     
     :example: response = client.attach_role_policy(
         RoleName='string',
@@ -151,7 +197,7 @@ def attach_role_policy(RoleName=None, PolicyArn=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name (friendly name, not ARN) of the role to attach the policy to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -160,6 +206,14 @@ def attach_role_policy(RoleName=None, PolicyArn=None):
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
+    :return: response = client.attach_role_policy(
+        PolicyArn='arn:aws:iam::aws:policy/ReadOnlyAccess',
+        RoleName='ReadOnlyRole',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -170,6 +224,9 @@ def attach_user_policy(UserName=None, PolicyArn=None):
     For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command attaches the AWS managed policy named AdministratorAccess to the IAM user named Alice.
+    Expected Output:
     
     :example: response = client.attach_user_policy(
         UserName='string',
@@ -189,6 +246,14 @@ def attach_user_policy(UserName=None, PolicyArn=None):
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
+    :return: response = client.attach_user_policy(
+        PolicyArn='arn:aws:iam::aws:policy/AdministratorAccess',
+        UserName='Alice',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -213,6 +278,9 @@ def change_password(OldPassword=None, NewPassword=None):
     To change the password for a different user, see  UpdateLoginProfile . For more information about modifying passwords, see Managing Passwords in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command changes the password for the current IAM user.
+    Expected Output:
     
     :example: response = client.change_password(
         OldPassword='string',
@@ -231,6 +299,14 @@ def change_password(OldPassword=None, NewPassword=None):
             The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
             
 
+    :return: response = client.change_password(
+        NewPassword=']35d/{pB9Fo9wJ',
+        OldPassword='3s0K_;xh4~8XXI',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -241,6 +317,9 @@ def create_access_key(UserName=None):
     For information about limits on the number of keys you can create, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command creates an access key (access key ID and secret access key) for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.create_access_key(
         UserName='string'
@@ -272,6 +351,9 @@ def create_account_alias(AccountAlias=None):
     Creates an alias for your AWS account. For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command associates the alias examplecorp to your AWS account.
+    Expected Output:
     
     :example: response = client.create_account_alias(
         AccountAlias='string'
@@ -284,6 +366,13 @@ def create_account_alias(AccountAlias=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
             
 
+    :return: response = client.create_account_alias(
+        AccountAlias='examplecorp',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -293,6 +382,9 @@ def create_group(Path=None, GroupName=None):
     For information about the number of groups you can create, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command creates an IAM group named Admins.
+    Expected Output:
     
     :example: response = client.create_group(
         Path='string',
@@ -333,6 +425,9 @@ def create_instance_profile(InstanceProfileName=None, Path=None):
     For information about the number of instance profiles you can create, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command creates an instance profile named Webserver that is ready to have a role attached and then be associated with an EC2 instance.
+    Expected Output:
     
     :example: response = client.create_instance_profile(
         InstanceProfileName='string',
@@ -367,17 +462,13 @@ def create_instance_profile(InstanceProfileName=None, Path=None):
                     'RoleId': 'string',
                     'Arn': 'string',
                     'CreateDate': datetime(2015, 1, 1),
-                    'AssumeRolePolicyDocument': 'string'
+                    'AssumeRolePolicyDocument': 'string',
+                    'Description': 'string'
                 },
             ]
         }
     }
     
-    
-    :returns: 
-    CreateRole
-    GetRole
-    ListRoles
     
     """
     pass
@@ -387,6 +478,9 @@ def create_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     Creates a password for the specified user, giving the user the ability to access AWS services through the AWS Management Console. For more information about managing passwords, see Managing Passwords in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command changes IAM user Bob's password and sets the flag that required Bob to change the password the next time he signs in.
+    Expected Output:
     
     :example: response = client.create_login_profile(
         UserName='string',
@@ -430,6 +524,9 @@ def create_open_id_connect_provider(Url=None, ClientIDList=None, ThumbprintList=
     When you create the IAM OIDC provider, you specify the URL of the OIDC identity provider (IdP) to trust, a list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider, and a list of thumbprints of the server certificate(s) that the IdP uses. You get all of this information from the OIDC IdP that you want to use for access to AWS.
     See also: AWS API Documentation
     
+    Examples
+    The following example defines a new OIDC provider in IAM with a client ID of my-application-id and pointing at the server with a URL of https://server.example.com.
+    Expected Output:
     
     :example: response = client.create_open_id_connect_provider(
         Url='string',
@@ -582,16 +679,20 @@ def create_policy_version(PolicyArn=None, PolicyDocument=None, SetAsDefault=None
     """
     pass
 
-def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None):
+def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Description=None):
     """
     Creates a new role for your AWS account. For more information about roles, go to Working with Roles . For information about limitations on role names and the number of roles you can create, go to Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command creates a role named Test-Role and attaches a trust policy to it that is provided as a URL-encoded JSON string.
+    Expected Output:
     
     :example: response = client.create_role(
         Path='string',
         RoleName='string',
-        AssumeRolePolicyDocument='string'
+        AssumeRolePolicyDocument='string',
+        Description='string'
     )
     
     
@@ -604,7 +705,8 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to create.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. Role names are not distinguished by case. For example, you cannot create roles named both 'PRODROLE' and 'prodrole'.
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+            Role names are not distinguished by case. For example, you cannot create roles named both 'PRODROLE' and 'prodrole'.
             
 
     :type AssumeRolePolicyDocument: string
@@ -612,6 +714,9 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None):
             The trust relationship policy document that grants an entity permission to assume the role.
             The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
+
+    :type Description: string
+    :param Description: A customer-provided description of the role.
 
     :rtype: dict
     :return: {
@@ -621,7 +726,8 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None):
             'RoleId': 'string',
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
-            'AssumeRolePolicyDocument': 'string'
+            'AssumeRolePolicyDocument': 'string',
+            'Description': 'string'
         }
     }
     
@@ -659,6 +765,49 @@ def create_saml_provider(SAMLMetadataDocument=None, Name=None):
     :rtype: dict
     :return: {
         'SAMLProviderArn': 'string'
+    }
+    
+    
+    """
+    pass
+
+def create_service_linked_role(AWSServiceName=None, Description=None, CustomSuffix=None):
+    """
+    Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed.
+    The name of the role is autogenerated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails.
+    To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_service_linked_role(
+        AWSServiceName='string',
+        Description='string',
+        CustomSuffix='string'
+    )
+    
+    
+    :type AWSServiceName: string
+    :param AWSServiceName: [REQUIRED]
+            The AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com
+            
+
+    :type Description: string
+    :param Description: The description of the role.
+
+    :type CustomSuffix: string
+    :param CustomSuffix: A string that you provide, which is combined with the service name to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix.
+
+    :rtype: dict
+    :return: {
+        'Role': {
+            'Path': 'string',
+            'RoleName': 'string',
+            'RoleId': 'string',
+            'Arn': 'string',
+            'CreateDate': datetime(2015, 1, 1),
+            'AssumeRolePolicyDocument': 'string',
+            'Description': 'string'
+        }
     }
     
     
@@ -715,6 +864,9 @@ def create_user(Path=None, UserName=None):
     For information about limitations on the number of IAM users you can create, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following create-user command creates an IAM user named Bob in the current account.
+    Expected Output:
     
     :example: response = client.create_user(
         Path='string',
@@ -829,7 +981,7 @@ def deactivate_mfa_device(UserName=None, SerialNumber=None):
     :type SerialNumber: string
     :param SerialNumber: [REQUIRED]
             The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
             
 
     """
@@ -841,6 +993,9 @@ def delete_access_key(UserName=None, AccessKeyId=None):
     If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
+    Examples
+    The following command deletes one access key (access key ID and secret access key) assigned to the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.delete_access_key(
         UserName='string',
@@ -859,6 +1014,14 @@ def delete_access_key(UserName=None, AccessKeyId=None):
             This parameter allows (per its regex pattern ) a string of characters that can consist of any upper or lowercased letter or digit.
             
 
+    :return: response = client.delete_access_key(
+        AccessKeyId='AKIDPMS9RO4H3FEXAMPLE',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -867,6 +1030,9 @@ def delete_account_alias(AccountAlias=None):
     Deletes the specified AWS account alias. For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the alias mycompany from the current AWS account:
+    Expected Output:
     
     :example: response = client.delete_account_alias(
         AccountAlias='string'
@@ -879,6 +1045,13 @@ def delete_account_alias(AccountAlias=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
             
 
+    :return: response = client.delete_account_alias(
+        AccountAlias='mycompany',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -887,8 +1060,17 @@ def delete_account_password_policy():
     Deletes the password policy for the AWS account. There are no parameters.
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the password policy from the current AWS account:
+    Expected Output:
     
     :example: response = client.delete_account_password_policy()
+    
+    
+    :return: response = client.delete_account_password_policy(
+    )
+    
+    print(response)
     
     
     """
@@ -920,6 +1102,9 @@ def delete_group_policy(GroupName=None, PolicyName=None):
     A group can also have managed policies attached to it. To detach a managed policy from a group, use  DetachGroupPolicy . For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command deletes the policy named ExamplePolicy from the group named Admins:
+    Expected Output:
     
     :example: response = client.delete_group_policy(
         GroupName='string',
@@ -939,6 +1124,14 @@ def delete_group_policy(GroupName=None, PolicyName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_group_policy(
+        GroupName='Admins',
+        PolicyName='ExamplePolicy',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -948,6 +1141,9 @@ def delete_instance_profile(InstanceProfileName=None):
     For more information about instance profiles, go to About Instance Profiles .
     See also: AWS API Documentation
     
+    Examples
+    The following command deletes the instance profile named ExampleInstanceProfile
+    Expected Output:
     
     :example: response = client.delete_instance_profile(
         InstanceProfileName='string'
@@ -960,6 +1156,13 @@ def delete_instance_profile(InstanceProfileName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_instance_profile(
+        InstanceProfileName='ExampleInstanceProfile',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -968,6 +1171,9 @@ def delete_login_profile(UserName=None):
     Deletes the password for the specified IAM user, which terminates the user's ability to access AWS services through the AWS Management Console.
     See also: AWS API Documentation
     
+    Examples
+    The following command deletes the password for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.delete_login_profile(
         UserName='string'
@@ -980,6 +1186,13 @@ def delete_login_profile(UserName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_login_profile(
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1061,6 +1274,9 @@ def delete_role(RoleName=None):
     Deletes the specified role. The role must not have any policies attached. For more information about roles, go to Working with Roles .
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the role named Test-Role.
+    Expected Output:
     
     :example: response = client.delete_role(
         RoleName='string'
@@ -1070,9 +1286,16 @@ def delete_role(RoleName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
+    :return: response = client.delete_role(
+        RoleName='Test-Role',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1082,6 +1305,9 @@ def delete_role_policy(RoleName=None, PolicyName=None):
     A role can also have managed policies attached to it. To detach a managed policy from a role, use  DetachRolePolicy . For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the policy named ExamplePolicy from the role named Test-Role.
+    Expected Output:
     
     :example: response = client.delete_role_policy(
         RoleName='string',
@@ -1092,7 +1318,7 @@ def delete_role_policy(RoleName=None, PolicyName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name (friendly name, not ARN) identifying the role that the policy is embedded in.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
@@ -1101,6 +1327,14 @@ def delete_role_policy(RoleName=None, PolicyName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_role_policy(
+        PolicyName='ExamplePolicy',
+        RoleName='Test-Role',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1177,6 +1411,9 @@ def delete_signing_certificate(UserName=None, CertificateId=None):
     If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated IAM users.
     See also: AWS API Documentation
     
+    Examples
+    The following command deletes the specified signing certificate for the IAM user named Anika.
+    Expected Output:
     
     :example: response = client.delete_signing_certificate(
         UserName='string',
@@ -1195,6 +1432,14 @@ def delete_signing_certificate(UserName=None, CertificateId=None):
             The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
             
 
+    :return: response = client.delete_signing_certificate(
+        CertificateId='TA7SMP42TDN5Z26OBPJE7EXAMPLE',
+        UserName='Anika',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1231,6 +1476,9 @@ def delete_user(UserName=None):
     Deletes the specified IAM user. The user must not belong to any groups or have any access keys, signing certificates, or attached policies.
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the IAM user named Bob from the current account.
+    Expected Output:
     
     :example: response = client.delete_user(
         UserName='string'
@@ -1243,6 +1491,13 @@ def delete_user(UserName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_user(
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1252,6 +1507,9 @@ def delete_user_policy(UserName=None, PolicyName=None):
     A user can also have managed policies attached to it. To detach a managed policy from a user, use  DetachUserPolicy . For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following delete-user-policy command removes the specified policy from the IAM user named Juan:
+    Expected Output:
     
     :example: response = client.delete_user_policy(
         UserName='string',
@@ -1271,6 +1529,14 @@ def delete_user_policy(UserName=None, PolicyName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.delete_user_policy(
+        PolicyName='ExamplePolicy',
+        UserName='Juan',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1279,6 +1545,9 @@ def delete_virtual_mfa_device(SerialNumber=None):
     Deletes a virtual MFA device.
     See also: AWS API Documentation
     
+    Examples
+    The following delete-virtual-mfa-device command removes the specified MFA device from the current AWS account.
+    Expected Output:
     
     :example: response = client.delete_virtual_mfa_device(
         SerialNumber='string'
@@ -1288,9 +1557,16 @@ def delete_virtual_mfa_device(SerialNumber=None):
     :type SerialNumber: string
     :param SerialNumber: [REQUIRED]
             The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
             
 
+    :return: response = client.delete_virtual_mfa_device(
+        SerialNumber='arn:aws:iam::123456789012:mfa/ExampleName',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1338,7 +1614,7 @@ def detach_role_policy(RoleName=None, PolicyArn=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name (friendly name, not ARN) of the IAM role to detach the policy from.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -1401,19 +1677,23 @@ def enable_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
     :type SerialNumber: string
     :param SerialNumber: [REQUIRED]
             The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =/:,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
             
 
     :type AuthenticationCode1: string
     :param AuthenticationCode1: [REQUIRED]
             An authentication code emitted by the device.
             The format for this parameter is a string of 6 digits.
+            Warning
+            Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device .
             
 
     :type AuthenticationCode2: string
     :param AuthenticationCode2: [REQUIRED]
             A subsequent authentication code emitted by the device.
             The format for this parameter is a string of 6 digits.
+            Warning
+            Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device .
             
 
     """
@@ -1595,7 +1875,8 @@ def get_account_authorization_details(Filter=None, MaxItems=None, Marker=None):
                                 'RoleId': 'string',
                                 'Arn': 'string',
                                 'CreateDate': datetime(2015, 1, 1),
-                                'AssumeRolePolicyDocument': 'string'
+                                'AssumeRolePolicyDocument': 'string',
+                                'Description': 'string'
                             },
                         ]
                     },
@@ -1652,6 +1933,9 @@ def get_account_password_policy():
     Retrieves the password policy for the AWS account. For more information about using a password policy, go to Managing an IAM Password Policy .
     See also: AWS API Documentation
     
+    Examples
+    The following command displays details about the password policy for the current AWS account.
+    Expected Output:
     
     :example: response = client.get_account_password_policy()
     
@@ -1682,6 +1966,9 @@ def get_account_summary():
     For information about limitations on IAM entities, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command returns information about the IAM entity quotas and usage in the current AWS account.
+    Expected Output:
     
     :example: response = client.get_account_summary()
     
@@ -1895,6 +2182,9 @@ def get_instance_profile(InstanceProfileName=None):
     Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see About Instance Profiles in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command gets information about the instance profile named ExampleInstanceProfile.
+    Expected Output:
     
     :example: response = client.get_instance_profile(
         InstanceProfileName='string'
@@ -1922,7 +2212,8 @@ def get_instance_profile(InstanceProfileName=None):
                     'RoleId': 'string',
                     'Arn': 'string',
                     'CreateDate': datetime(2015, 1, 1),
-                    'AssumeRolePolicyDocument': 'string'
+                    'AssumeRolePolicyDocument': 'string',
+                    'Description': 'string'
                 },
             ]
         }
@@ -1937,6 +2228,9 @@ def get_login_profile(UserName=None):
     Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity ) error.
     See also: AWS API Documentation
     
+    Examples
+    The following command gets information about the password for the IAM user named Anika.
+    Expected Output:
     
     :example: response = client.get_login_profile(
         UserName='string'
@@ -2097,6 +2391,9 @@ def get_role(RoleName=None):
     Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see Working with Roles .
     See also: AWS API Documentation
     
+    Examples
+    The following command gets information about the role named Test-Role.
+    Expected Output:
     
     :example: response = client.get_role(
         RoleName='string'
@@ -2106,7 +2403,7 @@ def get_role(RoleName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the IAM role to get information about.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2117,7 +2414,8 @@ def get_role(RoleName=None):
             'RoleId': 'string',
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
-            'AssumeRolePolicyDocument': 'string'
+            'AssumeRolePolicyDocument': 'string',
+            'Description': 'string'
         }
     }
     
@@ -2143,7 +2441,7 @@ def get_role_policy(RoleName=None, PolicyName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role associated with the policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
@@ -2282,6 +2580,9 @@ def get_user(UserName=None):
     If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID used to sign the request to this API.
     See also: AWS API Documentation
     
+    Examples
+    The following command gets information about the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.get_user(
         UserName='string'
@@ -2359,6 +2660,9 @@ def list_access_keys(UserName=None, Marker=None, MaxItems=None):
     If the UserName field is not specified, the UserName is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the access keys IDs for the IAM user named Alice.
+    Expected Output:
     
     :example: response = client.list_access_keys(
         UserName='string',
@@ -2403,6 +2707,9 @@ def list_account_aliases(Marker=None, MaxItems=None):
     Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the aliases for the current account.
+    Expected Output:
     
     :example: response = client.list_account_aliases(
         Marker='string',
@@ -2504,7 +2811,7 @@ def list_attached_role_policies(RoleName=None, PathPrefix=None, Marker=None, Max
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name (friendly name, not ARN) of the role to list attached policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PathPrefix: string
@@ -2663,6 +2970,9 @@ def list_group_policies(GroupName=None, Marker=None, MaxItems=None):
     You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the action returns an empty list.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the names of in-line policies that are embedded in the IAM group named Admins.
+    Expected Output:
     
     :example: response = client.list_group_policies(
         GroupName='string',
@@ -2707,6 +3017,9 @@ def list_groups(PathPrefix=None, Marker=None, MaxItems=None):
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the IAM groups in the current account:
+    Expected Output:
     
     :example: response = client.list_groups(
         PathPrefix='string',
@@ -2758,6 +3071,9 @@ def list_groups_for_user(UserName=None, Marker=None, MaxItems=None):
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
+    Examples
+    The following command displays the groups that the IAM user named Bob belongs to.
+    Expected Output:
     
     :example: response = client.list_groups_for_user(
         UserName='string',
@@ -2847,7 +3163,8 @@ def list_instance_profiles(PathPrefix=None, Marker=None, MaxItems=None):
                         'RoleId': 'string',
                         'Arn': 'string',
                         'CreateDate': datetime(2015, 1, 1),
-                        'AssumeRolePolicyDocument': 'string'
+                        'AssumeRolePolicyDocument': 'string',
+                        'Description': 'string'
                     },
                 ]
             },
@@ -2883,7 +3200,7 @@ def list_instance_profiles_for_role(RoleName=None, Marker=None, MaxItems=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to list instance profiles for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -2910,7 +3227,8 @@ def list_instance_profiles_for_role(RoleName=None, Marker=None, MaxItems=None):
                         'RoleId': 'string',
                         'Arn': 'string',
                         'CreateDate': datetime(2015, 1, 1),
-                        'AssumeRolePolicyDocument': 'string'
+                        'AssumeRolePolicyDocument': 'string',
+                        'Description': 'string'
                     },
                 ]
             },
@@ -3123,7 +3441,7 @@ def list_role_policies(RoleName=None, Marker=None, MaxItems=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to list policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3186,18 +3504,14 @@ def list_roles(PathPrefix=None, Marker=None, MaxItems=None):
                 'RoleId': 'string',
                 'Arn': 'string',
                 'CreateDate': datetime(2015, 1, 1),
-                'AssumeRolePolicyDocument': 'string'
+                'AssumeRolePolicyDocument': 'string',
+                'Description': 'string'
             },
         ],
         'IsTruncated': True|False,
         'Marker': 'string'
     }
     
-    
-    :returns: 
-    CreateRole
-    GetRole
-    ListRoles
     
     """
     pass
@@ -3319,6 +3633,9 @@ def list_signing_certificates(UserName=None, Marker=None, MaxItems=None):
     If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request for this API. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the signing certificates for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.list_signing_certificates(
         UserName='string',
@@ -3456,6 +3773,9 @@ def list_users(PathPrefix=None, Marker=None, MaxItems=None):
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the IAM users in the current account.
+    Expected Output:
     
     :example: response = client.list_users(
         PathPrefix='string',
@@ -3508,6 +3828,9 @@ def list_virtual_mfa_devices(AssignmentStatus=None, Marker=None, MaxItems=None):
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
+    Examples
+    The following command lists the virtual MFA devices that have been configured for the current account.
+    Expected Output:
     
     :example: response = client.list_virtual_mfa_devices(
         AssignmentStatus='Assigned'|'Unassigned'|'Any',
@@ -3565,6 +3888,9 @@ def put_group_policy(GroupName=None, PolicyName=None, PolicyDocument=None):
     For information about limits on the number of inline policies that you can embed in a group, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command adds a policy named AllPerms to the IAM group named Admins.
+    Expected Output:
     
     :example: response = client.put_group_policy(
         GroupName='string',
@@ -3591,6 +3917,15 @@ def put_group_policy(GroupName=None, PolicyName=None, PolicyDocument=None):
             The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
+    :return: response = client.put_group_policy(
+        GroupName='Admins',
+        PolicyDocument='{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"*","Resource":"*"}}',
+        PolicyName='AllPerms',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3602,6 +3937,9 @@ def put_role_policy(RoleName=None, PolicyName=None, PolicyDocument=None):
     For information about limits on the number of inline policies that you can embed with a role, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command adds a permissions policy to the role named Test-Role.
+    Expected Output:
     
     :example: response = client.put_role_policy(
         RoleName='string',
@@ -3613,7 +3951,7 @@ def put_role_policy(RoleName=None, PolicyName=None, PolicyDocument=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to associate the policy with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
@@ -3628,6 +3966,15 @@ def put_role_policy(RoleName=None, PolicyName=None, PolicyDocument=None):
             The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
+    :return: response = client.put_role_policy(
+        PolicyDocument='{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"s3:*","Resource":"*"}}',
+        PolicyName='S3AccessPolicy',
+        RoleName='S3Access',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3638,6 +3985,9 @@ def put_user_policy(UserName=None, PolicyName=None, PolicyDocument=None):
     For information about limits on the number of inline policies that you can embed in a user, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command attaches a policy to the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.put_user_policy(
         UserName='string',
@@ -3664,6 +4014,15 @@ def put_user_policy(UserName=None, PolicyName=None, PolicyDocument=None):
             The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
+    :return: response = client.put_user_policy(
+        PolicyDocument='{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"*","Resource":"*"}}',
+        PolicyName='AllAccessPolicy',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3700,6 +4059,9 @@ def remove_role_from_instance_profile(InstanceProfileName=None, RoleName=None):
     For more information about IAM roles, go to Working with Roles . For more information about instance profiles, go to About Instance Profiles .
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the role named Test-Role from the instance profile named ExampleInstanceProfile.
+    Expected Output:
     
     :example: response = client.remove_role_from_instance_profile(
         InstanceProfileName='string',
@@ -3716,9 +4078,17 @@ def remove_role_from_instance_profile(InstanceProfileName=None, RoleName=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to remove.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
+    :return: response = client.remove_role_from_instance_profile(
+        InstanceProfileName='ExampleInstanceProfile',
+        RoleName='Test-Role',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3727,6 +4097,9 @@ def remove_user_from_group(GroupName=None, UserName=None):
     Removes the specified user from the specified group.
     See also: AWS API Documentation
     
+    Examples
+    The following command removes the user named Bob from the IAM group named Admins.
+    Expected Output:
     
     :example: response = client.remove_user_from_group(
         GroupName='string',
@@ -3746,6 +4119,14 @@ def remove_user_from_group(GroupName=None, UserName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.remove_user_from_group(
+        GroupName='Admins',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -3986,6 +4367,9 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
                 'MissingContextValues': [
                     'string',
                 ],
+                'OrganizationsDecisionDetail': {
+                    'AllowedByOrganizations': True|False
+                },
                 'EvalDecisionDetails': {
                     'string': 'allowed'|'explicitDeny'|'implicitDeny'
                 },
@@ -4162,6 +4546,9 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
                 'MissingContextValues': [
                     'string',
                 ],
+                'OrganizationsDecisionDetail': {
+                    'AllowedByOrganizations': True|False
+                },
                 'EvalDecisionDetails': {
                     'string': 'allowed'|'explicitDeny'|'implicitDeny'
                 },
@@ -4211,6 +4598,9 @@ def update_access_key(UserName=None, AccessKeyId=None, Status=None):
     For information about rotating keys, see Managing Keys and Certificates in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command deactivates the specified access key (access key ID and secret access key) for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.update_access_key(
         UserName='string',
@@ -4235,6 +4625,15 @@ def update_access_key(UserName=None, AccessKeyId=None, Status=None):
             The status you want to assign to the secret access key. Active means the key can be used for API calls to AWS, while Inactive means the key cannot be used.
             
 
+    :return: response = client.update_access_key(
+        AccessKeyId='AKIAIOSFODNN7EXAMPLE',
+        Status='Inactive',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4244,6 +4643,9 @@ def update_account_password_policy(MinimumPasswordLength=None, RequireSymbols=No
     For more information about using a password policy, see Managing an IAM Password Policy in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command sets the password policy to require a minimum length of eight characters and to require one or more numbers in the password:
+    Expected Output:
     
     :example: response = client.update_account_password_policy(
         MinimumPasswordLength=123,
@@ -4304,6 +4706,14 @@ def update_account_password_policy(MinimumPasswordLength=None, RequireSymbols=No
             Default value: false
             
 
+    :return: response = client.update_account_password_policy(
+        MinimumPasswordLength=8,
+        RequireNumbers=True,
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4312,6 +4722,9 @@ def update_assume_role_policy(RoleName=None, PolicyDocument=None):
     Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the "role trust policy". For more information about roles, go to Using Roles to Delegate Permissions and Federate Identities .
     See also: AWS API Documentation
     
+    Examples
+    The following command updates the role trust policy for the role named Test-Role:
+    Expected Output:
     
     :example: response = client.update_assume_role_policy(
         RoleName='string',
@@ -4322,7 +4735,7 @@ def update_assume_role_policy(RoleName=None, PolicyDocument=None):
     :type RoleName: string
     :param RoleName: [REQUIRED]
             The name of the role to update with the new policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyDocument: string
@@ -4331,6 +4744,14 @@ def update_assume_role_policy(RoleName=None, PolicyDocument=None):
             The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
             
 
+    :return: response = client.update_assume_role_policy(
+        PolicyDocument='{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":["ec2.amazonaws.com"]},"Action":["sts:AssumeRole"]}]}',
+        RoleName='S3AccessForEC2Instances',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4339,6 +4760,9 @@ def update_group(GroupName=None, NewPath=None, NewGroupName=None):
     Updates the name and/or the path of the specified IAM group.
     See also: AWS API Documentation
     
+    Examples
+    The following command changes the name of the IAM group Test to Test-1.
+    Expected Output:
     
     :example: response = client.update_group(
         GroupName='string',
@@ -4363,6 +4787,14 @@ def update_group(GroupName=None, NewPath=None, NewGroupName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.update_group(
+        GroupName='Test',
+        NewGroupName='Test-1',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4372,6 +4804,9 @@ def update_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     IAM users can change their own passwords by calling  ChangePassword . For more information about modifying passwords, see Managing Passwords in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following command creates or changes the password for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.update_login_profile(
         UserName='string',
@@ -4394,6 +4829,14 @@ def update_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     :type PasswordResetRequired: boolean
     :param PasswordResetRequired: Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
 
+    :return: response = client.update_login_profile(
+        Password='SomeKindOfPassword123!@#',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4426,6 +4869,45 @@ def update_open_id_connect_provider_thumbprint(OpenIDConnectProviderArn=None, Th
             The identity provider's server certificate thumbprint is the hex-encoded SHA-1 hash value of the self-signed X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string.
             
 
+    """
+    pass
+
+def update_role_description(RoleName=None, Description=None):
+    """
+    Modifies the description of a role.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_role_description(
+        RoleName='string',
+        Description='string'
+    )
+    
+    
+    :type RoleName: string
+    :param RoleName: [REQUIRED]
+            The name of the role that you want to modify.
+            
+
+    :type Description: string
+    :param Description: [REQUIRED]
+            The new description that you want to apply to the specified role.
+            
+
+    :rtype: dict
+    :return: {
+        'Role': {
+            'Path': 'string',
+            'RoleName': 'string',
+            'RoleId': 'string',
+            'Arn': 'string',
+            'CreateDate': datetime(2015, 1, 1),
+            'AssumeRolePolicyDocument': 'string',
+            'Description': 'string'
+        }
+    }
+    
+    
     """
     pass
 
@@ -4532,6 +5014,9 @@ def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
     If the UserName field is not specified, the UserName is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
+    Examples
+    The following command changes the status of a signing certificate for a user named Bob to Inactive.
+    Expected Output:
     
     :example: response = client.update_signing_certificate(
         UserName='string',
@@ -4556,6 +5041,15 @@ def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
             The status you want to assign to the certificate. Active means the certificate can be used for API calls to AWS, while Inactive means the certificate cannot be used.
             
 
+    :return: response = client.update_signing_certificate(
+        CertificateId='TA7SMP42TDN5Z26OBPJE7EXAMPLE',
+        Status='Inactive',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -4598,6 +5092,9 @@ def update_user(UserName=None, NewPath=None, NewUserName=None):
     Updates the name and/or the path of the specified IAM user.
     See also: AWS API Documentation
     
+    Examples
+    The following command changes the name of the IAM user Bob to Robert. It does not change the user's path.
+    Expected Output:
     
     :example: response = client.update_user(
         UserName='string',
@@ -4622,16 +5119,28 @@ def update_user(UserName=None, NewPath=None, NewUserName=None):
             This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
             
 
+    :return: response = client.update_user(
+        NewUserName='Robert',
+        UserName='Bob',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
 def upload_server_certificate(Path=None, ServerCertificateName=None, CertificateBody=None, PrivateKey=None, CertificateChain=None):
     """
     Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded.
+    We recommend that you use AWS Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the AWS Certificate Manager User Guide .
     For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
     For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following upload-server-certificate command uploads a server certificate to your AWS account:
+    Expected Output:
     
     :example: response = client.upload_server_certificate(
         Path='string',
@@ -4694,6 +5203,9 @@ def upload_signing_certificate(UserName=None, CertificateBody=None):
     If the UserName field is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
+    Examples
+    The following command uploads a signing certificate for the IAM user named Bob.
+    Expected Output:
     
     :example: response = client.upload_signing_certificate(
         UserName='string',

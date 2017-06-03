@@ -131,7 +131,7 @@ def change_message_visibility(QueueUrl=None, ReceiptHandle=None, VisibilityTimeo
 
 def change_message_visibility_batch(QueueUrl=None, Entries=None):
     """
-    Changes the visibility timeout of multiple messages. This is a batch version of ``  ChangeMessageVisibility `` . The result of the action on each message is reported individually in the response. You can send up to 10 ``  ChangeMessageVisibility `` requests with each ChangeMessageVisibilityBatch action.
+    Changes the visibility timeout of multiple messages. This is a batch version of ``  ChangeMessageVisibility .`` The result of the action on each message is reported individually in the response. You can send up to 10 ``  ChangeMessageVisibility `` requests with each ChangeMessageVisibilityBatch action.
     See also: AWS API Documentation
     
     
@@ -156,7 +156,7 @@ def change_message_visibility_batch(QueueUrl=None, Entries=None):
     :type Entries: list
     :param Entries: [REQUIRED]
             A list of receipt handles of the messages for which the visibility timeout must be changed.
-            (dict) --Encloses a receipt handle and an entry id for each message in `` ChangeMessageVisibilityBatch `` .
+            (dict) --Encloses a receipt handle and an entry id for each message in `` ChangeMessageVisibilityBatch .``
             Warning
             All of the following list parameters must be prefixed with ChangeMessageVisibilityBatchRequestEntry.n , where n is an integer value starting with 1 . For example, a parameter list for this action might look like this:
             amp;ChangeMessageVisibilityBatchRequestEntry.1.Id=change_visibility_msg_2
@@ -193,7 +193,7 @@ def change_message_visibility_batch(QueueUrl=None, Entries=None):
 
 def create_queue(QueueName=None, Attributes=None):
     """
-    Creates a new standard or FIFO queue or returns the URL of an existing queue. You can pass one or more attributes in the request. Keep the following caveats in mind:
+    Creates a new standard or FIFO queue. You can pass one or more attributes in the request. Keep the following caveats in mind:
     To successfully create a new queue, you must provide a queue name that adheres to the limits related to queues and is unique within the scope of your queues.
     To get the queue URL, use the ``  GetQueueUrl `` action. ``  GetQueueUrl `` requires only the QueueName parameter. be aware of existing queue names:
     See also: AWS API Documentation
@@ -222,25 +222,27 @@ def create_queue(QueueName=None, Attributes=None):
     :type Attributes: dict
     :param Attributes: A map of attributes with their corresponding values.
             The following lists the names, descriptions, and values of the special request parameters that the CreateQueue action uses:
-            DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).
+            DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). The default is 0 (zero).
             MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).
-            MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).
+            MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). The default is 345,600 (4 days).
             Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide .
-            ReceiveMessageWaitTimeSeconds - The number of seconds for which a `` ReceiveMessage `` action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).
+            ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a `` ReceiveMessage `` action waits for a message to arrive. Valid values: An integer from 0 to 20 (seconds). The default is 0 (zero).
             RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide .
             Note
             The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.
             VisibilityTimeout - The visibility timeout for the queue. Valid values: An integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide .
+            The following attributes apply only to server-side-encryption :
+            KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms . While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs , the alias of a custom CMK can, for example, be alias/aws/sqs . For more examples, see KeyId in the AWS Key Management Service API Reference .
+            KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work? .
             The following attributes apply only to FIFO (first-in-first-out) queues :
-            FifoQueue - Designates a queue as FIFO. You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must provide a MessageGroupId explicitly. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide .
-            ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
+            FifoQueue - Designates a queue as FIFO. Valid values: true , false . You can provide this attribute only during queue creation. You can't change it for an existing queue. When you set this attribute, you must also provide the MessageGroupId for your messages explicitly. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide .
+            ContentBasedDeduplication - Enables content-based deduplication. Valid values: true , false . For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
             Every message must have a unique MessageDeduplicationId ,
             You may provide a MessageDeduplicationId explicitly.
             If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).
             If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
             If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
             When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-            You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
             If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
             Any other valid special request parameters (such as the following) are ignored:
             ApproximateNumberOfMessages
@@ -294,7 +296,7 @@ def delete_message(QueueUrl=None, ReceiptHandle=None):
 
 def delete_message_batch(QueueUrl=None, Entries=None):
     """
-    Deletes up to ten messages from the specified queue. This is a batch version of ``  DeleteMessage `` . The result of the action on each message is reported individually in the response.
+    Deletes up to ten messages from the specified queue. This is a batch version of ``  DeleteMessage .`` The result of the action on each message is reported individually in the response.
     See also: AWS API Documentation
     
     
@@ -416,7 +418,7 @@ def get_queue_attributes(QueueUrl=None, AttributeNames=None):
     :example: response = client.get_queue_attributes(
         QueueUrl='string',
         AttributeNames=[
-            'All'|'Policy'|'VisibilityTimeout'|'MaximumMessageSize'|'MessageRetentionPeriod'|'ApproximateNumberOfMessages'|'ApproximateNumberOfMessagesNotVisible'|'CreatedTimestamp'|'LastModifiedTimestamp'|'QueueArn'|'ApproximateNumberOfMessagesDelayed'|'DelaySeconds'|'ReceiveMessageWaitTimeSeconds'|'RedrivePolicy'|'FifoQueue'|'ContentBasedDeduplication',
+            'All'|'Policy'|'VisibilityTimeout'|'MaximumMessageSize'|'MessageRetentionPeriod'|'ApproximateNumberOfMessages'|'ApproximateNumberOfMessagesNotVisible'|'CreatedTimestamp'|'LastModifiedTimestamp'|'QueueArn'|'ApproximateNumberOfMessagesDelayed'|'DelaySeconds'|'ReceiveMessageWaitTimeSeconds'|'RedrivePolicy'|'FifoQueue'|'ContentBasedDeduplication'|'KmsMasterKeyId'|'KmsDataKeyReusePeriodSeconds',
         ]
     )
     
@@ -440,14 +442,19 @@ def get_queue_attributes(QueueUrl=None, AttributeNames=None):
             DelaySeconds - Returns the default delay on the queue in seconds.
             LastModifiedTimestamp - Returns the time when the queue was last changed in seconds (epoch time ).
             MaximumMessageSize - Returns the limit of how many bytes a message can contain before Amazon SQS rejects it.
-            MessageRetentionPeriod - Returns the number of seconds for which Amazon SQS retains a message.
+            MessageRetentionPeriod - Returns the length of time, in seconds, for which Amazon SQS retains a message.
             Policy - Returns the policy of the queue.
             QueueArn - Returns the Amazon resource name (ARN) of the queue.
-            ReceiveMessageWaitTimeSeconds - Returns the number of seconds for which the ReceiveMessage action waits for a message to arrive.
+            ReceiveMessageWaitTimeSeconds - Returns the length of time, in seconds, for which the ReceiveMessage action waits for a message to arrive.
             RedrivePolicy - Returns the parameters for dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide .
             VisibilityTimeout - Returns the visibility timeout for the queue. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide .
+            The following attributes apply only to server-side-encryption :
+            KmsMasterKeyId - Returns the ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms .
+            KmsDataKeyReusePeriodSeconds - Returns the length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again.
             The following attributes apply only to FIFO (first-in-first-out) queues :
             FifoQueue - Returns whether the queue is FIFO. For more information, see FIFO Queue Logic in the Amazon SQS Developer Guide .
+            Note
+            To determine whether a queue is FIFO , you can check whether QueueName ends with the .fifo suffix.
             ContentBasedDeduplication - Returns whether content-based deduplication is enabled for the queue. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
             (string) --
             
@@ -600,7 +607,7 @@ def receive_message(QueueUrl=None, AttributeNames=None, MessageAttributeNames=No
     :example: response = client.receive_message(
         QueueUrl='string',
         AttributeNames=[
-            'All'|'Policy'|'VisibilityTimeout'|'MaximumMessageSize'|'MessageRetentionPeriod'|'ApproximateNumberOfMessages'|'ApproximateNumberOfMessagesNotVisible'|'CreatedTimestamp'|'LastModifiedTimestamp'|'QueueArn'|'ApproximateNumberOfMessagesDelayed'|'DelaySeconds'|'ReceiveMessageWaitTimeSeconds'|'RedrivePolicy'|'FifoQueue'|'ContentBasedDeduplication',
+            'All'|'Policy'|'VisibilityTimeout'|'MaximumMessageSize'|'MessageRetentionPeriod'|'ApproximateNumberOfMessages'|'ApproximateNumberOfMessagesNotVisible'|'CreatedTimestamp'|'LastModifiedTimestamp'|'QueueArn'|'ApproximateNumberOfMessagesDelayed'|'DelaySeconds'|'ReceiveMessageWaitTimeSeconds'|'RedrivePolicy'|'FifoQueue'|'ContentBasedDeduplication'|'KmsMasterKeyId'|'KmsDataKeyReusePeriodSeconds',
         ],
         MessageAttributeNames=[
             'string',
@@ -861,18 +868,13 @@ def send_message(QueueUrl=None, MessageBody=None, DelaySeconds=None, MessageAttr
     :param MessageBody: [REQUIRED]
             The message to send. The maximum string size is 256 KB.
             Warning
-            The following list shows the characters (in Unicode) that are allowed in your message, according to the W3C XML specification:
-            #x9
-            #xA
-            #xD
-            #x20 to #xD7FF
-            #xE000 to #xFFFD
-            #x10000 to #x10FFFF
-            For more information, see RFC1321 . If you send any characters that aren't included in this list, your request is rejected.
+            A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed:
+            #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF
+            Any characters not included in this list will be rejected. For more information, see the W3C specification for characters .
             
 
     :type DelaySeconds: integer
-    :param DelaySeconds: The number of seconds to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.
+    :param DelaySeconds: The length of time, in seconds, for which to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.
             Note
             When you set FifoQueue , you can't set DelaySeconds per message. You can set this parameter only on a queue level.
             
@@ -880,7 +882,7 @@ def send_message(QueueUrl=None, MessageBody=None, DelaySeconds=None, MessageAttr
     :type MessageAttributes: dict
     :param MessageAttributes: Each message attribute consists of a Name , Type , and Value . For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide .
             (string) --
-            (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see `` SendMessage `` .
+            (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see `` SendMessage .``
             Name , type , value and the message body must not be empty or null. All parts of the message attribute, including Name , Type , and Value , are part of the message size restriction (256 KB or 262,144 bytes).
             StringValue (string) --Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters .
             BinaryValue (bytes) --Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
@@ -902,7 +904,6 @@ def send_message(QueueUrl=None, MessageBody=None, DelaySeconds=None, MessageAttr
             If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
             If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
             When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-            You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
             If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
             Note
             The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues).
@@ -918,6 +919,8 @@ def send_message(QueueUrl=None, MessageBody=None, DelaySeconds=None, MessageAttr
             ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId , the messages are sorted by time sent. The caller can't specify a MessageGroupId .
             The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!'#$%'()*+,-./:;=?@[\]^_`{|}~) .
             For best practices of using MessageGroupId , see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide .
+            Warning
+            MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
             
 
     :rtype: dict
@@ -929,101 +932,12 @@ def send_message(QueueUrl=None, MessageBody=None, DelaySeconds=None, MessageAttr
     }
     
     
-    :returns: 
-    QueueUrl (string) -- [REQUIRED]
-    The URL of the Amazon SQS queue to which a message is sent.
-    Queue URLs are case-sensitive.
-    
-    MessageBody (string) -- [REQUIRED]
-    The message to send. The maximum string size is 256 KB.
-    
-    Warning
-    The following list shows the characters (in Unicode) that are allowed in your message, according to the W3C XML specification:
-    
-    #x9
-    #xA
-    #xD
-    #x20 to #xD7FF
-    #xE000 to #xFFFD
-    #x10000 to #x10FFFF
-    
-    For more information, see RFC1321 . If you send any characters that aren't included in this list, your request is rejected.
-    
-    
-    DelaySeconds (integer) -- The number of seconds to delay a specific message. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue applies.
-    
-    Note
-    When you set FifoQueue , you can't set DelaySeconds per message. You can set this parameter only on a queue level.
-    
-    
-    MessageAttributes (dict) -- Each message attribute consists of a Name , Type , and Value . For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide .
-    
-    (string) --
-    (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see ``  SendMessage `` .
-    
-    Name , type , value and the message body must not be empty or null. All parts of the message attribute, including Name , Type , and Value , are part of the message size restriction (256 KB or 262,144 bytes).
-    
-    StringValue (string) --Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters .
-    
-    BinaryValue (bytes) --Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
-    
-    StringListValues (list) --Not implemented. Reserved for future use.
-    
-    (string) --
-    
-    
-    BinaryListValues (list) --Not implemented. Reserved for future use.
-    
-    (bytes) --
-    
-    
-    DataType (string) -- [REQUIRED]Amazon SQS supports the following logical data types: String , Number , and Binary . For the Number data type, you must use StringValue .
-    You can also append custom labels. For more information, see Message Attribute Data Types and Validation in the Amazon SQS Developer Guide .
-    
-    
-    
-    
-    
-    
-    
-    MessageDeduplicationId (string) -- This parameter applies only to FIFO (first-in-first-out) queues.
-    The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
-    
-    Every message must have a unique MessageDeduplicationId ,
-    You may provide a MessageDeduplicationId explicitly.
-    If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).
-    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
-    If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
-    
-    
-    When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-    You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
-    If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
-    
-    
-    Note
-    The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues).
-    If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.
-    
-    The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z , A-Z , 0-9 ) and punctuation (!"#$%'()*+,-./:;=?@[\]^_`{|}~ ).
-    For best practices of using MessageDeduplicationId , see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide .
-    
-    MessageGroupId (string) -- This parameter applies only to FIFO (first-in-first-out) queues.
-    The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple readers can process the queue, but the session data of each user is processed in a FIFO fashion.
-    
-    You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId , the action fails.
-    ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId , the messages are sorted by time sent. The caller can't specify a MessageGroupId .
-    
-    The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!"#$%'()*+,-./:;=?@[\]^_`{|}~) .
-    For best practices of using MessageGroupId , see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide .
-    
-    
     """
     pass
 
 def send_message_batch(QueueUrl=None, Entries=None):
     """
-    Delivers up to ten messages to the specified queue. This is a batch version of ``  SendMessage `` . For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent.
+    Delivers up to ten messages to the specified queue. This is a batch version of ``  SendMessage .`` For a FIFO queue, multiple messages within a single batch are enqueued in the order they are sent.
     The result of sending each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200 .
     The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes).
     If you don't specify the DelaySeconds parameter for an entry, Amazon SQS uses the default value for the queue.
@@ -1071,12 +985,12 @@ def send_message_batch(QueueUrl=None, Entries=None):
             Note
             The Id s of a batch request need to be unique within a request
             MessageBody (string) -- [REQUIRED]The body of the message.
-            DelaySeconds (integer) --The number of seconds for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.
+            DelaySeconds (integer) --The length of time, in seconds, for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.
             Note
             When you set FifoQueue , you can't set DelaySeconds per message. You can set this parameter only on a queue level.
             MessageAttributes (dict) --Each message attribute consists of a Name , Type , and Value . For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide .
             (string) --
-            (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see `` SendMessage `` .
+            (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see `` SendMessage .``
             Name , type , value and the message body must not be empty or null. All parts of the message attribute, including Name , Type , and Value , are part of the message size restriction (256 KB or 262,144 bytes).
             StringValue (string) --Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters .
             BinaryValue (bytes) --Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
@@ -1095,7 +1009,6 @@ def send_message_batch(QueueUrl=None, Entries=None):
             If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
             If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
             When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-            You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
             If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
             Note
             The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues).
@@ -1108,6 +1021,8 @@ def send_message_batch(QueueUrl=None, Entries=None):
             ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId , the messages are sorted by time sent. The caller can't specify a MessageGroupId .
             The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!'#$%'()*+,-./:;=?@[\]^_`{|}~) .
             For best practices of using MessageGroupId , see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide .
+            Warning
+            MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
             
             
 
@@ -1131,96 +1046,6 @@ def send_message_batch(QueueUrl=None, Entries=None):
             },
         ]
     }
-    
-    
-    :returns: 
-    QueueUrl (string) -- [REQUIRED]
-    The URL of the Amazon SQS queue to which batched messages are sent.
-    Queue URLs are case-sensitive.
-    
-    Entries (list) -- [REQUIRED]
-    A list of ``  SendMessageBatchRequestEntry `` items.
-    
-    (dict) --Contains the details of a single Amazon SQS message along with an Id .
-    
-    Id (string) -- [REQUIRED]An identifier for a message in this batch used to communicate the result.
-    
-    Note
-    The Id s of a batch request need to be unique within a request
-    
-    
-    MessageBody (string) -- [REQUIRED]The body of the message.
-    
-    DelaySeconds (integer) --The number of seconds for which a specific message is delayed. Valid values: 0 to 900. Maximum: 15 minutes. Messages with a positive DelaySeconds value become available for processing after the delay period is finished. If you don't specify a value, the default value for the queue is applied.
-    
-    Note
-    When you set FifoQueue , you can't set DelaySeconds per message. You can set this parameter only on a queue level.
-    
-    
-    MessageAttributes (dict) --Each message attribute consists of a Name , Type , and Value . For more information, see Message Attribute Items and Validation in the Amazon SQS Developer Guide .
-    
-    (string) --
-    (dict) --The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see ``  SendMessage `` .
-    
-    Name , type , value and the message body must not be empty or null. All parts of the message attribute, including Name , Type , and Value , are part of the message size restriction (256 KB or 262,144 bytes).
-    
-    StringValue (string) --Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters .
-    
-    BinaryValue (bytes) --Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
-    
-    StringListValues (list) --Not implemented. Reserved for future use.
-    
-    (string) --
-    
-    
-    BinaryListValues (list) --Not implemented. Reserved for future use.
-    
-    (bytes) --
-    
-    
-    DataType (string) -- [REQUIRED]Amazon SQS supports the following logical data types: String , Number , and Binary . For the Number data type, you must use StringValue .
-    You can also append custom labels. For more information, see Message Attribute Data Types and Validation in the Amazon SQS Developer Guide .
-    
-    
-    
-    
-    
-    
-    
-    MessageDeduplicationId (string) --This parameter applies only to FIFO (first-in-first-out) queues.
-    The token used for deduplication of messages within a 5-minute minimum deduplication interval. If a message with a particular MessageDeduplicationId is sent successfully, subsequent messages with the same MessageDeduplicationId are accepted successfully but aren't delivered. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
-    
-    Every message must have a unique MessageDeduplicationId ,
-    You may provide a MessageDeduplicationId explicitly.
-    If you aren't able to provide a MessageDeduplicationId and you enable ContentBasedDeduplication for your queue, Amazon SQS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).
-    If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
-    If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
-    
-    
-    When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-    You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
-    If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
-    
-    
-    Note
-    The MessageDeduplicationId is available to the recipient of the message (this can be useful for troubleshooting delivery issues).
-    If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages.
-    
-    The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z , A-Z , 0-9 ) and punctuation (!"#$%'()*+,-./:;=?@[\]^_`{|}~ ).
-    For best practices of using MessageDeduplicationId , see Using the MessageDeduplicationId Property in the Amazon Simple Queue Service Developer Guide .
-    
-    MessageGroupId (string) --This parameter applies only to FIFO (first-in-first-out) queues.
-    The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple readers can process the queue, but the session data of each user is processed in a FIFO fashion.
-    
-    You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId , the action fails.
-    ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId , the messages are sorted by time sent. The caller can't specify a MessageGroupId .
-    
-    The length of MessageGroupId is 128 characters. Valid values are alphanumeric characters and punctuation (!"#$%'()*+,-./:;=?@[\]^_`{|}~) .
-    For best practices of using MessageGroupId , see Using the MessageGroupId Property in the Amazon Simple Queue Service Developer Guide .
-    
-    
-    
-    
     
     
     """
@@ -1250,15 +1075,18 @@ def set_queue_attributes(QueueUrl=None, Attributes=None):
     :param Attributes: [REQUIRED]
             A map of attributes to set.
             The following lists the names, descriptions, and values of the special request parameters that the SetQueueAttributes action uses:
-            DelaySeconds - The number of seconds for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).
+            DelaySeconds - The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). The default is 0 (zero).
             MaximumMessageSize - The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). The default is 262,144 (256 KiB).
-            MessageRetentionPeriod - The number of seconds for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).
+            MessageRetentionPeriod - The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). The default is 345,600 (4 days).
             Policy - The queue's policy. A valid AWS policy. For more information about policy structure, see Overview of AWS IAM Policies in the Amazon IAM User Guide .
-            ReceiveMessageWaitTimeSeconds - The number of seconds for which a `` ReceiveMessage `` action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.
+            ReceiveMessageWaitTimeSeconds - The length of time, in seconds, for which a `` ReceiveMessage `` action waits for a message to arrive. Valid values: an integer from 0 to 20 (seconds). The default is 0.
             RedrivePolicy - The parameters for the dead letter queue functionality of the source queue. For more information about the redrive policy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the Amazon SQS Developer Guide .
             Note
             The dead letter queue of a FIFO queue must also be a FIFO queue. Similarly, the dead letter queue of a standard queue must also be a standard queue.
             VisibilityTimeout - The visibility timeout for the queue. Valid values: an integer from 0 to 43,200 (12 hours). The default is 30. For more information about the visibility timeout, see Visibility Timeout in the Amazon SQS Developer Guide .
+            The following attributes apply only to server-side-encryption :
+            KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SQS or a custom CMK. For more information, see Key Terms . While the alias of the AWS-managed CMK for Amazon SQS is always alias/aws/sqs , the alias of a custom CMK can, for example, be alias/aws/sqs . For more examples, see KeyId in the AWS Key Management Service API Reference .
+            KmsDataKeyReusePeriodSeconds - The length of time, in seconds, for which Amazon SQS can reuse a data key to encrypt or decrypt messages before calling AWS KMS again. An integer representing seconds, between 60 seconds (1 minute) and 86,400 seconds (24 hours). The default is 300 (5 minutes). A shorter time period provides better security but results in more calls to KMS which incur charges after Free Tier. For more information, see How Does the Data Key Reuse Period Work? .
             The following attribute applies only to FIFO (first-in-first-out) queues :
             ContentBasedDeduplication - Enables content-based deduplication. For more information, see Exactly-Once Processing in the Amazon SQS Developer Guide .
             Every message must have a unique MessageDeduplicationId ,
@@ -1267,7 +1095,6 @@ def set_queue_attributes(QueueUrl=None, Attributes=None):
             If you don't provide a MessageDeduplicationId and the queue doesn't have ContentBasedDeduplication set, the action fails with an error.
             If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.
             When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.
-            You can also use ContentBasedDeduplication for messages with identical content to be treated as duplicates.
             If you send one message with ContentBasedDeduplication enabled and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId , the two messages are treated as duplicates and only one copy of the message is delivered.
             Any other valid special request parameters (such as the following) are ignored:
             ApproximateNumberOfMessages

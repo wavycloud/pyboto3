@@ -45,6 +45,9 @@ def cancel_key_deletion(KeyId=None):
     For more information about scheduling and canceling deletion of a CMK, see Deleting Customer Master Keys in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example cancels deletion of the specified CMK.
+    Expected Output:
     
     :example: response = client.cancel_key_deletion(
         KeyId='string'
@@ -76,6 +79,9 @@ def create_alias(AliasName=None, TargetKeyId=None):
     To map an alias to a different key, call  UpdateAlias .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates an alias for the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.create_alias(
         AliasName='string',
@@ -95,6 +101,16 @@ def create_alias(AliasName=None, TargetKeyId=None):
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
 
+    :return: response = client.create_alias(
+        # The alias to create. Aliases must begin with 'alias/'. Do not use aliases that begin with 'alias/aws' because they are reserved for use by AWS.
+        AliasName='alias/ExampleAlias',
+        # The identifier of the CMK whose alias you are creating. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        TargetKeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -104,6 +120,9 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
     For more information about grants, see Grants in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a grant that allows the specified IAM role to encrypt data with the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.create_grant(
         KeyId='string',
@@ -138,7 +157,7 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
     :type GranteePrincipal: string
     :param GranteePrincipal: [REQUIRED]
             The principal that is given permission to perform the operations that the grant permits.
-            To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference .
+            To specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed role users. For examples of the ARN syntax to use for specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs section of the AWS General Reference .
             
 
     :type RetiringPrincipal: string
@@ -152,13 +171,12 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
             
 
     :type Constraints: dict
-    :param Constraints: The conditions under which the operations permitted by the grant are allowed.
-            You can use this value to allow the operations permitted by the grant only when a specified encryption context is present. For more information, see Encryption Context in the AWS Key Management Service Developer Guide .
-            EncryptionContextSubset (dict) --Contains a list of key-value pairs, a subset of which must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list or is a subset of this list, the grant allows the operation. Otherwise, the operation is not allowed.
+    :param Constraints: A structure that you can use to allow certain operations in the grant only when the desired encryption context is present. For more information about encryption context, see Encryption Context in the AWS Key Management Service Developer Guide .
+            EncryptionContextSubset (dict) --A list of key-value pairs, all of which must be present in the encryption context of certain subsequent operations that the grant allows. When certain subsequent operations allowed by the grant include encryption context that matches this list or is a superset of this list, the grant allows the operation. Otherwise, the grant does not allow the operation.
             (string) --
             (string) --
             
-            EncryptionContextEquals (dict) --Contains a list of key-value pairs that must be present in the encryption context of a subsequent operation permitted by the grant. When a subsequent operation permitted by the grant includes an encryption context that matches this list, the grant allows the operation. Otherwise, the operation is not allowed.
+            EncryptionContextEquals (dict) --A list of key-value pairs that must be present in the encryption context of certain subsequent operations that the grant allows. When certain subsequent operations allowed by the grant include encryption context that matches this list, the grant allows the operation. Otherwise, the grant does not allow the operation.
             (string) --
             (string) --
             
@@ -186,27 +204,36 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
     """
     pass
 
-def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, BypassPolicyLockoutSafetyCheck=None):
+def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, BypassPolicyLockoutSafetyCheck=None, Tags=None):
     """
     Creates a customer master key (CMK).
     You can use a CMK to encrypt small amounts of data (4 KiB or less) directly, but CMKs are more commonly used to encrypt data encryption keys (DEKs), which are used to encrypt raw data. For more information about DEKs and the difference between CMKs and DEKs, see the following:
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a CMK.
+    Expected Output:
     
     :example: response = client.create_key(
         Policy='string',
         Description='string',
         KeyUsage='ENCRYPT_DECRYPT',
         Origin='AWS_KMS'|'EXTERNAL',
-        BypassPolicyLockoutSafetyCheck=True|False
+        BypassPolicyLockoutSafetyCheck=True|False,
+        Tags=[
+            {
+                'TagKey': 'string',
+                'TagValue': 'string'
+            },
+        ]
     )
     
     
     :type Policy: string
     :param Policy: The key policy to attach to the CMK.
             If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
-            It must allow the principal making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            The principal(s) specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
+            It must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
+            The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
             If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
             The policy size limit is 32 KiB (32768 bytes).
             
@@ -232,8 +259,17 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
             Warning
             Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            Use this parameter only when you include a policy in the request and you intend to prevent the principal making the request from making a subsequent PutKeyPolicy request on the CMK.
+            Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
+            
+
+    :type Tags: list
+    :param Tags: One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+            Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource .
+            (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+            TagKey (string) -- [REQUIRED]The key of the tag.
+            TagValue (string) -- [REQUIRED]The value of the tag.
+            
             
 
     :rtype: dict
@@ -259,8 +295,8 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     Policy (string) -- The key policy to attach to the CMK.
     If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
     
-    It must allow the principal making the CreateKey request to make a subsequent  PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-    The principal(s) specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
+    It must allow the principal that is making the CreateKey request to make a subsequent  PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
+    The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
     
     If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
     The policy size limit is 32 KiB (32768 bytes).
@@ -281,8 +317,21 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
     For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
     
-    Use this parameter only when you include a policy in the request and you intend to prevent the principal making the request from making a subsequent  PutKeyPolicy request on the CMK.
+    Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent  PutKeyPolicy request on the CMK.
     The default value is false.
+    
+    Tags (list) -- One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+    Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using  TagResource .
+    
+    (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+    
+    TagKey (string) -- [REQUIRED]The key of the tag.
+    
+    TagValue (string) -- [REQUIRED]The value of the tag.
+    
+    
+    
+    
     
     
     """
@@ -294,6 +343,9 @@ def decrypt(CiphertextBlob=None, EncryptionContext=None, GrantTokens=None):
     Note that if a caller has been granted access permissions to all keys (through, for example, IAM user policies that grant Decrypt permission on all resources), then ciphertext encrypted by using keys in other accounts where the key grants access to the caller can be decrypted. To remedy this, we recommend that you do not grant Decrypt access in an IAM user policy. Instead grant Decrypt access only in key policies. If you must grant Decrypt access in an IAM user policy, you should scope the resource to specific keys or to specific trusted accounts.
     See also: AWS API Documentation
     
+    Examples
+    The following example decrypts data that was encrypted with a customer master key (CMK) in AWS KMS.
+    Expected Output:
     
     :example: response = client.decrypt(
         CiphertextBlob=b'bytes',
@@ -357,6 +409,9 @@ def delete_alias(AliasName=None):
     Deletes the specified alias. To map an alias to a different key, call  UpdateAlias .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes the specified alias.
+    Expected Output:
     
     :example: response = client.delete_alias(
         AliasName='string'
@@ -368,6 +423,14 @@ def delete_alias(AliasName=None):
             The alias to be deleted. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/AWS' are reserved.
             
 
+    :return: response = client.delete_alias(
+        # The alias to delete.
+        AliasName='alias/ExampleAlias',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -378,6 +441,9 @@ def delete_imported_key_material(KeyId=None):
     After you delete key material, you can use  ImportKeyMaterial to reimport the same key material into the CMK.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes the imported key material from the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.delete_imported_key_material(
         KeyId='string'
@@ -392,6 +458,14 @@ def delete_imported_key_material(KeyId=None):
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             
 
+    :return: response = client.delete_imported_key_material(
+        # The identifier of the CMK whose imported key material you are deleting. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -400,6 +474,9 @@ def describe_key(KeyId=None, GrantTokens=None):
     Provides detailed information about the specified customer master key.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns information (metadata) about the specified CMK.
+    Expected Output:
     
     :example: response = client.describe_key(
         KeyId='string',
@@ -451,6 +528,9 @@ def disable_key(KeyId=None):
     Sets the state of a customer master key (CMK) to disabled, thereby preventing its use for cryptographic operations. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example disables the specified CMK.
+    Expected Output:
     
     :example: response = client.disable_key(
         KeyId='string'
@@ -465,6 +545,14 @@ def disable_key(KeyId=None):
             ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             
 
+    :return: response = client.disable_key(
+        # The identifier of the CMK to disable. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -473,6 +561,9 @@ def disable_key_rotation(KeyId=None):
     Disables rotation of the specified key.
     See also: AWS API Documentation
     
+    Examples
+    The following example disables automatic annual rotation of the key material for the specified CMK.
+    Expected Output:
     
     :example: response = client.disable_key_rotation(
         KeyId='string'
@@ -486,6 +577,14 @@ def disable_key_rotation(KeyId=None):
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
 
+    :return: response = client.disable_key_rotation(
+        # The identifier of the CMK whose key material will no longer be rotated. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -494,6 +593,9 @@ def enable_key(KeyId=None):
     Marks a key as enabled, thereby permitting its use.
     See also: AWS API Documentation
     
+    Examples
+    The following example enables the specified CMK.
+    Expected Output:
     
     :example: response = client.enable_key(
         KeyId='string'
@@ -507,6 +609,14 @@ def enable_key(KeyId=None):
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
 
+    :return: response = client.enable_key(
+        # The identifier of the CMK to enable. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -515,6 +625,9 @@ def enable_key_rotation(KeyId=None):
     Enables rotation of the specified customer master key.
     See also: AWS API Documentation
     
+    Examples
+    The following example enables automatic annual rotation of the key material for the specified CMK.
+    Expected Output:
     
     :example: response = client.enable_key_rotation(
         KeyId='string'
@@ -528,6 +641,14 @@ def enable_key_rotation(KeyId=None):
             Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
             
 
+    :return: response = client.enable_key_rotation(
+        # The identifier of the CMK whose key material will be rotated annually. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -538,6 +659,9 @@ def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None
     If you want to encrypt data locally in your application, you can use the GenerateDataKey function to return a plaintext data encryption key and a copy of the key encrypted under the customer master key (CMK) of your choosing.
     See also: AWS API Documentation
     
+    Examples
+    The following example encrypts data with the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.encrypt(
         KeyId='string',
@@ -622,10 +746,13 @@ def generate_data_key(KeyId=None, EncryptionContext=None, NumberOfBytes=None, Ke
     This operation returns a plaintext copy of the data key in the Plaintext field of the response, and an encrypted copy of the data key in the CiphertextBlob field. The data key is encrypted under the CMK specified in the KeyId field of the request.
     We recommend that you use the following pattern to encrypt data locally in your application:
     To decrypt data locally:
-    To return only an encrypted copy of the data key, use  GenerateDataKeyWithoutPlaintext . To return an arbitrary unpredictable byte string, use  GenerateRandom .
+    To return only an encrypted copy of the data key, use  GenerateDataKeyWithoutPlaintext . To return a random byte string that is cryptographically secure, use  GenerateRandom .
     If you use the optional EncryptionContext field, you must store at least enough information to be able to reconstruct the full encryption context when you later send the ciphertext to the  Decrypt operation. It is a good practice to choose an encryption context that you can reconstruct on the fly to better secure the ciphertext. For more information, see Encryption Context in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example generates a 256-bit symmetric data encryption key (data key) in two formats. One is the unencrypted (plainext) data key, and the other is the data key encrypted with the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.generate_data_key(
         KeyId='string',
@@ -690,6 +817,9 @@ def generate_data_key_without_plaintext(KeyId=None, EncryptionContext=None, KeyS
     This operation is useful in a system that has multiple components with different degrees of trust. For example, consider a system that stores encrypted data in containers. Each container stores the encrypted data and an encrypted copy of the data key. One component of the system, called the control plane , creates new containers. When it creates a new container, it uses this operation (GenerateDataKeyWithoutPlaintext ) to get an encrypted data key and then stores it in the container. Later, a different component of the system, called the data plane , puts encrypted data into the containers. To do this, it passes the encrypted data key to the  Decrypt operation, then uses the returned plaintext data key to encrypt data, and finally stores the encrypted data in the container. In this system, the control plane never sees the plaintext data key.
     See also: AWS API Documentation
     
+    Examples
+    The following example generates an encrypted copy of a 256-bit symmetric data encryption key (data key). The data key is encrypted with the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.generate_data_key_without_plaintext(
         KeyId='string',
@@ -767,9 +897,13 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 
 def generate_random(NumberOfBytes=None):
     """
-    Generates an unpredictable byte string.
+    Returns a random byte string that is cryptographically secure.
+    For more information about entropy and random number generation, see the AWS Key Management Service Cryptographic Details whitepaper.
     See also: AWS API Documentation
     
+    Examples
+    The following example uses AWS KMS to generate 32 bytes of random data.
+    Expected Output:
     
     :example: response = client.generate_random(
         NumberOfBytes=123
@@ -793,6 +927,9 @@ def get_key_policy(KeyId=None, PolicyName=None):
     Retrieves a policy attached to the specified key.
     See also: AWS API Documentation
     
+    Examples
+    The following example retrieves the key policy for the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.get_key_policy(
         KeyId='string',
@@ -826,6 +963,9 @@ def get_key_rotation_status(KeyId=None):
     Retrieves a Boolean value that indicates whether key rotation is enabled for the specified key.
     See also: AWS API Documentation
     
+    Examples
+    The following example retrieves the status of automatic annual rotation of the key material for the specified CMK.
+    Expected Output:
     
     :example: response = client.get_key_rotation_status(
         KeyId='string'
@@ -871,6 +1011,9 @@ def get_parameters_for_import(KeyId=None, WrappingAlgorithm=None, WrappingKeySpe
     This operation returns a public key and an import token. Use the public key to encrypt the key material. Store the import token to send with a subsequent  ImportKeyMaterial request. The public key and import token from the same response must be used together. These items are valid for 24 hours, after which they cannot be used for a subsequent  ImportKeyMaterial request. To retrieve new ones, send another GetParametersForImport request.
     See also: AWS API Documentation
     
+    Examples
+    The following example retrieves the public key and import token for the specified CMK.
+    Expected Output:
     
     :example: response = client.get_parameters_for_import(
         KeyId='string',
@@ -923,6 +1066,9 @@ def import_key_material(KeyId=None, ImportToken=None, EncryptedKeyMaterial=None,
     After you successfully import key material into a CMK, you can reimport the same key material into that CMK, but you cannot import different key material.
     See also: AWS API Documentation
     
+    Examples
+    The following example imports key material into the specified CMK.
+    Expected Output:
     
     :example: response = client.import_key_material(
         KeyId='string',
@@ -972,6 +1118,9 @@ def list_aliases(Limit=None, Marker=None):
     Lists all of the key aliases in the account.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists aliases.
+    Expected Output:
     
     :example: response = client.list_aliases(
         Limit=123,
@@ -980,12 +1129,12 @@ def list_aliases(Limit=None, Marker=None):
     
     
     :type Limit: integer
-    :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
 
     :type Marker: string
-    :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
 
     :rtype: dict
     :return: {
@@ -1009,6 +1158,9 @@ def list_grants(Limit=None, Marker=None, KeyId=None):
     List the grants for a specified key.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists grants for the specified CMK.
+    Expected Output:
     
     :example: response = client.list_grants(
         Limit=123,
@@ -1018,12 +1170,12 @@ def list_grants(Limit=None, Marker=None, KeyId=None):
     
     
     :type Limit: integer
-    :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
 
     :type Marker: string
-    :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
 
     :type KeyId: string
     :param KeyId: [REQUIRED]
@@ -1072,6 +1224,9 @@ def list_key_policies(KeyId=None, Limit=None, Marker=None):
     Retrieves a list of policies attached to a key.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists key policies for the specified CMK.
+    Expected Output:
     
     :example: response = client.list_key_policies(
         KeyId='string',
@@ -1088,13 +1243,13 @@ def list_key_policies(KeyId=None, Limit=None, Marker=None):
             
 
     :type Limit: integer
-    :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
             This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
             Currently only 1 policy can be attached to a key.
             
 
     :type Marker: string
-    :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
 
     :rtype: dict
     :return: {
@@ -1117,6 +1272,9 @@ def list_keys(Limit=None, Marker=None):
     Lists the customer master keys.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists CMKs.
+    Expected Output:
     
     :example: response = client.list_keys(
         Limit=123,
@@ -1125,12 +1283,12 @@ def list_keys(Limit=None, Marker=None):
     
     
     :type Limit: integer
-    :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
             This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
             
 
     :type Marker: string
-    :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
 
     :rtype: dict
     :return: {
@@ -1148,12 +1306,61 @@ def list_keys(Limit=None, Marker=None):
     """
     pass
 
+def list_resource_tags(KeyId=None, Limit=None, Marker=None):
+    """
+    Returns a list of all tags for the specified customer master key (CMK).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_resource_tags(
+        KeyId='string',
+        Limit=123,
+        Marker='string'
+    )
+    
+    
+    :type KeyId: string
+    :param KeyId: [REQUIRED]
+            A unique identifier for the CMK whose tags you are listing. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            
+
+    :type Limit: integer
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
+            This value is optional. If you include a value, it must be between 1 and 50, inclusive. If you do not include a value, it defaults to 50.
+            
+
+    :type Marker: string
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
+            Do not attempt to construct this value. Use only the value of NextMarker from the truncated response you just received.
+            
+
+    :rtype: dict
+    :return: {
+        'Tags': [
+            {
+                'TagKey': 'string',
+                'TagValue': 'string'
+            },
+        ],
+        'NextMarker': 'string',
+        'Truncated': True|False
+    }
+    
+    
+    """
+    pass
+
 def list_retirable_grants(Limit=None, Marker=None, RetiringPrincipal=None):
     """
     Returns a list of all grants for which the grant's RetiringPrincipal matches the one specified.
     A typical use is to list all grants that you are able to retire. To retire a grant, use  RetireGrant .
     See also: AWS API Documentation
     
+    Examples
+    The following example lists the grants that the specified principal (identity) can retire.
+    Expected Output:
     
     :example: response = client.list_retirable_grants(
         Limit=123,
@@ -1163,12 +1370,12 @@ def list_retirable_grants(Limit=None, Marker=None, RetiringPrincipal=None):
     
     
     :type Limit: integer
-    :param Limit: When paginating results, specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the Truncated element in the response is set to true.
+    :param Limit: Use this parameter to specify the maximum number of items to return. When this value is present, AWS KMS does not return more than the specified number of items, but it might return fewer.
             This value is optional. If you include a value, it must be between 1 and 100, inclusive. If you do not include a value, it defaults to 50.
             
 
     :type Marker: string
-    :param Marker: Use this parameter only when paginating results and only in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the response you just received.
+    :param Marker: Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
 
     :type RetiringPrincipal: string
     :param RetiringPrincipal: [REQUIRED]
@@ -1217,6 +1424,12 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
     For more information about key policies, see Key Policies in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example attaches a key policy to the specified CMK.
+    "Version": "2012-10-17",
+    "Id": "custom-policy-2016-12-07",
+    "Statement": [
+    ]
     
     :example: response = client.put_key_policy(
         KeyId='string',
@@ -1244,8 +1457,8 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
     :param Policy: [REQUIRED]
             The key policy to attach to the CMK.
             If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
-            It must allow the principal making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            The principal(s) specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
+            It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
+            The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
             The policy size limit is 32 KiB (32768 bytes).
             
 
@@ -1254,10 +1467,17 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
             Warning
             Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            Use this parameter only when you intend to prevent the principal making the request from making a subsequent PutKeyPolicy request on the CMK.
+            Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
             
 
+    :return: response = client.put_key_policy(
+        # The identifier of the CMK to attach the key policy to. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+        # The key policy document.
+        Policy='{
+    
+    
     """
     pass
 
@@ -1267,6 +1487,9 @@ def re_encrypt(CiphertextBlob=None, SourceEncryptionContext=None, DestinationKey
     Unlike other operations, ReEncrypt is authorized twice, once as ReEncryptFrom on the source CMK and once as ReEncryptTo on the destination CMK. We recommend that you include the "kms:ReEncrypt*" permission in your key policies to permit reencryption from or to the CMK. This permission is automatically included in the key policy when you create a CMK through the console, but you must include it manually when you create a CMK programmatically or when you set a key policy with the  PutKeyPolicy operation.
     See also: AWS API Documentation
     
+    Examples
+    The following example reencrypts data with the specified CMK.
+    Expected Output:
     
     :example: response = client.re_encrypt(
         CiphertextBlob=b'bytes',
@@ -1332,6 +1555,9 @@ def retire_grant(GrantToken=None, KeyId=None, GrantId=None):
     You must identify the grant to retire by its grant token or by a combination of the grant ID and the Amazon Resource Name (ARN) of the customer master key (CMK). A grant token is a unique variable-length base64-encoded string. A grant ID is a 64 character unique identifier of a grant. The  CreateGrant operation returns both.
     See also: AWS API Documentation
     
+    Examples
+    The following example retires a grant.
+    Expected Output:
     
     :example: response = client.retire_grant(
         GrantToken='string',
@@ -1353,6 +1579,16 @@ def retire_grant(GrantToken=None, KeyId=None, GrantId=None):
             Grant ID Example - 0123456789012345678901234567890123456789012345678901234567890123
             
 
+    :return: response = client.retire_grant(
+        # The identifier of the grant to retire.
+        GrantId='0c237476b39f8bc44e45212e08498fbe3151305030726c0590dd8d3e9f3d6a60',
+        # The Amazon Resource Name (ARN) of the customer master key (CMK) associated with the grant.
+        KeyId='arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     :returns: 
     GrantToken (string) -- Token that identifies the grant to be retired.
     KeyId (string) -- The Amazon Resource Name of the CMK associated with the grant. Example:
@@ -1374,6 +1610,9 @@ def revoke_grant(KeyId=None, GrantId=None):
     Revokes a grant. You can revoke a grant to actively deny operations that depend on it.
     See also: AWS API Documentation
     
+    Examples
+    The following example revokes a grant.
+    Expected Output:
     
     :example: response = client.revoke_grant(
         KeyId='string',
@@ -1393,6 +1632,16 @@ def revoke_grant(KeyId=None, GrantId=None):
             Identifier of the grant to be revoked.
             
 
+    :return: response = client.revoke_grant(
+        # The identifier of the grant to revoke.
+        GrantId='0c237476b39f8bc44e45212e08498fbe3151305030726c0590dd8d3e9f3d6a60',
+        # The identifier of the customer master key (CMK) associated with the grant. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1402,6 +1651,9 @@ def schedule_key_deletion(KeyId=None, PendingWindowInDays=None):
     For more information about scheduling a CMK for deletion, see Deleting Customer Master Keys in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example schedules the specified CMK for deletion.
+    Expected Output:
     
     :example: response = client.schedule_key_deletion(
         KeyId='string',
@@ -1433,6 +1685,75 @@ def schedule_key_deletion(KeyId=None, PendingWindowInDays=None):
     """
     pass
 
+def tag_resource(KeyId=None, Tags=None):
+    """
+    Adds or overwrites one or more tags for the specified customer master key (CMK).
+    Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+    You cannot use the same tag key more than once per CMK. For example, consider a CMK with one tag whose tag key is Purpose and tag value is Test . If you send a TagResource request for this CMK with a tag key of Purpose and a tag value of Prod , it does not create a second tag. Instead, the original tag is overwritten with the new tag value.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_resource(
+        KeyId='string',
+        Tags=[
+            {
+                'TagKey': 'string',
+                'TagValue': 'string'
+            },
+        ]
+    )
+    
+    
+    :type KeyId: string
+    :param KeyId: [REQUIRED]
+            A unique identifier for the CMK you are tagging. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            
+
+    :type Tags: list
+    :param Tags: [REQUIRED]
+            One or more tags. Each tag consists of a tag key and a tag value.
+            (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+            TagKey (string) -- [REQUIRED]The key of the tag.
+            TagValue (string) -- [REQUIRED]The value of the tag.
+            
+            
+
+    """
+    pass
+
+def untag_resource(KeyId=None, TagKeys=None):
+    """
+    Removes the specified tag or tags from the specified customer master key (CMK).
+    To remove a tag, you specify the tag key for each tag to remove. You do not specify the tag value. To overwrite the tag value for an existing tag, use  TagResource .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_resource(
+        KeyId='string',
+        TagKeys=[
+            'string',
+        ]
+    )
+    
+    
+    :type KeyId: string
+    :param KeyId: [REQUIRED]
+            A unique identifier for the CMK from which you are removing tags. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
+            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            
+
+    :type TagKeys: list
+    :param TagKeys: [REQUIRED]
+            One or more tag keys. Specify only the tag keys, not the tag values.
+            (string) --
+            
+
+    """
+    pass
+
 def update_alias(AliasName=None, TargetKeyId=None):
     """
     Updates an alias to map it to a different key.
@@ -1441,6 +1762,9 @@ def update_alias(AliasName=None, TargetKeyId=None):
     The alias and the key it is mapped to must be in the same AWS account and the same region.
     See also: AWS API Documentation
     
+    Examples
+    The following example updates the specified alias to refer to the specified customer master key (CMK).
+    Expected Output:
     
     :example: response = client.update_alias(
         AliasName='string',
@@ -1461,6 +1785,16 @@ def update_alias(AliasName=None, TargetKeyId=None):
             You can call ListAliases to verify that the alias is mapped to the correct TargetKeyId .
             
 
+    :return: response = client.update_alias(
+        # The alias to update.
+        AliasName='alias/ExampleAlias',
+        # The identifier of the CMK that the alias will refer to after this operation succeeds. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        TargetKeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1469,6 +1803,9 @@ def update_key_description(KeyId=None, Description=None):
     Updates the description of a customer master key (CMK).
     See also: AWS API Documentation
     
+    Examples
+    The following example updates the description of the specified CMK.
+    Expected Output:
     
     :example: response = client.update_key_description(
         KeyId='string',
@@ -1488,6 +1825,16 @@ def update_key_description(KeyId=None, Description=None):
             New description for the CMK.
             
 
+    :return: response = client.update_key_description(
+        # The updated description.
+        Description='Example description that indicates the intended use of this CMK.',
+        # The identifier of the CMK whose description you are updating. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
+        KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 

@@ -180,7 +180,7 @@ def describe_compliance_by_config_rule(ConfigRuleNames=None, ComplianceTypes=Non
             
 
     :type NextToken: string
-    :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
 
     :rtype: dict
     :return: {
@@ -212,7 +212,7 @@ def describe_compliance_by_config_rule(ConfigRuleNames=None, ComplianceTypes=Non
     (string) --
     
     
-    NextToken (string) -- The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    NextToken (string) -- The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     
     """
     pass
@@ -252,7 +252,7 @@ def describe_compliance_by_resource(ResourceType=None, ResourceId=None, Complian
     :param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
 
     :type NextToken: string
-    :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
 
     :rtype: dict
     :return: {
@@ -283,7 +283,7 @@ def describe_compliance_by_resource(ResourceType=None, ResourceId=None, Complian
     
     
     Limit (integer) -- The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
-    NextToken (string) -- The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    NextToken (string) -- The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     
     """
     pass
@@ -365,7 +365,7 @@ def describe_config_rules(ConfigRuleNames=None, NextToken=None):
             
 
     :type NextToken: string
-    :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
 
     :rtype: dict
     :return: {
@@ -576,10 +576,6 @@ def describe_delivery_channels(DeliveryChannelNames=None):
     }
     
     
-    :returns: 
-    The value for the deliveryFrequency parameter within the delivery channel configuration, which sets how often AWS Config delivers configuration snapshots. This value also sets how often AWS Config invokes evaluations for Config rules.
-    The value for the MaximumExecutionFrequency parameter, which sets the maximum frequency with which AWS Config invokes evaluations for the rule. For more information, see  ConfigRule .
-    
     """
     pass
 
@@ -636,7 +632,7 @@ def get_compliance_details_by_config_rule(ConfigRuleName=None, ComplianceTypes=N
     :param Limit: The maximum number of evaluation results returned on each page. The default is 10. You cannot specify a limit greater than 100. If you specify 0, AWS Config uses the default.
 
     :type NextToken: string
-    :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
 
     :rtype: dict
     :return: {
@@ -697,7 +693,7 @@ def get_compliance_details_by_resource(ResourceType=None, ResourceId=None, Compl
             
 
     :type NextToken: string
-    :param NextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    :param NextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
 
     :rtype: dict
     :return: {
@@ -974,7 +970,7 @@ def put_config_rule(ConfigRule=None):
     Adds or updates an AWS Config rule for evaluating whether your AWS resources comply with your desired configurations.
     You can use this action for custom Config rules and AWS managed Config rules. A custom Config rule is a rule that you develop and maintain. An AWS managed Config rule is a customizable, predefined rule that AWS Config provides.
     If you are adding a new custom Config rule, you must first create the AWS Lambda function that the rule invokes to evaluate your resources. When you use the PutConfigRule action to add the rule to AWS Config, you must specify the Amazon Resource Name (ARN) that AWS Lambda assigns to the function. Specify the ARN for the SourceIdentifier key. This key is part of the Source object, which is part of the ConfigRule object.
-    If you are adding a new AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see Using AWS Managed Config Rules .
+    If you are adding an AWS managed Config rule, specify the rule's identifier for the SourceIdentifier key. To reference AWS managed Config rule identifiers, see About AWS Managed Config Rules .
     For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or the ConfigRuleId . These values are generated by AWS Config for new rules.
     If you are updating a rule that you added previously, you can specify the rule by ConfigRuleName , ConfigRuleId , or ConfigRuleArn in the ConfigRule data type that you use in this request.
     The maximum number of rules that AWS Config supports is 50.
@@ -1017,10 +1013,7 @@ def put_config_rule(ConfigRule=None):
     
     :type ConfigRule: dict
     :param ConfigRule: [REQUIRED]
-            An AWS Config rule represents an AWS Lambda function that you create for a custom rule or a predefined function for an AWS managed rule. The function evaluates configuration items to assess whether your AWS resources comply with your desired configurations. This function can run when AWS Config detects a configuration change to an AWS resource and at a periodic frequency that you choose (for example, every 24 hours).
-            Note
-            You can use the AWS CLI and AWS SDKs if you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties .
-            For more information about developing and using AWS Config rules, see Evaluating AWS Resource Configurations with AWS Config in the AWS Config Developer Guide .
+            The rule that you want to add to your account.
             ConfigRuleName (string) --The name that you assign to the AWS Config rule. The name is required if you are adding a new rule.
             ConfigRuleArn (string) --The Amazon Resource Name (ARN) of the AWS Config rule.
             ConfigRuleId (string) --The ID of the AWS Config rule.
@@ -1044,13 +1037,17 @@ def put_config_rule(ConfigRule=None):
             ScheduledNotification - Triggers a periodic evaluation at the frequency specified for MaximumExecutionFrequency .
             ConfigurationSnapshotDeliveryCompleted - Triggers a periodic evaluation when AWS Config delivers a configuration snapshot.
             If you want your custom rule to be triggered by configuration changes, specify both ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification .
-            MaximumExecutionFrequency (string) --The frequency that you want AWS Config to run evaluations for a rule that is triggered periodically. If you specify a value for MaximumExecutionFrequency , then MessageType must use the ScheduledNotification value.
+            MaximumExecutionFrequency (string) --The frequency that you want AWS Config to run evaluations for a custom rule with a periodic trigger. If you specify a value for MaximumExecutionFrequency , then MessageType must use the ScheduledNotification value.
+            Note
+            By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
+            
             
             InputParameters (string) --A string in JSON format that is passed to the AWS Config rule Lambda function.
             MaximumExecutionFrequency (string) --The maximum frequency with which AWS Config runs evaluations for a rule. You can specify a value for MaximumExecutionFrequency when:
             You are using an AWS managed rule that is triggered at a periodic frequency.
-            Your custom rule is triggered when AWS Config delivers the configuration snapshot.
-            For more information, see ConfigSnapshotDeliveryProperties .
+            Your custom rule is triggered when AWS Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties .
+            Note
+            By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
             ConfigRuleState (string) --Indicates whether the AWS Config rule is active or is currently being deleted by AWS Config. It can also indicate the evaluation status for the Config rule.
             AWS Config sets the state of the rule to EVALUATING temporarily after you use the StartConfigRulesEvaluation request to evaluate your resources against the Config rule.
             AWS Config sets the state of the rule to DELETING_RESULTS temporarily after you use the DeleteEvaluationResults request to delete the current evaluation results for the Config rule.
@@ -1142,33 +1139,15 @@ def put_delivery_channel(DeliveryChannel=None):
             s3KeyPrefix (string) --The prefix for the specified Amazon S3 bucket.
             snsTopicARN (string) --The Amazon Resource Name (ARN) of the Amazon SNS topic to which AWS Config sends notifications about configuration changes.
             If you choose a topic from another account, the topic must have policies that grant access permissions to AWS Config. For more information, see Permissions for the Amazon SNS Topic in the AWS Config Developer Guide.
-            configSnapshotDeliveryProperties (dict) --Provides options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket in your delivery channel.
-            Note
-            If you want to create a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot, see the following:
-            The frequency for a rule that triggers evaluations for your resources when AWS Config delivers the configuration snapshot is set by one of two values, depending on which is less frequent:
-            The value for the deliveryFrequency parameter within the delivery channel configuration, which sets how often AWS Config delivers configuration snapshots. This value also sets how often AWS Config invokes evaluations for Config rules.
-            The value for the MaximumExecutionFrequency parameter, which sets the maximum frequency with which AWS Config invokes evaluations for the rule. For more information, see ConfigRule .
-            If the deliveryFrequency value is less frequent than the MaximumExecutionFrequency value for a rule, AWS Config invokes the rule only as often as the deliveryFrequency value.
-            For example, you want your rule to run evaluations when AWS Config delivers the configuration snapshot.
-            You specify the MaximumExecutionFrequency value for Six_Hours .
-            You then specify the delivery channel deliveryFrequency value for TwentyFour_Hours .
-            Because the value for deliveryFrequency is less frequent than MaximumExecutionFrequency , AWS Config invokes evaluations for the rule every 24 hours.
-            You should set the MaximumExecutionFrequency value to be at least as frequent as the deliveryFrequency value. You can view the deliveryFrequency value by using the DescribeDeliveryChannnels action.
-            To update the deliveryFrequency with which AWS Config delivers your configuration snapshots, use the PutDeliveryChannel action.
+            configSnapshotDeliveryProperties (dict) --The options for how often AWS Config delivers configuration snapshots to the Amazon S3 bucket.
             deliveryFrequency (string) --The frequency with which AWS Config delivers configuration snapshots.
             
             
 
-    :returns: 
-    For example, you want your rule to run evaluations when AWS Config delivers the configuration snapshot.
-    You specify the MaximumExecutionFrequency value for Six_Hours .
-    You then specify the delivery channel deliveryFrequency value for TwentyFour_Hours .
-    Because the value for deliveryFrequency is less frequent than MaximumExecutionFrequency , AWS Config invokes evaluations for the rule every 24 hours.
-    
     """
     pass
 
-def put_evaluations(Evaluations=None, ResultToken=None):
+def put_evaluations(Evaluations=None, ResultToken=None, TestMode=None):
     """
     Used by an AWS Lambda function to deliver evaluation results to AWS Config. This action is required in every AWS Lambda function that is invoked by an AWS Config rule.
     See also: AWS API Documentation
@@ -1184,7 +1163,8 @@ def put_evaluations(Evaluations=None, ResultToken=None):
                 'OrderingTimestamp': datetime(2015, 1, 1)
             },
         ],
-        ResultToken='string'
+        ResultToken='string',
+        TestMode=True|False
     )
     
     
@@ -1204,6 +1184,12 @@ def put_evaluations(Evaluations=None, ResultToken=None):
     :type ResultToken: string
     :param ResultToken: [REQUIRED]
             An encrypted token that associates an evaluation with an AWS Config rule. Identifies the rule and the event that triggered the evaluation
+            
+
+    :type TestMode: boolean
+    :param TestMode: Use this parameter to specify a test run for PutEvaluations . You can verify whether your AWS Lambda function will deliver evaluation results to AWS Config. No updates occur to your existing evaluations, and evaluation results are not sent to AWS Config.
+            Note
+            When TestMode is true , PutEvaluations doesn't require a valid value for the ResultToken parameter, but the value cannot be null.
             
 
     :rtype: dict

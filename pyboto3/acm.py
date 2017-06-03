@@ -100,7 +100,7 @@ def delete_certificate(CertificateArn=None):
 
 def describe_certificate(CertificateArn=None):
     """
-    Returns a list of the fields contained in the specified ACM Certificate. For example, this action returns the certificate status, a flag that indicates whether the certificate is associated with any other AWS service, and the date at which the certificate request was created. You specify the ACM Certificate on input by its Amazon Resource Name (ARN).
+    Returns detailed metadata about the specified ACM Certificate.
     See also: AWS API Documentation
     
     
@@ -111,7 +111,7 @@ def describe_certificate(CertificateArn=None):
     
     :type CertificateArn: string
     :param CertificateArn: [REQUIRED]
-            String that contains an ACM Certificate ARN. The ARN must be of the form:
+            The Amazon Resource Name (ARN) of the ACM Certificate. The ARN must have the following form:
             arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces .
             
@@ -130,7 +130,8 @@ def describe_certificate(CertificateArn=None):
                     'ValidationEmails': [
                         'string',
                     ],
-                    'ValidationDomain': 'string'
+                    'ValidationDomain': 'string',
+                    'ValidationStatus': 'PENDING_VALIDATION'|'SUCCESS'|'FAILED'
                 },
             ],
             'Serial': 'string',
@@ -150,7 +151,20 @@ def describe_certificate(CertificateArn=None):
                 'string',
             ],
             'FailureReason': 'NO_AVAILABLE_CONTACTS'|'ADDITIONAL_VERIFICATION_REQUIRED'|'DOMAIN_NOT_ALLOWED'|'INVALID_PUBLIC_DOMAIN'|'OTHER',
-            'Type': 'IMPORTED'|'AMAZON_ISSUED'
+            'Type': 'IMPORTED'|'AMAZON_ISSUED',
+            'RenewalSummary': {
+                'RenewalStatus': 'PENDING_AUTO_RENEWAL'|'PENDING_VALIDATION'|'SUCCESS'|'FAILED',
+                'DomainValidationOptions': [
+                    {
+                        'DomainName': 'string',
+                        'ValidationEmails': [
+                            'string',
+                        ],
+                        'ValidationDomain': 'string',
+                        'ValidationStatus': 'PENDING_VALIDATION'|'SUCCESS'|'FAILED'
+                    },
+                ]
+            }
         }
     }
     
@@ -325,7 +339,7 @@ def list_certificates(CertificateStatuses=None, NextToken=None, MaxItems=None):
 
 def list_tags_for_certificate(CertificateArn=None):
     """
-    Lists the tags that have been applied to the ACM Certificate. Use the certificate ARN to specify the certificate. To add a tag to an ACM Certificate, use the  AddTagsToCertificate action. To delete a tag, use the  RemoveTagsFromCertificate action.
+    Lists the tags that have been applied to the ACM Certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM Certificate, use the  AddTagsToCertificate action. To delete a tag, use the  RemoveTagsFromCertificate action.
     See also: AWS API Documentation
     
     
@@ -336,7 +350,7 @@ def list_tags_for_certificate(CertificateArn=None):
     
     :type CertificateArn: string
     :param CertificateArn: [REQUIRED]
-            String that contains the ARN of the ACM Certificate for which you want to list the tags. This must be of the form:
+            String that contains the ARN of the ACM Certificate for which you want to list the tags. This has the following form:
             arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces .
             
@@ -415,7 +429,7 @@ def request_certificate(DomainName=None, SubjectAlternativeNames=None, Idempoten
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            Fully qualified domain name (FQDN), such as www.example.com, of the site you want to secure with an ACM Certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.
+            Fully qualified domain name (FQDN), such as www.example.com, of the site that you want to secure with an ACM Certificate. Use an asterisk (*) to create a wildcard certificate that protects several sites in the same domain. For example, *.example.com protects www.example.com, site.example.com, and images.example.com.
             
 
     :type SubjectAlternativeNames: list
@@ -427,20 +441,15 @@ def request_certificate(DomainName=None, SubjectAlternativeNames=None, Idempoten
     :param IdempotencyToken: Customer chosen string that can be used to distinguish between calls to RequestCertificate . Idempotency tokens time out after one hour. Therefore, if you call RequestCertificate multiple times with the same idempotency token within one hour, ACM recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, ACM recognizes that you are requesting multiple certificates.
 
     :type DomainValidationOptions: list
-    :param DomainValidationOptions: The base validation domain that will act as the suffix of the email addresses that are used to send the emails. This must be the same as the Domain value or a superdomain of the Domain value. For example, if you requested a certificate for test.example.com and specify DomainValidationOptions of example.com , ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS and the following five addresses:
+    :param DomainValidationOptions: The domain name that you want ACM to use to send you emails to validate your ownership of the domain.
+            (dict) --Contains information about the domain names that you want ACM to use to send you emails to validate your ownership of the domain.
+            DomainName (string) -- [REQUIRED]A fully qualified domain name (FQDN) in the certificate request.
+            ValidationDomain (string) -- [REQUIRED]The domain name that you want ACM to use to send you validation emails. This domain name is the suffix of the email addresses that you want ACM to use. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you request a certificate for testing.example.com , you can specify example.com for this value. In that case, ACM sends domain validation emails to the following five addresses:
             admin@example.com
             administrator@example.com
             hostmaster@example.com
             postmaster@example.com
             webmaster@example.com
-            (dict) --This structure is used in the request object of the RequestCertificate action.
-            DomainName (string) -- [REQUIRED]Fully Qualified Domain Name (FQDN) of the certificate being requested.
-            ValidationDomain (string) -- [REQUIRED]The domain to which validation email is sent. This is the base validation domain that will act as the suffix of the email addresses. This must be the same as the DomainName value or a superdomain of the DomainName value. For example, if you requested a certificate for site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com , ACM sends email to the domain registrant, technical contact, and administrative contact in WHOIS for the base domain and the following five addresses:
-            admin@subdomain.example.com
-            administrator@subdomain.example.com
-            hostmaster@subdomain.example.com
-            postmaster@subdomain.example.com
-            webmaster@subdomain.example.com
             
             
 
@@ -475,7 +484,7 @@ def resend_validation_email(CertificateArn=None, Domain=None, ValidationDomain=N
 
     :type Domain: string
     :param Domain: [REQUIRED]
-            The Fully Qualified Domain Name (FQDN) of the certificate that needs to be validated.
+            The fully qualified domain name (FQDN) of the certificate that needs to be validated.
             
 
     :type ValidationDomain: string

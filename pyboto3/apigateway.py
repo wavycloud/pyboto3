@@ -325,7 +325,7 @@ def create_documentation_part(restApiId=None, location=None, properties=None):
     :type location: dict
     :param location: [REQUIRED]
             [Required] The location of the targeted API entity of the to-be-created documentation part.
-            type (string) -- [REQUIRED]The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHROZER , MODEL , or RESOURCE type.
+            type (string) -- [REQUIRED]The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHROZER , METHOD , MODEL , REQUEST_BODY , or RESOURCE type.
             path (string) --The URL path of the target. It is a valid field for the API entity types of RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
             method (string) --The HTTP verb of a method. It is a valid field for the API entity types of METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
             statusCode (string) --The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
@@ -394,7 +394,7 @@ def create_documentation_version(restApiId=None, documentationVersion=None, stag
     """
     pass
 
-def create_domain_name(domainName=None, certificateName=None, certificateBody=None, certificatePrivateKey=None, certificateChain=None):
+def create_domain_name(domainName=None, certificateName=None, certificateBody=None, certificatePrivateKey=None, certificateChain=None, certificateArn=None):
     """
     Creates a new domain name.
     See also: AWS API Documentation
@@ -405,39 +405,36 @@ def create_domain_name(domainName=None, certificateName=None, certificateBody=No
         certificateName='string',
         certificateBody='string',
         certificatePrivateKey='string',
-        certificateChain='string'
+        certificateChain='string',
+        certificateArn='string'
     )
     
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The name of the DomainName resource.
+            (Required) The name of the DomainName resource.
             
 
     :type certificateName: string
-    :param certificateName: [REQUIRED]
-            The name of the certificate.
-            
+    :param certificateName: The user-friendly name of the certificate.
 
     :type certificateBody: string
-    :param certificateBody: [REQUIRED]
-            The body of the server certificate provided by your certificate authority.
-            
+    :param certificateBody: [Deprecated] The body of the server certificate provided by your certificate authority.
 
     :type certificatePrivateKey: string
-    :param certificatePrivateKey: [REQUIRED]
-            Your certificate's private key.
-            
+    :param certificatePrivateKey: [Deprecated] Your certificate's private key.
 
     :type certificateChain: string
-    :param certificateChain: [REQUIRED]
-            The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
-            
+    :param certificateChain: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
+
+    :type certificateArn: string
+    :param certificateArn: The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
 
     :rtype: dict
     :return: {
         'domainName': 'string',
         'certificateName': 'string',
+        'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
         'distributionDomainName': 'string'
     }
@@ -495,6 +492,46 @@ def create_model(restApiId=None, name=None, description=None, schema=None, conte
     """
     pass
 
+def create_request_validator(restApiId=None, name=None, validateRequestBody=None, validateRequestParameters=None):
+    """
+    Creates a  ReqeustValidator of a given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_request_validator(
+        restApiId='string',
+        name='string',
+        validateRequestBody=True|False,
+        validateRequestParameters=True|False
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the RestApi for which the RequestValidator is created.
+            
+
+    :type name: string
+    :param name: The name of the to-be-created RequestValidator .
+
+    :type validateRequestBody: boolean
+    :param validateRequestBody: A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true ) or not (false ).
+
+    :type validateRequestParameters: boolean
+    :param validateRequestParameters: A Boolean flag to indicate whether to validate request parameters, true , or not false .
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'validateRequestBody': True|False,
+        'validateRequestParameters': True|False
+    }
+    
+    
+    """
+    pass
+
 def create_resource(restApiId=None, parentId=None, pathPart=None):
     """
     Creates a  Resource resource.
@@ -535,6 +572,7 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'requestValidatorId': 'string',
                 'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
@@ -1214,6 +1252,31 @@ def delete_model(restApiId=None, modelName=None):
     """
     pass
 
+def delete_request_validator(restApiId=None, requestValidatorId=None):
+    """
+    Deletes a  RequestValidator of a given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_request_validator(
+        restApiId='string',
+        requestValidatorId='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the RestApi from which the given RequestValidator is deleted.
+            
+
+    :type requestValidatorId: string
+    :param requestValidatorId: [REQUIRED]
+            [Required] The identifier of the RequestValidator to be deleted.
+            
+
+    """
+    pass
+
 def delete_resource(restApiId=None, resourceId=None):
     """
     Deletes a  Resource resource.
@@ -1513,7 +1576,7 @@ def get_api_keys(position=None, limit=None, nameQuery=None, customerId=None, inc
     
     
     :type position: string
-    :param position: The position of the current ApiKeys resource to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
     :param limit: The maximum number of ApiKeys to get information about.
@@ -1621,10 +1684,10 @@ def get_authorizers(restApiId=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: If not all Authorizer resources in the response were present, the position will specify where to start the next page of results.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: Limit the number of Authorizer resources in the response.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -1706,10 +1769,10 @@ def get_base_path_mappings(domainName=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: The position of the current BasePathMapping resource in the collection to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of BasePathMapping resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -1769,10 +1832,10 @@ def get_client_certificates(position=None, limit=None):
     
     
     :type position: string
-    :param position: The position of the current ClientCertificate resource in the collection to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of ClientCertificate resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -1792,7 +1855,7 @@ def get_client_certificates(position=None, limit=None):
     """
     pass
 
-def get_deployment(restApiId=None, deploymentId=None):
+def get_deployment(restApiId=None, deploymentId=None, embed=None):
     """
     Gets information about a  Deployment resource.
     See also: AWS API Documentation
@@ -1800,7 +1863,10 @@ def get_deployment(restApiId=None, deploymentId=None):
     
     :example: response = client.get_deployment(
         restApiId='string',
-        deploymentId='string'
+        deploymentId='string',
+        embed=[
+            'string',
+        ]
     )
     
     
@@ -1812,6 +1878,11 @@ def get_deployment(restApiId=None, deploymentId=None):
     :type deploymentId: string
     :param deploymentId: [REQUIRED]
             The identifier of the Deployment resource to get information about.
+            
+
+    :type embed: list
+    :param embed: A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2 . The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the 'apisummary' string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary .
+            (string) --
             
 
     :rtype: dict
@@ -1852,10 +1923,10 @@ def get_deployments(restApiId=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: The position of the current Deployment resource in the collection to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of Deployment resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -1949,10 +2020,10 @@ def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None
     :param path: The path of API entities of the to-be-retrieved documentation parts.
 
     :type position: string
-    :param position: The position of the to-be-retrieved documentation part in the DocumentationParts collection.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The size of the paged results.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -2026,10 +2097,10 @@ def get_documentation_versions(restApiId=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: The position of the returned DocumentationVersion in the DocumentationVersions collection.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The page size of the returned documentation versions.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -2067,6 +2138,7 @@ def get_domain_name(domainName=None):
     :return: {
         'domainName': 'string',
         'certificateName': 'string',
+        'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
         'distributionDomainName': 'string'
     }
@@ -2088,10 +2160,10 @@ def get_domain_names(position=None, limit=None):
     
     
     :type position: string
-    :param position: The position of the current domain names to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of DomainName resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -2100,6 +2172,7 @@ def get_domain_names(position=None, limit=None):
             {
                 'domainName': 'string',
                 'certificateName': 'string',
+                'certificateArn': 'string',
                 'certificateUploadDate': datetime(2015, 1, 1),
                 'distributionDomainName': 'string'
             },
@@ -2324,6 +2397,7 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'requestValidatorId': 'string',
         'operationName': 'string',
         'requestParameters': {
             'string': True|False
@@ -2529,10 +2603,10 @@ def get_models(restApiId=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: The position of the next set of results in the Models resource to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of models in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -2568,7 +2642,82 @@ def get_paginator(operation_name=None):
     """
     pass
 
-def get_resource(restApiId=None, resourceId=None):
+def get_request_validator(restApiId=None, requestValidatorId=None):
+    """
+    Gets a  RequestValidator of a given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_request_validator(
+        restApiId='string',
+        requestValidatorId='string'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the RestApi to which the specified RequestValidator belongs.
+            
+
+    :type requestValidatorId: string
+    :param requestValidatorId: [REQUIRED]
+            [Required] The identifier of the RequestValidator to be retrieved.
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'validateRequestBody': True|False,
+        'validateRequestParameters': True|False
+    }
+    
+    
+    """
+    pass
+
+def get_request_validators(restApiId=None, position=None, limit=None):
+    """
+    Gets the  RequestValidators collection of a given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_request_validators(
+        restApiId='string',
+        position='string',
+        limit=123
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of a RestApi to which the RequestValidators collection belongs.
+            
+
+    :type position: string
+    :param position: The current pagination position in the paged result set.
+
+    :type limit: integer
+    :param limit: The maximum number of returned results per page.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'id': 'string',
+                'name': 'string',
+                'validateRequestBody': True|False,
+                'validateRequestParameters': True|False
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def get_resource(restApiId=None, resourceId=None, embed=None):
     """
     Lists information about a resource.
     See also: AWS API Documentation
@@ -2576,7 +2725,10 @@ def get_resource(restApiId=None, resourceId=None):
     
     :example: response = client.get_resource(
         restApiId='string',
-        resourceId='string'
+        resourceId='string',
+        embed=[
+            'string',
+        ]
     )
     
     
@@ -2588,6 +2740,11 @@ def get_resource(restApiId=None, resourceId=None):
     :type resourceId: string
     :param resourceId: [REQUIRED]
             The identifier for the Resource resource.
+            
+
+    :type embed: list
+    :param embed: A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the 'methods' string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods .
+            (string) --
             
 
     :rtype: dict
@@ -2602,6 +2759,7 @@ def get_resource(restApiId=None, resourceId=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'requestValidatorId': 'string',
                 'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
@@ -2665,7 +2823,7 @@ def get_resource(restApiId=None, resourceId=None):
     """
     pass
 
-def get_resources(restApiId=None, position=None, limit=None):
+def get_resources(restApiId=None, position=None, limit=None, embed=None):
     """
     Lists information about a collection of  Resource resources.
     See also: AWS API Documentation
@@ -2674,7 +2832,10 @@ def get_resources(restApiId=None, position=None, limit=None):
     :example: response = client.get_resources(
         restApiId='string',
         position='string',
-        limit=123
+        limit=123,
+        embed=[
+            'string',
+        ]
     )
     
     
@@ -2684,10 +2845,15 @@ def get_resources(restApiId=None, position=None, limit=None):
             
 
     :type position: string
-    :param position: The position of the next set of results in the current Resources resource to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of Resource resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+
+    :type embed: list
+    :param embed: A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the 'methods' string. For example, GET /restapis/{restapi_id}/resources?embed=methods .
+            (string) --
+            
 
     :rtype: dict
     :return: {
@@ -2704,6 +2870,7 @@ def get_resources(restApiId=None, position=None, limit=None):
                         'authorizationType': 'string',
                         'authorizerId': 'string',
                         'apiKeyRequired': True|False,
+                        'requestValidatorId': 'string',
                         'operationName': 'string',
                         'requestParameters': {
                             'string': True|False
@@ -2820,10 +2987,10 @@ def get_rest_apis(position=None, limit=None):
     
     
     :type position: string
-    :param position: The position of the current RestApis resource in the collection to get information about.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of RestApi resources in the collection to get information about. The default limit is 25. It should be an integer between 1 - 500.
+    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
 
     :rtype: dict
     :return: {
@@ -2947,10 +3114,10 @@ def get_sdk_types(position=None, limit=None):
     
     
     :type position: string
-    :param position: The position of the last fetched element in the SdkTypes collection.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of SdkType instances to be returned.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -3140,10 +3307,10 @@ def get_usage(usagePlanId=None, keyId=None, startDate=None, endDate=None, positi
             
 
     :type position: string
-    :param position: Position
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of results to be returned.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -3273,10 +3440,10 @@ def get_usage_plan_keys(usagePlanId=None, position=None, limit=None, nameQuery=N
             
 
     :type position: string
-    :param position: A query parameter specifying the zero-based index specifying the position of a usage plan key.
+    :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: A query parameter specifying the maximum number usage plan keys returned by the GET request.
+    :param limit: The maximum number of returned results per page.
 
     :type nameQuery: string
     :param nameQuery: A query parameter specifying the name of the to-be-returned usage plan keys.
@@ -3312,13 +3479,13 @@ def get_usage_plans(position=None, keyId=None, limit=None):
     
     
     :type position: string
-    :param position: The zero-based array index specifying the position of the to-be-retrieved UsagePlan resource.
+    :param position: The current pagination position in the paged result set.
 
     :type keyId: string
     :param keyId: The identifier of the API key associated with the usage plans.
 
     :type limit: integer
-    :param limit: The number of UsagePlan resources to be returned as the result.
+    :param limit: The maximum number of returned results per page.
 
     :rtype: dict
     :return: {
@@ -3720,7 +3887,7 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
     """
     pass
 
-def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, operationName=None, requestParameters=None, requestModels=None):
+def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, operationName=None, requestParameters=None, requestModels=None, requestValidatorId=None):
     """
     Add a method to an existing  Resource resource.
     See also: AWS API Documentation
@@ -3739,7 +3906,8 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
         },
         requestModels={
             'string': 'string'
-        }
+        },
+        requestValidatorId='string'
     )
     
     
@@ -3760,7 +3928,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
 
     :type authorizationType: string
     :param authorizationType: [REQUIRED]
-            Specifies the type of authorization used for the method.
+            The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
             
 
     :type authorizerId: string
@@ -3784,12 +3952,16 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
             (string) --
             
 
+    :type requestValidatorId: string
+    :param requestValidatorId: The identifier of a RequestValidator for validating the method request.
+
     :rtype: dict
     :return: {
         'httpMethod': 'string',
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'requestValidatorId': 'string',
         'operationName': 'string',
         'requestParameters': {
             'string': True|False
@@ -4174,7 +4346,7 @@ def update_account(patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4228,7 +4400,7 @@ def update_api_key(apiKey=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4290,7 +4462,7 @@ def update_authorizer(restApiId=None, authorizerId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4353,7 +4525,7 @@ def update_base_path_mapping(domainName=None, basePath=None, patchOperations=Non
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4398,7 +4570,7 @@ def update_client_certificate(clientCertificateId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4451,7 +4623,7 @@ def update_deployment(restApiId=None, deploymentId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4509,7 +4681,7 @@ def update_documentation_part(restApiId=None, documentationPartId=None, patchOpe
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4565,7 +4737,7 @@ def update_documentation_version(restApiId=None, documentationVersion=None, patc
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4610,7 +4782,7 @@ def update_domain_name(domainName=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4619,6 +4791,7 @@ def update_domain_name(domainName=None, patchOperations=None):
     :return: {
         'domainName': 'string',
         'certificateName': 'string',
+        'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
         'distributionDomainName': 'string'
     }
@@ -4668,7 +4841,7 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4763,7 +4936,7 @@ def update_integration_response(restApiId=None, resourceId=None, httpMethod=None
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4832,7 +5005,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -4843,6 +5016,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
         'authorizationType': 'string',
         'authorizerId': 'string',
         'apiKeyRequired': True|False,
+        'requestValidatorId': 'string',
         'operationName': 'string',
         'requestParameters': {
             'string': True|False
@@ -4951,7 +5125,7 @@ def update_method_response(restApiId=None, resourceId=None, httpMethod=None, sta
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5012,7 +5186,7 @@ def update_model(restApiId=None, modelName=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5024,6 +5198,58 @@ def update_model(restApiId=None, modelName=None, patchOperations=None):
         'description': 'string',
         'schema': 'string',
         'contentType': 'string'
+    }
+    
+    
+    """
+    pass
+
+def update_request_validator(restApiId=None, requestValidatorId=None, patchOperations=None):
+    """
+    Updates a  RequestValidator of a given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_request_validator(
+        restApiId='string',
+        requestValidatorId='string',
+        patchOperations=[
+            {
+                'op': 'add'|'remove'|'replace'|'move'|'copy'|'test',
+                'path': 'string',
+                'value': 'string',
+                'from': 'string'
+            },
+        ]
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The identifier of the RestApi for which the given RequestValidator is updated.
+            
+
+    :type requestValidatorId: string
+    :param requestValidatorId: [REQUIRED]
+            [Required] The identifier of RequestValidator to be updated.
+            
+
+    :type patchOperations: list
+    :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
+            (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --Not supported.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'validateRequestBody': True|False,
+        'validateRequestParameters': True|False
     }
     
     
@@ -5065,7 +5291,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5082,6 +5308,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                 'authorizationType': 'string',
                 'authorizerId': 'string',
                 'apiKeyRequired': True|False,
+                'requestValidatorId': 'string',
                 'operationName': 'string',
                 'requestParameters': {
                     'string': True|False
@@ -5174,7 +5401,7 @@ def update_rest_api(restApiId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5236,7 +5463,7 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5317,7 +5544,7 @@ def update_usage(usagePlanId=None, keyId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             
@@ -5382,7 +5609,7 @@ def update_usage_plan(usagePlanId=None, patchOperations=None):
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
             op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation.
+            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
             from (string) --Not supported.
             
             

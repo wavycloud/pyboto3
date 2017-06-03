@@ -32,10 +32,13 @@ def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None):
     If none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchGetItem will return a ProvisionedThroughputExceededException . If at least one of the items is successfully processed, then BatchGetItem completes successfully, while returning the keys of the unread items in UnprocessedKeys .
     By default, BatchGetItem performs eventually consistent reads on every table in the request. If you want strongly consistent reads instead, you can set ConsistentRead to true for any or all tables.
     In order to minimize response latency, BatchGetItem retrieves items in parallel.
-    When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the AttributesToGet parameter.
+    When designing your application, keep in mind that DynamoDB does not return items in any particular order. To help parse the response by item, include the primary key values for the items in your request in the ProjectionExpression parameter.
     If a requested item does not exist, it is not returned in the result. Requests for nonexistent items consume the minimum read capacity units according to the type of read. For more information, see Capacity Units Calculations in the Amazon DynamoDB Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example reads multiple items from the Music table using a batch of three GetItem requests.  Only the AlbumTitle attribute is returned.
+    Expected Output:
     
     :example: response = client.batch_get_item(
         RequestItems={
@@ -100,47 +103,57 @@ def batch_get_item(RequestItems=None, ReturnConsumedCapacity=None):
             For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
             Keys - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key value. For a composite key, you must provide both the partition key value and the sort key value.
             ProjectionExpression - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
-            AttributesToGet -
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
-            The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
+            AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a set of primary keys and, for each key, the attributes to retrieve from the table.
             For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide the partition key. For a composite primary key, you must provide both the partition key and the sort key.
             Keys (list) -- [REQUIRED]The primary key attribute values that define the items and the attributes associated with the items.
             (dict) --
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
-            AttributesToGet (list) --One or more attributes to retrieve from the table or index. If no attribute names are specified then all attributes will be returned. If any of the specified attributes are not found, they will not appear in the result.
+            AttributesToGet (list) --This is a legacy parameter. Use ProjectionExpression instead. For more information, see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             (string) --
             ConsistentRead (boolean) --The consistency of a read operation. If set to true , then a strongly consistent read is used; otherwise, an eventually consistent read is used.
             ProjectionExpression (string) --A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the ProjectionExpression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
-            Note
-            ProjectionExpression replaces the legacy AttributesToGet parameter.
             ExpressionAttributeNames (dict) --One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
             To access an attribute whose name conflicts with a DynamoDB reserved word.
             To create a placeholder for repeating occurrences of an attribute name in an expression.
@@ -269,11 +282,14 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     The individual PutItem and DeleteItem operations specified in BatchWriteItem are atomic; however BatchWriteItem as a whole is not. If any requested operations fail because the table's provisioned throughput is exceeded or an internal processing failure occurs, the failed operations are returned in the UnprocessedItems response parameter. You can investigate and optionally resend the requests. Typically, you would call BatchWriteItem in a loop. Each iteration would check for unprocessed items and submit a new BatchWriteItem request with those unprocessed items until all items have been processed.
     Note that if none of the items can be processed due to insufficient provisioned throughput on all of the tables in the request, then BatchWriteItem will return a ProvisionedThroughputExceededException .
     With BatchWriteItem , you can efficiently write or delete large amounts of data, such as from Amazon Elastic MapReduce (EMR), or copy data from another database into DynamoDB. In order to improve performance with these large-scale operations, BatchWriteItem does not behave in the same way as individual PutItem and DeleteItem calls would. For example, you cannot specify conditions on individual put and delete requests, and BatchWriteItem does not return deleted items in the response.
-    If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem provides an alternative where the API performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application.
+    If you use a programming language that supports concurrency, you can use threads to write items in parallel. Your application must include the necessary logic to manage the threads. With languages that don't support threading, you must update or delete the specified items one at a time. In both situations, BatchWriteItem performs the specified put and delete operations in parallel, giving you the power of the thread pool approach without having to introduce complexity into your application.
     Parallel processing reduces latency, but each specified put and delete request consumes the same number of write capacity units whether it is processed in parallel or not. Delete operations on nonexistent items consume one write capacity unit.
     If one or more of the following is true, DynamoDB rejects the entire batch write operation:
     See also: AWS API Documentation
     
+    Examples
+    This example adds three new items to the Music table using a batch of three PutItem requests.
+    Expected Output:
     
     :example: response = client.batch_write_item(
         RequestItems={
@@ -353,53 +369,83 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
             PutRequest (dict) --A request to perform a PutItem operation.
             Item (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem . All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
             DeleteRequest (dict) --A request to perform a DeleteItem operation.
             Key (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
             
@@ -554,50 +600,75 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     Item (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of an item to be processed by PutItem . All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema. If any attributes are present in the item which are part of an index key schema for the table, their types must match the index key schema.
     
     (string) --
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
-    S (string) --A String data type.
+    S (string) --An attribute of type String. For example:
     
-    N (string) --A Number data type.
+    "S": "Hello"
     
-    B (bytes) --A Binary data type.
+    N (string) --An attribute of type Number. For example:
     
-    SS (list) --A String Set data type.
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
     
     (string) --
     
     
-    NS (list) --A Number Set data type.
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
     
     (string) --
     
     
-    BS (list) --A Binary Set data type.
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
     
     (bytes) --
     
     
-    M (dict) --A Map of attribute values.
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
     
     (string) --
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
     
     
     
     
-    L (list) --A List of attribute values.
+    L (list) --An attribute of type List. For example:
     
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
     
     
-    NULL (boolean) --A Null data type.
+    NULL (boolean) --An attribute of type Null. For example:
     
-    BOOL (boolean) --A Boolean data type.
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
     
     
     
@@ -612,50 +683,75 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     Key (dict) -- [REQUIRED]A map of attribute name to attribute values, representing the primary key of the item to delete. All of the table's primary key attributes must be specified, and their data types must match those of the table's key schema.
     
     (string) --
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
-    S (string) --A String data type.
+    S (string) --An attribute of type String. For example:
     
-    N (string) --A Number data type.
+    "S": "Hello"
     
-    B (bytes) --A Binary data type.
+    N (string) --An attribute of type Number. For example:
     
-    SS (list) --A String Set data type.
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
     
     (string) --
     
     
-    NS (list) --A Number Set data type.
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
     
     (string) --
     
     
-    BS (list) --A Binary Set data type.
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
     
     (bytes) --
     
     
-    M (dict) --A Map of attribute values.
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
     
     (string) --
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
     
     
     
     
-    L (list) --A List of attribute values.
+    L (list) --An attribute of type List. For example:
     
-    (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-    Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
     
     
     
-    NULL (boolean) --A Null data type.
+    NULL (boolean) --An attribute of type Null. For example:
     
-    BOOL (boolean) --A Boolean data type.
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
     
     
     
@@ -704,9 +800,12 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
     """
     The CreateTable operation adds a new table to your account. In an AWS account, table names must be unique within each region. That is, you can have two tables with same name if you create the tables in different regions.
     You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time.
-    You can use the DescribeTable API to check the table status.
+    You can use the DescribeTable action to check the table status.
     See also: AWS API Documentation
     
+    Examples
+    This example creates a table named Music.
+    Expected Output:
     
     :example: response = client.create_table(
         AttributeDefinitions=[
@@ -847,7 +946,7 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
             The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
             
-            Projection (dict) -- [REQUIRED]Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
+            Projection (dict) -- [REQUIRED]Represents attributes that are copied (projected) from the table into the local secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
             ProjectionType (string) --The set of attributes that are projected into the index:
             KEYS_ONLY - Only the index and primary keys are projected into the index.
             INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
@@ -888,7 +987,7 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             The partition key of an item is also known as its hash attribute . The term 'hash attribute' derives from DynamoDB' usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values.
             The sort key of an item is also known as its range attribute . The term 'range attribute' derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
             
-            Projection (dict) -- [REQUIRED]Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
+            Projection (dict) -- [REQUIRED]Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
             ProjectionType (string) --The set of attributes that are projected into the index:
             KEYS_ONLY - Only the index and primary keys are projected into the index.
             INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes are in NonKeyAttributes .
@@ -897,7 +996,7 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
             (string) --
             
-            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for the specified global secondary index.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
@@ -922,14 +1021,11 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
             StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
-            StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
+            StreamViewType (string) --When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
             KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
             NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
             OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
-            
             
 
     :rtype: dict
@@ -1034,6 +1130,9 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
     Conditional deletes are useful for deleting items only if specific conditions are met. If those conditions are met, DynamoDB performs the delete. Otherwise, the item is not deleted.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes an item from the Music table.
+    Expected Output:
     
     :example: response = client.delete_item(
         TableName='string',
@@ -1158,94 +1257,88 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             A map of attribute names to AttributeValue objects, representing the primary key of the item to delete.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
     :type Expected: dict
-    :param Expected: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A map of attribute/condition pairs. Expected provides a conditional block for the DeleteItem operation.
-            Each element of Expected consists of an attribute name, a comparison operator, and one or more values. DynamoDB compares the attribute with the value(s) you supplied, using the comparison operator. For each Expected element, the result of the evaluation is either true or false.
-            If you specify more than one element in the Expected map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the ConditionalOperator parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.)
-            If the Expected map evaluates to true, then the conditional operation succeeds; otherwise, it fails.
-            Expected contains the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For type Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            ComparisonOperator - A comparator for evaluating attributes in the AttributeValueList . When performing the comparison, DynamoDB uses strongly consistent reads. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
-            CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
-            BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
-            For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
-            For backward compatibility with previous DynamoDB releases, the following parameters can be used instead of AttributeValueList and ComparisonOperator :
-            Value - A value for DynamoDB to compare with an attribute.
-            Exists - A Boolean value that causes DynamoDB to evaluate the value before attempting the conditional operation:
-            If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the condition evaluates to true; otherwise the condition evaluate to false.
-            If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the condition evaluates to true. If the value is found, despite the assumption that it does not exist, the condition evaluates to false.
-            Note that the default value for Exists is true .
-            The Value and Exists parameters are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
-            Note
-            This parameter does not support attributes of type List or Map.
+    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
             Use Value to specify a value that DynamoDB will compare against an attribute. If the values match, then ExpectedAttributeValue evaluates to true and the conditional operation succeeds. Optionally, you can also set Exists to false, indicating that you do not expect to find the attribute value in the table. In this case, the conditional operation succeeds only if the comparison evaluates to false.
             Value and Exists are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
-            Value (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            Value (dict) --Represents the data for the expected attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             Exists (boolean) --Causes DynamoDB to evaluate the value before attempting a conditional operation:
             If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a ConditionalCheckFailedException .
             If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a ConditionalCheckFailedException .
@@ -1257,65 +1350,70 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             AttributeValueList (list) --One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used.
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
             For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
             
 
     :type ConditionalOperator: string
-    :param ConditionalOperator: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A logical operator to apply to the conditions in the Expected map:
-            AND - If all of the conditions evaluate to true, then the entire map evaluates to true.
-            OR - If at least one of the conditions evaluate to true, then the entire map evaluates to true.
-            If you omit ConditionalOperator , then AND is the default.
-            The operation will succeed only if the entire map evaluates to true.
-            Note
-            This parameter does not support attributes of type List or Map.
-            
+    :param ConditionalOperator: This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ReturnValues: string
     :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared before they were deleted. For DeleteItem , the valid values are:
@@ -1339,11 +1437,9 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
     :param ConditionExpression: A condition that must be satisfied in order for a conditional DeleteItem to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
-            Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
+            Comparison operators: = | | | | = | = | BETWEEN | IN
             Logical operators: AND | OR | NOT
             For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
-            Note
-            ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
 
     :type ExpressionAttributeNames: dict
@@ -1374,27 +1470,42 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             ProductStatus IN (:avail, :back, :disc)
             For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -1484,9 +1595,12 @@ def delete_table(TableName=None):
     The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException . If the specified table does not exist, DynamoDB returns a ResourceNotFoundException . If table is already in the DELETING state, no error is returned.
     When you delete a table, any indexes on that table are also deleted.
     If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours.
-    Use the DescribeTable API to check the status of the table.
+    Use the DescribeTable action to check the status of the table.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the Music table.
+    Expected Output:
     
     :example: response = client.delete_table(
         TableName='string'
@@ -1597,7 +1711,7 @@ def describe_limits():
     """
     Returns the current provisioned-capacity limits for your AWS account in a region, both for the region as a whole and for any one DynamoDB table that you create there.
     When you establish an AWS account, the account has initial limits on the maximum read capacity units and write capacity units that you can provision across all of your DynamoDB tables in a given region. Also, there are per-table limits that apply when you create a table there. For more information, see Limits page in the Amazon DynamoDB Developer Guide .
-    Although you can increase these limits by filing a case at AWS Support Center , obtaining the increase is not instantaneous. The DescribeLimits API lets you write code to compare the capacity you are currently using to those limits imposed by your account so that you have enough time to apply for an increase before you hit a limit.
+    Although you can increase these limits by filing a case at AWS Support Center , obtaining the increase is not instantaneous. The DescribeLimits action lets you write code to compare the capacity you are currently using to those limits imposed by your account so that you have enough time to apply for an increase before you hit a limit.
     For example, you could use one of the AWS SDKs to do the following:
     This will let you see whether you are getting close to your account-level limits.
     The per-table limits apply only when you are creating a new table. They restrict the sum of the provisioned capacity of the new table itself and all its global secondary indexes.
@@ -1605,6 +1719,9 @@ def describe_limits():
     The DescribeLimits Request element has no content.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the maximum read and write capacity units per table, and for the AWS account, in the current AWS region.
+    Expected Output:
     
     :example: response = client.describe_limits()
     
@@ -1626,6 +1743,9 @@ def describe_table(TableName=None):
     Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the Music table.
+    Expected Output:
     
     :example: response = client.describe_table(
         TableName='string'
@@ -1732,6 +1852,34 @@ def describe_table(TableName=None):
     """
     pass
 
+def describe_time_to_live(TableName=None):
+    """
+    Gives a description of the Time to Live (TTL) status on the specified table.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_time_to_live(
+        TableName='string'
+    )
+    
+    
+    :type TableName: string
+    :param TableName: [REQUIRED]
+            The name of the table to be described.
+            
+
+    :rtype: dict
+    :return: {
+        'TimeToLiveDescription': {
+            'TimeToLiveStatus': 'ENABLING'|'DISABLING'|'ENABLED'|'DISABLED',
+            'AttributeName': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
     Generate a presigned url given a client, its method, and arguments
@@ -1756,9 +1904,12 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 
 def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None, ReturnConsumedCapacity=None, ProjectionExpression=None, ExpressionAttributeNames=None):
     """
-    The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data.
+    The GetItem operation returns a set of attributes for the item with the given primary key. If there is no matching item, GetItem does not return any data and there will be no Item element in the response.
     See also: AWS API Documentation
     
+    Examples
+    This example retrieves an item from the Music table. The table has a partition key and a sort key (Artist and SongTitle), so you must specify both of these attributes.
+    Expected Output:
     
     :example: response = client.get_item(
         TableName='string',
@@ -1808,37 +1959,47 @@ def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None
             A map of attribute names to AttributeValue objects, representing the primary key of the item to retrieve.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
     :type AttributesToGet: list
-    :param AttributesToGet: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
-            The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
-            Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
+    :param AttributesToGet: This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide .
             (string) --
             
 
@@ -1856,8 +2017,6 @@ def get_item(TableName=None, Key=None, AttributesToGet=None, ConsistentRead=None
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
-            Note
-            ProjectionExpression replaces the legacy AttributesToGet parameter.
             
 
     :type ExpressionAttributeNames: dict
@@ -1957,6 +2116,9 @@ def list_tables(ExclusiveStartTableName=None, Limit=None):
     Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
     See also: AWS API Documentation
     
+    Examples
+    This example lists all of the tables associated with the current AWS account and endpoint.
+    Expected Output:
     
     :example: response = client.list_tables(
         ExclusiveStartTableName='string',
@@ -1985,15 +2147,53 @@ def list_tables(ExclusiveStartTableName=None, Limit=None):
     """
     pass
 
+def list_tags_of_resource(ResourceArn=None, NextToken=None):
+    """
+    List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10 times per second, per account.
+    For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_tags_of_resource(
+        ResourceArn='string',
+        NextToken='string'
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            The Amazon DynamoDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
+            
+
+    :type NextToken: string
+    :param NextToken: An optional string that, if supplied, must be copied from the output of a previous call to ListTagOfResource. When provided in this manner, this API fetches the next page of results.
+
+    :rtype: dict
+    :return: {
+        'Tags': [
+            {
+                'Key': 'string',
+                'Value': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
     Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values.
     In addition to putting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter.
     When you add an item, the primary key attribute(s) are the only required attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes cannot be empty. Requests with empty values will be rejected with a ValidationException exception.
-    You can request that PutItem return either a copy of the original item (before the update) or a copy of the updated item (after the update). For more information, see the ReturnValues description below.
-    For more information about using this API, see Working with Items in the Amazon DynamoDB Developer Guide .
+    For more information about PutItem , see Working with Items in the Amazon DynamoDB Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example adds a new item to the Music table.
+    Expected Output:
     
     :example: response = client.put_item(
         TableName='string',
@@ -2121,94 +2321,88 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide .
             Each element in the Item map is an AttributeValue object.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
     :type Expected: dict
-    :param Expected: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A map of attribute/condition pairs. Expected provides a conditional block for the PutItem operation.
-            Note
-            This parameter does not support attributes of type List or Map.
-            Each element of Expected consists of an attribute name, a comparison operator, and one or more values. DynamoDB compares the attribute with the value(s) you supplied, using the comparison operator. For each Expected element, the result of the evaluation is either true or false.
-            If you specify more than one element in the Expected map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the ConditionalOperator parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.)
-            If the Expected map evaluates to true, then the conditional operation succeeds; otherwise, it fails.
-            Expected contains the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For type Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            ComparisonOperator - A comparator for evaluating attributes in the AttributeValueList . When performing the comparison, DynamoDB uses strongly consistent reads. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
-            CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
-            BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
-            For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
-            For backward compatibility with previous DynamoDB releases, the following parameters can be used instead of AttributeValueList and ComparisonOperator :
-            Value - A value for DynamoDB to compare with an attribute.
-            Exists - A Boolean value that causes DynamoDB to evaluate the value before attempting the conditional operation:
-            If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the condition evaluates to true; otherwise the condition evaluate to false.
-            If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the condition evaluates to true. If the value is found, despite the assumption that it does not exist, the condition evaluates to false.
-            Note that the default value for Exists is true .
-            The Value and Exists parameters are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
+    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
             Use Value to specify a value that DynamoDB will compare against an attribute. If the values match, then ExpectedAttributeValue evaluates to true and the conditional operation succeeds. Optionally, you can also set Exists to false, indicating that you do not expect to find the attribute value in the table. In this case, the conditional operation succeeds only if the comparison evaluates to false.
             Value and Exists are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
-            Value (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            Value (dict) --Represents the data for the expected attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             Exists (boolean) --Causes DynamoDB to evaluate the value before attempting a conditional operation:
             If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a ConditionalCheckFailedException .
             If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a ConditionalCheckFailedException .
@@ -2220,49 +2414,64 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             AttributeValueList (list) --One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used.
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
             For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
             
@@ -2286,27 +2495,15 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
     :param ReturnItemCollectionMetrics: Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
 
     :type ConditionalOperator: string
-    :param ConditionalOperator: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A logical operator to apply to the conditions in the Expected map:
-            AND - If all of the conditions evaluate to true, then the entire map evaluates to true.
-            OR - If at least one of the conditions evaluate to true, then the entire map evaluates to true.
-            If you omit ConditionalOperator , then AND is the default.
-            The operation will succeed only if the entire map evaluates to true.
-            Note
-            This parameter does not support attributes of type List or Map.
-            
+    :param ConditionalOperator: This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ConditionExpression: string
     :param ConditionExpression: A condition that must be satisfied in order for a conditional PutItem operation to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
-            Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
+            Comparison operators: = | | | | = | = | BETWEEN | IN
             Logical operators: AND | OR | NOT
             For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
-            Note
-            ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
 
     :type ExpressionAttributeNames: dict
@@ -2337,27 +2534,42 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             ProductStatus IN (:avail, :back, :disc)
             For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -2451,6 +2663,9 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
     You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     See also: AWS API Documentation
     
+    Examples
+    This example queries items in the Music table. The table has a partition key and sort key (Artist and SongTitle), but this query only specifies the partition key value. It returns song titles by the artist named "No One You Know".
+    Expected Output:
     
     :example: response = client.query(
         TableName='string',
@@ -2592,22 +2807,14 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
             COUNT - Returns the number of matching items, rather than the matching items themselves.
-            SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select . If you query a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
+            SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select . If you query or scan a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query or scan a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
             If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and AttributesToGet together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
             Note
             If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES . Any other value for Select will return an error.
             
 
     :type AttributesToGet: list
-    :param AttributesToGet: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
-            The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
-            Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
-            You cannot use both AttributesToGet and Select together in a Query request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
-            If you query a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency.
-            If you query a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
+    :param AttributesToGet: This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide .
             (string) --
             
 
@@ -2620,24 +2827,7 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             
 
     :type KeyConditions: dict
-    :param KeyConditions: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use KeyConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            The selection criteria for the query. For a query on a table, you can have conditions only on the table primary key attributes. You must provide the partition key name and value as an EQ condition. You can optionally provide a second condition, referring to the sort key.
-            Note
-            If you don't provide a sort key condition, all of the items that match the partition key will be retrieved. If a FilterExpression or QueryFilter is present, it will be applied after the items are retrieved.
-            For a query on an index, you can have conditions only on the index key attributes. You must provide the index partition key name and value as an EQ condition. You can optionally provide a second condition, referring to the index sort key.
-            Each KeyConditions element consists of an attribute name to compare, along with the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            ComparisonOperator - A comparator for evaluating attributes, for example, equals, greater than, less than, and so on. For KeyConditions , only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN  The following are descriptions of these comparison operators.
-            EQ : Equal.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one specified in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
-            For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
+    :param KeyConditions: This is a legacy parameter. Use KeyConditionExpression instead. For more information, see KeyConditions in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents the selection criteria for a Query or Scan operation:
             For a Query operation, Condition is used for specifying the KeyConditions to use when querying a table or an index. For KeyConditions , only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN Condition is also used in a QueryFilter , which evaluates the query results and returns only the desired values.
@@ -2646,66 +2836,70 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             ComparisonOperator (string) -- [REQUIRED]A comparator for evaluating attributes. For example, equals, greater than, less than, etc.
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
 
     :type QueryFilter: dict
-    :param QueryFilter: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A condition that evaluates the query results after the items are read and returns only the desired values.
-            This parameter does not support attributes of type List or Map.
-            Note
-            A QueryFilter is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
-            If you provide more than one condition in the QueryFilter map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the ConditionalOperator parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.)
-            Note that QueryFilter does not allow key attributes. You cannot define a filter condition on a partition key or a sort key.
-            Each QueryFilter element consists of an attribute name to compare, along with the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the operator specified in ComparisonOperator . For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For type Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
-            ComparisonOperator - A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  For complete descriptions of all comparison operators, see the Condition data type.
+    :param QueryFilter: This is a legacy parameter. Use FilterExpression instead. For more information, see QueryFilter in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents the selection criteria for a Query or Scan operation:
             For a Query operation, Condition is used for specifying the KeyConditions to use when querying a table or an index. For KeyConditions , only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN Condition is also used in a QueryFilter , which evaluates the query results and returns only the desired values.
@@ -2714,65 +2908,70 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             ComparisonOperator (string) -- [REQUIRED]A comparator for evaluating attributes. For example, equals, greater than, less than, etc.
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
 
     :type ConditionalOperator: string
-    :param ConditionalOperator: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A logical operator to apply to the conditions in a QueryFilter map:
-            AND - If all of the conditions evaluate to true, then the entire map evaluates to true.
-            OR - If at least one of the conditions evaluate to true, then the entire map evaluates to true.
-            If you omit ConditionalOperator , then AND is the default.
-            The operation will succeed only if the entire map evaluates to true.
-            Note
-            This parameter does not support attributes of type List or Map.
-            
+    :param ConditionalOperator: This is a legacy parameter. Use FilterExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ScanIndexForward: boolean
     :param ScanIndexForward: Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false , the traversal is performed in descending order.
@@ -2784,27 +2983,42 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
     :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -2819,17 +3033,14 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
-            Note
-            ProjectionExpression replaces the legacy AttributesToGet parameter.
             
 
     :type FilterExpression: string
     :param FilterExpression: A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned.
+            A FilterExpression does not allow key attributes. You cannot define a filter expression based on a partition key or a sort key.
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
             For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide .
-            Note
-            FilterExpression replaces the legacy QueryFilter and ConditionalOperator parameters.
             
 
     :type KeyConditionExpression: string
@@ -2841,9 +3052,9 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval
             Valid comparisons for the sort key condition are as follows:
             sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval .
-            sortKeyName ** :sortkeyval - true if the sort key value is less than :sortkeyval .
+            sortKeyName ```` :sortkeyval - true if the sort key value is less than :sortkeyval .
             sortKeyName = :sortkeyval - true if the sort key value is less than or equal to :sortkeyval .
-            sortKeyName ** :sortkeyval - true if the sort key value is greater than :sortkeyval .
+            sortKeyName ```` :sortkeyval - true if the sort key value is greater than :sortkeyval .
             sortKeyName = :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval .
             sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1 , and less than or equal to :sortkeyval2 .
             begins_with ( sortKeyName , :sortkeyval ) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive.
@@ -2854,8 +3065,6 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             #S = :myval
             For a list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide .
             For more information on ExpressionAttributeNames and ExpressionAttributeValues , see Using Placeholders for Attribute Names and Values in the Amazon DynamoDB Developer Guide .
-            Note
-            KeyConditionExpression replaces the legacy KeyConditions parameter.
             
 
     :type ExpressionAttributeNames: dict
@@ -2886,27 +3095,42 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
             ProductStatus IN (:avail, :back, :disc)
             For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -2992,12 +3216,15 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
 
 def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None, ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None, Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None, ConsistentRead=None):
     """
-    The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a ScanFilter operation.
+    The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation.
     If the total number of scanned items exceeds the maximum data set size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.
     By default, Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide .
     By default, Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true .
     See also: AWS API Documentation
     
+    Examples
+    This example scans the entire Music table, and then narrows the results to songs by the artist "No One You Know". For each item, only the album title and song title are returned.
+    Expected Output:
     
     :example: response = client.scan(
         TableName='string',
@@ -3106,12 +3333,7 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
     :param IndexName: The name of a secondary index to scan. This index can be any local secondary index or global secondary index. Note that if you use the IndexName parameter, you must also provide TableName .
 
     :type AttributesToGet: list
-    :param AttributesToGet: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ProjectionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.
-            The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
-            Note that AttributesToGet has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.
+    :param AttributesToGet: This is a legacy parameter. Use ProjectionExpression instead. For more information, see AttributesToGet in the Amazon DynamoDB Developer Guide .
             (string) --
             
 
@@ -3119,25 +3341,18 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
     :param Limit: The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, and a key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where you left off. Also, if the processed data set size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more information, see Query and Scan in the Amazon DynamoDB Developer Guide .
 
     :type Select: string
-    :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, or the count of matching items.
-            ALL_ATTRIBUTES - Returns all of the item attributes.
+    :param Select: The attributes to be returned in the result. You can retrieve all item attributes, specific item attributes, the count of matching items, or in the case of an index, some or all of the attributes projected into the index.
+            ALL_ATTRIBUTES - Returns all of the item attributes from the specified table or index. If you query a local secondary index, then for each matching item in the index DynamoDB will fetch the entire item from the parent table. If the index is configured to project all item attributes, then all of the data can be obtained from the local secondary index, and no fetching is required.
             ALL_PROJECTED_ATTRIBUTES - Allowed only when querying an index. Retrieves all attributes that have been projected into the index. If the index is configured to project all attributes, this return value is equivalent to specifying ALL_ATTRIBUTES .
             COUNT - Returns the number of matching items, rather than the matching items themselves.
-            SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select .
-            If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES . You cannot use both AttributesToGet and Select together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
+            SPECIFIC_ATTRIBUTES - Returns only the attributes listed in AttributesToGet . This return value is equivalent to specifying AttributesToGet without specifying any value for Select . If you query or scan a local secondary index and request only attributes that are projected into that index, the operation will read only the index and not the table. If any of the requested attributes are not projected into the local secondary index, DynamoDB will fetch each of these attributes from the parent table. This extra fetching incurs additional throughput cost and latency. If you query or scan a global secondary index, you can only request attributes that are projected into the index. Global secondary index queries cannot fetch attributes from the parent table.
+            If neither Select nor AttributesToGet are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and AttributesToGet together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES . (This usage is equivalent to specifying AttributesToGet without any value for Select .)
+            Note
+            If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES . Any other value for Select will return an error.
             
 
     :type ScanFilter: dict
-    :param ScanFilter: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A condition that evaluates the scan results and returns only the desired values.
-            Note
-            This parameter does not support attributes of type List or Map.
-            If you specify more than one condition in the ScanFilter map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the ConditionalOperator parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.)
-            Each ScanFilter element consists of an attribute name to compare, along with the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the operator specified in ComparisonOperator . For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
-            ComparisonOperator - A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  For complete descriptions of all comparison operators, see Condition .
+    :param ScanFilter: This is a legacy parameter. Use FilterExpression instead. For more information, see ScanFilter in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents the selection criteria for a Query or Scan operation:
             For a Query operation, Condition is used for specifying the KeyConditions to use when querying a table or an index. For KeyConditions , only the following comparison operators are supported: EQ | LE | LT | GE | GT | BEGINS_WITH | BETWEEN Condition is also used in a QueryFilter , which evaluates the query results and returns only the desired values.
@@ -3146,92 +3361,112 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             ComparisonOperator (string) -- [REQUIRED]A comparator for evaluating attributes. For example, equals, greater than, less than, etc.
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
             
             
 
     :type ConditionalOperator: string
-    :param ConditionalOperator: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use FilterExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A logical operator to apply to the conditions in a ScanFilter map:
-            AND - If all of the conditions evaluate to true, then the entire map evaluates to true.
-            OR - If at least one of the conditions evaluate to true, then the entire map evaluates to true.
-            If you omit ConditionalOperator , then AND is the default.
-            The operation will succeed only if the entire map evaluates to true.
-            Note
-            This parameter does not support attributes of type List or Map.
-            
+    :param ConditionalOperator: This is a legacy parameter. Use FilterExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ExclusiveStartKey: dict
     :param ExclusiveStartKey: The primary key of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
             The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are allowed.
             In a parallel scan, a Scan request that includes ExclusiveStartKey must specify the same segment whose previous Scan returned the corresponding value of LastEvaluatedKey .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -3260,8 +3495,6 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
     :param ProjectionExpression: A string that identifies one or more attributes to retrieve from the specified table or index. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas.
             If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result.
             For more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
-            Note
-            ProjectionExpression replaces the legacy AttributesToGet parameter.
             
 
     :type FilterExpression: string
@@ -3269,8 +3502,6 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             Note
             A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units.
             For more information, see Filter Expressions in the Amazon DynamoDB Developer Guide .
-            Note
-            FilterExpression replaces the legacy ScanFilter and ConditionalOperator parameters.
             
 
     :type ExpressionAttributeNames: dict
@@ -3301,27 +3532,42 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
             ProductStatus IN (:avail, :back, :disc)
             For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -3413,12 +3659,81 @@ def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Selec
     """
     pass
 
+def tag_resource(ResourceArn=None, Tags=None):
+    """
+    Associate a set of tags with an Amazon DynamoDB resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking. You can call TagResource up to 5 times per second, per account.
+    For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_resource(
+        ResourceArn='string',
+        Tags=[
+            {
+                'Key': 'string',
+                'Value': 'string'
+            },
+        ]
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            Identifies the Amazon DynamoDB resource to which tags should be added. This value is an Amazon Resource Name (ARN).
+            
+
+    :type Tags: list
+    :param Tags: [REQUIRED]
+            The tags to be assigned to the Amazon DynamoDB resource.
+            (dict) --Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single DynamoDB table.
+            AWS-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. AWS-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag.
+            For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide .
+            Key (string) -- [REQUIRED]The key of the tag.Tag keys are case sensitive. Each DynamoDB table can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
+            Value (string) -- [REQUIRED]The value of the tag. Tag values are case-sensitive and can be null.
+            
+            
+
+    """
+    pass
+
+def untag_resource(ResourceArn=None, TagKeys=None):
+    """
+    Removes the association of tags from an Amazon DynamoDB resource. You can call UntagResource up to 5 times per second, per account.
+    For an overview on tagging DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_resource(
+        ResourceArn='string',
+        TagKeys=[
+            'string',
+        ]
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            The Amazon DyanamoDB resource the tags will be removed from. This value is an Amazon Resource Name (ARN).
+            
+
+    :type TagKeys: list
+    :param TagKeys: [REQUIRED]
+            A list of tag keys. Existing tags of the resource whose keys are members of this list will be removed from the Amazon DynamoDB resource.
+            (string) --
+            
+
+    """
+    pass
+
 def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, UpdateExpression=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
     Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
     You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
     See also: AWS API Documentation
     
+    Examples
+    This example updates an item in the Music table. It adds a new attribute (Year) and modifies the AlbumTitle attribute.  All of the attributes in the item, as they appear after the update, are returned in the response.
+    Expected Output:
     
     :example: response = client.update_item(
         TableName='string',
@@ -3571,79 +3886,88 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute.
             For the primary key, you must provide all of the attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
     :type AttributeUpdates: dict
-    :param AttributeUpdates: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use UpdateExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            This parameter can be used for modifying top-level attributes; however, it does not support individual list or map elements.
-            The names of attributes to be modified, the action to perform on each, and the new value for each. If you are updating an attribute that is an index key attribute for any indexes on that table, the attribute type must match the index key type defined in the AttributesDefinition of the table description. You can use UpdateItem to update any non-key attributes.
-            Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes must not be empty. Requests with empty values will be rejected with a ValidationException exception.
-            Each AttributeUpdates element consists of an attribute name to modify, along with the following:
-            Value - The new value, if applicable, for this attribute.
-            Action - A value that specifies how to perform the update. This action is only valid for an existing attribute whose data type is Number or is a set; do not use ADD for other data types. If an item with the specified primary key is found in the table, the following values perform the following actions:
-            PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.
-            DELETE - Removes the attribute and its value, if no value is specified for DELETE . The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c] , then the final attribute value is [b] . Specifying an empty set is an error.
-            ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:
-            If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.
-            Note
-            If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount , but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0 , and finally add 3 to it. The result will be a new itemcount attribute, with a value of 3 .
-            If the existing data type is a set, and if Value is also a set, then Value is appended to the existing set. For example, if the attribute value is the set [1,2] , and the ADD action specified [3] , then the final attribute value is [1,2,3] . An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type. Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, Value must also be a set of strings.
-            
-            If no item with the specified key is found in the table, the following values perform the following actions:
-            PUT - Causes DynamoDB to create a new item with the specified primary key, and then adds the attribute.
-            DELETE - Nothing happens, because attributes cannot be deleted from a nonexistent item. The operation succeeds, but DynamoDB does not create a new item.
-            ADD - Causes DynamoDB to create an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are Number and Number Set.
-            If you provide any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
+    :param AttributeUpdates: This is a legacy parameter. Use UpdateExpression instead. For more information, see AttributeUpdates in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --For the UpdateItem operation, represents the attributes to be modified, the action to perform on each, and the new value for each.
             Note
             You cannot use UpdateItem to update any primary key attributes. Instead, you will need to delete the item, and then use PutItem to create a new item with new attributes.
             Attribute values cannot be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests with empty values will be rejected with a ValidationException exception.
-            Value (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            Value (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data TYpes in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             Action (string) --Specifies how to perform the update. Valid values are PUT (default), DELETE , and ADD . The behavior depends on whether the specified primary key already exists in the table.
             If an item with the specified *Key* is found in the table:
             PUT - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.
@@ -3662,69 +3986,48 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             
 
     :type Expected: dict
-    :param Expected: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A map of attribute/condition pairs. Expected provides a conditional block for the UpdateItem operation.
-            Each element of Expected consists of an attribute name, a comparison operator, and one or more values. DynamoDB compares the attribute with the value(s) you supplied, using the comparison operator. For each Expected element, the result of the evaluation is either true or false.
-            If you specify more than one element in the Expected map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the ConditionalOperator parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.)
-            If the Expected map evaluates to true, then the conditional operation succeeds; otherwise, it fails.
-            Expected contains the following:
-            AttributeValueList - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used. For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters . For type Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
-            ComparisonOperator - A comparator for evaluating attributes in the AttributeValueList . When performing the comparison, DynamoDB uses strongly consistent reads. The following comparison operators are available: EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN  The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
-            Note
-            This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
-            CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
-            BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
-            BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
-            For usage examples of AttributeValueList and ComparisonOperator , see Legacy Conditional Parameters in the Amazon DynamoDB Developer Guide .
-            For backward compatibility with previous DynamoDB releases, the following parameters can be used instead of AttributeValueList and ComparisonOperator :
-            Value - A value for DynamoDB to compare with an attribute.
-            Exists - A Boolean value that causes DynamoDB to evaluate the value before attempting the conditional operation:
-            If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the condition evaluates to true; otherwise the condition evaluate to false.
-            If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the condition evaluates to true. If the value is found, despite the assumption that it does not exist, the condition evaluates to false.
-            Note that the default value for Exists is true .
-            The Value and Exists parameters are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
-            Note
-            This parameter does not support attributes of type List or Map.
+    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
             Use Value to specify a value that DynamoDB will compare against an attribute. If the values match, then ExpectedAttributeValue evaluates to true and the conditional operation succeeds. Optionally, you can also set Exists to false, indicating that you do not expect to find the attribute value in the table. In this case, the conditional operation succeeds only if the comparison evaluates to false.
             Value and Exists are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
-            Value (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            Value (dict) --Represents the data for the expected attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             Exists (boolean) --Causes DynamoDB to evaluate the value before attempting a conditional operation:
             If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a ConditionalCheckFailedException .
             If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a ConditionalCheckFailedException .
@@ -3736,73 +4039,78 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             The following comparison operators are available:
             EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
             The following are descriptions of each comparison operator.
-            EQ : Equal. EQ is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
-            NE : Not equal. NE is supported for all datatypes, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            EQ : Equal. EQ is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
+            NE : Not equal. NE is supported for all data types, including lists and maps. AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not equal {'NS':['6', '2', '1']} .
             LE : Less than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             LT : Less than.  AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GE : Greater than or equal.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
             GT : Greater than.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not equal {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']} .
-            NOT_NULL : The attribute exists. NOT_NULL is supported for all datatypes, including lists and maps.
+            NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the existence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute 'a ' exists; its data type is not relevant to the NOT_NULL comparison operator.
-            NULL : The attribute does not exist. NULL is supported for all datatypes, including lists and maps.
+            NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
             Note
             This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute 'a ' is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute 'a ' exists; its data type is not relevant to the NULL comparison operator.
             CONTAINS : Checks for a subsequence, or value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating 'a CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set. AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ('SS ', 'NS ', or 'BS '), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating 'a NOT CONTAINS b ', 'a ' can be a list; however, 'b ' cannot be a set, a map, or a list.
             BEGINS_WITH : Checks for a prefix.  AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
-            IN : Checks for matching elements within two sets. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary (not a set type). These attributes are compared against an existing set type attribute of an item. If any elements of the input set are present in the item attribute, the expression evaluates to true.
+            IN : Checks for matching elements in a list. AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
             BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.  AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {'S':'6'} does not compare to {'N':'6'} . Also, {'N':'6'} does not compare to {'NS':['6', '2', '1']}
             AttributeValueList (list) --One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used.
             For type Number, value comparisons are numeric.
             String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
             For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
             For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
             
 
     :type ConditionalOperator: string
-    :param ConditionalOperator: 
-            Warning
-            This is a legacy parameter, for backward compatibility. New applications should use ConditionExpression instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a ValidationException exception.
-            A logical operator to apply to the conditions in the Expected map:
-            AND - If all of the conditions evaluate to true, then the entire map evaluates to true.
-            OR - If at least one of the conditions evaluate to true, then the entire map evaluates to true.
-            If you omit ConditionalOperator , then AND is the default.
-            The operation will succeed only if the entire map evaluates to true.
-            Note
-            This parameter does not support attributes of type List or Map.
-            
+    :param ConditionalOperator: This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ReturnValues: string
     :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
-            ALL_OLD - If UpdateItem overwrote an attribute name-value pair, then the content of the old item is returned.
-            UPDATED_OLD - The old versions of only the updated attributes are returned.
-            ALL_NEW - All of the attributes of the new version of the item are returned.
-            UPDATED_NEW - The new versions of only the updated attributes are returned.
+            ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.
+            UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.
+            ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.
+            UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.
             There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No Read Capacity Units are consumed.
             Values returned are strongly consistent
             
@@ -3838,19 +4146,15 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.
             You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5
             For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide .
-            Note
-            UpdateExpression replaces the legacy AttributeUpdates parameter.
             
 
     :type ConditionExpression: string
     :param ConditionExpression: A condition that must be satisfied in order for a conditional update to succeed.
             An expression can contain any of the following:
             Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.
-            Comparison operators: = | #x3C;#x3E; | #x3C; | #x3E; | #x3C;= | #x3E;= | BETWEEN | IN
+            Comparison operators: = | | | | = | = | BETWEEN | IN
             Logical operators: AND | OR | NOT
             For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
-            Note
-            ConditionExpression replaces the legacy ConditionalOperator and Expected parameters.
             
 
     :type ExpressionAttributeNames: dict
@@ -3881,27 +4185,42 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             ProductStatus IN (:avail, :back, :disc)
             For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            S (string) --A String data type.
-            N (string) --A Number data type.
-            B (bytes) --A Binary data type.
-            SS (list) --A String Set data type.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            S (string) --An attribute of type String. For example:
+            'S': 'Hello'
+            N (string) --An attribute of type Number. For example:
+            'N': '123.45'
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+            B (bytes) --An attribute of type Binary. For example:
+            'B': 'dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk'
+            SS (list) --An attribute of type String Set. For example:
+            'SS': ['Giraffe', 'Hippo' ,'Zebra']
             (string) --
-            NS (list) --A Number Set data type.
+            NS (list) --An attribute of type Number Set. For example:
+            'NS': ['42.2', '-19', '7.5', '3.14']
+            Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
             (string) --
-            BS (list) --A Binary Set data type.
+            BS (list) --An attribute of type Binary Set. For example:
+            'BS': ['U3Vubnk=', 'UmFpbnk=', 'U25vd3k=']
             (bytes) --
-            M (dict) --A Map of attribute values.
+            M (dict) --An attribute of type Map. For example:
+            'M': {'Name': {'S': 'Joe'}, 'Age': {'N': '35'}}
             (string) --
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             
-            L (list) --A List of attribute values.
-            (dict) --Represents the data for an attribute. You can set one, and only one, of the elements.
-            Each attribute in an item is a name-value pair. An attribute can be single-valued or multi-valued set. For example, a book item can have title and authors attributes. Each book has one title but can have many authors. The multi-valued attribute is a set; duplicate values are not allowed.
-            NULL (boolean) --A Null data type.
-            BOOL (boolean) --A Boolean data type.
+            L (list) --An attribute of type List. For example:
+            'L': ['Cookies', 'Coffee', 3.14159]
+            (dict) --Represents the data for an attribute.
+            Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+            NULL (boolean) --An attribute of type Null. For example:
+            'NULL': true
+            BOOL (boolean) --An attribute of type Boolean. For example:
+            'BOOL': true
             
             
 
@@ -3992,6 +4311,9 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     You can only perform one of the following operations at once:
     See also: AWS API Documentation
     
+    Examples
+    This example increases the provisioned read and write capacity on the Music table.
+    Expected Output:
     
     :example: response = client.update_table(
         AttributeDefinitions=[
@@ -4062,8 +4384,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             
 
     :type ProvisionedThroughput: dict
-    :param ProvisionedThroughput: Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
-            For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
+    :param ProvisionedThroughput: The new provisioned throughput settings for the specified table or index.
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             
@@ -4080,7 +4401,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             An existing global secondary index to be removed from an existing table.
             Update (dict) --The name of an existing global secondary index, along with new provisioned throughput settings to be applied to that index.
             IndexName (string) -- [REQUIRED]The name of the global secondary index to be updated.
-            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for the specified global secondary index.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
@@ -4113,7 +4434,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
             (string) --
             
-            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+            ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for the specified global secondary index.
             For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
             ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
             WriteCapacityUnits (integer) -- [REQUIRED]The maximum number of writes consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
@@ -4128,14 +4449,11 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             Note
             You will receive a ResourceInUseException if you attempt to enable a stream on a table that already has a stream, or if you attempt to disable a stream on a table which does not have a stream.
             StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
-            StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-            StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
+            StreamViewType (string) --When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
             KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
             NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
             OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
-            
             
 
     :rtype: dict
@@ -4246,8 +4564,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     TableName (string) -- [REQUIRED]
     The name of the table to be updated.
     
-    ProvisionedThroughput (dict) -- Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
-    For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
+    ProvisionedThroughput (dict) -- The new provisioned throughput settings for the specified table or index.
     
     ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
     
@@ -4274,7 +4591,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     
     IndexName (string) -- [REQUIRED]The name of the global secondary index to be updated.
     
-    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for the specified global secondary index.
     For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
     
     ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
@@ -4336,7 +4653,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     
     
     
-    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.
+    ProvisionedThroughput (dict) -- [REQUIRED]Represents the provisioned throughput settings for the specified global secondary index.
     For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide .
     
     ReadCapacityUnits (integer) -- [REQUIRED]The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException . For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide .
@@ -4365,10 +4682,8 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     
     StreamEnabled (boolean) --Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
     
-    StreamViewType (string) --The DynamoDB Streams settings for the table. These settings consist of:
+    StreamViewType (string) --When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
     
-    StreamEnabled - Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on the table.
-    StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the stream for this table. Valid values for StreamViewType are:
     KEYS_ONLY - Only the key attributes of the modified item are written to the stream.
     NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.
     OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.
@@ -4378,6 +4693,47 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
     
     
     
+    """
+    pass
+
+def update_time_to_live(TableName=None, TimeToLiveSpecification=None):
+    """
+    Specify the lifetime of individual table items. The database automatically removes the item at the expiration of the item. The UpdateTimeToLive method will enable or disable TTL for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification ; it may take up to one hour for the change to fully process.
+    TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attribute is less than the current time, the item is marked as expired and subsequently deleted.
+    DynamoDB deletes expired items on a best-effort basis to ensure availability of throughput for other data operations.
+    As items are deleted, they are removed from any Local Secondary Index and Global Secondary Index immediately in the same eventually consistent way as a standard delete operation.
+    For more information, see Time To Live in the Amazon DynamoDB Developer Guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_time_to_live(
+        TableName='string',
+        TimeToLiveSpecification={
+            'Enabled': True|False,
+            'AttributeName': 'string'
+        }
+    )
+    
+    
+    :type TableName: string
+    :param TableName: [REQUIRED]
+            The name of the table to be configured.
+            
+
+    :type TimeToLiveSpecification: dict
+    :param TimeToLiveSpecification: [REQUIRED]
+            Represents the settings used to enable or disable Time to Live for the specified table.
+            Enabled (boolean) -- [REQUIRED]Indicates whether Time To Live is to be enabled (true) or disabled (false) on the table.
+            AttributeName (string) -- [REQUIRED]The name of the Time to Live attribute used to store the expiration time for items in the table.
+            
+
+    :rtype: dict
+    :return: {
+        'TimeToLiveSpecification': {
+            'Enabled': True|False,
+            'AttributeName': 'string'
+        }
+    }
     
     
     """

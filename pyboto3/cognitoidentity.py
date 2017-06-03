@@ -59,7 +59,8 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
         CognitoIdentityProviders=[
             {
                 'ProviderName': 'string',
-                'ClientId': 'string'
+                'ClientId': 'string',
+                'ServerSideTokenCheck': True|False
             },
         ],
         SamlProviderARNs=[
@@ -99,6 +100,7 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
             (dict) --A provider representing an Amazon Cognito Identity User Pool and its client ID.
             ProviderName (string) --The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 .
             ClientId (string) --The client ID for the Amazon Cognito Identity User Pool.
+            ServerSideTokenCheck (boolean) --TRUE if server-side token validation is enabled for the identity provider s token.
             
             
 
@@ -122,7 +124,8 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
         'CognitoIdentityProviders': [
             {
                 'ProviderName': 'string',
-                'ClientId': 'string'
+                'ClientId': 'string',
+                'ServerSideTokenCheck': True|False
             },
         ],
         'SamlProviderARNs': [
@@ -161,6 +164,8 @@ def create_identity_pool(IdentityPoolName=None, AllowUnauthenticatedIdentities=N
     ProviderName (string) --The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 .
     
     ClientId (string) --The client ID for the Amazon Cognito Identity User Pool.
+    
+    ServerSideTokenCheck (boolean) --TRUE if server-side token validation is enabled for the identity providers token.
     
     
     
@@ -292,7 +297,8 @@ def describe_identity_pool(IdentityPoolId=None):
         'CognitoIdentityProviders': [
             {
                 'ProviderName': 'string',
-                'ClientId': 'string'
+                'ClientId': 'string',
+                'ServerSideTokenCheck': True|False
             },
         ],
         'SamlProviderARNs': [
@@ -918,7 +924,8 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
         CognitoIdentityProviders=[
             {
                 'ProviderName': 'string',
-                'ClientId': 'string'
+                'ClientId': 'string',
+                'ServerSideTokenCheck': True|False
             },
         ],
         SamlProviderARNs=[
@@ -961,6 +968,7 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
             (dict) --A provider representing an Amazon Cognito Identity User Pool and its client ID.
             ProviderName (string) --The provider name for an Amazon Cognito Identity User Pool. For example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789 .
             ClientId (string) --The client ID for the Amazon Cognito Identity User Pool.
+            ServerSideTokenCheck (boolean) --TRUE if server-side token validation is enabled for the identity provider s token.
             
             
 
@@ -984,7 +992,8 @@ def update_identity_pool(IdentityPoolId=None, IdentityPoolName=None, AllowUnauth
         'CognitoIdentityProviders': [
             {
                 'ProviderName': 'string',
-                'ClientId': 'string'
+                'ClientId': 'string',
+                'ServerSideTokenCheck': True|False
             },
         ],
         'SamlProviderARNs': [

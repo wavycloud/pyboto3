@@ -133,8 +133,8 @@ def create_tags(configurationIds=None, tags=None):
             Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key -value format. For example:
             {'key': 'serverType', 'value': 'webServer'}
             (dict) --Metadata that help you categorize IT assets.
-            key (string) -- [REQUIRED]A type of tag to filter on.
-            value (string) -- [REQUIRED]A value for a tag key to filter on.
+            key (string) -- [REQUIRED]The type of tag on which to filter.
+            value (string) -- [REQUIRED]A value for a tag key on which to filter.
             
             
 
@@ -206,8 +206,8 @@ def delete_tags(configurationIds=None, tags=None):
     :param tags: Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key -value format. For example:
             {'key': 'serverType', 'value': 'webServer'}
             (dict) --Metadata that help you categorize IT assets.
-            key (string) -- [REQUIRED]A type of tag to filter on.
-            value (string) -- [REQUIRED]A value for a tag key to filter on.
+            key (string) -- [REQUIRED]The type of tag on which to filter.
+            value (string) -- [REQUIRED]A value for a tag key on which to filter.
             
             
 
@@ -253,11 +253,10 @@ def describe_agents(agentIds=None, filters=None, maxResults=None, nextToken=None
     :type filters: list
     :param filters: You can filter the request using various logical operators and a key -value format. For example:
             {'key': 'collectionStatus', 'value': 'STARTED'}
-            For a complete list of filter options and guidance about using them with this action, see Managing AWS Application Discovery Service Agents and the AWS Application Discovery Connector .
             (dict) --A filter that can use conditional operators.
-            for a complete list of filters and guidance for using them with the Application Discovery Service, see Querying Discovered Configuration Items .
+            For more information about filters, see Querying Discovered Configuration Items .
             name (string) -- [REQUIRED]The name of the filter.
-            values (list) -- [REQUIRED]A string value that you want to filter on. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
+            values (list) -- [REQUIRED]A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
             (string) --
             condition (string) -- [REQUIRED]A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
             
@@ -300,7 +299,7 @@ def describe_agents(agentIds=None, filters=None, maxResults=None, nextToken=None
 def describe_configurations(configurationIds=None):
     """
     Retrieves attributes for a list of configuration item IDs. All of the supplied IDs must be for the same asset type (server, application, process, or connection). Output fields are specific to the asset type selected. For example, the output for a server configuration item includes a list of attributes about the server, such as host name, operating system, and number of network cards.
-    For a complete list of outputs for each asset type, see Querying Discovered Configuration Items .
+    For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action .
     See also: AWS API Documentation
     
     
@@ -341,6 +340,7 @@ def describe_configurations(configurationIds=None):
 
 def describe_export_configurations(exportIds=None, maxResults=None, nextToken=None):
     """
+    Deprecated. Use DescribeExportTasks instead.
     Retrieves the status of a given export process. You can retrieve status from a maximum of 100 processes.
     See also: AWS API Documentation
     
@@ -363,7 +363,51 @@ def describe_export_configurations(exportIds=None, maxResults=None, nextToken=No
     :param maxResults: The maximum number of results that you want to display as a part of the query.
 
     :type nextToken: string
-    :param nextToken: A token to get the next set of results. For example, if you specified 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you will get results in a set of 10. Use the token in the query to get the next set of 10.
+    :param nextToken: A token to get the next set of results. For example, if you specify 100 IDs for DescribeExportConfigurationsRequest$exportIds but set DescribeExportConfigurationsRequest$maxResults to 10, you get results in a set of 10. Use the token in the query to get the next set of 10.
+
+    :rtype: dict
+    :return: {
+        'exportsInfo': [
+            {
+                'exportId': 'string',
+                'exportStatus': 'FAILED'|'SUCCEEDED'|'IN_PROGRESS',
+                'statusMessage': 'string',
+                'configurationsDownloadUrl': 'string',
+                'exportRequestTime': datetime(2015, 1, 1)
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_export_tasks(exportIds=None, maxResults=None, nextToken=None):
+    """
+    Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_export_tasks(
+        exportIds=[
+            'string',
+        ],
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type exportIds: list
+    :param exportIds: One or more unique identifiers used to query the status of an export request.
+            (string) --
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
+
+    :type nextToken: string
+    :param nextToken: The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
 
     :rtype: dict
     :return: {
@@ -405,10 +449,9 @@ def describe_tags(filters=None, maxResults=None, nextToken=None):
     
     :type filters: list
     :param filters: You can filter the list using a key -value format. You can separate these items by using logical operators. Allowed filters include tagKey , tagValue , and configurationId .
-            For a complete list of filter options and guidance about using them with this action, see Managing AWS Application Discovery Service Agents and the AWS Application Discovery Connector .
-            (dict) --The name of a tag filter. Valid names are: tagKey , tagValue , configurationId .
-            name (string) -- [REQUIRED]A name of a tag filter.
-            values (list) -- [REQUIRED]Values of a tag filter.
+            (dict) --The tag filter. Valid names are: tagKey , tagValue , configurationId .
+            name (string) -- [REQUIRED]A name of the tag filter.
+            values (list) -- [REQUIRED]Values for the tag filter.
             (string) --
             
             
@@ -453,12 +496,12 @@ def disassociate_configuration_items_from_application(applicationConfigurationId
     
     :type applicationConfigurationId: string
     :param applicationConfigurationId: [REQUIRED]
-            Configuration ID of an application from which each item will be disassociated.
+            Configuration ID of an application from which each item is disassociated.
             
 
     :type configurationIds: list
     :param configurationIds: [REQUIRED]
-            Configuration ID of each item be be disassociated from an application.
+            Configuration ID of each item to be disassociated from an application.
             (string) --
             
 
@@ -474,7 +517,8 @@ def disassociate_configuration_items_from_application(applicationConfigurationId
 
 def export_configurations():
     """
-    Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID which you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
+    Deprecated. Use StartExportTask instead.
+    Exports all discovered configuration data to an Amazon S3 bucket or an application that enables you to view and evaluate the data. Data includes tags and tag associations, processes, connections, servers, and system performance. This API returns an export ID that you can query using the DescribeExportConfigurations API. The system imposes a limit of two configuration exports in six hours.
     See also: AWS API Documentation
     
     
@@ -575,7 +619,7 @@ def get_waiter():
 
 def list_configurations(configurationType=None, filters=None, maxResults=None, nextToken=None, orderBy=None):
     """
-    Retrieves a list of configuration items according to criteria you specify in a filter. The filter criteria identify relationship requirements.
+    Retrieves a list of configuration items according to criteria that you specify in a filter. The filter criteria identifies the relationship requirements.
     See also: AWS API Documentation
     
     
@@ -603,7 +647,7 @@ def list_configurations(configurationType=None, filters=None, maxResults=None, n
     
     :type configurationType: string
     :param configurationType: [REQUIRED]
-            A valid configuration identified by the Discovery Service.
+            A valid configuration identified by Application Discovery Service.
             
 
     :type filters: list
@@ -611,9 +655,9 @@ def list_configurations(configurationType=None, filters=None, maxResults=None, n
             {'key': 'serverType', 'value': 'webServer'}
             For a complete list of filter options and guidance about using them with this action, see Querying Discovered Configuration Items .
             (dict) --A filter that can use conditional operators.
-            for a complete list of filters and guidance for using them with the Application Discovery Service, see Querying Discovered Configuration Items .
+            For more information about filters, see Querying Discovered Configuration Items .
             name (string) -- [REQUIRED]The name of the filter.
-            values (list) -- [REQUIRED]A string value that you want to filter on. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
+            values (list) -- [REQUIRED]A string value on which to filter. For example, if you choose the destinationServer.osVersion filter name, you could specify Ubuntu for the value.
             (string) --
             condition (string) -- [REQUIRED]A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND . If you specify multiple values for a particular filter, the system differentiates the values using OR . Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
             
@@ -626,9 +670,9 @@ def list_configurations(configurationType=None, filters=None, maxResults=None, n
     :param nextToken: Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
 
     :type orderBy: list
-    :param orderBy: Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Querying Discovered Configuration Items .
-            (dict) --Field and direction for ordered output.
-            fieldName (string) -- [REQUIRED]Field to order on.
+    :param orderBy: Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see Using the ListConfigurations Action .
+            (dict) --A field and direction for ordered output.
+            fieldName (string) -- [REQUIRED]The field on which to order.
             sortOrder (string) --Ordering direction.
             
             
@@ -658,7 +702,7 @@ def list_configurations(configurationType=None, filters=None, maxResults=None, n
 
 def list_server_neighbors(configurationId=None, portInformationNeeded=None, neighborConfigurationIds=None, maxResults=None, nextToken=None):
     """
-    Retrieves a list of servers which are one network hop away from a specified server.
+    Retrieves a list of servers that are one network hop away from a specified server.
     See also: AWS API Documentation
     
     
@@ -713,7 +757,7 @@ def list_server_neighbors(configurationId=None, portInformationNeeded=None, neig
 
 def start_data_collection_by_agent_ids(agentIds=None):
     """
-    Instructs the specified agents or Connectors to start collecting data.
+    Instructs the specified agents or connectors to start collecting data.
     See also: AWS API Documentation
     
     
@@ -726,7 +770,7 @@ def start_data_collection_by_agent_ids(agentIds=None):
     
     :type agentIds: list
     :param agentIds: [REQUIRED]
-            The IDs of the agents or Connectors that you want to start collecting data. If you send a request to an agent/Connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/Connectors and you do not have permission to contact some of those agents/Connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
+            The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
             (string) --
             
 
@@ -745,9 +789,36 @@ def start_data_collection_by_agent_ids(agentIds=None):
     """
     pass
 
+def start_export_task(exportDataFormat=None):
+    """
+    Export the configuration data about discovered configuration items and relationships to an S3 bucket in a specified format.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.start_export_task(
+        exportDataFormat=[
+            'CSV'|'GRAPHML',
+        ]
+    )
+    
+    
+    :type exportDataFormat: list
+    :param exportDataFormat: The file format for the returned export data. Default value is CSV .
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'exportId': 'string'
+    }
+    
+    
+    """
+    pass
+
 def stop_data_collection_by_agent_ids(agentIds=None):
     """
-    Instructs the specified agents or Connectors to stop collecting data.
+    Instructs the specified agents or connectors to stop collecting data.
     See also: AWS API Documentation
     
     
@@ -760,7 +831,7 @@ def stop_data_collection_by_agent_ids(agentIds=None):
     
     :type agentIds: list
     :param agentIds: [REQUIRED]
-            The IDs of the agents or Connectors that you want to stop collecting data.
+            The IDs of the agents or connectors from which to stop collecting data.
             (string) --
             
 

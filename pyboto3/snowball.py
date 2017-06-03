@@ -44,6 +44,9 @@ def cancel_cluster(ClusterId=None):
     Cancels a cluster job. You can only cancel a cluster job while it's in the AwaitingQuorum status. You'll have at least an hour after creating a cluster job to cancel it.
     See also: AWS API Documentation
     
+    Examples
+    This operation cancels a cluster job. You can only cancel a cluster job while it's in the AwaitingQuorum status.
+    Expected Output:
     
     :example: response = client.cancel_cluster(
         ClusterId='string'
@@ -67,6 +70,9 @@ def cancel_job(JobId=None):
     Cancels the specified job. You can only cancel a job before its JobState value changes to PreparingAppliance . Requesting the ListJobs or DescribeJob action will return a job's JobState as part of the response element data returned.
     See also: AWS API Documentation
     
+    Examples
+    This operation cancels a job. You can only cancel a job before its JobState value changes to PreparingAppliance.
+    Expected Output:
     
     :example: response = client.cancel_job(
         JobId='string'
@@ -87,10 +93,12 @@ def cancel_job(JobId=None):
 
 def create_address(Address=None):
     """
-    Creates an address for a Snowball to be shipped to.
-    Addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
+    Creates an address for a Snowball to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
     See also: AWS API Documentation
     
+    Examples
+    This operation creates an address for a job. Addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
+    Expected Output:
     
     :example: response = client.create_address(
         Address={
@@ -106,7 +114,8 @@ def create_address(Address=None):
             'Landmark': 'string',
             'Country': 'string',
             'PostalCode': 'string',
-            'PhoneNumber': 'string'
+            'PhoneNumber': 'string',
+            'IsRestricted': True|False
         }
     )
     
@@ -122,11 +131,12 @@ def create_address(Address=None):
             Street3 (string) --The third line in a street address that a Snowball is to be delivered to.
             City (string) --The city in an address that a Snowball is to be delivered to.
             StateOrProvince (string) --The state or province in an address that a Snowball is to be delivered to.
-            PrefectureOrDistrict (string) --The prefecture or district that the appliance will be shipped to.
-            Landmark (string) --The landmark identifying the address that the appliance will be shipped to.
+            PrefectureOrDistrict (string) --This field is no longer used and the value is ignored.
+            Landmark (string) --This field is no longer used and the value is ignored.
             Country (string) --The country in an address that a Snowball is to be delivered to.
             PostalCode (string) --The postal code in an address that a Snowball is to be delivered to.
             PhoneNumber (string) --The phone number associated with an address that a Snowball is to be delivered to.
+            IsRestricted (boolean) --If the address you are creating is a primary address, then set this option to true. This field is not supported in most regions.
             
 
     :rtype: dict
@@ -138,11 +148,14 @@ def create_address(Address=None):
     """
     pass
 
-def create_cluster(JobType=None, Resources=None, Description=None, AddressId=None, KmsKeyARN=None, RoleARN=None, SnowballType=None, ShippingOption=None, Notification=None):
+def create_cluster(JobType=None, Resources=None, Description=None, AddressId=None, KmsKeyARN=None, RoleARN=None, SnowballType=None, ShippingOption=None, Notification=None, ForwardingAddressId=None):
     """
     Creates an empty cluster. Each cluster supports five nodes. You use the  CreateJob action separately to create the jobs for each of these nodes. The cluster does not ship until these five node jobs have been created.
     See also: AWS API Documentation
     
+    Examples
+    Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action separately to create the jobs for each of these nodes. The cluster does not ship until these five node jobs have been created.
+    Expected Output:
     
     :example: response = client.create_cluster(
         JobType='IMPORT'|'EXPORT'|'LOCAL_USE',
@@ -179,7 +192,8 @@ def create_cluster(JobType=None, Resources=None, Description=None, AddressId=Non
                 'New'|'PreparingAppliance'|'PreparingShipment'|'InTransitToCustomer'|'WithCustomer'|'InTransitToAWS'|'WithAWS'|'InProgress'|'Complete'|'Cancelled'|'Listing'|'Pending',
             ],
             'NotifyAll': True|False
-        }
+        },
+        ForwardingAddressId='string'
     )
     
     
@@ -245,6 +259,9 @@ def create_cluster(JobType=None, Resources=None, Description=None, AddressId=Non
             NotifyAll (boolean) --Any change in job state will trigger a notification for this job.
             
 
+    :type ForwardingAddressId: string
+    :param ForwardingAddressId: The forwarding address ID for a cluster. This field is not supported in most regions.
+
     :rtype: dict
     :return: {
         'ClusterId': 'string'
@@ -254,11 +271,14 @@ def create_cluster(JobType=None, Resources=None, Description=None, AddressId=Non
     """
     pass
 
-def create_job(JobType=None, Resources=None, Description=None, AddressId=None, KmsKeyARN=None, RoleARN=None, SnowballCapacityPreference=None, ShippingOption=None, Notification=None, ClusterId=None, SnowballType=None):
+def create_job(JobType=None, Resources=None, Description=None, AddressId=None, KmsKeyARN=None, RoleARN=None, SnowballCapacityPreference=None, ShippingOption=None, Notification=None, ClusterId=None, SnowballType=None, ForwardingAddressId=None):
     """
-    Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. .
+    Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.
     See also: AWS API Documentation
     
+    Examples
+    Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster.
+    Expected Output:
     
     :example: response = client.create_job(
         JobType='IMPORT'|'EXPORT'|'LOCAL_USE',
@@ -297,7 +317,8 @@ def create_job(JobType=None, Resources=None, Description=None, AddressId=None, K
             'NotifyAll': True|False
         },
         ClusterId='string',
-        SnowballType='STANDARD'|'EDGE'
+        SnowballType='STANDARD'|'EDGE',
+        ForwardingAddressId='string'
     )
     
     
@@ -363,6 +384,9 @@ def create_job(JobType=None, Resources=None, Description=None, AddressId=None, K
     :type SnowballType: string
     :param SnowballType: The type of AWS Snowball appliance to use for this job. Currently, the only supported appliance type for cluster jobs is EDGE .
 
+    :type ForwardingAddressId: string
+    :param ForwardingAddressId: The forwarding address ID for a job. This field is not supported in most regions.
+
     :rtype: dict
     :return: {
         'JobId': 'string'
@@ -377,6 +401,9 @@ def describe_address(AddressId=None):
     Takes an AddressId and returns specific details about that address in the form of an Address object.
     See also: AWS API Documentation
     
+    Examples
+    This operation describes an address for a job.
+    Expected Output:
     
     :example: response = client.describe_address(
         AddressId='string'
@@ -403,7 +430,8 @@ def describe_address(AddressId=None):
             'Landmark': 'string',
             'Country': 'string',
             'PostalCode': 'string',
-            'PhoneNumber': 'string'
+            'PhoneNumber': 'string',
+            'IsRestricted': True|False
         }
     }
     
@@ -416,6 +444,9 @@ def describe_addresses(MaxResults=None, NextToken=None):
     Returns a specified number of ADDRESS objects. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.
     See also: AWS API Documentation
     
+    Examples
+    This operation describes all the addresses that you've created for AWS Snowball. Calling this API in one of the US regions will return addresses from the list of all addresses associated with this account in all US regions.
+    Expected Output:
     
     :example: response = client.describe_addresses(
         MaxResults=123,
@@ -445,7 +476,8 @@ def describe_addresses(MaxResults=None, NextToken=None):
                 'Landmark': 'string',
                 'Country': 'string',
                 'PostalCode': 'string',
-                'PhoneNumber': 'string'
+                'PhoneNumber': 'string',
+                'IsRestricted': True|False
             },
         ],
         'NextToken': 'string'
@@ -460,6 +492,9 @@ def describe_cluster(ClusterId=None):
     Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
     See also: AWS API Documentation
     
+    Examples
+    Returns information about a specific cluster including shipping information, cluster status, and other important metadata.
+    Expected Output:
     
     :example: response = client.describe_cluster(
         ClusterId='string'
@@ -511,7 +546,8 @@ def describe_cluster(ClusterId=None):
                     'New'|'PreparingAppliance'|'PreparingShipment'|'InTransitToCustomer'|'WithCustomer'|'InTransitToAWS'|'WithAWS'|'InProgress'|'Complete'|'Cancelled'|'Listing'|'Pending',
                 ],
                 'NotifyAll': True|False
-            }
+            },
+            'ForwardingAddressId': 'string'
         }
     }
     
@@ -524,9 +560,12 @@ def describe_cluster(ClusterId=None):
 
 def describe_job(JobId=None):
     """
-    Returns information about a specific job including shipping information, job status, and other important metadata. .
+    Returns information about a specific job including shipping information, job status, and other important metadata.
     See also: AWS API Documentation
     
+    Examples
+    This operation describes a job you've created for AWS Snowball.
+    Expected Output:
     
     :example: response = client.describe_job(
         JobId='string'
@@ -601,7 +640,8 @@ def describe_job(JobId=None):
                 'JobSuccessLogURI': 'string',
                 'JobFailureLogURI': 'string'
             },
-            'ClusterId': 'string'
+            'ClusterId': 'string',
+            'ForwardingAddressId': 'string'
         },
         'SubJobMetadata': [
             {
@@ -665,7 +705,8 @@ def describe_job(JobId=None):
                     'JobSuccessLogURI': 'string',
                     'JobFailureLogURI': 'string'
                 },
-                'ClusterId': 'string'
+                'ClusterId': 'string',
+                'ForwardingAddressId': 'string'
             },
         ]
     }
@@ -707,6 +748,8 @@ def get_job_manifest(JobId=None):
     The credentials of a given job, including its manifest file and unlock code, expire 90 days after the job is created.
     See also: AWS API Documentation
     
+    Examples
+    Returns a link to an Amazon S3 presigned URL for the manifest file associated with the specified JobId value. You can access the manifest file for up to 60 minutes after this request has been made. To access the manifest file after 60 minutes have passed, you'll have to make another call to the GetJobManifest action.
     
     :example: response = client.get_job_manifest(
         JobId='string'
@@ -734,6 +777,8 @@ def get_job_unlock_code(JobId=None):
     As a best practice, we recommend that you don't save a copy of the UnlockCode in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snowball associated with that job.
     See also: AWS API Documentation
     
+    Examples
+    Returns the UnlockCode code value for the specified job. A particular UnlockCode value can be accessed for up to 90 days after the associated job has been created.
     
     :example: response = client.get_job_unlock_code(
         JobId='string'
@@ -776,6 +821,8 @@ def get_snowball_usage():
     The default service limit for the number of Snowballs that you can have at one time is 1. If you want to increase your service limit, contact AWS Support.
     See also: AWS API Documentation
     
+    Examples
+    Returns information about the Snowball service limit for your account, and also the number of Snowballs your account has in use.
     
     :example: response = client.get_snowball_usage()
     
@@ -801,6 +848,9 @@ def list_cluster_jobs(ClusterId=None, MaxResults=None, NextToken=None):
     Returns an array of JobListEntry objects of the specified length. Each JobListEntry object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
     See also: AWS API Documentation
     
+    Examples
+    Returns an array of JobListEntry objects of the specified length. Each JobListEntry object is for a job in the specified cluster and contains a job's state, a job's ID, and other information.
+    Expected Output:
     
     :example: response = client.list_cluster_jobs(
         ClusterId='string',
@@ -845,6 +895,9 @@ def list_clusters(MaxResults=None, NextToken=None):
     Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
     See also: AWS API Documentation
     
+    Examples
+    Returns an array of ClusterListEntry objects of the specified length. Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
+    Expected Output:
     
     :example: response = client.list_clusters(
         MaxResults=123,
@@ -880,6 +933,9 @@ def list_jobs(MaxResults=None, NextToken=None):
     Returns an array of JobListEntry objects of the specified length. Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
     See also: AWS API Documentation
     
+    Examples
+    Returns an array of JobListEntry objects of the specified length. Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. Calling this API action in one of the US regions will return jobs from the list of all jobs associated with this account in all US regions.
+    Expected Output:
     
     :example: response = client.list_jobs(
         MaxResults=123,
@@ -913,11 +969,14 @@ def list_jobs(MaxResults=None, NextToken=None):
     """
     pass
 
-def update_cluster(ClusterId=None, RoleARN=None, Description=None, Resources=None, AddressId=None, ShippingOption=None, Notification=None):
+def update_cluster(ClusterId=None, RoleARN=None, Description=None, Resources=None, AddressId=None, ShippingOption=None, Notification=None, ForwardingAddressId=None):
     """
     While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
     See also: AWS API Documentation
     
+    Examples
+    This action allows you to update certain parameters for a cluster. Once the cluster changes to a different state, usually within 60 minutes of it being created, this action is no longer available.
+    Expected Output:
     
     :example: response = client.update_cluster(
         ClusterId='string',
@@ -952,7 +1011,8 @@ def update_cluster(ClusterId=None, RoleARN=None, Description=None, Resources=Non
                 'New'|'PreparingAppliance'|'PreparingShipment'|'InTransitToCustomer'|'WithCustomer'|'InTransitToAWS'|'WithAWS'|'InProgress'|'Complete'|'Cancelled'|'Listing'|'Pending',
             ],
             'NotifyAll': True|False
-        }
+        },
+        ForwardingAddressId='string'
     )
     
     
@@ -1001,6 +1061,9 @@ def update_cluster(ClusterId=None, RoleARN=None, Description=None, Resources=Non
             NotifyAll (boolean) --Any change in job state will trigger a notification for this job.
             
 
+    :type ForwardingAddressId: string
+    :param ForwardingAddressId: The updated ID for the forwarding address for a cluster. This field is not supported in most regions.
+
     :rtype: dict
     :return: {}
     
@@ -1011,11 +1074,14 @@ def update_cluster(ClusterId=None, RoleARN=None, Description=None, Resources=Non
     """
     pass
 
-def update_job(JobId=None, RoleARN=None, Notification=None, Resources=None, AddressId=None, ShippingOption=None, Description=None, SnowballCapacityPreference=None):
+def update_job(JobId=None, RoleARN=None, Notification=None, Resources=None, AddressId=None, ShippingOption=None, Description=None, SnowballCapacityPreference=None, ForwardingAddressId=None):
     """
     While a job's JobState value is New , you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
     See also: AWS API Documentation
     
+    Examples
+    This action allows you to update certain parameters for a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
+    Expected Output:
     
     :example: response = client.update_job(
         JobId='string',
@@ -1051,7 +1117,8 @@ def update_job(JobId=None, RoleARN=None, Notification=None, Resources=None, Addr
         AddressId='string',
         ShippingOption='SECOND_DAY'|'NEXT_DAY'|'EXPRESS'|'STANDARD',
         Description='string',
-        SnowballCapacityPreference='T50'|'T80'|'T100'|'NoPreference'
+        SnowballCapacityPreference='T50'|'T80'|'T100'|'NoPreference',
+        ForwardingAddressId='string'
     )
     
     
@@ -1102,6 +1169,9 @@ def update_job(JobId=None, RoleARN=None, Notification=None, Resources=None, Addr
 
     :type SnowballCapacityPreference: string
     :param SnowballCapacityPreference: The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
+
+    :type ForwardingAddressId: string
+    :param ForwardingAddressId: The updated ID for the forwarding address for a job. This field is not supported in most regions.
 
     :rtype: dict
     :return: {}

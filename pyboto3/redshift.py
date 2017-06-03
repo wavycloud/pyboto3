@@ -125,6 +125,7 @@ def authorize_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier
     :type AccountWithRestoreAccess: string
     :param AccountWithRestoreAccess: [REQUIRED]
             The identifier of the AWS customer account authorized to restore the specified snapshot.
+            To share a snapshot with AWS support, specify amazon-redshift-support.
             
 
     :rtype: dict
@@ -149,7 +150,8 @@ def authorize_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier
             'EncryptedWithHSM': True|False,
             'AccountsWithRestoreAccess': [
                 {
-                    'AccountId': 'string'
+                    'AccountId': 'string',
+                    'AccountAlias': 'string'
                 },
             ],
             'OwnerAccount': 'string',
@@ -258,7 +260,8 @@ def copy_cluster_snapshot(SourceSnapshotIdentifier=None, SourceSnapshotClusterId
             'EncryptedWithHSM': True|False,
             'AccountsWithRestoreAccess': [
                 {
-                    'AccountId': 'string'
+                    'AccountId': 'string',
+                    'AccountAlias': 'string'
                 },
             ],
             'OwnerAccount': 'string',
@@ -867,7 +870,8 @@ def create_cluster_snapshot(SnapshotIdentifier=None, ClusterIdentifier=None, Tag
             'EncryptedWithHSM': True|False,
             'AccountsWithRestoreAccess': [
                 {
-                    'AccountId': 'string'
+                    'AccountId': 'string',
+                    'AccountAlias': 'string'
                 },
             ],
             'OwnerAccount': 'string',
@@ -1575,7 +1579,8 @@ def delete_cluster_snapshot(SnapshotIdentifier=None, SnapshotClusterIdentifier=N
             'EncryptedWithHSM': True|False,
             'AccountsWithRestoreAccess': [
                 {
-                    'AccountId': 'string'
+                    'AccountId': 'string',
+                    'AccountAlias': 'string'
                 },
             ],
             'OwnerAccount': 'string',
@@ -2042,7 +2047,8 @@ def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, 
                 'EncryptedWithHSM': True|False,
                 'AccountsWithRestoreAccess': [
                     {
-                        'AccountId': 'string'
+                        'AccountId': 'string',
+                        'AccountAlias': 'string'
                     },
                 ],
                 'OwnerAccount': 'string',
@@ -3630,6 +3636,78 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
+def get_cluster_credentials(DbUser=None, DbName=None, ClusterIdentifier=None, DurationSeconds=None, AutoCreate=None, DbGroups=None):
+    """
+    Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log in. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Generating IAM Database User Credentials in the Amazon Redshift Cluster Management Guide.
+    The IAM user or role that executes GetClusterCredentials must have an IAM policy attached that allows the redshift:GetClusterCredentials action with access to the dbuser resource on the cluster. The user name specified for dbuser in the IAM policy and the user name specified for the DbUser parameter must match.
+    If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups .
+    In addition, if the AutoCreate parameter is set to True , then the policy must include the redshift:CreateClusterUser privilege.
+    If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_cluster_credentials(
+        DbUser='string',
+        DbName='string',
+        ClusterIdentifier='string',
+        DurationSeconds=123,
+        AutoCreate=True|False,
+        DbGroups=[
+            'string',
+        ]
+    )
+    
+    
+    :type DbUser: string
+    :param DbUser: [REQUIRED]
+            The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database.
+            For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.
+            Constraints:
+            Must be 1 to 128 alphanumeric characters or hyphens
+            Must contain only lowercase letters.
+            First character must be a letter.
+            Must not contain a colon ( : ) or slash ( / ).
+            Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
+            
+
+    :type DbName: string
+    :param DbName: The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log in to any existing database.
+            Constraints:
+            Must be 1 to 64 alphanumeric characters or hyphens
+            Must contain only lowercase letters.
+            Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
+            
+
+    :type ClusterIdentifier: string
+    :param ClusterIdentifier: [REQUIRED]
+            The unique identifier of the cluster that contains the database for which your are requesting credentials. This parameter is case sensitive.
+            
+
+    :type DurationSeconds: integer
+    :param DurationSeconds: The number of seconds until the returned temporary password expires.
+            Constraint: minimum 900, maximum 3600.
+            Default: 900
+            
+
+    :type AutoCreate: boolean
+    :param AutoCreate: Create a database user with the name specified for DbUser if one does not exist.
+
+    :type DbGroups: list
+    :param DbGroups: A list of the names of existing database groups that DbUser will join for the current session. If not specified, the new user is added only to PUBLIC.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'DbUser': 'string',
+        'DbPassword': 'string',
+        'Expiration': datetime(2015, 1, 1)
+    }
+    
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -5193,7 +5271,8 @@ def revoke_snapshot_access(SnapshotIdentifier=None, SnapshotClusterIdentifier=No
             'EncryptedWithHSM': True|False,
             'AccountsWithRestoreAccess': [
                 {
-                    'AccountId': 'string'
+                    'AccountId': 'string',
+                    'AccountAlias': 'string'
                 },
             ],
             'OwnerAccount': 'string',

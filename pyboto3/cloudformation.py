@@ -39,14 +39,18 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def cancel_update_stack(StackName=None):
+def cancel_update_stack(StackName=None, ClientRequestToken=None):
     """
     Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration.
     See also: AWS API Documentation
     
+    Examples
+    This example cancels an update of the specified stack.
+    Expected Output:
     
     :example: response = client.cancel_update_stack(
-        StackName='string'
+        StackName='string',
+        ClientRequestToken='string'
     )
     
     
@@ -55,10 +59,20 @@ def cancel_update_stack(StackName=None):
             The name or the unique stack ID that is associated with the stack.
             
 
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
+
+    :return: response = client.cancel_update_stack(
+        StackName='MyStack',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
-def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None):
+def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None, ClientRequestToken=None):
     """
     For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rolling it back to the UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state), and then try to update the stack again.
     A stack goes into the UPDATE_ROLLBACK_FAILED state when AWS CloudFormation cannot roll back all changes after a failed stack update. For example, you might have a stack that is rolling back to an old database instance that was deleted outside of AWS CloudFormation. Because AWS CloudFormation doesn't know the database was deleted, it assumes that the database instance still exists and attempts to roll back to it, causing the update rollback to fail.
@@ -70,7 +84,8 @@ def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None)
         RoleARN='string',
         ResourcesToSkip=[
             'string',
-        ]
+        ],
+        ClientRequestToken='string'
     )
     
     
@@ -91,9 +106,12 @@ def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None)
             Warning
             Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.
             Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.
-            To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID . You can specify a nested stack resource (the logical ID of an AWS::CloudFormation::Stack resource) only if it's in one of the following states: DELETE_IN_PROGRESS , DELETE_COMPLETE , or DELETE_FAILED .
+            To specify resources in a nested stack, use the following format: NestedStackName.ResourceLogicalID . If the ResourceLogicalID is a stack resource (Type: AWS::CloudFormation::Stack ), it must be in one of the following states: DELETE_IN_PROGRESS , DELETE_COMPLETE , or DELETE_FAILED .
             (string) --
             
+
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this ContinueUpdateRollback request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to continue the rollback to a stack with the same name. You might retry ContinueUpdateRollback requests to ensure that AWS CloudFormation successfully received them.
 
     :rtype: dict
     :return: {}
@@ -104,9 +122,9 @@ def continue_update_rollback(StackName=None, RoleARN=None, ResourcesToSkip=None)
 
 def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviousTemplate=None, Parameters=None, Capabilities=None, ResourceTypes=None, RoleARN=None, NotificationARNs=None, Tags=None, ChangeSetName=None, ClientToken=None, Description=None, ChangeSetType=None):
     """
-    Creates a list of changes for a stack. AWS CloudFormation generates the change set by comparing the template's information with the information that you submit. A change set can help you understand which resources AWS CloudFormation will change, and how it will change them, before you update your stack. Change sets allow you to check before making a change to avoid deleting or replacing critical resources.
-    AWS CloudFormation doesn't make any changes to the stack when you create a change set. To make the specified changes, you must execute the change set by using the  ExecuteChangeSet action.
-    After the call successfully completes, AWS CloudFormation starts creating the change set. To check the status of the change set, use the  DescribeChangeSet action.
+    Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that AWS CloudFormation will create. If you create a change set for an existing stack, AWS CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources AWS CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack.
+    To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE . To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, AWS CloudFormation starts creating the change set. To check the status of the change set or to review it, use the  DescribeChangeSet action.
+    When you are satisfied with the changes the change set will make, execute the change set by using the  ExecuteChangeSet action. AWS CloudFormation doesn't make changes until you execute the change set.
     See also: AWS API Documentation
     
     
@@ -234,7 +252,7 @@ def create_change_set(StackName=None, TemplateBody=None, TemplateURL=None, UsePr
     """
     pass
 
-def create_stack(StackName=None, TemplateBody=None, TemplateURL=None, Parameters=None, DisableRollback=None, TimeoutInMinutes=None, NotificationARNs=None, Capabilities=None, ResourceTypes=None, RoleARN=None, OnFailure=None, StackPolicyBody=None, StackPolicyURL=None, Tags=None):
+def create_stack(StackName=None, TemplateBody=None, TemplateURL=None, Parameters=None, DisableRollback=None, TimeoutInMinutes=None, NotificationARNs=None, Capabilities=None, ResourceTypes=None, RoleARN=None, OnFailure=None, StackPolicyBody=None, StackPolicyURL=None, Tags=None, ClientRequestToken=None):
     """
     Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack via the  DescribeStacks API.
     See also: AWS API Documentation
@@ -271,7 +289,8 @@ def create_stack(StackName=None, TemplateBody=None, TemplateURL=None, Parameters
                 'Key': 'string',
                 'Value': 'string'
             },
-        ]
+        ],
+        ClientRequestToken='string'
     )
     
     
@@ -354,6 +373,9 @@ def create_stack(StackName=None, TemplateBody=None, TemplateURL=None, Parameters
             
             
 
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that AWS CloudFormation successfully received them.
+
     :rtype: dict
     :return: {
         'StackId': 'string'
@@ -391,7 +413,7 @@ def delete_change_set(ChangeSetName=None, StackName=None):
     """
     pass
 
-def delete_stack(StackName=None, RetainResources=None, RoleARN=None):
+def delete_stack(StackName=None, RetainResources=None, RoleARN=None, ClientRequestToken=None):
     """
     Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks do not show up in the  DescribeStacks API if the deletion has been completed successfully.
     See also: AWS API Documentation
@@ -402,7 +424,8 @@ def delete_stack(StackName=None, RetainResources=None, RoleARN=None):
         RetainResources=[
             'string',
         ],
-        RoleARN='string'
+        RoleARN='string',
+        ClientRequestToken='string'
     )
     
     
@@ -421,6 +444,9 @@ def delete_stack(StackName=None, RetainResources=None, RoleARN=None):
     :param RoleARN: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to delete the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf.
             If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
             
+
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that AWS CloudFormation successfully received them.
 
     """
     pass
@@ -580,7 +606,8 @@ def describe_stack_events(StackName=None, NextToken=None):
                 'Timestamp': datetime(2015, 1, 1),
                 'ResourceStatus': 'CREATE_IN_PROGRESS'|'CREATE_FAILED'|'CREATE_COMPLETE'|'DELETE_IN_PROGRESS'|'DELETE_FAILED'|'DELETE_COMPLETE'|'DELETE_SKIPPED'|'UPDATE_IN_PROGRESS'|'UPDATE_FAILED'|'UPDATE_COMPLETE',
                 'ResourceStatusReason': 'string',
-                'ResourceProperties': 'string'
+                'ResourceProperties': 'string',
+                'ClientRequestToken': 'string'
             },
         ],
         'NextToken': 'string'
@@ -816,7 +843,7 @@ def estimate_template_cost(TemplateBody=None, TemplateURL=None, Parameters=None)
     """
     pass
 
-def execute_change_set(ChangeSetName=None, StackName=None):
+def execute_change_set(ChangeSetName=None, StackName=None, ClientRequestToken=None):
     """
     Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, AWS CloudFormation starts updating the stack. Use the  DescribeStacks action to view the status of the update.
     When you execute a change set, AWS CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack.
@@ -826,7 +853,8 @@ def execute_change_set(ChangeSetName=None, StackName=None):
     
     :example: response = client.execute_change_set(
         ChangeSetName='string',
-        StackName='string'
+        StackName='string',
+        ClientRequestToken='string'
     )
     
     
@@ -837,6 +865,9 @@ def execute_change_set(ChangeSetName=None, StackName=None):
 
     :type StackName: string
     :param StackName: If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
+
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that AWS CloudFormation successfully received them.
 
     :rtype: dict
     :return: {}
@@ -1285,13 +1316,16 @@ def signal_resource(StackName=None, LogicalResourceId=None, UniqueId=None, Statu
     """
     pass
 
-def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviousTemplate=None, StackPolicyDuringUpdateBody=None, StackPolicyDuringUpdateURL=None, Parameters=None, Capabilities=None, ResourceTypes=None, RoleARN=None, StackPolicyBody=None, StackPolicyURL=None, NotificationARNs=None, Tags=None):
+def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviousTemplate=None, StackPolicyDuringUpdateBody=None, StackPolicyDuringUpdateURL=None, Parameters=None, Capabilities=None, ResourceTypes=None, RoleARN=None, StackPolicyBody=None, StackPolicyURL=None, NotificationARNs=None, Tags=None, ClientRequestToken=None):
     """
     Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack via the  DescribeStacks action.
     To get a copy of the template for an existing stack, you can use the  GetTemplate action.
     For more information about creating an update template, updating a stack, and monitoring the progress of the update, see Updating a Stack .
     See also: AWS API Documentation
     
+    Examples
+    This example adds two stack notification topics to the specified stack.
+    Expected Output:
     
     :example: response = client.update_stack(
         StackName='string',
@@ -1324,7 +1358,8 @@ def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviou
                 'Key': 'string',
                 'Value': 'string'
             },
-        ]
+        ],
+        ClientRequestToken='string'
     )
     
     
@@ -1335,16 +1370,18 @@ def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviou
 
     :type TemplateBody: string
     :param TemplateBody: Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.)
-            Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+            Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
             
 
     :type TemplateURL: string
     :param TemplateURL: Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide.
-            Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+            Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
             
 
     :type UsePreviousTemplate: boolean
     :param UsePreviousTemplate: Reuse the existing template that is associated with the stack that you are updating.
+            Conditional: You must specify only one of the following parameters: TemplateBody , TemplateURL , or set the UsePreviousTemplate to true .
+            
 
     :type StackPolicyDuringUpdateBody: string
     :param StackPolicyDuringUpdateBody: Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both.
@@ -1410,6 +1447,9 @@ def update_stack(StackName=None, TemplateBody=None, TemplateURL=None, UsePreviou
             
             
 
+    :type ClientRequestToken: string
+    :param ClientRequestToken: A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that AWS CloudFormation successfully received them.
+
     :rtype: dict
     :return: {
         'StackId': 'string'
@@ -1424,6 +1464,9 @@ def validate_template(TemplateBody=None, TemplateURL=None):
     Validates a specified template. AWS CloudFormation first checks if the template is valid JSON. If it isn't, AWS CloudFormation checks if the template is valid YAML. If both these checks fail, AWS CloudFormation returns a template validation error.
     See also: AWS API Documentation
     
+    Examples
+    This example validates the specified template.
+    Expected Output:
     
     :example: response = client.validate_template(
         TemplateBody='string',

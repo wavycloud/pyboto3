@@ -26,7 +26,7 @@ SOFTWARE.
 
 def add_tags_to_resource(ResourceName=None, Tags=None):
     """
-    Adds up to 10 cost allocation tags to the named resource. A cost allocation tag is a key-value pair where the key and value are case-sensitive. You can use cost allocation tags to categorize and track your AWS costs.
+    Adds up to 50 cost allocation tags to the named resource. A cost allocation tag is a key-value pair where the key and value are case-sensitive. You can use cost allocation tags to categorize and track your AWS costs.
     When you apply tags to your ElastiCache resources, AWS generates a cost allocation report as a comma-separated value (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories (such as cost centers, application names, or owners) to organize your costs across multiple services. For more information, see Using Cost Allocation Tags in Amazon ElastiCache in the ElastiCache User Guide .
     See also: AWS API Documentation
     
@@ -52,8 +52,8 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
     :param Tags: [REQUIRED]
             A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
             (dict) --A cost allocation Tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. A tag with a null Value is permitted.
-            Key (string) --The key for the tag.
-            Value (string) --The tag's value. May not be null.
+            Key (string) --The key for the tag. May not be null.
+            Value (string) --The tag's value. May be null.
             
             
 
@@ -379,8 +379,8 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
     :type Tags: list
     :param Tags: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
             (dict) --A cost allocation Tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. A tag with a null Value is permitted.
-            Key (string) --The key for the tag.
-            Value (string) --The tag's value. May not be null.
+            Key (string) --The key for the tag. May not be null.
+            Value (string) --The tag's value. May be null.
             
             
 
@@ -439,7 +439,8 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
             
 
     :type AuthToken: string
-    :param AuthToken: The password used to access a password protected server.
+    :param AuthToken: 
+            Reserved parameter. The password used to access a password protected server.
             Password constraints:
             Must be only printable ASCII characters.
             Must be at least 16 characters and no more than 128 characters in length.
@@ -536,7 +537,8 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
 
 def create_cache_parameter_group(CacheParameterGroupName=None, CacheParameterGroupFamily=None, Description=None):
     """
-    Creates a new cache parameter group. A cache parameter group is a collection of parameters that you apply to all of the nodes in a cache cluster.
+    Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cache cluster or replication group using the CacheParameterGroup.
+    A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:
     See also: AWS API Documentation
     
     
@@ -571,6 +573,18 @@ def create_cache_parameter_group(CacheParameterGroupName=None, CacheParameterGro
             'Description': 'string'
         }
     }
+    
+    
+    :returns: 
+    CacheParameterGroupName (string) -- [REQUIRED]
+    A user-specified name for the cache parameter group.
+    
+    CacheParameterGroupFamily (string) -- [REQUIRED]
+    The name of the cache parameter group family that the cache parameter group can be used with.
+    Valid values are: memcached1.4 | redis2.6 | redis2.8 | redis3.2
+    
+    Description (string) -- [REQUIRED]
+    A user-specified description for the cache parameter group.
     
     
     """
@@ -690,7 +704,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group.
     A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas.
     A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards).
-    When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created.
+    When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide .
     See also: AWS API Documentation
     
     
@@ -779,7 +793,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :type NumCacheClusters: integer
     :param NumCacheClusters: The number of clusters this replication group initially has.
             This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead.
-            If Multi-AZ is enabled , the value of this parameter must be at least 2.
+            If AutomaticFailoverEnabled is true , the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6.
             The maximum permitted value for NumCacheClusters is 6 (primary plus 5 replicas).
             
 
@@ -803,9 +817,9 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 
     :type NodeGroupConfiguration: list
     :param NodeGroupConfiguration: A list of node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount.
-            If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to configure one node group (shard) or you can omit this parameter.
+            If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter.
             (dict) --node group (shard) configuration options. Each node group (shard) configuration has the following: Slots , PrimaryAvailabilityZone , ReplicaAvailabilityZones , ReplicaCount .
-            Slots (string) --A string that specifies the keyspaces as a series of comma separated values. Keyspaces are 0 to 16,383. The string is in the format startkey-endkey .
+            Slots (string) --A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey .
             Example: '0-3999'
             ReplicaCount (integer) --The number of read replica nodes in this node group (shard).
             PrimaryAvailabilityZone (string) --The Availability Zone where the primary node of this node group (shard) is launched.
@@ -867,13 +881,13 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :type Tags: list
     :param Tags: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
             (dict) --A cost allocation Tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. A tag with a null Value is permitted.
-            Key (string) --The key for the tag.
-            Value (string) --The tag's value. May not be null.
+            Key (string) --The key for the tag. May not be null.
+            Value (string) --The tag's value. May be null.
             
             
 
     :type SnapshotArns: list
-    :param SnapshotArns: A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the replication group. The Amazon S3 object name in the ARN cannot contain any commas. The list must match the number of node groups (shards) in the replication group, which means you cannot repartition.
+    :param SnapshotArns: A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here.
             Note
             This parameter is only valid if the Engine parameter is redis .
             Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
@@ -928,7 +942,8 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             
 
     :type AuthToken: string
-    :param AuthToken: The password used to access a password protected server.
+    :param AuthToken: 
+            Reserved parameter. The password used to access a password protected server.
             Password constraints:
             Must be only printable ASCII characters.
             Must be at least 16 characters and no more than 128 characters in length.
@@ -979,7 +994,9 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
                 'Port': 123
             },
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'ClusterEnabled': True|False,
+            'CacheNodeType': 'string'
         }
     }
     
@@ -1317,7 +1334,9 @@ def delete_replication_group(ReplicationGroupId=None, RetainPrimaryCluster=None,
                 'Port': 123
             },
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'ClusterEnabled': True|False,
+            'CacheNodeType': 'string'
         }
     }
     
@@ -1401,12 +1420,12 @@ def delete_snapshot(SnapshotName=None):
     """
     pass
 
-def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, ShowCacheNodeInfo=None):
+def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, ShowCacheNodeInfo=None, ShowCacheClustersNotInReplicationGroups=None):
     """
     Returns information about all provisioned cache clusters if no cache cluster identifier is specified, or about a specific cache cluster if a cache cluster identifier is supplied.
-    By default, abbreviated information about the cache clusters are returned. You can use the optional ShowDetails flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint.
-    If the cluster is in the CREATING state, only cluster-level information is displayed until all of the nodes are successfully provisioned.
-    If the cluster is in the DELETING state, only cluster-level information is displayed.
+    By default, abbreviated information about the cache clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint.
+    If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned.
+    If the cluster is in the deleting state, only cluster-level information is displayed.
     If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available , the cluster is ready for use.
     If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
     See also: AWS API Documentation
@@ -1416,7 +1435,8 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
         CacheClusterId='string',
         MaxRecords=123,
         Marker='string',
-        ShowCacheNodeInfo=True|False
+        ShowCacheNodeInfo=True|False,
+        ShowCacheClustersNotInReplicationGroups=True|False
     )
     
     
@@ -1434,6 +1454,9 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
 
     :type ShowCacheNodeInfo: boolean
     :param ShowCacheNodeInfo: An optional flag that can be included in the DescribeCacheCluster request to retrieve information about the individual cache nodes.
+
+    :type ShowCacheClustersNotInReplicationGroups: boolean
+    :param ShowCacheClustersNotInReplicationGroups: An optional flag that can be included in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of a replication group. In practice, this mean Memcached and single node Redis clusters.
 
     :rtype: dict
     :return: {
@@ -1905,12 +1928,16 @@ def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndT
 
     :type StartTime: datetime
     :param StartTime: The beginning of the time interval to retrieve events for, specified in ISO 8601 format.
+            Example: 2017-03-30T07:03:49.555Z
+            
 
     :type EndTime: datetime
     :param EndTime: The end of the time interval for which to retrieve events, specified in ISO 8601 format.
+            Example: 2017-03-30T07:03:49.555Z
+            
 
     :type Duration: integer
-    :param Duration: The number of minutes' worth of events to retrieve.
+    :param Duration: The number of minutes worth of events to retrieve.
 
     :type MaxRecords: integer
     :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -2010,7 +2037,9 @@ def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker
                     'Port': 123
                 },
                 'SnapshotRetentionLimit': 123,
-                'SnapshotWindow': 'string'
+                'SnapshotWindow': 'string',
+                'ClusterEnabled': True|False,
+                'CacheNodeType': 'string'
             },
         ]
     }
@@ -2417,13 +2446,7 @@ def list_allowed_node_type_modifications(CacheClusterId=None, ReplicationGroupId
     
     
     :returns: 
-    (dict) --
-    ScaleUpModifications (list) --
     (string) --
-    
-    
-    
-    
     
     """
     pass
@@ -2431,7 +2454,7 @@ def list_allowed_node_type_modifications(CacheClusterId=None, ReplicationGroupId
 def list_tags_for_resource(ResourceName=None):
     """
     Lists all cost allocation tags currently on the named resource. A cost allocation tag is a key-value pair where the key is case-sensitive and the value is optional. You can use cost allocation tags to categorize and track your AWS costs.
-    You can have a maximum of 10 cost allocation tags on an ElastiCache resource. For more information, see Using Cost Allocation Tags in Amazon ElastiCache .
+    You can have a maximum of 50 cost allocation tags on an ElastiCache resource. For more information, see Using Cost Allocation Tags in Amazon ElastiCache .
     See also: AWS API Documentation
     
     
@@ -2812,7 +2835,7 @@ def modify_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescrip
     """
     pass
 
-def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, SnapshottingClusterId=None, AutomaticFailoverEnabled=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, PreferredMaintenanceWindow=None, NotificationTopicArn=None, CacheParameterGroupName=None, NotificationTopicStatus=None, ApplyImmediately=None, EngineVersion=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, CacheNodeType=None):
+def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, SnapshottingClusterId=None, AutomaticFailoverEnabled=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, PreferredMaintenanceWindow=None, NotificationTopicArn=None, CacheParameterGroupName=None, NotificationTopicStatus=None, ApplyImmediately=None, EngineVersion=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, CacheNodeType=None, NodeGroupId=None):
     """
     Modifies the settings for a replication group.
     See also: AWS API Documentation
@@ -2839,7 +2862,8 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
         AutoMinorVersionUpgrade=True|False,
         SnapshotRetentionLimit=123,
         SnapshotWindow='string',
-        CacheNodeType='string'
+        CacheNodeType='string',
+        NodeGroupId='string'
     )
     
     
@@ -2935,6 +2959,9 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :type CacheNodeType: string
     :param CacheNodeType: A valid cache node type that you want to scale this replication group to.
 
+    :type NodeGroupId: string
+    :param NodeGroupId: The name of the Node Group (called shard in the console).
+
     :rtype: dict
     :return: {
         'ReplicationGroup': {
@@ -2978,7 +3005,9 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
                 'Port': 123
             },
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'ClusterEnabled': True|False,
+            'CacheNodeType': 'string'
         }
     }
     
@@ -3313,6 +3342,87 @@ def revoke_cache_security_group_ingress(CacheSecurityGroupName=None, EC2Security
     AuthorizeCacheSecurityGroupIngress
     CreateCacheSecurityGroup
     RevokeCacheSecurityGroupIngress
+    
+    """
+    pass
+
+def test_failover(ReplicationGroupId=None, NodeGroupId=None):
+    """
+    Represents the input of a TestFailover operation which test automatic failover on a specified node group (called shard in the console) in a replication group (called cluster in the console).
+    For more information see:
+    Also see, Testing Multi-AZ with Automatic Failover in the ElastiCache User Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.test_failover(
+        ReplicationGroupId='string',
+        NodeGroupId='string'
+    )
+    
+    
+    :type ReplicationGroupId: string
+    :param ReplicationGroupId: [REQUIRED]
+            The name of the replication group (console: cluster) whose automatic failover is being tested by this operation.
+            
+
+    :type NodeGroupId: string
+    :param NodeGroupId: [REQUIRED]
+            The name of the node group (called shard in the console) in this replication group on which automatic failover is to be tested. You may test automatic failover on up to 5 node groups in any rolling 24-hour period.
+            
+
+    :rtype: dict
+    :return: {
+        'ReplicationGroup': {
+            'ReplicationGroupId': 'string',
+            'Description': 'string',
+            'Status': 'string',
+            'PendingModifiedValues': {
+                'PrimaryClusterId': 'string',
+                'AutomaticFailoverStatus': 'enabled'|'disabled'
+            },
+            'MemberClusters': [
+                'string',
+            ],
+            'NodeGroups': [
+                {
+                    'NodeGroupId': 'string',
+                    'Status': 'string',
+                    'PrimaryEndpoint': {
+                        'Address': 'string',
+                        'Port': 123
+                    },
+                    'Slots': 'string',
+                    'NodeGroupMembers': [
+                        {
+                            'CacheClusterId': 'string',
+                            'CacheNodeId': 'string',
+                            'ReadEndpoint': {
+                                'Address': 'string',
+                                'Port': 123
+                            },
+                            'PreferredAvailabilityZone': 'string',
+                            'CurrentRole': 'string'
+                        },
+                    ]
+                },
+            ],
+            'SnapshottingClusterId': 'string',
+            'AutomaticFailover': 'enabled'|'disabled'|'enabling'|'disabling',
+            'ConfigurationEndpoint': {
+                'Address': 'string',
+                'Port': 123
+            },
+            'SnapshotRetentionLimit': 123,
+            'SnapshotWindow': 'string',
+            'ClusterEnabled': True|False,
+            'CacheNodeType': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    Viewing ElastiCache Events in the ElastiCache User Guide
+    DescribeEvents in the ElastiCache API Reference
     
     """
     pass

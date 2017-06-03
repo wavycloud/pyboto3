@@ -83,7 +83,7 @@ def create_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
 
 def create_distribution(DistributionConfig=None):
     """
-    Creates a new web distribution. Send a GET request to the /*CloudFront API version* /distribution /distribution ID resource.
+    Creates a new web distribution. Send a POST request to the /*CloudFront API version* /distribution /distribution ID resource.
     See also: AWS API Documentation
     
     
@@ -125,7 +125,9 @@ def create_distribution(DistributionConfig=None):
                                 'Items': [
                                     'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                 ]
-                            }
+                            },
+                            'OriginReadTimeout': 123,
+                            'OriginKeepaliveTimeout': 123
                         }
                     },
                 ]
@@ -371,6 +373,10 @@ def create_distribution(DistributionConfig=None):
             Items (list) -- [REQUIRED]A list that contains allowed SSL/TLS protocols for this distribution.
             (string) --
             
+            OriginReadTimeout (integer) --You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
+            OriginKeepaliveTimeout (integer) --You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
             DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
@@ -596,8 +602,7 @@ def create_distribution(DistributionConfig=None):
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket.
-            If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements.
+            Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
             Which SSL/TLS certificate to use when viewers request objects using HTTPS
@@ -608,7 +613,7 @@ def create_distribution(DistributionConfig=None):
             IAMCertificateId (string) --
             ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
             Use the vip option (dedicated IP addresses) instead of sni-only .
             Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
@@ -732,7 +737,9 @@ def create_distribution(DistributionConfig=None):
                                     'Items': [
                                         'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                     ]
-                                }
+                                },
+                                'OriginReadTimeout': 123,
+                                'OriginKeepaliveTimeout': 123
                             }
                         },
                     ]
@@ -967,7 +974,9 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                     'Items': [
                                         'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                     ]
-                                }
+                                },
+                                'OriginReadTimeout': 123,
+                                'OriginKeepaliveTimeout': 123
                             }
                         },
                     ]
@@ -1223,6 +1232,10 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Items (list) -- [REQUIRED]A list that contains allowed SSL/TLS protocols for this distribution.
             (string) --
             
+            OriginReadTimeout (integer) --You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
+            OriginKeepaliveTimeout (integer) --You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
             DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
@@ -1448,8 +1461,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket.
-            If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements.
+            Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
             Which SSL/TLS certificate to use when viewers request objects using HTTPS
@@ -1460,7 +1472,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             IAMCertificateId (string) --
             ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
             Use the vip option (dedicated IP addresses) instead of sni-only .
             Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
@@ -1593,7 +1605,9 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                     'Items': [
                                         'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                     ]
-                                }
+                                },
+                                'OriginReadTimeout': 123,
+                                'OriginKeepaliveTimeout': 123
                             }
                         },
                     ]
@@ -2373,7 +2387,9 @@ def get_distribution(Id=None):
                                     'Items': [
                                         'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                     ]
-                                }
+                                },
+                                'OriginReadTimeout': 123,
+                                'OriginKeepaliveTimeout': 123
                             }
                         },
                     ]
@@ -2614,7 +2630,9 @@ def get_distribution_config(Id=None):
                                 'Items': [
                                     'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                 ]
-                            }
+                            },
+                            'OriginReadTimeout': 123,
+                            'OriginKeepaliveTimeout': 123
                         }
                     },
                 ]
@@ -3112,7 +3130,9 @@ def list_distributions(Marker=None, MaxItems=None):
                                         'Items': [
                                             'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                         ]
-                                    }
+                                    },
+                                    'OriginReadTimeout': 123,
+                                    'OriginKeepaliveTimeout': 123
                                 }
                             },
                         ]
@@ -3365,7 +3385,9 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                                         'Items': [
                                             'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                         ]
-                                    }
+                                    },
+                                    'OriginReadTimeout': 123,
+                                    'OriginKeepaliveTimeout': 123
                                 }
                             },
                         ]
@@ -3855,7 +3877,9 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                                 'Items': [
                                     'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                 ]
-                            }
+                            },
+                            'OriginReadTimeout': 123,
+                            'OriginKeepaliveTimeout': 123
                         }
                     },
                 ]
@@ -4103,6 +4127,10 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Items (list) -- [REQUIRED]A list that contains allowed SSL/TLS protocols for this distribution.
             (string) --
             
+            OriginReadTimeout (integer) --You can create a custom origin read timeout. All timeout units are in seconds. The default origin read timeout is 30 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 4 seconds; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
+            OriginKeepaliveTimeout (integer) --You can create a custom keep-alive timeout. All timeout units are in seconds. The default keep-alive timeout is 5 seconds, but you can configure custom timeout lengths using the CloudFront API. The minimum timeout length is 1 second; the maximum is 60 seconds.
+            If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
             DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
@@ -4328,8 +4356,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket.
-            If you do not want to enable logging when you create a distribution, or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements.
+            Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
             Which SSL/TLS certificate to use when viewers request objects using HTTPS
@@ -4340,7 +4367,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             IAMCertificateId (string) --
             ACMCertificateArn (string) --
             SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you must request permission to use this feature, and you incur additional monthly charges.
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
             sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
             Use the vip option (dedicated IP addresses) instead of sni-only .
             Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
@@ -4472,7 +4499,9 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                                     'Items': [
                                         'SSLv3'|'TLSv1'|'TLSv1.1'|'TLSv1.2',
                                     ]
-                                }
+                                },
+                                'OriginReadTimeout': 123,
+                                'OriginKeepaliveTimeout': 123
                             }
                         },
                     ]

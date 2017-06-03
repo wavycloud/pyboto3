@@ -188,7 +188,9 @@ def describe_alarms(AlarmNames=None, AlarmNamePrefix=None, StateValue=None, Acti
                 'Unit': 'Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None',
                 'EvaluationPeriods': 123,
                 'Threshold': 123.0,
-                'ComparisonOperator': 'GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold'
+                'ComparisonOperator': 'GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold',
+                'TreatMissingData': 'string',
+                'EvaluateLowSampleCountPercentile': 'string'
             },
         ],
         'NextToken': 'string'
@@ -289,7 +291,9 @@ def describe_alarms_for_metric(MetricName=None, Namespace=None, Statistic=None, 
                 'Unit': 'Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None',
                 'EvaluationPeriods': 123,
                 'Threshold': 123.0,
-                'ComparisonOperator': 'GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold'
+                'ComparisonOperator': 'GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold',
+                'TreatMissingData': 'string',
+                'EvaluateLowSampleCountPercentile': 'string'
             },
         ]
     }
@@ -374,6 +378,7 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
     Note that CloudWatch started retaining 5-minute and 1-hour metric data as of 9 July 2016.
     The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, Amazon CloudWatch returns an error. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. A period can be as short as one minute (60 seconds). Note that data points are not returned in chronological order.
     Amazon CloudWatch aggregates data points based on the length of the period that you specify. For example, if you request statistics with a one-hour period, Amazon CloudWatch aggregates all data points with time stamps that fall within each one-hour period. Therefore, the number of values aggregated by CloudWatch is larger than the number of data points returned.
+    CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you cannot retrieve percentile statistics for this data unless one of the following conditions is true:
     For a list of metrics and dimensions supported by AWS services, see the Amazon CloudWatch Metrics and Dimensions Reference in the Amazon CloudWatch User Guide .
     See also: AWS API Documentation
     
@@ -411,7 +416,7 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
             
 
     :type Dimensions: list
-    :param Dimensions: The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide .
+    :param Dimensions: The dimensions. If the metric contains multiple dimensions, you must include a value for each dimension. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide . For more information on specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide .
             (dict) --Expands the identity of a metric.
             Name (string) -- [REQUIRED]The name of the dimension.
             Value (string) -- [REQUIRED]The value representing the dimension measurement.
@@ -476,57 +481,8 @@ def get_metric_statistics(Namespace=None, MetricName=None, Dimensions=None, Star
     
     
     :returns: 
-    Namespace (string) -- [REQUIRED]
-    The namespace of the metric, with or without spaces.
-    
-    MetricName (string) -- [REQUIRED]
-    The name of the metric, with or without spaces.
-    
-    Dimensions (list) -- The dimensions. CloudWatch treats each unique combination of dimensions as a separate metric. You can't retrieve statistics using combinations of dimensions that were not specially published. You must specify the same dimensions that were used when the metrics were created. For an example, see Dimension Combinations in the Amazon CloudWatch User Guide .
-    
-    (dict) --Expands the identity of a metric.
-    
-    Name (string) -- [REQUIRED]The name of the dimension.
-    
-    Value (string) -- [REQUIRED]The value representing the dimension measurement.
-    
-    
-    
-    
-    
-    StartTime (datetime) -- [REQUIRED]
-    The time stamp that determines the first data point to return. Note that start times are evaluated relative to the time that CloudWatch receives the request.
-    The value specified is inclusive; results include data points with the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-03T23:00:00Z).
-    CloudWatch rounds the specified time stamp as follows:
-    
-    Start time less than 15 days ago - Round down to the nearest whole minute. For example, 12:32:34 is rounded down to 12:32:00.
-    Start time between 15 and 63 days ago - Round down to the nearest 5-minute clock interval. For example, 12:32:34 is rounded down to 12:30:00.
-    Start time greater than 63 days ago - Round down to the nearest 1-hour clock interval. For example, 12:32:34 is rounded down to 12:00:00.
-    
-    
-    EndTime (datetime) -- [REQUIRED]
-    The time stamp that determines the last data point to return.
-    The value specified is exclusive; results will include data points up to the specified time stamp. The time stamp must be in ISO 8601 UTC format (for example, 2016-10-10T23:00:00Z).
-    
-    Period (integer) -- [REQUIRED]
-    The granularity, in seconds, of the returned data points. A period can be as short as one minute (60 seconds) and must be a multiple of 60. The default value is 60.
-    If the StartTime parameter specifies a time stamp that is greater than 15 days ago, you must specify the period as follows or no data points in that time range is returned:
-    
-    Start time between 15 and 63 days ago - Use a multiple of 300 seconds (5 minutes).
-    Start time greater than 63 days ago - Use a multiple of 3600 seconds (1 hour).
-    
-    
-    Statistics (list) -- The metric statistics, other than percentile. For percentile statistics, use ExtendedStatistic .
-    
-    (string) --
-    
-    
-    ExtendedStatistics (list) -- The percentile statistics. Specify values between p0.0 and p100.
-    
-    (string) --
-    
-    
-    Unit (string) -- The unit for a given metric. Metrics may be reported in multiple units. Not supplying a unit results in all units being returned. If the metric only ever reports one unit, specifying a unit has no effect.
+    The SampleCount of the statistic set is 1
+    The Min and the Max of the statistic set are equal
     
     """
     pass
@@ -612,7 +568,7 @@ def list_metrics(Namespace=None, MetricName=None, Dimensions=None, NextToken=Non
     """
     pass
 
-def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None, OKActions=None, AlarmActions=None, InsufficientDataActions=None, MetricName=None, Namespace=None, Statistic=None, ExtendedStatistic=None, Dimensions=None, Period=None, Unit=None, EvaluationPeriods=None, Threshold=None, ComparisonOperator=None):
+def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None, OKActions=None, AlarmActions=None, InsufficientDataActions=None, MetricName=None, Namespace=None, Statistic=None, ExtendedStatistic=None, Dimensions=None, Period=None, Unit=None, EvaluationPeriods=None, Threshold=None, ComparisonOperator=None, TreatMissingData=None, EvaluateLowSampleCountPercentile=None):
     """
     Creates or updates an alarm and associates it with the specified metric. Optionally, this operation can associate one or more Amazon SNS resources with the alarm.
     When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA . The alarm is evaluated and its state is set appropriately. Any actions associated with the state are then executed.
@@ -652,7 +608,9 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
         Unit='Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None',
         EvaluationPeriods=123,
         Threshold=123.0,
-        ComparisonOperator='GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold'
+        ComparisonOperator='GreaterThanOrEqualToThreshold'|'GreaterThanThreshold'|'LessThanThreshold'|'LessThanOrEqualToThreshold',
+        TreatMissingData='string',
+        EvaluateLowSampleCountPercentile='string'
     )
     
     
@@ -737,6 +695,16 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
             The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
             
 
+    :type TreatMissingData: string
+    :param TreatMissingData: Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data .
+            Valid Values: breaching | notBreaching | ignore | missing
+            
+
+    :type EvaluateLowSampleCountPercentile: string
+    :param EvaluateLowSampleCountPercentile: Used only for alarms based on percentiles. If you specify ignore , the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples .
+            Valid Values: evaluate | ignore
+            
+
     :returns: 
     AlarmName (string) -- [REQUIRED]
     The name for the alarm. This name must be unique within the AWS account.
@@ -799,6 +767,12 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
     ComparisonOperator (string) -- [REQUIRED]
     The arithmetic operation to use when comparing the specified statistic and threshold. The specified statistic value is used as the first operand.
     
+    TreatMissingData (string) -- Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data .
+    Valid Values: breaching | notBreaching | ignore | missing
+    
+    EvaluateLowSampleCountPercentile (string) -- Used only for alarms based on percentiles. If you specify ignore , the alarm state will not change during periods with too few data points to be statistically significant. If you specify evaluate or omit this parameter, the alarm will always be evaluated and possibly change state no matter how many data points are available. For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples .
+    Valid Values: evaluate | ignore
+    
     
     """
     pass
@@ -806,9 +780,11 @@ def put_metric_alarm(AlarmName=None, AlarmDescription=None, ActionsEnabled=None,
 def put_metric_data(Namespace=None, MetricData=None):
     """
     Publishes metric data points to Amazon CloudWatch. Amazon CloudWatch associates the data points with the specified metric. If the specified metric does not exist, Amazon CloudWatch creates the metric. When Amazon CloudWatch creates a metric, it can take up to fifteen minutes for the metric to appear in calls to  ListMetrics .
-    Each PutMetricData request is limited to 8 KB in size for HTTP GET requests and is limited to 40 KB in size for HTTP POST requests.
+    Each PutMetricData request is limited to 40 KB in size for HTTP POST requests.
     Although the Value parameter accepts numbers of type Double , Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (e.g., NaN, +Infinity, -Infinity) are not supported.
+    You can use up to 10 dimensions per metric to further clarify what data the metric collects. For more information on specifying dimensions, see Publishing Metrics in the Amazon CloudWatch User Guide .
     Data points with time stamps from 24 hours ago or longer can take at least 48 hours to become available for  GetMetricStatistics from the time they are submitted.
+    CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you cannot retrieve percentile statistics for this data unless one of the following conditions is true:
     See also: AWS API Documentation
     
     
@@ -865,6 +841,54 @@ def put_metric_data(Namespace=None, MetricData=None):
             
             
 
+    :returns: 
+    Namespace (string) -- [REQUIRED]
+    The namespace for the metric data.
+    You cannot specify a namespace that begins with "AWS/". Namespaces that begin with "AWS/" are reserved for use by Amazon Web Services products.
+    
+    MetricData (list) -- [REQUIRED]
+    The data for the metric.
+    
+    (dict) --Encapsulates the information sent to either create a metric or add new values to be aggregated into an existing metric.
+    
+    MetricName (string) -- [REQUIRED]The name of the metric.
+    
+    Dimensions (list) --The dimensions associated with the metric.
+    
+    (dict) --Expands the identity of a metric.
+    
+    Name (string) -- [REQUIRED]The name of the dimension.
+    
+    Value (string) -- [REQUIRED]The value representing the dimension measurement.
+    
+    
+    
+    
+    
+    Timestamp (datetime) --The time the metric data was received, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+    
+    Value (float) --The value for the metric.
+    Although the parameter accepts numbers of type Double, Amazon CloudWatch rejects values that are either too small or too large. Values must be in the range of 8.515920e-109 to 1.174271e+108 (Base 10) or 2e-360 to 2e360 (Base 2). In addition, special values (for example, NaN, +Infinity, -Infinity) are not supported.
+    
+    StatisticValues (dict) --The statistical values for the metric.
+    
+    SampleCount (float) -- [REQUIRED]The number of samples used for the statistic set.
+    
+    Sum (float) -- [REQUIRED]The sum of values for the sample set.
+    
+    Minimum (float) -- [REQUIRED]The minimum value of the sample set.
+    
+    Maximum (float) -- [REQUIRED]The maximum value of the sample set.
+    
+    
+    
+    Unit (string) --The unit of the metric.
+    
+    
+    
+    
+    
+    
     """
     pass
 

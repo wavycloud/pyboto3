@@ -515,7 +515,7 @@ def get_waiter():
 
 def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
     """
-    Modifies the WorkSpace properties, including the RunningMode and AutoStop time.
+    Modifies the WorkSpace properties, including the running mode and AutoStop time.
     See also: AWS API Documentation
     
     
@@ -631,7 +631,7 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None):
 
 def start_workspaces(StartWorkspaceRequests=None):
     """
-    Starts the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to STOPPED.
+    Starts the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of STOPPED.
     See also: AWS API Documentation
     
     
@@ -669,7 +669,7 @@ def start_workspaces(StartWorkspaceRequests=None):
 
 def stop_workspaces(StopWorkspaceRequests=None):
     """
-    Stops the specified WorkSpaces. The API only works with WorkSpaces that have RunningMode configured as AutoStop and the State set to AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    Stops the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     See also: AWS API Documentation
     
     

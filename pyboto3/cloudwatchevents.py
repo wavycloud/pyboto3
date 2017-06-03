@@ -41,7 +41,9 @@ def can_paginate(operation_name=None):
 
 def delete_rule(Name=None):
     """
-    Deletes a rule. You must remove all targets from a rule using  RemoveTargets before you can delete the rule.
+    Deletes the specified rule.
+    You must remove all targets from a rule using  RemoveTargets before you can delete the rule.
+    When you delete a rule, incoming events might continue to match to the deleted rule. Please allow a short period of time for changes to take effect.
     See also: AWS API Documentation
     
     
@@ -52,7 +54,7 @@ def delete_rule(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the rule to be deleted.
+            The name of the rule.
             
 
     """
@@ -60,7 +62,7 @@ def delete_rule(Name=None):
 
 def describe_rule(Name=None):
     """
-    Describes the details of the specified rule.
+    Describes the specified rule.
     See also: AWS API Documentation
     
     
@@ -71,7 +73,7 @@ def describe_rule(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the rule you want to describe details for.
+            The name of the rule.
             
 
     :rtype: dict
@@ -91,7 +93,8 @@ def describe_rule(Name=None):
 
 def disable_rule(Name=None):
     """
-    Disables a rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression.
+    Disables the specified rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression.
+    When you disable a rule, incoming events might continue to match to the disabled rule. Please allow a short period of time for changes to take effect.
     See also: AWS API Documentation
     
     
@@ -102,7 +105,7 @@ def disable_rule(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the rule you want to disable.
+            The name of the rule.
             
 
     """
@@ -110,7 +113,8 @@ def disable_rule(Name=None):
 
 def enable_rule(Name=None):
     """
-    Enables a rule. If the rule does not exist, the operation fails.
+    Enables the specified rule. If the rule does not exist, the operation fails.
+    When you enable a rule, incoming events might not immediately start matching to a newly enabled rule. Please allow a short period of time for changes to take effect.
     See also: AWS API Documentation
     
     
@@ -121,7 +125,7 @@ def enable_rule(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the rule that you want to enable.
+            The name of the rule.
             
 
     """
@@ -173,7 +177,7 @@ def get_waiter():
 
 def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None):
     """
-    Lists the names of the rules that the given target is put to. You can see which of the rules in Amazon CloudWatch Events can invoke a specific target in your account. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat ListRulesByTarget until the NextToken in the response is returned as null.
+    Lists the rules for the specified target. You can see which of the rules in Amazon CloudWatch Events can invoke a specific target in your account.
     See also: AWS API Documentation
     
     
@@ -186,11 +190,11 @@ def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None):
     
     :type TargetArn: string
     :param TargetArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the target resource that you want to list the rules for.
+            The Amazon Resource Name (ARN) of the target resource.
             
 
     :type NextToken: string
-    :param NextToken: The token returned by a previous call to indicate that there is more data available.
+    :param NextToken: The token returned by a previous call to retrieve the next set of results.
 
     :type Limit: integer
     :param Limit: The maximum number of results to return.
@@ -212,7 +216,7 @@ def list_rule_names_by_target(TargetArn=None, NextToken=None, Limit=None):
 
 def list_rules(NamePrefix=None, NextToken=None, Limit=None):
     """
-    Lists the Amazon CloudWatch Events rules in your account. You can either list all the rules or you can provide a prefix to match to the rule names. If you have more rules in your account than the given limit, the results will be paginated. In that case, use the next token returned in the response and repeat ListRules until the NextToken in the response is returned as null.
+    Lists your Amazon CloudWatch Events rules. You can either list all the rules or you can provide a prefix to match to the rule names.
     See also: AWS API Documentation
     
     
@@ -227,7 +231,7 @@ def list_rules(NamePrefix=None, NextToken=None, Limit=None):
     :param NamePrefix: The prefix matching the rule name.
 
     :type NextToken: string
-    :param NextToken: The token returned by a previous call to indicate that there is more data available.
+    :param NextToken: The token returned by a previous call to retrieve the next set of results.
 
     :type Limit: integer
     :param Limit: The maximum number of results to return.
@@ -254,7 +258,7 @@ def list_rules(NamePrefix=None, NextToken=None, Limit=None):
 
 def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
     """
-    Lists of targets assigned to the rule.
+    Lists the targets assigned to the specified rule.
     See also: AWS API Documentation
     
     
@@ -267,11 +271,11 @@ def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
     
     :type Rule: string
     :param Rule: [REQUIRED]
-            The name of the rule whose targets you want to list.
+            The name of the rule.
             
 
     :type NextToken: string
-    :param NextToken: The token returned by a previous call to indicate that there is more data available.
+    :param NextToken: The token returned by a previous call to retrieve the next set of results.
 
     :type Limit: integer
     :param Limit: The maximum number of results to return.
@@ -282,8 +286,32 @@ def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
             {
                 'Id': 'string',
                 'Arn': 'string',
+                'RoleArn': 'string',
                 'Input': 'string',
-                'InputPath': 'string'
+                'InputPath': 'string',
+                'InputTransformer': {
+                    'InputPathsMap': {
+                        'string': 'string'
+                    },
+                    'InputTemplate': 'string'
+                },
+                'KinesisParameters': {
+                    'PartitionKeyPath': 'string'
+                },
+                'RunCommandParameters': {
+                    'RunCommandTargets': [
+                        {
+                            'Key': 'string',
+                            'Values': [
+                                'string',
+                            ]
+                        },
+                    ]
+                },
+                'EcsParameters': {
+                    'TaskDefinitionArn': 'string',
+                    'TaskCount': 123
+                }
             },
         ],
         'NextToken': 'string'
@@ -291,9 +319,10 @@ def list_targets_by_rule(Rule=None, NextToken=None, Limit=None):
     
     
     :returns: 
-    Neither Input nor InputPath is specified, then the entire event is passed to the target in JSON form.
-    InputPath is specified in the form of JSONPath (e.g. $.detail ), then only the part of the event specified in the path is passed to the target (e.g. only the detail part of the event is passed).
-    Input is specified in the form of a valid JSON, then the matched event is overridden with this constant.
+    (string) --
+    (string) --
+    
+    
     
     """
     pass
@@ -322,13 +351,13 @@ def put_events(Entries=None):
     :type Entries: list
     :param Entries: [REQUIRED]
             The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
-            (dict) --Contains information about the event to be used in PutEvents.
-            Time (datetime) --Timestamp of event, per RFC3339 . If no timestamp is provided, the timestamp of the PutEvents call will be used.
+            (dict) --Represents an event to be submitted.
+            Time (datetime) --The timestamp of the event, per RFC3339 . If no timestamp is provided, the timestamp of the PutEvents call is used.
             Source (string) --The source of the event.
             Resources (list) --AWS resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
             (string) --
             DetailType (string) --Free-form string used to decide what fields to expect in the event detail.
-            Detail (string) --In the JSON sense, an object containing fields, which may also contain nested sub-objects. No constraints are imposed on its contents.
+            Detail (string) --In the JSON sense, an object containing fields, which may also contain nested subobjects. No constraints are imposed on its contents.
             
             
 
@@ -350,8 +379,10 @@ def put_events(Entries=None):
 
 def put_rule(Name=None, ScheduleExpression=None, EventPattern=None, State=None, Description=None, RoleArn=None):
     """
-    Creates or updates a rule. Rules are enabled by default, or based on value of the State parameter. You can disable a rule using  DisableRule .
-    A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule will trigger on matching events as well as on a schedule.
+    Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using  DisableRule .
+    When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Please allow a short period of time for changes to take effect.
+    A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule.
+    Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match.
     See also: AWS API Documentation
     
     
@@ -374,7 +405,7 @@ def put_rule(Name=None, ScheduleExpression=None, EventPattern=None, State=None, 
     :param ScheduleExpression: The scheduling expression. For example, 'cron(0 20 * * ? *)', 'rate(5 minutes)'.
 
     :type EventPattern: string
-    :param EventPattern: The event pattern.
+    :param EventPattern: The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide .
 
     :type State: string
     :param State: Indicates whether the rule is enabled or disabled.
@@ -396,9 +427,13 @@ def put_rule(Name=None, ScheduleExpression=None, EventPattern=None, State=None, 
 
 def put_targets(Rule=None, Targets=None):
     """
-    Adds target(s) to a rule. Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets. Updates the target(s) if they are already associated with the role. In other words, if there is already a target with the given target ID, then the target associated with that ID is updated.
-    In order to be able to make API calls against the resources you own, Amazon CloudWatch Events needs the appropriate permissions. For AWS Lambda and Amazon SNS resources, CloudWatch Events relies on resource-based policies. For Amazon Kinesis streams, CloudWatch Events relies on IAM roles. For more information, see Permissions for Sending Events to Targets in the *Amazon CloudWatch Developer Guide* .
-    Input and InputPath are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:
+    Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule.
+    Targets are the resources that are invoked when a rule is triggered. Example targets include EC2 instances, AWS Lambda functions, Amazon Kinesis streams, Amazon ECS tasks, AWS Step Functions state machines, and built-in targets. Note that creating rules with built-in targets is supported only in the AWS Management Console.
+    For some target types, PutTargets provides target-specific parameters. If the target is an Amazon Kinesis stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field.
+    To be able to make API calls against the resources that you own, Amazon CloudWatch Events needs the appropriate permissions. For AWS Lambda and Amazon SNS resources, CloudWatch Events relies on resource-based policies. For EC2 instances, Amazon Kinesis streams, and AWS Step Functions state machines, CloudWatch Events relies on IAM roles that you specify in the RoleARN argument in PutTarget . For more information, see Authentication and Access Control in the Amazon CloudWatch Events User Guide .
+    When you specify Input , InputPath , or InputTransformer , you must use JSON dot notation, not bracket notation.
+    When you add targets to a rule and the associated rule triggers soon after, new or updated targets might not be immediately invoked. Please allow a short period of time for changes to take effect.
+    This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
     See also: AWS API Documentation
     
     
@@ -408,8 +443,32 @@ def put_targets(Rule=None, Targets=None):
             {
                 'Id': 'string',
                 'Arn': 'string',
+                'RoleArn': 'string',
                 'Input': 'string',
-                'InputPath': 'string'
+                'InputPath': 'string',
+                'InputTransformer': {
+                    'InputPathsMap': {
+                        'string': 'string'
+                    },
+                    'InputTemplate': 'string'
+                },
+                'KinesisParameters': {
+                    'PartitionKeyPath': 'string'
+                },
+                'RunCommandParameters': {
+                    'RunCommandTargets': [
+                        {
+                            'Key': 'string',
+                            'Values': [
+                                'string',
+                            ]
+                        },
+                    ]
+                },
+                'EcsParameters': {
+                    'TaskDefinitionArn': 'string',
+                    'TaskCount': 123
+                }
             },
         ]
     )
@@ -417,21 +476,37 @@ def put_targets(Rule=None, Targets=None):
     
     :type Rule: string
     :param Rule: [REQUIRED]
-            The name of the rule you want to add targets to.
+            The name of the rule.
             
 
     :type Targets: list
     :param Targets: [REQUIRED]
-            List of targets you want to update or add to the rule.
-            (dict) --Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets.
-            Input and InputPath are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:
-            Neither Input nor InputPath is specified, then the entire event is passed to the target in JSON form.
-            InputPath is specified in the form of JSONPath (e.g. $.detail ), then only the part of the event specified in the path is passed to the target (e.g. only the detail part of the event is passed).
-            Input is specified in the form of a valid JSON, then the matched event is overridden with this constant.
-            Id (string) -- [REQUIRED]The unique target assignment ID.
-            Arn (string) -- [REQUIRED]The Amazon Resource Name (ARN) associated of the target.
-            Input (string) --Valid JSON text passed to the target. For more information about JSON text, see The JavaScript Object Notation (JSON) Data Interchange Format .
-            InputPath (string) --The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see JSONPath .
+            The targets to update or add to the rule.
+            (dict) --Targets are the resources to be invoked when a rule is triggered. Target types include EC2 instances, AWS Lambda functions, Amazon Kinesis streams, Amazon ECS tasks, AWS Step Functions state machines, Run Command, and built-in targets.
+            Id (string) -- [REQUIRED]The ID of the target.
+            Arn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the target.
+            RoleArn (string) --The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
+            Input (string) --Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. You must use JSON dot notation, not bracket notation. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format .
+            InputPath (string) --The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath .
+            InputTransformer (dict) --Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
+            InputPathsMap (dict) --Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path. You must use JSON dot notation, not bracket notation.
+            (string) --
+            (string) --
+            
+            InputTemplate (string) -- [REQUIRED]Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
+            KinesisParameters (dict) --The custom parameter you can use to control shard assignment, when the target is an Amazon Kinesis stream. If you do not include this parameter, the default is to use the eventId as the partition key.
+            PartitionKeyPath (string) -- [REQUIRED]The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide .
+            RunCommandParameters (dict) --Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
+            RunCommandTargets (list) -- [REQUIRED]Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
+            (dict) --Information about the EC2 instances that are to be sent the command, specified as key-value pairs. Each RunCommandTarget block can include only one key, but this key may specify multiple values.
+            Key (string) -- [REQUIRED]Can be either tag: tag-key or InstanceIds .
+            Values (list) -- [REQUIRED]If Key is tag: tag-key , Values is a list of tag values. If Key is InstanceIds , Values is a list of Amazon EC2 instance IDs.
+            (string) --
+            
+            
+            EcsParameters (dict) --Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions in the Amazon EC2 Container Service Developer Guide .
+            TaskDefinitionArn (string) -- [REQUIRED]The ARN of the task definition to use if the event target is an Amazon ECS cluster.
+            TaskCount (integer) --The number of tasks to create based on the TaskDefinition . The default is one.
             
             
 
@@ -450,26 +525,69 @@ def put_targets(Rule=None, Targets=None):
     
     :returns: 
     Rule (string) -- [REQUIRED]
-    The name of the rule you want to add targets to.
+    The name of the rule.
     
     Targets (list) -- [REQUIRED]
-    List of targets you want to update or add to the rule.
+    The targets to update or add to the rule.
     
-    (dict) --Targets are the resources that can be invoked when a rule is triggered. For example, AWS Lambda functions, Amazon Kinesis streams, and built-in targets.
-    Input and InputPath are mutually-exclusive and optional parameters of a target. When a rule is triggered due to a matched event, if for a target:
+    (dict) --Targets are the resources to be invoked when a rule is triggered. Target types include EC2 instances, AWS Lambda functions, Amazon Kinesis streams, Amazon ECS tasks, AWS Step Functions state machines, Run Command, and built-in targets.
     
-    Neither Input nor InputPath is specified, then the entire event is passed to the target in JSON form.
-    InputPath is specified in the form of JSONPath (e.g. $.detail ), then only the part of the event specified in the path is passed to the target (e.g. only the detail part of the event is passed).
-    Input is specified in the form of a valid JSON, then the matched event is overridden with this constant.
+    Id (string) -- [REQUIRED]The ID of the target.
+    
+    Arn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the target.
+    
+    RoleArn (string) --The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
+    
+    Input (string) --Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. You must use JSON dot notation, not bracket notation. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format .
+    
+    InputPath (string) --The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see JSONPath .
+    
+    InputTransformer (dict) --Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
+    
+    InputPathsMap (dict) --Map of JSON paths to be extracted from the event. These are key-value pairs, where each value is a JSON path. You must use JSON dot notation, not bracket notation.
+    
+    (string) --
+    (string) --
     
     
-    Id (string) -- [REQUIRED]The unique target assignment ID.
     
-    Arn (string) -- [REQUIRED]The Amazon Resource Name (ARN) associated of the target.
     
-    Input (string) --Valid JSON text passed to the target. For more information about JSON text, see The JavaScript Object Notation (JSON) Data Interchange Format .
+    InputTemplate (string) -- [REQUIRED]Input template where you can use the values of the keys from InputPathsMap to customize the data sent to the target.
     
-    InputPath (string) --The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. For more information about JSON paths, see JSONPath .
+    
+    
+    KinesisParameters (dict) --The custom parameter you can use to control shard assignment, when the target is an Amazon Kinesis stream. If you do not include this parameter, the default is to use the eventId as the partition key.
+    
+    PartitionKeyPath (string) -- [REQUIRED]The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide .
+    
+    
+    
+    RunCommandParameters (dict) --Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
+    
+    RunCommandTargets (list) -- [REQUIRED]Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
+    
+    (dict) --Information about the EC2 instances that are to be sent the command, specified as key-value pairs. Each RunCommandTarget block can include only one key, but this key may specify multiple values.
+    
+    Key (string) -- [REQUIRED]Can be either tag: tag-key or InstanceIds .
+    
+    Values (list) -- [REQUIRED]If Key is tag: tag-key , Values is a list of tag values. If Key is InstanceIds , Values is a list of Amazon EC2 instance IDs.
+    
+    (string) --
+    
+    
+    
+    
+    
+    
+    
+    
+    EcsParameters (dict) --Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions in the Amazon EC2 Container Service Developer Guide .
+    
+    TaskDefinitionArn (string) -- [REQUIRED]The ARN of the task definition to use if the event target is an Amazon ECS cluster.
+    
+    TaskCount (integer) --The number of tasks to create based on the TaskDefinition . The default is one.
+    
+    
     
     
     
@@ -481,7 +599,9 @@ def put_targets(Rule=None, Targets=None):
 
 def remove_targets(Rule=None, Ids=None):
     """
-    Removes target(s) from a rule so that when the rule is triggered, those targets will no longer be invoked.
+    Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked.
+    When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Please allow a short period of time for changes to take effect.
+    This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
     See also: AWS API Documentation
     
     
@@ -495,12 +615,12 @@ def remove_targets(Rule=None, Ids=None):
     
     :type Rule: string
     :param Rule: [REQUIRED]
-            The name of the rule you want to remove targets from.
+            The name of the rule.
             
 
     :type Ids: list
     :param Ids: [REQUIRED]
-            The list of target IDs to remove from the rule.
+            The IDs of the targets to remove from the rule.
             (string) --
             
 
@@ -522,7 +642,8 @@ def remove_targets(Rule=None, Ids=None):
 
 def test_event_pattern(EventPattern=None, Event=None):
     """
-    Tests whether an event pattern matches the provided event.
+    Tests whether the specified event pattern matches the provided event.
+    Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, CloudWatch Events uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match.
     See also: AWS API Documentation
     
     
@@ -534,12 +655,12 @@ def test_event_pattern(EventPattern=None, Event=None):
     
     :type EventPattern: string
     :param EventPattern: [REQUIRED]
-            The event pattern you want to test.
+            The event pattern. For more information, see Events and Event Patterns in the Amazon CloudWatch Events User Guide .
             
 
     :type Event: string
     :param Event: [REQUIRED]
-            The event in the JSON format to test against the event pattern.
+            The event, in JSON format, to test against the event pattern.
             
 
     :rtype: dict

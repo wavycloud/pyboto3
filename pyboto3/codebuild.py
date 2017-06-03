@@ -26,7 +26,7 @@ SOFTWARE.
 
 def batch_get_builds(ids=None):
     """
-    Gets information about one or more builds.
+    Gets information about builds.
     See also: AWS API Documentation
     
     
@@ -39,7 +39,7 @@ def batch_get_builds(ids=None):
     
     :type ids: list
     :param ids: [REQUIRED]
-            The IDs of the builds to get information about.
+            The IDs of the builds.
             (string) --
             
 
@@ -124,7 +124,7 @@ def batch_get_builds(ids=None):
 
 def batch_get_projects(names=None):
     """
-    Gets information about one or more build projects.
+    Gets information about build projects.
     See also: AWS API Documentation
     
     
@@ -137,7 +137,7 @@ def batch_get_projects(names=None):
     
     :type names: list
     :param names: [REQUIRED]
-            The names of the build projects to get information about.
+            The names of the build projects.
             (string) --
             
 
@@ -270,15 +270,15 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
     
     :type name: string
     :param name: [REQUIRED]
-            The build project's name.
+            The name of the build project.
             
 
     :type description: string
-    :param description: A meaningful description of the build project.
+    :param description: A description that makes the build project easy to identify.
 
     :type source: dict
     :param source: [REQUIRED]
-            Information about the build project's build input source code.
+            Information about the build input source code for the build project.
             type (string) -- [REQUIRED]The type of repository that contains the source code to be built. Valid values include:
             CODECOMMIT : The source code is in an AWS CodeCommit repository.
             CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
@@ -288,11 +288,11 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.
             For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, ``https://git-codecommit.*region-ID* .amazonaws.com/v1/repos/repo-name `` ).
             For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example, `` bucket-name /path /to /object-name .zip`` )
-            For source code in a GitHub repository, the HTTPS clone URL, including the user name and personal access token, to the repository that contains the source code and the build spec (for example, https://*login-user-name* :*personal-access-token* @github.com/*repo-owner-name* /*repo-name* .git ). For more information, see Creating an Access Token for Command-Line Use on the GitHub Help website.
-            buildspec (string) --The build spec declaration to use for this build project's related builds.
+            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            buildspec (string) --The build spec declaration to use for the builds in this build project.
             If this value is not specified, a build spec must be included along with the source code to be built.
             auth (dict) --Information about the authorization settings for AWS CodeBuild to access the source code to be built.
-            This information is only for the AWS CodeBuild console's use. Your code should not get or set this information directly.
+            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB ).
             type (string) -- [REQUIRED]The authorization type to use. The only valid value is OAUTH , which represents the OAuth authorization type.
             resource (string) --The resource value that applies to the specified authorization type.
             
@@ -300,15 +300,15 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
 
     :type artifacts: dict
     :param artifacts: [REQUIRED]
-            Information about the build project's build output artifacts.
-            type (string) -- [REQUIRED]The build output artifact's type. Valid values include:
-            CODEPIPELINE : The build project with have build output generated through AWS CodePipeline.
+            Information about the build output artifacts for the build project.
+            type (string) -- [REQUIRED]The type of build output artifact. Valid values include:
+            CODEPIPELINE : The build project will have build output generated through AWS CodePipeline.
             NO_ARTIFACTS : The build project will not produce any build output.
             S3 : The build project will store build output in Amazon Simple Storage Service (Amazon S3).
             location (string) --Information about the build output artifact location, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
-            If type is set to S3 , this is the name of the output bucket. If path is not also specified, then location can also specify the path of the output artifact in the output bucket.
+            If type is set to S3 , this is the name of the output bucket.
             path (string) --Along with namespaceType and name , the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
@@ -337,9 +337,8 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
 
     :type environment: dict
     :param environment: [REQUIRED]
-            Information about the build project's build environment.
+            Information about the build environment for the build project.
             type (string) -- [REQUIRED]The type of build environment to use for related builds.
-            The only valid value is LINUX_CONTAINER , which represents a Linux-based build environment.
             image (string) -- [REQUIRED]The ID of the Docker image to use for this build project.
             computeType (string) -- [REQUIRED]Information about the compute resources the build project will use. Available values include:
             BUILD_GENERAL1_SMALL : Use up to 3 GB memory and 2 vCPUs for builds.
@@ -347,19 +346,19 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             BUILD_GENERAL1_LARGE : Use up to 15 GB memory and 8 vCPUs for builds.
             environmentVariables (list) --A set of environment variables to make available to builds for this build project.
             (dict) --Information about an environment variable for a build project or a build.
-            name (string) -- [REQUIRED]The environment variable's name or key.
-            value (string) -- [REQUIRED]The environment variable's value.
+            name (string) -- [REQUIRED]The name or key of the environment variable.
+            value (string) -- [REQUIRED]The value of the environment variable.
             
             
 
     :type serviceRole: string
-    :param serviceRole: The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+    :param serviceRole: The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
 
     :type timeoutInMinutes: integer
-    :param timeoutInMinutes: How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any related build that does not get marked as completed. The default is 60 minutes.
+    :param timeoutInMinutes: How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait until timing out any build that has not been marked as completed. The default is 60 minutes.
 
     :type encryptionKey: string
-    :param encryptionKey: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build project's build output artifacts.
+    :param encryptionKey: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.
             You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format ``alias/alias-name `` ).
             
 
@@ -444,7 +443,7 @@ def delete_project(name=None):
     
     :type name: string
     :param name: [REQUIRED]
-            The name of the build project to delete.
+            The name of the build project.
             
 
     :rtype: dict
@@ -549,7 +548,7 @@ def list_builds_for_project(projectName=None, sortOrder=None, nextToken=None):
     
     :type projectName: string
     :param projectName: [REQUIRED]
-            The name of the build project to get a list of build IDs for.
+            The name of the build project.
             
 
     :type sortOrder: string
@@ -695,15 +694,15 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
             
 
     :type artifactsOverride: dict
-    :param artifactsOverride: Build output artifact settings that override, for this build only, the latest ones already defined in the corresponding build project.
-            type (string) -- [REQUIRED]The build output artifact's type. Valid values include:
-            CODEPIPELINE : The build project with have build output generated through AWS CodePipeline.
+    :param artifactsOverride: Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
+            type (string) -- [REQUIRED]The type of build output artifact. Valid values include:
+            CODEPIPELINE : The build project will have build output generated through AWS CodePipeline.
             NO_ARTIFACTS : The build project will not produce any build output.
             S3 : The build project will store build output in Amazon Simple Storage Service (Amazon S3).
             location (string) --Information about the build output artifact location, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
-            If type is set to S3 , this is the name of the output bucket. If path is not also specified, then location can also specify the path of the output artifact in the output bucket.
+            If type is set to S3 , this is the name of the output bucket.
             path (string) --Along with namespaceType and name , the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
@@ -731,18 +730,18 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
             
 
     :type environmentVariablesOverride: list
-    :param environmentVariablesOverride: A set of environment variables that overrides, for this build only, the latest ones already defined in the corresponding build project.
+    :param environmentVariablesOverride: A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
             (dict) --Information about an environment variable for a build project or a build.
-            name (string) -- [REQUIRED]The environment variable's name or key.
-            value (string) -- [REQUIRED]The environment variable's value.
+            name (string) -- [REQUIRED]The name or key of the environment variable.
+            value (string) -- [REQUIRED]The value of the environment variable.
             
             
 
     :type buildspecOverride: string
-    :param buildspecOverride: A build spec declaration that overrides, for this build only, the latest one already defined in the corresponding build project.
+    :param buildspecOverride: A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
 
     :type timeoutInMinutesOverride: integer
-    :param timeoutInMinutesOverride: The number of build timeout minutes, from 5 to 480 (8 hours) that overrides, for this build only, the latest setting already defined in the corresponding build project.
+    :param timeoutInMinutesOverride: The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
 
     :rtype: dict
     :return: {
@@ -831,7 +830,7 @@ def stop_build(id=None):
     
     :type id: string
     :param id: [REQUIRED]
-            The ID of the build to attempt to stop running.
+            The ID of the build.
             
 
     :rtype: dict
@@ -899,7 +898,7 @@ def stop_build(id=None):
     
     :returns: 
     BUILD : Core build activities typically occur in this build phase.
-    COMPLETED : The build has completed.
+    COMPLETED : The build has been completed.
     DOWNLOAD_SOURCE : Source code is being downloaded in this build phase.
     FINALIZING : The build process is completing in this build phase.
     INSTALL : Installation activities typically occur in this build phase.
@@ -907,14 +906,14 @@ def stop_build(id=None):
     PRE_BUILD : Pre-build activities typically occur in this build phase.
     PROVISIONING : The build environment is being set up.
     SUBMITTED : The build has been submitted.
-    UPLOAD_ARTIFACTS : Build output artifacts are being uploaded to output location.
+    UPLOAD_ARTIFACTS : Build output artifacts are being uploaded to the output location.
     
     """
     pass
 
 def update_project(name=None, description=None, source=None, artifacts=None, environment=None, serviceRole=None, timeoutInMinutes=None, encryptionKey=None, tags=None):
     """
-    Changes the settings of an existing build project.
+    Changes the settings of a build project.
     See also: AWS API Documentation
     
     
@@ -963,16 +962,16 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
     
     :type name: string
     :param name: [REQUIRED]
-            The name of the existing build project to change settings.
+            The name of the build project.
             Note
-            You cannot change an existing build project's name.
+            You cannot change a build project's name.
             
 
     :type description: string
     :param description: A new or replacement description of the build project.
 
     :type source: dict
-    :param source: Information to be changed about the build project's build input source code.
+    :param source: Information to be changed about the build input source code for the build project.
             type (string) -- [REQUIRED]The type of repository that contains the source code to be built. Valid values include:
             CODECOMMIT : The source code is in an AWS CodeCommit repository.
             CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
@@ -982,26 +981,26 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.
             For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, ``https://git-codecommit.*region-ID* .amazonaws.com/v1/repos/repo-name `` ).
             For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example, `` bucket-name /path /to /object-name .zip`` )
-            For source code in a GitHub repository, the HTTPS clone URL, including the user name and personal access token, to the repository that contains the source code and the build spec (for example, https://*login-user-name* :*personal-access-token* @github.com/*repo-owner-name* /*repo-name* .git ). For more information, see Creating an Access Token for Command-Line Use on the GitHub Help website.
-            buildspec (string) --The build spec declaration to use for this build project's related builds.
+            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            buildspec (string) --The build spec declaration to use for the builds in this build project.
             If this value is not specified, a build spec must be included along with the source code to be built.
             auth (dict) --Information about the authorization settings for AWS CodeBuild to access the source code to be built.
-            This information is only for the AWS CodeBuild console's use. Your code should not get or set this information directly.
+            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB ).
             type (string) -- [REQUIRED]The authorization type to use. The only valid value is OAUTH , which represents the OAuth authorization type.
             resource (string) --The resource value that applies to the specified authorization type.
             
             
 
     :type artifacts: dict
-    :param artifacts: Information to be changed about the build project's build output artifacts.
-            type (string) -- [REQUIRED]The build output artifact's type. Valid values include:
-            CODEPIPELINE : The build project with have build output generated through AWS CodePipeline.
+    :param artifacts: Information to be changed about the build output artifacts for the build project.
+            type (string) -- [REQUIRED]The type of build output artifact. Valid values include:
+            CODEPIPELINE : The build project will have build output generated through AWS CodePipeline.
             NO_ARTIFACTS : The build project will not produce any build output.
             S3 : The build project will store build output in Amazon Simple Storage Service (Amazon S3).
             location (string) --Information about the build output artifact location, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output locations instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
-            If type is set to S3 , this is the name of the output bucket. If path is not also specified, then location can also specify the path of the output artifact in the output bucket.
+            If type is set to S3 , this is the name of the output bucket.
             path (string) --Along with namespaceType and name , the pattern that AWS CodeBuild will use to name and store the output artifact, as follows:
             If type is set to CODEPIPELINE , then AWS CodePipeline will ignore this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.
             If type is set to NO_ARTIFACTS , then this value will be ignored if specified, because no build output will be produced.
@@ -1029,9 +1028,8 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             
 
     :type environment: dict
-    :param environment: Information to be changed about the build project's build environment.
+    :param environment: Information to be changed about the build environment for the build project.
             type (string) -- [REQUIRED]The type of build environment to use for related builds.
-            The only valid value is LINUX_CONTAINER , which represents a Linux-based build environment.
             image (string) -- [REQUIRED]The ID of the Docker image to use for this build project.
             computeType (string) -- [REQUIRED]Information about the compute resources the build project will use. Available values include:
             BUILD_GENERAL1_SMALL : Use up to 3 GB memory and 2 vCPUs for builds.
@@ -1039,19 +1037,19 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             BUILD_GENERAL1_LARGE : Use up to 15 GB memory and 8 vCPUs for builds.
             environmentVariables (list) --A set of environment variables to make available to builds for this build project.
             (dict) --Information about an environment variable for a build project or a build.
-            name (string) -- [REQUIRED]The environment variable's name or key.
-            value (string) -- [REQUIRED]The environment variable's value.
+            name (string) -- [REQUIRED]The name or key of the environment variable.
+            value (string) -- [REQUIRED]The value of the environment variable.
             
             
 
     :type serviceRole: string
-    :param serviceRole: The replacement Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+    :param serviceRole: The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
 
     :type timeoutInMinutes: integer
-    :param timeoutInMinutes: The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait to timeout any related build that did not get marked as completed.
+    :param timeoutInMinutes: The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
 
     :type encryptionKey: string
-    :param encryptionKey: The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build project's build output artifacts.
+    :param encryptionKey: The replacement AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.
             You can specify either the CMK's Amazon Resource Name (ARN) or, if available, the CMK's alias (using the format ``alias/alias-name `` ).
             
 

@@ -46,6 +46,9 @@ def clone_receipt_rule_set(RuleSetName=None, OriginalRuleSetName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a receipt rule set by cloning an existing one:
+    Expected Output:
     
     :example: response = client.clone_receipt_rule_set(
         RuleSetName='string',
@@ -182,6 +185,9 @@ def create_receipt_filter(Filter=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a new IP address filter:
+    Expected Output:
     
     :example: response = client.create_receipt_filter(
         Filter={
@@ -221,6 +227,9 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a new receipt rule:
+    Expected Output:
     
     :example: response = client.create_receipt_rule(
         RuleSetName='string',
@@ -351,6 +360,9 @@ def create_receipt_rule_set(RuleSetName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example creates an empty receipt rule set:
+    Expected Output:
     
     :example: response = client.create_receipt_rule_set(
         RuleSetName='string'
@@ -434,6 +446,9 @@ def delete_identity(Identity=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an identity from the list of identities that have been submitted for verification with Amazon SES:
+    Expected Output:
     
     :example: response = client.delete_identity(
         Identity='string'
@@ -459,6 +474,9 @@ def delete_identity_policy(Identity=None, PolicyName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a sending authorization policy for an identity:
+    Expected Output:
     
     :example: response = client.delete_identity_policy(
         Identity='string',
@@ -491,6 +509,9 @@ def delete_receipt_filter(FilterName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an IP address filter:
+    Expected Output:
     
     :example: response = client.delete_receipt_filter(
         FilterName='string'
@@ -516,6 +537,9 @@ def delete_receipt_rule(RuleSetName=None, RuleName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a receipt rule:
+    Expected Output:
     
     :example: response = client.delete_receipt_rule(
         RuleSetName='string',
@@ -547,6 +571,9 @@ def delete_receipt_rule_set(RuleSetName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a receipt rule set:
+    Expected Output:
     
     :example: response = client.delete_receipt_rule_set(
         RuleSetName='string'
@@ -571,6 +598,9 @@ def delete_verified_email_address(EmailAddress=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an email address from the list of identities that have been submitted for verification with Amazon SES:
+    Expected Output:
     
     :example: response = client.delete_verified_email_address(
         EmailAddress='string'
@@ -582,6 +612,13 @@ def delete_verified_email_address(EmailAddress=None):
             An email address to be removed from the list of verified addresses.
             
 
+    :return: response = client.delete_verified_email_address(
+        EmailAddress='user@example.com',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -592,6 +629,9 @@ def describe_active_receipt_rule_set():
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the metadata and receipt rules for the receipt rule set that is currently active:
+    Expected Output:
     
     :example: response = client.describe_active_receipt_rule_set()
     
@@ -732,6 +772,9 @@ def describe_receipt_rule(RuleSetName=None, RuleName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a receipt rule:
+    Expected Output:
     
     :example: response = client.describe_receipt_rule(
         RuleSetName='string',
@@ -816,6 +859,9 @@ def describe_receipt_rule_set(RuleSetName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the metadata and receipt rules of a receipt rule set:
+    Expected Output:
     
     :example: response = client.describe_receipt_rule_set(
         RuleSetName='string'
@@ -923,6 +969,9 @@ def get_identity_dkim_attributes(Identities=None):
     For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example retrieves the Amazon SES Easy DKIM attributes for a list of identities:
+    Expected Output:
     
     :example: response = client.get_identity_dkim_attributes(
         Identities=[
@@ -963,6 +1012,9 @@ def get_identity_mail_from_domain_attributes(Identities=None):
     This action is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the custom MAIL FROM attributes for an identity:
+    Expected Output:
     
     :example: response = client.get_identity_mail_from_domain_attributes(
         Identities=[
@@ -999,6 +1051,9 @@ def get_identity_notification_attributes(Identities=None):
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the notification attributes for an identity:
+    Expected Output:
     
     :example: response = client.get_identity_notification_attributes(
         Identities=[
@@ -1039,6 +1094,9 @@ def get_identity_policies(Identity=None, PolicyNames=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns a sending authorization policy for an identity:
+    Expected Output:
     
     :example: response = client.get_identity_policies(
         Identity='string',
@@ -1083,6 +1141,9 @@ def get_identity_verification_attributes(Identities=None):
     This action is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the verification status and the verification token for a domain identity:
+    Expected Output:
     
     :example: response = client.get_identity_verification_attributes(
         Identities=[
@@ -1133,6 +1194,9 @@ def get_send_quota():
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the Amazon SES sending limits for an AWS account:
+    Expected Output:
     
     :example: response = client.get_send_quota()
     
@@ -1155,6 +1219,9 @@ def get_send_statistics():
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns Amazon SES sending statistics:
+    Expected Output:
     
     :example: response = client.get_send_statistics()
     
@@ -1226,6 +1293,9 @@ def list_identities(IdentityType=None, NextToken=None, MaxItems=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists the email address identities that have been submitted for verification with Amazon SES:
+    Expected Output:
     
     :example: response = client.list_identities(
         IdentityType='EmailAddress'|'Domain',
@@ -1265,6 +1335,9 @@ def list_identity_policies(Identity=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns a list of sending authorization policies that are attached to an identity:
+    Expected Output:
     
     :example: response = client.list_identity_policies(
         Identity='string'
@@ -1295,6 +1368,9 @@ def list_receipt_filters():
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists the IP address filters that are associated with an AWS account:
+    Expected Output:
     
     :example: response = client.list_receipt_filters()
     
@@ -1323,6 +1399,9 @@ def list_receipt_rule_sets(NextToken=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists the receipt rule sets that exist under an AWS account:
+    Expected Output:
     
     :example: response = client.list_receipt_rule_sets(
         NextToken='string'
@@ -1353,6 +1432,9 @@ def list_verified_email_addresses():
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists all email addresses that have been submitted for verification with Amazon SES:
+    Expected Output:
     
     :example: response = client.list_verified_email_addresses()
     
@@ -1375,6 +1457,9 @@ def put_identity_policy(Identity=None, PolicyName=None, Policy=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example adds a sending authorization policy to an identity:
+    Expected Output:
     
     :example: response = client.put_identity_policy(
         Identity='string',
@@ -1415,6 +1500,9 @@ def reorder_receipt_rule_set(RuleSetName=None, RuleNames=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example reorders the receipt rules within a receipt rule set:
+    Expected Output:
     
     :example: response = client.reorder_receipt_rule_set(
         RuleSetName='string',
@@ -1558,6 +1646,9 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
     There are several important points to know about SendEmail :
     See also: AWS API Documentation
     
+    Examples
+    The following example sends a formatted email:
+    Expected Output:
     
     :example: response = client.send_email(
         Source='string',
@@ -1786,6 +1877,9 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
     For the most common sending authorization use case, we recommend that you specify the SourceIdentityArn and do not specify either the FromIdentityArn or ReturnPathIdentityArn . (The same note applies to the corresponding X-headers.) If you only specify the SourceIdentityArn , Amazon SES will simply set the "From" address and the "Return Path" address to the identity specified in SourceIdentityArn . For more information about sending authorization, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example sends an email with an attachment:
+    Expected Output:
     
     :example: response = client.send_raw_email(
         Source='string',
@@ -1971,6 +2065,9 @@ def set_active_receipt_rule_set(RuleSetName=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example sets the active receipt rule set:
+    Expected Output:
     
     :example: response = client.set_active_receipt_rule_set(
         RuleSetName='string'
@@ -1995,6 +2092,9 @@ def set_identity_dkim_enabled(Identity=None, DkimEnabled=None):
     For more information about Easy DKIM signing, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example configures Amazon SES to Easy DKIM-sign the email sent from an identity:
+    Expected Output:
     
     :example: response = client.set_identity_dkim_enabled(
         Identity='string',
@@ -2034,6 +2134,9 @@ def set_identity_feedback_forwarding_enabled(Identity=None, ForwardingEnabled=No
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example configures Amazon SES to forward an identity's bounces and complaints via email:
+    Expected Output:
     
     :example: response = client.set_identity_feedback_forwarding_enabled(
         Identity='string',
@@ -2065,6 +2168,9 @@ def set_identity_headers_in_notifications_enabled(Identity=None, NotificationTyp
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example configures Amazon SES to include the original email headers in the Amazon SNS bounce notifications for an identity:
+    Expected Output:
     
     :example: response = client.set_identity_headers_in_notifications_enabled(
         Identity='string',
@@ -2102,6 +2208,9 @@ def set_identity_mail_from_domain(Identity=None, MailFromDomain=None, BehaviorOn
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example configures Amazon SES to use a custom MAIL FROM domain for an identity:
+    Expected Output:
     
     :example: response = client.set_identity_mail_from_domain(
         Identity='string',
@@ -2137,6 +2246,9 @@ def set_identity_notification_topic(Identity=None, NotificationType=None, SnsTop
     For more information about feedback notification, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example sets the Amazon SNS topic to which Amazon SES will publish bounce, complaint, and/or delivery notifications for emails sent with the specified identity as the Source:
+    Expected Output:
     
     :example: response = client.set_identity_notification_topic(
         Identity='string',
@@ -2172,6 +2284,9 @@ def set_receipt_rule_position(RuleSetName=None, RuleName=None, After=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example sets the position of a receipt rule in a receipt rule set:
+    Expected Output:
     
     :example: response = client.set_receipt_rule_position(
         RuleSetName='string',
@@ -2279,6 +2394,9 @@ def update_receipt_rule(RuleSetName=None, Rule=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example updates a receipt rule to use an Amazon S3 action:
+    Expected Output:
     
     :example: response = client.update_receipt_rule(
         RuleSetName='string',
@@ -2406,6 +2524,9 @@ def verify_domain_dkim(Domain=None):
     For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example generates DKIM tokens for a domain that has been verified with Amazon SES:
+    Expected Output:
     
     :example: response = client.verify_domain_dkim(
         Domain='string'
@@ -2434,6 +2555,9 @@ def verify_domain_identity(Domain=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example starts the domain verification process with Amazon SES:
+    Expected Output:
     
     :example: response = client.verify_domain_identity(
         Domain='string'
@@ -2460,6 +2584,9 @@ def verify_email_address(EmailAddress=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example starts the email address verification process with Amazon SES:
+    Expected Output:
     
     :example: response = client.verify_email_address(
         EmailAddress='string'
@@ -2471,6 +2598,13 @@ def verify_email_address(EmailAddress=None):
             The email address to be verified.
             
 
+    :return: response = client.verify_email_address(
+        EmailAddress='user@example.com',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -2480,6 +2614,9 @@ def verify_email_identity(EmailAddress=None):
     This action is throttled at one request per second.
     See also: AWS API Documentation
     
+    Examples
+    The following example starts the email address verification process with Amazon SES:
+    Expected Output:
     
     :example: response = client.verify_email_identity(
         EmailAddress='string'

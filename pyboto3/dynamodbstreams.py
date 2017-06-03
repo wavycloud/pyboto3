@@ -45,6 +45,9 @@ def describe_stream(StreamArn=None, Limit=None, ExclusiveStartShardId=None):
     Each shard in the stream has a SequenceNumberRange associated with it. If the SequenceNumberRange has a StartingSequenceNumber but no EndingSequenceNumber , then the shard is still open (able to receive more stream records). If both StartingSequenceNumber and EndingSequenceNumber are present, then that shard is closed and can no longer receive more data.
     See also: AWS API Documentation
     
+    Examples
+    The following example describes a stream with a given stream ARN.
+    Expected Output:
     
     :example: response = client.describe_stream(
         StreamArn='string',
@@ -146,6 +149,9 @@ def get_records(ShardIterator=None, Limit=None):
     Specify a shard iterator using the ShardIterator parameter. The shard iterator specifies the position in the shard from which you want to start reading stream records sequentially. If there are no stream records available in the portion of the shard that the iterator points to, GetRecords returns an empty list. Note that it might take multiple calls to get to a portion of the shard that contains stream records.
     See also: AWS API Documentation
     
+    Examples
+    The following example retrieves all the stream records from a shard.
+    Expected Output:
     
     :example: response = client.get_records(
         ShardIterator='string',
@@ -247,6 +253,10 @@ def get_records(ShardIterator=None, Limit=None):
                     'SequenceNumber': 'string',
                     'SizeBytes': 123,
                     'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+                },
+                'userIdentity': {
+                    'PrincipalId': 'string',
+                    'Type': 'string'
                 }
             },
         ],
@@ -267,6 +277,9 @@ def get_shard_iterator(StreamArn=None, ShardId=None, ShardIteratorType=None, Seq
     Returns a shard iterator. A shard iterator provides information about how to retrieve the stream records from within a shard. Use the shard iterator in a subsequent GetRecords request to read the stream records from the shard.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns a shard iterator for the provided stream ARN and shard ID.
+    Expected Output:
     
     :example: response = client.get_shard_iterator(
         StreamArn='string',
@@ -318,6 +331,9 @@ def list_streams(TableName=None, Limit=None, ExclusiveStartStreamArn=None):
     Returns an array of stream ARNs associated with the current account and endpoint. If the TableName parameter is present, then ListStreams will return only the streams ARNs for that table.
     See also: AWS API Documentation
     
+    Examples
+    The following example lists all of the stream ARNs.
+    Expected Output:
     
     :example: response = client.list_streams(
         TableName='string',

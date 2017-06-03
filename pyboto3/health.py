@@ -102,13 +102,13 @@ def describe_affected_entities(filter=None, locale=None, nextToken=None, maxResu
             
 
     :type locale: string
-    :param locale: The locale (language) to return information in. The default is English.
+    :param locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 
     :type nextToken: string
     :param nextToken: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 
     :type maxResults: integer
-    :param maxResults: The maximum number of items to return in one batch.
+    :param maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 
     :rtype: dict
     :return: {
@@ -283,7 +283,7 @@ def describe_event_aggregates(filter=None, aggregateField=None, maxResults=None,
             
 
     :type maxResults: integer
-    :param maxResults: The maximum number of items to return in one batch.
+    :param maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 
     :type nextToken: string
     :param nextToken: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -325,7 +325,7 @@ def describe_event_details(eventArns=None, locale=None):
             
 
     :type locale: string
-    :param locale: The locale (language) to return information in. The default is English.
+    :param locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 
     :rtype: dict
     :return: {
@@ -405,13 +405,13 @@ def describe_event_types(filter=None, locale=None, nextToken=None, maxResults=No
             
 
     :type locale: string
-    :param locale: The locale (language) to return information in. The default is English.
+    :param locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 
     :type nextToken: string
     :param nextToken: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 
     :type maxResults: integer
-    :param maxResults: The maximum number of items to return in one batch.
+    :param maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 
     :rtype: dict
     :return: {
@@ -541,10 +541,10 @@ def describe_events(filter=None, nextToken=None, maxResults=None, locale=None):
     :param nextToken: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 
     :type maxResults: integer
-    :param maxResults: The maximum number of items to return in one batch.
+    :param maxResults: The maximum number of items to return in one batch, between 10 and 100, inclusive.
 
     :type locale: string
-    :param locale: The locale (language) to return information in. The default is English.
+    :param locale: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 
     :rtype: dict
     :return: {

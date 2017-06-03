@@ -493,6 +493,7 @@ def describe_log_streams(logGroupName=None, logStreamNamePrefix=None, orderBy=No
     :type orderBy: string
     :param orderBy: If the value is LogStreamName , the results are ordered by log stream name. If the value is LastEventTime , the results are ordered by the event time. The default value is LogStreamName .
             If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
+            lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
             
 
     :type descending: boolean
@@ -1065,7 +1066,7 @@ def put_retention_policy(logGroupName=None, retentionInDays=None):
 def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=None, destinationArn=None, roleArn=None, distribution=None):
     """
     Creates or updates a subscription filter and associates it with the specified log group. Subscription filters allow you to subscribe to a real-time stream of log events ingested through  PutLogEvents and have them delivered to a specific destination. Currently, the supported destinations are:
-    There can only be one subscription filter associated with a log group.
+    There can only be one subscription filter associated with a log group. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group.
     See also: AWS API Documentation
     
     
@@ -1086,7 +1087,7 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
 
     :type filterName: string
     :param filterName: [REQUIRED]
-            A name for the subscription filter.
+            A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters .
             
 
     :type filterPattern: string
@@ -1114,7 +1115,7 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
     The name of the log group.
     
     filterName (string) -- [REQUIRED]
-    A name for the subscription filter.
+    A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use  DescribeSubscriptionFilters .
     
     filterPattern (string) -- [REQUIRED]
     A filter pattern for subscribing to a filtered stream of log events.

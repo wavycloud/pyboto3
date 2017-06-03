@@ -26,9 +26,10 @@ SOFTWARE.
 
 def add_tags_to_resource(ResourceType=None, ResourceId=None, Tags=None):
     """
-    Adds or overwrites one or more tags for the specified resource. Tags are metadata that you assign to your managed instances. Tags enable you to categorize your managed instances in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 10 tags.
+    Adds or overwrites one or more tags for the specified resource. Tags are metadata that you assign to your managed instances, Maintenance Windows, or Parameter Store parameters. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test.
+    Each resource can have a maximum of 10 tags.
     We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to Amazon EC2 and are interpreted strictly as a string of characters.
-    For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide.
+    For more information about tags, see Tagging Your Amazon EC2 Resources in the Amazon EC2 User Guide .
     See also: AWS API Documentation
     
     
@@ -121,7 +122,7 @@ def cancel_command(CommandId=None, InstanceIds=None):
 
 def create_activation(Description=None, DefaultInstanceName=None, IamRole=None, RegistrationLimit=None, ExpirationDate=None):
     """
-    Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up Managed Instances (Linux) or Setting Up Managed Instances (Windows) in the Amazon EC2 User Guide.
+    Registers your on-premises server or virtual machine with Amazon EC2 so that you can manage these resources using Run Command. An on-premises server or virtual machine that has been registered with EC2 is called a managed instance. For more information about activations, see Setting Up Systems Manager in Hybrid Environments .
     See also: AWS API Documentation
     
     
@@ -135,7 +136,7 @@ def create_activation(Description=None, DefaultInstanceName=None, IamRole=None, 
     
     
     :type Description: string
-    :param Description: A user-defined description of the resource that you want to register with Amazon EC2.
+    :param Description: A userdefined description of the resource that you want to register with Amazon EC2.
 
     :type DefaultInstanceName: string
     :param DefaultInstanceName: The name of the registered, managed instance as it will appear in the Amazon EC2 console or when you use the AWS command line tools to list EC2 resources.
@@ -163,8 +164,8 @@ def create_activation(Description=None, DefaultInstanceName=None, IamRole=None, 
 
 def create_association(Name=None, DocumentVersion=None, InstanceId=None, Parameters=None, Targets=None, ScheduleExpression=None, OutputLocation=None):
     """
-    Associates the specified SSM document with the specified instances or targets.
-    When you associate an SSM document with one or more instances using instance IDs or tags, the SSM agent running on the instance processes the document and configures the instance as specified.
+    Associates the specified Systems Manager document with the specified instances or targets.
+    When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified.
     If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
     See also: AWS API Documentation
     
@@ -199,7 +200,7 @@ def create_association(Name=None, DocumentVersion=None, InstanceId=None, Paramet
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the SSM document.
+            The name of the Systems Manager document.
             
 
     :type DocumentVersion: string
@@ -217,20 +218,19 @@ def create_association(Name=None, DocumentVersion=None, InstanceId=None, Paramet
             
 
     :type Targets: list
-    :param Targets: The targets (either instances or tags) for the association. Instances are specified using Key=instanceids,Values=instanceid1,instanceid2. Tags are specified using Key=tag name,Values=tag value.
-            (dict) --An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
-            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tag or name:Amazon EC2 instance ID . For example, tag:ServerRole or name:0123456789012345 . For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            Values (list) --User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+    :param Targets: The targets (either instances or tags) for the association.
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
             (string) --
             
             
 
     :type ScheduleExpression: string
-    :param ScheduleExpression: A cron expression when the association will be applied to the target(s). Supported expressions are every half, 1, 2, 4, 8 or 12 hour(s); every specified day and time of the week. For example: cron(0 0/30 * 1/1 * ? *) to run every thirty minutes; cron(0 0 0/4 1/1 * ? *) to run every four hours; and cron(0 0 10 ? * SUN *) to run every Sunday at 10 a.m.
+    :param ScheduleExpression: A cron expression when the association will be applied to the target(s).
 
     :type OutputLocation: dict
-    :param OutputLocation: An Amazon S3 bucket where you want to store the output details of the request. For example:
-            '{ \'S3Location\': { \'OutputS3Region\': \'region\', \'OutputS3BucketName\': \'bucket name\', \'OutputS3KeyPrefix\': \'folder name\' } }'
+    :param OutputLocation: An Amazon S3 bucket where you want to store the output details of the request.
             S3Location (dict) --An Amazon S3 bucket where you want to store the results of this request.
             OutputS3Region (string) --The Amazon S3 region where the association information is stored.
             OutputS3BucketName (string) --The name of the Amazon S3 bucket.
@@ -298,8 +298,8 @@ def create_association(Name=None, DocumentVersion=None, InstanceId=None, Paramet
 
 def create_association_batch(Entries=None):
     """
-    Associates the specified SSM document with the specified instances or targets.
-    When you associate an SSM document with one or more instances using instance IDs or tags, the SSM agent running on the instance processes the document and configures the instance as specified.
+    Associates the specified Systems Manager document with the specified instances or targets.
+    When you associate a document with one or more instances using instance IDs or tags, the SSM Agent running on the instance processes the document and configures the instance as specified.
     If you associate a document with an instance that already has an associated document, the system throws the AssociationAlreadyExists exception.
     See also: AWS API Documentation
     
@@ -339,7 +339,7 @@ def create_association_batch(Entries=None):
     :type Entries: list
     :param Entries: [REQUIRED]
             One or more associations.
-            (dict) --Describes the association of an SSM document and an instance.
+            (dict) --Describes the association of a Systems Manager document and an instance.
             Name (string) -- [REQUIRED]The name of the configuration document.
             InstanceId (string) --The ID of the instance.
             Parameters (dict) --A description of the parameters for a document.
@@ -349,9 +349,9 @@ def create_association_batch(Entries=None):
             
             DocumentVersion (string) --The document version.
             Targets (list) --The instances targeted by the request.
-            (dict) --An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
-            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tag or name:Amazon EC2 instance ID . For example, tag:ServerRole or name:0123456789012345 . For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            Values (list) --User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
             (string) --
             
             ScheduleExpression (string) --A cron expression that specifies a schedule when the association runs.
@@ -455,8 +455,8 @@ def create_association_batch(Entries=None):
 
 def create_document(Content=None, Name=None, DocumentType=None):
     """
-    Creates an SSM document.
-    After you create an SSM document, you can use CreateAssociation to associate it with one or more running instances.
+    Creates a Systems Manager document.
+    After you create a document, you can use CreateAssociation to associate it with one or more running instances.
     See also: AWS API Documentation
     
     
@@ -474,7 +474,7 @@ def create_document(Content=None, Name=None, DocumentType=None):
 
     :type Name: string
     :param Name: [REQUIRED]
-            A name for the SSM document.
+            A name for the Systems Manager document.
             
 
     :type DocumentType: string
@@ -663,7 +663,7 @@ def create_patch_baseline(Name=None, GlobalFilters=None, ApprovalRules=None, App
     :param Description: A description of the patch baseline.
 
     :type ClientToken: string
-    :param ClientToken: Caller-provided idempotency token.
+    :param ClientToken: User-provided idempotency token.
             This field is autopopulated if not provided.
             
 
@@ -701,8 +701,8 @@ def delete_activation(ActivationId=None):
 
 def delete_association(Name=None, InstanceId=None, AssociationId=None):
     """
-    Disassociates the specified SSM document from the specified instance.
-    When you disassociate an SSM document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
+    Disassociates the specified Systems Manager document from the specified instance.
+    When you disassociate a document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
     See also: AWS API Documentation
     
     
@@ -714,7 +714,7 @@ def delete_association(Name=None, InstanceId=None, AssociationId=None):
     
     
     :type Name: string
-    :param Name: The name of the SSM document.
+    :param Name: The name of the Systems Manager document.
 
     :type InstanceId: string
     :param InstanceId: The ID of the instance.
@@ -734,8 +734,8 @@ def delete_association(Name=None, InstanceId=None, AssociationId=None):
 
 def delete_document(Name=None):
     """
-    Deletes the SSM document and all instance associations to the document.
-    Before you delete the SSM document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
+    Deletes the Systems Manager document and all instance associations to the document.
+    Before you delete the document, we recommend that you use  DeleteAssociation to disassociate all instances that are associated with the document.
     See also: AWS API Documentation
     
     
@@ -746,7 +746,7 @@ def delete_document(Name=None):
     
     :type Name: string
     :param Name: [REQUIRED]
-            The name of the SSM document.
+            The name of the document.
             
 
     :rtype: dict
@@ -831,7 +831,7 @@ def delete_patch_baseline(BaselineId=None):
 
 def deregister_managed_instance(InstanceId=None):
     """
-    Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you dont plan to use Run Command on the server, we suggest uninstalling the SSM agent first.
+    Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling the SSM Agent first.
     See also: AWS API Documentation
     
     
@@ -1007,7 +1007,7 @@ def describe_activations(Filters=None, MaxResults=None, NextToken=None):
 
 def describe_association(Name=None, InstanceId=None, AssociationId=None):
     """
-    Describes the associations for the specified SSM document or instance.
+    Describes the associations for the specified Systems Manager document or instance.
     See also: AWS API Documentation
     
     
@@ -1275,7 +1275,7 @@ def describe_document(Name=None, DocumentVersion=None):
 
 def describe_document_permission(Name=None, PermissionType=None):
     """
-    Describes the permissions for an SSM document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a users AWS account ID) or publicly (All ).
+    Describes the permissions for a Systems Manager document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's AWS account ID) or publicly (All ).
     See also: AWS API Documentation
     
     
@@ -1458,7 +1458,7 @@ def describe_instance_associations_status(InstanceId=None, MaxResults=None, Next
 
 def describe_instance_information(InstanceInformationFilterList=None, Filters=None, MaxResults=None, NextToken=None):
     """
-    Describes one or more of your instances. You can use this to get information about instances like the operating system platform, the SSM agent version (Linux), status etc. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.
+    Describes one or more of your instances. You can use this to get information about instances like the operating system platform, the SSM Agent version (Linux), status etc. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.
     See also: AWS API Documentation
     
     
@@ -1497,7 +1497,7 @@ def describe_instance_information(InstanceInformationFilterList=None, Filters=No
     :param Filters: One or more filters. Use a filter to return a more specific list of instances.
             (dict) --The filters to describe or get information about your managed instances.
             Key (string) -- [REQUIRED]The filter key name to describe your instances. For example:
-            'InstanceIds'|'AgentVersion'|'PingStatus'|'PlatformTypes'|'ActivationIds'|'IamRole'|'ResourceType'| AssociationStatus | Tag Key 
+            'InstanceIds'|'AgentVersion'|'PingStatus'|'PlatformTypes'|'ActivationIds'|'IamRole'|'ResourceType'|'AssociationStatus'|'Tag Key'
             Values (list) -- [REQUIRED]The filter values.
             (string) --
             
@@ -1634,9 +1634,9 @@ def describe_instance_patch_states_for_patch_group(PatchGroup=None, Filters=None
 
     :type Filters: list
     :param Filters: Each entry in the array is a structure containing:
-            Key (string 1   length   200)
+            Key (string between 1 and 200 characters)
             Values (array containing a single string)
-            Type (string  Equal ,  NotEqual ,  LessThan ,  GreaterThan )
+            Type (string 'Equal', 'NotEqual', 'LessThan', 'GreaterThan')
             (dict) --Defines a filter used in DescribeInstancePatchStatesForPatchGroup used to scope down the information returned by the API.
             Key (string) -- [REQUIRED]The key for the filter. Supported values are FailedCount, InstalledCount, InstalledOtherCount, MissingCount and NotApplicableCount.
             Values (list) -- [REQUIRED]The value for the filter, must be an integer greater than or equal to 0.
@@ -1705,8 +1705,8 @@ def describe_instance_patches(InstanceId=None, Filters=None, NextToken=None, Max
 
     :type Filters: list
     :param Filters: Each entry in the array is a structure containing:
-            Key (string, 1   length   128)
-            Values (array of strings 1   length   256)
+            Key (string, between 1 and 128 characters)
+            Values (array of strings, each string between 1 and 256 characters)
             (dict) --Defines a filter used in Patch Manager APIs.
             Key (string) --The key for the filter.
             Values (list) --The value for the filter.
@@ -1900,8 +1900,8 @@ def describe_maintenance_window_executions(WindowId=None, Filters=None, MaxResul
 
     :type Filters: list
     :param Filters: Each entry in the array is a structure containing:
-            Key (string, 1   length   128)
-            Values (array of strings 1   length   256)
+            Key (string, between 1 and 128 characters)
+            Values (array of strings, each string is between 1 and 256 characters)
             The supported Keys are ExecutedBefore and ExecutedAfter with the value being a date/time string such as 2016-11-04T05:00:00Z.
             (dict) --Filter used in the request.
             Key (string) --The name of the filter.
@@ -1962,7 +1962,7 @@ def describe_maintenance_window_targets(WindowId=None, Filters=None, MaxResults=
             
 
     :type Filters: list
-    :param Filters: Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type , WindowTargetId and OwnerInformation .
+    :param Filters: Optional filters that can be used to narrow down the scope of the returned window targets. The supported filter keys are Type, WindowTargetId and OwnerInformation.
             (dict) --Filter used in the request.
             Key (string) --The name of the filter.
             Values (list) --The filter values.
@@ -2031,7 +2031,7 @@ def describe_maintenance_window_tasks(WindowId=None, Filters=None, MaxResults=No
             
 
     :type Filters: list
-    :param Filters: Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId , TaskArn , Priority , and TaskType .
+    :param Filters: Optional filters used to narrow down the scope of the returned tasks. The supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
             (dict) --Filter used in the request.
             Key (string) --The name of the filter.
             Values (list) --The filter values.
@@ -2110,7 +2110,7 @@ def describe_maintenance_windows(Filters=None, MaxResults=None, NextToken=None):
     
     
     :type Filters: list
-    :param Filters: Optional filters used to narrow down the scope of the returned Maintenance Windows. Supported filter keys are Name and Enabled .
+    :param Filters: Optional filters used to narrow down the scope of the returned Maintenance Windows. Supported filter keys are Name and Enabled.
             (dict) --Filter used in the request.
             Key (string) --The name of the filter.
             Values (list) --The filter values.
@@ -2218,8 +2218,8 @@ def describe_patch_baselines(Filters=None, MaxResults=None, NextToken=None):
     
     :type Filters: list
     :param Filters: Each element in the array is a structure containing:
-            Key: (string,  NAME_PREFIX  or  OWNER )
-            Value: (array of strings, exactly 1 entry, 1   length   255)
+            Key: (string, 'NAME_PREFIX' or 'OWNER')
+            Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
             (dict) --Defines a filter used in Patch Manager APIs.
             Key (string) --The key for the filter.
             Values (list) --The value for the filter.
@@ -2382,7 +2382,16 @@ def get_automation_execution(AutomationExecutionId=None):
                         ]
                     },
                     'Response': 'string',
-                    'FailureMessage': 'string'
+                    'FailureMessage': 'string',
+                    'FailureDetails': {
+                        'FailureStage': 'string',
+                        'FailureType': 'string',
+                        'Details': {
+                            'string': [
+                                'string',
+                            ]
+                        }
+                    }
                 },
             ],
             'Parameters': {
@@ -2436,7 +2445,7 @@ def get_command_invocation(CommandId=None, InstanceId=None, PluginName=None):
             
 
     :type PluginName: string
-    :param PluginName: (Optional) The name of the plugin for which you want detailed results. If the SSM document contains only one plugin, the name can be omitted and the details will be returned.
+    :param PluginName: (Optional) The name of the plugin for which you want detailed results. If the document contains only one plugin, the name can be omitted and the details will be returned.
 
     :rtype: dict
     :return: {
@@ -2459,16 +2468,16 @@ def get_command_invocation(CommandId=None, InstanceId=None, PluginName=None):
     
     
     :returns: 
-    Pending  The command has not been sent to the instance.
-    In Progress  The command has been sent to the instance but has not reached a terminal state.
-    Delayed  The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.
-    Success  The command or plugin was executed successfully. This is a terminal state.
-    Delivery Timed Out  The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent commands MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete . This is a terminal state.
-    Execution Timed Out  The command started to execute on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.
-    Failed  The command wasn't executed successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.
-    Canceled  The command was terminated before it was completed. This is a terminal state.
-    Undeliverable  The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent commands MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete . This is a terminal state.
-    Terminated  The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+    Pending: The command has not been sent to the instance.
+    In Progress: The command has been sent to the instance but has not reached a terminal state.
+    Delayed: The system attempted to send the command to the target, but the target was not available. The instance might not be available because of network issues, the instance was stopped, etc. The system will try to deliver the command again.
+    Success: The command or plugin was executed successfully. This is a terminal state.
+    Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.
+    Execution Timed Out: The command started to execute on the instance, but the execution was not complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.
+    Failed: The command wasn't executed successfully on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.
+    Canceled: The command was terminated before it was completed. This is a terminal state.
+    Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.
+    Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
     
     """
     pass
@@ -2595,7 +2604,7 @@ def get_inventory(Filters=None, ResultAttributes=None, NextToken=None, MaxResult
     :type ResultAttributes: list
     :param ResultAttributes: The list of inventory item types to return.
             (dict) --The inventory item result attribute.
-            TypeName (string) -- [REQUIRED]Name of the inventory item type. Valid value:  AWS:InstanceInformation . Default Value:  AWS:InstanceInformation .
+            TypeName (string) -- [REQUIRED]Name of the inventory item type. Valid value: AWS:InstanceInformation. Default Value: AWS:InstanceInformation.
             
             
 
@@ -2869,7 +2878,7 @@ def get_parameter_history(Name=None, WithDecryption=None, MaxResults=None, NextT
 
 def get_parameters(Names=None, WithDecryption=None):
     """
-    Get a list of parameters used by the AWS account.
+    Get details of a parameter.
     See also: AWS API Documentation
     
     
@@ -3013,7 +3022,7 @@ def get_waiter():
 
 def list_associations(AssociationFilterList=None, MaxResults=None, NextToken=None):
     """
-    Lists the associations for the specified SSM document or instance.
+    Lists the associations for the specified Systems Manager document or instance.
     See also: AWS API Documentation
     
     
@@ -3170,15 +3179,15 @@ def list_command_invocations(CommandId=None, InstanceId=None, MaxResults=None, N
     
     
     :returns: 
-    Pending  The command has not been sent to the instance.
-    In Progress  The command has been sent to the instance but has not reached a terminal state.
-    Success  The execution of the command or plugin was successfully completed. This is a terminal state.
-    Delivery Timed Out  The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent commands MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete . This is a terminal state.
-    Execution Timed Out  Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.
-    Failed  The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.
-    Canceled  The command was terminated before it was completed. This is a terminal state.
-    Undeliverable  The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent commands MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete . This is a terminal state.
-    Terminated  The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+    Pending: The command has not been sent to the instance.
+    In Progress: The command has been sent to the instance but has not reached a terminal state.
+    Success: The execution of the command or plugin was successfully completed. This is a terminal state.
+    Delivery Timed Out: The command was not delivered to the instance before the delivery timeout expired. Delivery timeouts do not count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.
+    Execution Timed Out: Command execution started on the instance, but the execution was not complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.
+    Failed: The command was not successful on the instance. For a plugin, this indicates that the result code was not zero. For a command invocation, this indicates that the result code for one or more plugins was not zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.
+    Canceled: The command was terminated before it was completed. This is a terminal state.
+    Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.
+    Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
     
     """
     pass
@@ -3495,7 +3504,7 @@ def list_tags_for_resource(ResourceType=None, ResourceId=None):
 
 def modify_document_permission(Name=None, PermissionType=None, AccountIdsToAdd=None, AccountIdsToRemove=None):
     """
-    Share a document publicly or privately. If you share a document privately, you must specify the AWS user account IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
+    Shares a Systems Manager document publicly or privately. If you share a document privately, you must specify the AWS user account IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
     See also: AWS API Documentation
     
     
@@ -3574,7 +3583,7 @@ def put_inventory(InstanceId=None, Items=None):
     :param Items: [REQUIRED]
             The inventory items that you want to add or update on instances.
             (dict) --Information collected from managed instances based on your inventory policy document
-            TypeName (string) -- [REQUIRED]The name of the inventory type. Default inventory item type names start with AWS . Custom inventory type names will start with Custom . Default inventory item types include the following: AWS:AWSComponent , AWS:Application , AWS:InstanceInformation , AWS:Network , and AWS:WindowsUpdate .
+            TypeName (string) -- [REQUIRED]The name of the inventory type. Default inventory item type names start with AWS. Custom inventory type names will start with Custom. Default inventory item types include the following: AWS:AWSComponent, AWS:Application, AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
             SchemaVersion (string) -- [REQUIRED]The schema version for the inventory item.
             CaptureTime (string) -- [REQUIRED]The time the inventory information was collected.
             ContentHash (string) --MD5 hash of the inventory item type contents. The content hash is used to determine whether to update inventory information. The PutInventory API does not update the inventory item type contents if the MD5 hash has not changed since last update.
@@ -3634,7 +3643,7 @@ def put_parameter(Name=None, Description=None, Value=None, Type=None, KeyId=None
     :param KeyId: The parameter key ID that you want to add to the system.
 
     :type Overwrite: boolean
-    :param Overwrite: Overwrite an existing parameter.
+    :param Overwrite: Overwrite an existing parameter. If not specified, will default to 'false'.
 
     :rtype: dict
     :return: {}
@@ -3738,9 +3747,9 @@ def register_target_with_maintenance_window(WindowId=None, ResourceType=None, Ta
     :type Targets: list
     :param Targets: [REQUIRED]
             The targets (either instances or tags). Instances are specified using Key=instanceids,Values=instanceid1,instanceid2. Tags are specified using Key=tag name,Values=tag value.
-            (dict) --An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
-            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tag or name:Amazon EC2 instance ID . For example, tag:ServerRole or name:0123456789012345 . For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            Values (list) --User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
             (string) --
             
             
@@ -3808,9 +3817,9 @@ def register_task_with_maintenance_window(WindowId=None, Targets=None, TaskArn=N
     :type Targets: list
     :param Targets: [REQUIRED]
             The targets (either instances or tags). Instances are specified using Key=instanceids,Values=instanceid1,instanceid2. Tags are specified using Key=tag name,Values=tag value.
-            (dict) --An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
-            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tag or name:Amazon EC2 instance ID . For example, tag:ServerRole or name:0123456789012345 . For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            Values (list) --User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
             (string) --
             
             
@@ -3959,22 +3968,22 @@ def send_command(InstanceIds=None, Targets=None, DocumentName=None, DocumentHash
     
     
     :type InstanceIds: list
-    :param InstanceIds: Required. The instance IDs where the command should execute. You can specify a maximum of 50 IDs.
+    :param InstanceIds: The instance IDs where the command should execute. You can specify a maximum of 50 IDs. If you prefer not to list individual instance IDs, you can instead send commands to a fleet of instances using the Targets parameter, which accepts EC2 tags.
             (string) --
             
 
     :type Targets: list
-    :param Targets: (Optional) An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use Targets , see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            (dict) --An array of search criteria that targets instances using a Key ;``Value`` combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
-            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tag or name:Amazon EC2 instance ID . For example, tag:ServerRole or name:0123456789012345 . For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
-            Values (list) --User-defined criteria that maps to Key . For example, if you specified tag:ServerRole , you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole;WebServer. For more information about how to send commands that target instances using Key ;``Value`` parameters, see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+    :param Targets: (Optional) An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call. For more information about how to use Targets, see Executing a Command Using Systems Manager Run Command .
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
             (string) --
             
             
 
     :type DocumentName: string
     :param DocumentName: [REQUIRED]
-            Required. The name of the SSM document to execute. This can be an SSM public document or a custom document.
+            Required. The name of the Systems Manager document to execute. This can be a public document or a custom document.
             
 
     :type DocumentHash: string
@@ -3996,7 +4005,7 @@ def send_command(InstanceIds=None, Targets=None, DocumentName=None, DocumentHash
     :param Comment: User-specified information about the command, such as a brief description of what the command should do.
 
     :type Parameters: dict
-    :param Parameters: The required and optional parameters specified in the SSM document being executed.
+    :param Parameters: The required and optional parameters specified in the document being executed.
             (string) --
             (list) --
             (string) --
@@ -4013,10 +4022,10 @@ def send_command(InstanceIds=None, Targets=None, DocumentName=None, DocumentHash
     :param OutputS3KeyPrefix: The directory structure within the S3 bucket where the responses should be stored.
 
     :type MaxConcurrency: string
-    :param MaxConcurrency: (Optional) The maximum number of instances that are allowed to execute the command at the same time. You can specify a number such as  10  or a percentage such as  10% . The default value is 50. For more information about how to use MaxConcurrency , see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+    :param MaxConcurrency: (Optional) The maximum number of instances that are allowed to execute the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Executing a Command Using Systems Manager Run Command .
 
     :type MaxErrors: string
-    :param MaxErrors: The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors , the systems stops sending the command to additional targets. You can specify a number like  10  or a percentage like  10% . The default value is 50. For more information about how to use MaxErrors , see Executing a Command Using Amazon EC2 Run Command (Linux) or Executing a Command Using Amazon EC2 Run Command (Windows).
+    :param MaxErrors: The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 50. For more information about how to use MaxErrors, see Executing a Command Using Systems Manager Run Command .
 
     :type ServiceRoleArn: string
     :param ServiceRoleArn: The IAM role that Systems Manager uses to send notifications.
@@ -4024,7 +4033,7 @@ def send_command(InstanceIds=None, Targets=None, DocumentName=None, DocumentHash
     :type NotificationConfig: dict
     :param NotificationConfig: Configurations for sending notifications.
             NotificationArn (string) --An Amazon Resource Name (ARN) for a Simple Notification Service (SNS) topic. Run Command pushes notifications about command status changes to this topic.
-            NotificationEvents (list) --The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Monitoring Commands in the Amazon Elastic Compute Cloud User Guide .
+            NotificationEvents (list) --The different events for which you can receive notifications. These events include the following: All (events), InProgress, Success, TimedOut, Cancelled, Failed. To learn more about these events, see Setting Up Events and Notifications in the Amazon EC2 Systems Manager User Guide .
             (string) --
             NotificationType (string) --Command: Receive notification when the status of a command changes. Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes.
             
@@ -4152,7 +4161,7 @@ def stop_automation_execution(AutomationExecutionId=None):
     """
     pass
 
-def update_association(AssociationId=None, Parameters=None, DocumentVersion=None, ScheduleExpression=None, OutputLocation=None):
+def update_association(AssociationId=None, Parameters=None, DocumentVersion=None, ScheduleExpression=None, OutputLocation=None, Name=None, Targets=None):
     """
     Updates an association. You can only update the document version, schedule, parameters, and Amazon S3 output of an association.
     See also: AWS API Documentation
@@ -4173,7 +4182,16 @@ def update_association(AssociationId=None, Parameters=None, DocumentVersion=None
                 'OutputS3BucketName': 'string',
                 'OutputS3KeyPrefix': 'string'
             }
-        }
+        },
+        Name='string',
+        Targets=[
+            {
+                'Key': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ]
     )
     
     
@@ -4194,15 +4212,26 @@ def update_association(AssociationId=None, Parameters=None, DocumentVersion=None
     :param DocumentVersion: The document version you want update for the association.
 
     :type ScheduleExpression: string
-    :param ScheduleExpression: The cron expression used to schedule the association that you want to update. Supported expressions are every half, 1, 2, 4, 8 or 12 hour(s); every specified day and time of the week. For example: cron(0 0/30 * 1/1 * ? *) to run every thirty minutes; cron(0 0 0/4 1/1 * ? *) to run every four hours; and cron(0 0 10 ? * SUN *) to run every Sunday at 10 a.m.
+    :param ScheduleExpression: The cron expression used to schedule the association that you want to update.
 
     :type OutputLocation: dict
     :param OutputLocation: An Amazon S3 bucket where you want to store the results of this request.
-            '{ \'S3Location\': { \'OutputS3Region\': \'region\', \'OutputS3BucketName\': \'bucket name\', \'OutputS3KeyPrefix\': \'folder name\' } }'
             S3Location (dict) --An Amazon S3 bucket where you want to store the results of this request.
             OutputS3Region (string) --The Amazon S3 region where the association information is stored.
             OutputS3BucketName (string) --The name of the Amazon S3 bucket.
             OutputS3KeyPrefix (string) --The Amazon S3 bucket subfolder.
+            
+            
+
+    :type Name: string
+    :param Name: The name of the association document.
+
+    :type Targets: list
+    :param Targets: The targets of the association.
+            (dict) --An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+            Key (string) --User-defined criteria for sending commands that target instances that meet the criteria. Key can be tag:Amazon EC2 tagor InstanceIds. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            Values (list) --User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to execute a command on instances that include Amazon EC2 tags of ServerRole,WebServer. For more information about how to send commands that target instances using Key,Value parameters, see Executing a Command Using Systems Manager Run Command .
+            (string) --
             
             
 
@@ -4266,7 +4295,7 @@ def update_association(AssociationId=None, Parameters=None, DocumentVersion=None
 
 def update_association_status(Name=None, InstanceId=None, AssociationStatus=None):
     """
-    Updates the status of the SSM document associated with the specified instance.
+    Updates the status of the Systems Manager document associated with the specified instance.
     See also: AWS API Documentation
     
     

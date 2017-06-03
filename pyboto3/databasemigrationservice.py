@@ -80,7 +80,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None, Tags=None, CertificateArn=None, SslMode=None):
+def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None, Tags=None, CertificateArn=None, SslMode=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
     """
     Creates an endpoint using the provided settings.
     See also: AWS API Documentation
@@ -104,7 +104,32 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             },
         ],
         CertificateArn='string',
-        SslMode='none'|'require'|'verify-ca'|'verify-full'
+        SslMode='none'|'require'|'verify-ca'|'verify-full',
+        DynamoDbSettings={
+            'ServiceAccessRoleArn': 'string'
+        },
+        S3Settings={
+            'ServiceAccessRoleArn': 'string',
+            'ExternalTableDefinition': 'string',
+            'CsvRowDelimiter': 'string',
+            'CsvDelimiter': 'string',
+            'BucketFolder': 'string',
+            'BucketName': 'string',
+            'CompressionType': 'none'|'gzip'
+        },
+        MongoDbSettings={
+            'Username': 'string',
+            'Password': 'string',
+            'ServerName': 'string',
+            'Port': 123,
+            'DatabaseName': 'string',
+            'AuthType': 'no'|'password',
+            'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+            'NestingLevel': 'none'|'one',
+            'ExtractDocId': 'string',
+            'DocsToInvestigate': 'string',
+            'AuthSource': 'string'
+        }
     )
     
     
@@ -120,7 +145,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
 
     :type EngineName: string
     :param EngineName: [REQUIRED]
-            The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
+            The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
             
 
     :type Username: string
@@ -161,6 +186,46 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             The default value is none.
             
 
+    :type DynamoDbSettings: dict
+    :param DynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service .
+            ServiceAccessRoleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) used by the service access IAM role.
+            
+
+    :type S3Settings: dict
+    :param S3Settings: Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at Using Amazon S3 as a Target for AWS Database Migration Service .
+            ServiceAccessRoleArn (string) --The Amazon Resource Name (ARN) used by the service access IAM role.
+            ExternalTableDefinition (string) --
+            CsvRowDelimiter (string) --The delimiter used to separate rows in the source files. The default is a carriage return (n).
+            CsvDelimiter (string) --The delimiter used to separate columns in the source files. The default is a comma.
+            BucketFolder (string) --An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is schema_name/table_name/.
+            BucketName (string) --The name of the S3 bucket.
+            CompressionType (string) --An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.
+            
+
+    :type MongoDbSettings: dict
+    :param MongoDbSettings: Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at Using Amazon S3 as a Target for AWS Database Migration Service .
+            Username (string) --The user name you use to access the MongoDB source endpoint.
+            Password (string) --The password for the user account you use to access the MongoDB source endpoint.
+            ServerName (string) --The name of the server on the MongoDB source endpoint.
+            Port (integer) --The port value for the MongoDB source endpoint.
+            DatabaseName (string) --The database name on the MongoDB source endpoint.
+            AuthType (string) --The authentication type you use to access the MongoDB source endpoint.
+            Valid values: NO, PASSWORD
+            When NO is selected, user name and password parameters are not used and can be empty.
+            AuthMechanism (string) --The authentication mechanism you use to access the MongoDB source endpoint.
+            Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1
+            DEFAULT   For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
+            NestingLevel (string) --Specifies either document or table mode.
+            Valid values: NONE, ONE
+            Default value is NONE. Specify NONE to use document mode. Specify ONE to use table mode.
+            ExtractDocId (string) --Specifies the document ID. Use this attribute when NestingLevel is set to NONE.
+            Default value is false.
+            DocsToInvestigate (string) --Indicates the number of documents to preview to determine the document organization. Use this attribute when NestingLevel is set to ONE.
+            Must be a positive value greater than 0. Default value is 1000.
+            AuthSource (string) --The MongoDB database name. This attribute is not used when authType=NO .
+            The default is admin.
+            
+
     :rtype: dict
     :return: {
         'Endpoint': {
@@ -176,10 +241,127 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             'KmsKeyId': 'string',
             'EndpointArn': 'string',
             'CertificateArn': 'string',
-            'SslMode': 'none'|'require'|'verify-ca'|'verify-full'
+            'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ExternalId': 'string',
+            'DynamoDbSettings': {
+                'ServiceAccessRoleArn': 'string'
+            },
+            'S3Settings': {
+                'ServiceAccessRoleArn': 'string',
+                'ExternalTableDefinition': 'string',
+                'CsvRowDelimiter': 'string',
+                'CsvDelimiter': 'string',
+                'BucketFolder': 'string',
+                'BucketName': 'string',
+                'CompressionType': 'none'|'gzip'
+            },
+            'MongoDbSettings': {
+                'Username': 'string',
+                'Password': 'string',
+                'ServerName': 'string',
+                'Port': 123,
+                'DatabaseName': 'string',
+                'AuthType': 'no'|'password',
+                'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+                'NestingLevel': 'none'|'one',
+                'ExtractDocId': 'string',
+                'DocsToInvestigate': 'string',
+                'AuthSource': 'string'
+            }
         }
     }
     
+    
+    """
+    pass
+
+def create_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceType=None, EventCategories=None, SourceIds=None, Enabled=None, Tags=None):
+    """
+    Creates an AWS DMS event notification subscription.
+    You can specify the type of source (SourceType ) you want to be notified of, provide a list of AWS DMS source IDs (SourceIds ) that triggers the events, and provide a list of event categories (EventCategories ) for events you want to be notified of. If you specify both the SourceType and SourceIds , such as SourceType = replication-instance and SourceIdentifier = my-replinstance , you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier , you receive notice of the events for that source type for all your AWS DMS sources. If you don't specify either SourceType nor SourceIdentifier , you will be notified of events generated from all AWS DMS sources belonging to your customer account.
+    For more information about AWS DMS events, see Working with Events and Notifications in the AWS Database MIgration Service User Guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_event_subscription(
+        SubscriptionName='string',
+        SnsTopicArn='string',
+        SourceType='string',
+        EventCategories=[
+            'string',
+        ],
+        SourceIds=[
+            'string',
+        ],
+        Enabled=True|False,
+        Tags=[
+            {
+                'Key': 'string',
+                'Value': 'string'
+            },
+        ]
+    )
+    
+    
+    :type SubscriptionName: string
+    :param SubscriptionName: [REQUIRED]
+            The name of the DMS event notification subscription.
+            Constraints: The name must be less than 255 characters.
+            
+
+    :type SnsTopicArn: string
+    :param SnsTopicArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+            
+
+    :type SourceType: string
+    :param SourceType: The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance . If this value is not specified, all events are returned.
+            Valid values: replication-instance | migration-task
+            
+
+    :type EventCategories: list
+    :param EventCategories: A list of event categories for a source type that you want to subscribe to. You can see a list of the categories for a given source type by calling the DescribeEventCategories action or in the topic Working with Events and Notifications in the AWS Database Migration Service User Guide.
+            (string) --
+            
+
+    :type SourceIds: list
+    :param SourceIds: The list of identifiers of the event sources for which events will be returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it cannot end with a hyphen or contain two consecutive hyphens.
+            (string) --
+            
+
+    :type Enabled: boolean
+    :param Enabled: A Boolean value; set to true to activate the subscription, or set to false to create the subscription but not activate it.
+
+    :type Tags: list
+    :param Tags: A tag to be attached to the event subscription.
+            (dict) --
+            Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
+            Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
+            
+            
+
+    :rtype: dict
+    :return: {
+        'EventSubscription': {
+            'CustomerAwsId': 'string',
+            'CustSubscriptionId': 'string',
+            'SnsTopicArn': 'string',
+            'Status': 'string',
+            'SubscriptionCreationTime': 'string',
+            'SourceType': 'string',
+            'SourceIdsList': [
+                'string',
+            ],
+            'EventCategoriesList': [
+                'string',
+            ],
+            'Enabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -442,7 +624,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
     :param ReplicationTaskIdentifier: [REQUIRED]
             The replication task identifier.
             Constraints:
-            Must contain from 1 to 63 alphanumeric characters or hyphens.
+            Must contain from 1 to 255 alphanumeric characters or hyphens.
             First character must be a letter.
             Cannot end with a hyphen or contain two consecutive hyphens.
             
@@ -469,7 +651,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
 
     :type TableMappings: string
     :param TableMappings: [REQUIRED]
-            The path of the JSON file that contains the table mappings. Preceed the path with 'file://'.
+            When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with 'file://'. When working with the DMS API, provide the JSON as the parameter value.
             For example, --table-mappings file://mappingfile.json
             
 
@@ -516,7 +698,7 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
     
     
     :returns: 
-    Must contain from 1 to 63 alphanumeric characters or hyphens.
+    Must contain from 1 to 255 alphanumeric characters or hyphens.
     First character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
     
@@ -590,10 +772,78 @@ def delete_endpoint(EndpointArn=None):
             'KmsKeyId': 'string',
             'EndpointArn': 'string',
             'CertificateArn': 'string',
-            'SslMode': 'none'|'require'|'verify-ca'|'verify-full'
+            'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ExternalId': 'string',
+            'DynamoDbSettings': {
+                'ServiceAccessRoleArn': 'string'
+            },
+            'S3Settings': {
+                'ServiceAccessRoleArn': 'string',
+                'ExternalTableDefinition': 'string',
+                'CsvRowDelimiter': 'string',
+                'CsvDelimiter': 'string',
+                'BucketFolder': 'string',
+                'BucketName': 'string',
+                'CompressionType': 'none'|'gzip'
+            },
+            'MongoDbSettings': {
+                'Username': 'string',
+                'Password': 'string',
+                'ServerName': 'string',
+                'Port': 123,
+                'DatabaseName': 'string',
+                'AuthType': 'no'|'password',
+                'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+                'NestingLevel': 'none'|'one',
+                'ExtractDocId': 'string',
+                'DocsToInvestigate': 'string',
+                'AuthSource': 'string'
+            }
         }
     }
     
+    
+    """
+    pass
+
+def delete_event_subscription(SubscriptionName=None):
+    """
+    Deletes an AWS DMS event subscription.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_event_subscription(
+        SubscriptionName='string'
+    )
+    
+    
+    :type SubscriptionName: string
+    :param SubscriptionName: [REQUIRED]
+            The name of the DMS event notification subscription to be deleted.
+            
+
+    :rtype: dict
+    :return: {
+        'EventSubscription': {
+            'CustomerAwsId': 'string',
+            'CustSubscriptionId': 'string',
+            'SnsTopicArn': 'string',
+            'Status': 'string',
+            'SubscriptionCreationTime': 'string',
+            'SourceType': 'string',
+            'SourceIdsList': [
+                'string',
+            ],
+            'EventCategoriesList': [
+                'string',
+            ],
+            'Enabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -1000,11 +1250,252 @@ def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
                 'KmsKeyId': 'string',
                 'EndpointArn': 'string',
                 'CertificateArn': 'string',
-                'SslMode': 'none'|'require'|'verify-ca'|'verify-full'
+                'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+                'ExternalId': 'string',
+                'DynamoDbSettings': {
+                    'ServiceAccessRoleArn': 'string'
+                },
+                'S3Settings': {
+                    'ServiceAccessRoleArn': 'string',
+                    'ExternalTableDefinition': 'string',
+                    'CsvRowDelimiter': 'string',
+                    'CsvDelimiter': 'string',
+                    'BucketFolder': 'string',
+                    'BucketName': 'string',
+                    'CompressionType': 'none'|'gzip'
+                },
+                'MongoDbSettings': {
+                    'Username': 'string',
+                    'Password': 'string',
+                    'ServerName': 'string',
+                    'Port': 123,
+                    'DatabaseName': 'string',
+                    'AuthType': 'no'|'password',
+                    'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+                    'NestingLevel': 'none'|'one',
+                    'ExtractDocId': 'string',
+                    'DocsToInvestigate': 'string',
+                    'AuthSource': 'string'
+                }
             },
         ]
     }
     
+    
+    """
+    pass
+
+def describe_event_categories(SourceType=None, Filters=None):
+    """
+    Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the AWS Database Migration Service User Guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_event_categories(
+        SourceType='string',
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ]
+    )
+    
+    
+    :type SourceType: string
+    :param SourceType: The type of AWS DMS resource that generates events.
+            Valid values: replication-instance | migration-task
+            
+
+    :type Filters: list
+    :param Filters: Filters applied to the action.
+            (dict) --
+            Name (string) -- [REQUIRED]The name of the filter.
+            Values (list) -- [REQUIRED]The filter value.
+            (string) --
+            
+            
+
+    :rtype: dict
+    :return: {
+        'EventCategoryGroupList': [
+            {
+                'SourceType': 'string',
+                'EventCategories': [
+                    'string',
+                ]
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def describe_event_subscriptions(SubscriptionName=None, Filters=None, MaxRecords=None, Marker=None):
+    """
+    Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName , SNSTopicARN , CustomerID , SourceType , SourceID , CreationTime , and Status .
+    If you specify SubscriptionName , this action lists the description for that subscription.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_event_subscriptions(
+        SubscriptionName='string',
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ],
+        MaxRecords=123,
+        Marker='string'
+    )
+    
+    
+    :type SubscriptionName: string
+    :param SubscriptionName: The name of the AWS DMS event subscription to be described.
+
+    :type Filters: list
+    :param Filters: Filters applied to the action.
+            (dict) --
+            Name (string) -- [REQUIRED]The name of the filter.
+            Values (list) -- [REQUIRED]The filter value.
+            (string) --
+            
+            
+
+    :type MaxRecords: integer
+    :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+            Default: 100
+            Constraints: Minimum 20, maximum 100.
+            
+
+    :type Marker: string
+    :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+
+    :rtype: dict
+    :return: {
+        'Marker': 'string',
+        'EventSubscriptionsList': [
+            {
+                'CustomerAwsId': 'string',
+                'CustSubscriptionId': 'string',
+                'SnsTopicArn': 'string',
+                'Status': 'string',
+                'SubscriptionCreationTime': 'string',
+                'SourceType': 'string',
+                'SourceIdsList': [
+                    'string',
+                ],
+                'EventCategoriesList': [
+                    'string',
+                ],
+                'Enabled': True|False
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndTime=None, Duration=None, EventCategories=None, Filters=None, MaxRecords=None, Marker=None):
+    """
+    Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see Working with Events and Notifications .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_events(
+        SourceIdentifier='string',
+        SourceType='replication-instance',
+        StartTime=datetime(2015, 1, 1),
+        EndTime=datetime(2015, 1, 1),
+        Duration=123,
+        EventCategories=[
+            'string',
+        ],
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ],
+        MaxRecords=123,
+        Marker='string'
+    )
+    
+    
+    :type SourceIdentifier: string
+    :param SourceIdentifier: The identifier of the event source. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It cannot end with a hyphen or contain two consecutive hyphens.
+
+    :type SourceType: string
+    :param SourceType: The type of AWS DMS resource that generates events.
+            Valid values: replication-instance | migration-task
+            
+
+    :type StartTime: datetime
+    :param StartTime: The start time for the events to be listed.
+
+    :type EndTime: datetime
+    :param EndTime: The end time for the events to be listed.
+
+    :type Duration: integer
+    :param Duration: The duration of the events to be listed.
+
+    :type EventCategories: list
+    :param EventCategories: A list of event categories for a source type that you want to subscribe to.
+            (string) --
+            
+
+    :type Filters: list
+    :param Filters: Filters applied to the action.
+            (dict) --
+            Name (string) -- [REQUIRED]The name of the filter.
+            Values (list) -- [REQUIRED]The filter value.
+            (string) --
+            
+            
+
+    :type MaxRecords: integer
+    :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+            Default: 100
+            Constraints: Minimum 20, maximum 100.
+            
+
+    :type Marker: string
+    :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+
+    :rtype: dict
+    :return: {
+        'Marker': 'string',
+        'Events': [
+            {
+                'SourceIdentifier': 'string',
+                'SourceType': 'replication-instance',
+                'Message': 'string',
+                'EventCategories': [
+                    'string',
+                ],
+                'Date': datetime(2015, 1, 1)
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -1322,7 +1813,7 @@ def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
     
     
     :returns: 
-    Must contain from 1 to 63 alphanumeric characters or hyphens.
+    Must contain from 1 to 255 alphanumeric characters or hyphens.
     First character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
     
@@ -1539,7 +2030,7 @@ def list_tags_for_resource(ResourceArn=None):
     """
     pass
 
-def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None):
+def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
     """
     Modifies the specified endpoint.
     See also: AWS API Documentation
@@ -1557,7 +2048,32 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
         DatabaseName='string',
         ExtraConnectionAttributes='string',
         CertificateArn='string',
-        SslMode='none'|'require'|'verify-ca'|'verify-full'
+        SslMode='none'|'require'|'verify-ca'|'verify-full',
+        DynamoDbSettings={
+            'ServiceAccessRoleArn': 'string'
+        },
+        S3Settings={
+            'ServiceAccessRoleArn': 'string',
+            'ExternalTableDefinition': 'string',
+            'CsvRowDelimiter': 'string',
+            'CsvDelimiter': 'string',
+            'BucketFolder': 'string',
+            'BucketName': 'string',
+            'CompressionType': 'none'|'gzip'
+        },
+        MongoDbSettings={
+            'Username': 'string',
+            'Password': 'string',
+            'ServerName': 'string',
+            'Port': 123,
+            'DatabaseName': 'string',
+            'AuthType': 'no'|'password',
+            'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+            'NestingLevel': 'none'|'one',
+            'ExtractDocId': 'string',
+            'DocsToInvestigate': 'string',
+            'AuthSource': 'string'
+        }
     )
     
     
@@ -1573,7 +2089,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
     :param EndpointType: The type of endpoint.
 
     :type EngineName: string
-    :param EngineName: The type of engine for the endpoint. Valid values include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, SYBASE, and SQLSERVER.
+    :param EngineName: The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, DYNAMODB, MONGODB, SYBASE, and SQLSERVER.
 
     :type Username: string
     :param Username: The user name to be used to login to the endpoint database.
@@ -1602,6 +2118,46 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             The default value is none.
             
 
+    :type DynamoDbSettings: dict
+    :param DynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service .
+            ServiceAccessRoleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) used by the service access IAM role.
+            
+
+    :type S3Settings: dict
+    :param S3Settings: Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at Using Amazon S3 as a Target for AWS Database Migration Service .
+            ServiceAccessRoleArn (string) --The Amazon Resource Name (ARN) used by the service access IAM role.
+            ExternalTableDefinition (string) --
+            CsvRowDelimiter (string) --The delimiter used to separate rows in the source files. The default is a carriage return (n).
+            CsvDelimiter (string) --The delimiter used to separate columns in the source files. The default is a comma.
+            BucketFolder (string) --An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is schema_name/table_name/.
+            BucketName (string) --The name of the S3 bucket.
+            CompressionType (string) --An optional parameter to use GZIP to compress the target files. Set to GZIP to compress the target files. Set to NONE (the default) or do not use to leave the files uncompressed.
+            
+
+    :type MongoDbSettings: dict
+    :param MongoDbSettings: Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the Configuration Properties When Using MongoDB as a Source for AWS Database Migration Service section at Using Amazon S3 as a Target for AWS Database Migration Service .
+            Username (string) --The user name you use to access the MongoDB source endpoint.
+            Password (string) --The password for the user account you use to access the MongoDB source endpoint.
+            ServerName (string) --The name of the server on the MongoDB source endpoint.
+            Port (integer) --The port value for the MongoDB source endpoint.
+            DatabaseName (string) --The database name on the MongoDB source endpoint.
+            AuthType (string) --The authentication type you use to access the MongoDB source endpoint.
+            Valid values: NO, PASSWORD
+            When NO is selected, user name and password parameters are not used and can be empty.
+            AuthMechanism (string) --The authentication mechanism you use to access the MongoDB source endpoint.
+            Valid values: DEFAULT, MONGODB_CR, SCRAM_SHA_1
+            DEFAULT   For MongoDB version 2.x, use MONGODB_CR. For MongoDB version 3.x, use SCRAM_SHA_1. This attribute is not used when authType=No.
+            NestingLevel (string) --Specifies either document or table mode.
+            Valid values: NONE, ONE
+            Default value is NONE. Specify NONE to use document mode. Specify ONE to use table mode.
+            ExtractDocId (string) --Specifies the document ID. Use this attribute when NestingLevel is set to NONE.
+            Default value is false.
+            DocsToInvestigate (string) --Indicates the number of documents to preview to determine the document organization. Use this attribute when NestingLevel is set to ONE.
+            Must be a positive value greater than 0. Default value is 1000.
+            AuthSource (string) --The MongoDB database name. This attribute is not used when authType=NO .
+            The default is admin.
+            
+
     :rtype: dict
     :return: {
         'Endpoint': {
@@ -1617,10 +2173,100 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             'KmsKeyId': 'string',
             'EndpointArn': 'string',
             'CertificateArn': 'string',
-            'SslMode': 'none'|'require'|'verify-ca'|'verify-full'
+            'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ExternalId': 'string',
+            'DynamoDbSettings': {
+                'ServiceAccessRoleArn': 'string'
+            },
+            'S3Settings': {
+                'ServiceAccessRoleArn': 'string',
+                'ExternalTableDefinition': 'string',
+                'CsvRowDelimiter': 'string',
+                'CsvDelimiter': 'string',
+                'BucketFolder': 'string',
+                'BucketName': 'string',
+                'CompressionType': 'none'|'gzip'
+            },
+            'MongoDbSettings': {
+                'Username': 'string',
+                'Password': 'string',
+                'ServerName': 'string',
+                'Port': 123,
+                'DatabaseName': 'string',
+                'AuthType': 'no'|'password',
+                'AuthMechanism': 'default'|'mongodb_cr'|'scram_sha_1',
+                'NestingLevel': 'none'|'one',
+                'ExtractDocId': 'string',
+                'DocsToInvestigate': 'string',
+                'AuthSource': 'string'
+            }
         }
     }
     
+    
+    """
+    pass
+
+def modify_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceType=None, EventCategories=None, Enabled=None):
+    """
+    Modifies an existing AWS DMS event notification subscription.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.modify_event_subscription(
+        SubscriptionName='string',
+        SnsTopicArn='string',
+        SourceType='string',
+        EventCategories=[
+            'string',
+        ],
+        Enabled=True|False
+    )
+    
+    
+    :type SubscriptionName: string
+    :param SubscriptionName: [REQUIRED]
+            The name of the AWS DMS event notification subscription to be modified.
+            
+
+    :type SnsTopicArn: string
+    :param SnsTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+
+    :type SourceType: string
+    :param SourceType: The type of AWS DMS resource that generates the events you want to subscribe to.
+            Valid values: replication-instance | migration-task
+            
+
+    :type EventCategories: list
+    :param EventCategories: A list of event categories for a source type that you want to subscribe to. Use the DescribeEventCategories action to see a list of event categories.
+            (string) --
+            
+
+    :type Enabled: boolean
+    :param Enabled: A Boolean value; set to true to activate the subscription.
+
+    :rtype: dict
+    :return: {
+        'EventSubscription': {
+            'CustomerAwsId': 'string',
+            'CustSubscriptionId': 'string',
+            'SnsTopicArn': 'string',
+            'Status': 'string',
+            'SubscriptionCreationTime': 'string',
+            'SourceType': 'string',
+            'SourceIdsList': [
+                'string',
+            ],
+            'EventCategoriesList': [
+                'string',
+            ],
+            'Enabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -1815,6 +2461,7 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
     """
     Modifies the specified replication task.
     You can't modify the task endpoints. The task must be stopped before you can modify it.
+    For more information about AWS DMS tasks, see the AWS DMS user guide at Working with Migration Tasks
     See also: AWS API Documentation
     
     
@@ -1836,7 +2483,7 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
     :type ReplicationTaskIdentifier: string
     :param ReplicationTaskIdentifier: The replication task identifier.
             Constraints:
-            Must contain from 1 to 63 alphanumeric characters or hyphens.
+            Must contain from 1 to 255 alphanumeric characters or hyphens.
             First character must be a letter.
             Cannot end with a hyphen or contain two consecutive hyphens.
             
@@ -1847,7 +2494,7 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
             
 
     :type TableMappings: string
-    :param TableMappings: The path of the JSON file that contains the table mappings. Preceed the path with 'file://'.
+    :param TableMappings: When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with 'file://'. When working with the DMS API, provide the JSON as the parameter value.
             For example, --table-mappings file://mappingfile.json
             
 
@@ -1886,7 +2533,7 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
     
     
     :returns: 
-    Must contain from 1 to 63 alphanumeric characters or hyphens.
+    Must contain from 1 to 255 alphanumeric characters or hyphens.
     First character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
     
@@ -1924,6 +2571,46 @@ def refresh_schemas(EndpointArn=None, ReplicationInstanceArn=None):
             'LastRefreshDate': datetime(2015, 1, 1),
             'LastFailureMessage': 'string'
         }
+    }
+    
+    
+    """
+    pass
+
+def reload_tables(ReplicationTaskArn=None, TablesToReload=None):
+    """
+    Reloads the target database table with the source data.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.reload_tables(
+        ReplicationTaskArn='string',
+        TablesToReload=[
+            {
+                'SchemaName': 'string',
+                'TableName': 'string'
+            },
+        ]
+    )
+    
+    
+    :type ReplicationTaskArn: string
+    :param ReplicationTaskArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the replication instance.
+            
+
+    :type TablesToReload: list
+    :param TablesToReload: [REQUIRED]
+            The name and schema of the table to be reloaded.
+            (dict) --
+            SchemaName (string) --The schema name of the table to be reloaded.
+            TableName (string) --The table name of the table to be reloaded.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'ReplicationTaskArn': 'string'
     }
     
     
@@ -1968,6 +2655,7 @@ def remove_tags_from_resource(ResourceArn=None, TagKeys=None):
 def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None):
     """
     Starts the replication task.
+    For more information about AWS DMS tasks, see the AWS DMS user guide at Working with Migration Tasks
     See also: AWS API Documentation
     
     
@@ -2020,7 +2708,7 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
     
     
     :returns: 
-    Must contain from 1 to 63 alphanumeric characters or hyphens.
+    Must contain from 1 to 255 alphanumeric characters or hyphens.
     First character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
     

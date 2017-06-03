@@ -33,6 +33,9 @@ def abort_multipart_upload(accountId=None, vaultName=None, uploadId=None):
     For conceptual information and underlying REST API, see Working with Archives in Amazon Glacier and Abort Multipart Upload in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example deletes an in-progress multipart upload to a vault named my-vault:
+    Expected Output:
     
     :example: response = client.abort_multipart_upload(
         vaultName='string',
@@ -55,6 +58,15 @@ def abort_multipart_upload(accountId=None, vaultName=None, uploadId=None):
             The upload ID of the multipart upload to delete.
             
 
+    :return: response = client.abort_multipart_upload(
+        accountId='-',
+        uploadId='19gaRezEXAMPLES6Ry5YYdqthHOC_kGRCT03L9yetr220UmPtBYKk-OssZtLqyFu7sY1_lR7vgFuJV6NtcV5zpsJ',
+        vaultName='my-vault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -65,6 +77,9 @@ def abort_vault_lock(accountId=None, vaultName=None):
     This operation is idempotent. You can successfully invoke this operation multiple times, if the vault lock is in the InProgress state or if there is no policy associated with the vault.
     See also: AWS API Documentation
     
+    Examples
+    The example aborts the vault locking process if the vault lock is not in the Locked state for the vault named examplevault.
+    Expected Output:
     
     :example: response = client.abort_vault_lock(
         vaultName='string'
@@ -81,6 +96,14 @@ def abort_vault_lock(accountId=None, vaultName=None):
             The name of the vault.
             
 
+    :return: response = client.abort_vault_lock(
+        accountId='-',
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -89,6 +112,9 @@ def add_tags_to_vault(accountId=None, vaultName=None, Tags=None):
     This operation adds the specified tags to a vault. Each tag is composed of a key and a value. Each vault can have up to 10 tags. If your request would cause the tag limit for the vault to be exceeded, the operation throws the LimitExceededException error. If a tag already exists on the vault under a specified key, the existing key value will be overwritten. For more information about tags, see Tagging Amazon Glacier Resources .
     See also: AWS API Documentation
     
+    Examples
+    The example adds two tags to a my-vault.
+    Expected Output:
     
     :example: response = client.add_tags_to_vault(
         vaultName='string',
@@ -114,6 +140,18 @@ def add_tags_to_vault(accountId=None, vaultName=None, Tags=None):
             (string) --
             
 
+    :return: response = client.add_tags_to_vault(
+        Tags={
+            'examplekey1': 'examplevalue1',
+            'examplekey2': 'examplevalue2',
+        },
+        accountId='-',
+        vaultName='my-vault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -142,6 +180,9 @@ def complete_multipart_upload(accountId=None, vaultName=None, uploadId=None, arc
     For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Complete Multipart Upload in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example completes a multipart upload for a 3 MiB archive.
+    Expected Output:
     
     :example: response = client.complete_multipart_upload(
         vaultName='string',
@@ -174,7 +215,7 @@ def complete_multipart_upload(accountId=None, vaultName=None, uploadId=None, arc
             This is a required field.Ideally you will want to compute this value with checksums from
             previous uploaded parts, using the algorithm described in
             Glacier documentation.
-            But if you prefer, you can also use botocore.util.calculate_tree_hash()
+            But if you prefer, you can also use botocore.utils.calculate_tree_hash()
             to compute it from raw file by:
             checksum = calculate_tree_hash(open('your_file.txt', 'rb'))
             
@@ -193,6 +234,9 @@ def complete_vault_lock(accountId=None, vaultName=None, lockId=None):
     If an invalid lock ID is passed in the request when the vault lock is in the Locked state, the operation returns an AccessDeniedException error. If an invalid lock ID is passed in the request when the vault lock is in the InProgress state, the operation throws an InvalidParameter error.
     See also: AWS API Documentation
     
+    Examples
+    The example completes the vault locking process by transitioning the vault lock from the InProgress state to the Locked state.
+    Expected Output:
     
     :example: response = client.complete_vault_lock(
         vaultName='string',
@@ -215,6 +259,15 @@ def complete_vault_lock(accountId=None, vaultName=None, lockId=None):
             The lockId value is the lock ID obtained from a InitiateVaultLock request.
             
 
+    :return: response = client.complete_vault_lock(
+        accountId='-',
+        lockId='AE863rKkWZU53SLW5be4DUcW',
+        vaultName='example-vault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -227,6 +280,9 @@ def create_vault(accountId=None, vaultName=None):
     For conceptual information and underlying REST API, see Creating a Vault in Amazon Glacier and Create Vault in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a new vault named my-vault.
+    Expected Output:
     
     :example: response = client.create_vault(
         vaultName='string'
@@ -269,6 +325,9 @@ def delete_archive(accountId=None, vaultName=None, archiveId=None):
     For conceptual information and underlying REST API, see Deleting an Archive in Amazon Glacier and Delete Archive in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example deletes the archive specified by the archive ID.
+    Expected Output:
     
     :example: response = client.delete_archive(
         vaultName='string',
@@ -291,6 +350,15 @@ def delete_archive(accountId=None, vaultName=None, archiveId=None):
             The ID of the archive to delete.
             
 
+    :return: response = client.delete_archive(
+        accountId='-',
+        archiveId='NkbByEejwEggmBz2fTHgJrg0XBoDfjP4q6iu87-TjhqG6eGoOY9Z8i1_AUyUsuhPAdTqLHy8pTl5nfCFJmDl2yEZONi5L26Omw12vcs01MNGntHEQL8MBfGlqrEXAMPLEArchiveId',
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     :returns: 
     accountId (string) -- The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     
@@ -314,6 +382,9 @@ def delete_vault(accountId=None, vaultName=None):
     For conceptual information and underlying REST API, see Deleting a Vault in Amazon Glacier and Delete Vault in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example deletes a vault named my-vault:
+    Expected Output:
     
     :example: response = client.delete_vault(
         vaultName='string'
@@ -330,6 +401,14 @@ def delete_vault(accountId=None, vaultName=None):
             The name of the vault.
             
 
+    :return: response = client.delete_vault(
+        accountId='-',
+        vaultName='my-vault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -339,6 +418,9 @@ def delete_vault_access_policy(accountId=None, vaultName=None):
     This operation is idempotent. You can invoke delete multiple times, even if there is no policy associated with the vault. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example deletes the access policy associated with the vault named examplevault.
+    Expected Output:
     
     :example: response = client.delete_vault_access_policy(
         vaultName='string'
@@ -355,6 +437,14 @@ def delete_vault_access_policy(accountId=None, vaultName=None):
             The name of the vault.
             
 
+    :return: response = client.delete_vault_access_policy(
+        accountId='-',
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -365,6 +455,9 @@ def delete_vault_notifications(accountId=None, vaultName=None):
     For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon Glacier and Delete Vault Notification Configuration in the Amazon Glacier Developer Guide.
     See also: AWS API Documentation
     
+    Examples
+    The example deletes the notification configuration set for the vault named examplevault.
+    Expected Output:
     
     :example: response = client.delete_vault_notifications(
         vaultName='string'
@@ -381,6 +474,14 @@ def delete_vault_notifications(accountId=None, vaultName=None):
             The name of the vault.
             
 
+    :return: response = client.delete_vault_notifications(
+        accountId='-',
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -392,6 +493,9 @@ def describe_job(accountId=None, vaultName=None, jobId=None):
     For information about the underlying REST API, see Working with Archives in Amazon Glacier in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example returns information about the previously initiated job specified by the job ID.
+    Expected Output:
     
     :example: response = client.describe_job(
         vaultName='string',
@@ -458,6 +562,9 @@ def describe_vault(accountId=None, vaultName=None):
     For conceptual information and underlying REST API, see Retrieving Vault Metadata in Amazon Glacier and Describe Vault in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example retrieves data about a vault named my-vault.
+    Expected Output:
     
     :example: response = client.describe_vault(
         vaultName='string'
@@ -515,6 +622,9 @@ def get_data_retrieval_policy(accountId=None):
     This operation returns the current data retrieval policy for the account and region specified in the GET request. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example returns the current data retrieval policy for the account.
+    Expected Output:
     
     :example: response = client.get_data_retrieval_policy(
     
@@ -554,6 +664,9 @@ def get_job_output(accountId=None, vaultName=None, jobId=None, range=None):
     For conceptual information and the underlying REST API, see Downloading a Vault Inventory , Downloading an Archive , and Get Job Output
     See also: AWS API Documentation
     
+    Examples
+    The example downloads the output of a previously initiated inventory retrieval job that is identified by the job ID.
+    Expected Output:
     
     :example: response = client.get_job_output(
         vaultName='string',
@@ -627,6 +740,9 @@ def get_vault_access_policy(accountId=None, vaultName=None):
     This operation retrieves the access-policy subresource set on the vault; for more information on setting this subresource, see Set Vault Access Policy (PUT access-policy) . If there is no access policy set on the vault, the operation returns a 404 Not found error. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example retrieves the access-policy set on the vault named example-vault.
+    Expected Output:
     
     :example: response = client.get_vault_access_policy(
         vaultName='string'
@@ -661,6 +777,9 @@ def get_vault_lock(accountId=None, vaultName=None):
     If there is no vault lock policy set on the vault, the operation returns a 404 Not found error. For more information about vault lock policies, Amazon Glacier Access Control with Vault Lock Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example retrieves the attributes from the lock-policy subresource set on the vault named examplevault.
+    Expected Output:
     
     :example: response = client.get_vault_lock(
         vaultName='string'
@@ -706,6 +825,9 @@ def get_vault_notifications(accountId=None, vaultName=None):
     For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon Glacier and Get Vault Notification Configuration in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example retrieves the notification-configuration for the vault named my-vault.
+    Expected Output:
     
     :example: response = client.get_vault_notifications(
         vaultName='string'
@@ -765,6 +887,9 @@ def initiate_job(accountId=None, vaultName=None, jobParameters=None):
     For more information about expedited and bulk retrievals, see Retrieving Amazon Glacier Archives .
     See also: AWS API Documentation
     
+    Examples
+    The example initiates an inventory-retrieval job for the vault named examplevault.
+    Expected Output:
     
     :example: response = client.initiate_job(
         vaultName='string',
@@ -837,6 +962,9 @@ def initiate_multipart_upload(accountId=None, vaultName=None, archiveDescription
     For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Initiate Multipart Upload in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example initiates a multipart upload to a vault named my-vault with a part size of 1 MiB (1024 x 1024 bytes) per file.
+    Expected Output:
     
     :example: response = client.initiate_multipart_upload(
         vaultName='string',
@@ -883,6 +1011,9 @@ def initiate_vault_lock(accountId=None, vaultName=None, policy=None):
     If this operation is called when the vault lock is in the InProgress state, the operation returns an AccessDeniedException error. When the vault lock is in the InProgress state you must call  AbortVaultLock before you can initiate a new vault lock policy.
     See also: AWS API Documentation
     
+    Examples
+    The example initiates the vault locking process for the vault named my-vault.
+    Expected Output:
     
     :example: response = client.initiate_vault_lock(
         vaultName='string',
@@ -941,6 +1072,9 @@ def list_jobs(accountId=None, vaultName=None, limit=None, marker=None, statuscod
     For the underlying REST API, see List Jobs .
     See also: AWS API Documentation
     
+    Examples
+    The example lists jobs for the vault named my-vault.
+    Expected Output:
     
     :example: response = client.list_jobs(
         vaultName='string',
@@ -1024,6 +1158,9 @@ def list_multipart_uploads(accountId=None, vaultName=None, marker=None, limit=No
     For conceptual information and the underlying REST API, see Working with Archives in Amazon Glacier and List Multipart Uploads in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example lists all the in-progress multipart uploads for the vault named examplevault.
+    Expected Output:
     
     :example: response = client.list_multipart_uploads(
         vaultName='string',
@@ -1074,6 +1211,9 @@ def list_parts(accountId=None, vaultName=None, uploadId=None, marker=None, limit
     For conceptual information and the underlying REST API, see Working with Archives in Amazon Glacier and List Parts in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example lists all the parts of a multipart upload.
+    Expected Output:
     
     :example: response = client.list_parts(
         vaultName='string',
@@ -1129,6 +1269,9 @@ def list_provisioned_capacity(accountId=None):
     This operation lists the provisioned capacity for the specified AWS account.
     See also: AWS API Documentation
     
+    Examples
+    The example lists the provisioned capacity units for an account.
+    Expected Output:
     
     :example: response = client.list_provisioned_capacity(
     
@@ -1160,6 +1303,9 @@ def list_tags_for_vault(accountId=None, vaultName=None):
     This operation lists all the tags attached to a vault. The operation returns an empty map if there are no tags. For more information about tags, see Tagging Amazon Glacier Resources .
     See also: AWS API Documentation
     
+    Examples
+    The example lists all the tags attached to the vault examplevault.
+    Expected Output:
     
     :example: response = client.list_tags_for_vault(
         vaultName='string'
@@ -1201,6 +1347,9 @@ def list_vaults(accountId=None, marker=None, limit=None):
     For conceptual information and underlying REST API, see Retrieving Vault Metadata in Amazon Glacier and List Vaults in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example lists all vaults owned by the specified AWS account.
+    Expected Output:
     
     :example: response = client.list_vaults(
         marker='string',
@@ -1243,6 +1392,9 @@ def purchase_provisioned_capacity(accountId=None):
     This operation purchases a provisioned capacity unit for an AWS account.
     See also: AWS API Documentation
     
+    Examples
+    The example purchases provisioned capacity unit for an AWS account.
+    Expected Output:
     
     :example: response = client.purchase_provisioned_capacity(
     
@@ -1268,6 +1420,9 @@ def remove_tags_from_vault(accountId=None, vaultName=None, TagKeys=None):
     This operation removes one or more tags from the set of tags attached to a vault. For more information about tags, see Tagging Amazon Glacier Resources . This operation is idempotent. The operation will be successful, even if there are no tags attached to the vault.
     See also: AWS API Documentation
     
+    Examples
+    The example removes two tags from the vault named examplevault.
+    Expected Output:
     
     :example: response = client.remove_tags_from_vault(
         vaultName='string',
@@ -1292,6 +1447,18 @@ def remove_tags_from_vault(accountId=None, vaultName=None, TagKeys=None):
             (string) --
             
 
+    :return: response = client.remove_tags_from_vault(
+        TagKeys=[
+            'examplekey1',
+            'examplekey2',
+        ],
+        accountId='-',
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1301,6 +1468,9 @@ def set_data_retrieval_policy(accountId=None, Policy=None):
     The set policy operation does not affect retrieval jobs that were in progress before the policy was enacted. For more information about data retrieval policies, see Amazon Glacier Data Retrieval Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example sets and then enacts a data retrieval policy.
+    Expected Output:
     
     :example: response = client.set_data_retrieval_policy(
         Policy={
@@ -1330,6 +1500,21 @@ def set_data_retrieval_policy(accountId=None, Policy=None):
             
             
 
+    :return: response = client.set_data_retrieval_policy(
+        Policy={
+            'Rules': [
+                {
+                    'BytesPerHour': 10737418240,
+                    'Strategy': 'BytesPerHour',
+                },
+            ],
+        },
+        accountId='-',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1338,6 +1523,9 @@ def set_vault_access_policy(accountId=None, vaultName=None, policy=None):
     This operation configures an access policy for a vault and will overwrite an existing policy. To configure a vault access policy, send a PUT request to the access-policy subresource of the vault. An access policy is specific to a vault and is also called a vault subresource. You can set one access policy per vault and the policy can be up to 20 KB in size. For more information about vault access policies, see Amazon Glacier Access Control with Vault Access Policies .
     See also: AWS API Documentation
     
+    Examples
+    The example configures an access policy for the vault named examplevault.
+    Expected Output:
     
     :example: response = client.set_vault_access_policy(
         vaultName='string',
@@ -1362,6 +1550,17 @@ def set_vault_access_policy(accountId=None, vaultName=None, policy=None):
             Policy (string) --The vault access policy.
             
 
+    :return: response = client.set_vault_access_policy(
+        accountId='-',
+        policy={
+            'Policy': '{"Version":"2012-10-17","Statement":[{"Sid":"Define-owner-access-rights","Effect":"Allow","Principal":{"AWS":"arn:aws:iam::999999999999:root"},"Action":"glacier:DeleteArchive","Resource":"arn:aws:glacier:us-west-2:999999999999:vaults/examplevault"}]}',
+        },
+        vaultName='examplevault',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -1374,6 +1573,9 @@ def set_vault_notifications(accountId=None, vaultName=None, vaultNotificationCon
     For conceptual information and underlying REST API, see Configuring Vault Notifications in Amazon Glacier and Set Vault Notification Configuration in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example sets the examplevault notification configuration.
+    Expected Output:
     
     :example: response = client.set_vault_notifications(
         vaultName='string',
@@ -1403,6 +1605,21 @@ def set_vault_notifications(accountId=None, vaultName=None, vaultNotificationCon
             (string) --
             
 
+    :return: response = client.set_vault_notifications(
+        accountId='-',
+        vaultName='examplevault',
+        vaultNotificationConfig={
+            'Events': [
+                'ArchiveRetrievalCompleted',
+                'InventoryRetrievalCompleted',
+            ],
+            'SNSTopic': 'arn:aws:sns:us-west-2:012345678901:mytopic',
+        },
+    )
+    
+    print(response)
+    
+    
     :returns: 
     accountId (string) -- The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '- ' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
     
@@ -1437,6 +1654,9 @@ def upload_archive(vaultName=None, accountId=None, archiveDescription=None, chec
     For conceptual information and underlying REST API, see Uploading an Archive in Amazon Glacier and Upload Archive in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example adds an archive to a vault.
+    Expected Output:
     
     :example: response = client.upload_archive(
         vaultName='string',
@@ -1486,6 +1706,9 @@ def upload_multipart_part(accountId=None, vaultName=None, uploadId=None, checksu
     For conceptual information and underlying REST API, see Uploading Large Archives in Parts (Multipart Upload) and Upload Part in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The example uploads the first 1 MiB (1024 x 1024 bytes) part of an archive.
+    Expected Output:
     
     :example: response = client.upload_multipart_part(
         vaultName='string',

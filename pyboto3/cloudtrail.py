@@ -137,7 +137,7 @@ def create_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=No
     :param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
 
     :type KmsKeyId: string
-    :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
+    :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
             Examples:
             alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
@@ -267,7 +267,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_event_selectors(TrailName=None):
     """
     Describes the settings for the event selectors that you configured for your trail. The information returned for your event selectors includes the following:
-    For more information, see Configuring Event Selectors for Trails in the AWS CloudTrail User Guide .
+    For more information, see Logging Data and Management Events for Trails in the AWS CloudTrail User Guide .
     See also: AWS API Documentation
     
     
@@ -277,7 +277,8 @@ def get_event_selectors(TrailName=None):
     
     
     :type TrailName: string
-    :param TrailName: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+    :param TrailName: [REQUIRED]
+            Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
             Start with a letter or number, and end with a letter or number
             Be between 3 and 128 characters
@@ -550,10 +551,10 @@ def lookup_events(LookupAttributes=None, StartTime=None, EndTime=None, MaxResult
 
 def put_event_selectors(TrailName=None, EventSelectors=None):
     """
-    Configures an event selector for your trail. Use event selectors to specify the type of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+    Configures an event selector for your trail. Use event selectors to specify whether you want your trail to log management and/or data events. When an event occurs in your account, CloudTrail evaluates the event selectors in all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
     Example
     The PutEventSelectors operation must be called from the region in which the trail was created; otherwise, an InvalidHomeRegionException is thrown.
-    You can configure up to five event selectors for each trail. For more information, see Configuring Event Selectors for Trails in the AWS CloudTrail User Guide .
+    You can configure up to five event selectors for each trail. For more information, see Logging Data and Management Events for Trails in the AWS CloudTrail User Guide .
     See also: AWS API Documentation
     
     
@@ -577,7 +578,8 @@ def put_event_selectors(TrailName=None, EventSelectors=None):
     
     
     :type TrailName: string
-    :param TrailName: Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+    :param TrailName: [REQUIRED]
+            Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
             Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
             Start with a letter or number, and end with a letter or number
             Be between 3 and 128 characters
@@ -588,17 +590,18 @@ def put_event_selectors(TrailName=None, EventSelectors=None):
             
 
     :type EventSelectors: list
-    :param EventSelectors: Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
-            (dict) --Use event selectors to specify the types of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+    :param EventSelectors: [REQUIRED]
+            Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+            (dict) --Use event selectors to specify whether you want your trail to log management and/or data events. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
             You can configure up to five event selectors for a trail.
             ReadWriteType (string) --Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.
             By default, the value is All .
             IncludeManagementEvents (boolean) --Specify if you want your event selector to include management events for your trail.
             For more information, see Management Events in the AWS CloudTrail User Guide .
             By default, the value is true .
-            DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 50 S3 buckets and object prefixes for an event selector.
+            DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 250 S3 buckets and object prefixes for a trail.
             For more information, see Data Events in the AWS CloudTrail User Guide .
-            (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 50 S3 buckets and object prefixes for an event selector.
+            (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object-level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 250 S3 buckets and object prefixes for a trail.
             Example
             You create an event selector for a trail and specify an S3 bucket and an empty prefix, such as arn:aws:s3:::bucket-1/ .
             You upload an image file to bucket-1 .
@@ -635,7 +638,8 @@ def put_event_selectors(TrailName=None, EventSelectors=None):
     
     
     :returns: 
-    TrailName (string) -- Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
+    TrailName (string) -- [REQUIRED]
+    Specifies the name of the trail or trail ARN. If you specify a trail name, the string must meet the following requirements:
     
     Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
     Start with a letter or number, and end with a letter or number
@@ -647,9 +651,10 @@ def put_event_selectors(TrailName=None, EventSelectors=None):
     
     arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
     
-    EventSelectors (list) -- Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
+    EventSelectors (list) -- [REQUIRED]
+    Specifies the settings for your event selectors. You can configure up to five event selectors for a trail.
     
-    (dict) --Use event selectors to specify the types of events that you want your trail to log. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
+    (dict) --Use event selectors to specify whether you want your trail to log management and/or data events. When an event occurs in your account, CloudTrail evaluates the event selector for all trails. For each trail, if the event matches any event selector, the trail processes and logs the event. If the event doesn't match any event selector, the trail doesn't log the event.
     You can configure up to five event selectors for a trail.
     
     ReadWriteType (string) --Specify if you want your trail to log read-only events, write-only events, or all. For example, the EC2 GetConsoleOutput is a read-only API operation and RunInstances is a write-only API operation.
@@ -659,10 +664,10 @@ def put_event_selectors(TrailName=None, EventSelectors=None):
     For more information, see Management Events in the AWS CloudTrail User Guide .
     By default, the value is true .
     
-    DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 50 S3 buckets and object prefixes for an event selector.
+    DataResources (list) --CloudTrail supports logging only data events for S3 objects. You can specify up to 250 S3 buckets and object prefixes for a trail.
     For more information, see Data Events in the AWS CloudTrail User Guide .
     
-    (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 50 S3 buckets and object prefixes for an event selector.
+    (dict) --The Amazon S3 objects that you specify in your event selectors for your trail to log data events. Data events are object-level API operations that access S3 objects, such as GetObject , DeleteObject , and PutObject . You can specify up to 250 S3 buckets and object prefixes for a trail.
     Example
     
     You create an event selector for a trail and specify an S3 bucket and an empty prefix, such as arn:aws:s3:::bucket-1/ .
@@ -839,7 +844,7 @@ def update_trail(Name=None, S3BucketName=None, S3KeyPrefix=None, SnsTopicName=No
     :param CloudWatchLogsRoleArn: Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
 
     :type KmsKeyId: string
-    :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be a an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
+    :param KmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by 'alias/', a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier.
             Examples:
             alias/MyAliasName
             arn:aws:kms:us-east-1:123456789012:alias/MyAliasName

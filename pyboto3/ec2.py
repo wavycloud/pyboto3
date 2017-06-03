@@ -72,7 +72,7 @@ def accept_reserved_instances_exchange_quote(DryRun=None, ReservedInstanceIds=No
 
 def accept_vpc_peering_connection(DryRun=None, VpcPeeringConnectionId=None):
     """
-    Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use the DescribeVpcPeeringConnections request to view your outstanding VPC peering connection requests.
+    Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use  DescribeVpcPeeringConnections to view your outstanding VPC peering connection requests.
     See also: AWS API Documentation
     
     
@@ -328,8 +328,8 @@ def associate_address(DryRun=None, InstanceId=None, PublicIp=None, AllocationId=
     """
     Associates an Elastic IP address with an instance or a network interface.
     An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide .
-    [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance.
-    [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation.
+    [EC2-Classic, VPC in an EC2-VPC-only account] If the Elastic IP address is already associated with a different instance, it is disassociated from that instance and associated with the specified instance. If you associate an Elastic IP address with an instance that has an existing Elastic IP address, the existing address is disassociated from the instance, but remains allocated to your account.
+    [VPC in an EC2-Classic account] If you don't specify a private IP address, the Elastic IP address is associated with the primary IP address. If the Elastic IP address is already associated with a different instance or a network interface, you get an error unless you allow reassociation. You cannot associate an Elastic IP address with an instance or network interface that has an existing Elastic IP address.
     See also: AWS API Documentation
     
     Examples
@@ -420,6 +420,51 @@ def associate_dhcp_options(DryRun=None, DhcpOptionsId=None, VpcId=None):
     )
     
     print(response)
+    
+    
+    """
+    pass
+
+def associate_iam_instance_profile(IamInstanceProfile=None, InstanceId=None):
+    """
+    Associates an IAM instance profile with a running or stopped instance. You cannot associate more than one IAM instance profile with an instance.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.associate_iam_instance_profile(
+        IamInstanceProfile={
+            'Arn': 'string',
+            'Name': 'string'
+        },
+        InstanceId='string'
+    )
+    
+    
+    :type IamInstanceProfile: dict
+    :param IamInstanceProfile: [REQUIRED]
+            The IAM instance profile.
+            Arn (string) --The Amazon Resource Name (ARN) of the instance profile.
+            Name (string) --The name of the instance profile.
+            
+
+    :type InstanceId: string
+    :param InstanceId: [REQUIRED]
+            The ID of the instance.
+            
+
+    :rtype: dict
+    :return: {
+        'IamInstanceProfileAssociation': {
+            'AssociationId': 'string',
+            'InstanceId': 'string',
+            'IamInstanceProfile': {
+                'Arn': 'string',
+                'Id': 'string'
+            },
+            'State': 'associating'|'associated'|'disassociating'|'disassociated',
+            'Timestamp': datetime(2015, 1, 1)
+        }
+    }
     
     
     """
@@ -738,7 +783,8 @@ def attach_volume(DryRun=None, VolumeId=None, InstanceId=None, Device=None):
 
 def attach_vpn_gateway(DryRun=None, VpnGatewayId=None, VpcId=None):
     """
-    Attaches a virtual private gateway to a VPC. For more information, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide .
+    Attaches a virtual private gateway to a VPC. You can attach one virtual private gateway to one VPC at a time.
+    For more information, see Adding a Hardware Virtual Private Gateway to Your VPC in the Amazon Virtual Private Cloud User Guide .
     See also: AWS API Documentation
     
     
@@ -1787,6 +1833,65 @@ def create_flow_logs(ResourceIds=None, ResourceType=None, TrafficType=None, LogG
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def create_fpga_image(DryRun=None, InputStorageLocation=None, LogsStorageLocation=None, Description=None, Name=None, ClientToken=None):
+    """
+    Creates an Amazon FPGA Image (AFI) from the specified design checkpoint (DCP).
+    The create operation is asynchronous. To verify that the AFI is ready for use, check the output logs.
+    An AFI contains the FPGA bitstream that is ready to download to an FPGA. You can securely deploy an AFI on one or more FPGA-accelerated instances. For more information, see the AWS FPGA Hardware Development Kit .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_fpga_image(
+        DryRun=True|False,
+        InputStorageLocation={
+            'Bucket': 'string',
+            'Key': 'string'
+        },
+        LogsStorageLocation={
+            'Bucket': 'string',
+            'Key': 'string'
+        },
+        Description='string',
+        Name='string',
+        ClientToken='string'
+    )
+    
+    
+    :type DryRun: boolean
+    :param DryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
+
+    :type InputStorageLocation: dict
+    :param InputStorageLocation: [REQUIRED]
+            The location of the encrypted design checkpoint in Amazon S3. The input must be a tarball.
+            Bucket (string) --The name of the S3 bucket.
+            Key (string) --The key.
+            
+
+    :type LogsStorageLocation: dict
+    :param LogsStorageLocation: The location in Amazon S3 for the output logs.
+            Bucket (string) --The name of the S3 bucket.
+            Key (string) --The key.
+            
+
+    :type Description: string
+    :param Description: A description for the AFI.
+
+    :type Name: string
+    :param Name: A name for the AFI.
+
+    :type ClientToken: string
+    :param ClientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring Idempotency .
+
+    :rtype: dict
+    :return: {
+        'FpgaImageId': 'string',
+        'FpgaImageGlobalId': 'string'
+    }
+    
     
     """
     pass
@@ -2982,12 +3087,13 @@ def create_tags(DryRun=None, Resources=None, Tags=None):
     """
     pass
 
-def create_volume(DryRun=None, Size=None, SnapshotId=None, AvailabilityZone=None, VolumeType=None, Iops=None, Encrypted=None, KmsKeyId=None):
+def create_volume(DryRun=None, Size=None, SnapshotId=None, AvailabilityZone=None, VolumeType=None, Iops=None, Encrypted=None, KmsKeyId=None, TagSpecifications=None):
     """
     Creates an EBS volume that can be attached to an instance in the same Availability Zone. The volume is created in the regional endpoint that you send the HTTP request to. For more information see Regions and Endpoints .
     You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS Marketplace product codes from the snapshot are propagated to the volume.
     You can create encrypted volumes with the Encrypted parameter. Encrypted volumes may only be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see Amazon EBS Encryption in the Amazon Elastic Compute Cloud User Guide .
-    For more information, see Creating or Restoring an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide .
+    You can tag your volumes during creation. For more information, see Tagging Your Amazon EC2 Resources .
+    For more information, see Creating an Amazon EBS Volume in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
     
     Examples
@@ -3004,7 +3110,18 @@ def create_volume(DryRun=None, Size=None, SnapshotId=None, AvailabilityZone=None
         VolumeType='standard'|'io1'|'gp2'|'sc1'|'st1',
         Iops=123,
         Encrypted=True|False,
-        KmsKeyId='string'
+        KmsKeyId='string',
+        TagSpecifications=[
+            {
+                'ResourceType': 'customer-gateway'|'dhcp-options'|'image'|'instance'|'internet-gateway'|'network-acl'|'network-interface'|'reserved-instances'|'route-table'|'snapshot'|'spot-instances-request'|'subnet'|'security-group'|'volume'|'vpc'|'vpn-connection'|'vpn-gateway',
+                'Tags': [
+                    {
+                        'Key': 'string',
+                        'Value': 'string'
+                    },
+                ]
+            },
+        ]
     )
     
     
@@ -3040,6 +3157,20 @@ def create_volume(DryRun=None, Size=None, SnapshotId=None, AvailabilityZone=None
 
     :type KmsKeyId: string
     :param KmsKeyId: The full ARN of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use when creating the encrypted volume. This parameter is only required if you want to use a non-default CMK; if this parameter is not specified, the default CMK for EBS is used. The ARN contains the arn:aws:kms namespace, followed by the region of the CMK, the AWS account ID of the CMK owner, the key namespace, and then the CMK ID. For example, arn:aws:kms:us-east-1 :012345678910 :key/abcd1234-a123-456a-a12b-a123b4cd56ef . If a KmsKeyId is specified, the Encrypted flag must also be set.
+
+    :type TagSpecifications: list
+    :param TagSpecifications: The tags to apply to the volume during creation.
+            (dict) --The tags to apply to a resource when the resource is being created.
+            ResourceType (string) --The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume .
+            Tags (list) --The tags to apply to the resource.
+            (dict) --Describes a tag.
+            Key (string) --The key of the tag.
+            Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:
+            Value (string) --The value of the tag.
+            Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
+            
+            
+            
 
     :rtype: dict
     :return: {
@@ -3080,7 +3211,7 @@ def create_vpc(DryRun=None, CidrBlock=None, InstanceTenancy=None, AmazonProvided
     Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). To help you decide how big to make your VPC, see Your VPC and Subnets in the Amazon Virtual Private Cloud User Guide .
     You can optionally request an Amazon-provided IPv6 CIDR block for the VPC. The IPv6 CIDR block uses a /56 prefix length, and is allocated from Amazon's pool of IPv6 addresses. You cannot choose the IPv6 range for your VPC.
     By default, each instance you launch in the VPC has the default DHCP options, which includes only a default DNS server that we provide (AmazonProvidedDNS). For more information about DHCP options, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide .
-    You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Virtual Private Cloud User Guide .
+    You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
     
     Examples
@@ -3147,7 +3278,7 @@ def create_vpc(DryRun=None, CidrBlock=None, InstanceTenancy=None, AmazonProvided
 def create_vpc_endpoint(DryRun=None, VpcId=None, ServiceName=None, PolicyDocument=None, RouteTableIds=None, ClientToken=None):
     """
     Creates a VPC endpoint for a specified AWS service. An endpoint enables you to create a private connection between your VPC and another AWS service in your account. You can specify an endpoint policy to attach to the endpoint that will control access to the service from your VPC. You can also specify the VPC route tables that use the endpoint.
-    Currently, only endpoints to Amazon S3 are supported.
+    Use  DescribeVpcEndpointServices to get a list of supported AWS services.
     See also: AWS API Documentation
     
     
@@ -3214,7 +3345,7 @@ def create_vpc_peering_connection(DryRun=None, VpcId=None, PeerVpcId=None, PeerO
     """
     Requests a VPC peering connection between two VPCs: a requester VPC that you own and a peer VPC with which to create the connection. The peer VPC can belong to another AWS account. The requester VPC and peer VPC cannot have overlapping CIDR blocks.
     The owner of the peer VPC must accept the peering request to activate the peering connection. The VPC peering connection request expires after 7 days, after which it cannot be accepted or rejected.
-    A CreateVpcPeeringConnection request between VPCs with overlapping CIDR blocks results in the VPC peering connection having a status of failed .
+    If you try to create a VPC peering connection between VPCs that have overlapping CIDR blocks, the VPC peering connection status goes to failed .
     See also: AWS API Documentation
     
     
@@ -4809,7 +4940,7 @@ def describe_customer_gateways(DryRun=None, CustomerGatewayIds=None, Filters=Non
             ip-address - The IP address of the customer gateway's Internet-routable external interface.
             state - The state of the customer gateway (pending | available | deleting | deleted ).
             type - The type of customer gateway. Currently, the only supported type is ipsec.1 .
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
@@ -4882,7 +5013,7 @@ def describe_dhcp_options(DryRun=None, DhcpOptionsIds=None, Filters=None):
             dhcp-options-id - The ID of a set of DHCP options.
             key - The key for one of the options (for example, domain-name ).
             value - The value for one of the options.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
@@ -5121,7 +5252,7 @@ def describe_host_reservation_offerings(OfferingId=None, MinDuration=None, MaxDu
     :type Filters: list
     :param Filters: One or more filters.
             instance-family - The instance family of the offering (e.g., m4 ).
-            payment-option - The payment option (No Upfront | Partial Upfront | All Upfront ).
+            payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront ).
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
             Name (string) --The name of the filter. Filter names are case-sensitive.
             Values (list) --One or more filter values. Filter values are case-sensitive.
@@ -5186,7 +5317,7 @@ def describe_host_reservations(HostReservationIdSet=None, Filters=None, MaxResul
     :type Filters: list
     :param Filters: One or more filters.
             instance-family - The instance family (e.g., m4 ).
-            payment-option - The payment option (No Upfront | Partial Upfront | All Upfront ).
+            payment-option - The payment option (NoUpfront | PartialUpfront | AllUpfront ).
             state - The state of the reservation (payment-pending | payment-failed | active | retired ).
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
             Name (string) --The name of the filter. Filter names are case-sensitive.
@@ -5314,6 +5445,72 @@ def describe_hosts(HostIds=None, NextToken=None, MaxResults=None, Filters=None):
                     ],
                     'AvailableVCpus': 123
                 }
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_iam_instance_profile_associations(AssociationIds=None, Filters=None, MaxResults=None, NextToken=None):
+    """
+    Describes your IAM instance profile associations.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_iam_instance_profile_associations(
+        AssociationIds=[
+            'string',
+        ],
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ],
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
+    :type AssociationIds: list
+    :param AssociationIds: One or more IAM instance profile associations.
+            (string) --
+            
+
+    :type Filters: list
+    :param Filters: One or more filters.
+            instance-id - The ID of the instance.
+            state - The state of the association (associating | associated | disassociating | disassociated ).
+            (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
+            Name (string) --The name of the filter. Filter names are case-sensitive.
+            Values (list) --One or more filter values. Filter values are case-sensitive.
+            (string) --
+            
+            
+
+    :type MaxResults: integer
+    :param MaxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+
+    :type NextToken: string
+    :param NextToken: The token to request the next page of results.
+
+    :rtype: dict
+    :return: {
+        'IamInstanceProfileAssociations': [
+            {
+                'AssociationId': 'string',
+                'InstanceId': 'string',
+                'IamInstanceProfile': {
+                    'Arn': 'string',
+                    'Id': 'string'
+                },
+                'State': 'associating'|'associated'|'disassociating'|'disassociated',
+                'Timestamp': datetime(2015, 1, 1)
             },
         ],
         'NextToken': 'string'
@@ -5541,7 +5738,7 @@ def describe_images(DryRun=None, ImageIds=None, Owners=None, ExecutableUsers=Non
             state - The state of the image (available | pending | failed ).
             state-reason-code - The reason code for the state change.
             state-reason-message - The message for the state change.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             virtualization-type - The virtualization type (paravirtual | hvm ).
@@ -5613,9 +5810,10 @@ def describe_images(DryRun=None, ImageIds=None, Owners=None, ExecutableUsers=Non
     
     
     :returns: 
-    Server.SpotInstanceTermination : A Spot instance was terminated due to an increase in the market price.
-    Server.InternalError : An internal error occurred during instance launch, resulting in termination.
     Server.InsufficientInstanceCapacity : There was insufficient instance capacity to satisfy the launch request.
+    Server.InternalError : An internal error occurred during instance launch, resulting in termination.
+    Server.ScheduledStop : The instance was stopped due to a scheduled retirement.
+    Server.SpotInstanceTermination : A Spot instance was terminated due to an increase in the market price.
     Client.InternalError : A client error caused the instance to terminate on launch.
     Client.InstanceInitiatedShutdown : The instance was shut down using the shutdown -h command from the instance.
     Client.UserInitiatedShutdown : The instance was shut down using the Amazon EC2 API.
@@ -6084,10 +6282,6 @@ def describe_instances(DryRun=None, InstanceIds=None, Filters=None, NextToken=No
     :param Filters: One or more filters.
             affinity - The affinity setting for an instance running on a Dedicated Host (default | host ).
             architecture - The instance architecture (i386 | x86_64 ).
-            association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.
-            association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.
-            association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.
-            association.association-id - The association ID returned when the network interface was associated with an IPv4 address.
             availability-zone - The Availability Zone of the instance.
             block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2010-09-15T17:15:20.000Z .
             block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.
@@ -6119,6 +6313,10 @@ def describe_instances(DryRun=None, InstanceIds=None, Filters=None, NextToken=No
             network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.
             network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.
             network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.
+            network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.
+            network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.
+            network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.
+            network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.
             network-interface.attachment.attachment-id - The ID of the interface attachment.
             network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.
             network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.
@@ -6159,7 +6357,7 @@ def describe_instances(DryRun=None, InstanceIds=None, Filters=None, NextToken=No
             state-reason-code - The reason code for the state change.
             state-reason-message - A message that describes the state change.
             subnet-id - The ID of the subnet for the instance.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource, where tag :key is the tag's key.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             tenancy - The tenancy of an instance (dedicated | default | host ).
@@ -6210,7 +6408,7 @@ def describe_instances(DryRun=None, InstanceIds=None, Filters=None, NextToken=No
                                 'ProductCodeType': 'devpay'|'marketplace'
                             },
                         ],
-                        'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                        'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                         'LaunchTime': datetime(2015, 1, 1),
                         'Placement': {
                             'AvailabilityZone': 'string',
@@ -6379,7 +6577,7 @@ def describe_internet_gateways(DryRun=None, InternetGatewayIds=None, Filters=Non
             attachment.state - The current state of the attachment between the gateway and the VPC (available ). Present only if a VPC is attached.
             attachment.vpc-id - The ID of an attached VPC.
             internet-gateway-id - The ID of the Internet gateway.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
@@ -6689,7 +6887,7 @@ def describe_network_acls(DryRun=None, NetworkAclIds=None, Filters=None):
             entry.rule-action - Allows or denies the matching traffic (allow | deny ).
             entry.rule-number - The number of an entry (in other words, rule) in the ACL's set of entries.
             network-acl-id - The ID of the network ACL.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-id - The ID of the VPC for the network ACL.
@@ -6777,7 +6975,7 @@ def describe_network_interface_attribute(DryRun=None, NetworkInterfaceId=None, A
             
 
     :type Attribute: string
-    :param Attribute: The attribute of the network interface.
+    :param Attribute: The attribute of the network interface. This parameter is required.
 
     :rtype: dict
     :return: {
@@ -6876,7 +7074,7 @@ def describe_network_interfaces(DryRun=None, NetworkInterfaceIds=None, Filters=N
             source-desk-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.
             status - The status of the network interface. If the network interface is not attached to an instance, the status is available ; if a network interface is attached to an instance the status is in-use .
             subnet-id - The ID of the subnet for the network interface.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-id - The ID of the VPC for the network interface.
@@ -7195,7 +7393,7 @@ def describe_reserved_instances(DryRun=None, ReservedInstancesIds=None, Filters=
             reserved-instances-id - The ID of the Reserved Instance.
             start - The time at which the Reserved Instance purchase request was placed (for example, 2014-08-07T11:54:42.000Z).
             state - The state of the Reserved Instance (payment-pending | active | payment-failed | retired ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
@@ -7217,7 +7415,7 @@ def describe_reserved_instances(DryRun=None, ReservedInstancesIds=None, Filters=
         'ReservedInstances': [
             {
                 'ReservedInstancesId': 'string',
-                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                 'AvailabilityZone': 'string',
                 'Start': datetime(2015, 1, 1),
                 'End': datetime(2015, 1, 1),
@@ -7404,7 +7602,7 @@ def describe_reserved_instances_modifications(ReservedInstancesModificationIds=N
                             'AvailabilityZone': 'string',
                             'Platform': 'string',
                             'InstanceCount': 123,
-                            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                             'Scope': 'Availability Zone'|'Region'
                         }
                     },
@@ -7437,7 +7635,7 @@ def describe_reserved_instances_offerings(DryRun=None, ReservedInstancesOffering
         ReservedInstancesOfferingIds=[
             'string',
         ],
-        InstanceType='t1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+        InstanceType='t1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
         AvailabilityZone='string',
         ProductDescription='Linux/UNIX'|'Linux/UNIX (Amazon VPC)'|'Windows'|'Windows (Amazon VPC)',
         Filters=[
@@ -7497,6 +7695,7 @@ def describe_reserved_instances_offerings(DryRun=None, ReservedInstancesOffering
 
     :type InstanceTenancy: string
     :param InstanceTenancy: The tenancy of the instances covered by the reservation. A Reserved Instance with a tenancy of dedicated is applied to instances that run in a VPC on single-tenant hardware (i.e., Dedicated Instances).
+            Important: The host value cannot be used with this parameter. Use the default or dedicated values only.
             Default: default
             
 
@@ -7537,7 +7736,7 @@ def describe_reserved_instances_offerings(DryRun=None, ReservedInstancesOffering
         'ReservedInstancesOfferings': [
             {
                 'ReservedInstancesOfferingId': 'string',
-                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                 'AvailabilityZone': 'string',
                 'Duration': 123,
                 'UsagePrice': ...,
@@ -7611,7 +7810,7 @@ def describe_route_tables(DryRun=None, RouteTableIds=None, Filters=None):
             association.route-table-association-id - The ID of an association ID for the route table.
             association.route-table-id - The ID of the route table involved in the association.
             association.subnet-id - The ID of the subnet involved in the association.
-            association.main - Indicates whether the route table is the main route table for the VPC (true | false ).
+            association.main - Indicates whether the route table is the main route table for the VPC (true | false ). Route tables that do not have an association ID are not returned in the response.
             route-table-id - The ID of the route table.
             route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.
             route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route table.
@@ -7623,7 +7822,7 @@ def describe_route_tables(DryRun=None, RouteTableIds=None, Filters=None):
             route.origin - Describes how the route was created. CreateRouteTable indicates that the route was automatically created when the route table was created; CreateRoute indicates that the route was manually added to the route table; EnableVgwRoutePropagation indicates that the route was propagated by route propagation.
             route.state - The state of a route in the route table (active | blackhole ). The blackhole state indicates that the route's target isn't available (for example, the specified gateway isn't attached to the VPC, the specified NAT instance has been terminated, and so on).
             route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route in the table.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-id - The ID of the VPC for the route table.
@@ -8227,7 +8426,7 @@ def describe_snapshots(DryRun=None, SnapshotIds=None, OwnerIds=None, RestorableB
             snapshot-id - The snapshot ID.
             start-time - The time stamp when the snapshot was initiated.
             status - The status of the snapshot (pending | completed | error ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             volume-id - The ID of the volume the snapshot is for.
@@ -8301,7 +8500,7 @@ def describe_snapshots(DryRun=None, SnapshotIds=None, OwnerIds=None, RestorableB
     snapshot-id - The snapshot ID.
     start-time - The time stamp when the snapshot was initiated.
     status - The status of the snapshot (pending | completed | error ).
-    tag :key =*value* - The key/value combination of a tag assigned to the resource.
+    tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
     tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter "tag-key=Purpose" and the filter "tag-value=X", you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
     tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
     volume-id - The ID of the volume the snapshot is for.
@@ -8400,7 +8599,8 @@ def describe_spot_fleet_instances(DryRun=None, SpotFleetRequestId=None, NextToke
             {
                 'InstanceType': 'string',
                 'InstanceId': 'string',
-                'SpotInstanceRequestId': 'string'
+                'SpotInstanceRequestId': 'string',
+                'InstanceHealth': 'healthy'|'unhealthy'
             },
         ],
         'NextToken': 'string'
@@ -8540,10 +8740,11 @@ def describe_spot_fleet_requests(DryRun=None, SpotFleetRequestIds=None, NextToke
                             ],
                             'UserData': 'string',
                             'AddressingType': 'string',
-                            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                             'Placement': {
                                 'AvailabilityZone': 'string',
-                                'GroupName': 'string'
+                                'GroupName': 'string',
+                                'Tenancy': 'default'|'dedicated'|'host'
                             },
                             'KernelId': 'string',
                             'RamdiskId': 'string',
@@ -8605,7 +8806,8 @@ def describe_spot_fleet_requests(DryRun=None, SpotFleetRequestIds=None, NextToke
                     'ExcessCapacityTerminationPolicy': 'noTermination'|'default',
                     'AllocationStrategy': 'lowestPrice'|'diversified',
                     'FulfilledCapacity': 123.0,
-                    'Type': 'request'|'maintain'
+                    'Type': 'request'|'maintain',
+                    'ReplaceUnhealthyInstances': True|False
                 },
                 'CreateTime': datetime(2015, 1, 1),
                 'ActivityStatus': 'error'|'pending_fulfillment'|'pending_termination'|'fulfilled'
@@ -8691,7 +8893,7 @@ def describe_spot_instance_requests(DryRun=None, SpotInstanceRequestIds=None, Fi
             state - The state of the Spot instance request (open | active | closed | cancelled | failed ). Spot bid status information can help you track your Amazon EC2 Spot instance requests. For more information, see Spot Bid Status in the Amazon Elastic Compute Cloud User Guide.
             status-code - The short code describing the most recent evaluation of your Spot instance request.
             status-message - The message explaining the status of the Spot instance request.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             type - The type of Spot instance request (one-time | persistent ).
@@ -8737,10 +8939,11 @@ def describe_spot_instance_requests(DryRun=None, SpotInstanceRequestIds=None, Fi
                     ],
                     'UserData': 'string',
                     'AddressingType': 'string',
-                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                     'Placement': {
                         'AvailabilityZone': 'string',
-                        'GroupName': 'string'
+                        'GroupName': 'string',
+                        'Tenancy': 'default'|'dedicated'|'host'
                     },
                     'KernelId': 'string',
                     'RamdiskId': 'string',
@@ -8834,7 +9037,7 @@ def describe_spot_price_history(DryRun=None, StartTime=None, EndTime=None, Insta
         StartTime=datetime(2015, 1, 1),
         EndTime=datetime(2015, 1, 1),
         InstanceTypes=[
-            't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+            't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
         ],
         ProductDescriptions=[
             'string',
@@ -8899,7 +9102,7 @@ def describe_spot_price_history(DryRun=None, StartTime=None, EndTime=None, Insta
     :return: {
         'SpotPriceHistory': [
             {
-                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                 'ProductDescription': 'Linux/UNIX'|'Linux/UNIX (Amazon VPC)'|'Windows'|'Windows (Amazon VPC)',
                 'SpotPrice': 'string',
                 'Timestamp': datetime(2015, 1, 1),
@@ -9053,7 +9256,7 @@ def describe_subnets(DryRun=None, SubnetIds=None, Filters=None):
             ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the subnet.
             state - The state of the subnet (pending | available ).
             subnet-id - The ID of the subnet.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-id - The ID of the VPC for the subnet.
@@ -9191,7 +9394,7 @@ def describe_volume_attribute(DryRun=None, VolumeId=None, Attribute=None):
             
 
     :type Attribute: string
-    :param Attribute: The instance attribute.
+    :param Attribute: The attribute of the volume. This parameter is required.
 
     :rtype: dict
     :return: {
@@ -9370,7 +9573,7 @@ def describe_volumes(DryRun=None, VolumeIds=None, Filters=None, NextToken=None, 
             size - The size of the volume, in GiB.
             snapshot-id - The snapshot from which the volume was created.
             status - The status of the volume (creating | available | in-use | deleting | deleted | error ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             volume-id - The volume ID.
@@ -9386,7 +9589,7 @@ def describe_volumes(DryRun=None, VolumeIds=None, Filters=None, NextToken=None, 
     :param NextToken: The NextToken value returned from a previous paginated DescribeVolumes request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.
 
     :type MaxResults: integer
-    :param MaxResults: The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 1000; if MaxResults is given a value larger than 1000, only 1000 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
+    :param MaxResults: The maximum number of volume results returned by DescribeVolumes in paginated output. When this parameter is used, DescribeVolumes only returns MaxResults results in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another DescribeVolumes request with the returned NextToken value. This value can be between 5 and 500; if MaxResults is given a value larger than 500, only 500 results are returned. If this parameter is not used, then DescribeVolumes returns all results. You cannot specify this parameter and the volume IDs parameter in the same request.
 
     :rtype: dict
     :return: {
@@ -9418,6 +9621,80 @@ def describe_volumes(DryRun=None, VolumeIds=None, Filters=None, NextToken=None, 
                 'Iops': 123,
                 'Encrypted': True|False,
                 'KmsKeyId': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_volumes_modifications(DryRun=None, VolumeIds=None, Filters=None, NextToken=None, MaxResults=None):
+    """
+    Reports the current modification status of EBS volumes.
+    Current-generation EBS volumes support modification of attributes including type, size, and (for io1 volumes) IOPS provisioning while either attached to or detached from an instance. Following an action from the API or the console to modify a volume, the status of the modification may be modifying , optimizing , completed , or failed . If a volume has never been modified, then certain elements of the returned VolumeModification objects are null.
+    You can also use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide . For more information, see Monitoring Volume Modifications" .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_volumes_modifications(
+        DryRun=True|False,
+        VolumeIds=[
+            'string',
+        ],
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ],
+        NextToken='string',
+        MaxResults=123
+    )
+    
+    
+    :type DryRun: boolean
+    :param DryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
+
+    :type VolumeIds: list
+    :param VolumeIds: One or more volume IDs for which in-progress modifications will be described.
+            (string) --
+            
+
+    :type Filters: list
+    :param Filters: One or more filters. Supported filters: volume-id , modification-state , target-size , target-iops , target-volume-type , original-size , original-iops , original-volume-type , start-time .
+            (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
+            Name (string) --The name of the filter. Filter names are case-sensitive.
+            Values (list) --One or more filter values. Filter values are case-sensitive.
+            (string) --
+            
+            
+
+    :type NextToken: string
+    :param NextToken: The nextToken value returned by a previous paginated request.
+
+    :type MaxResults: integer
+    :param MaxResults: The maximum number of results (up to a limit of 500) to be returned in a paginated request.
+
+    :rtype: dict
+    :return: {
+        'VolumesModifications': [
+            {
+                'VolumeId': 'string',
+                'ModificationState': 'modifying'|'optimizing'|'completed'|'failed',
+                'StatusMessage': 'string',
+                'TargetSize': 123,
+                'TargetIops': 123,
+                'TargetVolumeType': 'standard'|'io1'|'gp2'|'sc1'|'st1',
+                'OriginalSize': 123,
+                'OriginalIops': 123,
+                'OriginalVolumeType': 'standard'|'io1'|'gp2'|'sc1'|'st1',
+                'Progress': 123,
+                'StartTime': datetime(2015, 1, 1),
+                'EndTime': datetime(2015, 1, 1)
             },
         ],
         'NextToken': 'string'
@@ -9506,7 +9783,7 @@ def describe_vpc_classic_link(DryRun=None, VpcIds=None, Filters=None):
     :type Filters: list
     :param Filters: One or more filters.
             is-classic-link-enabled - Whether the VPC is enabled for ClassicLink (true | false ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             (dict) --A filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as tags, attributes, or IDs.
@@ -9538,7 +9815,7 @@ def describe_vpc_classic_link(DryRun=None, VpcIds=None, Filters=None):
 
 def describe_vpc_classic_link_dns_support(VpcIds=None, MaxResults=None, NextToken=None):
     """
-    Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    Describes the ClassicLink DNS support status of one or more VPCs. If enabled, the DNS hostname of a linked EC2-Classic instance resolves to its private IP address when addressed from an instance in the VPC to which it's linked. Similarly, the DNS hostname of an instance in a VPC resolves to its private IP address when addressed from a linked EC2-Classic instance. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
     
     
@@ -9736,7 +10013,7 @@ def describe_vpc_peering_connections(DryRun=None, VpcPeeringConnectionIds=None, 
             requester-vpc-info.vpc-id - The ID of the requester VPC.
             status-code - The status of the VPC peering connection (pending-acceptance | failed | expired | provisioning | active | deleted | rejected ).
             status-message - A message that provides more information about the status of the VPC peering connection, if applicable.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-peering-connection-id - The ID of the VPC peering connection.
@@ -9844,7 +10121,7 @@ def describe_vpcs(DryRun=None, VpcIds=None, Filters=None):
             ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the VPC.
             isDefault - Indicates whether the VPC is the default VPC.
             state - The state of the VPC (pending | available ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             vpc-id - The ID of the VPC.
@@ -9929,7 +10206,7 @@ def describe_vpn_connections(DryRun=None, VpnConnectionIds=None, Filters=None):
             option.static-routes-only - Indicates whether the connection has static routes only. Used for devices that do not support Border Gateway Protocol (BGP).
             route.destination-cidr-block - The destination CIDR block. This corresponds to the subnet used in a customer data center.
             bgp-asn - The BGP Autonomous System Number (ASN) associated with a BGP device.
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             type - The type of VPN connection. Currently the only supported type is ipsec.1 .
@@ -10023,7 +10300,7 @@ def describe_vpn_gateways(DryRun=None, VpnGatewayIds=None, Filters=None):
             attachment.vpc-id - The ID of an attached VPC.
             availability-zone - The Availability Zone for the virtual private gateway (if applicable).
             state - The state of the virtual private gateway (pending | available | deleting | deleted ).
-            tag :key =*value* - The key/value combination of a tag assigned to the resource.
+            tag :key =*value* - The key/value combination of a tag assigned to the resource. Specify the key of the tag in the filter name and the value of the tag in the filter value. For example, for the tag Purpose=X, specify tag:Purpose for the filter name and X for the filter value.
             tag-key - The key of a tag assigned to the resource. This filter is independent of the tag-value filter. For example, if you use both the filter 'tag-key=Purpose' and the filter 'tag-value=X', you get any resources assigned both the tag key Purpose (regardless of what the tag's value is), and the tag value X (regardless of what the tag's key is). If you want to list only resources where Purpose is X, see the tag :key =*value* filter.
             tag-value - The value of a tag assigned to the resource. This filter is independent of the tag-key filter.
             type - The type of virtual private gateway. Currently the only supported type is ipsec.1 .
@@ -10100,7 +10377,7 @@ def detach_classic_link_vpc(DryRun=None, InstanceId=None, VpcId=None):
 
 def detach_internet_gateway(DryRun=None, InternetGatewayId=None, VpcId=None):
     """
-    Detaches an Internet gateway from a VPC, disabling connectivity between the Internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses.
+    Detaches an Internet gateway from a VPC, disabling connectivity between the Internet and the VPC. The VPC must not contain any running instances with Elastic IP addresses or public IPv4 addresses.
     See also: AWS API Documentation
     
     Examples
@@ -10323,7 +10600,7 @@ def disable_vpc_classic_link(DryRun=None, VpcId=None):
 
 def disable_vpc_classic_link_dns_support(VpcId=None):
     """
-    Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    Disables ClassicLink DNS support for a VPC. If disabled, DNS hostnames resolve to public IP addresses when addressed between a linked EC2-Classic instance and instances in the VPC to which it's linked. For more information about ClassicLink, see ClassicLink in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
     
     
@@ -10378,6 +10655,41 @@ def disassociate_address(DryRun=None, PublicIp=None, AssociationId=None):
     )
     
     print(response)
+    
+    
+    """
+    pass
+
+def disassociate_iam_instance_profile(AssociationId=None):
+    """
+    Disassociates an IAM instance profile from a running or stopped instance.
+    Use  DescribeIamInstanceProfileAssociations to get the association ID.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.disassociate_iam_instance_profile(
+        AssociationId='string'
+    )
+    
+    
+    :type AssociationId: string
+    :param AssociationId: [REQUIRED]
+            The ID of the IAM instance profile association.
+            
+
+    :rtype: dict
+    :return: {
+        'IamInstanceProfileAssociation': {
+            'AssociationId': 'string',
+            'InstanceId': 'string',
+            'IamInstanceProfile': {
+                'Arn': 'string',
+                'Id': 'string'
+            },
+            'State': 'associating'|'associated'|'disassociating'|'disassociated',
+            'Timestamp': datetime(2015, 1, 1)
+        }
+    }
     
     
     """
@@ -10554,7 +10866,7 @@ def enable_volume_io(DryRun=None, VolumeId=None):
 
 def enable_vpc_classic_link(DryRun=None, VpcId=None):
     """
-    Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC's route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide.
+    Enables a VPC for ClassicLink. You can then link EC2-Classic instances to your ClassicLink-enabled VPC to allow communication over private IP addresses. You cannot enable your VPC for ClassicLink if any of your VPC's route tables have existing routes for address ranges within the 10.0.0.0/8 IP address range, excluding local routes for VPCs in the 10.0.0.0/16 and 10.1.0.0/16 IP address ranges. For more information, see ClassicLink in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
     
     
@@ -11039,7 +11351,7 @@ def import_instance(DryRun=None, Description=None, LaunchSpecification=None, Dis
             'UserData': {
                 'Data': 'string'
             },
-            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
             'Placement': {
                 'AvailabilityZone': 'string',
                 'GroupName': 'string',
@@ -11090,7 +11402,7 @@ def import_instance(DryRun=None, Description=None, LaunchSpecification=None, Dis
             AvailabilityZone (string) --The Availability Zone of the instance.
             GroupName (string) --The name of the placement group the instance is in (for cluster compute instances).
             Tenancy (string) --The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command.
-            HostId (string) --The ID of the Dedicted host on which the instance resides. This parameter is not support for the ImportInstance command.
+            HostId (string) --The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command.
             Affinity (string) --The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
             Monitoring (boolean) --Indicates whether monitoring is enabled.
             SubnetId (string) --[EC2-VPC] The ID of the subnet in which to launch the instance.
@@ -11891,7 +12203,7 @@ def modify_reserved_instances(ClientToken=None, ReservedInstancesIds=None, Targe
                 'AvailabilityZone': 'string',
                 'Platform': 'string',
                 'InstanceCount': 123,
-                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                 'Scope': 'Availability Zone'|'Region'
             },
         ]
@@ -12097,6 +12409,7 @@ def modify_subnet_attribute(SubnetId=None, MapPublicIpOnLaunch=None, AssignIpv6A
 
     :type AssignIpv6AddressOnCreation: dict
     :param AssignIpv6AddressOnCreation: Specify true to indicate that network interfaces created in the specified subnet should be assigned an IPv6 address. This includes a network interface that's created when launching an instance into the subnet (the instance therefore receives an IPv6 address).
+            If you enable the IPv6 addressing feature for your subnet, your network interface or instance only receives an IPv6 address if it's created using version 2016-11-15 or later of the Amazon EC2 API.
             Value (boolean) --The attribute value. The valid values are true or false .
             
 
@@ -12108,6 +12421,68 @@ def modify_subnet_attribute(SubnetId=None, MapPublicIpOnLaunch=None, AssignIpv6A
     )
     
     print(response)
+    
+    
+    """
+    pass
+
+def modify_volume(DryRun=None, VolumeId=None, Size=None, VolumeType=None, Iops=None):
+    """
+    You can modify several parameters of an existing EBS volume, including volume size, volume type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2 instance type, you may be able to apply these changes without stopping the instance or detaching the volume from it. For more information about modifying an EBS volume running Linux, see Modifying the Size, IOPS, or Type of an EBS Volume on Linux . For more information about modifying an EBS volume running Windows, see Modifying the Size, IOPS, or Type of an EBS Volume on Windows .
+    When you complete a resize operation on your volume, you need to extend the volume's file-system size to take advantage of the new storage capacity. For information about extending a Linux file system, see Extending a Linux File System . For information about extending a Windows file system, see Extending a Windows File System .
+    You can use CloudWatch Events to check the status of a modification to an EBS volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User Guide . You can also track the status of a modification using the  DescribeVolumesModifications API. For information about tracking status changes using either method, see Monitoring Volume Modifications .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.modify_volume(
+        DryRun=True|False,
+        VolumeId='string',
+        Size=123,
+        VolumeType='standard'|'io1'|'gp2'|'sc1'|'st1',
+        Iops=123
+    )
+    
+    
+    :type DryRun: boolean
+    :param DryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation . Otherwise, it is UnauthorizedOperation .
+
+    :type VolumeId: string
+    :param VolumeId: [REQUIRED]
+
+    :type Size: integer
+    :param Size: Target size in GiB of the volume to be modified. Target volume size must be greater than or equal to than the existing size of the volume. For information about available EBS volume sizes, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html .
+            Default: If no size is specified, the existing size is retained.
+            
+
+    :type VolumeType: string
+    :param VolumeType: Target EBS volume type of the volume to be modified
+            The API does not support modifications for volume type standard . You also cannot change the type of a volume to standard .
+            Default: If no type is specified, the existing type is retained.
+            
+
+    :type Iops: integer
+    :param Iops: Target IOPS rate of the volume to be modified.
+            Only valid for Provisioned IOPS SSD (io1 ) volumes. For more information about io1 IOPS configuration, see http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops .
+            Default: If no IOPS value is specified, the existing value is retained.
+            
+
+    :rtype: dict
+    :return: {
+        'VolumeModification': {
+            'VolumeId': 'string',
+            'ModificationState': 'modifying'|'optimizing'|'completed'|'failed',
+            'StatusMessage': 'string',
+            'TargetSize': 123,
+            'TargetIops': 123,
+            'TargetVolumeType': 'standard'|'io1'|'gp2'|'sc1'|'st1',
+            'OriginalSize': 123,
+            'OriginalIops': 123,
+            'OriginalVolumeType': 'standard'|'io1'|'gp2'|'sc1'|'st1',
+            'Progress': 123,
+            'StartTime': datetime(2015, 1, 1),
+            'EndTime': datetime(2015, 1, 1)
+        }
+    }
     
     
     """
@@ -12646,10 +13021,12 @@ def reboot_instances(DryRun=None, InstanceIds=None):
     """
     pass
 
-def register_image(DryRun=None, ImageLocation=None, Name=None, Description=None, Architecture=None, KernelId=None, RamdiskId=None, RootDeviceName=None, BlockDeviceMappings=None, VirtualizationType=None, SriovNetSupport=None, EnaSupport=None):
+def register_image(DryRun=None, ImageLocation=None, Name=None, Description=None, Architecture=None, KernelId=None, RamdiskId=None, BillingProducts=None, RootDeviceName=None, BlockDeviceMappings=None, VirtualizationType=None, SriovNetSupport=None, EnaSupport=None):
     """
     Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see Creating Your Own AMIs in the Amazon Elastic Compute Cloud User Guide .
-    You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. For more information, see Launching an Instance from a Snapshot in the Amazon Elastic Compute Cloud User Guide .
+    You can also use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using the block device mapping. For more information, see Launching a Linux Instance from a Backup in the Amazon Elastic Compute Cloud User Guide .
+    You can't register an image where a secondary (non-root) snapshot has AWS Marketplace product codes.
+    Some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing product code associated with an AMI to verify the subscription status for package updates. Creating an AMI from an EBS snapshot does not maintain this billing code, and subsequent instances launched from such an AMI will not be able to connect to package update infrastructure. To create an AMI that must retain billing codes, see  CreateImage .
     If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image.
     See also: AWS API Documentation
     
@@ -12662,6 +13039,9 @@ def register_image(DryRun=None, ImageLocation=None, Name=None, Description=None,
         Architecture='i386'|'x86_64',
         KernelId='string',
         RamdiskId='string',
+        BillingProducts=[
+            'string',
+        ],
         RootDeviceName='string',
         BlockDeviceMappings=[
             {
@@ -12709,6 +13089,11 @@ def register_image(DryRun=None, ImageLocation=None, Name=None, Description=None,
 
     :type RamdiskId: string
     :param RamdiskId: The ID of the RAM disk.
+
+    :type BillingProducts: list
+    :param BillingProducts: The billing product codes. Your account must be authorized to specify billing product codes. Otherwise, you can use the AWS Marketplace to bill for the use of an AMI.
+            (string) --
+            
 
     :type RootDeviceName: string
     :param RootDeviceName: The name of the root device (for example, /dev/sda1 , or /dev/xvda ).
@@ -12869,6 +13254,52 @@ def release_hosts(HostIds=None):
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def replace_iam_instance_profile_association(IamInstanceProfile=None, AssociationId=None):
+    """
+    Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first.
+    Use  DescribeIamInstanceProfileAssociations to get the association ID.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.replace_iam_instance_profile_association(
+        IamInstanceProfile={
+            'Arn': 'string',
+            'Name': 'string'
+        },
+        AssociationId='string'
+    )
+    
+    
+    :type IamInstanceProfile: dict
+    :param IamInstanceProfile: [REQUIRED]
+            The IAM instance profile.
+            Arn (string) --The Amazon Resource Name (ARN) of the instance profile.
+            Name (string) --The name of the instance profile.
+            
+
+    :type AssociationId: string
+    :param AssociationId: [REQUIRED]
+            The ID of the existing IAM instance profile association.
+            
+
+    :rtype: dict
+    :return: {
+        'IamInstanceProfileAssociation': {
+            'AssociationId': 'string',
+            'InstanceId': 'string',
+            'IamInstanceProfile': {
+                'Arn': 'string',
+                'Id': 'string'
+            },
+            'State': 'associating'|'associated'|'disassociating'|'disassociated',
+            'Timestamp': datetime(2015, 1, 1)
+        }
+    }
+    
     
     """
     pass
@@ -13217,10 +13648,11 @@ def request_spot_fleet(DryRun=None, SpotFleetRequestConfig=None):
                     ],
                     'UserData': 'string',
                     'AddressingType': 'string',
-                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                     'Placement': {
                         'AvailabilityZone': 'string',
-                        'GroupName': 'string'
+                        'GroupName': 'string',
+                        'Tenancy': 'default'|'dedicated'|'host'
                     },
                     'KernelId': 'string',
                     'RamdiskId': 'string',
@@ -13282,7 +13714,8 @@ def request_spot_fleet(DryRun=None, SpotFleetRequestConfig=None):
             'ExcessCapacityTerminationPolicy': 'noTermination'|'default',
             'AllocationStrategy': 'lowestPrice'|'diversified',
             'FulfilledCapacity': 123.0,
-            'Type': 'request'|'maintain'
+            'Type': 'request'|'maintain',
+            'ReplaceUnhealthyInstances': True|False
         }
     )
     
@@ -13316,6 +13749,7 @@ def request_spot_fleet(DryRun=None, SpotFleetRequestConfig=None):
             AvailabilityZone (string) --The Availability Zone.
             [Spot fleet only] To specify multiple Availability Zones, separate them using commas; for example, 'us-west-2a, us-west-2b'.
             GroupName (string) --The name of the placement group (for cluster instances).
+            Tenancy (string) --The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for Spot instances.
             KernelId (string) --The ID of the kernel.
             RamdiskId (string) --The ID of the RAM disk.
             BlockDeviceMappings (list) --One or more block device mapping entries.
@@ -13377,6 +13811,7 @@ def request_spot_fleet(DryRun=None, SpotFleetRequestConfig=None):
             AllocationStrategy (string) --Indicates how to allocate the target capacity across the Spot pools specified by the Spot fleet request. The default is lowestPrice .
             FulfilledCapacity (float) --The number of units fulfilled by this request compared to the set target capacity.
             Type (string) --The type of request. Indicates whether the fleet will only request the target capacity or also attempt to maintain it. When you request a certain target capacity, the fleet will only place the required bids. It will not attempt to replenish Spot instances if capacity is diminished, nor will it submit bids in alternative Spot pools if capacity is not available. When you want to maintain a certain target capacity, fleet will place the required bids to meet this target capacity. It will also automatically replenish any interrupted instances. Default: maintain .
+            ReplaceUnhealthyInstances (boolean) --Indicates whether Spot fleet should replace unhealthy instances.
             
 
     :rtype: dict
@@ -13418,10 +13853,11 @@ def request_spot_instances(DryRun=None, SpotPrice=None, ClientToken=None, Instan
             ],
             'UserData': 'string',
             'AddressingType': 'string',
-            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+            'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
             'Placement': {
                 'AvailabilityZone': 'string',
-                'GroupName': 'string'
+                'GroupName': 'string',
+                'Tenancy': 'default'|'dedicated'|'host'
             },
             'KernelId': 'string',
             'RamdiskId': 'string',
@@ -13545,6 +13981,7 @@ def request_spot_instances(DryRun=None, SpotPrice=None, ClientToken=None, Instan
             AvailabilityZone (string) --The Availability Zone.
             [Spot fleet only] To specify multiple Availability Zones, separate them using commas; for example, 'us-west-2a, us-west-2b'.
             GroupName (string) --The name of the placement group (for cluster instances).
+            Tenancy (string) --The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for Spot instances.
             KernelId (string) --The ID of the kernel.
             RamdiskId (string) --The ID of the RAM disk.
             BlockDeviceMappings (list) --One or more block device mapping entries.
@@ -13634,10 +14071,11 @@ def request_spot_instances(DryRun=None, SpotPrice=None, ClientToken=None, Instan
                     ],
                     'UserData': 'string',
                     'AddressingType': 'string',
-                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                    'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                     'Placement': {
                         'AvailabilityZone': 'string',
-                        'GroupName': 'string'
+                        'GroupName': 'string',
+                        'Tenancy': 'default'|'dedicated'|'host'
                     },
                     'KernelId': 'string',
                     'RamdiskId': 'string',
@@ -14106,12 +14544,12 @@ def revoke_security_group_ingress(DryRun=None, GroupName=None, GroupId=None, Sou
     """
     pass
 
-def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyName=None, SecurityGroups=None, SecurityGroupIds=None, UserData=None, InstanceType=None, Placement=None, KernelId=None, RamdiskId=None, BlockDeviceMappings=None, Monitoring=None, SubnetId=None, DisableApiTermination=None, InstanceInitiatedShutdownBehavior=None, PrivateIpAddress=None, Ipv6Addresses=None, Ipv6AddressCount=None, ClientToken=None, AdditionalInfo=None, NetworkInterfaces=None, IamInstanceProfile=None, EbsOptimized=None):
+def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyName=None, SecurityGroups=None, SecurityGroupIds=None, UserData=None, InstanceType=None, Placement=None, KernelId=None, RamdiskId=None, BlockDeviceMappings=None, Monitoring=None, SubnetId=None, DisableApiTermination=None, InstanceInitiatedShutdownBehavior=None, PrivateIpAddress=None, Ipv6Addresses=None, Ipv6AddressCount=None, ClientToken=None, AdditionalInfo=None, NetworkInterfaces=None, IamInstanceProfile=None, EbsOptimized=None, TagSpecifications=None):
     """
     Launches the specified number of instances using an AMI for which you have permissions.
     You can specify a number of options, or leave the default options. The following rules apply:
     To ensure faster instance launches, break up large requests into smaller batches. For example, create 5 separate launch requests for 100 instances each instead of 1 launch request for 500 instances.
-    An instance is ready for you to use when it's in the running state. You can check the state of your instance using  DescribeInstances . After launch, you can apply tags to your running instance (requires a resource ID). For more information, see  CreateTags and Tagging Your Amazon EC2 Resources .
+    An instance is ready for you to use when it's in the running state. You can check the state of your instance using  DescribeInstances . You can tag instances and EBS volumes during launch, after launch, or both. For more information, see  CreateTags and Tagging Your Amazon EC2 Resources .
     Linux instances have access to the public key of the key pair at boot. You can use this key to provide secure access to the instance. Amazon EC2 public images use this feature to provide secure access without passwords. For more information, see Key Pairs in the Amazon Elastic Compute Cloud User Guide .
     For troubleshooting, see What To Do If An Instance Immediately Terminates , and Troubleshooting Connecting to Your Instance in the Amazon Elastic Compute Cloud User Guide .
     See also: AWS API Documentation
@@ -14130,7 +14568,7 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
             'string',
         ],
         UserData='string',
-        InstanceType='t1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+        InstanceType='t1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
         Placement={
             'AvailabilityZone': 'string',
             'GroupName': 'string',
@@ -14201,7 +14639,18 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
             'Arn': 'string',
             'Name': 'string'
         },
-        EbsOptimized=True|False
+        EbsOptimized=True|False,
+        TagSpecifications=[
+            {
+                'ResourceType': 'customer-gateway'|'dhcp-options'|'image'|'instance'|'internet-gateway'|'network-acl'|'network-interface'|'reserved-instances'|'route-table'|'snapshot'|'spot-instances-request'|'subnet'|'security-group'|'volume'|'vpc'|'vpn-connection'|'vpn-gateway',
+                'Tags': [
+                    {
+                        'Key': 'string',
+                        'Value': 'string'
+                    },
+                ]
+            },
+        ]
     )
     
     
@@ -14258,7 +14707,7 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
             AvailabilityZone (string) --The Availability Zone of the instance.
             GroupName (string) --The name of the placement group the instance is in (for cluster compute instances).
             Tenancy (string) --The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the ImportInstance command.
-            HostId (string) --The ID of the Dedicted host on which the instance resides. This parameter is not support for the ImportInstance command.
+            HostId (string) --The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the ImportInstance command.
             Affinity (string) --The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the ImportInstance command.
             
 
@@ -14376,6 +14825,20 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
             Default: false
             
 
+    :type TagSpecifications: list
+    :param TagSpecifications: The tags to apply to the resources during launch. You can tag instances and volumes. The specified tags are applied to all instances or volumes that are created during launch.
+            (dict) --The tags to apply to a resource when the resource is being created.
+            ResourceType (string) --The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume .
+            Tags (list) --The tags to apply to the resource.
+            (dict) --Describes a tag.
+            Key (string) --The key of the tag.
+            Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:
+            Value (string) --The value of the tag.
+            Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
+            
+            
+            
+
     :rtype: dict
     :return: {
         'ReservationId': 'string',
@@ -14406,7 +14869,7 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
                         'ProductCodeType': 'devpay'|'marketplace'
                     },
                 ],
-                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
+                'InstanceType': 't1.micro'|'t2.nano'|'t2.micro'|'t2.small'|'t2.medium'|'t2.large'|'t2.xlarge'|'t2.2xlarge'|'m1.small'|'m1.medium'|'m1.large'|'m1.xlarge'|'m3.medium'|'m3.large'|'m3.xlarge'|'m3.2xlarge'|'m4.large'|'m4.xlarge'|'m4.2xlarge'|'m4.4xlarge'|'m4.10xlarge'|'m4.16xlarge'|'m2.xlarge'|'m2.2xlarge'|'m2.4xlarge'|'cr1.8xlarge'|'r3.large'|'r3.xlarge'|'r3.2xlarge'|'r3.4xlarge'|'r3.8xlarge'|'r4.large'|'r4.xlarge'|'r4.2xlarge'|'r4.4xlarge'|'r4.8xlarge'|'r4.16xlarge'|'x1.16xlarge'|'x1.32xlarge'|'i2.xlarge'|'i2.2xlarge'|'i2.4xlarge'|'i2.8xlarge'|'i3.large'|'i3.xlarge'|'i3.2xlarge'|'i3.4xlarge'|'i3.8xlarge'|'i3.16xlarge'|'hi1.4xlarge'|'hs1.8xlarge'|'c1.medium'|'c1.xlarge'|'c3.large'|'c3.xlarge'|'c3.2xlarge'|'c3.4xlarge'|'c3.8xlarge'|'c4.large'|'c4.xlarge'|'c4.2xlarge'|'c4.4xlarge'|'c4.8xlarge'|'cc1.4xlarge'|'cc2.8xlarge'|'g2.2xlarge'|'g2.8xlarge'|'cg1.4xlarge'|'p2.xlarge'|'p2.8xlarge'|'p2.16xlarge'|'d2.xlarge'|'d2.2xlarge'|'d2.4xlarge'|'d2.8xlarge'|'f1.2xlarge'|'f1.16xlarge',
                 'LaunchTime': datetime(2015, 1, 1),
                 'Placement': {
                     'AvailabilityZone': 'string',
@@ -14568,7 +15031,7 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
     
     Tenancy (string) --The tenancy of the instance (if the instance is running in a VPC). An instance with a tenancy of dedicated runs on single-tenant hardware. The host tenancy is not supported for the  ImportInstance command.
     
-    HostId (string) --The ID of the Dedicted host on which the instance resides. This parameter is not support for the  ImportInstance command.
+    HostId (string) --The ID of the Dedicated Host on which the instance resides. This parameter is not supported for the  ImportInstance command.
     
     Affinity (string) --The affinity setting for the instance on the Dedicated Host. This parameter is not supported for the  ImportInstance command.
     
@@ -14720,6 +15183,30 @@ def run_instances(DryRun=None, ImageId=None, MinCount=None, MaxCount=None, KeyNa
     
     EbsOptimized (boolean) -- Indicates whether the instance is optimized for EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance.
     Default: false
+    
+    TagSpecifications (list) -- The tags to apply to the resources during launch. You can tag instances and volumes. The specified tags are applied to all instances or volumes that are created during launch.
+    
+    (dict) --The tags to apply to a resource when the resource is being created.
+    
+    ResourceType (string) --The type of resource to tag. Currently, the resource types that support tagging on creation are instance and volume .
+    
+    Tags (list) --The tags to apply to the resource.
+    
+    (dict) --Describes a tag.
+    
+    Key (string) --The key of the tag.
+    Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:
+    
+    Value (string) --The value of the tag.
+    Constraints: Tag values are case-sensitive and accept a maximum of 255 Unicode characters.
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     """

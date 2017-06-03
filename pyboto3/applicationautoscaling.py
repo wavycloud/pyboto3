@@ -46,12 +46,15 @@ def delete_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=Non
     To create a scaling policy or update an existing one, see  PutScalingPolicy .
     See also: AWS API Documentation
     
+    Examples
+    This example deletes a scaling policy for the Amazon ECS service called web-app, which is running in the default cluster.
+    Expected Output:
     
     :example: response = client.delete_scaling_policy(
         PolicyName='string',
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity'
     )
     
     
@@ -71,6 +74,7 @@ def delete_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=Non
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -79,6 +83,7 @@ def delete_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=Non
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :rtype: dict
@@ -98,11 +103,14 @@ def deregister_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableD
     To create a scalable target or update an existing one, see  RegisterScalableTarget .
     See also: AWS API Documentation
     
+    Examples
+    This example deregisters a scalable target for an Amazon ECS service called web-app that is running in the default cluster.
+    Expected Output:
     
     :example: response = client.deregister_scalable_target(
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity'
     )
     
     
@@ -117,6 +125,7 @@ def deregister_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableD
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -125,6 +134,7 @@ def deregister_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableD
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :rtype: dict
@@ -144,13 +154,16 @@ def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableD
     To create a scalable target or update an existing one, see  RegisterScalableTarget . If you are no longer using a scalable target, you can deregister it using  DeregisterScalableTarget .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the scalable targets for the ecs service namespace.
+    Expected Output:
     
     :example: response = client.describe_scalable_targets(
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceIds=[
             'string',
         ],
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
         MaxResults=123,
         NextToken='string'
     )
@@ -166,6 +179,7 @@ def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableD
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             (string) --
             
 
@@ -174,6 +188,7 @@ def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableD
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :type MaxResults: integer
@@ -188,9 +203,9 @@ def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableD
     :return: {
         'ScalableTargets': [
             {
-                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2',
+                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2'|'appstream',
                 'ResourceId': 'string',
-                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
                 'MinCapacity': 123,
                 'MaxCapacity': 123,
                 'RoleARN': 'string',
@@ -205,6 +220,7 @@ def describe_scalable_targets(ServiceNamespace=None, ResourceIds=None, ScalableD
     ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
     Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
     EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+    AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
     
     """
     pass
@@ -216,11 +232,14 @@ def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, Scalable
     Scaling activities are triggered by CloudWatch alarms that are associated with scaling policies. To view the scaling policies for a service namespace, see  DescribeScalingPolicies . To create a scaling policy or update an existing one, see  PutScalingPolicy .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the scaling activities for an Amazon ECS service called web-app that is running in the default cluster.
+    Expected Output:
     
     :example: response = client.describe_scaling_activities(
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
         MaxResults=123,
         NextToken='string'
     )
@@ -236,6 +255,7 @@ def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, Scalable
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -243,6 +263,7 @@ def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, Scalable
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :type MaxResults: integer
@@ -258,9 +279,9 @@ def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, Scalable
         'ScalingActivities': [
             {
                 'ActivityId': 'string',
-                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2',
+                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2'|'appstream',
                 'ResourceId': 'string',
-                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
                 'Description': 'string',
                 'Cause': 'string',
                 'StartTime': datetime(2015, 1, 1),
@@ -278,6 +299,7 @@ def describe_scaling_activities(ServiceNamespace=None, ResourceId=None, Scalable
     ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
     Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
     EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+    AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
     
     """
     pass
@@ -289,14 +311,17 @@ def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceI
     To create a scaling policy or update an existing one, see  PutScalingPolicy . If you are no longer using a scaling policy, you can delete it using  DeleteScalingPolicy .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the scaling policies for the ecs service namespace.
+    Expected Output:
     
     :example: response = client.describe_scaling_policies(
         PolicyNames=[
             'string',
         ],
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
         MaxResults=123,
         NextToken='string'
     )
@@ -317,6 +342,7 @@ def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceI
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -324,6 +350,7 @@ def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceI
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :type MaxResults: integer
@@ -340,9 +367,9 @@ def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceI
             {
                 'PolicyARN': 'string',
                 'PolicyName': 'string',
-                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2',
+                'ServiceNamespace': 'ecs'|'elasticmapreduce'|'ec2'|'appstream',
                 'ResourceId': 'string',
-                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+                'ScalableDimension': 'ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
                 'PolicyType': 'StepScaling',
                 'StepScalingPolicyConfiguration': {
                     'AdjustmentType': 'ChangeInCapacity'|'PercentChangeInCapacity'|'ExactCapacity',
@@ -374,6 +401,7 @@ def describe_scaling_policies(PolicyNames=None, ServiceNamespace=None, ResourceI
     ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
     Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
     EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+    AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
     
     """
     pass
@@ -430,12 +458,17 @@ def put_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, 
     You can view the scaling policies for a service namespace using  DescribeScalingPolicies . If you are no longer using a scaling policy, you can delete it using  DeleteScalingPolicy .
     See also: AWS API Documentation
     
+    Examples
+    This example applies a scaling policy to an Amazon ECS service called web-app in the default cluster. The policy increases the desired count of the service by 200%, with a cool down period of 60 seconds.
+    Expected Output:
+    This example applies a scaling policy to an Amazon EC2 Spot fleet. The policy increases the target capacity of the spot fleet by 200%, with a cool down period of 180 seconds.",
+    Expected Output:
     
     :example: response = client.put_scaling_policy(
         PolicyName='string',
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
         PolicyType='StepScaling',
         StepScalingPolicyConfiguration={
             'AdjustmentType': 'ChangeInCapacity'|'PercentChangeInCapacity'|'ExactCapacity',
@@ -469,6 +502,7 @@ def put_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, 
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -477,6 +511,7 @@ def put_scaling_policy(PolicyName=None, ServiceNamespace=None, ResourceId=None, 
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :type PolicyType: string
@@ -522,11 +557,16 @@ def register_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDim
     After you register a scalable target, you can create and apply scaling policies using  PutScalingPolicy . You can view the scaling policies for a service namespace using  DescribeScalableTargets . If you are no longer using a scalable target, you can deregister it using  DeregisterScalableTarget .
     See also: AWS API Documentation
     
+    Examples
+    This example registers a scalable target from an Amazon ECS service called web-app that is running on the default cluster, with a minimum desired count of 1 task and a maximum desired count of 10 tasks.
+    Expected Output:
+    This example registers a scalable target from an Amazon EC2 Spot fleet with a minimum target capacity of 1 and a maximum of 10.
+    Expected Output:
     
     :example: response = client.register_scalable_target(
-        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2',
+        ServiceNamespace='ecs'|'elasticmapreduce'|'ec2'|'appstream',
         ResourceId='string',
-        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount',
+        ScalableDimension='ecs:service:DesiredCount'|'ec2:spot-fleet-request:TargetCapacity'|'elasticmapreduce:instancegroup:InstanceCount'|'appstream:fleet:DesiredCapacity',
         MinCapacity=123,
         MaxCapacity=123,
         RoleARN='string'
@@ -544,6 +584,7 @@ def register_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDim
             ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp .
             Spot fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE .
             EMR cluster - The resource type is instancegroup and the unique identifier is the cluster ID and instance group ID. Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0 .
+            AppStream 2.0 fleet - The resource type is fleet and the unique identifier is the fleet name. Example: fleet/sample-fleet .
             
 
     :type ScalableDimension: string
@@ -552,6 +593,7 @@ def register_scalable_target(ServiceNamespace=None, ResourceId=None, ScalableDim
             ecs:service:DesiredCount - The desired task count of an ECS service.
             ec2:spot-fleet-request:TargetCapacity - The target capacity of a Spot fleet request.
             elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR Instance Group.
+            appstream:fleet:DesiredCapacity - The desired capacity of an AppStream 2.0 fleet.
             
 
     :type MinCapacity: integer

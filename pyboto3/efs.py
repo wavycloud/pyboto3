@@ -49,6 +49,9 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
     This operation requires permissions for the elasticfilesystem:CreateFileSystem action.
     See also: AWS API Documentation
     
+    Examples
+    This operation creates a new file system with the default generalpurpose performance mode.
+    Expected Output:
     
     :example: response = client.create_file_system(
         CreationToken='string',
@@ -105,6 +108,9 @@ def create_mount_target(FileSystemId=None, SubnetId=None, IpAddress=None, Securi
     This operation also requires permissions for the following Amazon EC2 actions:
     See also: AWS API Documentation
     
+    Examples
+    This operation creates a new mount target for an EFS file system.
+    Expected Output:
     
     :example: response = client.create_mount_target(
         FileSystemId='string',
@@ -159,6 +165,9 @@ def create_tags(FileSystemId=None, Tags=None):
     This operation requires permission for the elasticfilesystem:CreateTags action.
     See also: AWS API Documentation
     
+    Examples
+    This operation creates a new tag for an EFS file system.
+    Expected Output:
     
     :example: response = client.create_tags(
         FileSystemId='string',
@@ -185,6 +194,19 @@ def create_tags(FileSystemId=None, Tags=None):
             
             
 
+    :return: response = client.create_tags(
+        FileSystemId='fs-01234567',
+        Tags=[
+            {
+                'Key': 'Name',
+                'Value': 'MyFileSystem',
+            },
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -195,6 +217,9 @@ def delete_file_system(FileSystemId=None):
     This operation requires permissions for the elasticfilesystem:DeleteFileSystem action.
     See also: AWS API Documentation
     
+    Examples
+    This operation deletes an EFS file system.
+    Expected Output:
     
     :example: response = client.delete_file_system(
         FileSystemId='string'
@@ -206,6 +231,13 @@ def delete_file_system(FileSystemId=None):
             ID of the file system you want to delete.
             
 
+    :return: response = client.delete_file_system(
+        FileSystemId='fs-01234567',
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -217,6 +249,9 @@ def delete_mount_target(MountTargetId=None):
     The operation also requires permissions for the following Amazon EC2 action on the mount target's network interface:
     See also: AWS API Documentation
     
+    Examples
+    This operation deletes a mount target.
+    Expected Output:
     
     :example: response = client.delete_mount_target(
         MountTargetId='string'
@@ -228,6 +263,13 @@ def delete_mount_target(MountTargetId=None):
             ID of the mount target to delete (String).
             
 
+    :return: response = client.delete_mount_target(
+        MountTargetId='fsmt-12340abc',
+    )
+    
+    print(response)
+    
+    
     :returns: 
     ec2:DeleteNetworkInterface
     
@@ -240,6 +282,9 @@ def delete_tags(FileSystemId=None, TagKeys=None):
     This operation requires permissions for the elasticfilesystem:DeleteTags action.
     See also: AWS API Documentation
     
+    Examples
+    This operation deletes tags for an EFS file system.
+    Expected Output:
     
     :example: response = client.delete_tags(
         FileSystemId='string',
@@ -260,6 +305,16 @@ def delete_tags(FileSystemId=None, TagKeys=None):
             (string) --
             
 
+    :return: response = client.delete_tags(
+        FileSystemId='fs-01234567',
+        TagKeys=[
+            'Name',
+        ],
+    )
+    
+    print(response)
+    
+    
     """
     pass
 
@@ -273,6 +328,9 @@ def describe_file_systems(MaxItems=None, Marker=None, CreationToken=None, FileSy
     This operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
     See also: AWS API Documentation
     
+    Examples
+    This operation describes all of the EFS file systems in an account.
+    Expected Output:
     
     :example: response = client.describe_file_systems(
         MaxItems=123,
@@ -326,6 +384,9 @@ def describe_mount_target_security_groups(MountTargetId=None):
     This operation requires permissions for the following actions:
     See also: AWS API Documentation
     
+    Examples
+    This operation describes all of the security groups for a file system's mount target.
+    Expected Output:
     
     :example: response = client.describe_mount_target_security_groups(
         MountTargetId='string'
@@ -357,6 +418,9 @@ def describe_mount_targets(MaxItems=None, Marker=None, FileSystemId=None, MountT
     This operation requires permissions for the elasticfilesystem:DescribeMountTargets action, on either the file system ID that you specify in FileSystemId , or on the file system of the mount target that you specify in MountTargetId .
     See also: AWS API Documentation
     
+    Examples
+    This operation describes all of a file system's mount targets.
+    Expected Output:
     
     :example: response = client.describe_mount_targets(
         MaxItems=123,
@@ -405,6 +469,9 @@ def describe_tags(MaxItems=None, Marker=None, FileSystemId=None):
     This operation requires permissions for the elasticfilesystem:DescribeTags action.
     See also: AWS API Documentation
     
+    Examples
+    This operation describes all of a file system's tags.
+    Expected Output:
     
     :example: response = client.describe_tags(
         MaxItems=123,
@@ -491,6 +558,9 @@ def modify_mount_target_security_groups(MountTargetId=None, SecurityGroups=None)
     The operation requires permissions for the following actions:
     See also: AWS API Documentation
     
+    Examples
+    This operation modifies the security groups associated with a mount target for a file system.
+    Expected Output:
     
     :example: response = client.modify_mount_target_security_groups(
         MountTargetId='string',
@@ -510,6 +580,16 @@ def modify_mount_target_security_groups(MountTargetId=None, SecurityGroups=None)
             (string) --
             
 
+    :return: response = client.modify_mount_target_security_groups(
+        MountTargetId='fsmt-12340abc',
+        SecurityGroups=[
+            'sg-abcd1234',
+        ],
+    )
+    
+    print(response)
+    
+    
     :returns: 
     MountTargetId (string) -- [REQUIRED]
     ID of the mount target whose security groups you want to modify.

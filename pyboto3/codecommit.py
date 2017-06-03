@@ -209,6 +209,37 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
+def get_blob(repositoryName=None, blobId=None):
+    """
+    Returns the base-64 encoded content of an individual blob within a repository.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_blob(
+        repositoryName='string',
+        blobId='string'
+    )
+    
+    
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository that contains the blob.
+            
+
+    :type blobId: string
+    :param blobId: [REQUIRED]
+            The ID of the blob, which is its SHA-1 pointer.
+            
+
+    :rtype: dict
+    :return: {
+        'content': b'bytes'
+    }
+    
+    
+    """
+    pass
+
 def get_branch(repositoryName=None, branchName=None):
     """
     Returns information about a repository branch, including its name and the last commit ID.
@@ -290,6 +321,78 @@ def get_commit(repositoryName=None, commitId=None):
     """
     pass
 
+def get_differences(repositoryName=None, beforeCommitSpecifier=None, afterCommitSpecifier=None, beforePath=None, afterPath=None, MaxResults=None, NextToken=None):
+    """
+    Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID or other fully qualified reference). Results can be limited to a specified path.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_differences(
+        repositoryName='string',
+        beforeCommitSpecifier='string',
+        afterCommitSpecifier='string',
+        beforePath='string',
+        afterPath='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository where you want to get differences.
+            
+
+    :type beforeCommitSpecifier: string
+    :param beforeCommitSpecifier: The branch, tag, HEAD, or other fully qualified reference used to identify a commit. For example, the full commit ID. Optional. If not specified, all changes prior to the afterCommitSpecifier value will be shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults .
+
+    :type afterCommitSpecifier: string
+    :param afterCommitSpecifier: [REQUIRED]
+            The branch, tag, HEAD, or other fully qualified reference used to identify a commit.
+            
+
+    :type beforePath: string
+    :param beforePath: The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences will be shown for all paths.
+
+    :type afterPath: string
+    :param afterPath: The file path in which to check differences. Limits the results to this path. Can also be used to specify the changed name of a directory or folder, if it has changed. If not specified, differences will be shown for all paths.
+
+    :type MaxResults: integer
+    :param MaxResults: A non-negative integer used to limit the number of returned results.
+
+    :type NextToken: string
+    :param NextToken: An enumeration token that when provided in a request, returns the next batch of the results.
+
+    :rtype: dict
+    :return: {
+        'differences': [
+            {
+                'beforeBlob': {
+                    'blobId': 'string',
+                    'path': 'string',
+                    'mode': 'string'
+                },
+                'afterBlob': {
+                    'blobId': 'string',
+                    'path': 'string',
+                    'mode': 'string'
+                },
+                'changeType': 'A'|'M'|'D'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    100644 indicates read/write
+    100755 indicates read/write/execute
+    160000 indicates a submodule
+    120000 indicates a symlink
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -354,7 +457,9 @@ def get_repository_triggers(repositoryName=None):
     
     
     :type repositoryName: string
-    :param repositoryName: The name of the repository for which the trigger is configured.
+    :param repositoryName: [REQUIRED]
+            The name of the repository for which the trigger is configured.
+            
 
     :rtype: dict
     :return: {
@@ -484,17 +589,22 @@ def put_repository_triggers(repositoryName=None, triggers=None):
     
     
     :type repositoryName: string
-    :param repositoryName: The name of the repository where you want to create or update the trigger.
+    :param repositoryName: [REQUIRED]
+            The name of the repository where you want to create or update the trigger.
+            
 
     :type triggers: list
-    :param triggers: The JSON block of configuration information for each trigger.
+    :param triggers: [REQUIRED]
+            The JSON block of configuration information for each trigger.
             (dict) --Information about a trigger for a repository.
-            name (string) --The name of the trigger.
-            destinationArn (string) --The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
+            name (string) -- [REQUIRED]The name of the trigger.
+            destinationArn (string) -- [REQUIRED]The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
             customData (string) --Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
             branches (list) --The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches.
             (string) --
-            events (list) --The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS). If no events are specified, the trigger will run for all repository events.
+            events (list) -- [REQUIRED]The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).
+            Note
+            The valid value 'all' cannot be used with any other values.
             (string) --
             
             
@@ -533,17 +643,22 @@ def test_repository_triggers(repositoryName=None, triggers=None):
     
     
     :type repositoryName: string
-    :param repositoryName: The name of the repository in which to test the triggers.
+    :param repositoryName: [REQUIRED]
+            The name of the repository in which to test the triggers.
+            
 
     :type triggers: list
-    :param triggers: The list of triggers to test.
+    :param triggers: [REQUIRED]
+            The list of triggers to test.
             (dict) --Information about a trigger for a repository.
-            name (string) --The name of the trigger.
-            destinationArn (string) --The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
+            name (string) -- [REQUIRED]The name of the trigger.
+            destinationArn (string) -- [REQUIRED]The ARN of the resource that is the target for a trigger. For example, the ARN of a topic in Amazon Simple Notification Service (SNS).
             customData (string) --Any custom data associated with the trigger that will be included in the information sent to the target of the trigger.
             branches (list) --The branches that will be included in the trigger configuration. If no branches are specified, the trigger will apply to all branches.
             (string) --
-            events (list) --The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS). If no events are specified, the trigger will run for all repository events.
+            events (list) -- [REQUIRED]The repository events that will cause the trigger to run actions in another service, such as sending a notification through Amazon Simple Notification Service (SNS).
+            Note
+            The valid value 'all' cannot be used with any other values.
             (string) --
             
             

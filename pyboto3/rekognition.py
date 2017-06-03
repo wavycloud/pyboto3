@@ -42,12 +42,15 @@ def can_paginate(operation_name=None):
 def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
     """
     Compares a face in the source input image with each face detected in the target input image.
-    In response, the operation returns an array of face matches ordered by similarity score with the highest similarity scores first. For each face match, the response provides a bounding box of the face and confidence value (indicating the level of confidence that the bounding box contains a face). The response also provides a similarity score, which indicates how closely the faces match.
-    In addition to the face matches, the response returns information about the face in the source image, including the bounding box of the face and confidence value.
-    For an example, see  get-started-exercise-compare-faces
+    In response, the operation returns an array of face matches ordered by similarity score in descending order. For each face match, the response provides a bounding box of the face, facial landmarks, pose details (pitch, role, and yaw), quality (brightness and sharpness), and confidence value (indicating the level of confidence that the bounding box contains a face). The response also provides a similarity score, which indicates how closely the faces match.
+    If the image doesn't contain Exif metadata, CompareFaces returns orientation information for the source and target images. Use these values to display the images with the correct image orientation.
+    For an example, see  get-started-exercise-compare-faces .
     This operation requires permissions to perform the rekognition:CompareFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation compares the largest face detected in the source image with each face detected in the target image.
+    Expected Output:
     
     :example: response = client.compare_faces(
         SourceImage={
@@ -72,7 +75,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
     
     :type SourceImage: dict
     :param SourceImage: [REQUIRED]
-            Source image either as bytes or an S3 object
+            The source image, either as bytes or as an S3 object.
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.
@@ -83,7 +86,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
 
     :type TargetImage: dict
     :param TargetImage: [REQUIRED]
-            Target image either as bytes or an S3 object
+            The target image, either as bytes or as an S3 object.
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
             Bucket (string) --Name of the S3 bucket.
@@ -93,7 +96,7 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
             
 
     :type SimilarityThreshold: float
-    :param SimilarityThreshold: The minimum level of confidence in the match you want included in the result.
+    :param SimilarityThreshold: The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
 
     :rtype: dict
     :return: {
@@ -116,10 +119,55 @@ def compare_faces(SourceImage=None, TargetImage=None, SimilarityThreshold=None):
                         'Left': ...,
                         'Top': ...
                     },
-                    'Confidence': ...
+                    'Confidence': ...,
+                    'Landmarks': [
+                        {
+                            'Type': 'EYE_LEFT'|'EYE_RIGHT'|'NOSE'|'MOUTH_LEFT'|'MOUTH_RIGHT'|'LEFT_EYEBROW_LEFT'|'LEFT_EYEBROW_RIGHT'|'LEFT_EYEBROW_UP'|'RIGHT_EYEBROW_LEFT'|'RIGHT_EYEBROW_RIGHT'|'RIGHT_EYEBROW_UP'|'LEFT_EYE_LEFT'|'LEFT_EYE_RIGHT'|'LEFT_EYE_UP'|'LEFT_EYE_DOWN'|'RIGHT_EYE_LEFT'|'RIGHT_EYE_RIGHT'|'RIGHT_EYE_UP'|'RIGHT_EYE_DOWN'|'NOSE_LEFT'|'NOSE_RIGHT'|'MOUTH_UP'|'MOUTH_DOWN'|'LEFT_PUPIL'|'RIGHT_PUPIL',
+                            'X': ...,
+                            'Y': ...
+                        },
+                    ],
+                    'Pose': {
+                        'Roll': ...,
+                        'Yaw': ...,
+                        'Pitch': ...
+                    },
+                    'Quality': {
+                        'Brightness': ...,
+                        'Sharpness': ...
+                    }
                 }
             },
-        ]
+        ],
+        'UnmatchedFaces': [
+            {
+                'BoundingBox': {
+                    'Width': ...,
+                    'Height': ...,
+                    'Left': ...,
+                    'Top': ...
+                },
+                'Confidence': ...,
+                'Landmarks': [
+                    {
+                        'Type': 'EYE_LEFT'|'EYE_RIGHT'|'NOSE'|'MOUTH_LEFT'|'MOUTH_RIGHT'|'LEFT_EYEBROW_LEFT'|'LEFT_EYEBROW_RIGHT'|'LEFT_EYEBROW_UP'|'RIGHT_EYEBROW_LEFT'|'RIGHT_EYEBROW_RIGHT'|'RIGHT_EYEBROW_UP'|'LEFT_EYE_LEFT'|'LEFT_EYE_RIGHT'|'LEFT_EYE_UP'|'LEFT_EYE_DOWN'|'RIGHT_EYE_LEFT'|'RIGHT_EYE_RIGHT'|'RIGHT_EYE_UP'|'RIGHT_EYE_DOWN'|'NOSE_LEFT'|'NOSE_RIGHT'|'MOUTH_UP'|'MOUTH_DOWN'|'LEFT_PUPIL'|'RIGHT_PUPIL',
+                        'X': ...,
+                        'Y': ...
+                    },
+                ],
+                'Pose': {
+                    'Roll': ...,
+                    'Yaw': ...,
+                    'Pitch': ...
+                },
+                'Quality': {
+                    'Brightness': ...,
+                    'Sharpness': ...
+                }
+            },
+        ],
+        'SourceImageOrientationCorrection': 'ROTATE_0'|'ROTATE_90'|'ROTATE_180'|'ROTATE_270',
+        'TargetImageOrientationCorrection': 'ROTATE_0'|'ROTATE_90'|'ROTATE_180'|'ROTATE_270'
     }
     
     
@@ -134,6 +182,9 @@ def create_collection(CollectionId=None):
     This operation requires permissions to perform the rekognition:CreateCollection action.
     See also: AWS API Documentation
     
+    Examples
+    This operation creates a Rekognition collection for storing image data.
+    Expected Output:
     
     :example: response = client.create_collection(
         CollectionId='string'
@@ -161,6 +212,9 @@ def delete_collection(CollectionId=None):
     This operation requires permissions to perform the rekognition:DeleteCollection action.
     See also: AWS API Documentation
     
+    Examples
+    This operation deletes a Rekognition collection.
+    Expected Output:
     
     :example: response = client.delete_collection(
         CollectionId='string'
@@ -187,6 +241,9 @@ def delete_faces(CollectionId=None, FaceIds=None):
     This operation requires permissions to perform the rekognition:DeleteFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation deletes one or more faces from a Rekognition collection.
+    Expected Output:
     
     :example: response = client.delete_faces(
         CollectionId='string',
@@ -230,6 +287,9 @@ def detect_faces(Image=None, Attributes=None):
     This operation requires permissions to perform the rekognition:DetectFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation detects faces in an image stored in an AWS S3 bucket.
+    Expected Output:
     
     :example: response = client.detect_faces(
         Image={
@@ -258,8 +318,8 @@ def detect_faces(Image=None, Attributes=None):
             
 
     :type Attributes: list
-    :param Attributes: A list of facial attributes you would like to be returned. By default, the API returns subset of facial attributes.
-            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], the service uses a logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, Amazon Rekognition performs additional detection.
+    :param Attributes: An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ['DEFAULT'] , the API returns the following subset of facial attributes: BoundingBox , Confidence , Pose , Quality and Landmarks . If you provide ['ALL'] , all facial attributes are returned but the operation will take longer to complete.
+            If you provide both, ['ALL', 'DEFAULT'] , the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
             (string) --
             
 
@@ -272,6 +332,10 @@ def detect_faces(Image=None, Attributes=None):
                     'Height': ...,
                     'Left': ...,
                     'Top': ...
+                },
+                'AgeRange': {
+                    'Low': 123,
+                    'High': 123
                 },
                 'Smile': {
                     'Value': True|False,
@@ -348,6 +412,9 @@ def detect_labels(Image=None, MaxLabels=None, MinConfidence=None):
     This operation requires permissions to perform the rekognition:DetectLabels action.
     See also: AWS API Documentation
     
+    Examples
+    This operation detects labels in the supplied image
+    Expected Output:
     
     :example: response = client.detect_labels(
         Image={
@@ -379,7 +446,7 @@ def detect_labels(Image=None, MaxLabels=None, MinConfidence=None):
 
     :type MinConfidence: float
     :param MinConfidence: Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value.
-            If minConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 50 percent.
+            If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 50 percent.
             
 
     :rtype: dict
@@ -391,6 +458,62 @@ def detect_labels(Image=None, MaxLabels=None, MinConfidence=None):
             },
         ],
         'OrientationCorrection': 'ROTATE_0'|'ROTATE_90'|'ROTATE_180'|'ROTATE_270'
+    }
+    
+    
+    """
+    pass
+
+def detect_moderation_labels(Image=None, MinConfidence=None):
+    """
+    Detects explicit or suggestive adult content in a specified JPEG or PNG format image. Use DetectModerationLabels to moderate images depending on your requirements. For example, you might want to filter images that contain nudity, but not images containing suggestive content.
+    To filter images, use the labels returned by DetectModerationLabels to determine which types of content are appropriate. For information about moderation labels, see  howitworks-moderateimage .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.detect_moderation_labels(
+        Image={
+            'Bytes': b'bytes',
+            'S3Object': {
+                'Bucket': 'string',
+                'Name': 'string',
+                'Version': 'string'
+            }
+        },
+        MinConfidence=...
+    )
+    
+    
+    :type Image: dict
+    :param Image: [REQUIRED]
+            Provides the source image either as bytes or an S3 object.
+            You pass image bytes to a Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Rekognition API operations. For more information, see example4 .
+            You pass images stored in an S3 bucket to a Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded.
+            The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations.
+            If you use the Amazon CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property.
+            For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see manage-access-resource-policies .
+            Bytes (bytes) --Blob of image bytes up to 5 MBs.
+            S3Object (dict) --Identifies an S3 object as the image source.
+            Bucket (string) --Name of the S3 bucket.
+            Name (string) --S3 object key name.
+            Version (string) --If the bucket is versioning enabled, you can specify the object version.
+            
+            
+
+    :type MinConfidence: float
+    :param MinConfidence: Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value.
+            If you don't specify MinConfidence , the operation returns labels with confidence values greater than or equal to 50 percent.
+            
+
+    :rtype: dict
+    :return: {
+        'ModerationLabels': [
+            {
+                'Confidence': ...,
+                'Name': 'string',
+                'ParentName': 'string'
+            },
+        ]
     }
     
     
@@ -451,6 +574,9 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
     This operation requires permissions to perform the rekognition:IndexFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation detects faces in an image and adds them to the specified Rekognition collection.
+    Expected Output:
     
     :example: response = client.index_faces(
         CollectionId='string',
@@ -471,14 +597,16 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
     
     :type CollectionId: string
     :param CollectionId: [REQUIRED]
-            ID of an existing collection to which you want to add the faces that are detected in the input images.
+            The ID of an existing collection to which you want to add the faces that are detected in the input images.
             
 
     :type Image: dict
     :param Image: [REQUIRED]
             Provides the source image either as bytes or an S3 object.
+            You pass image bytes to a Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Rekognition API operations. For more information, see example4 .
+            You pass images stored in an S3 bucket to a Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded.
             The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations.
-            You may need to Base64-encode the image bytes depending on the language you are using and whether or not you are using the AWS SDK. For more information, see example4 .
+            If you use the Amazon CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property.
             For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see manage-access-resource-policies .
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.
@@ -492,8 +620,8 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
     :param ExternalImageId: ID you want to assign to all the faces detected in the image.
 
     :type DetectionAttributes: list
-    :param DetectionAttributes: (Optional) Returns detailed attributes of indexed faces. By default, the operation returns a subset of the facial attributes.
-            For example, you can specify the value as, ['ALL'] or ['DEFAULT']. If you provide both, ['ALL', 'DEFAULT'], Amazon Rekognition uses the logical AND operator to determine which attributes to return (in this case, it is all attributes). If you specify all attributes, the service performs additional detection, in addition to the default.
+    :param DetectionAttributes: An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ['DEFAULT'] , the API returns the following subset of facial attributes: BoundingBox , Confidence , Pose , Quality and Landmarks . If you provide ['ALL'] , all facial attributes are returned but the operation will take longer to complete.
+            If you provide both, ['ALL', 'DEFAULT'] , the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
             (string) --
             
 
@@ -519,6 +647,10 @@ def index_faces(CollectionId=None, Image=None, ExternalImageId=None, DetectionAt
                         'Height': ...,
                         'Left': ...,
                         'Top': ...
+                    },
+                    'AgeRange': {
+                        'Low': 123,
+                        'High': 123
                     },
                     'Smile': {
                         'Value': True|False,
@@ -592,6 +724,9 @@ def list_collections(NextToken=None, MaxResults=None):
     This operation requires permissions to perform the rekognition:ListCollections action.
     See also: AWS API Documentation
     
+    Examples
+    This operation returns a list of Rekognition collections.
+    Expected Output:
     
     :example: response = client.list_collections(
         NextToken='string',
@@ -626,6 +761,9 @@ def list_faces(CollectionId=None, NextToken=None, MaxResults=None):
     This operation requires permissions to perform the rekognition:ListFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation lists the faces in a Rekognition collection.
+    Expected Output:
     
     :example: response = client.list_faces(
         CollectionId='string',
@@ -676,6 +814,9 @@ def search_faces(CollectionId=None, FaceId=None, MaxFaces=None, FaceMatchThresho
     This operation requires permissions to perform the rekognition:SearchFaces action.
     See also: AWS API Documentation
     
+    Examples
+    This operation searches for matching faces in the collection the supplied face belongs to.
+    Expected Output:
     
     :example: response = client.search_faces(
         CollectionId='string',
@@ -735,6 +876,9 @@ def search_faces_by_image(CollectionId=None, Image=None, MaxFaces=None, FaceMatc
     This operation requires permissions to perform the rekognition:SearchFacesByImage action.
     See also: AWS API Documentation
     
+    Examples
+    This operation searches for faces in a Rekognition collection that match the largest face in an S3 bucket stored image.
+    Expected Output:
     
     :example: response = client.search_faces_by_image(
         CollectionId='string',
@@ -759,8 +903,10 @@ def search_faces_by_image(CollectionId=None, Image=None, MaxFaces=None, FaceMatc
     :type Image: dict
     :param Image: [REQUIRED]
             Provides the source image either as bytes or an S3 object.
+            You pass image bytes to a Rekognition API operation by using the Bytes property. For example, you would use the Bytes property to pass an image loaded from a local file system. Image bytes passed by using the Bytes property must be base64-encoded. Your code may not need to encode image bytes if you are using an AWS SDK to call Rekognition API operations. For more information, see example4 .
+            You pass images stored in an S3 bucket to a Rekognition API operation by using the S3Object property. Images stored in an S3 bucket do not need to be base64-encoded.
             The region for the S3 bucket containing the S3 object must match the region you use for Amazon Rekognition operations.
-            You may need to Base64-encode the image bytes depending on the language you are using and whether or not you are using the AWS SDK. For more information, see example4 .
+            If you use the Amazon CLI to call Amazon Rekognition operations, passing image bytes using the Bytes property is not supported. You must first upload the image to an Amazon S3 bucket and then call the operation using the S3Object property.
             For Amazon Rekognition to process an S3 object, the user must have permission to access the S3 object. For more information, see manage-access-resource-policies .
             Bytes (bytes) --Blob of image bytes up to 5 MBs.
             S3Object (dict) --Identifies an S3 object as the image source.

@@ -166,9 +166,9 @@ def create_campaign(ApplicationId=None, WriteCampaignRequest=None):
     :param ApplicationId: [REQUIRED]
 
     :type WriteCampaignRequest: dict
-    :param WriteCampaignRequest: [REQUIRED]
+    :param WriteCampaignRequest: [REQUIRED] Used to create a campaign.
             AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-            (dict) --
+            (dict) -- Used to create a campaign treatment.
             MessageConfiguration (dict) -- The message configuration settings.
             APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
             Action (string) -- The action that occurs if the user taps a push notification delivered by the campaign: OPEN_APP   Your app launches, or it becomes the foreground app if it has been sent to the background. This is the default action. DEEP_LINK   Uses deep linking features in iOS and Android to open your app and display a designated user interface within the app. URL   The default mobile browser on the user's device launches and opens a web page at the URL you specify.
@@ -403,9 +403,9 @@ def create_campaign(ApplicationId=None, WriteCampaignRequest=None):
     
     :returns: 
     (dict) -- 201 response
-    CampaignResponse (dict) --
+    CampaignResponse (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -721,6 +721,14 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Name': 'string'
@@ -732,11 +740,11 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
     :param ApplicationId: [REQUIRED]
 
     :type WriteSegmentRequest: dict
-    :param WriteSegmentRequest: [REQUIRED]
+    :param WriteSegmentRequest: [REQUIRED] Segment definition.
             Dimensions (dict) -- The segment dimensions attributes.
             Attributes (dict) -- Custom segment attributes.
             (string) --
-            (dict) --
+            (dict) -- Custom attibute dimension
             AttributeType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
             Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
             (string) --
@@ -776,6 +784,13 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
             Location (dict) -- The segment location attributes.
             Country (dict) -- The country filter according to ISO 3166-1 Alpha-2 codes.
             DimensionType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
+            Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+            (string) --
+            
+            UserAttributes (dict) -- Custom segment user attributes.
+            (string) --
+            (dict) -- Custom attibute dimension
+            AttributeType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
             Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
             (string) --
             
@@ -842,6 +857,14 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Id': 'string',
@@ -862,13 +885,13 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
     
     :returns: 
     (dict) -- 201 response
-    SegmentResponse (dict) --
+    SegmentResponse (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -936,6 +959,20 @@ def create_segment(ApplicationId=None, WriteSegmentRequest=None):
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     
@@ -1148,9 +1185,9 @@ def delete_campaign(ApplicationId=None, CampaignId=None):
     
     :returns: 
     (dict) -- 200 response
-    CampaignResponse (dict) --
+    CampaignResponse (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -1301,6 +1338,35 @@ def delete_campaign(ApplicationId=None, CampaignId=None):
     """
     pass
 
+def delete_event_stream(ApplicationId=None):
+    """
+    Deletes the event stream for an app.
+    
+    
+    :example: response = client.delete_event_stream(
+        ApplicationId='string'
+    )
+    
+    
+    :type ApplicationId: string
+    :param ApplicationId: [REQUIRED] ApplicationId
+
+    :rtype: dict
+    :return: {
+        'EventStream': {
+            'ApplicationId': 'string',
+            'DestinationStreamArn': 'string',
+            'ExternalId': 'string',
+            'LastModifiedDate': 'string',
+            'LastUpdatedBy': 'string',
+            'RoleArn': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
 def delete_gcm_channel(ApplicationId=None):
     """
     Deletes the GCM channel for an app.
@@ -1409,6 +1475,14 @@ def delete_segment(ApplicationId=None, SegmentId=None):
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Id': 'string',
@@ -1429,13 +1503,13 @@ def delete_segment(ApplicationId=None, SegmentId=None):
     
     :returns: 
     (dict) -- 200 response
-    SegmentResponse (dict) --
+    SegmentResponse (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -1503,6 +1577,20 @@ def delete_segment(ApplicationId=None, SegmentId=None):
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     
@@ -1770,9 +1858,9 @@ def get_campaign(ApplicationId=None, CampaignId=None):
     
     :returns: 
     (dict) -- 200 response
-    CampaignResponse (dict) --
+    CampaignResponse (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -1962,6 +2050,8 @@ def get_campaign_activities(ApplicationId=None, CampaignId=None, PageSize=None, 
                     'Start': 'string',
                     'State': 'string',
                     'SuccessfulEndpointCount': 123,
+                    'TimezonesCompletedCount': 123,
+                    'TimezonesTotalCount': 123,
                     'TotalEndpointCount': 123,
                     'TreatmentId': 'string'
                 },
@@ -1972,9 +2062,9 @@ def get_campaign_activities(ApplicationId=None, CampaignId=None, PageSize=None, 
     
     :returns: 
     (dict) -- 200 response
-    ActivitiesResponse (dict) --
+    ActivitiesResponse (dict) -- Activities for campaign.
     Item (list) -- List of campaign activities
-    (dict) --
+    (dict) -- Activity definition
     ApplicationId (string) -- The ID of the application to which the campaign applies.
     CampaignId (string) -- The ID of the campaign to which the activity applies.
     End (string) -- The actual time the activity was marked CANCELLED or COMPLETED. Provided in ISO 8601 format.
@@ -1984,6 +2074,8 @@ def get_campaign_activities(ApplicationId=None, CampaignId=None, PageSize=None, 
     Start (string) -- The actual start time of the activity in ISO 8601 format.
     State (string) -- The state of the activity. Valid values: PENDING, INITIALIZING, RUNNING, PAUSED, CANCELLED, COMPLETED
     SuccessfulEndpointCount (integer) -- The total number of endpoints to which the campaign successfully delivered messages.
+    TimezonesCompletedCount (integer) -- The total number of timezones completed.
+    TimezonesTotalCount (integer) -- The total number of unique timezones present in the segment.
     TotalEndpointCount (integer) -- The total number of endpoints to which the campaign attempts to deliver messages.
     TreatmentId (string) -- The ID of a variation of the campaign used for A/B testing.
     
@@ -2000,7 +2092,7 @@ def get_campaign_activities(ApplicationId=None, CampaignId=None, PageSize=None, 
 
 def get_campaign_version(ApplicationId=None, CampaignId=None, Version=None):
     """
-    Returns information about your campaign versions.
+    Returns information about a specific version of a campaign.
     
     
     :example: response = client.get_campaign_version(
@@ -2154,9 +2246,9 @@ def get_campaign_version(ApplicationId=None, CampaignId=None, Version=None):
     
     :returns: 
     (dict) -- 200 response
-    CampaignResponse (dict) --
+    CampaignResponse (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -2472,11 +2564,11 @@ def get_campaign_versions(ApplicationId=None, CampaignId=None, PageSize=None, To
     
     :returns: 
     (dict) -- 200 response
-    CampaignsResponse (dict) --
+    CampaignsResponse (dict) -- List of available campaigns.
     Item (list) -- A list of campaigns.
-    (dict) --
+    (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -2793,11 +2885,11 @@ def get_campaigns(ApplicationId=None, PageSize=None, Token=None):
     
     :returns: 
     (dict) -- 200 response
-    CampaignsResponse (dict) --
+    CampaignsResponse (dict) -- List of available campaigns.
     Item (list) -- A list of campaigns.
-    (dict) --
+    (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -3009,7 +3101,6 @@ def get_endpoint(ApplicationId=None, EndpointId=None):
             },
             'OptOut': 'string',
             'RequestId': 'string',
-            'ShardId': 'string',
             'User': {
                 'UserAttributes': {
                     'string': [
@@ -3017,15 +3108,16 @@ def get_endpoint(ApplicationId=None, EndpointId=None):
                     ]
                 },
                 'UserId': 'string'
-            }
+            },
+            'ShardId': 'string'
         }
     }
     
     
     :returns: 
     (dict) -- 200 response
-    EndpointResponse (dict) --
-    Address (string) -- The address or token of the endpoint.
+    EndpointResponse (dict) -- Endpoint response
+    Address (string) -- The address or token of the endpoint as provided by your push provider (e.g. DeviceToken or RegistrationId).
     ApplicationId (string) -- The ID of the application associated with the endpoint.
     Attributes (dict) -- Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
     (string) --
@@ -3072,9 +3164,8 @@ def get_endpoint(ApplicationId=None, EndpointId=None):
     
     OptOut (string) -- Indicates whether a user has opted out of receiving messages with one of the following values: ALL  User receives all messages. NONE  User receives no messages.
     RequestId (string) -- The unique ID for the most recent request to update the endpoint.
-    ShardId (string) -- The ShardId of endpoint
     User (dict) -- Custom user-specific attributes that your app reports to Amazon Pinpoint.
-    UserAttributes (dict) -- Custom attributesd specific to the user.
+    UserAttributes (dict) -- Custom attributes specific to the user.
     (string) --
     (list) --
     (string) --
@@ -3087,9 +3178,39 @@ def get_endpoint(ApplicationId=None, EndpointId=None):
     UserId (string) -- The unique ID of the user.
     
     
+    ShardId (string) -- The ShardId of endpoint
     
     
     
+    
+    
+    """
+    pass
+
+def get_event_stream(ApplicationId=None):
+    """
+    Returns the event stream for an app.
+    
+    
+    :example: response = client.get_event_stream(
+        ApplicationId='string'
+    )
+    
+    
+    :type ApplicationId: string
+    :param ApplicationId: [REQUIRED] ApplicationId
+
+    :rtype: dict
+    :return: {
+        'EventStream': {
+            'ApplicationId': 'string',
+            'DestinationStreamArn': 'string',
+            'ExternalId': 'string',
+            'LastModifiedDate': 'string',
+            'LastUpdatedBy': 'string',
+            'RoleArn': 'string'
+        }
+    }
     
     
     """
@@ -3271,7 +3392,7 @@ def get_import_jobs(ApplicationId=None, PageSize=None, Token=None):
     
     :returns: 
     (dict) -- 200 response
-    ImportJobsResponse (dict) --
+    ImportJobsResponse (dict) -- Import job list.
     Item (list) -- A list of import jobs for the application.
     (dict) --
     ApplicationId (string) -- The unique ID of the application to which the import job applies.
@@ -3405,6 +3526,14 @@ def get_segment(ApplicationId=None, SegmentId=None):
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Id': 'string',
@@ -3425,13 +3554,13 @@ def get_segment(ApplicationId=None, SegmentId=None):
     
     :returns: 
     (dict) -- 200 response
-    SegmentResponse (dict) --
+    SegmentResponse (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -3499,6 +3628,20 @@ def get_segment(ApplicationId=None, SegmentId=None):
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     
@@ -3591,7 +3734,7 @@ def get_segment_import_jobs(ApplicationId=None, PageSize=None, SegmentId=None, T
     
     :returns: 
     (dict) -- 200 response
-    ImportJobsResponse (dict) --
+    ImportJobsResponse (dict) -- Import job list.
     Item (list) -- A list of import jobs for the application.
     (dict) --
     ApplicationId (string) -- The unique ID of the application to which the import job applies.
@@ -3713,6 +3856,14 @@ def get_segment_version(ApplicationId=None, SegmentId=None, Version=None):
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Id': 'string',
@@ -3733,13 +3884,13 @@ def get_segment_version(ApplicationId=None, SegmentId=None, Version=None):
     
     :returns: 
     (dict) -- 200 response
-    SegmentResponse (dict) --
+    SegmentResponse (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -3807,6 +3958,20 @@ def get_segment_version(ApplicationId=None, SegmentId=None, Version=None):
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     
@@ -3922,6 +4087,14 @@ def get_segment_versions(ApplicationId=None, PageSize=None, SegmentId=None, Toke
                                     'string',
                                 ]
                             }
+                        },
+                        'UserAttributes': {
+                            'string': {
+                                'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                                'Values': [
+                                    'string',
+                                ]
+                            }
                         }
                     },
                     'Id': 'string',
@@ -3945,15 +4118,15 @@ def get_segment_versions(ApplicationId=None, PageSize=None, SegmentId=None, Toke
     
     :returns: 
     (dict) -- 200 response
-    SegmentsResponse (dict) --
+    SegmentsResponse (dict) -- Segments in your account.
     Item (list) -- The list of segments.
-    (dict) --
+    (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -4021,6 +4194,20 @@ def get_segment_versions(ApplicationId=None, PageSize=None, SegmentId=None, Toke
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     
@@ -4137,6 +4324,14 @@ def get_segments(ApplicationId=None, PageSize=None, Token=None):
                                     'string',
                                 ]
                             }
+                        },
+                        'UserAttributes': {
+                            'string': {
+                                'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                                'Values': [
+                                    'string',
+                                ]
+                            }
                         }
                     },
                     'Id': 'string',
@@ -4160,15 +4355,15 @@ def get_segments(ApplicationId=None, PageSize=None, Token=None):
     
     :returns: 
     (dict) -- 200 response
-    SegmentsResponse (dict) --
+    SegmentsResponse (dict) -- Segments in your account.
     Item (list) -- The list of segments.
-    (dict) --
+    (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -4242,6 +4437,20 @@ def get_segments(ApplicationId=None, PageSize=None, Token=None):
     
     
     
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     Id (string) -- The unique segment ID.
@@ -4276,6 +4485,61 @@ def get_waiter():
     """
     pass
 
+def put_event_stream(ApplicationId=None, WriteEventStream=None):
+    """
+    Use to create or update the event stream for an app.
+    
+    
+    :example: response = client.put_event_stream(
+        ApplicationId='string',
+        WriteEventStream={
+            'DestinationStreamArn': 'string',
+            'ExternalId': 'string',
+            'RoleArn': 'string'
+        }
+    )
+    
+    
+    :type ApplicationId: string
+    :param ApplicationId: [REQUIRED] ApplicationId
+
+    :type WriteEventStream: dict
+    :param WriteEventStream: [REQUIRED] EventStream to write.
+            DestinationStreamArn (string) -- The Amazon Resource Name (ARN) of the Amazon Kinesis stream or Firehose delivery stream to which you want to publish events. Firehose ARN: arn:aws:firehose:REGION:ACCOUNT_ID:deliverystream/STREAM_NAME Kinesis ARN: arn:aws:kinesis:REGION:ACCOUNT_ID:stream/STREAM_NAME
+            ExternalId (string) -- The external ID assigned the IAM role that authorizes Amazon Pinpoint to publish to the stream.
+            RoleArn (string) -- The IAM role that authorizes Amazon Pinpoint to publish events to the stream in your account.
+            
+
+    :rtype: dict
+    :return: {
+        'EventStream': {
+            'ApplicationId': 'string',
+            'DestinationStreamArn': 'string',
+            'ExternalId': 'string',
+            'LastModifiedDate': 'string',
+            'LastUpdatedBy': 'string',
+            'RoleArn': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    (dict) -- PutEventStream Response
+    EventStream (dict) -- Model for an event publishing subscription export.
+    ApplicationId (string) -- The ID of the application from which events should be published.
+    DestinationStreamArn (string) -- The Amazon Resource Name (ARN) of the Amazon Kinesis stream or Firehose delivery stream to which you want to publish events. Firehose ARN: arn:aws:firehose:REGION:ACCOUNT_ID:deliverystream/STREAM_NAME Kinesis ARN: arn:aws:kinesis:REGION:ACCOUNT_ID:stream/STREAM_NAME
+    ExternalId (string) -- The external ID assigned the IAM role that authorizes Amazon Pinpoint to publish to the stream.
+    LastModifiedDate (string) -- The date the event stream was last updated in ISO 8601 format.
+    LastUpdatedBy (string) -- The IAM user who last modified the event stream.
+    RoleArn (string) -- The IAM role that authorizes Amazon Pinpoint to publish events to the stream in your account.
+    
+    
+    
+    
+    
+    """
+    pass
+
 def update_apns_channel(APNSChannelRequest=None, ApplicationId=None):
     """
     Use to update the APNs channel for an app.
@@ -4291,7 +4555,7 @@ def update_apns_channel(APNSChannelRequest=None, ApplicationId=None):
     
     
     :type APNSChannelRequest: dict
-    :param APNSChannelRequest: [REQUIRED]
+    :param APNSChannelRequest: [REQUIRED] Apple Push Notification Service channel definition.
             Certificate (string) -- The distribution certificate from Apple.
             PrivateKey (string) -- The certificate private key.
             
@@ -4316,10 +4580,10 @@ def update_apns_channel(APNSChannelRequest=None, ApplicationId=None):
     
     :returns: 
     (dict) -- 200 response
-    APNSChannelResponse (dict) --
-    ApplicationId (string) --
+    APNSChannelResponse (dict) -- Apple Distribution Push Notification Service channel definition.
+    ApplicationId (string) -- The ID of the application to which the channel applies.
     CreationDate (string) -- When was this segment created
-    Id (string) --
+    Id (string) -- The unique channel ID.
     IsArchived (boolean) -- Is this channel archived
     LastModifiedBy (string) -- Who last updated this entry
     LastModifiedDate (string) -- Last date this was updated
@@ -4357,7 +4621,7 @@ def update_application_settings(ApplicationId=None, WriteApplicationSettingsRequ
     :param ApplicationId: [REQUIRED]
 
     :type WriteApplicationSettingsRequest: dict
-    :param WriteApplicationSettingsRequest: [REQUIRED]
+    :param WriteApplicationSettingsRequest: [REQUIRED] Creating application setting request
             Limits (dict) -- The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
             Daily (integer) -- The maximum number of messages that the campaign can send daily.
             Total (integer) -- The maximum total number of messages that the campaign can send.
@@ -4385,7 +4649,7 @@ def update_application_settings(ApplicationId=None, WriteApplicationSettingsRequ
     
     :returns: 
     (dict) -- 200 response
-    ApplicationSettingsResource (dict) --
+    ApplicationSettingsResource (dict) -- Application settings.
     ApplicationId (string) -- The unique ID for the application.
     LastModifiedDate (string) -- The date that the settings were last updated in ISO 8601 format.
     Limits (dict) -- The default campaign limits for the app. These limits apply to each campaign for the app, unless the campaign overrides the default with limits of its own.
@@ -4537,9 +4801,9 @@ def update_campaign(ApplicationId=None, CampaignId=None, WriteCampaignRequest=No
     :param CampaignId: [REQUIRED]
 
     :type WriteCampaignRequest: dict
-    :param WriteCampaignRequest: [REQUIRED]
+    :param WriteCampaignRequest: [REQUIRED] Used to create a campaign.
             AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-            (dict) --
+            (dict) -- Used to create a campaign treatment.
             MessageConfiguration (dict) -- The message configuration settings.
             APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
             Action (string) -- The action that occurs if the user taps a push notification delivered by the campaign: OPEN_APP   Your app launches, or it becomes the foreground app if it has been sent to the background. This is the default action. DEEP_LINK   Uses deep linking features in iOS and Android to open your app and display a designated user interface within the app. URL   The default mobile browser on the user's device launches and opens a web page at the URL you specify.
@@ -4774,9 +5038,9 @@ def update_campaign(ApplicationId=None, CampaignId=None, WriteCampaignRequest=No
     
     :returns: 
     (dict) -- 200 response
-    CampaignResponse (dict) --
+    CampaignResponse (dict) -- Campaign definition
     AdditionalTreatments (list) -- Treatments that are defined in addition to the default treatment.
-    (dict) --
+    (dict) -- Treatment resource
     Id (string) -- The unique treatment ID.
     MessageConfiguration (dict) -- The message configuration settings.
     APNSMessage (dict) -- The message that the campaign delivers to APNS channels. Overrides the default message.
@@ -4987,8 +5251,8 @@ def update_endpoint(ApplicationId=None, EndpointId=None, EndpointRequest=None):
     :param EndpointId: [REQUIRED]
 
     :type EndpointRequest: dict
-    :param EndpointRequest: [REQUIRED]
-            Address (string) -- The address or token of the endpoint.
+    :param EndpointRequest: [REQUIRED] Endpoint update request
+            Address (string) -- The address or token of the endpoint as provided by your push provider (e.g. DeviceToken or RegistrationId).
             Attributes (dict) -- Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
             (string) --
             (list) --
@@ -5020,7 +5284,7 @@ def update_endpoint(ApplicationId=None, EndpointId=None, EndpointRequest=None):
             OptOut (string) -- Indicates whether a user has opted out of receiving messages with one of the following values: ALL   User receives all messages. NONE   User receives no messages.
             RequestId (string) -- The unique ID for the most recent request to update the endpoint.
             User (dict) -- Custom user-specific attributes that your app reports to Amazon Pinpoint.
-            UserAttributes (dict) -- Custom attributesd specific to the user.
+            UserAttributes (dict) -- Custom attributes specific to the user.
             (string) --
             (list) --
             (string) --
@@ -5039,9 +5303,9 @@ def update_endpoint(ApplicationId=None, EndpointId=None, EndpointRequest=None):
     
     :returns: 
     (dict) -- 202 response
-    MessageBody (dict) --
-    Message (string) --
-    RequestID (string) --
+    MessageBody (dict) -- Simple message object.
+    Message (string) -- The error message returned from the API.
+    RequestID (string) -- The unique message body ID.
     
     
     
@@ -5052,7 +5316,7 @@ def update_endpoint(ApplicationId=None, EndpointId=None, EndpointRequest=None):
 
 def update_endpoints_batch(ApplicationId=None, EndpointBatchRequest=None):
     """
-    Use to update your endpoints.
+    Use to update a batch of endpoints.
     
     
     :example: response = client.update_endpoints_batch(
@@ -5111,10 +5375,10 @@ def update_endpoints_batch(ApplicationId=None, EndpointBatchRequest=None):
     :param ApplicationId: [REQUIRED]
 
     :type EndpointBatchRequest: dict
-    :param EndpointBatchRequest: [REQUIRED]
+    :param EndpointBatchRequest: [REQUIRED] Endpoint batch update request.
             Item (list) -- List of items to update. Maximum 100 items
-            (dict) --
-            Address (string) -- The address or token of the endpoint.
+            (dict) -- Endpoint update request
+            Address (string) -- The address or token of the endpoint as provided by your push provider (e.g. DeviceToken or RegistrationId).
             Attributes (dict) -- Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
             (string) --
             (list) --
@@ -5132,7 +5396,7 @@ def update_endpoints_batch(ApplicationId=None, EndpointBatchRequest=None):
             Timezone (string) -- The timezone of the endpoint. Specified as a tz database value, such as Americas/Los_Angeles.
             EffectiveDate (string) -- The last time the endpoint was updated. Provided in ISO 8601 format.
             EndpointStatus (string) -- The endpoint status. Can be either ACTIVE or INACTIVE. Will be set to INACTIVE if a delivery fails. Will be set to ACTIVE if the address is updated.
-            Id (string) --
+            Id (string) -- The unique Id for the Endpoint in the batch.
             Location (dict) -- The endpoint location attributes.
             City (string) -- The city where the endpoint is located.
             Country (string) -- Country according to ISO 3166-1 Alpha-2 codes. For example, US.
@@ -5147,7 +5411,7 @@ def update_endpoints_batch(ApplicationId=None, EndpointBatchRequest=None):
             OptOut (string) -- Indicates whether a user has opted out of receiving messages with one of the following values: ALL   User receives all messages. NONE   User receives no messages.
             RequestId (string) -- The unique ID for the most recent request to update the endpoint.
             User (dict) -- Custom user-specific attributes that your app reports to Amazon Pinpoint.
-            UserAttributes (dict) -- Custom attributesd specific to the user.
+            UserAttributes (dict) -- Custom attributes specific to the user.
             (string) --
             (list) --
             (string) --
@@ -5167,9 +5431,9 @@ def update_endpoints_batch(ApplicationId=None, EndpointBatchRequest=None):
     
     :returns: 
     (dict) -- 202 response
-    MessageBody (dict) --
-    Message (string) --
-    RequestID (string) --
+    MessageBody (dict) -- Simple message object.
+    Message (string) -- The error message returned from the API.
+    RequestID (string) -- The unique message body ID.
     
     
     
@@ -5195,7 +5459,7 @@ def update_gcm_channel(ApplicationId=None, GCMChannelRequest=None):
     :param ApplicationId: [REQUIRED]
 
     :type GCMChannelRequest: dict
-    :param GCMChannelRequest: [REQUIRED]
+    :param GCMChannelRequest: [REQUIRED] Google Cloud Messaging credentials
             ApiKey (string) -- Platform credential API key from Google.
             
 
@@ -5217,11 +5481,11 @@ def update_gcm_channel(ApplicationId=None, GCMChannelRequest=None):
     
     :returns: 
     (dict) -- 200 response
-    GCMChannelResponse (dict) --
-    ApplicationId (string) --
+    GCMChannelResponse (dict) -- Google Cloud Messaging channel definition
+    ApplicationId (string) -- The ID of the application to which the channel applies.
     CreationDate (string) -- When was this segment created
     Credential (string) -- The GCM API key from Google.
-    Id (string) --
+    Id (string) -- The unique channel ID.
     IsArchived (boolean) -- Is this channel archived
     LastModifiedBy (string) -- Who last updated this entry
     LastModifiedDate (string) -- Last date this was updated
@@ -5298,6 +5562,14 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Name': 'string'
@@ -5312,11 +5584,11 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
     :param SegmentId: [REQUIRED]
 
     :type WriteSegmentRequest: dict
-    :param WriteSegmentRequest: [REQUIRED]
+    :param WriteSegmentRequest: [REQUIRED] Segment definition.
             Dimensions (dict) -- The segment dimensions attributes.
             Attributes (dict) -- Custom segment attributes.
             (string) --
-            (dict) --
+            (dict) -- Custom attibute dimension
             AttributeType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
             Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
             (string) --
@@ -5356,6 +5628,13 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
             Location (dict) -- The segment location attributes.
             Country (dict) -- The country filter according to ISO 3166-1 Alpha-2 codes.
             DimensionType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
+            Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+            (string) --
+            
+            UserAttributes (dict) -- Custom segment user attributes.
+            (string) --
+            (dict) -- Custom attibute dimension
+            AttributeType (string) -- The type of dimension: INCLUSIVE   Endpoints that match the criteria are included in the segment. EXCLUSIVE   Endpoints that match the criteria are excluded from the segment.
             Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
             (string) --
             
@@ -5422,6 +5701,14 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
                             'string',
                         ]
                     }
+                },
+                'UserAttributes': {
+                    'string': {
+                        'AttributeType': 'INCLUSIVE'|'EXCLUSIVE',
+                        'Values': [
+                            'string',
+                        ]
+                    }
                 }
             },
             'Id': 'string',
@@ -5442,13 +5729,13 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
     
     :returns: 
     (dict) -- 200 response
-    SegmentResponse (dict) --
+    SegmentResponse (dict) -- Segment definition.
     ApplicationId (string) -- The ID of the application to which the segment applies.
     CreationDate (string) -- The date the segment was created in ISO 8601 format.
     Dimensions (dict) -- The segment dimensions attributes.
     Attributes (dict) -- Custom segment attributes.
     (string) --
-    (dict) --
+    (dict) -- Custom attibute dimension
     AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
@@ -5516,6 +5803,20 @@ def update_segment(ApplicationId=None, SegmentId=None, WriteSegmentRequest=None)
     DimensionType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
     Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
     (string) --
+    
+    
+    
+    
+    
+    
+    UserAttributes (dict) -- Custom segment user attributes.
+    (string) --
+    (dict) -- Custom attibute dimension
+    AttributeType (string) -- The type of dimension: INCLUSIVE  Endpoints that match the criteria are included in the segment. EXCLUSIVE  Endpoints that match the criteria are excluded from the segment.
+    Values (list) -- The criteria values for the segment dimension. Endpoints with matching attribute values are included or excluded from the segment, depending on the setting for Type.
+    (string) --
+    
+    
     
     
     

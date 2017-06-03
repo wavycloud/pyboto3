@@ -31,6 +31,9 @@ def add_tags(ResourceArns=None, Tags=None):
     To list the current tags for your resources, use  DescribeTags . To remove tags from your resources, use  RemoveTags .
     See also: AWS API Documentation
     
+    Examples
+    This example adds the specified tags to the specified load balancer.
+    Expected Output:
     
     :example: response = client.add_tags(
         ResourceArns=[
@@ -64,6 +67,9 @@ def add_tags(ResourceArns=None, Tags=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -90,6 +96,11 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
     For more information, see Listeners for Your Application Load Balancers in the Application Load Balancers Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates an HTTP listener for the specified load balancer that forwards requests to the specified target group.
+    Expected Output:
+    This example creates an HTTPS listener for the specified load balancer that forwards requests to the specified target group. Note that you must specify an SSL certificate for an HTTPS listener. You can create and manage certificates using AWS Certificate Manager (ACM). Alternatively, you can create a certificate using SSL/TLS tools, get the certificate signed by a certificate authority (CA), and upload the certificate to AWS Identity and Access Management (IAM).
+    Expected Output:
     
     :example: response = client.create_listener(
         LoadBalancerArn='string',
@@ -172,15 +183,20 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
     """
     pass
 
-def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=None, Tags=None):
+def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=None, Tags=None, IpAddressType=None):
     """
     Creates an Application Load Balancer.
-    To create listeners for your load balancer, use  CreateListener . You can add security groups, subnets, and tags when you create your load balancer, or you can add them later using  SetSecurityGroups ,  SetSubnets , and  AddTags .
-    To describe your current load balancers, see  DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using  DeleteLoadBalancer .
+    When you create a load balancer, you can specify security groups, subnets, IP address type, and tags. Otherwise, you could do so later using  SetSecurityGroups ,  SetSubnets ,  SetIpAddressType , and  AddTags .
+    To create listeners for your load balancer, use  CreateListener . To describe your current load balancers, see  DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using  DeleteLoadBalancer .
     You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide .
     For more information, see Application Load Balancers in the Application Load Balancers Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates an Internet-facing load balancer and enables the Availability Zones for the specified subnets.
+    Expected Output:
+    This example creates an internal load balancer and enables the Availability Zones for the specified subnets.
+    Expected Output:
     
     :example: response = client.create_load_balancer(
         Name='string',
@@ -196,14 +212,15 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
                 'Key': 'string',
                 'Value': 'string'
             },
-        ]
+        ],
+        IpAddressType='ipv4'|'dualstack'
     )
     
     
     :type Name: string
     :param Name: [REQUIRED]
             The name of the load balancer.
-            This name must be unique within your AWS account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
+            This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
             
 
     :type Subnets: list
@@ -231,6 +248,9 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
             
             
 
+    :type IpAddressType: string
+    :param IpAddressType: The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4 .
+
     :rtype: dict
     :return: {
         'LoadBalancers': [
@@ -255,7 +275,8 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
                 ],
                 'SecurityGroups': [
                     'string',
-                ]
+                ],
+                'IpAddressType': 'ipv4'|'dualstack'
             },
         ]
     }
@@ -274,6 +295,9 @@ def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
     To view your current rules, use  DescribeRules . To update a rule, use  ModifyRule . To set the priorities of your rules, use  SetRulePriorities . To delete a rule, use  DeleteRule .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a rule that forwards requests to the specified target group if the URL contains the specified pattern (for example, /img/*).
+    Expected Output:
     
     :example: response = client.create_rule(
         ListenerArn='string',
@@ -302,16 +326,27 @@ def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
 
     :type Conditions: list
     :param Conditions: [REQUIRED]
-            A condition. Each condition has the field path-pattern and specifies one path pattern. A path pattern is case sensitive, can be up to 255 characters in length, and can contain any of the following characters:
+            A condition. Each condition specifies a field name and a single value.
+            If the field name is host-header , you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
+            A-Z, a-z, 0-9
+            .
+            (matches 0 or more characters)
+            ? (matches exactly 1 character)
+            If the field name is path-pattern , you can specify a single path pattern. A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
             A-Z, a-z, 0-9
             _ - . $ / ~ ' ' @ : +
             (using amp;)
             (matches 0 or more characters)
             ? (matches exactly 1 character)
             (dict) --Information about a condition for a rule.
-            Field (string) --The only possible value is path-pattern .
-            Values (list) --The path pattern. You can specify a single path pattern.
-            A path pattern is case sensitive, can be up to 255 characters in length, and can contain any of the following characters:
+            Field (string) --The name of the field. The possible values are host-header and path-pattern .
+            Values (list) --The condition value.
+            If the field name is host-header , you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
+            A-Z, a-z, 0-9
+            .
+            (matches 0 or more characters)
+            ? (matches exactly 1 character)
+            If the field name is path-pattern , you can specify a single path pattern (for example, /img/*). A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
             A-Z, a-z, 0-9
             _ - . $ / ~ ' ' @ : +
             (using amp;)
@@ -363,8 +398,10 @@ def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
     
     :returns: 
     A-Z, a-z, 0-9
-    _ - . $ / ~ " ' @ : +
-    (using amp;)
+    
+    .
+    
+    
     
     (matches 0 or more characters)
     
@@ -383,6 +420,9 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
     For more information, see Target Groups for Your Application Load Balancers in the Application Load Balancers Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example creates a target group that you can use to route traffic to targets using HTTP on port 80. This target group uses the default health check configuration.
+    Expected Output:
     
     :example: response = client.create_target_group(
         Name='string',
@@ -405,6 +445,7 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
     :type Name: string
     :param Name: [REQUIRED]
             The name of the target group.
+            This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
             
 
     :type Protocol: string
@@ -445,7 +486,7 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
 
     :type Matcher: dict
     :param Matcher: The HTTP codes to use when checking for a successful response from a target. The default is 200.
-            HttpCode (string) -- [REQUIRED]The HTTP codes. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+            HttpCode (string) -- [REQUIRED]The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
             
 
     :rtype: dict
@@ -487,6 +528,9 @@ def delete_listener(ListenerArn=None):
     Alternatively, your listener is deleted when you delete the load balancer it is attached to using  DeleteLoadBalancer .
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified listener.
+    Expected Output:
     
     :example: response = client.delete_listener(
         ListenerArn='string'
@@ -512,6 +556,9 @@ def delete_load_balancer(LoadBalancerArn=None):
     Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified load balancer.
+    Expected Output:
     
     :example: response = client.delete_load_balancer(
         LoadBalancerArn='string'
@@ -535,6 +582,9 @@ def delete_rule(RuleArn=None):
     Deletes the specified rule.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified rule.
+    Expected Output:
     
     :example: response = client.delete_rule(
         RuleArn='string'
@@ -559,6 +609,9 @@ def delete_target_group(TargetGroupArn=None):
     You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks.
     See also: AWS API Documentation
     
+    Examples
+    This example deletes the specified target group.
+    Expected Output:
     
     :example: response = client.delete_target_group(
         TargetGroupArn='string'
@@ -582,6 +635,9 @@ def deregister_targets(TargetGroupArn=None, Targets=None):
     Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer.
     See also: AWS API Documentation
     
+    Examples
+    This example deregisters the specified instance from the specified target group.
+    Expected Output:
     
     :example: response = client.deregister_targets(
         TargetGroupArn='string',
@@ -612,6 +668,50 @@ def deregister_targets(TargetGroupArn=None, Targets=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def describe_account_limits(Marker=None, PageSize=None):
+    """
+    Describes the current Elastic Load Balancing resource limits for your AWS account.
+    For more information, see Limits for Your Application Load Balancer in the Application Load Balancer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_account_limits(
+        Marker='string',
+        PageSize=123
+    )
+    
+    
+    :type Marker: string
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+
+    :type PageSize: integer
+    :param PageSize: The maximum number of results to return with this call.
+
+    :rtype: dict
+    :return: {
+        'Limits': [
+            {
+                'Name': 'string',
+                'Max': 'string'
+            },
+        ],
+        'NextMarker': 'string'
+    }
+    
+    
+    :returns: 
+    application-load-balancers
+    listeners-per-application-load-balancer
+    rules-per-application-load-balancer
+    target-groups
+    targets-per-application-load-balancer
+    
     """
     pass
 
@@ -620,6 +720,9 @@ def describe_listeners(LoadBalancerArn=None, ListenerArns=None, Marker=None, Pag
     Describes the specified listeners or the listeners for the specified Application Load Balancer. You must specify either a load balancer or one or more listeners.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified listener.
+    Expected Output:
     
     :example: response = client.describe_listeners(
         LoadBalancerArn='string',
@@ -679,6 +782,9 @@ def describe_load_balancer_attributes(LoadBalancerArn=None):
     Describes the attributes for the specified Application Load Balancer.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the attributes of the specified load balancer.
+    Expected Output:
     
     :example: response = client.describe_load_balancer_attributes(
         LoadBalancerArn='string'
@@ -710,6 +816,9 @@ def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, Page
     To describe the listeners for a load balancer, use  DescribeListeners . To describe the attributes for a load balancer, use  DescribeLoadBalancerAttributes .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified load balancer.
+    Expected Output:
     
     :example: response = client.describe_load_balancers(
         LoadBalancerArns=[
@@ -724,7 +833,7 @@ def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, Page
     
     
     :type LoadBalancerArns: list
-    :param LoadBalancerArns: The Amazon Resource Names (ARN) of the load balancers.
+    :param LoadBalancerArns: The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
             (string) --
             
 
@@ -763,7 +872,8 @@ def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, Page
                 ],
                 'SecurityGroups': [
                     'string',
-                ]
+                ],
+                'IpAddressType': 'ipv4'|'dualstack'
             },
         ],
         'NextMarker': 'string'
@@ -776,17 +886,22 @@ def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, Page
     """
     pass
 
-def describe_rules(ListenerArn=None, RuleArns=None):
+def describe_rules(ListenerArn=None, RuleArns=None, Marker=None, PageSize=None):
     """
     Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified rule.
+    Expected Output:
     
     :example: response = client.describe_rules(
         ListenerArn='string',
         RuleArns=[
             'string',
-        ]
+        ],
+        Marker='string',
+        PageSize=123
     )
     
     
@@ -797,6 +912,12 @@ def describe_rules(ListenerArn=None, RuleArns=None):
     :param RuleArns: The Amazon Resource Names (ARN) of the rules.
             (string) --
             
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+
+    :type PageSize: integer
+    :param PageSize: The maximum number of results to return with this call.
 
     :rtype: dict
     :return: {
@@ -820,14 +941,17 @@ def describe_rules(ListenerArn=None, RuleArns=None):
                 ],
                 'IsDefault': True|False
             },
-        ]
+        ],
+        'NextMarker': 'string'
     }
     
     
     :returns: 
     A-Z, a-z, 0-9
-    _ - . $ / ~ " ' @ : +
-    (using amp;)
+    
+    .
+    
+    
     
     (matches 0 or more characters)
     
@@ -840,9 +964,12 @@ def describe_rules(ListenerArn=None, RuleArns=None):
 def describe_ssl_policies(Names=None, Marker=None, PageSize=None):
     """
     Describes the specified policies or all policies used for SSL negotiation.
-    Note that the only supported policy at this time is ELBSecurityPolicy-2015-05.
+    For more information, see Security Policies in the Application Load Balancers Guide .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified policy used for SSL negotiation.
+    Expected Output:
     
     :example: response = client.describe_ssl_policies(
         Names=[
@@ -892,9 +1019,12 @@ def describe_ssl_policies(Names=None, Marker=None, PageSize=None):
 
 def describe_tags(ResourceArns=None):
     """
-    Describes the tags for the specified resources.
+    Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers and target groups.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the tags assigned to the specified load balancer.
+    Expected Output:
     
     :example: response = client.describe_tags(
         ResourceArns=[
@@ -933,6 +1063,9 @@ def describe_target_group_attributes(TargetGroupArn=None):
     Describes the attributes for the specified target group.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the attributes of the specified target group.
+    Expected Output:
     
     :example: response = client.describe_target_group_attributes(
         TargetGroupArn='string'
@@ -964,6 +1097,9 @@ def describe_target_groups(LoadBalancerArn=None, TargetGroupArns=None, Names=Non
     To describe the targets for a target group, use  DescribeTargetHealth . To describe the attributes of a target group, use  DescribeTargetGroupAttributes .
     See also: AWS API Documentation
     
+    Examples
+    This example describes the specified target group.
+    Expected Output:
     
     :example: response = client.describe_target_groups(
         LoadBalancerArn='string',
@@ -1036,6 +1172,11 @@ def describe_target_health(TargetGroupArn=None, Targets=None):
     Describes the health of the specified targets or all of your targets.
     See also: AWS API Documentation
     
+    Examples
+    This example describes the health of the targets for the specified target group. One target is healthy but the other is not specified in an action, so it can't receive traffic from the load balancer.
+    Expected Output:
+    This example describes the health of the specified target. This target is healthy.
+    Expected Output:
     
     :example: response = client.describe_target_health(
         TargetGroupArn='string',
@@ -1134,9 +1275,14 @@ def get_waiter():
 def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, Certificates=None, DefaultActions=None):
     """
     Modifies the specified properties of the specified listener.
-    Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties. If you change the protocol from HTTP to HTTPS, you must add the security policy.
+    Any properties that you do not specify retain their current values. However, changing the protocol from HTTPS to HTTP removes the security policy and SSL certificate properties. If you change the protocol from HTTP to HTTPS, you must add the security policy and server certificate.
     See also: AWS API Documentation
     
+    Examples
+    This example changes the default action for the specified listener.
+    Expected Output:
+    This example changes the server certificate for the specified HTTPS listener.
+    Expected Output:
     
     :example: response = client.modify_listener(
         ListenerArn='string',
@@ -1169,7 +1315,7 @@ def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, 
     :param Protocol: The protocol for connections from clients to the load balancer.
 
     :type SslPolicy: string
-    :param SslPolicy: The security policy that defines which ciphers and protocols are supported.
+    :param SslPolicy: The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide .
 
     :type Certificates: list
     :param Certificates: The SSL server certificate.
@@ -1220,6 +1366,13 @@ def modify_load_balancer_attributes(LoadBalancerArn=None, Attributes=None):
     If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
     See also: AWS API Documentation
     
+    Examples
+    This example enables deletion protection for the specified load balancer.
+    Expected Output:
+    This example changes the idle timeout value for the specified load balancer.
+    Expected Output:
+    This example enables access logs for the specified load balancer. Note that the S3 bucket must exist in the same region as the load balancer and must have a policy attached that grants access to the Elastic Load Balancing service.
+    Expected Output:
     
     :example: response = client.modify_load_balancer_attributes(
         LoadBalancerArn='string',
@@ -1279,6 +1432,9 @@ def modify_rule(RuleArn=None, Conditions=None, Actions=None):
     To modify the default action, use  ModifyListener .
     See also: AWS API Documentation
     
+    Examples
+    This example modifies the condition for the specified rule.
+    Expected Output:
     
     :example: response = client.modify_rule(
         RuleArn='string',
@@ -1307,9 +1463,14 @@ def modify_rule(RuleArn=None, Conditions=None, Actions=None):
     :type Conditions: list
     :param Conditions: The conditions.
             (dict) --Information about a condition for a rule.
-            Field (string) --The only possible value is path-pattern .
-            Values (list) --The path pattern. You can specify a single path pattern.
-            A path pattern is case sensitive, can be up to 255 characters in length, and can contain any of the following characters:
+            Field (string) --The name of the field. The possible values are host-header and path-pattern .
+            Values (list) --The condition value.
+            If the field name is host-header , you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
+            A-Z, a-z, 0-9
+            .
+            (matches 0 or more characters)
+            ? (matches exactly 1 character)
+            If the field name is path-pattern , you can specify a single path pattern (for example, /img/*). A path pattern is case sensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
             A-Z, a-z, 0-9
             _ - . $ / ~ ' ' @ : +
             (using amp;)
@@ -1355,8 +1516,10 @@ def modify_rule(RuleArn=None, Conditions=None, Actions=None):
     
     :returns: 
     A-Z, a-z, 0-9
-    _ - . $ / ~ " ' @ : +
-    (using amp;)
+    
+    .
+    
+    
     
     (matches 0 or more characters)
     
@@ -1372,6 +1535,9 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
     To monitor the health of the targets, use  DescribeTargetHealth .
     See also: AWS API Documentation
     
+    Examples
+    This example changes the configuration of the health checks used to evaluate the health of the targets for the specified target group.
+    Expected Output:
     
     :example: response = client.modify_target_group(
         TargetGroupArn='string',
@@ -1416,7 +1582,7 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
 
     :type Matcher: dict
     :param Matcher: The HTTP codes to use when checking for a successful response from a target.
-            HttpCode (string) -- [REQUIRED]The HTTP codes. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+            HttpCode (string) -- [REQUIRED]The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
             
 
     :rtype: dict
@@ -1457,6 +1623,9 @@ def modify_target_group_attributes(TargetGroupArn=None, Attributes=None):
     Modifies the specified attributes of the specified target group.
     See also: AWS API Documentation
     
+    Examples
+    This example sets the deregistration delay timeout to the specified value for the specified target group.
+    Expected Output:
     
     :example: response = client.modify_target_group_attributes(
         TargetGroupArn='string',
@@ -1511,10 +1680,15 @@ def register_targets(TargetGroupArn=None, Targets=None):
     """
     Registers the specified targets with the specified target group.
     By default, the load balancer routes requests to registered targets using the protocol and port number for the target group. Alternatively, you can override the port for a target when you register it.
-    The target must be in the virtual private cloud (VPC) that you specified for the target group. If the target is an EC2 instance, it can't be in the stopped or running state when you register it.
+    The target must be in the virtual private cloud (VPC) that you specified for the target group. If the target is an EC2 instance, it must be in the running state when you register it.
     To remove a target from a target group, use  DeregisterTargets .
     See also: AWS API Documentation
     
+    Examples
+    This example registers the specified instances with the specified target group.
+    Expected Output:
+    This example registers the specified instance with the specified target group using multiple ports. This enables you to register ECS containers on the same instance as targets in the target group.
+    Expected Output:
     
     :example: response = client.register_targets(
         TargetGroupArn='string',
@@ -1545,6 +1719,9 @@ def register_targets(TargetGroupArn=None, Targets=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -1554,6 +1731,9 @@ def remove_tags(ResourceArns=None, TagKeys=None):
     To list the current tags for your resources, use  DescribeTags .
     See also: AWS API Documentation
     
+    Examples
+    This example removes the specified tags from the specified load balancer.
+    Expected Output:
     
     :example: response = client.remove_tags(
         ResourceArns=[
@@ -1581,6 +1761,40 @@ def remove_tags(ResourceArns=None, TagKeys=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def set_ip_address_type(LoadBalancerArn=None, IpAddressType=None):
+    """
+    Sets the type of IP addresses used by the subnets of the specified Application Load Balancer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.set_ip_address_type(
+        LoadBalancerArn='string',
+        IpAddressType='ipv4'|'dualstack'
+    )
+    
+    
+    :type LoadBalancerArn: string
+    :param LoadBalancerArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the load balancer.
+            
+
+    :type IpAddressType: string
+    :param IpAddressType: [REQUIRED]
+            The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4 .
+            
+
+    :rtype: dict
+    :return: {
+        'IpAddressType': 'ipv4'|'dualstack'
+    }
+    
+    
     """
     pass
 
@@ -1590,6 +1804,9 @@ def set_rule_priorities(RulePriorities=None):
     You can reorder the rules as long as there are no priority conflicts in the new order. Any existing rules that you do not specify retain their current priority.
     See also: AWS API Documentation
     
+    Examples
+    This example sets the priority of the specified rule.
+    Expected Output:
     
     :example: response = client.set_rule_priorities(
         RulePriorities=[
@@ -1637,7 +1854,14 @@ def set_rule_priorities(RulePriorities=None):
     
     
     :returns: 
-    (string) --
+    A-Z, a-z, 0-9
+    _ - . $ / ~ " ' @ : +
+    (using amp;)
+    
+    (matches 0 or more characters)
+    
+    
+    ? (matches exactly 1 character)
     
     """
     pass
@@ -1647,6 +1871,9 @@ def set_security_groups(LoadBalancerArn=None, SecurityGroups=None):
     Associates the specified security groups with the specified load balancer. The specified security groups override the previously associated security groups.
     See also: AWS API Documentation
     
+    Examples
+    This example associates the specified security group with the specified load balancer.
+    Expected Output:
     
     :example: response = client.set_security_groups(
         LoadBalancerArn='string',
@@ -1686,6 +1913,9 @@ def set_subnets(LoadBalancerArn=None, Subnets=None):
     Enables the Availability Zone for the specified subnets for the specified load balancer. The specified subnets replace the previously enabled subnets.
     See also: AWS API Documentation
     
+    Examples
+    This example enables the Availability Zones for the specified subnets for the specified load balancer.
+    Expected Output:
     
     :example: response = client.set_subnets(
         LoadBalancerArn='string',

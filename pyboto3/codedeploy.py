@@ -185,7 +185,8 @@ def batch_get_applications(applicationNames=None):
                 'applicationId': 'string',
                 'applicationName': 'string',
                 'createTime': datetime(2015, 1, 1),
-                'linkedToGitHub': True|False
+                'linkedToGitHub': True|False,
+                'gitHubAccountName': 'string'
             },
         ]
     }
@@ -267,7 +268,7 @@ def batch_get_deployment_groups(applicationName=None, deploymentGroupNames=None)
                         'triggerName': 'string',
                         'triggerTargetArn': 'string',
                         'triggerEvents': [
-                            'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure',
+                            'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'DeploymentReady'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure'|'InstanceReady',
                         ]
                     },
                 ],
@@ -285,6 +286,42 @@ def batch_get_deployment_groups(applicationName=None, deploymentGroupNames=None)
                     'events': [
                         'DEPLOYMENT_FAILURE'|'DEPLOYMENT_STOP_ON_ALARM'|'DEPLOYMENT_STOP_ON_REQUEST',
                     ]
+                },
+                'deploymentStyle': {
+                    'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+                    'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+                },
+                'blueGreenDeploymentConfiguration': {
+                    'terminateBlueInstancesOnDeploymentSuccess': {
+                        'action': 'TERMINATE'|'KEEP_ALIVE',
+                        'terminationWaitTimeInMinutes': 123
+                    },
+                    'deploymentReadyOption': {
+                        'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                        'waitTimeInMinutes': 123
+                    },
+                    'greenFleetProvisioningOption': {
+                        'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+                    }
+                },
+                'loadBalancerInfo': {
+                    'elbInfoList': [
+                        {
+                            'name': 'string'
+                        },
+                    ]
+                },
+                'lastSuccessfulDeployment': {
+                    'deploymentId': 'string',
+                    'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
+                    'endTime': datetime(2015, 1, 1),
+                    'createTime': datetime(2015, 1, 1)
+                },
+                'lastAttemptedDeployment': {
+                    'deploymentId': 'string',
+                    'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
+                    'endTime': datetime(2015, 1, 1),
+                    'createTime': datetime(2015, 1, 1)
                 }
             },
         ],
@@ -331,7 +368,7 @@ def batch_get_deployment_instances(deploymentId=None, instanceIds=None):
             {
                 'deploymentId': 'string',
                 'instanceId': 'string',
-                'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown',
+                'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown'|'Ready',
                 'lastUpdatedAt': datetime(2015, 1, 1),
                 'lifecycleEvents': [
                     {
@@ -346,7 +383,8 @@ def batch_get_deployment_instances(deploymentId=None, instanceIds=None):
                         'endTime': datetime(2015, 1, 1),
                         'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown'
                     },
-                ]
+                ],
+                'instanceType': 'Blue'|'Green'
             },
         ],
         'errorMessage': 'string'
@@ -390,6 +428,20 @@ def batch_get_deployments(deploymentIds=None):
                 'deploymentGroupName': 'string',
                 'deploymentConfigName': 'string',
                 'deploymentId': 'string',
+                'previousRevision': {
+                    'revisionType': 'S3'|'GitHub',
+                    's3Location': {
+                        'bucket': 'string',
+                        'key': 'string',
+                        'bundleType': 'tar'|'tgz'|'zip',
+                        'version': 'string',
+                        'eTag': 'string'
+                    },
+                    'gitHubLocation': {
+                        'repository': 'string',
+                        'commitId': 'string'
+                    }
+                },
                 'revision': {
                     'revisionType': 'S3'|'GitHub',
                     's3Location': {
@@ -404,7 +456,7 @@ def batch_get_deployments(deploymentIds=None):
                         'commitId': 'string'
                     }
                 },
-                'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped',
+                'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
                 'errorInformation': {
                     'code': 'DEPLOYMENT_GROUP_MISSING'|'APPLICATION_MISSING'|'REVISION_MISSING'|'IAM_ROLE_MISSING'|'IAM_ROLE_PERMISSIONS'|'NO_EC2_SUBSCRIPTION'|'OVER_MAX_INSTANCES'|'NO_INSTANCES'|'TIMEOUT'|'HEALTH_CONSTRAINTS_INVALID'|'HEALTH_CONSTRAINTS'|'INTERNAL_ERROR'|'THROTTLED'|'ALARM_ACTIVE'|'AGENT_ISSUE'|'AUTO_SCALING_IAM_ROLE_PERMISSIONS'|'AUTO_SCALING_CONFIGURATION'|'MANUAL_STOP',
                     'message': 'string'
@@ -417,7 +469,8 @@ def batch_get_deployments(deploymentIds=None):
                     'InProgress': 123,
                     'Succeeded': 123,
                     'Failed': 123,
-                    'Skipped': 123
+                    'Skipped': 123,
+                    'Ready': 123
                 },
                 'description': 'string',
                 'creator': 'user'|'autoscaling'|'codeDeployRollback',
@@ -433,7 +486,46 @@ def batch_get_deployments(deploymentIds=None):
                     'rollbackDeploymentId': 'string',
                     'rollbackTriggeringDeploymentId': 'string',
                     'rollbackMessage': 'string'
-                }
+                },
+                'deploymentStyle': {
+                    'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+                    'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+                },
+                'targetInstances': {
+                    'tagFilters': [
+                        {
+                            'Key': 'string',
+                            'Value': 'string',
+                            'Type': 'KEY_ONLY'|'VALUE_ONLY'|'KEY_AND_VALUE'
+                        },
+                    ],
+                    'autoScalingGroups': [
+                        'string',
+                    ]
+                },
+                'instanceTerminationWaitTimeStarted': True|False,
+                'blueGreenDeploymentConfiguration': {
+                    'terminateBlueInstancesOnDeploymentSuccess': {
+                        'action': 'TERMINATE'|'KEEP_ALIVE',
+                        'terminationWaitTimeInMinutes': 123
+                    },
+                    'deploymentReadyOption': {
+                        'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                        'waitTimeInMinutes': 123
+                    },
+                    'greenFleetProvisioningOption': {
+                        'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+                    }
+                },
+                'loadBalancerInfo': {
+                    'elbInfoList': [
+                        {
+                            'name': 'string'
+                        },
+                    ]
+                },
+                'additionalDeploymentStatusInfo': 'string',
+                'fileExistsBehavior': 'DISALLOW'|'OVERWRITE'|'RETAIN'
             },
         ]
     }
@@ -503,6 +595,23 @@ def can_paginate(operation_name=None):
     """
     pass
 
+def continue_deployment(deploymentId=None):
+    """
+    For a blue/green deployment, starts the process of rerouting traffic from instances in the original environment to instances in the replacement environment without waiting for a specified wait time to elapse. (Traffic rerouting, which is achieved by registering instances in the replacement environment with the load balancer, can start as soon as all instances have a status of Ready.)
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.continue_deployment(
+        deploymentId='string'
+    )
+    
+    
+    :type deploymentId: string
+    :param deploymentId: The deployment ID of the blue/green deployment for which you want to start rerouting traffic to the replacement environment.
+
+    """
+    pass
+
 def create_application(applicationName=None):
     """
     Creates an application.
@@ -528,7 +637,7 @@ def create_application(applicationName=None):
     """
     pass
 
-def create_deployment(applicationName=None, deploymentGroupName=None, revision=None, deploymentConfigName=None, description=None, ignoreApplicationStopFailures=None, autoRollbackConfiguration=None, updateOutdatedInstancesOnly=None):
+def create_deployment(applicationName=None, deploymentGroupName=None, revision=None, deploymentConfigName=None, description=None, ignoreApplicationStopFailures=None, targetInstances=None, autoRollbackConfiguration=None, updateOutdatedInstancesOnly=None, fileExistsBehavior=None):
     """
     Deploys an application revision through the specified deployment group.
     See also: AWS API Documentation
@@ -554,13 +663,26 @@ def create_deployment(applicationName=None, deploymentGroupName=None, revision=N
         deploymentConfigName='string',
         description='string',
         ignoreApplicationStopFailures=True|False,
+        targetInstances={
+            'tagFilters': [
+                {
+                    'Key': 'string',
+                    'Value': 'string',
+                    'Type': 'KEY_ONLY'|'VALUE_ONLY'|'KEY_AND_VALUE'
+                },
+            ],
+            'autoScalingGroups': [
+                'string',
+            ]
+        },
         autoRollbackConfiguration={
             'enabled': True|False,
             'events': [
                 'DEPLOYMENT_FAILURE'|'DEPLOYMENT_STOP_ON_ALARM'|'DEPLOYMENT_STOP_ON_REQUEST',
             ]
         },
-        updateOutdatedInstancesOnly=True|False
+        updateOutdatedInstancesOnly=True|False,
+        fileExistsBehavior='DISALLOW'|'OVERWRITE'|'RETAIN'
     )
     
     
@@ -608,6 +730,21 @@ def create_deployment(applicationName=None, deploymentGroupName=None, revision=N
             If set to false or not specified, then if the deployment causes the ApplicationStop deployment lifecycle event to fail to an instance, the deployment to that instance will stop, and the deployment to that instance will be considered to have failed.
             
 
+    :type targetInstances: dict
+    :param targetInstances: Information about the instances that will belong to the replacement environment in a blue/green deployment.
+            tagFilters (list) --The tag filter key, type, and value used to identify Amazon EC2 instances in a replacement environment for a blue/green deployment.
+            (dict) --Information about an EC2 tag filter.
+            Key (string) --The tag filter key.
+            Value (string) --The tag filter value.
+            Type (string) --The tag filter type:
+            KEY_ONLY: Key only.
+            VALUE_ONLY: Value only.
+            KEY_AND_VALUE: Key and value.
+            
+            autoScalingGroups (list) --The names of one or more Auto Scaling groups to identify a replacement environment for a blue/green deployment.
+            (string) --
+            
+
     :type autoRollbackConfiguration: dict
     :param autoRollbackConfiguration: Configuration information for an automatic rollback that is added when a deployment is created.
             enabled (boolean) --Indicates whether a defined automatic rollback configuration is currently enabled.
@@ -617,6 +754,14 @@ def create_deployment(applicationName=None, deploymentGroupName=None, revision=N
 
     :type updateOutdatedInstancesOnly: boolean
     :param updateOutdatedInstancesOnly: Indicates whether to deploy to all instances or only to instances that are not running the latest application revision.
+
+    :type fileExistsBehavior: string
+    :param fileExistsBehavior: Information about how AWS CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment.
+            The fileExistsBehavior parameter takes any of the following values:
+            DISALLOW: The deployment fails. This is also the default behavior if no option is specified.
+            OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.
+            RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
+            
 
     :rtype: dict
     :return: {
@@ -661,6 +806,7 @@ def create_deployment_config(deploymentConfigName=None, minimumHealthyHosts=None
             In an example of nine instance, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment will be successful if six or more instances are deployed to successfully; otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instance at a time. The deployment will be successful if four or more instance are deployed to successfully; otherwise, the deployment fails.
             Note
             In a call to the get deployment configuration operation, CodeDeployDefault.OneAtATime will return a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy will try to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment still succeeds.
+            For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide .
             
 
     :rtype: dict
@@ -672,7 +818,7 @@ def create_deployment_config(deploymentConfigName=None, minimumHealthyHosts=None
     """
     pass
 
-def create_deployment_group(applicationName=None, deploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None):
+def create_deployment_group(applicationName=None, deploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None, deploymentStyle=None, blueGreenDeploymentConfiguration=None, loadBalancerInfo=None):
     """
     Creates a deployment group to which application revisions will be deployed.
     See also: AWS API Documentation
@@ -705,7 +851,7 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
                 'triggerName': 'string',
                 'triggerTargetArn': 'string',
                 'triggerEvents': [
-                    'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure',
+                    'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'DeploymentReady'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure'|'InstanceReady',
                 ]
             },
         ],
@@ -722,6 +868,30 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
             'enabled': True|False,
             'events': [
                 'DEPLOYMENT_FAILURE'|'DEPLOYMENT_STOP_ON_ALARM'|'DEPLOYMENT_STOP_ON_REQUEST',
+            ]
+        },
+        deploymentStyle={
+            'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+            'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+        },
+        blueGreenDeploymentConfiguration={
+            'terminateBlueInstancesOnDeploymentSuccess': {
+                'action': 'TERMINATE'|'KEEP_ALIVE',
+                'terminationWaitTimeInMinutes': 123
+            },
+            'deploymentReadyOption': {
+                'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                'waitTimeInMinutes': 123
+            },
+            'greenFleetProvisioningOption': {
+                'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+            }
+        },
+        loadBalancerInfo={
+            'elbInfoList': [
+                {
+                    'name': 'string'
+                },
             ]
         }
     )
@@ -740,12 +910,12 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
     :type deploymentConfigName: string
     :param deploymentConfigName: If specified, the deployment configuration name can be either one of the predefined configurations provided with AWS CodeDeploy or a custom deployment configuration that you create by calling the create deployment configuration operation.
             CodeDeployDefault.OneAtATime is the default deployment configuration. It is used if a configuration isn't specified for the deployment or the deployment group.
-            For more information about the predefined deployment configurations in AWS CodeDeploy, see see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
+            For more information about the predefined deployment configurations in AWS CodeDeploy, see Working with Deployment Groups in AWS CodeDeploy in the AWS CodeDeploy User Guide.
             
 
     :type ec2TagFilters: list
-    :param ec2TagFilters: The Amazon EC2 tags on which to filter.
-            (dict) --Information about a tag filter.
+    :param ec2TagFilters: The Amazon EC2 tags on which to filter. The deployment group will include EC2 instances with any of the specified tags.
+            (dict) --Information about an EC2 tag filter.
             Key (string) --The tag filter key.
             Value (string) --The tag filter value.
             Type (string) --The tag filter type:
@@ -756,7 +926,7 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
             
 
     :type onPremisesInstanceTagFilters: list
-    :param onPremisesInstanceTagFilters: The on-premises instance tags on which to filter.
+    :param onPremisesInstanceTagFilters: The on-premises instance tags on which to filter. The deployment group will include on-premises instances with any of the specified tags.
             (dict) --Information about an on-premises instance tag filter.
             Key (string) --The on-premises instance tag filter key.
             Value (string) --The on-premises instance tag filter value.
@@ -804,6 +974,39 @@ def create_deployment_group(applicationName=None, deploymentGroupName=None, depl
             enabled (boolean) --Indicates whether a defined automatic rollback configuration is currently enabled.
             events (list) --The event type or types that trigger a rollback.
             (string) --
+            
+
+    :type deploymentStyle: dict
+    :param deploymentStyle: Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
+            deploymentType (string) --Indicates whether to run an in-place deployment or a blue/green deployment.
+            deploymentOption (string) --Indicates whether to route deployment traffic behind a load balancer.
+            
+
+    :type blueGreenDeploymentConfiguration: dict
+    :param blueGreenDeploymentConfiguration: Information about blue/green deployment options for a deployment group.
+            terminateBlueInstancesOnDeploymentSuccess (dict) --Information about whether to terminate instances in the original fleet during a blue/green deployment.
+            action (string) --The action to take on instances in the original environment after a successful blue/green deployment.
+            TERMINATE: Instances are terminated after a specified wait time.
+            KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.
+            terminationWaitTimeInMinutes (integer) --The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.
+            deploymentReadyOption (dict) --Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
+            actionOnTimeout (string) --Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.
+            CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.
+            STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.
+            waitTimeInMinutes (integer) --The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
+            greenFleetProvisioningOption (dict) --Information about how instances are provisioned for a replacement environment in a blue/green deployment.
+            action (string) --The method used to add instances to a replacement environment.
+            DISCOVER_EXISTING: Use instances that already exist or will be created manually.
+            COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.
+            
+            
+
+    :type loadBalancerInfo: dict
+    :param loadBalancerInfo: Information about the load balancer used in a deployment.
+            elbInfoList (list) --An array containing information about the load balancer in Elastic Load Balancing to use in a deployment.
+            (dict) --Information about a load balancer in Elastic Load Balancing to use in a deployment.
+            name (string) --For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
+            
             
 
     :rtype: dict
@@ -952,7 +1155,8 @@ def get_application(applicationName=None):
             'applicationId': 'string',
             'applicationName': 'string',
             'createTime': datetime(2015, 1, 1),
-            'linkedToGitHub': True|False
+            'linkedToGitHub': True|False,
+            'gitHubAccountName': 'string'
         }
     }
     
@@ -1073,6 +1277,20 @@ def get_deployment(deploymentId=None):
             'deploymentGroupName': 'string',
             'deploymentConfigName': 'string',
             'deploymentId': 'string',
+            'previousRevision': {
+                'revisionType': 'S3'|'GitHub',
+                's3Location': {
+                    'bucket': 'string',
+                    'key': 'string',
+                    'bundleType': 'tar'|'tgz'|'zip',
+                    'version': 'string',
+                    'eTag': 'string'
+                },
+                'gitHubLocation': {
+                    'repository': 'string',
+                    'commitId': 'string'
+                }
+            },
             'revision': {
                 'revisionType': 'S3'|'GitHub',
                 's3Location': {
@@ -1087,7 +1305,7 @@ def get_deployment(deploymentId=None):
                     'commitId': 'string'
                 }
             },
-            'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped',
+            'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
             'errorInformation': {
                 'code': 'DEPLOYMENT_GROUP_MISSING'|'APPLICATION_MISSING'|'REVISION_MISSING'|'IAM_ROLE_MISSING'|'IAM_ROLE_PERMISSIONS'|'NO_EC2_SUBSCRIPTION'|'OVER_MAX_INSTANCES'|'NO_INSTANCES'|'TIMEOUT'|'HEALTH_CONSTRAINTS_INVALID'|'HEALTH_CONSTRAINTS'|'INTERNAL_ERROR'|'THROTTLED'|'ALARM_ACTIVE'|'AGENT_ISSUE'|'AUTO_SCALING_IAM_ROLE_PERMISSIONS'|'AUTO_SCALING_CONFIGURATION'|'MANUAL_STOP',
                 'message': 'string'
@@ -1100,7 +1318,8 @@ def get_deployment(deploymentId=None):
                 'InProgress': 123,
                 'Succeeded': 123,
                 'Failed': 123,
-                'Skipped': 123
+                'Skipped': 123,
+                'Ready': 123
             },
             'description': 'string',
             'creator': 'user'|'autoscaling'|'codeDeployRollback',
@@ -1116,7 +1335,46 @@ def get_deployment(deploymentId=None):
                 'rollbackDeploymentId': 'string',
                 'rollbackTriggeringDeploymentId': 'string',
                 'rollbackMessage': 'string'
-            }
+            },
+            'deploymentStyle': {
+                'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+                'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+            },
+            'targetInstances': {
+                'tagFilters': [
+                    {
+                        'Key': 'string',
+                        'Value': 'string',
+                        'Type': 'KEY_ONLY'|'VALUE_ONLY'|'KEY_AND_VALUE'
+                    },
+                ],
+                'autoScalingGroups': [
+                    'string',
+                ]
+            },
+            'instanceTerminationWaitTimeStarted': True|False,
+            'blueGreenDeploymentConfiguration': {
+                'terminateBlueInstancesOnDeploymentSuccess': {
+                    'action': 'TERMINATE'|'KEEP_ALIVE',
+                    'terminationWaitTimeInMinutes': 123
+                },
+                'deploymentReadyOption': {
+                    'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                    'waitTimeInMinutes': 123
+                },
+                'greenFleetProvisioningOption': {
+                    'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+                }
+            },
+            'loadBalancerInfo': {
+                'elbInfoList': [
+                    {
+                        'name': 'string'
+                    },
+                ]
+            },
+            'additionalDeploymentStatusInfo': 'string',
+            'fileExistsBehavior': 'DISALLOW'|'OVERWRITE'|'RETAIN'
         }
     }
     
@@ -1231,7 +1489,7 @@ def get_deployment_group(applicationName=None, deploymentGroupName=None):
                     'triggerName': 'string',
                     'triggerTargetArn': 'string',
                     'triggerEvents': [
-                        'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure',
+                        'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'DeploymentReady'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure'|'InstanceReady',
                     ]
                 },
             ],
@@ -1249,6 +1507,42 @@ def get_deployment_group(applicationName=None, deploymentGroupName=None):
                 'events': [
                     'DEPLOYMENT_FAILURE'|'DEPLOYMENT_STOP_ON_ALARM'|'DEPLOYMENT_STOP_ON_REQUEST',
                 ]
+            },
+            'deploymentStyle': {
+                'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+                'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+            },
+            'blueGreenDeploymentConfiguration': {
+                'terminateBlueInstancesOnDeploymentSuccess': {
+                    'action': 'TERMINATE'|'KEEP_ALIVE',
+                    'terminationWaitTimeInMinutes': 123
+                },
+                'deploymentReadyOption': {
+                    'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                    'waitTimeInMinutes': 123
+                },
+                'greenFleetProvisioningOption': {
+                    'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+                }
+            },
+            'loadBalancerInfo': {
+                'elbInfoList': [
+                    {
+                        'name': 'string'
+                    },
+                ]
+            },
+            'lastSuccessfulDeployment': {
+                'deploymentId': 'string',
+                'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
+                'endTime': datetime(2015, 1, 1),
+                'createTime': datetime(2015, 1, 1)
+            },
+            'lastAttemptedDeployment': {
+                'deploymentId': 'string',
+                'status': 'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
+                'endTime': datetime(2015, 1, 1),
+                'createTime': datetime(2015, 1, 1)
             }
         }
     }
@@ -1289,7 +1583,7 @@ def get_deployment_instance(deploymentId=None, instanceId=None):
         'instanceSummary': {
             'deploymentId': 'string',
             'instanceId': 'string',
-            'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown',
+            'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown'|'Ready',
             'lastUpdatedAt': datetime(2015, 1, 1),
             'lifecycleEvents': [
                 {
@@ -1304,7 +1598,8 @@ def get_deployment_instance(deploymentId=None, instanceId=None):
                     'endTime': datetime(2015, 1, 1),
                     'status': 'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown'
                 },
-            ]
+            ],
+            'instanceType': 'Blue'|'Green'
         }
     }
     
@@ -1553,7 +1848,7 @@ def list_deployment_groups(applicationName=None, nextToken=None):
     """
     pass
 
-def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusFilter=None):
+def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusFilter=None, instanceTypeFilter=None):
     """
     Lists the instance for a deployment associated with the applicable IAM user or AWS account.
     See also: AWS API Documentation
@@ -1563,7 +1858,10 @@ def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusF
         deploymentId='string',
         nextToken='string',
         instanceStatusFilter=[
-            'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown',
+            'Pending'|'InProgress'|'Succeeded'|'Failed'|'Skipped'|'Unknown'|'Ready',
+        ],
+        instanceTypeFilter=[
+            'Blue'|'Green',
         ]
     )
     
@@ -1584,6 +1882,11 @@ def list_deployment_instances(deploymentId=None, nextToken=None, instanceStatusF
             Failed: Include those instance with failed deployments.
             Skipped: Include those instance with skipped deployments.
             Unknown: Include those instance with deployments in an unknown state.
+            (string) --
+            
+
+    :type instanceTypeFilter: list
+    :param instanceTypeFilter: The set of instances in a blue/green deployment, either those in the original environment ('BLUE') or those in the replacement environment ('GREEN'), for which you want to view instance information.
             (string) --
             
 
@@ -1612,7 +1915,7 @@ def list_deployments(applicationName=None, deploymentGroupName=None, includeOnly
         applicationName='string',
         deploymentGroupName='string',
         includeOnlyStatuses=[
-            'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped',
+            'Created'|'Queued'|'InProgress'|'Succeeded'|'Failed'|'Stopped'|'Ready',
         ],
         createTimeRange={
             'start': datetime(2015, 1, 1),
@@ -1663,6 +1966,32 @@ def list_deployments(applicationName=None, deploymentGroupName=None, includeOnly
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def list_git_hub_account_token_names(nextToken=None):
+    """
+    Lists the names of stored connections to GitHub accounts.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_git_hub_account_token_names(
+        nextToken='string'
+    )
+    
+    
+    :type nextToken: string
+    :param nextToken: An identifier returned from the previous ListGitHubAccountTokenNames call. It can be used to return the next set of names in the list.
+
+    :rtype: dict
+    :return: {
+        'tokenNameList': [
+            'string',
+        ],
+        'nextToken': 'string'
+    }
+    
     
     """
     pass
@@ -1848,6 +2177,23 @@ def remove_tags_from_on_premises_instances(tags=None, instanceNames=None):
     """
     pass
 
+def skip_wait_time_for_instance_termination(deploymentId=None):
+    """
+    In a blue/green deployment, overrides any specified wait time and starts terminating instances immediately after the traffic routing is completed.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.skip_wait_time_for_instance_termination(
+        deploymentId='string'
+    )
+    
+    
+    :type deploymentId: string
+    :param deploymentId: The ID of the blue/green deployment for which you want to skip the instance termination wait time.
+
+    """
+    pass
+
 def stop_deployment(deploymentId=None, autoRollbackEnabled=None):
     """
     Attempts to stop an ongoing deployment.
@@ -1903,7 +2249,7 @@ def update_application(applicationName=None, newApplicationName=None):
     """
     pass
 
-def update_deployment_group(applicationName=None, currentDeploymentGroupName=None, newDeploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None):
+def update_deployment_group(applicationName=None, currentDeploymentGroupName=None, newDeploymentGroupName=None, deploymentConfigName=None, ec2TagFilters=None, onPremisesInstanceTagFilters=None, autoScalingGroups=None, serviceRoleArn=None, triggerConfigurations=None, alarmConfiguration=None, autoRollbackConfiguration=None, deploymentStyle=None, blueGreenDeploymentConfiguration=None, loadBalancerInfo=None):
     """
     Changes information about a deployment group.
     See also: AWS API Documentation
@@ -1937,7 +2283,7 @@ def update_deployment_group(applicationName=None, currentDeploymentGroupName=Non
                 'triggerName': 'string',
                 'triggerTargetArn': 'string',
                 'triggerEvents': [
-                    'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure',
+                    'DeploymentStart'|'DeploymentSuccess'|'DeploymentFailure'|'DeploymentStop'|'DeploymentRollback'|'DeploymentReady'|'InstanceStart'|'InstanceSuccess'|'InstanceFailure'|'InstanceReady',
                 ]
             },
         ],
@@ -1954,6 +2300,30 @@ def update_deployment_group(applicationName=None, currentDeploymentGroupName=Non
             'enabled': True|False,
             'events': [
                 'DEPLOYMENT_FAILURE'|'DEPLOYMENT_STOP_ON_ALARM'|'DEPLOYMENT_STOP_ON_REQUEST',
+            ]
+        },
+        deploymentStyle={
+            'deploymentType': 'IN_PLACE'|'BLUE_GREEN',
+            'deploymentOption': 'WITH_TRAFFIC_CONTROL'|'WITHOUT_TRAFFIC_CONTROL'
+        },
+        blueGreenDeploymentConfiguration={
+            'terminateBlueInstancesOnDeploymentSuccess': {
+                'action': 'TERMINATE'|'KEEP_ALIVE',
+                'terminationWaitTimeInMinutes': 123
+            },
+            'deploymentReadyOption': {
+                'actionOnTimeout': 'CONTINUE_DEPLOYMENT'|'STOP_DEPLOYMENT',
+                'waitTimeInMinutes': 123
+            },
+            'greenFleetProvisioningOption': {
+                'action': 'DISCOVER_EXISTING'|'COPY_AUTO_SCALING_GROUP'
+            }
+        },
+        loadBalancerInfo={
+            'elbInfoList': [
+                {
+                    'name': 'string'
+                },
             ]
         }
     )
@@ -1977,7 +2347,7 @@ def update_deployment_group(applicationName=None, currentDeploymentGroupName=Non
 
     :type ec2TagFilters: list
     :param ec2TagFilters: The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
-            (dict) --Information about a tag filter.
+            (dict) --Information about an EC2 tag filter.
             Key (string) --The tag filter key.
             Value (string) --The tag filter value.
             Type (string) --The tag filter type:
@@ -2034,6 +2404,39 @@ def update_deployment_group(applicationName=None, currentDeploymentGroupName=Non
             enabled (boolean) --Indicates whether a defined automatic rollback configuration is currently enabled.
             events (list) --The event type or types that trigger a rollback.
             (string) --
+            
+
+    :type deploymentStyle: dict
+    :param deploymentStyle: Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
+            deploymentType (string) --Indicates whether to run an in-place deployment or a blue/green deployment.
+            deploymentOption (string) --Indicates whether to route deployment traffic behind a load balancer.
+            
+
+    :type blueGreenDeploymentConfiguration: dict
+    :param blueGreenDeploymentConfiguration: Information about blue/green deployment options for a deployment group.
+            terminateBlueInstancesOnDeploymentSuccess (dict) --Information about whether to terminate instances in the original fleet during a blue/green deployment.
+            action (string) --The action to take on instances in the original environment after a successful blue/green deployment.
+            TERMINATE: Instances are terminated after a specified wait time.
+            KEEP_ALIVE: Instances are left running after they are deregistered from the load balancer and removed from the deployment group.
+            terminationWaitTimeInMinutes (integer) --The number of minutes to wait after a successful blue/green deployment before terminating instances from the original environment.
+            deploymentReadyOption (dict) --Information about the action to take when newly provisioned instances are ready to receive traffic in a blue/green deployment.
+            actionOnTimeout (string) --Information about when to reroute traffic from an original environment to a replacement environment in a blue/green deployment.
+            CONTINUE_DEPLOYMENT: Register new instances with the load balancer immediately after the new application revision is installed on the instances in the replacement environment.
+            STOP_DEPLOYMENT: Do not register new instances with load balancer unless traffic is rerouted manually. If traffic is not rerouted manually before the end of the specified wait period, the deployment status is changed to Stopped.
+            waitTimeInMinutes (integer) --The number of minutes to wait before the status of a blue/green deployment changed to Stopped if rerouting is not started manually. Applies only to the STOP_DEPLOYMENT option for actionOnTimeout
+            greenFleetProvisioningOption (dict) --Information about how instances are provisioned for a replacement environment in a blue/green deployment.
+            action (string) --The method used to add instances to a replacement environment.
+            DISCOVER_EXISTING: Use instances that already exist or will be created manually.
+            COPY_AUTO_SCALING_GROUP: Use settings from a specified Auto Scaling group to define and create instances in a new Auto Scaling group.
+            
+            
+
+    :type loadBalancerInfo: dict
+    :param loadBalancerInfo: Information about the load balancer used in a deployment.
+            elbInfoList (list) --An array containing information about the load balancer in Elastic Load Balancing to use in a deployment.
+            (dict) --Information about a load balancer in Elastic Load Balancing to use in a deployment.
+            name (string) --For blue/green deployments, the name of the load balancer that will be used to route traffic from original instances to replacement instances in a blue/green deployment. For in-place deployments, the name of the load balancer that instances are deregistered from so they are not serving traffic during a deployment, and then re-registered with after the deployment completes.
+            
             
 
     :rtype: dict

@@ -134,6 +134,9 @@ def create_ip_set(Name=None, ChangeToken=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates an IP match set named MyIPSetFriendlyName.
+    Expected Output:
     
     :example: response = client.create_ip_set(
         Name='string',
@@ -186,6 +189,9 @@ def create_rule(Name=None, MetricName=None, ChangeToken=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a rule named WAFByteHeaderRule.
+    Expected Output:
     
     :example: response = client.create_rule(
         Name='string',
@@ -245,6 +251,9 @@ def create_size_constraint_set(Name=None, ChangeToken=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates size constraint set named MySampleSizeConstraintSet.
+    Expected Output:
     
     :example: response = client.create_size_constraint_set(
         Name='string',
@@ -301,6 +310,9 @@ def create_sql_injection_match_set(Name=None, ChangeToken=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a SQL injection match set named MySQLInjectionMatchSet.
+    Expected Output:
     
     :example: response = client.create_sql_injection_match_set(
         Name='string',
@@ -356,6 +368,9 @@ def create_web_acl(Name=None, MetricName=None, DefaultAction=None, ChangeToken=N
     For more information about how to use the AWS WAF API, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates a web ACL named CreateExample.
+    Expected Output:
     
     :example: response = client.create_web_acl(
         Name='string',
@@ -447,6 +462,9 @@ def create_xss_match_set(Name=None, ChangeToken=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example creates an XSS match set named MySampleXssMatchSet.
+    Expected Output:
     
     :example: response = client.create_xss_match_set(
         Name='string',
@@ -501,6 +519,9 @@ def delete_byte_match_set(ByteMatchSetId=None, ChangeToken=None):
     To permanently delete a ByteMatchSet , perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a byte match set with the ID exampleIDs3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.delete_byte_match_set(
         ByteMatchSetId='string',
@@ -542,6 +563,9 @@ def delete_ip_set(IPSetId=None, ChangeToken=None):
     To permanently delete an IPSet from AWS WAF, perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an IP match set  with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.delete_ip_set(
         IPSetId='string',
@@ -583,6 +607,9 @@ def delete_rule(RuleId=None, ChangeToken=None):
     To permanently delete a Rule from AWS WAF, perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a rule with the ID WAFRule-1-Example.
+    Expected Output:
     
     :example: response = client.delete_rule(
         RuleId='string',
@@ -624,6 +651,9 @@ def delete_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None):
     To permanently delete a SizeConstraintSet , perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a size constraint set  with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.delete_size_constraint_set(
         SizeConstraintSetId='string',
@@ -665,6 +695,9 @@ def delete_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
     To permanently delete a SqlInjectionMatchSet from AWS WAF, perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a SQL injection match set  with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.delete_sql_injection_match_set(
         SqlInjectionMatchSetId='string',
@@ -705,6 +738,9 @@ def delete_web_acl(WebACLId=None, ChangeToken=None):
     To delete a WebACL , perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a web ACL with the ID example-46da-4444-5555-example.
+    Expected Output:
     
     :example: response = client.delete_web_acl(
         WebACLId='string',
@@ -746,6 +782,9 @@ def delete_xss_match_set(XssMatchSetId=None, ChangeToken=None):
     To permanently delete an XssMatchSet from AWS WAF, perform the following steps:
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an XSS match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.delete_xss_match_set(
         XssMatchSetId='string',
@@ -830,6 +869,9 @@ def get_byte_match_set(ByteMatchSetId=None):
     Returns the  ByteMatchSet specified by ByteMatchSetId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a byte match set with the ID exampleIDs3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_byte_match_set(
         ByteMatchSetId='string'
@@ -878,6 +920,9 @@ def get_change_token():
     When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING , which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the status of your change token.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns a change token to use for a create, update or delete operation.
+    Expected Output:
     
     :example: response = client.get_change_token()
     
@@ -896,6 +941,9 @@ def get_change_token_status(ChangeToken=None):
     Returns the status of a ChangeToken that you got by calling  GetChangeToken . ChangeTokenStatus is one of the following values:
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the status of a change token with the ID abcd12f2-46da-4fdb-b8d5-fbd4c466928f.
+    Expected Output:
     
     :example: response = client.get_change_token_status(
         ChangeToken='string'
@@ -921,6 +969,9 @@ def get_ip_set(IPSetId=None):
     Returns the  IPSet that is specified by IPSetId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of an IP match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_ip_set(
         IPSetId='string'
@@ -975,6 +1026,9 @@ def get_rule(RuleId=None):
     Returns the  Rule that is specified by the RuleId that you included in the GetRule request.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a rule with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_rule(
         RuleId='string'
@@ -1008,9 +1062,12 @@ def get_rule(RuleId=None):
 
 def get_sampled_requests(WebAclId=None, RuleId=None, TimeWindow=None, MaxItems=None):
     """
-    Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 100 requests, and you can specify any time range in the previous three hours.
+    Gets detailed information about a specified number of requests--a sample--that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received during a time range that you choose. You can specify a sample size of up to 500 requests, and you can specify any time range in the previous three hours.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns detailed information about 100 requests --a sample-- that AWS WAF randomly selects from among the first 5,000 requests that your AWS resource received between the time period 2016-09-27T15:50Z to 2016-09-27T15:50Z.
+    Expected Output:
     
     :example: response = client.get_sampled_requests(
         WebAclId='string',
@@ -1089,6 +1146,9 @@ def get_size_constraint_set(SizeConstraintSetId=None):
     Returns the  SizeConstraintSet specified by SizeConstraintSetId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a size constraint match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_size_constraint_set(
         SizeConstraintSetId='string'
@@ -1135,6 +1195,9 @@ def get_sql_injection_match_set(SqlInjectionMatchSetId=None):
     Returns the  SqlInjectionMatchSet that is specified by SqlInjectionMatchSetId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a SQL injection match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_sql_injection_match_set(
         SqlInjectionMatchSetId='string'
@@ -1185,6 +1248,9 @@ def get_web_acl(WebACLId=None):
     Returns the  WebACL that is specified by WebACLId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of a web ACL with the ID createwebacl-1472061481310.
+    Expected Output:
     
     :example: response = client.get_web_acl(
         WebACLId='string'
@@ -1259,6 +1325,9 @@ def get_xss_match_set(XssMatchSetId=None):
     Returns the  XssMatchSet that is specified by XssMatchSetId .
     See also: AWS API Documentation
     
+    Examples
+    The following example returns the details of an XSS match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.get_xss_match_set(
         XssMatchSetId='string'
@@ -1336,6 +1405,9 @@ def list_ip_sets(NextMarker=None, Limit=None):
     Returns an array of  IPSetSummary objects in the response.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 IP match sets.
+    Expected Output:
     
     :example: response = client.list_ip_sets(
         NextMarker='string',
@@ -1396,6 +1468,9 @@ def list_rules(NextMarker=None, Limit=None):
     Returns an array of  RuleSummary objects.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 rules.
+    Expected Output:
     
     :example: response = client.list_rules(
         NextMarker='string',
@@ -1429,6 +1504,9 @@ def list_size_constraint_sets(NextMarker=None, Limit=None):
     Returns an array of  SizeConstraintSetSummary objects.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 size contraint match sets.
+    Expected Output:
     
     :example: response = client.list_size_constraint_sets(
         NextMarker='string',
@@ -1462,6 +1540,9 @@ def list_sql_injection_match_sets(NextMarker=None, Limit=None):
     Returns an array of  SqlInjectionMatchSet objects.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 SQL injection match sets.
+    Expected Output:
     
     :example: response = client.list_sql_injection_match_sets(
         NextMarker='string',
@@ -1495,6 +1576,9 @@ def list_web_acls(NextMarker=None, Limit=None):
     Returns an array of  WebACLSummary objects in the response.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 web ACLs.
+    Expected Output:
     
     :example: response = client.list_web_acls(
         NextMarker='string',
@@ -1528,6 +1612,9 @@ def list_xss_match_sets(NextMarker=None, Limit=None):
     Returns an array of  XssMatchSet objects.
     See also: AWS API Documentation
     
+    Examples
+    The following example returns an array of up to 100 XSS match sets.
+    Expected Output:
     
     :example: response = client.list_xss_match_sets(
         NextMarker='string',
@@ -1564,6 +1651,9 @@ def update_byte_match_set(ByteMatchSetId=None, ChangeToken=None, Updates=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a ByteMatchTuple object (filters) in an byte match set with the ID exampleIDs3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_byte_match_set(
         ByteMatchSetId='string',
@@ -1699,6 +1789,9 @@ def update_ip_set(IPSetId=None, ChangeToken=None, Updates=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an IPSetDescriptor object in an IP match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_ip_set(
         IPSetId='string',
@@ -1768,6 +1861,9 @@ def update_rule(RuleId=None, ChangeToken=None, Updates=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a Predicate object in a rule with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_rule(
         RuleId='string',
@@ -1835,6 +1931,9 @@ def update_size_constraint_set(SizeConstraintSetId=None, ChangeToken=None, Updat
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a SizeConstraint object (filters) in a size constraint set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_size_constraint_set(
         SizeConstraintSetId='string',
@@ -1949,6 +2048,9 @@ def update_sql_injection_match_set(SqlInjectionMatchSetId=None, ChangeToken=None
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes a SqlInjectionMatchTuple object (filters) in a SQL injection match set with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_sql_injection_match_set(
         SqlInjectionMatchSetId='string',
@@ -2050,6 +2152,9 @@ def update_web_acl(WebACLId=None, ChangeToken=None, Updates=None, DefaultAction=
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an ActivatedRule object in a WebACL with the ID webacl-1472061481310.
+    Expected Output:
     
     :example: response = client.update_web_acl(
         WebACLId='string',
@@ -2138,6 +2243,9 @@ def update_xss_match_set(XssMatchSetId=None, ChangeToken=None, Updates=None):
     For more information about how to use the AWS WAF API to allow or block HTTP requests, see the AWS WAF Developer Guide .
     See also: AWS API Documentation
     
+    Examples
+    The following example deletes an XssMatchTuple object (filters) in an XssMatchSet with the ID example1ds3t-46da-4fdb-b8d5-abc321j569j5.
+    Expected Output:
     
     :example: response = client.update_xss_match_set(
         XssMatchSetId='string',

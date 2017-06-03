@@ -53,11 +53,8 @@ def check_domain_availability(DomainName=None, IdnLangCode=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
+            The name of the domain that you want to get availability for.
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
             
 
     :type IdnLangCode: string
@@ -68,16 +65,6 @@ def check_domain_availability(DomainName=None, IdnLangCode=None):
         'Availability': 'AVAILABLE'|'AVAILABLE_RESERVED'|'AVAILABLE_PREORDER'|'UNAVAILABLE'|'UNAVAILABLE_PREMIUM'|'UNAVAILABLE_RESTRICTED'|'RESERVED'|'DONT_KNOW'
     }
     
-    
-    :returns: 
-    AVAILABLE  The domain name is available.
-    AVAILABLE_RESERVED  The domain name is reserved under specific conditions.
-    AVAILABLE_PREORDER  The domain name is available and can be preordered.
-    UNAVAILABLE  The domain name is not available.
-    UNAVAILABLE_PREMIUM  The domain name is not available.
-    UNAVAILABLE_RESTRICTED  The domain name is forbidden.
-    RESERVED  The domain name has been reserved for another person or organization.
-    DONT_KNOW  The TLD registry didn't reply with a definitive answer about whether the domain name is available. Amazon Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later.
     
     """
     pass
@@ -100,20 +87,11 @@ def delete_tags_for_domain(DomainName=None, TagsToDelete=None):
     :type DomainName: string
     :param DomainName: [REQUIRED]
             The domain for which you want to delete one or more tags.
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when theyre surrounded by letters, numbers, or other hyphens. You cant specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode.
-            Required: Yes
             
 
     :type TagsToDelete: list
     :param TagsToDelete: [REQUIRED]
             A list of tag keys to delete.
-            Type: A list that contains the keys of the tags that you want to delete.
-            Default: None
-            Required: No
-            '>
             (string) --
             
 
@@ -140,6 +118,8 @@ def disable_domain_auto_renew(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
+            The name of the domain that you want to disable automatic renewal for.
+            
 
     :rtype: dict
     :return: {}
@@ -161,11 +141,7 @@ def disable_domain_transfer_lock(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to remove the transfer lock for.
             
 
     :rtype: dict
@@ -191,6 +167,8 @@ def enable_domain_auto_renew(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
+            The name of the domain that you want to enable automatic renewal for.
+            
 
     :rtype: dict
     :return: {}
@@ -212,11 +190,7 @@ def enable_domain_transfer_lock(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to set the transfer lock for.
             
 
     :rtype: dict
@@ -264,10 +238,6 @@ def get_contact_reachability_status(domainName=None):
     
     :type domainName: string
     :param domainName: The name of the domain for which you want to know whether the registrant contact has confirmed that the email address is valid.
-            Type: String
-            Default: None
-            Required: Yes
-            
 
     :rtype: dict
     :return: {
@@ -281,7 +251,7 @@ def get_contact_reachability_status(domainName=None):
 
 def get_domain_detail(DomainName=None):
     """
-    This operation returns detailed information about the domain. The domain's contact information is also returned as part of the output.
+    This operation returns detailed information about a specified domain that is associated with the current AWS account. Contact information for the domain is also returned as part of the output.
     See also: AWS API Documentation
     
     
@@ -292,11 +262,7 @@ def get_domain_detail(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to get detailed information about.
             
 
     :rtype: dict
@@ -403,7 +369,6 @@ def get_domain_detail(DomainName=None):
 def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=None):
     """
     The GetDomainSuggestions operation returns a list of suggested domain names given a string, which can either be a domain name or simply a word or phrase (without spaces).
-    Parameters:
     See also: AWS API Documentation
     
     
@@ -416,12 +381,18 @@ def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
+            A domain name that you want to use as the basis for a list of possible domain names. The domain name must contain a top-level domain (TLD), such as .com, that Amazon Route 53 supports. For a list of TLDs, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide .
+            
 
     :type SuggestionCount: integer
     :param SuggestionCount: [REQUIRED]
+            The number of suggested domain names that you want Amazon Route 53 to return.
+            
 
     :type OnlyAvailable: boolean
     :param OnlyAvailable: [REQUIRED]
+            If OnlyAvailable is true , Amazon Route 53 returns only domain names that are available. If OnlyAvailable is false , Amazon Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
+            
 
     :rtype: dict
     :return: {
@@ -433,11 +404,6 @@ def get_domain_suggestions(DomainName=None, SuggestionCount=None, OnlyAvailable=
         ]
     }
     
-    
-    :returns: 
-    DomainName (string) -- [REQUIRED]
-    SuggestionCount (integer) -- [REQUIRED]
-    OnlyAvailable (boolean) -- [REQUIRED]
     
     """
     pass
@@ -456,9 +422,6 @@ def get_operation_detail(OperationId=None):
     :type OperationId: string
     :param OperationId: [REQUIRED]
             The identifier for the operation for which you want to get the status. Amazon Route 53 returned the identifier in the response to the original request.
-            Type: String
-            Default: None
-            Required: Yes
             
 
     :rtype: dict
@@ -511,18 +474,12 @@ def list_domains(Marker=None, MaxItems=None):
     
     :type Marker: string
     :param Marker: For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems , you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
-            Type: String
-            Default: None
             Constraints: The marker must match the value specified in the previous request.
-            Required: No
             
 
     :type MaxItems: integer
     :param MaxItems: Number of domains to be returned.
-            Type: Integer
             Default: 20
-            Constraints: A numeral between 1 and 100.
-            Required: No
             
 
     :rtype: dict
@@ -556,17 +513,10 @@ def list_operations(Marker=None, MaxItems=None):
     
     :type Marker: string
     :param Marker: For an initial request for a list of operations, omit this element. If the number of operations that are not yet complete is greater than the value that you specified for MaxItems , you can use Marker to return additional operations. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
-            Type: String
-            Default: None
-            Required: No
-            
 
     :type MaxItems: integer
     :param MaxItems: Number of domains to be returned.
-            Type: Integer
             Default: 20
-            Constraints: A value between 1 and 100.
-            Required: No
             
 
     :rtype: dict
@@ -700,11 +650,8 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
+            The domain name that you want to register.
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
             
 
     :type IdnLangCode: string
@@ -712,364 +659,103 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
 
     :type DurationInYears: integer
     :param DurationInYears: [REQUIRED]
-            The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
-            Type: Integer
+            The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide .
             Default: 1
-            Valid values: Integer from 1 to 10
-            Required: Yes
             
 
     :type AutoRenew: boolean
     :param AutoRenew: Indicates whether the domain will be automatically renewed (true ) or not (false ). Autorenewal only takes effect after the account is charged.
-            Type: Boolean
-            Valid values: true | false
             Default: true
-            Required: No
             
 
     :type AdminContact: dict
     :param AdminContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type RegistrantContact: dict
     :param RegistrantContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type TechContact: dict
     :param TechContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type PrivacyProtectAdminContact: boolean
-    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :type PrivacyProtectRegistrantContact: boolean
-    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :type PrivacyProtectTechContact: boolean
-    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :rtype: dict
@@ -1080,146 +766,55 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     
     :returns: 
     DomainName (string) -- [REQUIRED]
-    The name of a domain.
-    Type: String
-    Default: None
+    The domain name that you want to register.
     Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-    Required: Yes
     
     IdnLangCode (string) -- Reserved for future use.
     DurationInYears (integer) -- [REQUIRED]
-    The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
-    Type: Integer
+    The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide .
     Default: 1
-    Valid values: Integer from 1 to 10
-    Required: Yes
     
     AutoRenew (boolean) -- Indicates whether the domain will be automatically renewed (true ) or not (false ). Autorenewal only takes effect after the account is charged.
-    Type: Boolean
-    Valid values: true | false
     Default: true
-    Required: No
     
     AdminContact (dict) -- [REQUIRED]
     Provides detailed contact information.
-    Type: Complex
-    Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-    Required: Yes
     
     FirstName (string) --First name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     LastName (string) --Last name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
-    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
     
     OrganizationName (string) --Name of the organization for contact types other than PERSON .
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters. Contact type must not be PERSON .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
-    AddressLine1 (string) --First line of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    AddressLine1 (string) --First line of the contact's address.
     
-    AddressLine2 (string) --Second line of contacts address, if any.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    AddressLine2 (string) --Second line of contact's address, if any.
     
-    City (string) --The city of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    City (string) --The city of the contact's address.
     
-    State (string) --The state or province of the contacts city.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    State (string) --The state or province of the contact's city.
     
-    CountryCode (string) --Code for the country of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    CountryCode (string) --Code for the country of the contact's address.
     
-    ZipCode (string) --The zip or postal code of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    ZipCode (string) --The zip or postal code of the contact's address.
     
     PhoneNumber (string) --The phone number of the contact.
-    Type: String
-    Default: None
-    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code>]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
     
     Email (string) --Email address of the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 254 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     Fax (string) --Fax number of the contact.
-    Type: String
-    Default: None
     Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
     ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-    Type: Complex
-    Default: None
-    Parents: RegistrantContact , AdminContact , TechContact
-    Children: Name , Value
-    Required: No
     
     (dict) --ExtraParam includes the following elements.
     
     Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-    Type: String
-    Default: None
-    Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-    Parent: ExtraParams
-    Required: Yes
     
     Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-    Type: String
-    Default: None
-    Constraints: Maximum 2048 characters.
-    Parent: ExtraParams
-    Required: Yes
     
     
     
@@ -1229,124 +824,42 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     
     RegistrantContact (dict) -- [REQUIRED]
     Provides detailed contact information.
-    Type: Complex
-    Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-    Required: Yes
     
     FirstName (string) --First name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     LastName (string) --Last name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
-    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
     
     OrganizationName (string) --Name of the organization for contact types other than PERSON .
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters. Contact type must not be PERSON .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
-    AddressLine1 (string) --First line of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    AddressLine1 (string) --First line of the contact's address.
     
-    AddressLine2 (string) --Second line of contacts address, if any.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    AddressLine2 (string) --Second line of contact's address, if any.
     
-    City (string) --The city of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    City (string) --The city of the contact's address.
     
-    State (string) --The state or province of the contacts city.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    State (string) --The state or province of the contact's city.
     
-    CountryCode (string) --Code for the country of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    CountryCode (string) --Code for the country of the contact's address.
     
-    ZipCode (string) --The zip or postal code of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    ZipCode (string) --The zip or postal code of the contact's address.
     
     PhoneNumber (string) --The phone number of the contact.
-    Type: String
-    Default: None
-    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code>]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
     
     Email (string) --Email address of the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 254 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     Fax (string) --Fax number of the contact.
-    Type: String
-    Default: None
     Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
     ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-    Type: Complex
-    Default: None
-    Parents: RegistrantContact , AdminContact , TechContact
-    Children: Name , Value
-    Required: No
     
     (dict) --ExtraParam includes the following elements.
     
     Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-    Type: String
-    Default: None
-    Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-    Parent: ExtraParams
-    Required: Yes
     
     Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-    Type: String
-    Default: None
-    Constraints: Maximum 2048 characters.
-    Parent: ExtraParams
-    Required: Yes
     
     
     
@@ -1356,124 +869,42 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     
     TechContact (dict) -- [REQUIRED]
     Provides detailed contact information.
-    Type: Complex
-    Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-    Required: Yes
     
     FirstName (string) --First name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     LastName (string) --Last name of contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
-    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
     
     OrganizationName (string) --Name of the organization for contact types other than PERSON .
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters. Contact type must not be PERSON .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
-    AddressLine1 (string) --First line of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    AddressLine1 (string) --First line of the contact's address.
     
-    AddressLine2 (string) --Second line of contacts address, if any.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    AddressLine2 (string) --Second line of contact's address, if any.
     
-    City (string) --The city of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    City (string) --The city of the contact's address.
     
-    State (string) --The state or province of the contacts city.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    State (string) --The state or province of the contact's city.
     
-    CountryCode (string) --Code for the country of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    CountryCode (string) --Code for the country of the contact's address.
     
-    ZipCode (string) --The zip or postal code of the contacts address.
-    Type: String
-    Default: None
-    Constraints: Maximum 255 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
+    ZipCode (string) --The zip or postal code of the contact's address.
     
     PhoneNumber (string) --The phone number of the contact.
-    Type: String
-    Default: None
-    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code>]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
+    Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
     
     Email (string) --Email address of the contact.
-    Type: String
-    Default: None
-    Constraints: Maximum 254 characters.
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: Yes
     
     Fax (string) --Fax number of the contact.
-    Type: String
-    Default: None
     Constraints: Phone number must be specified in the format "+[country dialing code].[number including any area code]". For example, a US phone number might appear as "+1.1234567890" .
-    Parents: RegistrantContact , AdminContact , TechContact
-    Required: No
     
     ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-    Type: Complex
-    Default: None
-    Parents: RegistrantContact , AdminContact , TechContact
-    Children: Name , Value
-    Required: No
     
     (dict) --ExtraParam includes the following elements.
     
     Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-    Type: String
-    Default: None
-    Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-    Parent: ExtraParams
-    Required: Yes
     
     Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-    Type: String
-    Default: None
-    Constraints: Maximum 2048 characters.
-    Parent: ExtraParams
-    Required: Yes
     
     
     
@@ -1481,23 +912,14 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
     
     
     
-    PrivacyProtectAdminContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-    Type: Boolean
+    PrivacyProtectAdminContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
     Default: true
-    Valid values: true | false
-    Required: No
     
-    PrivacyProtectRegistrantContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-    Type: Boolean
+    PrivacyProtectRegistrantContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
     Default: true
-    Valid values: true | false
-    Required: No
     
-    PrivacyProtectTechContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-    Type: Boolean
+    PrivacyProtectTechContact (boolean) -- Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ("who is") queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
     Default: true
-    Valid values: true | false
-    Required: No
     
     
     """
@@ -1506,7 +928,7 @@ def register_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Aut
 def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None):
     """
     This operation renews a domain for the specified number of years. The cost of renewing your domain is billed to your AWS account.
-    We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 documentation.
+    We recommend that you renew your domain several weeks before the expiration date. Some TLD registries delete domains before the expiration date if you haven't renewed far enough in advance. For more information about renewing domain registration, see Renewing Registration for a Domain in the Amazon Route 53 Developer Guide.
     See also: AWS API Documentation
     
     
@@ -1519,34 +941,23 @@ def renew_domain(DomainName=None, DurationInYears=None, CurrentExpiryYear=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
+            The name of the domain that you want to renew.
+            
 
     :type DurationInYears: integer
-    :param DurationInYears: The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 documentation.
-            Type: Integer
+    :param DurationInYears: The number of years that you want to renew the domain for. The maximum number of years depends on the top-level domain. For the range of valid values for your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide .
             Default: 1
-            Valid values: Integer from 1 to 10
-            Required: No
             
 
     :type CurrentExpiryYear: integer
     :param CurrentExpiryYear: [REQUIRED]
             The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
-            Type: Integer
-            Default: None
-            Valid values: Integer
-            Required: Yes
             
 
     :rtype: dict
     :return: {
         'OperationId': 'string'
     }
-    
-    
-    :returns: 
-    (dict) --
-    OperationId (string) --
-    
     
     
     """
@@ -1565,10 +976,6 @@ def resend_contact_reachability_email(domainName=None):
     
     :type domainName: string
     :param domainName: The name of the domain for which you want Amazon Route 53 to resend a confirmation email to the registrant contact.
-            Type: String
-            Default: None
-            Required: Yes
-            
 
     :rtype: dict
     :return: {
@@ -1594,11 +1001,7 @@ def retrieve_domain_auth_code(DomainName=None):
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to get an authorization code for.
             
 
     :rtype: dict
@@ -1613,7 +1016,7 @@ def retrieve_domain_auth_code(DomainName=None):
 def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nameservers=None, AuthCode=None, AutoRenew=None, AdminContact=None, RegistrantContact=None, TechContact=None, PrivacyProtectAdminContact=None, PrivacyProtectRegistrantContact=None, PrivacyProtectTechContact=None):
     """
     This operation transfers a domain from another registrar to Amazon Route 53. When the transfer is complete, the domain is registered with the AWS registrar partner, Gandi.
-    For transfer requirements, a detailed procedure, and information about viewing the status of a domain transfer, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide.
+    For transfer requirements, a detailed procedure, and information about viewing the status of a domain transfer, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route 53 Developer Guide .
     If the registrar for your domain is also the DNS service provider for the domain, we highly recommend that you consider transferring your DNS service to Amazon Route 53 or to another DNS service provider before you transfer your registration. Some registrars provide free DNS service when you purchase a domain registration. When you transfer the registration, the previous registrar will not renew your domain registration and could end your DNS service at any time.
     If the transfer is successful, this method returns an operation ID that you can use to track the progress and completion of the action. If the transfer doesn't complete successfully, the domain registrant will be notified by email.
     See also: AWS API Documentation
@@ -1704,11 +1107,8 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
+            The name of the domain that you want to transfer to Amazon Route 53.
             Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
             
 
     :type IdnLangCode: string
@@ -1716,388 +1116,117 @@ def transfer_domain(DomainName=None, IdnLangCode=None, DurationInYears=None, Nam
 
     :type DurationInYears: integer
     :param DurationInYears: [REQUIRED]
-            The number of years the domain will be registered. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
-            Type: Integer
+            The number of years that you want to register the domain for. Domains are registered for a minimum of one year. The maximum period depends on the top-level domain.
             Default: 1
-            Valid values: Integer from 1 to 10
-            Required: Yes
             
 
     :type Nameservers: list
     :param Nameservers: Contains details for the host and glue IP addresses.
-            Type: Complex
-            Children: GlueIps , Name
-            Required: No
             (dict) --Nameserver includes the following elements.
             Name (string) -- [REQUIRED]The fully qualified host name of the name server.
-            Type: String
-            Constraint: Maximum 255 characterss
-            Parent: Nameservers
+            Constraint: Maximum 255 characters
             GlueIps (list) --Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com.
-            Type: List of IP addresses.
             Constraints: The list can contain only one IPv4 and one IPv6 address.
-            Parent: Nameservers
             (string) --
             
             
 
     :type AuthCode: string
     :param AuthCode: The authorization code for the domain. You get this value from the current registrar.
-            Type: String
-            Required: Yes
-            
 
     :type AutoRenew: boolean
     :param AutoRenew: Indicates whether the domain will be automatically renewed (true) or not (false). Autorenewal only takes effect after the account is charged.
-            Type: Boolean
-            Valid values: true | false
             Default: true
-            Required: No
             
 
     :type AdminContact: dict
     :param AdminContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type RegistrantContact: dict
     :param RegistrantContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type TechContact: dict
     :param TechContact: [REQUIRED]
             Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type PrivacyProtectAdminContact: boolean
-    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :type PrivacyProtectRegistrantContact: boolean
-    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectRegistrantContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :type PrivacyProtectTechContact: boolean
-    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
+    :param PrivacyProtectTechContact: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
             Default: true
-            Valid values: true | false
-            Required: No
             
 
     :rtype: dict
@@ -2186,328 +1315,78 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to update contact information for.
             
 
     :type AdminContact: dict
     :param AdminContact: Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type RegistrantContact: dict
     :param RegistrantContact: Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
     :type TechContact: dict
     :param TechContact: Provides detailed contact information.
-            Type: Complex
-            Children: FirstName , MiddleName , LastName , ContactType , OrganizationName , AddressLine1 , AddressLine2 , City , State , CountryCode , ZipCode , PhoneNumber , Email , Fax , ExtraParams
-            Required: Yes
             FirstName (string) --First name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
             LastName (string) --Last name of contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you cant enable privacy protection for the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Valid values: PERSON | COMPANY | ASSOCIATION | PUBLIC_BODY
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
+            ContactType (string) --Indicates whether the contact is a person, company, association, or public organization. If you choose an option other than PERSON , you must enter an organization name, and you can't enable privacy protection for the contact.
             OrganizationName (string) --Name of the organization for contact types other than PERSON .
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters. Contact type must not be PERSON .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            AddressLine1 (string) --First line of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            AddressLine2 (string) --Second line of contacts address, if any.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            City (string) --The city of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            State (string) --The state or province of the contacts city.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
-            CountryCode (string) --Code for the country of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            ZipCode (string) --The zip or postal code of the contacts address.
-            Type: String
-            Default: None
-            Constraints: Maximum 255 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            AddressLine1 (string) --First line of the contact's address.
+            AddressLine2 (string) --Second line of contact's address, if any.
+            City (string) --The city of the contact's address.
+            State (string) --The state or province of the contact's city.
+            CountryCode (string) --Code for the country of the contact's address.
+            ZipCode (string) --The zip or postal code of the contact's address.
             PhoneNumber (string) --The phone number of the contact.
-            Type: String
-            Default: None
-            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code>]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Email (string) --Email address of the contact.
-            Type: String
-            Default: None
-            Constraints: Maximum 254 characters.
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: Yes
-            Fax (string) --Fax number of the contact.
-            Type: String
-            Default: None
             Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
-            Parents: RegistrantContact , AdminContact , TechContact
-            Required: No
+            Email (string) --Email address of the contact.
+            Fax (string) --Fax number of the contact.
+            Constraints: Phone number must be specified in the format '+[country dialing code].[number including any area code]'. For example, a US phone number might appear as '+1.1234567890' .
             ExtraParams (list) --A list of name-value pairs for parameters required by certain top-level domains.
-            Type: Complex
-            Default: None
-            Parents: RegistrantContact , AdminContact , TechContact
-            Children: Name , Value
-            Required: No
             (dict) --ExtraParam includes the following elements.
             Name (string) -- [REQUIRED]Name of the additional parameter required by the top-level domain.
-            Type: String
-            Default: None
-            Valid values: DUNS_NUMBER | BRAND_NUMBER | BIRTH_DEPARTMENT | BIRTH_DATE_IN_YYYY_MM_DD | BIRTH_COUNTRY | BIRTH_CITY | DOCUMENT_NUMBER | AU_ID_NUMBER | AU_ID_TYPE | CA_LEGAL_TYPE | CA_BUSINESS_ENTITY_TYPE |ES_IDENTIFICATION | ES_IDENTIFICATION_TYPE | ES_LEGAL_FORM | FI_BUSINESS_NUMBER | FI_ID_NUMBER | IT_PIN | RU_PASSPORT_DATA | SE_ID_NUMBER | SG_ID_NUMBER | VAT_NUMBER
-            Parent: ExtraParams
-            Required: Yes
             Value (string) -- [REQUIRED]Values corresponding to the additional parameter names required by some top-level domains.
-            Type: String
-            Default: None
-            Constraints: Maximum 2048 characters.
-            Parent: ExtraParams
-            Required: Yes
             
             
 
@@ -2523,7 +1402,7 @@ def update_domain_contact(DomainName=None, AdminContact=None, RegistrantContact=
 def update_domain_contact_privacy(DomainName=None, AdminPrivacy=None, RegistrantPrivacy=None, TechPrivacy=None):
     """
     This operation updates the specified domain contact's privacy setting. When the privacy option is enabled, personal information such as postal or email address is hidden from the results of a public WHOIS query. The privacy services are provided by the AWS registrar, Gandi. For more information, see the Gandi privacy features .
-    This operation only affects the privacy of the specified contact type (registrant, administrator, or tech). Successful acceptance returns an operation ID that you can use with GetOperationDetail to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
+    This operation only affects the privacy of the specified contact type (registrant, administrator, or tech). Successful acceptance returns an operation ID that you can use with  GetOperationDetail to track the progress and completion of the action. If the request is not completed successfully, the domain registrant will be notified by email.
     See also: AWS API Documentation
     
     
@@ -2537,36 +1416,17 @@ def update_domain_contact_privacy(DomainName=None, AdminPrivacy=None, Registrant
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to update the privacy setting for.
             
 
     :type AdminPrivacy: boolean
-    :param AdminPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
-            Default: None
-            Valid values: true | false
-            Required: No
-            
+    :param AdminPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
 
     :type RegistrantPrivacy: boolean
-    :param RegistrantPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
-            Default: None
-            Valid values: true | false
-            Required: No
-            
+    :param RegistrantPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
 
     :type TechPrivacy: boolean
-    :param TechPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
-            Type: Boolean
-            Default: None
-            Valid values: true | false
-            Required: No
-            
+    :param TechPrivacy: Whether you want to conceal contact information from WHOIS queries. If you specify true , WHOIS ('who is') queries will return contact information for our registrar partner, Gandi, instead of the contact information that you enter.
 
     :rtype: dict
     :return: {
@@ -2600,11 +1460,7 @@ def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None)
     
     :type DomainName: string
     :param DomainName: [REQUIRED]
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Internationalized Domain Names are not supported.
-            Required: Yes
+            The name of the domain that you want to change name servers for.
             
 
     :type FIAuthKey: string
@@ -2613,18 +1469,11 @@ def update_domain_nameservers(DomainName=None, FIAuthKey=None, Nameservers=None)
     :type Nameservers: list
     :param Nameservers: [REQUIRED]
             A list of new name servers for the domain.
-            Type: Complex
-            Children: Name , GlueIps
-            Required: Yes
             (dict) --Nameserver includes the following elements.
             Name (string) -- [REQUIRED]The fully qualified host name of the name server.
-            Type: String
-            Constraint: Maximum 255 characterss
-            Parent: Nameservers
+            Constraint: Maximum 255 characters
             GlueIps (list) --Glue IP address of a name server entry. Glue IP addresses are required only when the name of the name server is a subdomain of the domain. For example, if your domain is example.com and the name server for the domain is ns.example.com, you need to specify the IP address for ns.example.com.
-            Type: List of IP addresses.
             Constraints: The list can contain only one IPv4 and one IPv6 address.
-            Parent: Nameservers
             (string) --
             
             
@@ -2659,35 +1508,17 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None):
     :type DomainName: string
     :param DomainName: [REQUIRED]
             The domain for which you want to add or update tags.
-            The name of a domain.
-            Type: String
-            Default: None
-            Constraints: The domain name can contain only the letters a through z, the numbers 0 through 9, and hyphen (-). Hyphens are allowed only when theyre surrounded by letters, numbers, or other hyphens. You cant specify a hyphen at the beginning or end of a label. To specify an Internationalized Domain Name, you must convert the name to Punycode.
-            Required: Yes
             
 
     :type TagsToUpdate: list
     :param TagsToUpdate: A list of the tag keys and values that you want to add or update. If you specify a key that already exists, the corresponding value will be replaced.
-            Type: A complex type containing a list of tags
-            Default: None
-            Required: No
-            '>
-            Each tag includes the following elements:
-            Key The key (name) of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and '.:/=+-@' Constraints: Each key can be 1-128 characters long. Required: Yes
-            Value The value of a tag. Type: String Default: None Valid values: Unicode characters including alphanumeric, space, and '.:/=+-@' Constraints: Each value can be 0-256 characters long. Required: Yes
             (dict) --Each tag includes the following elements.
             Key (string) --The key (name) of a tag.
-            Type: String
-            Default: None
             Valid values: A-Z, a-z, 0-9, space, '.:/=+-@'
             Constraints: Each key can be 1-128 characters long.
-            Required: Yes
             Value (string) --The value of a tag.
-            Type: String
-            Default: None
             Valid values: A-Z, a-z, 0-9, space, '.:/=+-@'
             Constraints: Each value can be 0-256 characters long.
-            Required: Yes
             
             
 
@@ -2703,7 +1534,7 @@ def update_tags_for_domain(DomainName=None, TagsToUpdate=None):
 
 def view_billing(Start=None, End=None, Marker=None, MaxItems=None):
     """
-    This operation returns all the domain-related billing records for the current AWS account for a specified period
+    Returns all the domain-related billing records for the current AWS account for a specified period
     See also: AWS API Documentation
     
     
@@ -2717,32 +1548,18 @@ def view_billing(Start=None, End=None, Marker=None, MaxItems=None):
     
     :type Start: datetime
     :param Start: The beginning date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-            Type: Double
-            Default: None
-            Required: Yes
-            
 
     :type End: datetime
     :param End: The end date and time for the time period for which you want a list of billing records. Specify the date in Unix time format.
-            Type: Double
-            Default: None
-            Required: Yes
-            
 
     :type Marker: string
     :param Marker: For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems , you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.
-            Type: String
-            Default: None
             Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
-            Required: No
             
 
     :type MaxItems: integer
     :param MaxItems: The number of billing records to be returned.
-            Type: Integer
             Default: 20
-            Constraints: A value between 1 and 100.
-            Required: No
             
 
     :rtype: dict
@@ -2759,12 +1576,6 @@ def view_billing(Start=None, End=None, Marker=None, MaxItems=None):
         ]
     }
     
-    
-    :returns: 
-    REGISTER_DOMAIN
-    TRANSFER_IN_DOMAIN
-    RENEW_DOMAIN
-    CHANGE_DOMAIN_OWNER
     
     """
     pass

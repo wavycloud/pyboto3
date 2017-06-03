@@ -170,6 +170,7 @@ def compose_environments(ApplicationName=None, GroupName=None, VersionLabels=Non
                 'ApplicationName': 'string',
                 'VersionLabel': 'string',
                 'SolutionStackName': 'string',
+                'PlatformArn': 'string',
                 'TemplateName': 'string',
                 'Description': 'string',
                 'EndpointURL': 'string',
@@ -432,7 +433,7 @@ def create_application_version(ApplicationName=None, VersionLabel=None, Descript
     """
     pass
 
-def create_configuration_template(ApplicationName=None, TemplateName=None, SolutionStackName=None, SourceConfiguration=None, EnvironmentId=None, Description=None, OptionSettings=None):
+def create_configuration_template(ApplicationName=None, TemplateName=None, SolutionStackName=None, PlatformArn=None, SourceConfiguration=None, EnvironmentId=None, Description=None, OptionSettings=None):
     """
     Creates a configuration template. Templates are associated with a specific application and are used to deploy different versions of the application with the same configuration settings.
     Related Topics
@@ -446,6 +447,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
         ApplicationName='string',
         TemplateName='string',
         SolutionStackName='string',
+        PlatformArn='string',
         SourceConfiguration={
             'ApplicationName': 'string',
             'TemplateName': 'string'
@@ -482,6 +484,9 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
             If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
             
 
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the custome platform.
+
     :type SourceConfiguration: dict
     :param SourceConfiguration: If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.
             Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration .
@@ -510,6 +515,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
     :rtype: dict
     :return: {
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'ApplicationName': 'string',
         'TemplateName': 'string',
         'Description': 'string',
@@ -542,6 +548,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
     A solution stack name or a source configuration parameter must be specified, otherwise AWS Elastic Beanstalk returns an InvalidParameterValue error.
     If a solution stack name is not specified and the source configuration parameter is specified, AWS Elastic Beanstalk uses the same solution stack as the source configuration template.
     
+    PlatformArn (string) -- The ARN of the custome platform.
     SourceConfiguration (dict) -- If specified, AWS Elastic Beanstalk uses the configuration values from the specified configuration template to create a new configuration.
     Values specified in the OptionSettings parameter of this call overrides any values obtained from the SourceConfiguration .
     If no configuration template is found, returns an InvalidParameterValue error.
@@ -575,7 +582,7 @@ def create_configuration_template(ApplicationName=None, TemplateName=None, Solut
     """
     pass
 
-def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=None, Description=None, CNAMEPrefix=None, Tier=None, Tags=None, VersionLabel=None, TemplateName=None, SolutionStackName=None, OptionSettings=None, OptionsToRemove=None):
+def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=None, Description=None, CNAMEPrefix=None, Tier=None, Tags=None, VersionLabel=None, TemplateName=None, SolutionStackName=None, PlatformArn=None, OptionSettings=None, OptionsToRemove=None):
     """
     Launches an environment for the specified application using the specified configuration.
     See also: AWS API Documentation
@@ -604,6 +611,7 @@ def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=Non
         VersionLabel='string',
         TemplateName='string',
         SolutionStackName='string',
+        PlatformArn='string',
         OptionSettings=[
             {
                 'ResourceName': 'string',
@@ -666,13 +674,12 @@ def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=Non
 
     :type TemplateName: string
     :param TemplateName: The name of the configuration template to use in deployment. If no configuration template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue error.
-            Condition: You must specify either this parameter or a SolutionStackName , but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
-            
 
     :type SolutionStackName: string
     :param SolutionStackName: This is an alternative to specifying a template name. If specified, AWS Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack.
-            Condition: You must specify either this or a TemplateName , but not both. If you specify both, AWS Elastic Beanstalk returns an InvalidParameterCombination error. If you do not specify either, AWS Elastic Beanstalk returns a MissingRequiredParameter error.
-            
+
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the custom platform.
 
     :type OptionSettings: list
     :param OptionSettings: If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.
@@ -700,6 +707,7 @@ def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=Non
         'ApplicationName': 'string',
         'VersionLabel': 'string',
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'TemplateName': 'string',
         'Description': 'string',
         'EndpointURL': 'string',
@@ -742,6 +750,89 @@ def create_environment(ApplicationName=None, EnvironmentName=None, GroupName=Non
     Ready : Environment is available to have an action performed on it, such as update or terminate.
     Terminating : Environment is in the shut-down process.
     Terminated : Environment is not running.
+    
+    """
+    pass
+
+def create_platform_version(PlatformName=None, PlatformVersion=None, PlatformDefinitionBundle=None, EnvironmentName=None, OptionSettings=None):
+    """
+    Create a new version of your custom platform.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_platform_version(
+        PlatformName='string',
+        PlatformVersion='string',
+        PlatformDefinitionBundle={
+            'S3Bucket': 'string',
+            'S3Key': 'string'
+        },
+        EnvironmentName='string',
+        OptionSettings=[
+            {
+                'ResourceName': 'string',
+                'Namespace': 'string',
+                'OptionName': 'string',
+                'Value': 'string'
+            },
+        ]
+    )
+    
+    
+    :type PlatformName: string
+    :param PlatformName: [REQUIRED]
+            The name of your custom platform.
+            
+
+    :type PlatformVersion: string
+    :param PlatformVersion: [REQUIRED]
+            The number, such as 1.0.2, for the new platform version.
+            
+
+    :type PlatformDefinitionBundle: dict
+    :param PlatformDefinitionBundle: [REQUIRED]
+            The location of the platform definition archive in Amazon S3.
+            S3Bucket (string) --The Amazon S3 bucket where the data is located.
+            S3Key (string) --The Amazon S3 key where the data is located.
+            
+
+    :type EnvironmentName: string
+    :param EnvironmentName: The name of the builder environment.
+
+    :type OptionSettings: list
+    :param OptionSettings: The configuration option settings to apply to the builder environment.
+            (dict) --A specification identifying an individual configuration option along with its current value. For a list of possible option values, go to Option Values in the AWS Elastic Beanstalk Developer Guide .
+            ResourceName (string) --A unique resource name for a time-based scaling configuration option.
+            Namespace (string) --A unique namespace identifying the option's associated AWS resource.
+            OptionName (string) --The name of the configuration option.
+            Value (string) --The current value for the configuration option.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'PlatformSummary': {
+            'PlatformArn': 'string',
+            'PlatformOwner': 'string',
+            'PlatformStatus': 'Creating'|'Failed'|'Ready'|'Deleting'|'Deleted',
+            'PlatformCategory': 'string',
+            'OperatingSystemName': 'string',
+            'OperatingSystemVersion': 'string',
+            'SupportedTierList': [
+                'string',
+            ],
+            'SupportedAddonList': [
+                'string',
+            ]
+        },
+        'Builder': {
+            'ARN': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -915,6 +1006,45 @@ def delete_environment_configuration(ApplicationName=None, EnvironmentName=None)
     """
     pass
 
+def delete_platform_version(PlatformArn=None):
+    """
+    Deletes the specified version of a custom platform.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_platform_version(
+        PlatformArn='string'
+    )
+    
+    
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the version of the custom platform.
+
+    :rtype: dict
+    :return: {
+        'PlatformSummary': {
+            'PlatformArn': 'string',
+            'PlatformOwner': 'string',
+            'PlatformStatus': 'Creating'|'Failed'|'Ready'|'Deleting'|'Deleted',
+            'PlatformCategory': 'string',
+            'OperatingSystemName': 'string',
+            'OperatingSystemVersion': 'string',
+            'SupportedTierList': [
+                'string',
+            ],
+            'SupportedAddonList': [
+                'string',
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def describe_application_versions(ApplicationName=None, VersionLabels=None, MaxRecords=None, NextToken=None):
     """
     Retrieve a list of application versions.
@@ -1042,7 +1172,7 @@ def describe_applications(ApplicationNames=None):
     """
     pass
 
-def describe_configuration_options(ApplicationName=None, TemplateName=None, EnvironmentName=None, SolutionStackName=None, Options=None):
+def describe_configuration_options(ApplicationName=None, TemplateName=None, EnvironmentName=None, SolutionStackName=None, PlatformArn=None, Options=None):
     """
     Describes the configuration options that are used in a particular configuration template or environment, or that a specified solution stack defines. The description includes the values the options, their default values, and an indication of the required action on a running environment if an option value is changed.
     See also: AWS API Documentation
@@ -1056,6 +1186,7 @@ def describe_configuration_options(ApplicationName=None, TemplateName=None, Envi
         TemplateName='string',
         EnvironmentName='string',
         SolutionStackName='string',
+        PlatformArn='string',
         Options=[
             {
                 'ResourceName': 'string',
@@ -1078,6 +1209,9 @@ def describe_configuration_options(ApplicationName=None, TemplateName=None, Envi
     :type SolutionStackName: string
     :param SolutionStackName: The name of the solution stack whose configuration options you want to describe.
 
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the custom platform.
+
     :type Options: list
     :param Options: If specified, restricts the descriptions to only the specified options.
             (dict) --A specification identifying an individual configuration option.
@@ -1090,6 +1224,7 @@ def describe_configuration_options(ApplicationName=None, TemplateName=None, Envi
     :rtype: dict
     :return: {
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'Options': [
             {
                 'Namespace': 'string',
@@ -1159,6 +1294,7 @@ def describe_configuration_settings(ApplicationName=None, TemplateName=None, Env
         'ConfigurationSettings': [
             {
                 'SolutionStackName': 'string',
+                'PlatformArn': 'string',
                 'ApplicationName': 'string',
                 'TemplateName': 'string',
                 'Description': 'string',
@@ -1484,6 +1620,7 @@ def describe_environments(ApplicationName=None, VersionLabel=None, EnvironmentId
                 'ApplicationName': 'string',
                 'VersionLabel': 'string',
                 'SolutionStackName': 'string',
+                'PlatformArn': 'string',
                 'TemplateName': 'string',
                 'Description': 'string',
                 'EndpointURL': 'string',
@@ -1532,7 +1669,7 @@ def describe_environments(ApplicationName=None, VersionLabel=None, EnvironmentId
     """
     pass
 
-def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, EnvironmentId=None, EnvironmentName=None, RequestId=None, Severity=None, StartTime=None, EndTime=None, MaxRecords=None, NextToken=None):
+def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, EnvironmentId=None, EnvironmentName=None, PlatformArn=None, RequestId=None, Severity=None, StartTime=None, EndTime=None, MaxRecords=None, NextToken=None):
     """
     Returns list of event descriptions matching criteria up to the last 6 weeks.
     See also: AWS API Documentation
@@ -1547,6 +1684,7 @@ def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, 
         TemplateName='string',
         EnvironmentId='string',
         EnvironmentName='string',
+        PlatformArn='string',
         RequestId='string',
         Severity='TRACE'|'DEBUG'|'INFO'|'WARN'|'ERROR'|'FATAL',
         StartTime=datetime(2015, 1, 1),
@@ -1570,6 +1708,9 @@ def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, 
 
     :type EnvironmentName: string
     :param EnvironmentName: If specified, AWS Elastic Beanstalk restricts the returned descriptions to those associated with this environment.
+
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the version of the custom platform.
 
     :type RequestId: string
     :param RequestId: If specified, AWS Elastic Beanstalk restricts the described events to include only those associated with this request ID.
@@ -1599,6 +1740,7 @@ def describe_events(ApplicationName=None, VersionLabel=None, TemplateName=None, 
                 'VersionLabel': 'string',
                 'TemplateName': 'string',
                 'EnvironmentName': 'string',
+                'PlatformArn': 'string',
                 'RequestId': 'string',
                 'Severity': 'TRACE'|'DEBUG'|'INFO'|'WARN'|'ERROR'|'FATAL'
             },
@@ -1709,6 +1851,70 @@ def describe_instances_health(EnvironmentName=None, EnvironmentId=None, Attribut
     """
     pass
 
+def describe_platform_version(PlatformArn=None):
+    """
+    Describes the version of the platform.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_platform_version(
+        PlatformArn='string'
+    )
+    
+    
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the version of the platform.
+
+    :rtype: dict
+    :return: {
+        'PlatformDescription': {
+            'PlatformArn': 'string',
+            'PlatformOwner': 'string',
+            'PlatformName': 'string',
+            'PlatformVersion': 'string',
+            'SolutionStackName': 'string',
+            'PlatformStatus': 'Creating'|'Failed'|'Ready'|'Deleting'|'Deleted',
+            'DateCreated': datetime(2015, 1, 1),
+            'DateUpdated': datetime(2015, 1, 1),
+            'PlatformCategory': 'string',
+            'Description': 'string',
+            'Maintainer': 'string',
+            'OperatingSystemName': 'string',
+            'OperatingSystemVersion': 'string',
+            'ProgrammingLanguages': [
+                {
+                    'Name': 'string',
+                    'Version': 'string'
+                },
+            ],
+            'Frameworks': [
+                {
+                    'Name': 'string',
+                    'Version': 'string'
+                },
+            ],
+            'CustomAmiList': [
+                {
+                    'VirtualizationType': 'string',
+                    'ImageId': 'string'
+                },
+            ],
+            'SupportedTierList': [
+                'string',
+            ],
+            'SupportedAddonList': [
+                'string',
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
     Generate a presigned url given a client, its method, and arguments
@@ -1755,7 +1961,7 @@ def get_waiter():
 
 def list_available_solution_stacks():
     """
-    Returns a list of the available solution stack names.
+    Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
     See also: AWS API Documentation
     
     Examples
@@ -1778,6 +1984,75 @@ def list_available_solution_stacks():
                 ]
             },
         ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def list_platform_versions(Filters=None, MaxRecords=None, NextToken=None):
+    """
+    Lists the available platforms.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_platform_versions(
+        Filters=[
+            {
+                'Type': 'string',
+                'Operator': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ],
+        MaxRecords=123,
+        NextToken='string'
+    )
+    
+    
+    :type Filters: list
+    :param Filters: List only the platforms where the platform member value relates to one of the supplied values.
+            (dict) --Specify criteria to restrict the results when listing custom platforms.
+            The filter is evaluated as the expression:
+            Type Operator Values[i]
+            Type (string) --The custom platform attribute to which the filter values are applied.
+            Valid Values: PlatformName | PlatformVersion | PlatformStatus | PlatformOwner
+            Operator (string) --The operator to apply to the Type with each of the Values .
+            Valid Values: = (equal to) | != (not equal to) | ```` (less than) | = (less than or equal to) | ```` (greater than) | = (greater than or equal to) | contains | begins_with | ends_with
+            Values (list) --The list of values applied to the custom platform attribute.
+            (string) --
+            
+            
+
+    :type MaxRecords: integer
+    :param MaxRecords: The maximum number of platform values returned in one call.
+
+    :type NextToken: string
+    :param NextToken: The starting index into the remaining list of platforms. Use the NextToken value from a previous ListPlatformVersion call.
+
+    :rtype: dict
+    :return: {
+        'PlatformSummaryList': [
+            {
+                'PlatformArn': 'string',
+                'PlatformOwner': 'string',
+                'PlatformStatus': 'Creating'|'Failed'|'Ready'|'Deleting'|'Deleted',
+                'PlatformCategory': 'string',
+                'OperatingSystemName': 'string',
+                'OperatingSystemVersion': 'string',
+                'SupportedTierList': [
+                    'string',
+                ],
+                'SupportedAddonList': [
+                    'string',
+                ]
+            },
+        ],
+        'NextToken': 'string'
     }
     
     
@@ -2075,6 +2350,7 @@ def terminate_environment(EnvironmentId=None, EnvironmentName=None, TerminateRes
         'ApplicationName': 'string',
         'VersionLabel': 'string',
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'TemplateName': 'string',
         'Description': 'string',
         'EndpointURL': 'string',
@@ -2386,6 +2662,7 @@ def update_configuration_template(ApplicationName=None, TemplateName=None, Descr
     :rtype: dict
     :return: {
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'ApplicationName': 'string',
         'TemplateName': 'string',
         'Description': 'string',
@@ -2449,7 +2726,7 @@ def update_configuration_template(ApplicationName=None, TemplateName=None, Descr
     """
     pass
 
-def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName=None, GroupName=None, Description=None, Tier=None, VersionLabel=None, TemplateName=None, SolutionStackName=None, OptionSettings=None, OptionsToRemove=None):
+def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName=None, GroupName=None, Description=None, Tier=None, VersionLabel=None, TemplateName=None, SolutionStackName=None, PlatformArn=None, OptionSettings=None, OptionsToRemove=None):
     """
     Updates the environment description, deploys a new application version, updates the configuration settings to an entirely new configuration template, or updates select configuration option values in the running environment.
     Attempting to update both the release and configuration is not allowed and AWS Elastic Beanstalk returns an InvalidParameterCombination error.
@@ -2476,6 +2753,7 @@ def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName
         VersionLabel='string',
         TemplateName='string',
         SolutionStackName='string',
+        PlatformArn='string',
         OptionSettings=[
             {
                 'ResourceName': 'string',
@@ -2531,6 +2809,9 @@ def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName
     :type SolutionStackName: string
     :param SolutionStackName: This specifies the platform version that the environment will run after the environment is updated.
 
+    :type PlatformArn: string
+    :param PlatformArn: The ARN of the platform, if used.
+
     :type OptionSettings: list
     :param OptionSettings: If specified, AWS Elastic Beanstalk updates the configuration set associated with the running environment and sets the specified configuration options to the requested value.
             (dict) --A specification identifying an individual configuration option along with its current value. For a list of possible option values, go to Option Values in the AWS Elastic Beanstalk Developer Guide .
@@ -2557,6 +2838,7 @@ def update_environment(ApplicationName=None, EnvironmentId=None, EnvironmentName
         'ApplicationName': 'string',
         'VersionLabel': 'string',
         'SolutionStackName': 'string',
+        'PlatformArn': 'string',
         'TemplateName': 'string',
         'Description': 'string',
         'EndpointURL': 'string',
