@@ -3534,9 +3534,12 @@ def get_user_pool_mfa_config(UserPoolId=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

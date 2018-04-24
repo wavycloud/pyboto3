@@ -14063,9 +14063,12 @@ def get_reserved_instances_exchange_quote(DryRun=None, ReservedInstanceIds=None,
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

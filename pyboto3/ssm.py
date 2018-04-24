@@ -3984,9 +3984,12 @@ def get_patch_baseline_for_patch_group(PatchGroup=None, OperatingSystem=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

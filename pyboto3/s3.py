@@ -967,7 +967,7 @@ def delete_objects(Bucket=None, Delete=None, MFA=None, RequestPayer=None):
     """
     pass
 
-def download_file():
+def download_file(Bucket=None, Key=None, Filename=None, ExtraArgs=None, Callback=None, Config=None):
     """
     Download an S3 object to a file.
     :
@@ -980,6 +980,24 @@ def download_file():
     s3.meta.client.download_file('mybucket', 'hello.txt', '/tmp/hello.txt')
     
     
+    :type Bucket: 
+    :param Bucket: 
+
+    :type Key: 
+    :param Key: 
+
+    :type Filename: 
+    :param Filename: 
+
+    :type ExtraArgs: 
+    :param ExtraArgs: 
+
+    :type Callback: 
+    :param Callback: 
+
+    :type Config: 
+    :param Config: 
+
     """
     pass
 
@@ -2348,9 +2366,12 @@ def get_paginator(operation_name=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 
@@ -5163,7 +5184,7 @@ def select_object_content(Bucket=None, Key=None, SSECustomerAlgorithm=None, SSEC
     """
     pass
 
-def upload_file():
+def upload_file(Filename=None, Bucket=None, Key=None, ExtraArgs=None, Callback=None, Config=None):
     """
     Upload a file to an S3 object.
     :
@@ -5176,6 +5197,24 @@ def upload_file():
     s3.meta.client.upload_file('/tmp/hello.txt', 'mybucket', 'hello.txt')
     
     
+    :type Filename: 
+    :param Filename: 
+
+    :type Bucket: 
+    :param Bucket: 
+
+    :type Key: 
+    :param Key: 
+
+    :type ExtraArgs: 
+    :param ExtraArgs: 
+
+    :type Callback: 
+    :param Callback: 
+
+    :type Config: 
+    :param Config: 
+
     """
     pass
 

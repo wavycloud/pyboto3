@@ -2760,9 +2760,12 @@ def get_user_policy(UserName=None, PolicyName=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

@@ -1652,9 +1652,12 @@ def get_template_summary(TemplateBody=None, TemplateURL=None, StackName=None, St
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

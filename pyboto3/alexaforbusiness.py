@@ -950,9 +950,12 @@ def get_skill_group(SkillGroupArn=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 

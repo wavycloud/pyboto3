@@ -214,9 +214,12 @@ def get_tag_values(PaginationToken=None, Key=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
     
+    :type waiter_name: 
+    :param waiter_name: 
+
     """
     pass
 
