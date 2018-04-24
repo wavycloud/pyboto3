@@ -49,12 +49,14 @@ def get_params_soup(method_soup):
 
     return fields_block.find('dd', class_='field-body')
 
+
 def get_request_syntax(method_soup):
-    highlights = method_soup.findAll("div", {"class":"highlight-python"})
+    highlights = method_soup.findAll("div", {"class": "highlight-python"})
     if highlights:
         return highlights[0].text
     else:
         return ''
+
 
 def get_description(method_soup):
     description = ""
@@ -64,12 +66,14 @@ def get_description(method_soup):
     description = re.sub('Usage', '', description, re.IGNORECASE)
     return description
 
+
 def get_return_type(method_soup):
     match = re.search('Return type(.*)', method_soup.text, re.IGNORECASE)
     if match:
         return match.group(1)
     else:
         return ""
+
 
 def get_response_syntax(method_soup):
     highlights = method_soup.findAll("div", {"class": "highlight-python"})
@@ -85,6 +89,7 @@ def get_response_structure(method_soup):
         return highlights[1].text
     else:
         return ''
+
 
 def iter_params(method_soup):
     params_soup = get_params_soup(method_soup)
@@ -185,6 +190,8 @@ def append_class_to_init(service_name, class_name):
 replacement_name = {
     'lambda': 'lambda_'
 }
+
+
 def get_filename(service_name):
     filename = service_name.lower()
     if filename in replacement_name:
@@ -204,7 +211,6 @@ def generate_all_services_code(dir_path):
         logging.info("Code for service {} generated successfully to {}".format(service_name, dist_filepath))
         clients.append(client_name)
 
-
     with open(os.path.join(os.path.dirname(get_init_path()), 'clients.py'), 'w+') as f:
         f.write('import boto3{}'.format(os.linesep))
         for client in clients:
@@ -213,6 +219,7 @@ def generate_all_services_code(dir_path):
                 var_name = replacement_name[var_name]
             f.write('{} = boto3.client("{}"){}'.format(var_name, client, os.linesep))
             f.write('""":type : pyboto3.{}"""{}'.format(var_name, os.linesep))
+
 
 def get_method_description(method_soup):
     return method_soup.dd.p.text
@@ -240,6 +247,7 @@ def get_class_name(service_soup):
     """
     return clean_class_name(service_soup.find(class_='descclassname').text.strip('.'))
 
+
 def get_client_name(service_soup):
     """
     :
@@ -248,7 +256,6 @@ def get_client_name(service_soup):
     :returns
     """
     return service_soup.find(class_='highlight').find(class_='s1').text.strip("'")
-
 
 
 def iter_code_lines(soup):
@@ -261,9 +268,10 @@ def iter_code_lines(soup):
     yield globals()['__doc__']
     yield "'''"
     yield ""
-    for method_name, params, description, request_syntax, return_type, response_syntax, response_structure in iter_method_params(soup):
+    for method_name, params, description, request_syntax, return_type, response_syntax, response_structure in iter_method_params(
+            soup):
         yield 'def {}({}{}):'.format(method_name, '=None, '.join(params.keys()),
-                                               '=None' if params else '')
+                                     '=None' if params else '')
         yield '    """'
         yield '    {}'.format(description.encode('utf-8').replace('\n', '\n    '))
         if request_syntax:
@@ -282,6 +290,7 @@ def iter_code_lines(soup):
         yield '    """'
         yield "    pass"
         yield ""
+
 
 if __name__ == '__main__':
     generate_all_services_code(os.path.dirname(__file__))
