@@ -444,7 +444,7 @@ def create_directory(Name=None, ShortName=None, Password=None, Description=None,
     """
     pass
 
-def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=None, VpcSettings=None):
+def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=None, VpcSettings=None, Edition=None):
     """
     Creates a Microsoft AD in the AWS cloud.
     Before you call CreateMicrosoftAD , ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see AWS Directory Service API Permissions: Actions, Resources, and Conditions Reference .
@@ -461,7 +461,8 @@ def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=No
             'SubnetIds': [
                 'string',
             ]
-        }
+        },
+        Edition='Enterprise'|'Standard'
     )
     
     
@@ -488,6 +489,9 @@ def create_microsoft_ad(Name=None, ShortName=None, Password=None, Description=No
             SubnetIds (list) -- [REQUIRED]The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. AWS Directory Service creates a directory server and a DNS server in each of these subnets.
             (string) --
             
+
+    :type Edition: string
+    :param Edition: AWS Microsoft AD is available in two editions: Standard and Enterprise. Enterprise is the default.
 
     :rtype: dict
     :return: {
@@ -804,6 +808,7 @@ def describe_directories(DirectoryIds=None, NextToken=None, Limit=None):
                 'Name': 'string',
                 'ShortName': 'string',
                 'Size': 'Small'|'Large',
+                'Edition': 'Enterprise'|'Standard',
                 'Alias': 'string',
                 'AccessUrl': 'string',
                 'Description': 'string',
@@ -852,7 +857,8 @@ def describe_directories(DirectoryIds=None, NextToken=None, Limit=None):
                 },
                 'RadiusStatus': 'Creating'|'Completed'|'Failed',
                 'StageReason': 'string',
-                'SsoEnabled': True|False
+                'SsoEnabled': True|False,
+                'DesiredNumberOfDomainControllers': 123
             },
         ],
         'NextToken': 'string'
@@ -861,6 +867,61 @@ def describe_directories(DirectoryIds=None, NextToken=None, Limit=None):
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def describe_domain_controllers(DirectoryId=None, DomainControllerIds=None, NextToken=None, Limit=None):
+    """
+    Provides information about any domain controllers in your directory.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_domain_controllers(
+        DirectoryId='string',
+        DomainControllerIds=[
+            'string',
+        ],
+        NextToken='string',
+        Limit=123
+    )
+    
+    
+    :type DirectoryId: string
+    :param DirectoryId: [REQUIRED]
+            Identifier of the directory for which to retrieve the domain controller information.
+            
+
+    :type DomainControllerIds: list
+    :param DomainControllerIds: A list of identifiers for the domain controllers whose information will be provided.
+            (string) --
+            
+
+    :type NextToken: string
+    :param NextToken: The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers . Pass null if this is the first call.
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return.
+
+    :rtype: dict
+    :return: {
+        'DomainControllers': [
+            {
+                'DirectoryId': 'string',
+                'DomainControllerId': 'string',
+                'DnsIpAddr': 'string',
+                'VpcId': 'string',
+                'SubnetId': 'string',
+                'AvailabilityZone': 'string',
+                'Status': 'Creating'|'Active'|'Impaired'|'Restoring'|'Deleting'|'Deleted'|'Failed',
+                'StatusReason': 'string',
+                'LaunchTime': datetime(2015, 1, 1),
+                'StatusLastUpdatedDateTime': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
     
     """
     pass
@@ -1578,6 +1639,38 @@ def update_conditional_forwarder(DirectoryId=None, RemoteDomainName=None, DnsIpA
     :rtype: dict
     :return: {}
     
+    
+    """
+    pass
+
+def update_number_of_domain_controllers(DirectoryId=None, DesiredNumber=None):
+    """
+    Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_number_of_domain_controllers(
+        DirectoryId='string',
+        DesiredNumber=123
+    )
+    
+    
+    :type DirectoryId: string
+    :param DirectoryId: [REQUIRED]
+            Identifier of the directory to which the domain controllers will be added or removed.
+            
+
+    :type DesiredNumber: integer
+    :param DesiredNumber: [REQUIRED]
+            The number of domain controllers desired in the directory.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass

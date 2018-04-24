@@ -373,7 +373,10 @@ def describe_export_configurations(exportIds=None, maxResults=None, nextToken=No
                 'exportStatus': 'FAILED'|'SUCCEEDED'|'IN_PROGRESS',
                 'statusMessage': 'string',
                 'configurationsDownloadUrl': 'string',
-                'exportRequestTime': datetime(2015, 1, 1)
+                'exportRequestTime': datetime(2015, 1, 1),
+                'isTruncated': True|False,
+                'requestedStartTime': datetime(2015, 1, 1),
+                'requestedEndTime': datetime(2015, 1, 1)
             },
         ],
         'nextToken': 'string'
@@ -383,7 +386,7 @@ def describe_export_configurations(exportIds=None, maxResults=None, nextToken=No
     """
     pass
 
-def describe_export_tasks(exportIds=None, maxResults=None, nextToken=None):
+def describe_export_tasks(exportIds=None, filters=None, maxResults=None, nextToken=None):
     """
     Retrieve status of one or more export tasks. You can retrieve the status of up to 100 export tasks.
     See also: AWS API Documentation
@@ -393,6 +396,15 @@ def describe_export_tasks(exportIds=None, maxResults=None, nextToken=None):
         exportIds=[
             'string',
         ],
+        filters=[
+            {
+                'name': 'string',
+                'values': [
+                    'string',
+                ],
+                'condition': 'string'
+            },
+        ],
         maxResults=123,
         nextToken='string'
     )
@@ -401,6 +413,17 @@ def describe_export_tasks(exportIds=None, maxResults=None, nextToken=None):
     :type exportIds: list
     :param exportIds: One or more unique identifiers used to query the status of an export request.
             (string) --
+            
+
+    :type filters: list
+    :param filters: One or more filters.
+            AgentId - ID of the agent whose collected data will be exported
+            (dict) --Used to select which agent's data is to be exported. A single agent ID may be selected for export using the StartExportTask action.
+            name (string) -- [REQUIRED]A single ExportFilter name. Supported filters: agentId .
+            values (list) -- [REQUIRED]A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0 .
+            (string) --
+            condition (string) -- [REQUIRED]Supported condition: EQUALS
+            
             
 
     :type maxResults: integer
@@ -417,7 +440,10 @@ def describe_export_tasks(exportIds=None, maxResults=None, nextToken=None):
                 'exportStatus': 'FAILED'|'SUCCEEDED'|'IN_PROGRESS',
                 'statusMessage': 'string',
                 'configurationsDownloadUrl': 'string',
-                'exportRequestTime': datetime(2015, 1, 1)
+                'exportRequestTime': datetime(2015, 1, 1),
+                'isTruncated': True|False,
+                'requestedStartTime': datetime(2015, 1, 1),
+                'requestedEndTime': datetime(2015, 1, 1)
             },
         ],
         'nextToken': 'string'
@@ -789,23 +815,52 @@ def start_data_collection_by_agent_ids(agentIds=None):
     """
     pass
 
-def start_export_task(exportDataFormat=None):
+def start_export_task(exportDataFormat=None, filters=None, startTime=None, endTime=None):
     """
-    Export the configuration data about discovered configuration items and relationships to an S3 bucket in a specified format.
+    Begins the export of discovered data to an S3 bucket.
+    If you specify agentIds in a filter, the task exports up to 72 hours of detailed data collected by the identified Application Discovery Agent, including network, process, and performance details. A time range for exported agent data may be set by using startTime and endTime . Export of detailed agent data is limited to five concurrently running exports.
+    If you do not include an agentIds filter, summary data is exported that includes both AWS Agentless Discovery Connector data and summary data from AWS Discovery Agents. Export of summary data is limited to two exports per day.
     See also: AWS API Documentation
     
     
     :example: response = client.start_export_task(
         exportDataFormat=[
             'CSV'|'GRAPHML',
-        ]
+        ],
+        filters=[
+            {
+                'name': 'string',
+                'values': [
+                    'string',
+                ],
+                'condition': 'string'
+            },
+        ],
+        startTime=datetime(2015, 1, 1),
+        endTime=datetime(2015, 1, 1)
     )
     
     
     :type exportDataFormat: list
-    :param exportDataFormat: The file format for the returned export data. Default value is CSV .
+    :param exportDataFormat: The file format for the returned export data. Default value is CSV . Note: The GRAPHML option has been deprecated.
             (string) --
             
+
+    :type filters: list
+    :param filters: If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents.
+            (dict) --Used to select which agent's data is to be exported. A single agent ID may be selected for export using the StartExportTask action.
+            name (string) -- [REQUIRED]A single ExportFilter name. Supported filters: agentId .
+            values (list) -- [REQUIRED]A single agentId for a Discovery Agent. An agentId can be found using the DescribeAgents action. Typically an ADS agentId is in the form o-0123456789abcdef0 .
+            (string) --
+            condition (string) -- [REQUIRED]Supported condition: EQUALS
+            
+            
+
+    :type startTime: datetime
+    :param startTime: The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
+
+    :type endTime: datetime
+    :param endTime: The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
 
     :rtype: dict
     :return: {

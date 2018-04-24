@@ -24,9 +24,56 @@ SOFTWARE.
 
 '''
 
+def add_listener_certificates(ListenerArn=None, Certificates=None):
+    """
+    Adds the specified certificate to the specified secure listener.
+    If the certificate was already added, the call is successful but the certificate is not added again.
+    To list the certificates for your listener, use  DescribeListenerCertificates . To remove certificates from your listener, use  RemoveListenerCertificates .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.add_listener_certificates(
+        ListenerArn='string',
+        Certificates=[
+            {
+                'CertificateArn': 'string',
+                'IsDefault': True|False
+            },
+        ]
+    )
+    
+    
+    :type ListenerArn: string
+    :param ListenerArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the listener.
+            
+
+    :type Certificates: list
+    :param Certificates: [REQUIRED]
+            The certificate to add. You can specify one certificate per call.
+            (dict) --Information about an SSL server certificate.
+            CertificateArn (string) --The Amazon Resource Name (ARN) of the certificate.
+            IsDefault (boolean) --Indicates whether the certificate is the default certificate.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'Certificates': [
+            {
+                'CertificateArn': 'string',
+                'IsDefault': True|False
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
 def add_tags(ResourceArns=None, Tags=None):
     """
-    Adds the specified tags to the specified resource. You can tag your Application Load Balancers and your target groups.
+    Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, and your target groups.
     Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value.
     To list the current tags for your resources, use  DescribeTags . To remove tags from your resources, use  RemoveTags .
     See also: AWS API Documentation
@@ -90,10 +137,10 @@ def can_paginate(operation_name=None):
 
 def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=None, Certificates=None, DefaultActions=None):
     """
-    Creates a listener for the specified Application Load Balancer.
-    You can create up to 10 listeners per load balancer.
+    Creates a listener for the specified Application Load Balancer or Network Load Balancer.
     To update a listener, use  ModifyListener . When you are finished with a listener, you can delete it using  DeleteListener . If you are finished with both the listener and the load balancer, you can delete them both using  DeleteLoadBalancer .
-    For more information, see Listeners for Your Application Load Balancers in the Application Load Balancers Guide .
+    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple listeners with the same settings, each call succeeds.
+    For more information, see Listeners for Your Application Load Balancers in the Application Load Balancers Guide and Listeners for Your Network Load Balancers in the Network Load Balancers Guide .
     See also: AWS API Documentation
     
     Examples
@@ -104,12 +151,13 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
     
     :example: response = client.create_listener(
         LoadBalancerArn='string',
-        Protocol='HTTP'|'HTTPS',
+        Protocol='HTTP'|'HTTPS'|'TCP',
         Port=123,
         SslPolicy='string',
         Certificates=[
             {
-                'CertificateArn': 'string'
+                'CertificateArn': 'string',
+                'IsDefault': True|False
             },
         ],
         DefaultActions=[
@@ -128,7 +176,7 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
 
     :type Protocol: string
     :param Protocol: [REQUIRED]
-            The protocol for connections from clients to the load balancer.
+            The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
             
 
     :type Port: integer
@@ -137,18 +185,19 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
             
 
     :type SslPolicy: string
-    :param SslPolicy: The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
+    :param SslPolicy: [HTTPS listeners] The security policy that defines which ciphers and protocols are supported. The default is the current predefined security policy.
 
     :type Certificates: list
-    :param Certificates: The SSL server certificate. You must provide exactly one certificate if the protocol is HTTPS.
-            (dict) --Information about an SSL server certificate deployed on a load balancer.
+    :param Certificates: [HTTPS listeners] The SSL server certificate. You must provide exactly one certificate.
+            (dict) --Information about an SSL server certificate.
             CertificateArn (string) --The Amazon Resource Name (ARN) of the certificate.
+            IsDefault (boolean) --Indicates whether the certificate is the default certificate.
             
             
 
     :type DefaultActions: list
     :param DefaultActions: [REQUIRED]
-            The default action for the listener.
+            The default action for the listener. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
             (dict) --Information about an action.
             Type (string) -- [REQUIRED]The type of action.
             TargetGroupArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the target group.
@@ -162,10 +211,11 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
                 'ListenerArn': 'string',
                 'LoadBalancerArn': 'string',
                 'Port': 123,
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Certificates': [
                     {
-                        'CertificateArn': 'string'
+                        'CertificateArn': 'string',
+                        'IsDefault': True|False
                     },
                 ],
                 'SslPolicy': 'string',
@@ -183,13 +233,14 @@ def create_listener(LoadBalancerArn=None, Protocol=None, Port=None, SslPolicy=No
     """
     pass
 
-def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=None, Tags=None, IpAddressType=None):
+def create_load_balancer(Name=None, Subnets=None, SubnetMappings=None, SecurityGroups=None, Scheme=None, Tags=None, Type=None, IpAddressType=None):
     """
-    Creates an Application Load Balancer.
-    When you create a load balancer, you can specify security groups, subnets, IP address type, and tags. Otherwise, you could do so later using  SetSecurityGroups ,  SetSubnets ,  SetIpAddressType , and  AddTags .
+    Creates an Application Load Balancer or a Network Load Balancer.
+    When you create a load balancer, you can specify security groups, public subnets, IP address type, and tags. Otherwise, you could do so later using  SetSecurityGroups ,  SetSubnets ,  SetIpAddressType , and  AddTags .
     To create listeners for your load balancer, use  CreateListener . To describe your current load balancers, see  DescribeLoadBalancers . When you are finished with a load balancer, you can delete it using  DeleteLoadBalancer .
-    You can create up to 20 load balancers per region per account. You can request an increase for the number of load balancers for your account. For more information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide .
-    For more information, see Application Load Balancers in the Application Load Balancers Guide .
+    For limit information, see Limits for Your Application Load Balancer in the Application Load Balancers Guide and Limits for Your Network Load Balancer in the Network Load Balancers Guide .
+    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds.
+    For more information, see Application Load Balancers in the Application Load Balancers Guide and Network Load Balancers in the Network Load Balancers Guide .
     See also: AWS API Documentation
     
     Examples
@@ -203,6 +254,12 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
         Subnets=[
             'string',
         ],
+        SubnetMappings=[
+            {
+                'SubnetId': 'string',
+                'AllocationId': 'string'
+            },
+        ],
         SecurityGroups=[
             'string',
         ],
@@ -213,6 +270,7 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
                 'Value': 'string'
             },
         ],
+        Type='application'|'network',
         IpAddressType='ipv4'|'dualstack'
     )
     
@@ -224,13 +282,24 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
             
 
     :type Subnets: list
-    :param Subnets: [REQUIRED]
-            The IDs of the subnets to attach to the load balancer. You can specify only one subnet per Availability Zone. You must specify subnets from at least two Availability Zones.
+    :param Subnets: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
+            [Application Load Balancers] You must specify subnets from at least two Availability Zones.
+            [Network Load Balancers] You can specify subnets from one or more Availability Zones.
             (string) --
             
 
+    :type SubnetMappings: list
+    :param SubnetMappings: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
+            [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets.
+            [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet.
+            (dict) --Information about a subnet mapping.
+            SubnetId (string) --The ID of the subnet.
+            AllocationId (string) --[Network Load Balancers] The allocation ID of the Elastic IP address.
+            
+            
+
     :type SecurityGroups: list
-    :param SecurityGroups: The IDs of the security groups to assign to the load balancer.
+    :param SecurityGroups: [Application Load Balancers] The IDs of the security groups for the load balancer.
             (string) --
             
 
@@ -248,8 +317,11 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
             
             
 
+    :type Type: string
+    :param Type: The type of load balancer. The default is application .
+
     :type IpAddressType: string
-    :param IpAddressType: The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4 .
+    :param IpAddressType: [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4 .
 
     :rtype: dict
     :return: {
@@ -263,14 +335,20 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
                 'Scheme': 'internet-facing'|'internal',
                 'VpcId': 'string',
                 'State': {
-                    'Code': 'active'|'provisioning'|'failed',
+                    'Code': 'active'|'provisioning'|'active_impaired'|'failed',
                     'Reason': 'string'
                 },
-                'Type': 'application',
+                'Type': 'application'|'network',
                 'AvailabilityZones': [
                     {
                         'ZoneName': 'string',
-                        'SubnetId': 'string'
+                        'SubnetId': 'string',
+                        'LoadBalancerAddresses': [
+                            {
+                                'IpAddress': 'string',
+                                'AllocationId': 'string'
+                            },
+                        ]
                     },
                 ],
                 'SecurityGroups': [
@@ -290,8 +368,8 @@ def create_load_balancer(Name=None, Subnets=None, SecurityGroups=None, Scheme=No
 
 def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
     """
-    Creates a rule for the specified listener.
-    Each rule can have one action and one condition. Rules are evaluated in priority order, from the lowest value to the highest value. When the condition for a rule is met, the specified action is taken. If no conditions are met, the default action for the default rule is taken. For more information, see Listener Rules in the Application Load Balancers Guide .
+    Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer.
+    Rules are evaluated in priority order, from the lowest value to the highest value. When the condition for a rule is met, the specified action is taken. If no conditions are met, the action for the default rule is taken. For more information, see Listener Rules in the Application Load Balancers Guide .
     To view your current rules, use  DescribeRules . To update a rule, use  ModifyRule . To set the priorities of your rules, use  SetRulePriorities . To delete a rule, use  DeleteRule .
     See also: AWS API Documentation
     
@@ -326,7 +404,7 @@ def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
 
     :type Conditions: list
     :param Conditions: [REQUIRED]
-            A condition. Each condition specifies a field name and a single value.
+            The conditions. Each condition specifies a field name and a single value.
             If the field name is host-header , you can specify a single host name (for example, my.example.com). A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters. Note that you can include up to three wildcard characters.
             A-Z, a-z, 0-9
             .
@@ -411,13 +489,14 @@ def create_rule(ListenerArn=None, Conditions=None, Priority=None, Actions=None):
     """
     pass
 
-def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthCheckProtocol=None, HealthCheckPort=None, HealthCheckPath=None, HealthCheckIntervalSeconds=None, HealthCheckTimeoutSeconds=None, HealthyThresholdCount=None, UnhealthyThresholdCount=None, Matcher=None):
+def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthCheckProtocol=None, HealthCheckPort=None, HealthCheckPath=None, HealthCheckIntervalSeconds=None, HealthCheckTimeoutSeconds=None, HealthyThresholdCount=None, UnhealthyThresholdCount=None, Matcher=None, TargetType=None):
     """
     Creates a target group.
     To register targets with the target group, use  RegisterTargets . To update the health check settings for the target group, use  ModifyTargetGroup . To monitor the health of targets in the target group, use  DescribeTargetHealth .
     To route traffic to the targets in a target group, specify the target group in an action using  CreateListener or  CreateRule .
     To delete a target group, use  DeleteTargetGroup .
-    For more information, see Target Groups for Your Application Load Balancers in the Application Load Balancers Guide .
+    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds.
+    For more information, see Target Groups for Your Application Load Balancers in the Application Load Balancers Guide or Target Groups for Your Network Load Balancers in the Network Load Balancers Guide .
     See also: AWS API Documentation
     
     Examples
@@ -426,10 +505,10 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
     
     :example: response = client.create_target_group(
         Name='string',
-        Protocol='HTTP'|'HTTPS',
+        Protocol='HTTP'|'HTTPS'|'TCP',
         Port=123,
         VpcId='string',
-        HealthCheckProtocol='HTTP'|'HTTPS',
+        HealthCheckProtocol='HTTP'|'HTTPS'|'TCP',
         HealthCheckPort='string',
         HealthCheckPath='string',
         HealthCheckIntervalSeconds=123,
@@ -438,7 +517,8 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
         UnhealthyThresholdCount=123,
         Matcher={
             'HttpCode': 'string'
-        }
+        },
+        TargetType='instance'|'ip'
     )
     
     
@@ -450,7 +530,7 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
 
     :type Protocol: string
     :param Protocol: [REQUIRED]
-            The protocol to use for routing traffic to the targets.
+            The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocol is TCP.
             
 
     :type Port: integer
@@ -464,29 +544,36 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
             
 
     :type HealthCheckProtocol: string
-    :param HealthCheckProtocol: The protocol the load balancer uses when performing health checks on targets. The default is the HTTP protocol.
+    :param HealthCheckProtocol: The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP. For Application Load Balancers, the default is HTTP. For Network Load Balancers, the default is TCP.
 
     :type HealthCheckPort: string
-    :param HealthCheckPort: The port the load balancer uses when performing health checks on targets. The default is traffic-port , which indicates the port on which each target receives traffic from the load balancer.
+    :param HealthCheckPort: The port the load balancer uses when performing health checks on targets. The default is traffic-port , which is the port on which each target receives traffic from the load balancer.
 
     :type HealthCheckPath: string
-    :param HealthCheckPath: The ping path that is the destination on the targets for health checks. The default is /.
+    :param HealthCheckPath: [HTTP/HTTPS health checks] The ping path that is the destination on the targets for health checks. The default is /.
 
     :type HealthCheckIntervalSeconds: integer
-    :param HealthCheckIntervalSeconds: The approximate amount of time, in seconds, between health checks of an individual target. The default is 30 seconds.
+    :param HealthCheckIntervalSeconds: The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. The default is 30 seconds.
 
     :type HealthCheckTimeoutSeconds: integer
-    :param HealthCheckTimeoutSeconds: The amount of time, in seconds, during which no response from a target means a failed health check. The default is 5 seconds.
+    :param HealthCheckTimeoutSeconds: The amount of time, in seconds, during which no response from a target means a failed health check. For Application Load Balancers, the range is 2 to 60 seconds and the default is 5 seconds. For Network Load Balancers, this is 10 seconds for TCP and HTTPS health checks and 6 seconds for HTTP health checks.
 
     :type HealthyThresholdCount: integer
-    :param HealthyThresholdCount: The number of consecutive health checks successes required before considering an unhealthy target healthy. The default is 5.
+    :param HealthyThresholdCount: The number of consecutive health checks successes required before considering an unhealthy target healthy. For Application Load Balancers, the default is 5. For Network Load Balancers, the default is 3.
 
     :type UnhealthyThresholdCount: integer
-    :param UnhealthyThresholdCount: The number of consecutive health check failures required before considering a target unhealthy. The default is 2.
+    :param UnhealthyThresholdCount: The number of consecutive health check failures required before considering a target unhealthy. For Application Load Balancers, the default is 2. For Network Load Balancers, this value must be the same as the healthy threshold count.
 
     :type Matcher: dict
-    :param Matcher: The HTTP codes to use when checking for a successful response from a target. The default is 200.
-            HttpCode (string) -- [REQUIRED]The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+    :param Matcher: [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
+            HttpCode (string) -- [REQUIRED]The HTTP codes.
+            For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+            For Network Load Balancers, this is 200 to 399.
+            
+
+    :type TargetType: string
+    :param TargetType: The type of target that you must specify when registering targets with this target group. The possible values are instance (targets are specified by instance ID) or ip (targets are specified by IP address). The default is instance . Note that you can't specify targets for a target group using both instance IDs and IP addresses.
+            If the target type is ip , specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.
             
 
     :rtype: dict
@@ -495,10 +582,10 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
             {
                 'TargetGroupArn': 'string',
                 'TargetGroupName': 'string',
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Port': 123,
                 'VpcId': 'string',
-                'HealthCheckProtocol': 'HTTP'|'HTTPS',
+                'HealthCheckProtocol': 'HTTP'|'HTTPS'|'TCP',
                 'HealthCheckPort': 'string',
                 'HealthCheckIntervalSeconds': 123,
                 'HealthCheckTimeoutSeconds': 123,
@@ -510,7 +597,8 @@ def create_target_group(Name=None, Protocol=None, Port=None, VpcId=None, HealthC
                 },
                 'LoadBalancerArns': [
                     'string',
-                ]
+                ],
+                'TargetType': 'instance'|'ip'
             },
         ]
     }
@@ -551,7 +639,7 @@ def delete_listener(ListenerArn=None):
 
 def delete_load_balancer(LoadBalancerArn=None):
     """
-    Deletes the specified Application Load Balancer and its attached listeners.
+    Deletes the specified Application Load Balancer or Network Load Balancer and its attached listeners.
     You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds.
     Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
     See also: AWS API Documentation
@@ -644,7 +732,8 @@ def deregister_targets(TargetGroupArn=None, Targets=None):
         Targets=[
             {
                 'Id': 'string',
-                'Port': 123
+                'Port': 123,
+                'AvailabilityZone': 'string'
             },
         ]
     )
@@ -659,8 +748,11 @@ def deregister_targets(TargetGroupArn=None, Targets=None):
     :param Targets: [REQUIRED]
             The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
             (dict) --Information about a target.
-            Id (string) -- [REQUIRED]The ID of the target.
+            Id (string) -- [REQUIRED]The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address.
             Port (integer) --The port on which the target is listening.
+            AvailabilityZone (string) --An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer.
+            This parameter is not supported if the target type of the target group is instance . If the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required.
+            With an Application Load Balancer, if the IP address is outside the VPC for the target group, the only supported value is all .
             
             
 
@@ -677,7 +769,7 @@ def deregister_targets(TargetGroupArn=None, Targets=None):
 def describe_account_limits(Marker=None, PageSize=None):
     """
     Describes the current Elastic Load Balancing resource limits for your AWS account.
-    For more information, see Limits for Your Application Load Balancer in the Application Load Balancer Guide .
+    For more information, see Limits for Your Application Load Balancers in the Application Load Balancer Guide or Limits for Your Network Load Balancers in the Network Load Balancers Guide .
     See also: AWS API Documentation
     
     
@@ -708,16 +800,59 @@ def describe_account_limits(Marker=None, PageSize=None):
     :returns: 
     application-load-balancers
     listeners-per-application-load-balancer
+    listeners-per-network-load-balancer
+    network-load-balancers
     rules-per-application-load-balancer
     target-groups
     targets-per-application-load-balancer
+    targets-per-availability-zone-per-network-load-balancer
+    targets-per-network-load-balancer
+    
+    """
+    pass
+
+def describe_listener_certificates(ListenerArn=None, Marker=None, PageSize=None):
+    """
+    Describes the certificates for the specified secure listener.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_listener_certificates(
+        ListenerArn='string',
+        Marker='string',
+        PageSize=123
+    )
+    
+    
+    :type ListenerArn: string
+    :param ListenerArn: [REQUIRED]
+            The Amazon Resource Names (ARN) of the listener.
+            
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+
+    :type PageSize: integer
+    :param PageSize: The maximum number of results to return with this call.
+
+    :rtype: dict
+    :return: {
+        'Certificates': [
+            {
+                'CertificateArn': 'string',
+                'IsDefault': True|False
+            },
+        ],
+        'NextMarker': 'string'
+    }
+    
     
     """
     pass
 
 def describe_listeners(LoadBalancerArn=None, ListenerArns=None, Marker=None, PageSize=None):
     """
-    Describes the specified listeners or the listeners for the specified Application Load Balancer. You must specify either a load balancer or one or more listeners.
+    Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners.
     See also: AWS API Documentation
     
     Examples
@@ -755,10 +890,11 @@ def describe_listeners(LoadBalancerArn=None, ListenerArns=None, Marker=None, Pag
                 'ListenerArn': 'string',
                 'LoadBalancerArn': 'string',
                 'Port': 123,
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Certificates': [
                     {
-                        'CertificateArn': 'string'
+                        'CertificateArn': 'string',
+                        'IsDefault': True|False
                     },
                 ],
                 'SslPolicy': 'string',
@@ -779,7 +915,7 @@ def describe_listeners(LoadBalancerArn=None, ListenerArns=None, Marker=None, Pag
 
 def describe_load_balancer_attributes(LoadBalancerArn=None):
     """
-    Describes the attributes for the specified Application Load Balancer.
+    Describes the attributes for the specified Application Load Balancer or Network Load Balancer.
     See also: AWS API Documentation
     
     Examples
@@ -812,7 +948,7 @@ def describe_load_balancer_attributes(LoadBalancerArn=None):
 
 def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, PageSize=None):
     """
-    Describes the specified Application Load Balancers or all of your Application Load Balancers.
+    Describes the specified load balancers or all of your load balancers.
     To describe the listeners for a load balancer, use  DescribeListeners . To describe the attributes for a load balancer, use  DescribeLoadBalancerAttributes .
     See also: AWS API Documentation
     
@@ -860,14 +996,20 @@ def describe_load_balancers(LoadBalancerArns=None, Names=None, Marker=None, Page
                 'Scheme': 'internet-facing'|'internal',
                 'VpcId': 'string',
                 'State': {
-                    'Code': 'active'|'provisioning'|'failed',
+                    'Code': 'active'|'provisioning'|'active_impaired'|'failed',
                     'Reason': 'string'
                 },
-                'Type': 'application',
+                'Type': 'application'|'network',
                 'AvailabilityZones': [
                     {
                         'ZoneName': 'string',
-                        'SubnetId': 'string'
+                        'SubnetId': 'string',
+                        'LoadBalancerAddresses': [
+                            {
+                                'IpAddress': 'string',
+                                'AllocationId': 'string'
+                            },
+                        ]
                     },
                 ],
                 'SecurityGroups': [
@@ -1019,7 +1161,7 @@ def describe_ssl_policies(Names=None, Marker=None, PageSize=None):
 
 def describe_tags(ResourceArns=None):
     """
-    Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers and target groups.
+    Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, and target groups.
     See also: AWS API Documentation
     
     Examples
@@ -1139,10 +1281,10 @@ def describe_target_groups(LoadBalancerArn=None, TargetGroupArns=None, Names=Non
             {
                 'TargetGroupArn': 'string',
                 'TargetGroupName': 'string',
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Port': 123,
                 'VpcId': 'string',
-                'HealthCheckProtocol': 'HTTP'|'HTTPS',
+                'HealthCheckProtocol': 'HTTP'|'HTTPS'|'TCP',
                 'HealthCheckPort': 'string',
                 'HealthCheckIntervalSeconds': 123,
                 'HealthCheckTimeoutSeconds': 123,
@@ -1154,7 +1296,8 @@ def describe_target_groups(LoadBalancerArn=None, TargetGroupArns=None, Names=Non
                 },
                 'LoadBalancerArns': [
                     'string',
-                ]
+                ],
+                'TargetType': 'instance'|'ip'
             },
         ],
         'NextMarker': 'string'
@@ -1183,7 +1326,8 @@ def describe_target_health(TargetGroupArn=None, Targets=None):
         Targets=[
             {
                 'Id': 'string',
-                'Port': 123
+                'Port': 123,
+                'AvailabilityZone': 'string'
             },
         ]
     )
@@ -1197,8 +1341,11 @@ def describe_target_health(TargetGroupArn=None, Targets=None):
     :type Targets: list
     :param Targets: The targets.
             (dict) --Information about a target.
-            Id (string) -- [REQUIRED]The ID of the target.
+            Id (string) -- [REQUIRED]The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address.
             Port (integer) --The port on which the target is listening.
+            AvailabilityZone (string) --An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer.
+            This parameter is not supported if the target type of the target group is instance . If the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required.
+            With an Application Load Balancer, if the IP address is outside the VPC for the target group, the only supported value is all .
             
             
 
@@ -1208,12 +1355,13 @@ def describe_target_health(TargetGroupArn=None, Targets=None):
             {
                 'Target': {
                     'Id': 'string',
-                    'Port': 123
+                    'Port': 123,
+                    'AvailabilityZone': 'string'
                 },
                 'HealthCheckPort': 'string',
                 'TargetHealth': {
-                    'State': 'initial'|'healthy'|'unhealthy'|'unused'|'draining',
-                    'Reason': 'Elb.RegistrationInProgress'|'Elb.InitialHealthChecking'|'Target.ResponseCodeMismatch'|'Target.Timeout'|'Target.FailedHealthChecks'|'Target.NotRegistered'|'Target.NotInUse'|'Target.DeregistrationInProgress'|'Target.InvalidState'|'Elb.InternalError',
+                    'State': 'initial'|'healthy'|'unhealthy'|'unused'|'draining'|'unavailable',
+                    'Reason': 'Elb.RegistrationInProgress'|'Elb.InitialHealthChecking'|'Target.ResponseCodeMismatch'|'Target.Timeout'|'Target.FailedHealthChecks'|'Target.NotRegistered'|'Target.NotInUse'|'Target.DeregistrationInProgress'|'Target.InvalidState'|'Target.IpUnusable'|'Elb.InternalError',
                     'Description': 'string'
                 }
             },
@@ -1287,11 +1435,12 @@ def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, 
     :example: response = client.modify_listener(
         ListenerArn='string',
         Port=123,
-        Protocol='HTTP'|'HTTPS',
+        Protocol='HTTP'|'HTTPS'|'TCP',
         SslPolicy='string',
         Certificates=[
             {
-                'CertificateArn': 'string'
+                'CertificateArn': 'string',
+                'IsDefault': True|False
             },
         ],
         DefaultActions=[
@@ -1312,20 +1461,21 @@ def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, 
     :param Port: The port for connections from clients to the load balancer.
 
     :type Protocol: string
-    :param Protocol: The protocol for connections from clients to the load balancer.
+    :param Protocol: The protocol for connections from clients to the load balancer. Application Load Balancers support HTTP and HTTPS and Network Load Balancers support TCP.
 
     :type SslPolicy: string
     :param SslPolicy: The security policy that defines which protocols and ciphers are supported. For more information, see Security Policies in the Application Load Balancers Guide .
 
     :type Certificates: list
-    :param Certificates: The SSL server certificate.
-            (dict) --Information about an SSL server certificate deployed on a load balancer.
+    :param Certificates: The default SSL server certificate.
+            (dict) --Information about an SSL server certificate.
             CertificateArn (string) --The Amazon Resource Name (ARN) of the certificate.
+            IsDefault (boolean) --Indicates whether the certificate is the default certificate.
             
             
 
     :type DefaultActions: list
-    :param DefaultActions: The default actions.
+    :param DefaultActions: The default action. For Application Load Balancers, the protocol of the specified target group must be HTTP or HTTPS. For Network Load Balancers, the protocol of the specified target group must be TCP.
             (dict) --Information about an action.
             Type (string) -- [REQUIRED]The type of action.
             TargetGroupArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the target group.
@@ -1339,10 +1489,11 @@ def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, 
                 'ListenerArn': 'string',
                 'LoadBalancerArn': 'string',
                 'Port': 123,
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Certificates': [
                     {
-                        'CertificateArn': 'string'
+                        'CertificateArn': 'string',
+                        'IsDefault': True|False
                     },
                 ],
                 'SslPolicy': 'string',
@@ -1362,7 +1513,7 @@ def modify_listener(ListenerArn=None, Port=None, Protocol=None, SslPolicy=None, 
 
 def modify_load_balancer_attributes(LoadBalancerArn=None, Attributes=None):
     """
-    Modifies the specified attributes of the specified Application Load Balancer.
+    Modifies the specified attributes of the specified Application Load Balancer or Network Load Balancer.
     If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
     See also: AWS API Documentation
     
@@ -1395,11 +1546,13 @@ def modify_load_balancer_attributes(LoadBalancerArn=None, Attributes=None):
             The load balancer attributes.
             (dict) --Information about a load balancer attribute.
             Key (string) --The name of the attribute.
-            access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false .
-            access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.
-            access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.
+            access_logs.s3.enabled - [Application Load Balancers] Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false .
+            access_logs.s3.bucket - [Application Load Balancers] The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.
+            access_logs.s3.prefix - [Application Load Balancers] The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.
             deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false .
-            idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.
+            idle_timeout.timeout_seconds - [Application Load Balancers] The idle timeout value, in seconds. The valid range is 1-4000. The default is 60 seconds.
+            load_balancing.cross_zone.enabled - [Network Load Balancers] Indicates whether cross-zone load balancing is enabled. The value is true or false . The default is false .
+            routing.http2.enabled - [Application Load Balancers] Indicates whether HTTP/2 is enabled. The value is true or false . The default is true .
             Value (string) --The value of the attribute.
             
             
@@ -1416,11 +1569,13 @@ def modify_load_balancer_attributes(LoadBalancerArn=None, Attributes=None):
     
     
     :returns: 
-    access_logs.s3.enabled - Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false .
-    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.
-    access_logs.s3.prefix - The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.
+    access_logs.s3.enabled - [Application Load Balancers] Indicates whether access logs stored in Amazon S3 are enabled. The value is true or false .
+    access_logs.s3.bucket - [Application Load Balancers] The name of the S3 bucket for the access logs. This attribute is required if access logs in Amazon S3 are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permission to write to the bucket.
+    access_logs.s3.prefix - [Application Load Balancers] The prefix for the location in the S3 bucket. If you don't specify a prefix, the access logs are stored in the root of the bucket.
     deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false .
-    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-3600. The default is 60 seconds.
+    idle_timeout.timeout_seconds - [Application Load Balancers] The idle timeout value, in seconds. The valid range is 1-4000. The default is 60 seconds.
+    load_balancing.cross_zone.enabled - [Network Load Balancers] Indicates whether cross-zone load balancing is enabled. The value is true or false . The default is false .
+    routing.http2.enabled - [Application Load Balancers] Indicates whether HTTP/2 is enabled. The value is true or false . The default is true .
     
     """
     pass
@@ -1481,7 +1636,7 @@ def modify_rule(RuleArn=None, Conditions=None, Actions=None):
             
 
     :type Actions: list
-    :param Actions: The actions.
+    :param Actions: The actions. The target group must use the HTTP or HTTPS protocol.
             (dict) --Information about an action.
             Type (string) -- [REQUIRED]The type of action.
             TargetGroupArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the target group.
@@ -1541,7 +1696,7 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
     
     :example: response = client.modify_target_group(
         TargetGroupArn='string',
-        HealthCheckProtocol='HTTP'|'HTTPS',
+        HealthCheckProtocol='HTTP'|'HTTPS'|'TCP',
         HealthCheckPort='string',
         HealthCheckPath='string',
         HealthCheckIntervalSeconds=123,
@@ -1560,29 +1715,31 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
             
 
     :type HealthCheckProtocol: string
-    :param HealthCheckProtocol: The protocol to use to connect with the target.
+    :param HealthCheckProtocol: The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported only if the protocol of the target group is TCP.
 
     :type HealthCheckPort: string
-    :param HealthCheckPort: The port to use to connect with the target.
+    :param HealthCheckPort: The port the load balancer uses when performing health checks on targets.
 
     :type HealthCheckPath: string
-    :param HealthCheckPath: The ping path that is the destination for the health check request.
+    :param HealthCheckPath: [HTTP/HTTPS health checks] The ping path that is the destination for the health check request.
 
     :type HealthCheckIntervalSeconds: integer
-    :param HealthCheckIntervalSeconds: The approximate amount of time, in seconds, between health checks of an individual target.
+    :param HealthCheckIntervalSeconds: The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds.
 
     :type HealthCheckTimeoutSeconds: integer
-    :param HealthCheckTimeoutSeconds: The amount of time, in seconds, during which no response means a failed health check.
+    :param HealthCheckTimeoutSeconds: [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
 
     :type HealthyThresholdCount: integer
     :param HealthyThresholdCount: The number of consecutive health checks successes required before considering an unhealthy target healthy.
 
     :type UnhealthyThresholdCount: integer
-    :param UnhealthyThresholdCount: The number of consecutive health check failures required before considering the target unhealthy.
+    :param UnhealthyThresholdCount: The number of consecutive health check failures required before considering the target unhealthy. For Network Load Balancers, this value must be the same as the healthy threshold count.
 
     :type Matcher: dict
-    :param Matcher: The HTTP codes to use when checking for a successful response from a target.
-            HttpCode (string) -- [REQUIRED]The HTTP codes. You can specify values between 200 and 499. The default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+    :param Matcher: [HTTP/HTTPS health checks] The HTTP codes to use when checking for a successful response from a target.
+            HttpCode (string) -- [REQUIRED]The HTTP codes.
+            For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, '200,202') or a range of values (for example, '200-299').
+            For Network Load Balancers, this is 200 to 399.
             
 
     :rtype: dict
@@ -1591,10 +1748,10 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
             {
                 'TargetGroupArn': 'string',
                 'TargetGroupName': 'string',
-                'Protocol': 'HTTP'|'HTTPS',
+                'Protocol': 'HTTP'|'HTTPS'|'TCP',
                 'Port': 123,
                 'VpcId': 'string',
-                'HealthCheckProtocol': 'HTTP'|'HTTPS',
+                'HealthCheckProtocol': 'HTTP'|'HTTPS'|'TCP',
                 'HealthCheckPort': 'string',
                 'HealthCheckIntervalSeconds': 123,
                 'HealthCheckTimeoutSeconds': 123,
@@ -1606,7 +1763,8 @@ def modify_target_group(TargetGroupArn=None, HealthCheckProtocol=None, HealthChe
                 },
                 'LoadBalancerArns': [
                     'string',
-                ]
+                ],
+                'TargetType': 'instance'|'ip'
             },
         ]
     }
@@ -1649,9 +1807,10 @@ def modify_target_group_attributes(TargetGroupArn=None, Attributes=None):
             (dict) --Information about a target group attribute.
             Key (string) --The name of the attribute.
             deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused . The range is 0-3600 seconds. The default value is 300 seconds.
-            stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false .
-            stickiness.type - The type of sticky sessions. The possible value is lb_cookie .
-            stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
+            proxy_protocol_v2.enabled - [Network Load Balancers] Indicates whether Proxy Protocol version 2 is enabled.
+            stickiness.enabled - [Application Load Balancers] Indicates whether sticky sessions are enabled. The value is true or false .
+            stickiness.type - [Application Load Balancers] The type of sticky sessions. The possible value is lb_cookie .
+            stickiness.lb_cookie.duration_seconds - [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
             Value (string) --The value of the attribute.
             
             
@@ -1669,9 +1828,10 @@ def modify_target_group_attributes(TargetGroupArn=None, Attributes=None):
     
     :returns: 
     deregistration_delay.timeout_seconds - The amount time for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused . The range is 0-3600 seconds. The default value is 300 seconds.
-    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false .
-    stickiness.type - The type of sticky sessions. The possible value is lb_cookie .
-    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
+    proxy_protocol_v2.enabled - [Network Load Balancers] Indicates whether Proxy Protocol version 2 is enabled.
+    stickiness.enabled - [Application Load Balancers] Indicates whether sticky sessions are enabled. The value is true or false .
+    stickiness.type - [Application Load Balancers] The type of sticky sessions. The possible value is lb_cookie .
+    stickiness.lb_cookie.duration_seconds - [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).
     
     """
     pass
@@ -1679,8 +1839,9 @@ def modify_target_group_attributes(TargetGroupArn=None, Attributes=None):
 def register_targets(TargetGroupArn=None, Targets=None):
     """
     Registers the specified targets with the specified target group.
-    By default, the load balancer routes requests to registered targets using the protocol and port number for the target group. Alternatively, you can override the port for a target when you register it.
-    The target must be in the virtual private cloud (VPC) that you specified for the target group. If the target is an EC2 instance, it must be in the running state when you register it.
+    You can register targets by instance ID or by IP address. If the target is an EC2 instance, it must be in the running state when you register it.
+    By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports.
+    With a Network Load Balancer, you cannot register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
     To remove a target from a target group, use  DeregisterTargets .
     See also: AWS API Documentation
     
@@ -1695,7 +1856,8 @@ def register_targets(TargetGroupArn=None, Targets=None):
         Targets=[
             {
                 'Id': 'string',
-                'Port': 123
+                'Port': 123,
+                'AvailabilityZone': 'string'
             },
         ]
     )
@@ -1708,10 +1870,56 @@ def register_targets(TargetGroupArn=None, Targets=None):
 
     :type Targets: list
     :param Targets: [REQUIRED]
-            The targets. The default port for a target is the port for the target group. You can specify a port override. If a target is already registered, you can register it again using a different port.
+            The targets.
             (dict) --Information about a target.
-            Id (string) -- [REQUIRED]The ID of the target.
+            Id (string) -- [REQUIRED]The ID of the target. If the target type of the target group is instance , specify an instance ID. If the target type is ip , specify an IP address.
             Port (integer) --The port on which the target is listening.
+            AvailabilityZone (string) --An Availability Zone or all . This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer.
+            This parameter is not supported if the target type of the target group is instance . If the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required.
+            With an Application Load Balancer, if the IP address is outside the VPC for the target group, the only supported value is all .
+            
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def remove_listener_certificates(ListenerArn=None, Certificates=None):
+    """
+    Removes the specified certificate from the specified secure listener.
+    You can't remove the default certificate for a listener. To replace the default certificate, call  ModifyListener .
+    To list the certificates for your listener, use  DescribeListenerCertificates .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.remove_listener_certificates(
+        ListenerArn='string',
+        Certificates=[
+            {
+                'CertificateArn': 'string',
+                'IsDefault': True|False
+            },
+        ]
+    )
+    
+    
+    :type ListenerArn: string
+    :param ListenerArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the listener.
+            
+
+    :type Certificates: list
+    :param Certificates: [REQUIRED]
+            The certificate to remove. You can specify one certificate per call.
+            (dict) --Information about an SSL server certificate.
+            CertificateArn (string) --The Amazon Resource Name (ARN) of the certificate.
+            IsDefault (boolean) --Indicates whether the certificate is the default certificate.
             
             
 
@@ -1727,7 +1935,7 @@ def register_targets(TargetGroupArn=None, Targets=None):
 
 def remove_tags(ResourceArns=None, TagKeys=None):
     """
-    Removes the specified tags from the specified resource.
+    Removes the specified tags from the specified Elastic Load Balancing resource.
     To list the current tags for your resources, use  DescribeTags .
     See also: AWS API Documentation
     
@@ -1769,7 +1977,8 @@ def remove_tags(ResourceArns=None, TagKeys=None):
 
 def set_ip_address_type(LoadBalancerArn=None, IpAddressType=None):
     """
-    Sets the type of IP addresses used by the subnets of the specified Application Load Balancer.
+    Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer.
+    Note that Network Load Balancers must use ipv4 .
     See also: AWS API Documentation
     
     
@@ -1868,7 +2077,8 @@ def set_rule_priorities(RulePriorities=None):
 
 def set_security_groups(LoadBalancerArn=None, SecurityGroups=None):
     """
-    Associates the specified security groups with the specified load balancer. The specified security groups override the previously associated security groups.
+    Associates the specified security groups with the specified Application Load Balancer. The specified security groups override the previously associated security groups.
+    Note that you can't specify a security group for a Network Load Balancer.
     See also: AWS API Documentation
     
     Examples
@@ -1908,9 +2118,10 @@ def set_security_groups(LoadBalancerArn=None, SecurityGroups=None):
     """
     pass
 
-def set_subnets(LoadBalancerArn=None, Subnets=None):
+def set_subnets(LoadBalancerArn=None, Subnets=None, SubnetMappings=None):
     """
-    Enables the Availability Zone for the specified subnets for the specified load balancer. The specified subnets replace the previously enabled subnets.
+    Enables the Availability Zone for the specified public subnets for the specified Application Load Balancer. The specified subnets replace the previously enabled subnets.
+    Note that you can't change the subnets for a Network Load Balancer.
     See also: AWS API Documentation
     
     Examples
@@ -1921,6 +2132,12 @@ def set_subnets(LoadBalancerArn=None, Subnets=None):
         LoadBalancerArn='string',
         Subnets=[
             'string',
+        ],
+        SubnetMappings=[
+            {
+                'SubnetId': 'string',
+                'AllocationId': 'string'
+            },
         ]
     )
     
@@ -1932,8 +2149,17 @@ def set_subnets(LoadBalancerArn=None, Subnets=None):
 
     :type Subnets: list
     :param Subnets: [REQUIRED]
-            The IDs of the subnets. You must specify at least two subnets. You can add only one subnet per Availability Zone.
+            The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
             (string) --
+            
+
+    :type SubnetMappings: list
+    :param SubnetMappings: The IDs of the public subnets. You must specify subnets from at least two Availability Zones. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings.
+            You cannot specify Elastic IP addresses for your subnets.
+            (dict) --Information about a subnet mapping.
+            SubnetId (string) --The ID of the subnet.
+            AllocationId (string) --[Network Load Balancers] The allocation ID of the Elastic IP address.
+            
             
 
     :rtype: dict
@@ -1941,7 +2167,13 @@ def set_subnets(LoadBalancerArn=None, Subnets=None):
         'AvailabilityZones': [
             {
                 'ZoneName': 'string',
-                'SubnetId': 'string'
+                'SubnetId': 'string',
+                'LoadBalancerAddresses': [
+                    {
+                        'IpAddress': 'string',
+                        'AllocationId': 'string'
+                    },
+                ]
             },
         ]
     }

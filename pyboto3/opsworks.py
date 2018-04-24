@@ -111,7 +111,7 @@ def associate_elastic_ip(ElasticIp=None, InstanceId=None):
 
 def attach_elastic_load_balancer(ElasticLoadBalancerName=None, LayerId=None):
     """
-    Attaches an Elastic Load Balancing load balancer to a specified layer. For more information, see Elastic Load Balancing .
+    Attaches an Elastic Load Balancing load balancer to a specified layer. AWS OpsWorks Stacks does not support Application Load Balancer. You can only use Classic Load Balancer with AWS OpsWorks Stacks. For more information, see Elastic Load Balancing .
     See also: AWS API Documentation
     
     
@@ -238,7 +238,7 @@ def clone_stack(SourceStackId=None, Name=None, Region=None, VpcId=None, Attribut
 
     :type DefaultOs: string
     :param DefaultOs: The stack's operating system, which must be set to one of the following.
-            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
+            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09 , Amazon Linux 2017.03 , Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
             A supported Ubuntu operating system, such as Ubuntu 16.04 LTS , Ubuntu 14.04 LTS , or Ubuntu 12.04 LTS .
             CentOS Linux 7
             Red Hat Enterprise Linux 7
@@ -303,7 +303,7 @@ def clone_stack(SourceStackId=None, Name=None, Region=None, VpcId=None, Attribut
     :type CustomCookbooksSource: dict
     :param CustomCookbooksSource: Contains the information required to retrieve an app or cookbook from a repository. For more information, see Creating Apps or Custom Recipes and Cookbooks .
             Type (string) --The repository type.
-            Url (string) --The source URL.
+            Url (string) --The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz .
             Username (string) --This parameter depends on the repository type.
             For Amazon S3 bundles, set Username to the appropriate IAM access key ID.
             For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
@@ -417,7 +417,7 @@ def create_app(StackId=None, Shortname=None, Name=None, Description=None, DataSo
     :type DataSources: list
     :param DataSources: The app's data source.
             (dict) --Describes an app's data source.
-            Type (string) --The data source's type, AutoSelectOpsworksMysqlInstance , OpsworksMysqlInstance , or RdsDbInstance .
+            Type (string) --The data source's type, AutoSelectOpsworksMysqlInstance , OpsworksMysqlInstance , RdsDbInstance , or None .
             Arn (string) --The data source's ARN.
             DatabaseName (string) --The database name.
             
@@ -431,7 +431,7 @@ def create_app(StackId=None, Shortname=None, Name=None, Description=None, DataSo
     :type AppSource: dict
     :param AppSource: A Source object that specifies the app repository.
             Type (string) --The repository type.
-            Url (string) --The source URL.
+            Url (string) --The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz .
             Username (string) --This parameter depends on the repository type.
             For Amazon S3 bundles, set Username to the appropriate IAM access key ID.
             For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
@@ -554,10 +554,10 @@ def create_deployment(StackId=None, AppId=None, InstanceIds=None, LayerIds=None,
             Args (dict) --The arguments of those commands that take arguments. It should be set to a JSON object with the following format:
             {'arg_name1' : ['value1', 'value2', ...], 'arg_name2' : ['value1', 'value2', ...], ...}
             The update_dependencies command takes two arguments:
-            upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2014.09 . You must also set the allow_reboot argument to true.
+            upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09 . You must also set the allow_reboot argument to true.
             allow_reboot - Specifies whether to allow AWS OpsWorks Stacks to reboot the instances if necessary, after installing the updates. This argument can be set to either true or false . The default value is false .
-            For example, to upgrade an instance to Amazon Linux 2014.09, set Args to the following.
-            { 'upgrade_os_to':['Amazon Linux 2014.09'], 'allow_reboot':['true'] }
+            For example, to upgrade an instance to Amazon Linux 2016.09, set Args to the following.
+            { 'upgrade_os_to':['Amazon Linux 2016.09'], 'allow_reboot':['true'] }
             (string) --
             (list) --
             (string) --
@@ -649,7 +649,7 @@ def create_instance(StackId=None, LayerIds=None, InstanceType=None, AutoScalingT
 
     :type Os: string
     :param Os: The instance's operating system, which must be set to one of the following.
-            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
+            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09 , Amazon Linux 2017.03 , Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
             A supported Ubuntu operating system, such as Ubuntu 16.04 LTS , Ubuntu 14.04 LTS , or Ubuntu 12.04 LTS .
             CentOS Linux 7
             Red Hat Enterprise Linux 7
@@ -693,7 +693,8 @@ def create_instance(StackId=None, LayerIds=None, InstanceType=None, AutoScalingT
             SnapshotId (string) --The snapshot ID.
             Iops (integer) --The number of I/O operations per second (IOPS) that the volume supports. For more information, see EbsBlockDevice .
             VolumeSize (integer) --The volume size, in GiB. For more information, see EbsBlockDevice .
-            VolumeType (string) --The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, and standard for Magnetic volumes.
+            VolumeType (string) --The volume type. gp2 for General Purpose (SSD) volumes, io1 for Provisioned IOPS (SSD) volumes, st1 for Throughput Optimized hard disk drives (HDD), sc1 for Cold HDD,and standard for Magnetic volumes.
+            If you specify the io1 volume type, you must also specify a value for the Iops attribute. The maximum ratio of provisioned IOPS to requested volume size (in GiB) is 50:1. AWS uses the default volume size (in GiB) specified in the AMI attributes to set IOPS to 50 x (volume size).
             DeleteOnTermination (boolean) --Whether the volume is deleted on instance termination.
             
             
@@ -773,7 +774,8 @@ def create_layer(StackId=None, Type=None, Name=None, Shortname=None, Attributes=
                 'NumberOfDisks': 123,
                 'Size': 123,
                 'VolumeType': 'string',
-                'Iops': 123
+                'Iops': 123,
+                'Encrypted': True|False
             },
         ],
         EnableAutoHealing=True|False,
@@ -879,11 +881,14 @@ def create_layer(StackId=None, Type=None, Name=None, Shortname=None, Attributes=
             RaidLevel (integer) --The volume RAID level .
             NumberOfDisks (integer) -- [REQUIRED]The number of disks in the volume.
             Size (integer) -- [REQUIRED]The volume size.
-            VolumeType (string) --The volume type:
+            VolumeType (string) --The volume type. For more information, see Amazon EBS Volume Types .
             standard - Magnetic
             io1 - Provisioned IOPS (SSD)
             gp2 - General Purpose (SSD)
+            st1 - Throughput Optimized hard disk drive (HDD)
+            sc1 - Cold HDD
             Iops (integer) --For PIOPS volumes, the IOPS per disk.
+            Encrypted (boolean) --Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption .
             
             
 
@@ -1019,7 +1024,7 @@ def create_stack(Name=None, Region=None, VpcId=None, Attributes=None, ServiceRol
 
     :type DefaultOs: string
     :param DefaultOs: The stack's default operating system, which is installed on every instance unless you specify a different operating system when you create the instance. You can specify one of the following.
-            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
+            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09 , Amazon Linux 2017.03 , Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
             A supported Ubuntu operating system, such as Ubuntu 16.04 LTS , Ubuntu 14.04 LTS , or Ubuntu 12.04 LTS .
             CentOS Linux 7
             Red Hat Enterprise Linux 7
@@ -1082,7 +1087,7 @@ def create_stack(Name=None, Region=None, VpcId=None, Attributes=None, ServiceRol
     :type CustomCookbooksSource: dict
     :param CustomCookbooksSource: Contains the information required to retrieve an app or cookbook from a repository. For more information, see Creating Apps or Custom Recipes and Cookbooks .
             Type (string) --The repository type.
-            Url (string) --The source URL.
+            Url (string) --The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz .
             Username (string) --This parameter depends on the repository type.
             For Amazon S3 bundles, set Username to the appropriate IAM access key ID.
             For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
@@ -1546,13 +1551,13 @@ def describe_deployments(StackId=None, AppId=None, DeploymentIds=None):
     
     
     :type StackId: string
-    :param StackId: The stack ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified stack.
+    :param StackId: The stack ID. If you include this parameter, the command returns a description of the commands associated with the specified stack.
 
     :type AppId: string
-    :param AppId: The app ID. If you include this parameter, DescribeDeployments returns a description of the commands associated with the specified app.
+    :param AppId: The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
 
     :type DeploymentIds: list
-    :param DeploymentIds: An array of deployment IDs to be described. If you include this parameter, DescribeDeployments returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
+    :param DeploymentIds: An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
             (string) --
             
 
@@ -1771,6 +1776,7 @@ def describe_instances(StackId=None, LayerId=None, InstanceIds=None):
                 'AgentVersion': 'string',
                 'AmiId': 'string',
                 'Architecture': 'x86_64'|'i386',
+                'Arn': 'string',
                 'AutoScalingType': 'load'|'timer',
                 'AvailabilityZone': 'string',
                 'BlockDeviceMappings': [
@@ -1866,6 +1872,7 @@ def describe_layers(StackId=None, LayerIds=None):
     :return: {
         'Layers': [
             {
+                'Arn': 'string',
                 'StackId': 'string',
                 'LayerId': 'string',
                 'Type': 'aws-flow-ruby'|'ecs-cluster'|'java-app'|'lb'|'web'|'php-app'|'rails-app'|'nodejs-app'|'memcached'|'db-master'|'monitoring-master'|'custom',
@@ -1910,7 +1917,8 @@ def describe_layers(StackId=None, LayerIds=None):
                         'NumberOfDisks': 123,
                         'Size': 123,
                         'VolumeType': 'string',
-                        'Iops': 123
+                        'Iops': 123,
+                        'Encrypted': True|False
                     },
                 ],
                 'EnableAutoHealing': True|False,
@@ -2048,6 +2056,39 @@ def describe_my_user_profile():
             'SshUsername': 'string',
             'SshPublicKey': 'string'
         }
+    }
+    
+    
+    """
+    pass
+
+def describe_operating_systems():
+    """
+    Describes the operating systems that are supported by AWS OpsWorks Stacks.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_operating_systems()
+    
+    
+    :rtype: dict
+    :return: {
+        'OperatingSystems': [
+            {
+                'Name': 'string',
+                'Id': 'string',
+                'Type': 'string',
+                'ConfigurationManagers': [
+                    {
+                        'Name': 'string',
+                        'Version': 'string'
+                    },
+                ],
+                'ReportedName': 'string',
+                'ReportedVersion': 'string',
+                'Supported': True|False
+            },
+        ]
     }
     
     
@@ -2303,6 +2344,7 @@ def describe_stack_summary(StackId=None):
                 'SetupFailed': 123,
                 'ShuttingDown': 123,
                 'StartFailed': 123,
+                'StopFailed': 123,
                 'Stopped': 123,
                 'Stopping': 123,
                 'Terminated': 123,
@@ -2531,7 +2573,8 @@ def describe_volumes(InstanceId=None, StackId=None, RaidArrayId=None, VolumeIds=
                 'Region': 'string',
                 'AvailabilityZone': 'string',
                 'VolumeType': 'string',
-                'Iops': 123
+                'Iops': 123,
+                'Encrypted': True|False
             },
         ]
     }
@@ -2683,6 +2726,48 @@ def grant_access(InstanceId=None, ValidForInMinutes=None):
             'InstanceId': 'string'
         }
     }
+    
+    
+    """
+    pass
+
+def list_tags(ResourceArn=None, MaxResults=None, NextToken=None):
+    """
+    Returns a list of tags that are applied to the specified stack or layer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_tags(
+        ResourceArn='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            The stack or layer's Amazon Resource Number (ARN).
+            
+
+    :type MaxResults: integer
+    :param MaxResults: Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call.
+
+    :type NextToken: string
+    :param NextToken: Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call.
+
+    :rtype: dict
+    :return: {
+        'Tags': {
+            'string': 'string'
+        },
+        'NextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    (string) --
+    
     
     
     """
@@ -3120,14 +3205,15 @@ def start_stack(StackId=None):
     """
     pass
 
-def stop_instance(InstanceId=None):
+def stop_instance(InstanceId=None, Force=None):
     """
     Stops a specified instance. When you stop a standard instance, the data disappears and must be reinstalled when you restart the instance. You can stop an Amazon EBS-backed instance without losing data. For more information, see Starting, Stopping, and Rebooting Instances .
     See also: AWS API Documentation
     
     
     :example: response = client.stop_instance(
-        InstanceId='string'
+        InstanceId='string',
+        Force=True|False
     )
     
     
@@ -3135,6 +3221,9 @@ def stop_instance(InstanceId=None):
     :param InstanceId: [REQUIRED]
             The instance ID.
             
+
+    :type Force: boolean
+    :param Force: 
 
     """
     pass
@@ -3153,6 +3242,40 @@ def stop_stack(StackId=None):
     :type StackId: string
     :param StackId: [REQUIRED]
             The stack ID.
+            
+
+    """
+    pass
+
+def tag_resource(ResourceArn=None, Tags=None):
+    """
+    Apply cost-allocation tags to a specified stack or layer in AWS OpsWorks Stacks. For more information about how tagging works, see Tags in the AWS OpsWorks User Guide.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_resource(
+        ResourceArn='string',
+        Tags={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            The stack or layer's Amazon Resource Number (ARN).
+            
+
+    :type Tags: dict
+    :param Tags: [REQUIRED]
+            A map that contains tag keys and tag values that are attached to a stack or layer.
+            The key cannot be empty.
+            The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
+            The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
+            Leading and trailing white spaces are trimmed from both the key and value.
+            A maximum of 40 tags is allowed for any resource.
+            (string) --
+            (string) --
             
 
     """
@@ -3191,6 +3314,34 @@ def unassign_volume(VolumeId=None):
     :type VolumeId: string
     :param VolumeId: [REQUIRED]
             The volume ID.
+            
+
+    """
+    pass
+
+def untag_resource(ResourceArn=None, TagKeys=None):
+    """
+    Removes tags from a specified stack or layer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_resource(
+        ResourceArn='string',
+        TagKeys=[
+            'string',
+        ]
+    )
+    
+    
+    :type ResourceArn: string
+    :param ResourceArn: [REQUIRED]
+            The stack or layer's Amazon Resource Number (ARN).
+            
+
+    :type TagKeys: list
+    :param TagKeys: [REQUIRED]
+            A list of the keys of tags to be removed from a stack or layer.
+            (string) --
             
 
     """
@@ -3258,7 +3409,7 @@ def update_app(AppId=None, Name=None, Description=None, DataSources=None, Type=N
     :type DataSources: list
     :param DataSources: The app's data sources.
             (dict) --Describes an app's data source.
-            Type (string) --The data source's type, AutoSelectOpsworksMysqlInstance , OpsworksMysqlInstance , or RdsDbInstance .
+            Type (string) --The data source's type, AutoSelectOpsworksMysqlInstance , OpsworksMysqlInstance , RdsDbInstance , or None .
             Arn (string) --The data source's ARN.
             DatabaseName (string) --The database name.
             
@@ -3270,7 +3421,7 @@ def update_app(AppId=None, Name=None, Description=None, DataSources=None, Type=N
     :type AppSource: dict
     :param AppSource: A Source object that specifies the app repository.
             Type (string) --The repository type.
-            Url (string) --The source URL.
+            Url (string) --The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz .
             Username (string) --This parameter depends on the repository type.
             For Amazon S3 bundles, set Username to the appropriate IAM access key ID.
             For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
@@ -3388,7 +3539,7 @@ def update_instance(InstanceId=None, LayerIds=None, InstanceType=None, AutoScali
 
     :type Os: string
     :param Os: The instance's operating system, which must be set to one of the following. You cannot update an instance that is using a custom AMI.
-            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
+            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09 , Amazon Linux 2017.03 , Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
             A supported Ubuntu operating system, such as Ubuntu 16.04 LTS , Ubuntu 14.04 LTS , or Ubuntu 12.04 LTS .
             CentOS Linux 7
             Red Hat Enterprise Linux 7
@@ -3474,7 +3625,8 @@ def update_layer(LayerId=None, Name=None, Shortname=None, Attributes=None, Cloud
                 'NumberOfDisks': 123,
                 'Size': 123,
                 'VolumeType': 'string',
-                'Iops': 123
+                'Iops': 123,
+                'Encrypted': True|False
             },
         ],
         EnableAutoHealing=True|False,
@@ -3571,11 +3723,14 @@ def update_layer(LayerId=None, Name=None, Shortname=None, Attributes=None, Cloud
             RaidLevel (integer) --The volume RAID level .
             NumberOfDisks (integer) -- [REQUIRED]The number of disks in the volume.
             Size (integer) -- [REQUIRED]The volume size.
-            VolumeType (string) --The volume type:
+            VolumeType (string) --The volume type. For more information, see Amazon EBS Volume Types .
             standard - Magnetic
             io1 - Provisioned IOPS (SSD)
             gp2 - General Purpose (SSD)
+            st1 - Throughput Optimized hard disk drive (HDD)
+            sc1 - Cold HDD
             Iops (integer) --For PIOPS volumes, the IOPS per disk.
+            Encrypted (boolean) --Specifies whether an Amazon EBS volume is encrypted. For more information, see Amazon EBS Encryption .
             
             
 
@@ -3731,7 +3886,7 @@ def update_stack(StackId=None, Name=None, Attributes=None, ServiceRoleArn=None, 
 
     :type DefaultOs: string
     :param DefaultOs: The stack's operating system, which must be set to one of the following:
-            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
+            A supported Linux operating system: An Amazon Linux version, such as Amazon Linux 2017.09 , Amazon Linux 2017.03 , Amazon Linux 2016.09 , Amazon Linux 2016.03 , Amazon Linux 2015.09 , or Amazon Linux 2015.03 .
             A supported Ubuntu operating system, such as Ubuntu 16.04 LTS , Ubuntu 14.04 LTS , or Ubuntu 12.04 LTS .
             CentOS Linux 7
             Red Hat Enterprise Linux 7
@@ -3786,7 +3941,7 @@ def update_stack(StackId=None, Name=None, Attributes=None, ServiceRoleArn=None, 
     :type CustomCookbooksSource: dict
     :param CustomCookbooksSource: Contains the information required to retrieve an app or cookbook from a repository. For more information, see Creating Apps or Custom Recipes and Cookbooks .
             Type (string) --The repository type.
-            Url (string) --The source URL.
+            Url (string) --The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz .
             Username (string) --This parameter depends on the repository type.
             For Amazon S3 bundles, set Username to the appropriate IAM access key ID.
             For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.

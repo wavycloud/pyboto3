@@ -24,6 +24,34 @@ SOFTWARE.
 
 '''
 
+def associate_kms_key(logGroupName=None, kmsKeyId=None):
+    """
+    Associates the specified AWS Key Management Service (AWS KMS) customer master key (CMK) with the specified log group.
+    Associating an AWS KMS CMK with a log group overrides any existing associations between the log group and a CMK. After a CMK is associated with a log group, all newly ingested data for the log group is encrypted using the CMK. This association is stored as long as the data encrypted with the CMK is still within Amazon CloudWatch Logs. This enables Amazon CloudWatch Logs to decrypt this data whenever it is requested.
+    Note that it can take up to 5 minutes for this operation to take effect.
+    If you attempt to associate a CMK with a log group but the CMK does not exist or the CMK is disabled, you will receive an InvalidParameterException error.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.associate_kms_key(
+        logGroupName='string',
+        kmsKeyId='string'
+    )
+    
+    
+    :type logGroupName: string
+    :param logGroupName: [REQUIRED]
+            The name of the log group.
+            
+
+    :type kmsKeyId: string
+    :param kmsKeyId: [REQUIRED]
+            The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) .
+            
+
+    """
+    pass
+
 def can_paginate(operation_name=None):
     """
     Check if an operation can be paginated.
@@ -63,7 +91,7 @@ def create_export_task(taskName=None, logGroupName=None, logStreamNamePrefix=Non
     """
     Creates an export task, which allows you to efficiently export data from a log group to an Amazon S3 bucket.
     This is an asynchronous call. If all the required information is provided, this operation initiates an export task and responds with the ID of the task. After the task has started, you can use  DescribeExportTasks to get the status of the export task. Each account can only have one active (RUNNING or PENDING ) export task at a time. To cancel an export task, use  CancelExportTask .
-    You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix that will be used as the Amazon S3 key prefix for all exported objects.
+    You can export logs from multiple log groups or multiple time ranges to the same S3 bucket. To separate out log data for each export task, you can specify a prefix to be used as the Amazon S3 key prefix for all exported objects.
     See also: AWS API Documentation
     
     
@@ -91,12 +119,12 @@ def create_export_task(taskName=None, logGroupName=None, logStreamNamePrefix=Non
 
     :type fromTime: integer
     :param fromTime: [REQUIRED]
-            The start time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not exported.
+            The start time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp earlier than this time are not exported.
             
 
     :type to: integer
     :param to: [REQUIRED]
-            The end time of the range for the request, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+            The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp later than this time are not exported.
             
 
     :type destination: string
@@ -116,16 +144,19 @@ def create_export_task(taskName=None, logGroupName=None, logStreamNamePrefix=Non
     """
     pass
 
-def create_log_group(logGroupName=None, tags=None):
+def create_log_group(logGroupName=None, kmsKeyId=None, tags=None):
     """
     Creates a log group with the specified name.
     You can create up to 5000 log groups per account.
     You must use the following guidelines when naming a log group:
+    If you associate a AWS Key Management Service (AWS KMS) customer master key (CMK) with the log group, ingested data is encrypted using the CMK. This association is stored as long as the data encrypted with the CMK is still within Amazon CloudWatch Logs. This enables Amazon CloudWatch Logs to decrypt this data whenever it is requested.
+    If you attempt to associate a CMK with the log group but the CMK does not exist or the CMK is disabled, you will receive an InvalidParameterException error.
     See also: AWS API Documentation
     
     
     :example: response = client.create_log_group(
         logGroupName='string',
+        kmsKeyId='string',
         tags={
             'string': 'string'
         }
@@ -137,6 +168,9 @@ def create_log_group(logGroupName=None, tags=None):
             The name of the log group.
             
 
+    :type kmsKeyId: string
+    :param kmsKeyId: The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) .
+
     :type tags: dict
     :param tags: The key-value pairs to use for the tags.
             (string) --
@@ -147,6 +181,7 @@ def create_log_group(logGroupName=None, tags=None):
     logGroupName (string) -- [REQUIRED]
     The name of the log group.
     
+    kmsKeyId (string) -- The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) .
     tags (dict) -- The key-value pairs to use for the tags.
     
     (string) --
@@ -278,6 +313,23 @@ def delete_metric_filter(logGroupName=None, filterName=None):
     :param filterName: [REQUIRED]
             The name of the metric filter.
             
+
+    """
+    pass
+
+def delete_resource_policy(policyName=None):
+    """
+    Deletes a resource policy from this account. This revokes the access of the identities in that policy to put log events to this account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_resource_policy(
+        policyName='string'
+    )
+    
+    
+    :type policyName: string
+    :param policyName: The name of the policy to be revoked. This parameter is required.
 
     """
     pass
@@ -453,7 +505,8 @@ def describe_log_groups(logGroupNamePrefix=None, nextToken=None, limit=None):
                 'retentionInDays': 123,
                 'metricFilterCount': 123,
                 'arn': 'string',
-                'storedBytes': 123
+                'storedBytes': 123,
+                'kmsKeyId': 'string'
             },
         ],
         'nextToken': 'string'
@@ -487,13 +540,13 @@ def describe_log_streams(logGroupName=None, logStreamNamePrefix=None, orderBy=No
 
     :type logStreamNamePrefix: string
     :param logStreamNamePrefix: The prefix to match.
-            You cannot specify this parameter if orderBy is LastEventTime .
+            iIf orderBy is LastEventTime ,you cannot specify this parameter.
             
 
     :type orderBy: string
     :param orderBy: If the value is LogStreamName , the results are ordered by log stream name. If the value is LastEventTime , the results are ordered by the event time. The default value is LogStreamName .
             If you order the results by event time, you cannot specify the logStreamNamePrefix parameter.
-            lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
+            lastEventTimestamp represents the time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but may take longer in some rare situations.
             
 
     :type descending: boolean
@@ -528,7 +581,7 @@ def describe_log_streams(logGroupName=None, logStreamNamePrefix=None, orderBy=No
 
 def describe_metric_filters(logGroupName=None, filterNamePrefix=None, nextToken=None, limit=None, metricName=None, metricNamespace=None):
     """
-    Lists the specified metric filters. You can list all the metric filters or filter the results by log name, prefix, metric name, and metric namespace. The results are ASCII-sorted by filter name.
+    Lists the specified metric filters. You can list all the metric filters or filter the results by log name, prefix, metric name, or metric namespace. The results are ASCII-sorted by filter name.
     See also: AWS API Documentation
     
     
@@ -555,7 +608,7 @@ def describe_metric_filters(logGroupName=None, filterNamePrefix=None, nextToken=
     :param limit: The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
 
     :type metricName: string
-    :param metricName: The name of the CloudWatch metric.
+    :param metricName: The name of the CloudWatch metric to which the monitored log information should be published. For example, you may publish to a metric called ErrorCount.
 
     :type metricNamespace: string
     :param metricNamespace: The namespace of the CloudWatch metric.
@@ -576,6 +629,40 @@ def describe_metric_filters(logGroupName=None, filterNamePrefix=None, nextToken=
                 ],
                 'creationTime': 123,
                 'logGroupName': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_resource_policies(nextToken=None, limit=None):
+    """
+    Lists the resource policies in this account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_resource_policies(
+        nextToken='string',
+        limit=123
+    )
+    
+    
+    :type nextToken: string
+    :param nextToken: The token for the next set of items to return. The token expires after 24 hours.
+
+    :type limit: integer
+    :param limit: The maximum number of resource policies to be displayed with one call of this API.
+
+    :rtype: dict
+    :return: {
+        'resourcePolicies': [
+            {
+                'policyName': 'string',
+                'policyDocument': 'string',
+                'lastUpdatedTime': 123
             },
         ],
         'nextToken': 'string'
@@ -633,10 +720,31 @@ def describe_subscription_filters(logGroupName=None, filterNamePrefix=None, next
     """
     pass
 
+def disassociate_kms_key(logGroupName=None):
+    """
+    Disassociates the associated AWS Key Management Service (AWS KMS) customer master key (CMK) from the specified log group.
+    After the AWS KMS CMK is disassociated from the log group, AWS CloudWatch Logs stops encrypting newly ingested data for the log group. All previously ingested data remains encrypted, and AWS CloudWatch Logs requires permissions for the CMK whenever the encrypted data is requested.
+    Note that it can take up to 5 minutes for this operation to take effect.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.disassociate_kms_key(
+        logGroupName='string'
+    )
+    
+    
+    :type logGroupName: string
+    :param logGroupName: [REQUIRED]
+            The name of the log group.
+            
+
+    """
+    pass
+
 def filter_log_events(logGroupName=None, logStreamNames=None, startTime=None, endTime=None, filterPattern=None, nextToken=None, limit=None, interleaved=None):
     """
     Lists log events from the specified log group. You can list all the log events or filter the results using a filter pattern, a time range, and the name of the log stream.
-    By default, this operation returns as many log events as can fit in 1MB (up to 10,000 log events), or all the events found within the time range that you specify. If the results include a token, then there are more log events available, and you can get additional results by specifying the token in a subsequent call.
+    By default, this operation returns as many log events as can fit in 1 MB (up to 10,000 log events), or all the events found within the time range that you specify. If the results include a token, then there are more log events available, and you can get additional results by specifying the token in a subsequent call.
     See also: AWS API Documentation
     
     
@@ -665,10 +773,10 @@ def filter_log_events(logGroupName=None, logStreamNames=None, startTime=None, en
             
 
     :type startTime: integer
-    :param startTime: The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp prior to this time are not returned.
+    :param startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp before this time are not returned.
 
     :type endTime: integer
-    :param endTime: The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
+    :param endTime: The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp later than this time are not returned.
 
     :type filterPattern: string
     :param filterPattern: The filter pattern to use. If not provided, all the events are matched.
@@ -680,7 +788,7 @@ def filter_log_events(logGroupName=None, logStreamNames=None, startTime=None, en
     :param limit: The maximum number of events to return. The default is 10,000 events.
 
     :type interleaved: boolean
-    :param interleaved: If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group interleaved in a single response. If the value is false all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
+    :param interleaved: If the value is true, the operation makes a best effort to provide responses that contain events from multiple log streams within the log group, interleaved in a single response. If the value is false, all the matched log events in the first log stream are searched first, then those in the next log stream, and so on. The default is false.
 
     :rtype: dict
     :return: {
@@ -731,7 +839,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_log_events(logGroupName=None, logStreamName=None, startTime=None, endTime=None, nextToken=None, limit=None, startFromHead=None):
     """
     Lists log events from the specified log stream. You can list all the log events or filter using a time range.
-    By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). If the results include tokens, there are more log events available. You can get additional log events by specifying one of the tokens in a subsequent call.
+    By default, this operation returns as many log events as can fit in a response size of 1MB (up to 10,000 log events). You can get additional log events by specifying one of the tokens in a subsequent call.
     See also: AWS API Documentation
     
     
@@ -757,16 +865,16 @@ def get_log_events(logGroupName=None, logStreamName=None, startTime=None, endTim
             
 
     :type startTime: integer
-    :param startTime: The start of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp earlier than this time are not included.
+    :param startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp earlier than this time are not included.
 
     :type endTime: integer
-    :param endTime: The end of the time range, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not included.
+    :param endTime: The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a time stamp later than this time are not included.
 
     :type nextToken: string
     :param nextToken: The token for the next set of items to return. (You received this token from a previous call.)
 
     :type limit: integer
-    :param limit: The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1MB, up to 10,000 log events.
+    :param limit: The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
 
     :type startFromHead: boolean
     :param startFromHead: If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false.
@@ -813,7 +921,6 @@ def get_waiter():
 def list_tags_log_group(logGroupName=None):
     """
     Lists the tags for the specified log group.
-    To add tags, use  TagLogGroup . To remove tags, use  UntagLogGroup .
     See also: AWS API Documentation
     
     
@@ -840,8 +947,8 @@ def list_tags_log_group(logGroupName=None):
 
 def put_destination(destinationName=None, targetArn=None, roleArn=None):
     """
-    Creates or updates a destination. A destination encapsulates a physical resource (such as a Kinesis stream) and enables you to subscribe to a real-time stream of log events of a different account, ingested using  PutLogEvents . Currently, the only supported physical resource is a Amazon Kinesis stream belonging to the same account as the destination.
-    A destination controls what is written to its Amazon Kinesis stream through an access policy. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call  PutSubscriptionFilter against this destination. To enable this, the destination owner must call  PutDestinationPolicy after PutDestination .
+    Creates or updates a destination. A destination encapsulates a physical resource (such as an Amazon Kinesis stream) and enables you to subscribe to a real-time stream of log events for a different account, ingested using  PutLogEvents . Currently, the only supported physical resource is a Kinesis stream belonging to the same account as the destination.
+    Through an access policy, a destination controls what is written to its Kinesis stream. By default, PutDestination does not set any access policy with the destination, which means a cross-account user cannot call  PutSubscriptionFilter against this destination. To enable this, the destination owner must call  PutDestinationPolicy after PutDestination .
     See also: AWS API Documentation
     
     
@@ -859,12 +966,12 @@ def put_destination(destinationName=None, targetArn=None, roleArn=None):
 
     :type targetArn: string
     :param targetArn: [REQUIRED]
-            The ARN of an Amazon Kinesis stream to deliver matching log events to.
+            The ARN of an Amazon Kinesis stream to which to deliver matching log events.
             
 
     :type roleArn: string
     :param roleArn: [REQUIRED]
-            The ARN of an IAM role that grants CloudWatch Logs permissions to call Amazon Kinesis PutRecord on the destination stream.
+            The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream.
             
 
     :rtype: dict
@@ -911,7 +1018,7 @@ def put_destination_policy(destinationName=None, accessPolicy=None):
 def put_log_events(logGroupName=None, logStreamName=None, logEvents=None, sequenceToken=None):
     """
     Uploads a batch of log events to the specified log stream.
-    You must include the sequence token obtained from the response of the previous call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using  DescribeLogStreams .
+    You must include the sequence token obtained from the response of the previous call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using  DescribeLogStreams . If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken , both calls may be successful, or one may be rejected.
     The batch of events must satisfy the following constraints:
     See also: AWS API Documentation
     
@@ -943,13 +1050,13 @@ def put_log_events(logGroupName=None, logStreamName=None, logEvents=None, sequen
     :param logEvents: [REQUIRED]
             The log events.
             (dict) --Represents a log event, which is a record of activity that was recorded by the application or resource being monitored.
-            timestamp (integer) -- [REQUIRED]The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+            timestamp (integer) -- [REQUIRED]The time the event occurred, expressed as the number of milliseconds fter Jan 1, 1970 00:00:00 UTC.
             message (string) -- [REQUIRED]The raw event message.
             
             
 
     :type sequenceToken: string
-    :param sequenceToken: The sequence token.
+    :param sequenceToken: The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using DescribeLogStreams . If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken , both calls may be successful, or one may be rejected.
 
     :rtype: dict
     :return: {
@@ -974,7 +1081,7 @@ def put_log_events(logGroupName=None, logStreamName=None, logEvents=None, sequen
     
     (dict) --Represents a log event, which is a record of activity that was recorded by the application or resource being monitored.
     
-    timestamp (integer) -- [REQUIRED]The time the event occurred, expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
+    timestamp (integer) -- [REQUIRED]The time the event occurred, expressed as the number of milliseconds fter Jan 1, 1970 00:00:00 UTC.
     
     message (string) -- [REQUIRED]The raw event message.
     
@@ -982,7 +1089,7 @@ def put_log_events(logGroupName=None, logStreamName=None, logEvents=None, sequen
     
     
     
-    sequenceToken (string) -- The sequence token.
+    sequenceToken (string) -- The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using  DescribeLogStreams . If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken , both calls may be successful, or one may be rejected.
     
     """
     pass
@@ -1026,8 +1133,8 @@ def put_metric_filter(logGroupName=None, filterName=None, filterPattern=None, me
 
     :type metricTransformations: list
     :param metricTransformations: [REQUIRED]
-            A collection of information needed to define how metric data gets emitted.
-            (dict) --Indicates how to transform ingested log events into metric data in a CloudWatch metric.
+            A collection of information that defines how metric data gets emitted.
+            (dict) --Indicates how to transform ingested log events in to metric data in a CloudWatch metric.
             metricName (string) -- [REQUIRED]The name of the CloudWatch metric.
             metricNamespace (string) -- [REQUIRED]The namespace of the CloudWatch metric.
             metricValue (string) -- [REQUIRED]The value to publish to the CloudWatch metric when a filter pattern matches a log event.
@@ -1038,9 +1145,43 @@ def put_metric_filter(logGroupName=None, filterName=None, filterPattern=None, me
     """
     pass
 
+def put_resource_policy(policyName=None, policyDocument=None):
+    """
+    Creates or updates a resource policy allowing other AWS services to put log events to this account, such as Amazon Route 53. An account can have up to 50 resource policies per region.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_resource_policy(
+        policyName='string',
+        policyDocument='string'
+    )
+    
+    
+    :type policyName: string
+    :param policyName: Name of the new policy. This parameter is required.
+
+    :type policyDocument: string
+    :param policyDocument: Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string.
+            The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace 'logArn' with the ARN of your CloudWatch Logs resource, such as a log group or log stream.
+            { 'Version': '2012-10-17' 'Statement': [ { 'Sid': 'Route53LogsToCloudWatchLogs', 'Effect': 'Allow', 'Principal': { 'Service': [ 'route53.amazonaws.com' ] }, 'Action':'logs:PutLogEvents', 'Resource': logArn } ] }
+            
+
+    :rtype: dict
+    :return: {
+        'resourcePolicy': {
+            'policyName': 'string',
+            'policyDocument': 'string',
+            'lastUpdatedTime': 123
+        }
+    }
+    
+    
+    """
+    pass
+
 def put_retention_policy(logGroupName=None, retentionInDays=None):
     """
-    Sets the retention of the specified log group. A retention policy allows you to configure the number of days you want to retain log events in the specified log group.
+    Sets the retention of the specified log group. A retention policy allows you to configure the number of days for which to retain log events in the specified log group.
     See also: AWS API Documentation
     
     
@@ -1066,7 +1207,7 @@ def put_retention_policy(logGroupName=None, retentionInDays=None):
 def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=None, destinationArn=None, roleArn=None, distribution=None):
     """
     Creates or updates a subscription filter and associates it with the specified log group. Subscription filters allow you to subscribe to a real-time stream of log events ingested through  PutLogEvents and have them delivered to a specific destination. Currently, the supported destinations are:
-    There can only be one subscription filter associated with a log group. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group.
+    There can only be one subscription filter associated with a log group. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call fails because you cannot associate a second filter with a log group.
     See also: AWS API Documentation
     
     
@@ -1087,7 +1228,7 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
 
     :type filterName: string
     :param filterName: [REQUIRED]
-            A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters .
+            A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters .
             
 
     :type filterPattern: string
@@ -1100,7 +1241,7 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
             The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:
             An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.
             A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.
-            An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.
+            An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.
             An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
             
 
@@ -1108,14 +1249,14 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
     :param roleArn: The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
 
     :type distribution: string
-    :param distribution: The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream. By default, log data is grouped by log stream. For a more even distribution, you can group log data randomly.
+    :param distribution: The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
 
     :returns: 
     logGroupName (string) -- [REQUIRED]
     The name of the log group.
     
     filterName (string) -- [REQUIRED]
-    A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call will fail because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use  DescribeSubscriptionFilters .
+    A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName . Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use  DescribeSubscriptionFilters .
     
     filterPattern (string) -- [REQUIRED]
     A filter pattern for subscribing to a filtered stream of log events.
@@ -1125,12 +1266,12 @@ def put_subscription_filter(logGroupName=None, filterName=None, filterPattern=No
     
     An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.
     A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.
-    An Amazon Kinesis Firehose stream belonging to the same account as the subscription filter, for same-account delivery.
+    An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.
     An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
     
     
     roleArn (string) -- The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.
-    distribution (string) -- The method used to distribute log data to the destination, when the destination is an Amazon Kinesis stream. By default, log data is grouped by log stream. For a more even distribution, you can group log data randomly.
+    distribution (string) -- The method used to distribute log data to the destination. By default log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
     
     """
     pass
@@ -1182,7 +1323,7 @@ def test_metric_filter(filterPattern=None, logEventMessages=None):
     
     :type filterPattern: string
     :param filterPattern: [REQUIRED]
-            A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event may contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
+            A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event may contain time stamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
             
 
     :type logEventMessages: list

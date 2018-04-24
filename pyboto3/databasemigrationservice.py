@@ -26,7 +26,7 @@ SOFTWARE.
 
 def add_tags_to_resource(ResourceArn=None, Tags=None):
     """
-    Adds metadata tags to a DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
+    Adds metadata tags to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS.
     See also: AWS API Documentation
     
     
@@ -80,7 +80,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None, Tags=None, CertificateArn=None, SslMode=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
+def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, KmsKeyId=None, Tags=None, CertificateArn=None, SslMode=None, ServiceAccessRoleArn=None, ExternalTableDefinition=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
     """
     Creates an endpoint using the provided settings.
     See also: AWS API Documentation
@@ -105,6 +105,8 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
         ],
         CertificateArn='string',
         SslMode='none'|'require'|'verify-ca'|'verify-full',
+        ServiceAccessRoleArn='string',
+        ExternalTableDefinition='string',
         DynamoDbSettings={
             'ServiceAccessRoleArn': 'string'
         },
@@ -128,7 +130,8 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             'NestingLevel': 'none'|'one',
             'ExtractDocId': 'string',
             'DocsToInvestigate': 'string',
-            'AuthSource': 'string'
+            'AuthSource': 'string',
+            'KmsKeyId': 'string'
         }
     )
     
@@ -145,7 +148,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
 
     :type EngineName: string
     :param EngineName: [REQUIRED]
-            The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, SYBASE, DYNAMODB, MONGODB, and SQLSERVER.
+            The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, dynamodb, mongodb, and sqlserver.
             
 
     :type Username: string
@@ -178,7 +181,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             
 
     :type CertificateArn: string
-    :param CertificateArn: The Amazon Resource Number (ARN) for the certificate.
+    :param CertificateArn: The Amazon Resource Name (ARN) for the certificate.
 
     :type SslMode: string
     :param SslMode: The SSL mode to use for the SSL connection.
@@ -186,15 +189,21 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             The default value is none.
             
 
+    :type ServiceAccessRoleArn: string
+    :param ServiceAccessRoleArn: The Amazon Resource Name (ARN) for the service access role you want to use to create the endpoint.
+
+    :type ExternalTableDefinition: string
+    :param ExternalTableDefinition: The external table definition.
+
     :type DynamoDbSettings: dict
     :param DynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service .
             ServiceAccessRoleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) used by the service access IAM role.
             
 
     :type S3Settings: dict
-    :param S3Settings: Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at Using Amazon S3 as a Target for AWS Database Migration Service .
+    :param S3Settings: Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at Using Amazon S3 as a Target for AWS Database Migration Service .
             ServiceAccessRoleArn (string) --The Amazon Resource Name (ARN) used by the service access IAM role.
-            ExternalTableDefinition (string) --
+            ExternalTableDefinition (string) --The external table definition.
             CsvRowDelimiter (string) --The delimiter used to separate rows in the source files. The default is a carriage return (n).
             CsvDelimiter (string) --The delimiter used to separate columns in the source files. The default is a comma.
             BucketFolder (string) --An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is schema_name/table_name/.
@@ -224,6 +233,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             Must be a positive value greater than 0. Default value is 1000.
             AuthSource (string) --The MongoDB database name. This attribute is not used when authType=NO .
             The default is admin.
+            KmsKeyId (string) --The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
             
 
     :rtype: dict
@@ -232,6 +242,7 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             'EndpointIdentifier': 'string',
             'EndpointType': 'source'|'target',
             'EngineName': 'string',
+            'EngineDisplayName': 'string',
             'Username': 'string',
             'ServerName': 'string',
             'Port': 123,
@@ -242,6 +253,8 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
             'EndpointArn': 'string',
             'CertificateArn': 'string',
             'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ServiceAccessRoleArn': 'string',
+            'ExternalTableDefinition': 'string',
             'ExternalId': 'string',
             'DynamoDbSettings': {
                 'ServiceAccessRoleArn': 'string'
@@ -266,7 +279,8 @@ def create_endpoint(EndpointIdentifier=None, EndpointType=None, EngineName=None,
                 'NestingLevel': 'none'|'one',
                 'ExtractDocId': 'string',
                 'DocsToInvestigate': 'string',
-                'AuthSource': 'string'
+                'AuthSource': 'string',
+                'KmsKeyId': 'string'
             }
         }
     }
@@ -305,7 +319,7 @@ def create_event_subscription(SubscriptionName=None, SnsTopicArn=None, SourceTyp
     
     :type SubscriptionName: string
     :param SubscriptionName: [REQUIRED]
-            The name of the DMS event notification subscription.
+            The name of the AWS DMS event notification subscription.
             Constraints: The name must be less than 255 characters.
             
 
@@ -513,7 +527,8 @@ def create_replication_instance(ReplicationInstanceIdentifier=None, AllocatedSto
                 'string',
             ],
             'PubliclyAccessible': True|False,
-            'SecondaryAvailabilityZone': 'string'
+            'SecondaryAvailabilityZone': 'string',
+            'FreeUntil': datetime(2015, 1, 1)
         }
     }
     
@@ -596,7 +611,7 @@ def create_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, Repli
     """
     pass
 
-def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=None, TargetEndpointArn=None, ReplicationInstanceArn=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None, Tags=None):
+def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=None, TargetEndpointArn=None, ReplicationInstanceArn=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None, CdcStartPosition=None, CdcStopPosition=None, Tags=None):
     """
     Creates a replication task using the specified parameters.
     See also: AWS API Documentation
@@ -611,6 +626,8 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
         TableMappings='string',
         ReplicationTaskSettings='string',
         CdcStartTime=datetime(2015, 1, 1),
+        CdcStartPosition='string',
+        CdcStopPosition='string',
         Tags=[
             {
                 'Key': 'string',
@@ -659,7 +676,21 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
     :param ReplicationTaskSettings: Settings for the task, such as target metadata settings. For a complete list of task settings, see Task Settings for AWS Database Migration Service Tasks .
 
     :type CdcStartTime: datetime
-    :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+    :param CdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+
+    :type CdcStartPosition: string
+    :param CdcStartPosition: Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.
+            The value can be in date, checkpoint, or LSN/SCN format.
+            Date Example: --cdc-start-position  2018-03-08T12:12:12 
+            Checkpoint Example: --cdc-start-position 'checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93'
+            LSN Example: --cdc-start-position  mysql-bin-changelog.000024:373 
+            
+
+    :type CdcStopPosition: string
+    :param CdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+            Server time example: --cdc-stop-position  server_time:3018-02-09T12:12:12 
+            Commit time example: --cdc-stop-position  commit_time: 3018-02-09T12:12:12  
+            
 
     :type Tags: list
     :param Tags: Tags to be added to the replication instance.
@@ -684,6 +715,9 @@ def create_replication_task(ReplicationTaskIdentifier=None, SourceEndpointArn=No
             'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
             'ReplicationTaskArn': 'string',
             'ReplicationTaskStats': {
                 'FullLoadProgressPercent': 123,
@@ -763,6 +797,7 @@ def delete_endpoint(EndpointArn=None):
             'EndpointIdentifier': 'string',
             'EndpointType': 'source'|'target',
             'EngineName': 'string',
+            'EngineDisplayName': 'string',
             'Username': 'string',
             'ServerName': 'string',
             'Port': 123,
@@ -773,6 +808,8 @@ def delete_endpoint(EndpointArn=None):
             'EndpointArn': 'string',
             'CertificateArn': 'string',
             'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ServiceAccessRoleArn': 'string',
+            'ExternalTableDefinition': 'string',
             'ExternalId': 'string',
             'DynamoDbSettings': {
                 'ServiceAccessRoleArn': 'string'
@@ -797,7 +834,8 @@ def delete_endpoint(EndpointArn=None):
                 'NestingLevel': 'none'|'one',
                 'ExtractDocId': 'string',
                 'DocsToInvestigate': 'string',
-                'AuthSource': 'string'
+                'AuthSource': 'string',
+                'KmsKeyId': 'string'
             }
         }
     }
@@ -915,7 +953,8 @@ def delete_replication_instance(ReplicationInstanceArn=None):
                 'string',
             ],
             'PubliclyAccessible': True|False,
-            'SecondaryAvailabilityZone': 'string'
+            'SecondaryAvailabilityZone': 'string',
+            'FreeUntil': datetime(2015, 1, 1)
         }
     }
     
@@ -980,6 +1019,9 @@ def delete_replication_task(ReplicationTaskArn=None):
             'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
             'ReplicationTaskArn': 'string',
             'ReplicationTaskStats': {
                 'FullLoadProgressPercent': 123,
@@ -1185,7 +1227,8 @@ def describe_endpoint_types(Filters=None, MaxRecords=None, Marker=None):
             {
                 'EngineName': 'string',
                 'SupportsCDC': True|False,
-                'EndpointType': 'source'|'target'
+                'EndpointType': 'source'|'target',
+                'EngineDisplayName': 'string'
             },
         ]
     }
@@ -1241,6 +1284,7 @@ def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
                 'EndpointIdentifier': 'string',
                 'EndpointType': 'source'|'target',
                 'EngineName': 'string',
+                'EngineDisplayName': 'string',
                 'Username': 'string',
                 'ServerName': 'string',
                 'Port': 123,
@@ -1251,6 +1295,8 @@ def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
                 'EndpointArn': 'string',
                 'CertificateArn': 'string',
                 'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+                'ServiceAccessRoleArn': 'string',
+                'ExternalTableDefinition': 'string',
                 'ExternalId': 'string',
                 'DynamoDbSettings': {
                     'ServiceAccessRoleArn': 'string'
@@ -1275,7 +1321,8 @@ def describe_endpoints(Filters=None, MaxRecords=None, Marker=None):
                     'NestingLevel': 'none'|'one',
                     'ExtractDocId': 'string',
                     'DocsToInvestigate': 'string',
-                    'AuthSource': 'string'
+                    'AuthSource': 'string',
+                    'KmsKeyId': 'string'
                 }
             },
         ]
@@ -1572,6 +1619,50 @@ def describe_refresh_schemas_status(EndpointArn=None):
     """
     pass
 
+def describe_replication_instance_task_logs(ReplicationInstanceArn=None, MaxRecords=None, Marker=None):
+    """
+    Returns information about the task logs for the specified task.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_replication_instance_task_logs(
+        ReplicationInstanceArn='string',
+        MaxRecords=123,
+        Marker='string'
+    )
+    
+    
+    :type ReplicationInstanceArn: string
+    :param ReplicationInstanceArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the replication instance.
+            
+
+    :type MaxRecords: integer
+    :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+            Default: 100
+            Constraints: Minimum 20, maximum 100.
+            
+
+    :type Marker: string
+    :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+
+    :rtype: dict
+    :return: {
+        'ReplicationInstanceArn': 'string',
+        'ReplicationInstanceTaskLogs': [
+            {
+                'ReplicationTaskName': 'string',
+                'ReplicationTaskArn': 'string',
+                'ReplicationInstanceTaskLogSize': 123
+            },
+        ],
+        'Marker': 'string'
+    }
+    
+    
+    """
+    pass
+
 def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about replication instances for your account in the current region.
@@ -1664,7 +1755,8 @@ def describe_replication_instances(Filters=None, MaxRecords=None, Marker=None):
                     'string',
                 ],
                 'PubliclyAccessible': True|False,
-                'SecondaryAvailabilityZone': 'string'
+                'SecondaryAvailabilityZone': 'string',
+                'FreeUntil': datetime(2015, 1, 1)
             },
         ]
     }
@@ -1742,6 +1834,57 @@ def describe_replication_subnet_groups(Filters=None, MaxRecords=None, Marker=Non
     """
     pass
 
+def describe_replication_task_assessment_results(ReplicationTaskArn=None, MaxRecords=None, Marker=None):
+    """
+    Returns the task assessment results from Amazon S3. This action always returns the latest results.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_replication_task_assessment_results(
+        ReplicationTaskArn='string',
+        MaxRecords=123,
+        Marker='string'
+    )
+    
+    
+    :type ReplicationTaskArn: string
+    :param ReplicationTaskArn: 
+            The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified the API will return only one result and ignore the values of the max-records and marker parameters.
+            
+
+    :type MaxRecords: integer
+    :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
+            Default: 100
+            Constraints: Minimum 20, maximum 100.
+            
+
+    :type Marker: string
+    :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+
+    :rtype: dict
+    :return: {
+        'Marker': 'string',
+        'BucketName': 'string',
+        'ReplicationTaskAssessmentResults': [
+            {
+                'ReplicationTaskIdentifier': 'string',
+                'ReplicationTaskArn': 'string',
+                'ReplicationTaskLastAssessmentDate': datetime(2015, 1, 1),
+                'AssessmentStatus': 'string',
+                'AssessmentResultsFile': 'string',
+                'AssessmentResults': 'string',
+                'S3ObjectUrl': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    The Amazon S3 bucket where the task assessment report is located.
+    
+    """
+    pass
+
 def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
     """
     Returns information about replication tasks for your account in the current region.
@@ -1798,6 +1941,9 @@ def describe_replication_tasks(Filters=None, MaxRecords=None, Marker=None):
                 'StopReason': 'string',
                 'ReplicationTaskCreationDate': datetime(2015, 1, 1),
                 'ReplicationTaskStartDate': datetime(2015, 1, 1),
+                'CdcStartPosition': 'string',
+                'CdcStopPosition': 'string',
+                'RecoveryCheckpoint': 'string',
                 'ReplicationTaskArn': 'string',
                 'ReplicationTaskStats': {
                     'FullLoadProgressPercent': 123,
@@ -1862,16 +2008,25 @@ def describe_schemas(EndpointArn=None, MaxRecords=None, Marker=None):
     """
     pass
 
-def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=None):
+def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=None, Filters=None):
     """
     Returns table statistics on the database migration task, including table name, rows inserted, rows updated, and rows deleted.
+    Note that the "last updated" column the DMS console only indicates the time that AWS DMS last updated the table statistics record for a table. It does not indicate the time of the last update to the table.
     See also: AWS API Documentation
     
     
     :example: response = client.describe_table_statistics(
         ReplicationTaskArn='string',
         MaxRecords=123,
-        Marker='string'
+        Marker='string',
+        Filters=[
+            {
+                'Name': 'string',
+                'Values': [
+                    'string',
+                ]
+            },
+        ]
     )
     
     
@@ -1883,11 +2038,22 @@ def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=N
     :type MaxRecords: integer
     :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
             Default: 100
-            Constraints: Minimum 20, maximum 100.
+            Constraints: Minimum 20, maximum 500.
             
 
     :type Marker: string
     :param Marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
+
+    :type Filters: list
+    :param Filters: Filters applied to the describe table statistics action.
+            Valid filter names: schema-name | table-name | table-state
+            A combination of filters creates an AND condition where each record matches all specified filters.
+            (dict) --
+            Name (string) -- [REQUIRED]The name of the filter.
+            Values (list) -- [REQUIRED]The filter value.
+            (string) --
+            
+            
 
     :rtype: dict
     :return: {
@@ -1901,13 +2067,29 @@ def describe_table_statistics(ReplicationTaskArn=None, MaxRecords=None, Marker=N
                 'Updates': 123,
                 'Ddls': 123,
                 'FullLoadRows': 123,
+                'FullLoadCondtnlChkFailedRows': 123,
+                'FullLoadErrorRows': 123,
                 'LastUpdateTime': datetime(2015, 1, 1),
-                'TableState': 'string'
+                'TableState': 'string',
+                'ValidationPendingRecords': 123,
+                'ValidationFailedRecords': 123,
+                'ValidationSuspendedRecords': 123,
+                'ValidationState': 'string'
             },
         ],
         'Marker': 'string'
     }
     
+    
+    :returns: 
+    Not enabledValidation is not enabled for the table in the migration task.
+    Pending recordsSome records in the table are waiting for validation.
+    Mismatched recordsSome records in the table do not match between the source and target.
+    Suspended recordsSome records in the table could not be validated.
+    No primary keyThe table could not be validated because it had no primary key.
+    Table errorThe table was not validated because it was in an error state and some data was not migrated.
+    ValidatedAll rows in the table were validated. If the table is updated, the status can change from Validated.
+    ErrorThe table could not be validated because of an unexpected error.
     
     """
     pass
@@ -1956,7 +2138,7 @@ def get_waiter():
     """
     pass
 
-def import_certificate(CertificateIdentifier=None, CertificatePem=None, CertificateWallet=None):
+def import_certificate(CertificateIdentifier=None, CertificatePem=None, CertificateWallet=None, Tags=None):
     """
     Uploads the specified certificate.
     See also: AWS API Documentation
@@ -1965,7 +2147,13 @@ def import_certificate(CertificateIdentifier=None, CertificatePem=None, Certific
     :example: response = client.import_certificate(
         CertificateIdentifier='string',
         CertificatePem='string',
-        CertificateWallet=b'bytes'
+        CertificateWallet=b'bytes',
+        Tags=[
+            {
+                'Key': 'string',
+                'Value': 'string'
+            },
+        ]
     )
     
     
@@ -1979,6 +2167,14 @@ def import_certificate(CertificateIdentifier=None, CertificatePem=None, Certific
 
     :type CertificateWallet: bytes
     :param CertificateWallet: The location of the imported Oracle Wallet certificate for use with SSL.
+
+    :type Tags: list
+    :param Tags: The tags associated with the certificate.
+            (dict) --
+            Key (string) --A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
+            Value (string) --A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and cannot be prefixed with 'aws:' or 'dms:'. The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: '^([\p{L}\p{Z}\p{N}_.:/=+\-]*)$').
+            
+            
 
     :rtype: dict
     :return: {
@@ -2030,7 +2226,7 @@ def list_tags_for_resource(ResourceArn=None):
     """
     pass
 
-def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
+def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None, EngineName=None, Username=None, Password=None, ServerName=None, Port=None, DatabaseName=None, ExtraConnectionAttributes=None, CertificateArn=None, SslMode=None, ServiceAccessRoleArn=None, ExternalTableDefinition=None, DynamoDbSettings=None, S3Settings=None, MongoDbSettings=None):
     """
     Modifies the specified endpoint.
     See also: AWS API Documentation
@@ -2049,6 +2245,8 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
         ExtraConnectionAttributes='string',
         CertificateArn='string',
         SslMode='none'|'require'|'verify-ca'|'verify-full',
+        ServiceAccessRoleArn='string',
+        ExternalTableDefinition='string',
         DynamoDbSettings={
             'ServiceAccessRoleArn': 'string'
         },
@@ -2072,7 +2270,8 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             'NestingLevel': 'none'|'one',
             'ExtractDocId': 'string',
             'DocsToInvestigate': 'string',
-            'AuthSource': 'string'
+            'AuthSource': 'string',
+            'KmsKeyId': 'string'
         }
     )
     
@@ -2089,7 +2288,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
     :param EndpointType: The type of endpoint.
 
     :type EngineName: string
-    :param EngineName: The type of engine for the endpoint. Valid values, depending on the EndPointType, include MYSQL, ORACLE, POSTGRES, MARIADB, AURORA, REDSHIFT, S3, DYNAMODB, MONGODB, SYBASE, and SQLSERVER.
+    :param EngineName: The type of engine for the endpoint. Valid values, depending on the EndPointType, include mysql, oracle, postgres, mariadb, aurora, aurora-postgresql, redshift, s3, db2, azuredb, sybase, sybase, dynamodb, mongodb, and sqlserver.
 
     :type Username: string
     :param Username: The user name to be used to login to the endpoint database.
@@ -2107,7 +2306,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
     :param DatabaseName: The name of the endpoint database.
 
     :type ExtraConnectionAttributes: string
-    :param ExtraConnectionAttributes: Additional attributes associated with the connection.
+    :param ExtraConnectionAttributes: Additional attributes associated with the connection. To reset this parameter, pass the empty string ('') as an argument.
 
     :type CertificateArn: string
     :param CertificateArn: The Amazon Resource Name (ARN) of the certificate used for SSL connection.
@@ -2118,6 +2317,12 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             The default value is none.
             
 
+    :type ServiceAccessRoleArn: string
+    :param ServiceAccessRoleArn: The Amazon Resource Name (ARN) for the service access role you want to use to modify the endpoint.
+
+    :type ExternalTableDefinition: string
+    :param ExternalTableDefinition: The external table definition.
+
     :type DynamoDbSettings: dict
     :param DynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For more information about the available settings, see the Using Object Mapping to Migrate Data to DynamoDB section at Using an Amazon DynamoDB Database as a Target for AWS Database Migration Service .
             ServiceAccessRoleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) used by the service access IAM role.
@@ -2126,7 +2331,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
     :type S3Settings: dict
     :param S3Settings: Settings in JSON format for the target S3 endpoint. For more information about the available settings, see the Extra Connection Attributes section at Using Amazon S3 as a Target for AWS Database Migration Service .
             ServiceAccessRoleArn (string) --The Amazon Resource Name (ARN) used by the service access IAM role.
-            ExternalTableDefinition (string) --
+            ExternalTableDefinition (string) --The external table definition.
             CsvRowDelimiter (string) --The delimiter used to separate rows in the source files. The default is a carriage return (n).
             CsvDelimiter (string) --The delimiter used to separate columns in the source files. The default is a comma.
             BucketFolder (string) --An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path bucketFolder/schema_name/table_name/. If this parameter is not specified, then the path used is schema_name/table_name/.
@@ -2156,6 +2361,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             Must be a positive value greater than 0. Default value is 1000.
             AuthSource (string) --The MongoDB database name. This attribute is not used when authType=NO .
             The default is admin.
+            KmsKeyId (string) --The KMS key identifier that will be used to encrypt the connection parameters. If you do not specify a value for the KmsKeyId parameter, then AWS DMS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS region.
             
 
     :rtype: dict
@@ -2164,6 +2370,7 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             'EndpointIdentifier': 'string',
             'EndpointType': 'source'|'target',
             'EngineName': 'string',
+            'EngineDisplayName': 'string',
             'Username': 'string',
             'ServerName': 'string',
             'Port': 123,
@@ -2174,6 +2381,8 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
             'EndpointArn': 'string',
             'CertificateArn': 'string',
             'SslMode': 'none'|'require'|'verify-ca'|'verify-full',
+            'ServiceAccessRoleArn': 'string',
+            'ExternalTableDefinition': 'string',
             'ExternalId': 'string',
             'DynamoDbSettings': {
                 'ServiceAccessRoleArn': 'string'
@@ -2198,7 +2407,8 @@ def modify_endpoint(EndpointArn=None, EndpointIdentifier=None, EndpointType=None
                 'NestingLevel': 'none'|'one',
                 'ExtractDocId': 'string',
                 'DocsToInvestigate': 'string',
-                'AuthSource': 'string'
+                'AuthSource': 'string',
+                'KmsKeyId': 'string'
             }
         }
     }
@@ -2392,7 +2602,8 @@ def modify_replication_instance(ReplicationInstanceArn=None, AllocatedStorage=No
                 'string',
             ],
             'PubliclyAccessible': True|False,
-            'SecondaryAvailabilityZone': 'string'
+            'SecondaryAvailabilityZone': 'string',
+            'FreeUntil': datetime(2015, 1, 1)
         }
     }
     
@@ -2457,7 +2668,7 @@ def modify_replication_subnet_group(ReplicationSubnetGroupIdentifier=None, Repli
     """
     pass
 
-def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None):
+def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=None, MigrationType=None, TableMappings=None, ReplicationTaskSettings=None, CdcStartTime=None, CdcStartPosition=None, CdcStopPosition=None):
     """
     Modifies the specified replication task.
     You can't modify the task endpoints. The task must be stopped before you can modify it.
@@ -2471,7 +2682,9 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
         MigrationType='full-load'|'cdc'|'full-load-and-cdc',
         TableMappings='string',
         ReplicationTaskSettings='string',
-        CdcStartTime=datetime(2015, 1, 1)
+        CdcStartTime=datetime(2015, 1, 1),
+        CdcStartPosition='string',
+        CdcStopPosition='string'
     )
     
     
@@ -2502,7 +2715,21 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
     :param ReplicationTaskSettings: JSON file that contains settings for the task, such as target metadata settings.
 
     :type CdcStartTime: datetime
-    :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+    :param CdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+
+    :type CdcStartPosition: string
+    :param CdcStartPosition: Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.
+            The value can be in date, checkpoint, or LSN/SCN format.
+            Date Example: --cdc-start-position  2018-03-08T12:12:12 
+            Checkpoint Example: --cdc-start-position 'checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93'
+            LSN Example: --cdc-start-position  mysql-bin-changelog.000024:373 
+            
+
+    :type CdcStopPosition: string
+    :param CdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+            Server time example: --cdc-stop-position  server_time:3018-02-09T12:12:12 
+            Commit time example: --cdc-stop-position  commit_time: 3018-02-09T12:12:12  
+            
 
     :rtype: dict
     :return: {
@@ -2519,6 +2746,9 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
             'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
             'ReplicationTaskArn': 'string',
             'ReplicationTaskStats': {
                 'FullLoadProgressPercent': 123,
@@ -2534,6 +2764,91 @@ def modify_replication_task(ReplicationTaskArn=None, ReplicationTaskIdentifier=N
     
     :returns: 
     Must contain from 1 to 255 alphanumeric characters or hyphens.
+    First character must be a letter.
+    Cannot end with a hyphen or contain two consecutive hyphens.
+    
+    """
+    pass
+
+def reboot_replication_instance(ReplicationInstanceArn=None, ForceFailover=None):
+    """
+    Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.reboot_replication_instance(
+        ReplicationInstanceArn='string',
+        ForceFailover=True|False
+    )
+    
+    
+    :type ReplicationInstanceArn: string
+    :param ReplicationInstanceArn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the replication instance.
+            
+
+    :type ForceFailover: boolean
+    :param ForceFailover: If this parameter is true , the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true .)
+
+    :rtype: dict
+    :return: {
+        'ReplicationInstance': {
+            'ReplicationInstanceIdentifier': 'string',
+            'ReplicationInstanceClass': 'string',
+            'ReplicationInstanceStatus': 'string',
+            'AllocatedStorage': 123,
+            'InstanceCreateTime': datetime(2015, 1, 1),
+            'VpcSecurityGroups': [
+                {
+                    'VpcSecurityGroupId': 'string',
+                    'Status': 'string'
+                },
+            ],
+            'AvailabilityZone': 'string',
+            'ReplicationSubnetGroup': {
+                'ReplicationSubnetGroupIdentifier': 'string',
+                'ReplicationSubnetGroupDescription': 'string',
+                'VpcId': 'string',
+                'SubnetGroupStatus': 'string',
+                'Subnets': [
+                    {
+                        'SubnetIdentifier': 'string',
+                        'SubnetAvailabilityZone': {
+                            'Name': 'string'
+                        },
+                        'SubnetStatus': 'string'
+                    },
+                ]
+            },
+            'PreferredMaintenanceWindow': 'string',
+            'PendingModifiedValues': {
+                'ReplicationInstanceClass': 'string',
+                'AllocatedStorage': 123,
+                'MultiAZ': True|False,
+                'EngineVersion': 'string'
+            },
+            'MultiAZ': True|False,
+            'EngineVersion': 'string',
+            'AutoMinorVersionUpgrade': True|False,
+            'KmsKeyId': 'string',
+            'ReplicationInstanceArn': 'string',
+            'ReplicationInstancePublicIpAddress': 'string',
+            'ReplicationInstancePrivateIpAddress': 'string',
+            'ReplicationInstancePublicIpAddresses': [
+                'string',
+            ],
+            'ReplicationInstancePrivateIpAddresses': [
+                'string',
+            ],
+            'PubliclyAccessible': True|False,
+            'SecondaryAvailabilityZone': 'string',
+            'FreeUntil': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    :returns: 
+    Must contain from 1 to 63 alphanumeric characters or hyphens.
     First character must be a letter.
     Cannot end with a hyphen or contain two consecutive hyphens.
     
@@ -2652,7 +2967,7 @@ def remove_tags_from_resource(ResourceArn=None, TagKeys=None):
     """
     pass
 
-def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None):
+def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=None, CdcStartTime=None, CdcStartPosition=None, CdcStopPosition=None):
     """
     Starts the replication task.
     For more information about AWS DMS tasks, see the AWS DMS user guide at Working with Migration Tasks
@@ -2662,13 +2977,15 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
     :example: response = client.start_replication_task(
         ReplicationTaskArn='string',
         StartReplicationTaskType='start-replication'|'resume-processing'|'reload-target',
-        CdcStartTime=datetime(2015, 1, 1)
+        CdcStartTime=datetime(2015, 1, 1),
+        CdcStartPosition='string',
+        CdcStopPosition='string'
     )
     
     
     :type ReplicationTaskArn: string
     :param ReplicationTaskArn: [REQUIRED]
-            The Amazon Resource Number (ARN) of the replication task to be started.
+            The Amazon Resource Name (ARN) of the replication task to be started.
             
 
     :type StartReplicationTaskType: string
@@ -2677,7 +2994,21 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
             
 
     :type CdcStartTime: datetime
-    :param CdcStartTime: The start time for the Change Data Capture (CDC) operation.
+    :param CdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
+
+    :type CdcStartPosition: string
+    :param CdcStartPosition: Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error.
+            The value can be in date, checkpoint, or LSN/SCN format.
+            Date Example: --cdc-start-position  2018-03-08T12:12:12 
+            Checkpoint Example: --cdc-start-position 'checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93'
+            LSN Example: --cdc-start-position  mysql-bin-changelog.000024:373 
+            
+
+    :type CdcStopPosition: string
+    :param CdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+            Server time example: --cdc-stop-position  server_time:3018-02-09T12:12:12 
+            Commit time example: --cdc-stop-position  commit_time: 3018-02-09T12:12:12  
+            
 
     :rtype: dict
     :return: {
@@ -2694,6 +3025,9 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
             'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
             'ReplicationTaskArn': 'string',
             'ReplicationTaskStats': {
                 'FullLoadProgressPercent': 123,
@@ -2715,20 +3049,20 @@ def start_replication_task(ReplicationTaskArn=None, StartReplicationTaskType=Non
     """
     pass
 
-def stop_replication_task(ReplicationTaskArn=None):
+def start_replication_task_assessment(ReplicationTaskArn=None):
     """
-    Stops the replication task.
+    Starts the replication task assessment for unsupported data types in the source database.
     See also: AWS API Documentation
     
     
-    :example: response = client.stop_replication_task(
+    :example: response = client.start_replication_task_assessment(
         ReplicationTaskArn='string'
     )
     
     
     :type ReplicationTaskArn: string
     :param ReplicationTaskArn: [REQUIRED]
-            The Amazon Resource Number(ARN) of the replication task to be stopped.
+            The Amazon Resource Name (ARN) of the replication task.
             
 
     :rtype: dict
@@ -2746,6 +3080,59 @@ def stop_replication_task(ReplicationTaskArn=None):
             'StopReason': 'string',
             'ReplicationTaskCreationDate': datetime(2015, 1, 1),
             'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
+            'ReplicationTaskArn': 'string',
+            'ReplicationTaskStats': {
+                'FullLoadProgressPercent': 123,
+                'ElapsedTimeMillis': 123,
+                'TablesLoaded': 123,
+                'TablesLoading': 123,
+                'TablesQueued': 123,
+                'TablesErrored': 123
+            }
+        }
+    }
+    
+    
+    """
+    pass
+
+def stop_replication_task(ReplicationTaskArn=None):
+    """
+    Stops the replication task.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.stop_replication_task(
+        ReplicationTaskArn='string'
+    )
+    
+    
+    :type ReplicationTaskArn: string
+    :param ReplicationTaskArn: [REQUIRED]
+            The Amazon Resource Name(ARN) of the replication task to be stopped.
+            
+
+    :rtype: dict
+    :return: {
+        'ReplicationTask': {
+            'ReplicationTaskIdentifier': 'string',
+            'SourceEndpointArn': 'string',
+            'TargetEndpointArn': 'string',
+            'ReplicationInstanceArn': 'string',
+            'MigrationType': 'full-load'|'cdc'|'full-load-and-cdc',
+            'TableMappings': 'string',
+            'ReplicationTaskSettings': 'string',
+            'Status': 'string',
+            'LastFailureMessage': 'string',
+            'StopReason': 'string',
+            'ReplicationTaskCreationDate': datetime(2015, 1, 1),
+            'ReplicationTaskStartDate': datetime(2015, 1, 1),
+            'CdcStartPosition': 'string',
+            'CdcStopPosition': 'string',
+            'RecoveryCheckpoint': 'string',
             'ReplicationTaskArn': 'string',
             'ReplicationTaskStats': {
                 'FullLoadProgressPercent': 123,

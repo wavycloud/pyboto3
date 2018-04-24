@@ -24,10 +24,10 @@ SOFTWARE.
 
 '''
 
-def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=None, SourceArn=None, SourceAccount=None, EventSourceToken=None, Qualifier=None):
+def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=None, SourceArn=None, SourceAccount=None, EventSourceToken=None, Qualifier=None, RevisionId=None):
     """
     Adds a permission to the resource policy associated with the specified AWS Lambda function. You use resource policies to grant permissions to event sources that use push model. In a push model, event sources (such as Amazon S3 and custom applications) invoke your Lambda function. Each permission you add to the resource policy allows an event source, permission to invoke the Lambda function.
-    For information about the push model, see AWS Lambda: How it Works .
+    For information about the push model, see Lambda Functions .
     If you are using versioning, the permissions you add are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:AddPermission action.
     See also: AWS API Documentation
@@ -44,7 +44,8 @@ def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=N
         SourceArn='string',
         SourceAccount='string',
         EventSourceToken='string',
-        Qualifier='string'
+        Qualifier='string',
+        RevisionId='string'
     )
     
     
@@ -90,6 +91,9 @@ def add_permission(FunctionName=None, StatementId=None, Action=None, Principal=N
             arn:aws:lambda:aws-region:acct-id:function:function-name
             
 
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+
     :rtype: dict
     :return: {
         'Statement': 'string'
@@ -114,7 +118,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description=None):
+def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description=None, RoutingConfig=None):
     """
     Creates an alias that points to the specified Lambda function version. For more information, see Introduction to AWS Lambda Aliases .
     Alias names are unique for a given function. This requires permission for the lambda:CreateAlias action.
@@ -125,7 +129,12 @@ def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
         FunctionName='string',
         Name='string',
         FunctionVersion='string',
-        Description='string'
+        Description='string',
+        RoutingConfig={
+            'AdditionalVersionWeights': {
+                'string': 123.0
+            }
+        }
     )
     
     
@@ -147,13 +156,33 @@ def create_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
     :type Description: string
     :param Description: Description of the alias.
 
+    :type RoutingConfig: dict
+    :param RoutingConfig: Specifies an additional version your alias can point to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases .
+            AdditionalVersionWeights (dict) --Set this value to dictate what percentage of traffic will invoke the updated function version. If set to an empty string, 100 percent of traffic will invoke function-version . For more information, see lambda-traffic-shifting-using-aliases .
+            (string) --
+            (float) --
+            
+            
+
     :rtype: dict
     :return: {
         'AliasArn': 'string',
         'Name': 'string',
         'FunctionVersion': 'string',
-        'Description': 'string'
+        'Description': 'string',
+        'RoutingConfig': {
+            'AdditionalVersionWeights': {
+                'string': 123.0
+            }
+        },
+        'RevisionId': 'string'
     }
+    
+    
+    :returns: 
+    (string) --
+    (float) --
+    
     
     
     """
@@ -164,7 +193,7 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
     Identifies a stream as an event source for a Lambda function. It can be either an Amazon Kinesis stream or an Amazon DynamoDB stream. AWS Lambda invokes the specified function when records are posted to the stream.
     This association between a stream source and a Lambda function is called the event source mapping.
     You provide mapping information (for example, which stream to read from and which Lambda function to invoke) in the request body.
-    Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated with multiple AWS Lambda function. A given Lambda function can be associated with multiple AWS event sources.
+    Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be associated with multiple AWS Lambda functions. A given Lambda function can be associated with multiple AWS event sources.
     If you are using versioning, you can specify a specific function version or an alias via the function name parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
     This operation requires permission for the lambda:CreateEventSourceMapping action.
     See also: AWS API Documentation
@@ -202,11 +231,11 @@ def create_event_source_mapping(EventSourceArn=None, FunctionName=None, Enabled=
 
     :type StartingPosition: string
     :param StartingPosition: [REQUIRED]
-            The position in the stream where AWS Lambda should start reading. Valid only for Kinesis streams. For more information, see ShardIteratorType in the Amazon Kinesis API Reference .
+            The position in the DynamoDB or Kinesis stream where AWS Lambda should start reading. For more information, see GetShardIterator in the Amazon Kinesis API Reference Guide or GetShardIterator in the Amazon DynamoDB API Reference Guide . The AT_TIMESTAMP value is supported only for Kinesis streams .
             
 
     :type StartingPositionTimestamp: datetime
-    :param StartingPositionTimestamp: The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams.
+    :param StartingPositionTimestamp: The timestamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator returned is for the next (later) record. If the timestamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON). Valid only for Kinesis streams .
 
     :rtype: dict
     :return: {
@@ -237,7 +266,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     
     :example: response = client.create_function(
         FunctionName='string',
-        Runtime='nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        Runtime='nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         Role='string',
         Handler='string',
         Code={
@@ -284,9 +313,9 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     :type Runtime: string
     :param Runtime: [REQUIRED]
             The runtime environment for the Lambda function you are uploading.
-            To use the Python runtime v3.6, set the value to 'python3.6'. To use the Python runtime v2.7, set the value to 'python2.7'. To use the Node.js runtime v6.10, set the value to 'nodejs6.10'. To use the Node.js runtime v4.3, set the value to 'nodejs4.3'.
+            To use the Python runtime v3.6, set the value to 'python3.6'. To use the Python runtime v2.7, set the value to 'python2.7'. To use the Node.js runtime v6.10, set the value to 'nodejs6.10'. To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use the .NET Core runtime v1.0, set the value to 'dotnetcore1.0'. To use the .NET Core runtime v2.0, set the value to 'dotnetcore2.0'.
             Note
-            You can no longer create functions using the v0.10.42 runtime version as of November, 2016. Existing functions will be supported until early 2017, but we recommend you migrate them to either nodejs6.10 or nodejs4.3 runtime version as soon as possible.
+            Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime.
             
 
     :type Role: string
@@ -329,8 +358,8 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             
 
     :type DeadLetterConfig: dict
-    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
-            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. For more information, see dlq .
+            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ). dlq . For more information, see dlq .
             
 
     :type Environment: dict
@@ -350,7 +379,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
             
 
     :type Tags: dict
-    :param Tags: The list of tags (key-value pairs) assigned to the new function.
+    :param Tags: The list of tags (key-value pairs) assigned to the new function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             (string) --
             (string) --
             
@@ -359,7 +388,7 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -393,7 +422,9 @@ def create_function(FunctionName=None, Runtime=None, Role=None, Handler=None, Co
         'KMSKeyArn': 'string',
         'TracingConfig': {
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        'MasterArn': 'string',
+        'RevisionId': 'string'
     }
     
     
@@ -517,6 +548,25 @@ def delete_function(FunctionName=None, Qualifier=None):
     """
     pass
 
+def delete_function_concurrency(FunctionName=None):
+    """
+    Removes concurrent execution limits from this function. For more information, see  concurrent-executions .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_function_concurrency(
+        FunctionName='string'
+    )
+    
+    
+    :type FunctionName: string
+    :param FunctionName: [REQUIRED]
+            The name of the function you are removing concurrent execution limits from. For more information, see concurrent-executions .
+            
+
+    """
+    pass
+
 def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpMethod=None):
     """
     Generate a presigned url given a client, its method, and arguments
@@ -558,7 +608,8 @@ def get_account_settings():
             'TotalCodeSize': 123,
             'CodeSizeUnzipped': 123,
             'CodeSizeZipped': 123,
-            'ConcurrentExecutions': 123
+            'ConcurrentExecutions': 123,
+            'UnreservedConcurrentExecutions': 123
         },
         'AccountUsage': {
             'TotalCodeSize': 123,
@@ -601,8 +652,20 @@ def get_alias(FunctionName=None, Name=None):
         'AliasArn': 'string',
         'Name': 'string',
         'FunctionVersion': 'string',
-        'Description': 'string'
+        'Description': 'string',
+        'RoutingConfig': {
+            'AdditionalVersionWeights': {
+                'string': 123.0
+            }
+        },
+        'RevisionId': 'string'
     }
+    
+    
+    :returns: 
+    (string) --
+    (float) --
+    
     
     
     """
@@ -668,14 +731,14 @@ def get_function(FunctionName=None, Qualifier=None):
             
 
     :type Qualifier: string
-    :param Qualifier: Using this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function.
+    :param Qualifier: Use this optional parameter to specify a function version or an alias name. If you specify function version, the API uses qualified function ARN for the request and returns information about the specific Lambda function version. If you specify an alias name, the API uses the alias ARN and returns information about the function version to which the alias points. If you don't provide this parameter, the API uses unqualified function ARN and returns information about the $LATEST version of the Lambda function.
 
     :rtype: dict
     :return: {
         'Configuration': {
             'FunctionName': 'string',
             'FunctionArn': 'string',
-            'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+            'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
             'Role': 'string',
             'Handler': 'string',
             'CodeSize': 123,
@@ -709,7 +772,9 @@ def get_function(FunctionName=None, Qualifier=None):
             'KMSKeyArn': 'string',
             'TracingConfig': {
                 'Mode': 'Active'|'PassThrough'
-            }
+            },
+            'MasterArn': 'string',
+            'RevisionId': 'string'
         },
         'Code': {
             'RepositoryType': 'string',
@@ -717,6 +782,9 @@ def get_function(FunctionName=None, Qualifier=None):
         },
         'Tags': {
             'string': 'string'
+        },
+        'Concurrency': {
+            'ReservedConcurrentExecutions': 123
         }
     }
     
@@ -759,7 +827,7 @@ def get_function_configuration(FunctionName=None, Qualifier=None):
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -793,7 +861,9 @@ def get_function_configuration(FunctionName=None, Qualifier=None):
         'KMSKeyArn': 'string',
         'TracingConfig': {
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        'MasterArn': 'string',
+        'RevisionId': 'string'
     }
     
     
@@ -847,7 +917,8 @@ def get_policy(FunctionName=None, Qualifier=None):
 
     :rtype: dict
     :return: {
-        'Policy': 'string'
+        'Policy': 'string',
+        'RevisionId': 'string'
     }
     
     
@@ -895,7 +966,7 @@ def invoke(FunctionName=None, InvocationType=None, LogType=None, ClientContext=N
 
     :type ClientContext: string
     :param ClientContext: Using the ClientContext you can pass client-specific information to the Lambda function you are invoking. You can then process the client information in your Lambda function as you choose through the context variable. For an example of a ClientContext JSON, see PutEvents in the Amazon Mobile Analytics API Reference and User Guide .
-            The ClientContext JSON must be base64-encoded.
+            The ClientContext JSON must be base64-encoded and has a maximum size of 3583 bytes.
             
 
     :type Payload: bytes or seekable file-like object
@@ -911,7 +982,8 @@ def invoke(FunctionName=None, InvocationType=None, LogType=None, ClientContext=N
         'StatusCode': 123,
         'FunctionError': 'string',
         'LogResult': 'string',
-        'Payload': StreamingBody()
+        'Payload': StreamingBody(),
+        'ExecutedVersion': 'string'
     }
     
     
@@ -993,10 +1065,22 @@ def list_aliases(FunctionName=None, FunctionVersion=None, Marker=None, MaxItems=
                 'AliasArn': 'string',
                 'Name': 'string',
                 'FunctionVersion': 'string',
-                'Description': 'string'
+                'Description': 'string',
+                'RoutingConfig': {
+                    'AdditionalVersionWeights': {
+                        'string': 123.0
+                    }
+                },
+                'RevisionId': 'string'
             },
         ]
     }
+    
+    
+    :returns: 
+    (string) --
+    (float) --
+    
     
     
     """
@@ -1054,11 +1138,11 @@ def list_event_source_mappings(EventSourceArn=None, FunctionName=None, Marker=No
     """
     pass
 
-def list_functions(Marker=None, MaxItems=None):
+def list_functions(MasterRegion=None, FunctionVersion=None, Marker=None, MaxItems=None):
     """
     Returns a list of your Lambda functions. For each function, the response includes the function configuration information. You must use  GetFunction to retrieve the code for your function.
     This operation requires permission for the lambda:ListFunctions action.
-    If you are using versioning feature, the response returns list of $LATEST versions of your functions. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
+    If you are using the versioning feature, you can list all of your functions or only $LATEST versions. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     See also: AWS API Documentation
     
     Examples
@@ -1066,11 +1150,26 @@ def list_functions(Marker=None, MaxItems=None):
     Expected Output:
     
     :example: response = client.list_functions(
+        MasterRegion='string',
+        FunctionVersion='ALL',
         Marker='string',
         MaxItems=123
     )
     
     
+    :type MasterRegion: string
+    :param MasterRegion: Optional string. If not specified, will return only regular function versions (i.e., non-replicated versions).
+            Valid values are:
+            The region from which the functions are replicated. For example, if you specify us-east-1 , only functions replicated from that region will be returned.
+            ALL : Will return all functions from any region. If specified, you also must specify a valid FunctionVersion parameter.
+            
+
+    :type FunctionVersion: string
+    :param FunctionVersion: Optional string. If not specified, only the unqualified functions ARNs (Amazon Resource Names) will be returned.
+            Valid value:
+            ALL : Will return all versions, including $LATEST which will have fully qualified ARNs (Amazon Resource Names).
+            
+
     :type Marker: string
     :param Marker: Optional string. An opaque pagination token returned from a previous ListFunctions operation. If present, indicates where to continue the listing.
 
@@ -1084,7 +1183,7 @@ def list_functions(Marker=None, MaxItems=None):
             {
                 'FunctionName': 'string',
                 'FunctionArn': 'string',
-                'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+                'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
                 'Role': 'string',
                 'Handler': 'string',
                 'CodeSize': 123,
@@ -1118,7 +1217,9 @@ def list_functions(Marker=None, MaxItems=None):
                 'KMSKeyArn': 'string',
                 'TracingConfig': {
                     'Mode': 'Active'|'PassThrough'
-                }
+                },
+                'MasterArn': 'string',
+                'RevisionId': 'string'
             },
         ]
     }
@@ -1132,7 +1233,7 @@ def list_functions(Marker=None, MaxItems=None):
 
 def list_tags(Resource=None):
     """
-    Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name).
+    Returns a list of tags assigned to a function when supplied the function ARN (Amazon Resource Name). For more information on Tagging, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
     See also: AWS API Documentation
     
     
@@ -1143,7 +1244,7 @@ def list_tags(Resource=None):
     
     :type Resource: string
     :param Resource: [REQUIRED]
-            The ARN (Amazon Resource Name) of the function.
+            The ARN (Amazon Resource Name) of the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             
 
     :rtype: dict
@@ -1191,7 +1292,7 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
             {
                 'FunctionName': 'string',
                 'FunctionArn': 'string',
-                'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+                'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
                 'Role': 'string',
                 'Handler': 'string',
                 'CodeSize': 123,
@@ -1225,7 +1326,9 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
                 'KMSKeyArn': 'string',
                 'TracingConfig': {
                     'Mode': 'Active'|'PassThrough'
-                }
+                },
+                'MasterArn': 'string',
+                'RevisionId': 'string'
             },
         ]
     }
@@ -1237,7 +1340,7 @@ def list_versions_by_function(FunctionName=None, Marker=None, MaxItems=None):
     """
     pass
 
-def publish_version(FunctionName=None, CodeSha256=None, Description=None):
+def publish_version(FunctionName=None, CodeSha256=None, Description=None, RevisionId=None):
     """
     Publishes a version of your function from the current snapshot of $LATEST. That is, AWS Lambda takes a snapshot of the function code and configuration information from $LATEST and publishes a new version. The code and configuration cannot be modified after publication. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
     See also: AWS API Documentation
@@ -1249,7 +1352,8 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
     :example: response = client.publish_version(
         FunctionName='string',
         CodeSha256='string',
-        Description='string'
+        Description='string',
+        RevisionId='string'
     )
     
     
@@ -1259,16 +1363,19 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
             
 
     :type CodeSha256: string
-    :param CodeSha256: The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter value must match the SHA256 of the $LATEST version for the publication to succeed.
+    :param CodeSha256: The SHA256 hash of the deployment package you want to publish. This provides validation on the code you are publishing. If you provide this parameter, the value must match the SHA256 of the $LATEST version for the publication to succeed. You can use the DryRun parameter of UpdateFunctionCode to verify the hash value that will be returned before publishing your new version.
 
     :type Description: string
     :param Description: The description for the version you are publishing. If not provided, AWS Lambda copies the description from the $LATEST version.
+
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
 
     :rtype: dict
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1302,7 +1409,9 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
         'KMSKeyArn': 'string',
         'TracingConfig': {
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        'MasterArn': 'string',
+        'RevisionId': 'string'
     }
     
     
@@ -1312,7 +1421,38 @@ def publish_version(FunctionName=None, CodeSha256=None, Description=None):
     """
     pass
 
-def remove_permission(FunctionName=None, StatementId=None, Qualifier=None):
+def put_function_concurrency(FunctionName=None, ReservedConcurrentExecutions=None):
+    """
+    Sets a limit on the number of concurrent executions available to this function. It is a subset of your account's total concurrent execution limit per region. Note that Lambda automatically reserves a buffer of 100 concurrent executions for functions without any reserved concurrency limit. This means if your account limit is 1000, you have a total of 900 available to allocate to individual functions. For more information, see  concurrent-executions .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_function_concurrency(
+        FunctionName='string',
+        ReservedConcurrentExecutions=123
+    )
+    
+    
+    :type FunctionName: string
+    :param FunctionName: [REQUIRED]
+            The name of the function you are setting concurrent execution limits on. For more information, see concurrent-executions .
+            
+
+    :type ReservedConcurrentExecutions: integer
+    :param ReservedConcurrentExecutions: [REQUIRED]
+            The concurrent execution limit reserved for this function. For more information, see concurrent-executions .
+            
+
+    :rtype: dict
+    :return: {
+        'ReservedConcurrentExecutions': 123
+    }
+    
+    
+    """
+    pass
+
+def remove_permission(FunctionName=None, StatementId=None, Qualifier=None, RevisionId=None):
     """
     You can remove individual permissions from an resource policy associated with a Lambda function by providing a statement ID that you provided when you added the permission.
     If you are using versioning, the permissions you remove are specific to the Lambda function version or alias you specify in the AddPermission request via the Qualifier parameter. For more information about versioning, see AWS Lambda Function Versioning and Aliases .
@@ -1327,7 +1467,8 @@ def remove_permission(FunctionName=None, StatementId=None, Qualifier=None):
     :example: response = client.remove_permission(
         FunctionName='string',
         StatementId='string',
-        Qualifier='string'
+        Qualifier='string',
+        RevisionId='string'
     )
     
     
@@ -1345,6 +1486,9 @@ def remove_permission(FunctionName=None, StatementId=None, Qualifier=None):
     :type Qualifier: string
     :param Qualifier: You can specify this optional parameter to remove permission associated with a specific function version or function alias. If you don't specify this parameter, the API removes permission associated with the unqualified function ARN.
 
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+
     :return: response = client.remove_permission(
         FunctionName='myFunction',
         Qualifier='1',
@@ -1359,7 +1503,7 @@ def remove_permission(FunctionName=None, StatementId=None, Qualifier=None):
 
 def tag_resource(Resource=None, Tags=None):
     """
-    Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null.
+    Creates a list of tags (key-value pairs) on the Lambda function. Requires the Lambda function ARN (Amazon Resource Name). If a key is specified without a value, Lambda creates a tag with the specified key and a value of null. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
     See also: AWS API Documentation
     
     
@@ -1373,12 +1517,12 @@ def tag_resource(Resource=None, Tags=None):
     
     :type Resource: string
     :param Resource: [REQUIRED]
-            The ARN (Amazon Resource Name) of the Lambda function.
+            The ARN (Amazon Resource Name) of the Lambda function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             
 
     :type Tags: dict
     :param Tags: [REQUIRED]
-            The list of tags (key-value pairs) you are assigning to the Lambda function.
+            The list of tags (key-value pairs) you are assigning to the Lambda function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             (string) --
             (string) --
             
@@ -1388,7 +1532,7 @@ def tag_resource(Resource=None, Tags=None):
 
 def untag_resource(Resource=None, TagKeys=None):
     """
-    Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name).
+    Removes tags from a Lambda function. Requires the function ARN (Amazon Resource Name). For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
     See also: AWS API Documentation
     
     
@@ -1402,19 +1546,19 @@ def untag_resource(Resource=None, TagKeys=None):
     
     :type Resource: string
     :param Resource: [REQUIRED]
-            The ARN (Amazon Resource Name) of the function.
+            The ARN (Amazon Resource Name) of the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             
 
     :type TagKeys: list
     :param TagKeys: [REQUIRED]
-            The list of tag keys to be deleted from the function.
+            The list of tag keys to be deleted from the function. For more information, see Tagging Lambda Functions in the AWS Lambda Developer Guide .
             (string) --
             
 
     """
     pass
 
-def update_alias(FunctionName=None, Name=None, FunctionVersion=None, Description=None):
+def update_alias(FunctionName=None, Name=None, FunctionVersion=None, Description=None, RoutingConfig=None, RevisionId=None):
     """
     Using this API you can update the function version to which the alias points and the alias description. For more information, see Introduction to AWS Lambda Aliases .
     This requires permission for the lambda:UpdateAlias action.
@@ -1428,7 +1572,13 @@ def update_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
         FunctionName='string',
         Name='string',
         FunctionVersion='string',
-        Description='string'
+        Description='string',
+        RoutingConfig={
+            'AdditionalVersionWeights': {
+                'string': 123.0
+            }
+        },
+        RevisionId='string'
     )
     
     
@@ -1448,13 +1598,36 @@ def update_alias(FunctionName=None, Name=None, FunctionVersion=None, Description
     :type Description: string
     :param Description: You can change the description of the alias using this parameter.
 
+    :type RoutingConfig: dict
+    :param RoutingConfig: Specifies an additional version your alias can point to, allowing you to dictate what percentage of traffic will invoke each version. For more information, see lambda-traffic-shifting-using-aliases .
+            AdditionalVersionWeights (dict) --Set this value to dictate what percentage of traffic will invoke the updated function version. If set to an empty string, 100 percent of traffic will invoke function-version . For more information, see lambda-traffic-shifting-using-aliases .
+            (string) --
+            (float) --
+            
+            
+
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+
     :rtype: dict
     :return: {
         'AliasArn': 'string',
         'Name': 'string',
         'FunctionVersion': 'string',
-        'Description': 'string'
+        'Description': 'string',
+        'RoutingConfig': {
+            'AdditionalVersionWeights': {
+                'string': 123.0
+            }
+        },
+        'RevisionId': 'string'
     }
+    
+    
+    :returns: 
+    (string) --
+    (float) --
+    
     
     
     """
@@ -1514,7 +1687,7 @@ def update_event_source_mapping(UUID=None, FunctionName=None, Enabled=None, Batc
     """
     pass
 
-def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=None, S3ObjectVersion=None, Publish=None, DryRun=None):
+def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=None, S3ObjectVersion=None, Publish=None, DryRun=None, RevisionId=None):
     """
     Updates the code for the specified Lambda function. This operation must only be used on an existing Lambda function and cannot be used to update the function configuration.
     If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
@@ -1532,7 +1705,8 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
         S3Key='string',
         S3ObjectVersion='string',
         Publish=True|False,
-        DryRun=True|False
+        DryRun=True|False,
+        RevisionId='string'
     )
     
     
@@ -1543,7 +1717,7 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
             
 
     :type ZipFile: bytes
-    :param ZipFile: The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions in the AWS Lambda Developer Guide .
+    :param ZipFile: The contents of your zip file containing your deployment package. If you are using the web API directly, the contents of the zip file must be base64-encoded. If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the encoding for you. For more information about creating a .zip file, see Execution Permissions .
             This value will be base64 encoded automatically. Do not base64 encode this value prior to performing the operation.
             
 
@@ -1560,13 +1734,16 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
     :param Publish: This boolean parameter can be used to request AWS Lambda to update the Lambda function and publish a version as an atomic operation.
 
     :type DryRun: boolean
-    :param DryRun: This boolean parameter can be used to test your request to AWS Lambda to update the Lambda function and publish a version as an atomic operation. It will do all necessary computation and validation of your code but will not upload it or a publish a version. Each time this operation is invoked, the CodeSha256 hash value the provided code will also be computed and returned in the response.
+    :param DryRun: This boolean parameter can be used to test your request to AWS Lambda to update the Lambda function and publish a version as an atomic operation. It will do all necessary computation and validation of your code but will not upload it or a publish a version. Each time this operation is invoked, the CodeSha256 hash value of the provided code will also be computed and returned in the response.
+
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
 
     :rtype: dict
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1600,7 +1777,9 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
         'KMSKeyArn': 'string',
         'TracingConfig': {
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        'MasterArn': 'string',
+        'RevisionId': 'string'
     }
     
     
@@ -1610,7 +1789,7 @@ def update_function_code(FunctionName=None, ZipFile=None, S3Bucket=None, S3Key=N
     """
     pass
 
-def update_function_configuration(FunctionName=None, Role=None, Handler=None, Description=None, Timeout=None, MemorySize=None, VpcConfig=None, Environment=None, Runtime=None, DeadLetterConfig=None, KMSKeyArn=None, TracingConfig=None):
+def update_function_configuration(FunctionName=None, Role=None, Handler=None, Description=None, Timeout=None, MemorySize=None, VpcConfig=None, Environment=None, Runtime=None, DeadLetterConfig=None, KMSKeyArn=None, TracingConfig=None, RevisionId=None):
     """
     Updates the configuration parameters for the specified Lambda function by using the values provided in the request. You provide only the parameters you want to change. This operation must only be used on an existing Lambda function and cannot be used to update the function's code.
     If you are using the versioning feature, note this API will always update the $LATEST version of your Lambda function. For information about the versioning feature, see AWS Lambda Function Versioning and Aliases .
@@ -1641,14 +1820,15 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
                 'string': 'string'
             }
         },
-        Runtime='nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        Runtime='nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         DeadLetterConfig={
             'TargetArn': 'string'
         },
         KMSKeyArn='string',
         TracingConfig={
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        RevisionId='string'
     )
     
     
@@ -1691,14 +1871,14 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
 
     :type Runtime: string
     :param Runtime: The runtime environment for the Lambda function.
-            To use the Python runtime v3.6, set the value to 'python3.6'. To use the Python runtime v2.7, set the value to 'python2.7'. To use the Node.js runtime v6.10, set the value to 'nodejs6.10'. To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use the Python runtime v3.6, set the value to 'python3.6'. To use the Python runtime v2.7, set the value to 'python2.7'.
+            To use the Python runtime v3.6, set the value to 'python3.6'. To use the Python runtime v2.7, set the value to 'python2.7'. To use the Node.js runtime v6.10, set the value to 'nodejs6.10'. To use the Node.js runtime v4.3, set the value to 'nodejs4.3'. To use the .NET Core runtime v1.0, set the value to 'dotnetcore1.0'. To use the .NET Core runtime v2.0, set the value to 'dotnetcore2.0'.
             Note
-            You can no longer downgrade to the v0.10.42 runtime version. This version will no longer be supported as of early 2017.
+            Node v0.10.42 is currently marked as deprecated. You must migrate existing functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3 or nodejs6.10) as soon as possible. Failure to do so will result in an invalid parameter error being returned. Note that you will have to follow this procedure for each region that contains functions written in the Node v0.10.42 runtime.
             
 
     :type DeadLetterConfig: dict
-    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic.
-            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ).
+    :param DeadLetterConfig: The parent object that contains the target ARN (Amazon Resource Name) of an Amazon SQS queue or Amazon SNS topic. For more information, see dlq .
+            TargetArn (string) --The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic you specify as your Dead Letter Queue (DLQ). dlq . For more information, see dlq .
             
 
     :type KMSKeyArn: string
@@ -1709,11 +1889,14 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
             Mode (string) --Can be either PassThrough or Active. If PassThrough, Lambda will only trace the request from an upstream service if it contains a tracing header with 'sampled=1'. If Active, Lambda will respect any tracing header it receives from an upstream service. If no tracing header is received, Lambda will call X-Ray for a tracing decision.
             
 
+    :type RevisionId: string
+    :param RevisionId: An optional value you can use to ensure you are updating the latest update of the function version or alias. If the RevisionID you pass doesn't match the latest RevisionId of the function or alias, it will fail with an error message, advising you to retrieve the latest function version or alias RevisionID using either or .
+
     :rtype: dict
     :return: {
         'FunctionName': 'string',
         'FunctionArn': 'string',
-        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'nodejs4.3-edge',
+        'Runtime': 'nodejs'|'nodejs4.3'|'nodejs6.10'|'nodejs8.10'|'java8'|'python2.7'|'python3.6'|'dotnetcore1.0'|'dotnetcore2.0'|'nodejs4.3-edge'|'go1.x',
         'Role': 'string',
         'Handler': 'string',
         'CodeSize': 123,
@@ -1747,7 +1930,9 @@ def update_function_configuration(FunctionName=None, Role=None, Handler=None, De
         'KMSKeyArn': 'string',
         'TracingConfig': {
             'Mode': 'Active'|'PassThrough'
-        }
+        },
+        'MasterArn': 'string',
+        'RevisionId': 'string'
     }
     
     

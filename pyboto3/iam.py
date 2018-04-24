@@ -27,7 +27,7 @@ SOFTWARE.
 def add_client_id_to_open_id_connect_provider(OpenIDConnectProviderArn=None, ClientID=None):
     """
     Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource.
-    This action is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
+    This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     See also: AWS API Documentation
     
     Examples
@@ -42,7 +42,7 @@ def add_client_id_to_open_id_connect_provider(OpenIDConnectProviderArn=None, Cli
     
     :type OpenIDConnectProviderArn: string
     :param OpenIDConnectProviderArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders action.
+            The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
             
 
     :type ClientID: string
@@ -63,7 +63,7 @@ def add_client_id_to_open_id_connect_provider(OpenIDConnectProviderArn=None, Cli
 
 def add_role_to_instance_profile(InstanceProfileName=None, RoleName=None):
     """
-    Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased.
+    Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this limit cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of AWS because of eventual consistency . To force the change, you must disassociate the instance profile and then associate the instance profile , or you can stop your instance and then restart it.
     For more information about roles, go to Working with Roles . For more information about instance profiles, go to About Instance Profiles .
     See also: AWS API Documentation
     
@@ -80,7 +80,7 @@ def add_role_to_instance_profile(InstanceProfileName=None, RoleName=None):
     :type InstanceProfileName: string
     :param InstanceProfileName: [REQUIRED]
             The name of the instance profile to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type RoleName: string
@@ -118,13 +118,13 @@ def add_user_to_group(GroupName=None, UserName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to add.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.add_user_to_group(
@@ -158,7 +158,7 @@ def attach_group_policy(GroupName=None, PolicyArn=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name (friendly name, not ARN) of the group to attach the policy to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -237,7 +237,7 @@ def attach_user_policy(UserName=None, PolicyArn=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name (friendly name, not ARN) of the IAM user to attach the policy to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -274,7 +274,7 @@ def can_paginate(operation_name=None):
 
 def change_password(OldPassword=None, NewPassword=None):
     """
-    Changes the password of the IAM user who is calling this action. The root account password is not affected by this action.
+    Changes the password of the IAM user who is calling this operation. The AWS account root user password is not affected by this operation.
     To change the password for a different user, see  UpdateLoginProfile . For more information about modifying passwords, see Managing Passwords in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -296,7 +296,7 @@ def change_password(OldPassword=None, NewPassword=None):
     :type NewPassword: string
     :param NewPassword: [REQUIRED]
             The new password. The new password must conform to the AWS account's password policy, if one exists.
-            The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+            The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
             
 
     :return: response = client.change_password(
@@ -313,7 +313,7 @@ def change_password(OldPassword=None, NewPassword=None):
 def create_access_key(UserName=None):
     """
     Creates a new AWS secret access key and corresponding AWS access key ID for the specified user. The default status for new keys is Active .
-    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials. This is true even if the AWS account has no associated users.
     For information about limits on the number of keys you can create, see Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -328,7 +328,7 @@ def create_access_key(UserName=None):
     
     :type UserName: string
     :param UserName: The name of the IAM user that the new key will belong to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -395,13 +395,13 @@ def create_group(Path=None, GroupName=None):
     :type Path: string
     :param Path: The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group to create. Do not include the path in this value.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. The group name must be unique within the account. Group names are not distinguished by case. For example, you cannot create groups named both 'ADMINS' and 'admins'.
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-. The group name must be unique within the account. Group names are not distinguished by case. For example, you cannot create groups named both 'ADMINS' and 'admins'.
             
 
     :rtype: dict
@@ -438,13 +438,13 @@ def create_instance_profile(InstanceProfileName=None, Path=None):
     :type InstanceProfileName: string
     :param InstanceProfileName: [REQUIRED]
             The name of the instance profile to create.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Path: string
     :param Path: The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :rtype: dict
@@ -463,7 +463,8 @@ def create_instance_profile(InstanceProfileName=None, Path=None):
                     'Arn': 'string',
                     'CreateDate': datetime(2015, 1, 1),
                     'AssumeRolePolicyDocument': 'string',
-                    'Description': 'string'
+                    'Description': 'string',
+                    'MaxSessionDuration': 123
                 },
             ]
         }
@@ -492,13 +493,13 @@ def create_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user to create a password for. The user must already exist.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Password: string
     :param Password: [REQUIRED]
             The new password for the user.
-            The regex pattern used to validate this parameter is a string of characters consisting of almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Although any of these characters are valid in a password, note that many tools, such as the AWS Management Console, might restrict the ability to enter certain characters because they have special meaning within that tool.
+            The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
             
 
     :type PasswordResetRequired: boolean
@@ -520,8 +521,9 @@ def create_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
 def create_open_id_connect_provider(Url=None, ClientIDList=None, ThumbprintList=None):
     """
     Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC) .
-    The OIDC provider that you create with this operation can be used as a principal in a role's trust policy to establish a trust relationship between AWS and the OIDC provider.
-    When you create the IAM OIDC provider, you specify the URL of the OIDC identity provider (IdP) to trust, a list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider, and a list of thumbprints of the server certificate(s) that the IdP uses. You get all of this information from the OIDC IdP that you want to use for access to AWS.
+    The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between AWS and the OIDC provider.
+    When you create the IAM OIDC provider, you specify the following:
+    You get all of this information from the OIDC IdP that you want to use to access AWS.
     See also: AWS API Documentation
     
     Examples
@@ -541,22 +543,22 @@ def create_open_id_connect_provider(Url=None, ClientIDList=None, ThumbprintList=
     
     :type Url: string
     :param Url: [REQUIRED]
-            The URL of the identity provider. The URL must begin with 'https://' and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a host name, like 'https://server.example.org' or 'https://example.com'.
+            The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com .
             You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
             
 
     :type ClientIDList: list
     :param ClientIDList: A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.)
             You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider.
-            There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest action accepts client IDs up to 255 characters long.
+            There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
             (string) --
             
 
     :type ThumbprintList: list
     :param ThumbprintList: [REQUIRED]
-            A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificate(s). Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates.
+            A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates.
             The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string.
-            You must provide at least one thumbprint when creating an IAM OIDC provider. For example, if the OIDC provider is server.example.com and the provider stores its keys at 'https://keys.server.example.com/openid-connect', the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com.
+            You must provide at least one thumbprint when creating an IAM OIDC provider. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com.
             For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide .
             (string) --Contains a thumbprint for an identity provider's server certificate.
             The identity provider's server certificate thumbprint is the hex-encoded SHA-1 hash value of the self-signed X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string.
@@ -566,6 +568,30 @@ def create_open_id_connect_provider(Url=None, ClientIDList=None, ThumbprintList=
     :return: {
         'OpenIDConnectProviderArn': 'string'
     }
+    
+    
+    :returns: 
+    Url (string) -- [REQUIRED]
+    The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com .
+    You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
+    
+    ClientIDList (list) -- A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.)
+    You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider.
+    There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
+    
+    (string) --
+    
+    
+    ThumbprintList (list) -- [REQUIRED]
+    A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates.
+    The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string.
+    You must provide at least one thumbprint when creating an IAM OIDC provider. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com.
+    For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide .
+    
+    (string) --Contains a thumbprint for an identity provider's server certificate.
+    The identity provider's server certificate thumbprint is the hex-encoded SHA-1 hash value of the self-signed X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string.
+    
+    
     
     
     """
@@ -590,20 +616,23 @@ def create_policy(PolicyName=None, Path=None, PolicyDocument=None, Description=N
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The friendly name of the policy.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Path: string
     :param Path: The path for the policy.
             For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The JSON policy document that you want to use as the content for the new policy.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type Description: string
@@ -656,12 +685,15 @@ def create_policy_version(PolicyArn=None, PolicyDocument=None, SetAsDefault=None
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The JSON policy document that you want to use as the content for this new version of the policy.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type SetAsDefault: boolean
     :param SetAsDefault: Specifies whether to set this version as the policy's default version.
-            When this parameter is true , the new policy version becomes the operative version; that is, the version that is in effect for the IAM users, groups, and roles that the policy is attached to.
+            When this parameter is true , the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to.
             For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide .
             
 
@@ -679,9 +711,9 @@ def create_policy_version(PolicyArn=None, PolicyDocument=None, SetAsDefault=None
     """
     pass
 
-def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Description=None):
+def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Description=None, MaxSessionDuration=None):
     """
-    Creates a new role for your AWS account. For more information about roles, go to Working with Roles . For information about limitations on role names and the number of roles you can create, go to Limitations on IAM Entities in the IAM User Guide .
+    Creates a new role for your AWS account. For more information about roles, go to IAM Roles . For information about limitations on role names and the number of roles you can create, go to Limitations on IAM Entities in the IAM User Guide .
     See also: AWS API Documentation
     
     Examples
@@ -692,14 +724,15 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Descrip
         Path='string',
         RoleName='string',
         AssumeRolePolicyDocument='string',
-        Description='string'
+        Description='string',
+        MaxSessionDuration=123
     )
     
     
     :type Path: string
     :param Path: The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type RoleName: string
@@ -712,11 +745,19 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Descrip
     :type AssumeRolePolicyDocument: string
     :param AssumeRolePolicyDocument: [REQUIRED]
             The trust relationship policy document that grants an entity permission to assume the role.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type Description: string
-    :param Description: A customer-provided description of the role.
+    :param Description: A description of the role.
+
+    :type MaxSessionDuration: integer
+    :param MaxSessionDuration: The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+            Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide .
+            
 
     :rtype: dict
     :return: {
@@ -727,7 +768,8 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Descrip
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
             'AssumeRolePolicyDocument': 'string',
-            'Description': 'string'
+            'Description': 'string',
+            'MaxSessionDuration': 123
         }
     }
     
@@ -738,8 +780,8 @@ def create_role(Path=None, RoleName=None, AssumeRolePolicyDocument=None, Descrip
 def create_saml_provider(SAMLMetadataDocument=None, Name=None):
     """
     Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0.
-    The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy to enable federated users who sign-in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS.
-    When you create the SAML provider resource, you upload an a SAML metadata document that you get from your IdP and that includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.
+    The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign-in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS.
+    When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.
     For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console and About SAML 2.0-based Federation in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -759,7 +801,7 @@ def create_saml_provider(SAMLMetadataDocument=None, Name=None):
     :type Name: string
     :param Name: [REQUIRED]
             The name of the provider to create.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -774,7 +816,7 @@ def create_saml_provider(SAMLMetadataDocument=None, Name=None):
 def create_service_linked_role(AWSServiceName=None, Description=None, CustomSuffix=None):
     """
     Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed.
-    The name of the role is autogenerated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails.
+    The name of the role is generated by combining the string that you specify for the AWSServiceName parameter with the string that you specify for the CustomSuffix parameter. The resulting name must be unique in your account or the request fails.
     To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
     See also: AWS API Documentation
     
@@ -806,7 +848,8 @@ def create_service_linked_role(AWSServiceName=None, Description=None, CustomSuff
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
             'AssumeRolePolicyDocument': 'string',
-            'Description': 'string'
+            'Description': 'string',
+            'MaxSessionDuration': 123
         }
     }
     
@@ -833,7 +876,7 @@ def create_service_specific_credential(UserName=None, ServiceName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type ServiceName: string
@@ -877,13 +920,13 @@ def create_user(Path=None, UserName=None):
     :type Path: string
     :param Path: The path for the user name. For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to create.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-. User names are not distinguished by case. For example, you cannot create users named both 'TESTUSER' and 'testuser'.
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-. User names are not distinguished by case. For example, you cannot create users named both 'TESTUSER' and 'testuser'.
             
 
     :rtype: dict
@@ -900,9 +943,8 @@ def create_user(Path=None, UserName=None):
     
     
     :returns: 
-    The user does not have a password
-    The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014
-    there is no sign-in data associated with the user
+    The user never had a password.
+    A password exists but has not been used since IAM started tracking this information on October 20th, 2014.
     
     """
     pass
@@ -923,13 +965,13 @@ def create_virtual_mfa_device(Path=None, VirtualMFADeviceName=None):
     :type Path: string
     :param Path: The path for the virtual MFA device. For more information about paths, see IAM Identifiers in the IAM User Guide .
             This parameter is optional. If it is not included, it defaults to a slash (/).
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type VirtualMFADeviceName: string
     :param VirtualMFADeviceName: [REQUIRED]
             The name of the virtual MFA device. Use with path to uniquely identify a virtual MFA device.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -952,9 +994,8 @@ def create_virtual_mfa_device(Path=None, VirtualMFADeviceName=None):
     
     
     :returns: 
-    The user does not have a password
-    The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014
-    there is no sign-in data associated with the user
+    The user never had a password.
+    A password exists but has not been used since IAM started tracking this information on October 20th, 2014.
     
     """
     pass
@@ -975,7 +1016,7 @@ def deactivate_mfa_device(UserName=None, SerialNumber=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user whose MFA device you want to deactivate.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SerialNumber: string
@@ -990,7 +1031,7 @@ def deactivate_mfa_device(UserName=None, SerialNumber=None):
 def delete_access_key(UserName=None, AccessKeyId=None):
     """
     Deletes the access key pair associated with the specified IAM user.
-    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
     Examples
@@ -1005,7 +1046,7 @@ def delete_access_key(UserName=None, AccessKeyId=None):
     
     :type UserName: string
     :param UserName: The name of the user whose access key pair you want to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type AccessKeyId: string
@@ -1090,7 +1131,7 @@ def delete_group(GroupName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the IAM group to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     """
@@ -1115,13 +1156,13 @@ def delete_group_policy(GroupName=None, PolicyName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name (friendly name, not ARN) identifying the group that the policy is embedded in.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name identifying the policy document to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_group_policy(
@@ -1153,7 +1194,7 @@ def delete_instance_profile(InstanceProfileName=None):
     :type InstanceProfileName: string
     :param InstanceProfileName: [REQUIRED]
             The name of the instance profile to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_instance_profile(
@@ -1183,7 +1224,7 @@ def delete_login_profile(UserName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user whose password you want to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_login_profile(
@@ -1200,7 +1241,7 @@ def delete_open_id_connect_provider(OpenIDConnectProviderArn=None):
     """
     Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
     Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails.
-    This action is idempotent; it does not fail or return an error if you call the action for a provider that does not exist.
+    This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist.
     See also: AWS API Documentation
     
     
@@ -1211,7 +1252,7 @@ def delete_open_id_connect_provider(OpenIDConnectProviderArn=None):
     
     :type OpenIDConnectProviderArn: string
     :param OpenIDConnectProviderArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders action.
+            The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders operation.
             
 
     """
@@ -1220,7 +1261,7 @@ def delete_open_id_connect_provider(OpenIDConnectProviderArn=None):
 def delete_policy(PolicyArn=None):
     """
     Deletes the specified managed policy.
-    Before you can delete a managed policy, you must first detach the policy from all users, groups, and roles that it is attached to, and you must delete all of the policy's versions. The following steps describe the process for deleting a managed policy:
+    Before you can delete a managed policy, you must first detach the policy from all users, groups, and roles that it is attached to. In addition you must delete all the policy's versions. The following steps describe the process for deleting a managed policy:
     For information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -1324,7 +1365,7 @@ def delete_role_policy(RoleName=None, PolicyName=None):
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the inline policy to delete from the specified IAM role.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_role_policy(
@@ -1361,7 +1402,7 @@ def delete_saml_provider(SAMLProviderArn=None):
 def delete_server_certificate(ServerCertificateName=None):
     """
     Deletes the specified server certificate.
-    For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
+    For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide . This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.
     See also: AWS API Documentation
     
     
@@ -1373,9 +1414,36 @@ def delete_server_certificate(ServerCertificateName=None):
     :type ServerCertificateName: string
     :param ServerCertificateName: [REQUIRED]
             The name of the server certificate you want to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
+    """
+    pass
+
+def delete_service_linked_role(RoleName=None):
+    """
+    Submits a service-linked role deletion request and returns a DeletionTaskId , which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned.
+    If you submit a deletion request for a service-linked role whose linked service is still accessing a resource, then the deletion task fails. If it fails, the  GetServiceLinkedRoleDeletionStatus API operation returns the reason for the failure, usually including the resources that must be deleted. To delete the service-linked role, you must first remove those resources from the linked service and then submit the deletion request again. Resources are specific to the service that is linked to the role. For more information about removing resources from a service, see the AWS documentation for your service.
+    For more information about service-linked roles, see Roles Terms and Concepts: AWS Service-Linked Role in the IAM User Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_service_linked_role(
+        RoleName='string'
+    )
+    
+    
+    :type RoleName: string
+    :param RoleName: [REQUIRED]
+            The name of the service-linked role to be deleted.
+            
+
+    :rtype: dict
+    :return: {
+        'DeletionTaskId': 'string'
+    }
+    
+    
     """
     pass
 
@@ -1393,7 +1461,7 @@ def delete_service_specific_credential(UserName=None, ServiceSpecificCredentialI
     
     :type UserName: string
     :param UserName: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type ServiceSpecificCredentialId: string
@@ -1408,7 +1476,7 @@ def delete_service_specific_credential(UserName=None, ServiceSpecificCredentialI
 def delete_signing_certificate(UserName=None, CertificateId=None):
     """
     Deletes a signing certificate associated with the specified IAM user.
-    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated IAM users.
+    If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated IAM users.
     See also: AWS API Documentation
     
     Examples
@@ -1423,7 +1491,7 @@ def delete_signing_certificate(UserName=None, CertificateId=None):
     
     :type UserName: string
     :param UserName: The name of the user the signing certificate belongs to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type CertificateId: string
@@ -1446,7 +1514,7 @@ def delete_signing_certificate(UserName=None, CertificateId=None):
 def delete_ssh_public_key(UserName=None, SSHPublicKeyId=None):
     """
     Deletes the specified SSH public key.
-    The SSH public key deleted by this action is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
+    The SSH public key deleted by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
     See also: AWS API Documentation
     
     
@@ -1459,7 +1527,7 @@ def delete_ssh_public_key(UserName=None, SSHPublicKeyId=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user associated with the SSH public key.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SSHPublicKeyId: string
@@ -1488,7 +1556,7 @@ def delete_user(UserName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_user(
@@ -1520,13 +1588,13 @@ def delete_user_policy(UserName=None, PolicyName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name (friendly name, not ARN) identifying the user that the policy is embedded in.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name identifying the policy document to delete.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.delete_user_policy(
@@ -1586,7 +1654,7 @@ def detach_group_policy(GroupName=None, PolicyArn=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name (friendly name, not ARN) of the IAM group to detach the policy from.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -1642,7 +1710,7 @@ def detach_user_policy(UserName=None, PolicyArn=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name (friendly name, not ARN) of the IAM user to detach the policy from.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyArn: string
@@ -1671,7 +1739,7 @@ def enable_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user for whom you want to enable the MFA device.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SerialNumber: string
@@ -1683,7 +1751,7 @@ def enable_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
     :type AuthenticationCode1: string
     :param AuthenticationCode1: [REQUIRED]
             An authentication code emitted by the device.
-            The format for this parameter is a string of 6 digits.
+            The format for this parameter is a string of six digits.
             Warning
             Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device .
             
@@ -1691,7 +1759,7 @@ def enable_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
     :type AuthenticationCode2: string
     :param AuthenticationCode2: [REQUIRED]
             A subsequent authentication code emitted by the device.
-            The format for this parameter is a string of 6 digits.
+            The format for this parameter is a string of six digits.
             Warning
             Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device .
             
@@ -1876,7 +1944,8 @@ def get_account_authorization_details(Filter=None, MaxItems=None, Marker=None):
                                 'Arn': 'string',
                                 'CreateDate': datetime(2015, 1, 1),
                                 'AssumeRolePolicyDocument': 'string',
-                                'Description': 'string'
+                                'Description': 'string',
+                                'MaxSessionDuration': 123
                             },
                         ]
                     },
@@ -1987,7 +2056,7 @@ def get_account_summary():
 def get_context_keys_for_custom_policy(PolicyInputList=None):
     """
     Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use  GetContextKeysForPrincipalPolicy .
-    Context keys are variables maintained by AWS and its services that provide details about the context of an API query request, and can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call  SimulateCustomPolicy . Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request.
+    Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call  SimulateCustomPolicy . Note that all parameters are shown in unencoded form here for clarity but must be URL encoded to be included as a part of a real HTML request.
     See also: AWS API Documentation
     
     
@@ -2001,7 +2070,10 @@ def get_context_keys_for_custom_policy(PolicyInputList=None):
     :type PolicyInputList: list
     :param PolicyInputList: [REQUIRED]
             A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             (string) --
             
 
@@ -2021,9 +2093,9 @@ def get_context_keys_for_custom_policy(PolicyInputList=None):
 
 def get_context_keys_for_principal_policy(PolicySourceArn=None, PolicyInputList=None):
     """
-    Gets a list of all of the context keys referenced in all of the IAM policies attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of.
+    Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of.
     You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use  GetContextKeysForCustomPolicy instead.
-    Context keys are variables maintained by AWS and its services that provide details about the context of an API query request, and can be evaluated by testing against a value in an IAM policy. Use  GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call  SimulatePrincipalPolicy .
+    Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use  GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call  SimulatePrincipalPolicy .
     See also: AWS API Documentation
     
     
@@ -2037,13 +2109,16 @@ def get_context_keys_for_principal_policy(PolicySourceArn=None, PolicyInputList=
     
     :type PolicySourceArn: string
     :param PolicySourceArn: [REQUIRED]
-            The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies attached to the user as well as to all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request.
+            The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
     :type PolicyInputList: list
     :param PolicyInputList: An optional list of additional policies for which you want the list of context keys that are referenced.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             (string) --
             
 
@@ -2097,7 +2172,7 @@ def get_group(GroupName=None, Marker=None, MaxItems=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -2157,13 +2232,13 @@ def get_group_policy(GroupName=None, PolicyName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group the policy is associated with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document to get.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2194,7 +2269,7 @@ def get_instance_profile(InstanceProfileName=None):
     :type InstanceProfileName: string
     :param InstanceProfileName: [REQUIRED]
             The name of the instance profile to get information about.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2213,7 +2288,8 @@ def get_instance_profile(InstanceProfileName=None):
                     'Arn': 'string',
                     'CreateDate': datetime(2015, 1, 1),
                     'AssumeRolePolicyDocument': 'string',
-                    'Description': 'string'
+                    'Description': 'string',
+                    'MaxSessionDuration': 123
                 },
             ]
         }
@@ -2225,7 +2301,7 @@ def get_instance_profile(InstanceProfileName=None):
 
 def get_login_profile(UserName=None):
     """
-    Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the action returns a 404 (NoSuchEntity ) error.
+    Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the operation returns a 404 (NoSuchEntity ) error.
     See also: AWS API Documentation
     
     Examples
@@ -2240,7 +2316,7 @@ def get_login_profile(UserName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user whose login profile you want to retrieve.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2269,7 +2345,7 @@ def get_open_id_connect_provider(OpenIDConnectProviderArn=None):
     
     :type OpenIDConnectProviderArn: string
     :param OpenIDConnectProviderArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders action.
+            The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
@@ -2415,7 +2491,8 @@ def get_role(RoleName=None):
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
             'AssumeRolePolicyDocument': 'string',
-            'Description': 'string'
+            'Description': 'string',
+            'MaxSessionDuration': 123
         }
     }
     
@@ -2447,7 +2524,7 @@ def get_role_policy(RoleName=None, PolicyName=None):
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document to get.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2492,7 +2569,7 @@ def get_saml_provider(SAMLProviderArn=None):
 def get_server_certificate(ServerCertificateName=None):
     """
     Retrieves information about the specified server certificate stored in IAM.
-    For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
+    For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide . This topic includes a list of AWS services that can use the server certificates that you manage with IAM.
     See also: AWS API Documentation
     
     
@@ -2504,7 +2581,7 @@ def get_server_certificate(ServerCertificateName=None):
     :type ServerCertificateName: string
     :param ServerCertificateName: [REQUIRED]
             The name of the server certificate you want to retrieve information about.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2527,10 +2604,46 @@ def get_server_certificate(ServerCertificateName=None):
     """
     pass
 
+def get_service_linked_role_deletion_status(DeletionTaskId=None):
+    """
+    Retrieves the status of your service-linked role deletion. After you use the  DeleteServiceLinkedRole API operation to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_service_linked_role_deletion_status(
+        DeletionTaskId='string'
+    )
+    
+    
+    :type DeletionTaskId: string
+    :param DeletionTaskId: [REQUIRED]
+            The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/service-principal-name/role-name/task-uuid .
+            
+
+    :rtype: dict
+    :return: {
+        'Status': 'SUCCEEDED'|'IN_PROGRESS'|'FAILED'|'NOT_STARTED',
+        'Reason': {
+            'Reason': 'string',
+            'RoleUsageList': [
+                {
+                    'Region': 'string',
+                    'Resources': [
+                        'string',
+                    ]
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_ssh_public_key(UserName=None, SSHPublicKeyId=None, Encoding=None):
     """
     Retrieves the specified SSH public key, including metadata about the key.
-    The SSH public key retrieved by this action is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
+    The SSH public key retrieved by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
     See also: AWS API Documentation
     
     
@@ -2544,7 +2657,7 @@ def get_ssh_public_key(UserName=None, SSHPublicKeyId=None, Encoding=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user associated with the SSH public key.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SSHPublicKeyId: string
@@ -2591,7 +2704,7 @@ def get_user(UserName=None):
     
     :type UserName: string
     :param UserName: The name of the user to get information about.
-            This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2627,13 +2740,13 @@ def get_user_policy(UserName=None, PolicyName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user who the policy is associated with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document to get.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :rtype: dict
@@ -2655,9 +2768,9 @@ def get_waiter():
 
 def list_access_keys(UserName=None, Marker=None, MaxItems=None):
     """
-    Returns information about the access key IDs associated with the specified IAM user. If there are none, the action returns an empty list.
+    Returns information about the access key IDs associated with the specified IAM user. If there are none, the operation returns an empty list.
     Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
-    If the UserName field is not specified, the UserName is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
     Examples
@@ -2673,7 +2786,7 @@ def list_access_keys(UserName=None, Marker=None, MaxItems=None):
     
     :type UserName: string
     :param UserName: The name of the user.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -2745,7 +2858,7 @@ def list_attached_group_policies(GroupName=None, PathPrefix=None, Marker=None, M
     """
     Lists all managed policies that are attached to the specified IAM group.
     An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use the  ListGroupPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     See also: AWS API Documentation
     
     
@@ -2760,12 +2873,12 @@ def list_attached_group_policies(GroupName=None, PathPrefix=None, Marker=None, M
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name (friendly name, not ARN) of the group to list attached policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -2796,7 +2909,7 @@ def list_attached_role_policies(RoleName=None, PathPrefix=None, Marker=None, Max
     """
     Lists all managed policies that are attached to the specified IAM role.
     An IAM role can also have inline policies embedded with it. To list the inline policies for a role, use the  ListRolePolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the operation returns an empty list.
     See also: AWS API Documentation
     
     
@@ -2816,7 +2929,7 @@ def list_attached_role_policies(RoleName=None, PathPrefix=None, Marker=None, Max
 
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -2847,7 +2960,7 @@ def list_attached_user_policies(UserName=None, PathPrefix=None, Marker=None, Max
     """
     Lists all managed policies that are attached to the specified IAM user.
     An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use the  ListUserPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
     See also: AWS API Documentation
     
     
@@ -2862,12 +2975,12 @@ def list_attached_user_policies(UserName=None, PathPrefix=None, Marker=None, Max
     :type UserName: string
     :param UserName: [REQUIRED]
             The name (friendly name, not ARN) of the user to list attached policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -2924,7 +3037,7 @@ def list_entities_for_policy(PolicyArn=None, EntityFilter=None, PathPrefix=None,
 
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -2967,7 +3080,7 @@ def list_group_policies(GroupName=None, Marker=None, MaxItems=None):
     """
     Lists the names of the inline policies that are embedded in the specified IAM group.
     An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use  ListAttachedGroupPolicies . For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an empty list.
     See also: AWS API Documentation
     
     Examples
@@ -2984,7 +3097,7 @@ def list_group_policies(GroupName=None, Marker=None, MaxItems=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group to list policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3030,7 +3143,7 @@ def list_groups(PathPrefix=None, Marker=None, MaxItems=None):
     
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/ .
-            This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -3085,7 +3198,7 @@ def list_groups_for_user(UserName=None, Marker=None, MaxItems=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to list groups for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3122,7 +3235,7 @@ def list_groups_for_user(UserName=None, Marker=None, MaxItems=None):
 
 def list_instance_profiles(PathPrefix=None, Marker=None, MaxItems=None):
     """
-    Lists the instance profiles that have the specified path prefix. If there are none, the action returns an empty list. For more information about instance profiles, go to About Instance Profiles .
+    Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, go to About Instance Profiles .
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3136,7 +3249,7 @@ def list_instance_profiles(PathPrefix=None, Marker=None, MaxItems=None):
     
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/ .
-            This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -3164,7 +3277,8 @@ def list_instance_profiles(PathPrefix=None, Marker=None, MaxItems=None):
                         'Arn': 'string',
                         'CreateDate': datetime(2015, 1, 1),
                         'AssumeRolePolicyDocument': 'string',
-                        'Description': 'string'
+                        'Description': 'string',
+                        'MaxSessionDuration': 123
                     },
                 ]
             },
@@ -3185,7 +3299,7 @@ def list_instance_profiles(PathPrefix=None, Marker=None, MaxItems=None):
 
 def list_instance_profiles_for_role(RoleName=None, Marker=None, MaxItems=None):
     """
-    Lists the instance profiles that have the specified associated IAM role. If there are none, the action returns an empty list. For more information about instance profiles, go to About Instance Profiles .
+    Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About Instance Profiles .
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3228,7 +3342,8 @@ def list_instance_profiles_for_role(RoleName=None, Marker=None, MaxItems=None):
                         'Arn': 'string',
                         'CreateDate': datetime(2015, 1, 1),
                         'AssumeRolePolicyDocument': 'string',
-                        'Description': 'string'
+                        'Description': 'string',
+                        'MaxSessionDuration': 123
                     },
                 ]
             },
@@ -3249,7 +3364,7 @@ def list_instance_profiles_for_role(RoleName=None, Marker=None, MaxItems=None):
 
 def list_mfa_devices(UserName=None, Marker=None, MaxItems=None):
     """
-    Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this action lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request for this API.
+    Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request for this API.
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3263,7 +3378,7 @@ def list_mfa_devices(UserName=None, Marker=None, MaxItems=None):
     
     :type UserName: string
     :param UserName: The name of the user whose MFA devices you want to list.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3343,7 +3458,7 @@ def list_policies(Scope=None, OnlyAttached=None, PathPrefix=None, Marker=None, M
             
 
     :type PathPrefix: string
-    :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+    :param PathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
 
     :type Marker: string
     :param Marker: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -3427,7 +3542,7 @@ def list_role_policies(RoleName=None, Marker=None, MaxItems=None):
     """
     Lists the names of the inline policies that are embedded in the specified IAM role.
     An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use  ListAttachedRolePolicies . For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an empty list.
     See also: AWS API Documentation
     
     
@@ -3470,7 +3585,7 @@ def list_role_policies(RoleName=None, Marker=None, MaxItems=None):
 
 def list_roles(PathPrefix=None, Marker=None, MaxItems=None):
     """
-    Lists the IAM roles that have the specified path prefix. If there are none, the action returns an empty list. For more information about roles, go to Working with Roles .
+    Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, go to Working with Roles .
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3484,7 +3599,7 @@ def list_roles(PathPrefix=None, Marker=None, MaxItems=None):
     
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all roles whose path starts with /application_abc/component_xyz/ .
-            This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -3505,7 +3620,8 @@ def list_roles(PathPrefix=None, Marker=None, MaxItems=None):
                 'Arn': 'string',
                 'CreateDate': datetime(2015, 1, 1),
                 'AssumeRolePolicyDocument': 'string',
-                'Description': 'string'
+                'Description': 'string',
+                'MaxSessionDuration': 123
             },
         ],
         'IsTruncated': True|False,
@@ -3542,9 +3658,9 @@ def list_saml_providers():
 
 def list_server_certificates(PathPrefix=None, Marker=None, MaxItems=None):
     """
-    Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the action returns an empty list.
+    Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the operation returns an empty list.
     You can paginate the results using the MaxItems and Marker parameters.
-    For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
+    For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide . This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.
     See also: AWS API Documentation
     
     
@@ -3557,7 +3673,7 @@ def list_server_certificates(PathPrefix=None, Marker=None, MaxItems=None):
     
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. For example: /company/servercerts would get all server certificates for which the path starts with /company/servercerts .
-            This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -3590,7 +3706,7 @@ def list_server_certificates(PathPrefix=None, Marker=None, MaxItems=None):
 
 def list_service_specific_credentials(UserName=None, ServiceName=None):
     """
-    Returns information about the service-specific credentials associated with the specified IAM user. If there are none, the action returns an empty list. The service-specific credentials returned by this action are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an AWS service, see Set Up service-specific credentials in the AWS CodeCommit User Guide.
+    Returns information about the service-specific credentials associated with the specified IAM user. If there are none, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an AWS service, see Set Up service-specific credentials in the AWS CodeCommit User Guide.
     See also: AWS API Documentation
     
     
@@ -3601,8 +3717,8 @@ def list_service_specific_credentials(UserName=None, ServiceName=None):
     
     
     :type UserName: string
-    :param UserName: The name of the user whose service-specific credentials you want information about. If this value is not specified then the operation assumes the user whose credentials are used to call the operation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+    :param UserName: The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation.
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type ServiceName: string
@@ -3628,9 +3744,9 @@ def list_service_specific_credentials(UserName=None, ServiceName=None):
 
 def list_signing_certificates(UserName=None, Marker=None, MaxItems=None):
     """
-    Returns information about the signing certificates associated with the specified IAM user. If there are none, the action returns an empty list.
+    Returns information about the signing certificates associated with the specified IAM user. If there are none, the operation returns an empty list.
     Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters.
-    If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request for this API. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request for this API. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
     Examples
@@ -3646,7 +3762,7 @@ def list_signing_certificates(UserName=None, Marker=None, MaxItems=None):
     
     :type UserName: string
     :param UserName: The name of the IAM user whose signing certificates you want to examine.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3678,8 +3794,8 @@ def list_signing_certificates(UserName=None, Marker=None, MaxItems=None):
 
 def list_ssh_public_keys(UserName=None, Marker=None, MaxItems=None):
     """
-    Returns information about the SSH public keys associated with the specified IAM user. If there are none, the action returns an empty list.
-    The SSH public keys returned by this action are used only for authenticating the IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
+    Returns information about the SSH public keys associated with the specified IAM user. If there are none, the operation returns an empty list.
+    The SSH public keys returned by this operation are used only for authenticating the IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
     Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3693,7 +3809,7 @@ def list_ssh_public_keys(UserName=None, Marker=None, MaxItems=None):
     
     :type UserName: string
     :param UserName: The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the AWS access key used to sign the request.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3726,7 +3842,7 @@ def list_user_policies(UserName=None, Marker=None, MaxItems=None):
     """
     Lists the names of the inline policies embedded in the specified IAM user.
     An IAM user can also have managed policies attached to it. To list the managed policies that are attached to a user, use  ListAttachedUserPolicies . For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide .
-    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the action returns an empty list.
+    You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the operation returns an empty list.
     See also: AWS API Documentation
     
     
@@ -3740,7 +3856,7 @@ def list_user_policies(UserName=None, Marker=None, MaxItems=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to list policies for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Marker: string
@@ -3769,7 +3885,7 @@ def list_user_policies(UserName=None, Marker=None, MaxItems=None):
 
 def list_users(PathPrefix=None, Marker=None, MaxItems=None):
     """
-    Lists the IAM users that have the specified path prefix. If no path prefix is specified, the action returns all users in the AWS account. If there are none, the action returns an empty list.
+    Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the AWS account. If there are none, the operation returns an empty list.
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3786,7 +3902,7 @@ def list_users(PathPrefix=None, Marker=None, MaxItems=None):
     
     :type PathPrefix: string
     :param PathPrefix: The path prefix for filtering the results. For example: /division_abc/subdivision_xyz/ , which would get all user names whose path starts with /division_abc/subdivision_xyz/ .
-            This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type Marker: string
@@ -3824,7 +3940,7 @@ def list_users(PathPrefix=None, Marker=None, MaxItems=None):
 
 def list_virtual_mfa_devices(AssignmentStatus=None, Marker=None, MaxItems=None):
     """
-    Lists the virtual MFA devices defined in the AWS account by assignment status. If you do not specify an assignment status, the action returns a list of all virtual MFA devices. Assignment status can be Assigned , Unassigned , or Any .
+    Lists the virtual MFA devices defined in the AWS account by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned , Unassigned , or Any .
     You can paginate the results using the MaxItems and Marker parameters.
     See also: AWS API Documentation
     
@@ -3840,7 +3956,7 @@ def list_virtual_mfa_devices(AssignmentStatus=None, Marker=None, MaxItems=None):
     
     
     :type AssignmentStatus: string
-    :param AssignmentStatus: The status (Unassigned or Assigned ) of the devices to list. If you do not specify an AssignmentStatus , the action defaults to Any which lists both assigned and unassigned virtual MFA devices.
+    :param AssignmentStatus: The status (Unassigned or Assigned ) of the devices to list. If you do not specify an AssignmentStatus , the operation defaults to Any which lists both assigned and unassigned virtual MFA devices.
 
     :type Marker: string
     :param Marker: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -3874,9 +3990,8 @@ def list_virtual_mfa_devices(AssignmentStatus=None, Marker=None, MaxItems=None):
     
     
     :returns: 
-    The user does not have a password
-    The password exists but has never been used (at least not since IAM started tracking this information on October 20th, 2014
-    there is no sign-in data associated with the user
+    The user never had a password.
+    A password exists but has not been used since IAM started tracking this information on October 20th, 2014.
     
     """
     pass
@@ -3902,19 +4017,22 @@ def put_group_policy(GroupName=None, PolicyName=None, PolicyDocument=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group to associate the policy with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :return: response = client.put_group_policy(
@@ -3957,13 +4075,16 @@ def put_role_policy(RoleName=None, PolicyName=None, PolicyDocument=None):
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :return: response = client.put_role_policy(
@@ -3999,19 +4120,22 @@ def put_user_policy(UserName=None, PolicyName=None, PolicyDocument=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to associate the policy with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
             The name of the policy document.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy document.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :return: response = client.put_user_policy(
@@ -4029,7 +4153,7 @@ def put_user_policy(UserName=None, PolicyName=None, PolicyDocument=None):
 def remove_client_id_from_open_id_connect_provider(OpenIDConnectProviderArn=None, ClientID=None):
     """
     Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object.
-    This action is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
+    This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
     See also: AWS API Documentation
     
     
@@ -4041,7 +4165,7 @@ def remove_client_id_from_open_id_connect_provider(OpenIDConnectProviderArn=None
     
     :type OpenIDConnectProviderArn: string
     :param OpenIDConnectProviderArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders action.
+            The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
@@ -4072,7 +4196,7 @@ def remove_role_from_instance_profile(InstanceProfileName=None, RoleName=None):
     :type InstanceProfileName: string
     :param InstanceProfileName: [REQUIRED]
             The name of the instance profile to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type RoleName: string
@@ -4110,13 +4234,13 @@ def remove_user_from_group(GroupName=None, UserName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             The name of the group to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user to remove.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.remove_user_from_group(
@@ -4144,7 +4268,7 @@ def reset_service_specific_credential(UserName=None, ServiceSpecificCredentialId
     
     :type UserName: string
     :param UserName: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type ServiceSpecificCredentialId: string
@@ -4188,13 +4312,13 @@ def resync_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user whose MFA device you want to resynchronize.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SerialNumber: string
     :param SerialNumber: [REQUIRED]
             Serial number that uniquely identifies the MFA device.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type AuthenticationCode1: string
@@ -4215,7 +4339,7 @@ def resync_mfa_device(UserName=None, SerialNumber=None, AuthenticationCode1=None
 def set_default_policy_version(PolicyArn=None, VersionId=None):
     """
     Sets the specified version of the specified policy as the policy's default (operative) version.
-    This action affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use the  ListEntitiesForPolicy API.
+    This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use the  ListEntitiesForPolicy API.
     For information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -4243,8 +4367,8 @@ def set_default_policy_version(PolicyArn=None, VersionId=None):
 
 def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=None, ResourcePolicy=None, ResourceOwner=None, CallerArn=None, ContextEntries=None, ResourceHandlingOption=None, MaxItems=None, Marker=None):
     """
-    Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API actions and AWS resources to determine the policies' effective permissions. The policies are provided as strings.
-    The simulation does not perform the API actions; it only checks the authorization to determine if the simulated policies allow or deny the actions.
+    Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings.
+    The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations.
     If you want to simulate existing policies attached to an IAM user, group, or role, use  SimulatePrincipalPolicy instead.
     Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use  GetContextKeysForCustomPolicy .
     If the output is long, you can use MaxItems and Marker parameters to paginate the results.
@@ -4281,14 +4405,17 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
     
     :type PolicyInputList: list
     :param PolicyInputList: [REQUIRED]
-            A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be 'scope-down' policies, such as you could include in a call to GetFederationToken or one of the AssumeRole APIs to restrict what a user can do while using the temporary credentials.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be 'scope-down' policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials.
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             (string) --
             
 
     :type ActionNames: list
     :param ActionNames: [REQUIRED]
-            A list of names of API actions to evaluate in the simulation. Each action is evaluated against each resource. Each action must include the service identifier, such as iam:CreateUser .
+            A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser .
             (string) --
             
 
@@ -4302,14 +4429,17 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
 
     :type ResourcePolicy: string
     :param ResourcePolicy: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type ResourceOwner: string
     :param ResourceOwner: An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN, such as an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn . This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn .
 
     :type CallerArn: string
-    :param CallerArn: The ARN of the IAM user that you want to use as the simulated caller of the APIs. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy.
+    :param CallerArn: The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy.
             You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
             
 
@@ -4318,15 +4448,15 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
             (dict) --Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies.
             This data type is used as an input parameter to `` SimulateCustomPolicy `` and `` SimulateCustomPolicy `` .
             ContextKeyName (string) --The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId .
-            ContextKeyValues (list) --The value (or values, if the condition context key supports multiple values) to provide to the simulation for use when the key is referenced by a Condition element in an input policy.
+            ContextKeyValues (list) --The value (or values, if the condition context key supports multiple values) to provide to the simulation when the key is referenced by a Condition element in an input policy.
             (string) --
             ContextKeyType (string) --The data type of the value (or values) specified in the ContextKeyValues parameter.
             
             
 
     :type ResourceHandlingOption: string
-    :param ResourceHandlingOption: Specifies the type of simulation to run. Different APIs that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation.
-            Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the AWS EC2 User Guide .
+    :param ResourceHandlingOption: Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation.
+            Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide .
             EC2-Classic-InstanceStore  instance, image, security-group
             EC2-Classic-EBS  instance, image, security-group, volume
             EC2-VPC-InstanceStore  instance, image, security-group, network-interface
@@ -4414,10 +4544,10 @@ def simulate_custom_policy(PolicyInputList=None, ActionNames=None, ResourceArns=
 
 def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, ActionNames=None, ResourceArns=None, ResourcePolicy=None, ResourceOwner=None, CallerArn=None, ContextEntries=None, ResourceHandlingOption=None, MaxItems=None, Marker=None):
     """
-    Simulate how a set of IAM policies attached to an IAM entity works with a list of API actions and AWS resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to .
+    Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and AWS resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to.
     You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use  SimulateCustomPolicy instead.
     You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation.
-    The simulation does not perform the API actions, it only checks the authorization to determine if the simulated policies allow or deny the actions.
+    The simulation does not perform the API operations, it only checks the authorization to determine if the simulated policies allow or deny the operations.
     Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use  GetContextKeysForPrincipalPolicy .
     If the output is long, you can use the MaxItems and Marker parameters to paginate the results.
     See also: AWS API Documentation
@@ -4460,18 +4590,21 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
 
     :type PolicyInputList: list
     :param PolicyInputList: An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             (string) --
             
 
     :type ActionNames: list
     :param ActionNames: [REQUIRED]
-            A list of names of API actions to evaluate in the simulation. Each action is evaluated for each resource. Each action must include the service identifier, such as iam:CreateUser .
+            A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser .
             (string) --
             
 
     :type ResourceArns: list
-    :param ResourceArns: A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response.
+    :param ResourceArns: A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response.
             The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             (string) --
@@ -4479,14 +4612,17 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
 
     :type ResourcePolicy: string
     :param ResourcePolicy: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type ResourceOwner: string
     :param ResourceOwner: An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN, such as an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn . This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn .
 
     :type CallerArn: string
-    :param CallerArn: The ARN of the IAM user that you want to specify as the simulated caller of the APIs. If you do not specify a CallerArn , it defaults to the ARN of the user that you specify in PolicySourceArn , if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David ) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob ), the result is that you simulate calling the APIs as Bob, as if Bob had David's policies.
+    :param CallerArn: The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn , it defaults to the ARN of the user that you specify in PolicySourceArn , if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David ) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob ), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies.
             You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
             CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
@@ -4497,15 +4633,15 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
             (dict) --Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies.
             This data type is used as an input parameter to `` SimulateCustomPolicy `` and `` SimulateCustomPolicy `` .
             ContextKeyName (string) --The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId .
-            ContextKeyValues (list) --The value (or values, if the condition context key supports multiple values) to provide to the simulation for use when the key is referenced by a Condition element in an input policy.
+            ContextKeyValues (list) --The value (or values, if the condition context key supports multiple values) to provide to the simulation when the key is referenced by a Condition element in an input policy.
             (string) --
             ContextKeyType (string) --The data type of the value (or values) specified in the ContextKeyValues parameter.
             
             
 
     :type ResourceHandlingOption: string
-    :param ResourceHandlingOption: Specifies the type of simulation to run. Different APIs that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation.
-            Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the AWS EC2 User Guide .
+    :param ResourceHandlingOption: Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation.
+            Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide .
             EC2-Classic-InstanceStore  instance, image, security-group
             EC2-Classic-EBS  instance, image, security-group, volume
             EC2-VPC-InstanceStore  instance, image, security-group, network-interface
@@ -4593,8 +4729,8 @@ def simulate_principal_policy(PolicySourceArn=None, PolicyInputList=None, Action
 
 def update_access_key(UserName=None, AccessKeyId=None, Status=None):
     """
-    Changes the status of the specified access key from Active to Inactive, or vice versa. This action can be used to disable a user's key as part of a key rotation work flow.
-    If the UserName field is not specified, the UserName is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow.
+    If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     For information about rotating keys, see Managing Keys and Certificates in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -4611,7 +4747,7 @@ def update_access_key(UserName=None, AccessKeyId=None, Status=None):
     
     :type UserName: string
     :param UserName: The name of the user whose key you want to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type AccessKeyId: string
@@ -4622,7 +4758,7 @@ def update_access_key(UserName=None, AccessKeyId=None, Status=None):
 
     :type Status: string
     :param Status: [REQUIRED]
-            The status you want to assign to the secret access key. Active means the key can be used for API calls to AWS, while Inactive means the key cannot be used.
+            The status you want to assign to the secret access key. Active means that the key can be used for API calls to AWS, while Inactive means that the key cannot be used.
             
 
     :return: response = client.update_access_key(
@@ -4662,48 +4798,48 @@ def update_account_password_policy(MinimumPasswordLength=None, RequireSymbols=No
     
     :type MinimumPasswordLength: integer
     :param MinimumPasswordLength: The minimum number of characters allowed in an IAM user password.
-            Default value: 6
+            If you do not specify a value for this parameter, then the operation uses the default value of 6 .
             
 
     :type RequireSymbols: boolean
     :param RequireSymbols: Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters:
             ! @ # $ % ^ amp; * ( ) _ + - = [ ] { } | '
-            Default value: false
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one symbol character.
             
 
     :type RequireNumbers: boolean
     :param RequireNumbers: Specifies whether IAM user passwords must contain at least one numeric character (0 to 9).
-            Default value: false
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one numeric character.
             
 
     :type RequireUppercaseCharacters: boolean
     :param RequireUppercaseCharacters: Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z).
-            Default value: false
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one uppercase character.
             
 
     :type RequireLowercaseCharacters: boolean
     :param RequireLowercaseCharacters: Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z).
-            Default value: false
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one lowercase character.
             
 
     :type AllowUsersToChangePassword: boolean
     :param AllowUsersToChangePassword: Allows all IAM users in your account to use the AWS Management Console to change their own passwords. For more information, see Letting IAM Users Change Their Own Passwords in the IAM User Guide .
-            Default value: false
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users in the account do not automatically have permissions to change their own password.
             
 
     :type MaxPasswordAge: integer
-    :param MaxPasswordAge: The number of days that an IAM user password is valid. The default value of 0 means IAM user passwords never expire.
-            Default value: 0
+    :param MaxPasswordAge: The number of days that an IAM user password is valid.
+            If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM user passwords never expire.
             
 
     :type PasswordReusePrevention: integer
-    :param PasswordReusePrevention: Specifies the number of previous passwords that IAM users are prevented from reusing. The default value of 0 means IAM users are not prevented from reusing previous passwords.
-            Default value: 0
+    :param PasswordReusePrevention: Specifies the number of previous passwords that IAM users are prevented from reusing.
+            If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM users are not prevented from reusing previous passwords.
             
 
     :type HardExpiry: boolean
-    :param HardExpiry: Prevents IAM users from setting a new password after their password has expired.
-            Default value: false
+    :param HardExpiry: Prevents IAM users from setting a new password after their password has expired. The IAM user cannot be accessed until an administrator resets the password.
+            If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users can change their passwords after they expire and continue to sign in as the user.
             
 
     :return: response = client.update_account_password_policy(
@@ -4712,6 +4848,36 @@ def update_account_password_policy(MinimumPasswordLength=None, RequireSymbols=No
     )
     
     print(response)
+    
+    
+    :returns: 
+    MinimumPasswordLength (integer) -- The minimum number of characters allowed in an IAM user password.
+    If you do not specify a value for this parameter, then the operation uses the default value of 6 .
+    
+    RequireSymbols (boolean) -- Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters:
+    ! @ # $ % ^ amp; * ( ) _ + - = [ ] { } | '
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one symbol character.
+    
+    RequireNumbers (boolean) -- Specifies whether IAM user passwords must contain at least one numeric character (0 to 9).
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one numeric character.
+    
+    RequireUppercaseCharacters (boolean) -- Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z).
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one uppercase character.
+    
+    RequireLowercaseCharacters (boolean) -- Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z).
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that passwords do not require at least one lowercase character.
+    
+    AllowUsersToChangePassword (boolean) -- Allows all IAM users in your account to use the AWS Management Console to change their own passwords. For more information, see Letting IAM Users Change Their Own Passwords in the IAM User Guide .
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users in the account do not automatically have permissions to change their own password.
+    
+    MaxPasswordAge (integer) -- The number of days that an IAM user password is valid.
+    If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM user passwords never expire.
+    
+    PasswordReusePrevention (integer) -- Specifies the number of previous passwords that IAM users are prevented from reusing.
+    If you do not specify a value for this parameter, then the operation uses the default value of 0 . The result is that IAM users are not prevented from reusing previous passwords.
+    
+    HardExpiry (boolean) -- Prevents IAM users from setting a new password after their password has expired. The IAM user cannot be accessed until an administrator resets the password.
+    If you do not specify a value for this parameter, then the operation uses the default value of false . The result is that IAM users can change their passwords after they expire and continue to sign in as the user.
     
     
     """
@@ -4741,7 +4907,10 @@ def update_assume_role_policy(RoleName=None, PolicyDocument=None):
     :type PolicyDocument: string
     :param PolicyDocument: [REQUIRED]
             The policy that grants an entity permission to assume the role.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :return: response = client.update_assume_role_policy(
@@ -4774,17 +4943,17 @@ def update_group(GroupName=None, NewPath=None, NewGroupName=None):
     :type GroupName: string
     :param GroupName: [REQUIRED]
             Name of the IAM group to update. If you're changing the name of the group, this is the original name.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type NewPath: string
     :param NewPath: New path for the IAM group. Only include this if changing the group's path.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type NewGroupName: string
     :param NewGroupName: New name for the IAM group. Only include this if changing the group's name.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.update_group(
@@ -4818,12 +4987,16 @@ def update_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the user whose password you want to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type Password: string
     :param Password: The new password for the specified IAM user.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D). However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy .
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+            However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy .
             
 
     :type PasswordResetRequired: boolean
@@ -4843,7 +5016,7 @@ def update_login_profile(UserName=None, Password=None, PasswordResetRequired=Non
 def update_open_id_connect_provider_thumbprint(OpenIDConnectProviderArn=None, ThumbprintList=None):
     """
     Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints.
-    The list that you pass with this action completely replaces the existing list of thumbprints. (The lists are not merged.)
+    The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.)
     Typically, you need to update a thumbprint only when the identity provider's certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.
     See also: AWS API Documentation
     
@@ -4858,7 +5031,7 @@ def update_open_id_connect_provider_thumbprint(OpenIDConnectProviderArn=None, Th
     
     :type OpenIDConnectProviderArn: string
     :param OpenIDConnectProviderArn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders action.
+            The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference .
             
 
@@ -4872,9 +5045,46 @@ def update_open_id_connect_provider_thumbprint(OpenIDConnectProviderArn=None, Th
     """
     pass
 
+def update_role(RoleName=None, Description=None, MaxSessionDuration=None):
+    """
+    Updates the description or maximum session duration setting of a role.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_role(
+        RoleName='string',
+        Description='string',
+        MaxSessionDuration=123
+    )
+    
+    
+    :type RoleName: string
+    :param RoleName: [REQUIRED]
+            The name of the role that you want to modify.
+            
+
+    :type Description: string
+    :param Description: The new description that you want to apply to the specified role.
+
+    :type MaxSessionDuration: integer
+    :param MaxSessionDuration: The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+            Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide .
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def update_role_description(RoleName=None, Description=None):
     """
-    Modifies the description of a role.
+    Use instead.
+    Modifies only the description of a role. This operation performs the same function as the Description parameter in the UpdateRole operation.
     See also: AWS API Documentation
     
     
@@ -4903,7 +5113,8 @@ def update_role_description(RoleName=None, Description=None):
             'Arn': 'string',
             'CreateDate': datetime(2015, 1, 1),
             'AssumeRolePolicyDocument': 'string',
-            'Description': 'string'
+            'Description': 'string',
+            'MaxSessionDuration': 123
         }
     }
     
@@ -4946,7 +5157,7 @@ def update_saml_provider(SAMLMetadataDocument=None, SAMLProviderArn=None):
 def update_server_certificate(ServerCertificateName=None, NewPath=None, NewServerCertificateName=None):
     """
     Updates the name and/or the path of the specified server certificate stored in IAM.
-    For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
+    For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide . This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.
     See also: AWS API Documentation
     
     
@@ -4960,17 +5171,17 @@ def update_server_certificate(ServerCertificateName=None, NewPath=None, NewServe
     :type ServerCertificateName: string
     :param ServerCertificateName: [REQUIRED]
             The name of the server certificate that you want to update.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type NewPath: string
     :param NewPath: The new path for the server certificate. Include this only if you are updating the server certificate's path.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type NewServerCertificateName: string
     :param NewServerCertificateName: The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     """
@@ -4978,7 +5189,7 @@ def update_server_certificate(ServerCertificateName=None, NewPath=None, NewServe
 
 def update_service_specific_credential(UserName=None, ServiceSpecificCredentialId=None, Status=None):
     """
-    Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for authentication to the service. This action can be used to disable a users service-specific credential as part of a credential rotation work flow.
+    Sets the status of a service-specific credential to Active or Inactive . Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a users service-specific credential as part of a credential rotation work flow.
     See also: AWS API Documentation
     
     
@@ -4991,7 +5202,7 @@ def update_service_specific_credential(UserName=None, ServiceSpecificCredentialI
     
     :type UserName: string
     :param UserName: The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type ServiceSpecificCredentialId: string
@@ -5010,8 +5221,8 @@ def update_service_specific_credential(UserName=None, ServiceSpecificCredentialI
 
 def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
     """
-    Changes the status of the specified user signing certificate from active to disabled, or vice versa. This action can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow.
-    If the UserName field is not specified, the UserName is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    Changes the status of the specified user signing certificate from active to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow.
+    If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
     Examples
@@ -5027,7 +5238,7 @@ def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
     
     :type UserName: string
     :param UserName: The name of the IAM user the signing certificate belongs to.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type CertificateId: string
@@ -5038,7 +5249,7 @@ def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
 
     :type Status: string
     :param Status: [REQUIRED]
-            The status you want to assign to the certificate. Active means the certificate can be used for API calls to AWS, while Inactive means the certificate cannot be used.
+            The status you want to assign to the certificate. Active means that the certificate can be used for API calls to AWS Inactive means that the certificate cannot be used.
             
 
     :return: response = client.update_signing_certificate(
@@ -5055,8 +5266,8 @@ def update_signing_certificate(UserName=None, CertificateId=None, Status=None):
 
 def update_ssh_public_key(UserName=None, SSHPublicKeyId=None, Status=None):
     """
-    Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This action can be used to disable a user's SSH public key as part of a key rotation work flow.
-    The SSH public key affected by this action is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
+    Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow.
+    The SSH public key affected by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
     See also: AWS API Documentation
     
     
@@ -5070,7 +5281,7 @@ def update_ssh_public_key(UserName=None, SSHPublicKeyId=None, Status=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user associated with the SSH public key.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SSHPublicKeyId: string
@@ -5081,7 +5292,7 @@ def update_ssh_public_key(UserName=None, SSHPublicKeyId=None, Status=None):
 
     :type Status: string
     :param Status: [REQUIRED]
-            The status to assign to the SSH public key. Active means the key can be used for authentication with an AWS CodeCommit repository. Inactive means the key cannot be used.
+            The status to assign to the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
             
 
     """
@@ -5106,17 +5317,17 @@ def update_user(UserName=None, NewPath=None, NewUserName=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             Name of the user to update. If you're changing the name of the user, this is the original user name.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type NewPath: string
     :param NewPath: New path for the IAM user. Include this parameter only if you're changing the user's path.
-            This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             
 
     :type NewUserName: string
     :param NewUserName: New name for the user. Include this parameter only if you're changing the user's name.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :return: response = client.update_user(
@@ -5134,7 +5345,7 @@ def upload_server_certificate(Path=None, ServerCertificateName=None, Certificate
     """
     Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded.
     We recommend that you use AWS Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the AWS Certificate Manager User Guide .
-    For more information about working with server certificates, including a list of AWS services that can use the server certificates that you manage with IAM, go to Working with Server Certificates in the IAM User Guide .
+    For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide . This topic includes a list of AWS services that can use the server certificates that you manage with IAM.
     For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide .
     See also: AWS API Documentation
     
@@ -5153,32 +5364,41 @@ def upload_server_certificate(Path=None, ServerCertificateName=None, Certificate
     
     :type Path: string
     :param Path: The path for the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide .
-            This parameter is optional. If it is not included, it defaults to a slash (/). This paramater allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes, containing any ASCII character from the ! (u0021) thru the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+            This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (per its regex pattern ) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
             Note
-            If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the --path option. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/ ).
+            If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the path parameter. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/ ).
             
 
     :type ServerCertificateName: string
     :param ServerCertificateName: [REQUIRED]
             The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type CertificateBody: string
     :param CertificateBody: [REQUIRED]
             The contents of the public key certificate in PEM-encoded format.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type PrivateKey: string
     :param PrivateKey: [REQUIRED]
             The contents of the private key in PEM-encoded format.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :type CertificateChain: string
     :param CertificateChain: The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :rtype: dict
@@ -5200,7 +5420,7 @@ def upload_server_certificate(Path=None, ServerCertificateName=None, Certificate
 def upload_signing_certificate(UserName=None, CertificateBody=None):
     """
     Uploads an X.509 signing certificate and associates it with the specified IAM user. Some AWS services use X.509 signing certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active .
-    If the UserName field is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. Because this action works for access keys under the AWS account, you can use this action to manage root credentials even if the AWS account has no associated users.
+    If the UserName field is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. Because this operation works for access keys under the AWS account, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
     See also: AWS API Documentation
     
     Examples
@@ -5215,13 +5435,16 @@ def upload_signing_certificate(UserName=None, CertificateBody=None):
     
     :type UserName: string
     :param UserName: The name of the user the signing certificate is for.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type CertificateBody: string
     :param CertificateBody: [REQUIRED]
             The contents of the signing certificate.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :rtype: dict
@@ -5242,7 +5465,7 @@ def upload_signing_certificate(UserName=None, CertificateBody=None):
 def upload_ssh_public_key(UserName=None, SSHPublicKeyBody=None):
     """
     Uploads an SSH public key and associates it with the specified IAM user.
-    The SSH public key uploaded by this action can be used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
+    The SSH public key uploaded by this operation can be used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide .
     See also: AWS API Documentation
     
     
@@ -5255,13 +5478,16 @@ def upload_ssh_public_key(UserName=None, SSHPublicKeyBody=None):
     :type UserName: string
     :param UserName: [REQUIRED]
             The name of the IAM user to associate the SSH public key with.
-            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+            This parameter allows (per its regex pattern ) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
             
 
     :type SSHPublicKeyBody: string
     :param SSHPublicKeyBody: [REQUIRED]
             The SSH public key. The public key must be encoded in ssh-rsa format or PEM format.
-            The regex pattern used to validate this parameter is a string of characters consisting of any printable ASCII character ranging from the space character (u0020) through end of the ASCII character range as well as the printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF). It also includes the special characters tab (u0009), line feed (u000A), and carriage return (u000D).
+            The regex pattern used to validate this parameter is a string of characters consisting of the following:
+            Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range
+            The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)
+            The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
             
 
     :rtype: dict

@@ -173,7 +173,9 @@ def create_additional_assignments_for_hit(HITId=None, NumberOfAdditionalAssignme
             
 
     :type NumberOfAdditionalAssignments: integer
-    :param NumberOfAdditionalAssignments: The number of additional assignments to request for this HIT.
+    :param NumberOfAdditionalAssignments: [REQUIRED]
+            The number of additional assignments to request for this HIT.
+            
 
     :type UniqueRequestToken: string
     :param UniqueRequestToken: A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken , subsequent calls will return an error with a message containing the request ID.
@@ -186,7 +188,9 @@ def create_additional_assignments_for_hit(HITId=None, NumberOfAdditionalAssignme
     HITId (string) -- [REQUIRED]
     The ID of the HIT to extend.
     
-    NumberOfAdditionalAssignments (integer) -- The number of additional assignments to request for this HIT.
+    NumberOfAdditionalAssignments (integer) -- [REQUIRED]
+    The number of additional assignments to request for this HIT.
+    
     UniqueRequestToken (string) -- A unique identifier for this request, which allows you to retry the call on error without extending the HIT multiple times. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the extend HIT already exists in the system from a previous call using the same UniqueRequestToken , subsequent calls will return an error with a message containing the request ID.
     
     """
@@ -225,7 +229,8 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
                         'Subdivision': 'string'
                     },
                 ],
-                'RequiredToPreview': True|False
+                'RequiredToPreview': True|False,
+                'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
             },
         ],
         UniqueRequestToken='string',
@@ -324,8 +329,8 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
             
 
     :type QualificationRequirements: list
-    :param QualificationRequirements: A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT.
-            (dict) --The QualificationRequirement data structure describes a Qualification that a Worker must have before the Worker is allowed to accept a HIT. A requirement may optionally state that a Worker must have the Qualification in order to preview the HIT.
+    :param QualificationRequirements: Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure.
+            (dict) --The QualificationRequirement data structure describes a Qualification that a Worker must have before the Worker is allowed to accept a HIT. A requirement may optionally state that a Worker must have the Qualification in order to preview the HIT, or see the HIT in search results.
             QualificationTypeId (string) -- [REQUIRED]The ID of the Qualification type for the requirement.
             Comparator (string) -- [REQUIRED]The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value.
             IntegerValues (list) --The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure.
@@ -335,7 +340,8 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
             Country (string) -- [REQUIRED]The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America.
             Subdivision (string) --The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
             
-            RequiredToPreview (boolean) --If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false.
+            RequiredToPreview (boolean) --DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field.
+            ActionsGuarded (string) --Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include 'Accept' (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), 'PreviewAndAccept' (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and 'DiscoverPreviewAndAccept' (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field.
             
             
 
@@ -347,7 +353,7 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
 
     :type AssignmentReviewPolicy: dict
     :param AssignmentReviewPolicy: The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-            PolicyName (string) --Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
+            PolicyName (string) -- [REQUIRED]Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
             Parameters (list) --Name of the parameter from the Review policy.
             (dict) --Name of the parameter from the Review policy.
             Key (string) --Name of the parameter from the list of Review Polices.
@@ -364,7 +370,7 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
 
     :type HITReviewPolicy: dict
     :param HITReviewPolicy: The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-            PolicyName (string) --Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
+            PolicyName (string) -- [REQUIRED]Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
             Parameters (list) --Name of the parameter from the Review policy.
             (dict) --Name of the parameter from the Review policy.
             Key (string) --Name of the parameter from the list of Review Polices.
@@ -387,8 +393,8 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
     :type HITLayoutParameters: list
     :param HITLayoutParameters: If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout.
             (dict) --The HITLayoutParameter data structure defines parameter values used with a HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template used to provide Human Intelligence Task (HIT) question data for CreateHIT.
-            Name (string) --The name of the parameter in the HITLayout.
-            Value (string) --The value substituted for the parameter referenced in the HITLayout.
+            Name (string) -- [REQUIRED]The name of the parameter in the HITLayout.
+            Value (string) -- [REQUIRED]The value substituted for the parameter referenced in the HITLayout.
             
             
 
@@ -424,7 +430,8 @@ def create_hit(MaxAssignments=None, AutoApprovalDelayInSeconds=None, LifetimeInS
                             'Subdivision': 'string'
                         },
                     ],
-                    'RequiredToPreview': True|False
+                    'RequiredToPreview': True|False,
+                    'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                 },
             ],
             'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -467,7 +474,8 @@ def create_hit_type(AutoApprovalDelayInSeconds=None, AssignmentDurationInSeconds
                         'Subdivision': 'string'
                     },
                 ],
-                'RequiredToPreview': True|False
+                'RequiredToPreview': True|False,
+                'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
             },
         ]
     )
@@ -500,8 +508,8 @@ def create_hit_type(AutoApprovalDelayInSeconds=None, AssignmentDurationInSeconds
             
 
     :type QualificationRequirements: list
-    :param QualificationRequirements: A condition that a Worker's Qualifications must meet before the Worker is allowed to accept and complete the HIT.
-            (dict) --The QualificationRequirement data structure describes a Qualification that a Worker must have before the Worker is allowed to accept a HIT. A requirement may optionally state that a Worker must have the Qualification in order to preview the HIT.
+    :param QualificationRequirements: Conditions that a Worker's Qualifications must meet in order to accept the HIT. A HIT can have between zero and ten Qualification requirements. All requirements must be met in order for a Worker to accept the HIT. Additionally, other actions can be restricted using the ActionsGuarded field on each QualificationRequirement structure.
+            (dict) --The QualificationRequirement data structure describes a Qualification that a Worker must have before the Worker is allowed to accept a HIT. A requirement may optionally state that a Worker must have the Qualification in order to preview the HIT, or see the HIT in search results.
             QualificationTypeId (string) -- [REQUIRED]The ID of the Qualification type for the requirement.
             Comparator (string) -- [REQUIRED]The kind of comparison to make against a Qualification's value. You can compare a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo, GreaterThan, GreaterThanOrEqualTo, EqualTo, or NotEqualTo the IntegerValue. You can compare it to a LocaleValue to see if it is EqualTo, or NotEqualTo the LocaleValue. You can check to see if the value is In or NotIn a set of IntegerValue or LocaleValue values. Lastly, a Qualification requirement can also test if a Qualification Exists or DoesNotExist in the user's profile, regardless of its value.
             IntegerValues (list) --The integer value to compare against the Qualification's value. IntegerValue must not be present if Comparator is Exists or DoesNotExist. IntegerValue can only be used if the Qualification type has an integer value; it cannot be used with the Worker_Locale QualificationType ID. When performing a set comparison by using the In or the NotIn comparator, you can use up to 15 IntegerValue elements in a QualificationRequirement data structure.
@@ -511,7 +519,8 @@ def create_hit_type(AutoApprovalDelayInSeconds=None, AssignmentDurationInSeconds
             Country (string) -- [REQUIRED]The country of the locale. Must be a valid ISO 3166 country code. For example, the code US refers to the United States of America.
             Subdivision (string) --The state or subdivision of the locale. A valid ISO 3166-2 subdivision code. For example, the code WA refers to the state of Washington.
             
-            RequiredToPreview (boolean) --If true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false.
+            RequiredToPreview (boolean) --DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is true, the question data for the HIT will not be shown when a Worker whose Qualifications do not meet this requirement tries to preview the HIT. That is, a Worker's Qualifications must meet all of the requirements for which RequiredToPreview is true in order to preview the HIT. If a Worker meets all of the requirements where RequiredToPreview is true (or if there are no such requirements), but does not meet all of the requirements for the HIT, the Worker will be allowed to preview the HIT's question data, but will not be allowed to accept and complete the HIT. The default is false. This should not be used in combination with the ActionsGuarded field.
+            ActionsGuarded (string) --Setting this attribute prevents Workers whose Qualifications do not meet this QualificationRequirement from taking the specified action. Valid arguments include 'Accept' (Worker cannot accept the HIT, but can preview the HIT and see it in their search results), 'PreviewAndAccept' (Worker cannot accept or preview the HIT, but can see the HIT in their search results), and 'DiscoverPreviewAndAccept' (Worker cannot accept, preview, or see the HIT in their search results). It's possible for you to create a HIT with multiple QualificationRequirements (which can have different values for the ActionGuarded attribute). In this case, the Worker is only permitted to perform an action when they have met all QualificationRequirements guarding the action. The actions in the order of least restrictive to most restrictive are Discover, Preview and Accept. For example, if a Worker meets all QualificationRequirements that are set to DiscoverPreviewAndAccept, but do not meet all requirements that are set with PreviewAndAccept, then the Worker will be able to Discover, i.e. see the HIT in their search result, but will not be able to Preview or Accept the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview field.
             
             
 
@@ -620,7 +629,7 @@ def create_hit_with_hit_type(HITTypeId=None, MaxAssignments=None, LifetimeInSeco
 
     :type AssignmentReviewPolicy: dict
     :param AssignmentReviewPolicy: The Assignment-level Review Policy applies to the assignments under the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-            PolicyName (string) --Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
+            PolicyName (string) -- [REQUIRED]Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
             Parameters (list) --Name of the parameter from the Review policy.
             (dict) --Name of the parameter from the Review policy.
             Key (string) --Name of the parameter from the list of Review Polices.
@@ -637,7 +646,7 @@ def create_hit_with_hit_type(HITTypeId=None, MaxAssignments=None, LifetimeInSeco
 
     :type HITReviewPolicy: dict
     :param HITReviewPolicy: The HIT-level Review Policy applies to the HIT. You can specify for Mechanical Turk to take various actions based on the policy.
-            PolicyName (string) --Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
+            PolicyName (string) -- [REQUIRED]Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
             Parameters (list) --Name of the parameter from the Review policy.
             (dict) --Name of the parameter from the Review policy.
             Key (string) --Name of the parameter from the list of Review Polices.
@@ -660,8 +669,8 @@ def create_hit_with_hit_type(HITTypeId=None, MaxAssignments=None, LifetimeInSeco
     :type HITLayoutParameters: list
     :param HITLayoutParameters: If the HITLayoutId is provided, any placeholder values must be filled in with values using the HITLayoutParameter structure. For more information, see HITLayout.
             (dict) --The HITLayoutParameter data structure defines parameter values used with a HITLayout. A HITLayout is a reusable Amazon Mechanical Turk project template used to provide Human Intelligence Task (HIT) question data for CreateHIT.
-            Name (string) --The name of the parameter in the HITLayout.
-            Value (string) --The value substituted for the parameter referenced in the HITLayout.
+            Name (string) -- [REQUIRED]The name of the parameter in the HITLayout.
+            Value (string) -- [REQUIRED]The value substituted for the parameter referenced in the HITLayout.
             
             
 
@@ -697,7 +706,8 @@ def create_hit_with_hit_type(HITTypeId=None, MaxAssignments=None, LifetimeInSeco
                             'Subdivision': 'string'
                         },
                     ],
-                    'RequiredToPreview': True|False
+                    'RequiredToPreview': True|False,
+                    'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                 },
             ],
             'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1057,7 +1067,8 @@ def get_assignment(AssignmentId=None):
                             'Subdivision': 'string'
                         },
                     ],
-                    'RequiredToPreview': True|False
+                    'RequiredToPreview': True|False,
+                    'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                 },
             ],
             'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1073,7 +1084,7 @@ def get_assignment(AssignmentId=None):
 
 def get_file_upload_url(AssignmentId=None, QuestionIdentifier=None):
     """
-    The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved.
+    The GetFileUploadURL operation generates and returns a temporary URL. You use the temporary URL to retrieve a file uploaded by a Worker as an answer to a FileUploadAnswer question for a HIT. The temporary URL is generated the instant the GetFileUploadURL operation is called, and is valid for 60 seconds. You can get a temporary file upload URL any time until the HIT is disposed. After the HIT is disposed, any uploaded files are deleted, and cannot be retrieved. Pending Deprecation on December 12, 2017. The Answer Specification structure will no longer support the FileUploadAnswer element to be used for the QuestionForm data structure. Instead, we recommend that Requesters who want to create HITs asking Workers to upload files to use Amazon S3.
     See also: AWS API Documentation
     
     
@@ -1150,7 +1161,8 @@ def get_hit(HITId=None):
                             'Subdivision': 'string'
                         },
                     ],
-                    'RequiredToPreview': True|False
+                    'RequiredToPreview': True|False,
+                    'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                 },
             ],
             'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1428,7 +1440,8 @@ def list_hits(NextToken=None, MaxResults=None):
                                 'Subdivision': 'string'
                             },
                         ],
-                        'RequiredToPreview': True|False
+                        'RequiredToPreview': True|False,
+                        'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                     },
                 ],
                 'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1505,7 +1518,8 @@ def list_hits_for_qualification_type(QualificationTypeId=None, NextToken=None, M
                                 'Subdivision': 'string'
                             },
                         ],
-                        'RequiredToPreview': True|False
+                        'RequiredToPreview': True|False,
+                        'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                     },
                 ],
                 'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1567,7 +1581,7 @@ def list_qualification_requests(QualificationTypeId=None, NextToken=None, MaxRes
 
 def list_qualification_types(Query=None, MustBeRequestable=None, MustBeOwnedByCaller=None, NextToken=None, MaxResults=None):
     """
-    The ListQualificationRequests operation retrieves requests for Qualifications of a particular Qualification type. The owner of the Qualification type calls this operation to poll for pending requests, and accepts them using the AcceptQualification operation.
+    The ListQualificationTypes operation returns a list of Qualification types, filtered by an optional search term.
     See also: AWS API Documentation
     
     
@@ -1824,7 +1838,8 @@ def list_reviewable_hits(HITTypeId=None, Status=None, NextToken=None, MaxResults
                                 'Subdivision': 'string'
                             },
                         ],
-                        'RequiredToPreview': True|False
+                        'RequiredToPreview': True|False,
+                        'ActionsGuarded': 'Accept'|'PreviewAndAccept'|'DiscoverPreviewAndAccept'
                     },
                 ],
                 'HITReviewStatus': 'NotReviewed'|'MarkedForReview'|'ReviewedAppropriate'|'ReviewedInappropriate',
@@ -1993,7 +2008,9 @@ def reject_assignment(AssignmentId=None, RequesterFeedback=None):
             
 
     :type RequesterFeedback: string
-    :param RequesterFeedback: A message for the Worker, which the Worker can see in the Status section of the web site.
+    :param RequesterFeedback: [REQUIRED]
+            A message for the Worker, which the Worker can see in the Status section of the web site.
+            
 
     :rtype: dict
     :return: {}
@@ -2067,7 +2084,9 @@ def send_bonus(WorkerId=None, BonusAmount=None, AssignmentId=None, Reason=None, 
             
 
     :type Reason: string
-    :param Reason: A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
+    :param Reason: [REQUIRED]
+            A message that explains the reason for the bonus payment. The Worker receiving the bonus can see this message.
+            
 
     :type UniqueRequestToken: string
     :param UniqueRequestToken: A unique identifier for this request, which allows you to retry the call on error without granting multiple bonuses. This is useful in cases such as network timeouts where it is unclear whether or not the call succeeded on the server. If the bonus already exists in the system from a previous call using the same UniqueRequestToken, subsequent calls will return an error with a message containing the request ID.
@@ -2091,7 +2110,7 @@ def send_test_event_notification(Notification=None, TestEventType=None):
     :example: response = client.send_test_event_notification(
         Notification={
             'Destination': 'string',
-            'Transport': 'Email'|'SQS',
+            'Transport': 'Email'|'SQS'|'SNS',
             'Version': 'string',
             'EventTypes': [
                 'AssignmentAccepted'|'AssignmentAbandoned'|'AssignmentReturned'|'AssignmentSubmitted'|'AssignmentRejected'|'AssignmentApproved'|'HITCreated'|'HITExpired'|'HITReviewable'|'HITExtended'|'HITDisposed'|'Ping',
@@ -2104,10 +2123,13 @@ def send_test_event_notification(Notification=None, TestEventType=None):
     :type Notification: dict
     :param Notification: [REQUIRED]
             The notification specification to test. This value is identical to the value you would provide to the UpdateNotificationSettings operation when you establish the notification specification for a HIT type.
-            Destination (string) -- [REQUIRED]The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue.
-            Transport (string) -- [REQUIRED]The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS.
-            Version (string) --The version of the Notification API to use. Valid value is 2006-05-05.
-            EventTypes (list) --The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation.
+            Destination (string) -- [REQUIRED]The target for notification messages. The Destination s format is determined by the specified Transport:
+            When Transport is Email, the Destination is your email address.
+            When Transport is SQS, the Destination is your queue URL.
+            When Transport is SNS, the Destination is the ARN of your topic.
+            Transport (string) -- [REQUIRED]The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS.
+            Version (string) -- [REQUIRED]The version of the Notification API to use. Valid value is 2006-05-05.
+            EventTypes (list) -- [REQUIRED]The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation.
             (string) --
             
 
@@ -2144,7 +2166,9 @@ def update_expiration_for_hit(HITId=None, ExpireAt=None):
             
 
     :type ExpireAt: datetime
-    :param ExpireAt: The date and time at which you want the HIT to expire
+    :param ExpireAt: [REQUIRED]
+            The date and time at which you want the HIT to expire
+            
 
     :rtype: dict
     :return: {}
@@ -2231,7 +2255,7 @@ def update_notification_settings(HITTypeId=None, Notification=None, Active=None)
         HITTypeId='string',
         Notification={
             'Destination': 'string',
-            'Transport': 'Email'|'SQS',
+            'Transport': 'Email'|'SQS'|'SNS',
             'Version': 'string',
             'EventTypes': [
                 'AssignmentAccepted'|'AssignmentAbandoned'|'AssignmentReturned'|'AssignmentSubmitted'|'AssignmentRejected'|'AssignmentApproved'|'HITCreated'|'HITExpired'|'HITReviewable'|'HITExtended'|'HITDisposed'|'Ping',
@@ -2248,10 +2272,13 @@ def update_notification_settings(HITTypeId=None, Notification=None, Active=None)
 
     :type Notification: dict
     :param Notification: The notification specification for the HIT type.
-            Destination (string) -- [REQUIRED]The destination for notification messages. or email notifications (if Transport is Email), this is an email address. For Amazon Simple Queue Service (Amazon SQS) notifications (if Transport is SQS), this is the URL for your Amazon SQS queue.
-            Transport (string) -- [REQUIRED]The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS.
-            Version (string) --The version of the Notification API to use. Valid value is 2006-05-05.
-            EventTypes (list) --The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation.
+            Destination (string) -- [REQUIRED]The target for notification messages. The Destination s format is determined by the specified Transport:
+            When Transport is Email, the Destination is your email address.
+            When Transport is SQS, the Destination is your queue URL.
+            When Transport is SNS, the Destination is the ARN of your topic.
+            Transport (string) -- [REQUIRED]The method Amazon Mechanical Turk uses to send the notification. Valid Values: Email | SQS | SNS.
+            Version (string) -- [REQUIRED]The version of the Notification API to use. Valid value is 2006-05-05.
+            EventTypes (list) -- [REQUIRED]The list of events that should cause notifications to be sent. Valid Values: AssignmentAccepted | AssignmentAbandoned | AssignmentReturned | AssignmentSubmitted | AssignmentRejected | AssignmentApproved | HITCreated | HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping event is only valid for the SendTestEventNotification operation.
             (string) --
             
 

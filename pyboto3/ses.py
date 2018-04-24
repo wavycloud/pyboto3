@@ -43,7 +43,7 @@ def clone_receipt_rule_set(RuleSetName=None, OriginalRuleSetName=None):
     """
     Creates a receipt rule set by cloning an existing one. All receipt rules and configurations are copied to the new receipt rule set and are completely independent of the source rule set.
     For information about setting up rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -59,7 +59,7 @@ def clone_receipt_rule_set(RuleSetName=None, OriginalRuleSetName=None):
     :type RuleSetName: string
     :param RuleSetName: [REQUIRED]
             The name of the rule set to create. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             
@@ -80,7 +80,7 @@ def create_configuration_set(ConfigurationSet=None):
     """
     Creates a configuration set.
     Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -94,9 +94,9 @@ def create_configuration_set(ConfigurationSet=None):
     :type ConfigurationSet: dict
     :param ConfigurationSet: [REQUIRED]
             A data structure that contains the name of the configuration set.
-            Name (string) -- [REQUIRED]The name of the configuration set. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
-            Contain less than 64 characters.
+            Name (string) -- [REQUIRED]The name of the configuration set. The name must meet the following requirements:
+            Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain 64 characters or fewer.
             
 
     :rtype: dict
@@ -110,7 +110,7 @@ def create_configuration_set_event_destination(ConfigurationSetName=None, EventD
     """
     Creates a configuration set event destination.
     An event destination is the AWS service to which Amazon SES publishes the email sending events associated with a configuration set. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -120,7 +120,7 @@ def create_configuration_set_event_destination(ConfigurationSetName=None, EventD
             'Name': 'string',
             'Enabled': True|False,
             'MatchingEventTypes': [
-                'send'|'reject'|'bounce'|'complaint'|'delivery',
+                'send'|'reject'|'bounce'|'complaint'|'delivery'|'open'|'click'|'renderingFailure',
             ],
             'KinesisFirehoseDestination': {
                 'IAMRoleARN': 'string',
@@ -130,10 +130,13 @@ def create_configuration_set_event_destination(ConfigurationSetName=None, EventD
                 'DimensionConfigurations': [
                     {
                         'DimensionName': 'string',
-                        'DimensionValueSource': 'messageTag'|'emailHeader',
+                        'DimensionValueSource': 'messageTag'|'emailHeader'|'linkTag',
                         'DefaultDimensionValue': 'string'
                     },
                 ]
+            },
+            'SNSDestination': {
+                'TopicARN': 'string'
             }
         }
     )
@@ -141,33 +144,36 @@ def create_configuration_set_event_destination(ConfigurationSetName=None, EventD
     
     :type ConfigurationSetName: string
     :param ConfigurationSetName: [REQUIRED]
-            The name of the configuration set to which to apply the event destination.
+            The name of the configuration set that the event destination should be associated with.
             
 
     :type EventDestination: dict
     :param EventDestination: [REQUIRED]
-            An object that describes the AWS service to which Amazon SES will publish the email sending events associated with the specified configuration set.
+            An object that describes the AWS service that email sending event information will be published to.
             Name (string) -- [REQUIRED]The name of the event destination. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 64 characters.
             Enabled (boolean) --Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false .
             MatchingEventTypes (list) -- [REQUIRED]The type of email sending events to publish to the event destination.
             (string) --
             KinesisFirehoseDestination (dict) --An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
             IAMRoleARN (string) -- [REQUIRED]The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
-            DeliveryStreamARN (string) -- [REQUIRED]The ARN of the Amazon Kinesis Firehose stream to which to publish email sending events.
+            DeliveryStreamARN (string) -- [REQUIRED]The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
             CloudWatchDestination (dict) --An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
             DimensionConfigurations (list) -- [REQUIRED]A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
             (dict) --Contains the dimension configuration to use when you publish email sending events to Amazon CloudWatch.
             For information about publishing email sending events to Amazon CloudWatch, see the Amazon SES Developer Guide .
             DimensionName (string) -- [REQUIRED]The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             DimensionValueSource (string) -- [REQUIRED]The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail /SendRawEmail API, choose messageTag . If you want Amazon SES to use your own email headers, choose emailHeader .
             DefaultDimensionValue (string) -- [REQUIRED]The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             
+            
+            SNSDestination (dict) --An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
+            TopicARN (string) -- [REQUIRED]The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             
             
 
@@ -178,11 +184,96 @@ def create_configuration_set_event_destination(ConfigurationSetName=None, EventD
     """
     pass
 
+def create_configuration_set_tracking_options(ConfigurationSetName=None, TrackingOptions=None):
+    """
+    Creates an association between a configuration set and a custom domain for open and click event tracking.
+    By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_configuration_set_tracking_options(
+        ConfigurationSetName='string',
+        TrackingOptions={
+            'CustomRedirectDomain': 'string'
+        }
+    )
+    
+    
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: [REQUIRED]
+            The name of the configuration set that the tracking options should be associated with.
+            
+
+    :type TrackingOptions: dict
+    :param TrackingOptions: [REQUIRED]
+            A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails.
+            For more information, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide .
+            CustomRedirectDomain (string) --The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def create_custom_verification_email_template(TemplateName=None, FromEmailAddress=None, TemplateSubject=None, TemplateContent=None, SuccessRedirectionURL=None, FailureRedirectionURL=None):
+    """
+    Creates a new custom verification email template.
+    For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_custom_verification_email_template(
+        TemplateName='string',
+        FromEmailAddress='string',
+        TemplateSubject='string',
+        TemplateContent='string',
+        SuccessRedirectionURL='string',
+        FailureRedirectionURL='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the custom verification email template.
+            
+
+    :type FromEmailAddress: string
+    :param FromEmailAddress: [REQUIRED]
+            The email address that the custom verification email is sent from.
+            
+
+    :type TemplateSubject: string
+    :param TemplateSubject: [REQUIRED]
+            The subject line of the custom verification email.
+            
+
+    :type TemplateContent: string
+    :param TemplateContent: [REQUIRED]
+            The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide .
+            
+
+    :type SuccessRedirectionURL: string
+    :param SuccessRedirectionURL: [REQUIRED]
+            The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+            
+
+    :type FailureRedirectionURL: string
+    :param FailureRedirectionURL: [REQUIRED]
+            The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+            
+
+    """
+    pass
+
 def create_receipt_filter(Filter=None):
     """
     Creates a new IP address filter.
     For information about setting up IP address filters, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -204,7 +295,7 @@ def create_receipt_filter(Filter=None):
     :param Filter: [REQUIRED]
             A data structure that describes the IP address filter to create, which consists of a name, an IP address range, and whether to allow or block mail from it.
             Name (string) -- [REQUIRED]The name of the IP address filter. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             IpFilter (dict) -- [REQUIRED]A structure that provides the IP addresses to block or allow, and whether to block or allow incoming mail from them.
@@ -224,7 +315,7 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
     """
     Creates a receipt rule.
     For information about setting up receipt rules, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -286,7 +377,7 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
     
     :type RuleSetName: string
     :param RuleSetName: [REQUIRED]
-            The name of the rule set to which to add the rule.
+            The name of the rule set that the receipt rule will be added to.
             
 
     :type After: string
@@ -296,19 +387,19 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
     :param Rule: [REQUIRED]
             A data structure that contains the specified rule's name, actions, recipients, domains, enabled status, scan status, and TLS policy.
             Name (string) -- [REQUIRED]The name of the receipt rule. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             Enabled (boolean) --If true , the receipt rule is active. The default value is false .
             TlsPolicy (string) --Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require , Amazon SES will bounce emails that are not received over TLS. The default is Optional .
-            Recipients (list) --The recipient domains and email addresses to which the receipt rule applies. If this field is not specified, this rule will match all recipients under all verified domains.
+            Recipients (list) --The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
             (string) --
             Actions (list) --An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
             (dict) --An action that Amazon SES can take when it receives an email on behalf of one or more email addresses or domains that you own. An instance of this data type can represent only one action.
             For information about setting up receipt rules, see the Amazon SES Developer Guide .
             S3Action (dict) --Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
             TopicArn (string) --The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
-            BucketName (string) -- [REQUIRED]The name of the Amazon S3 bucket to which to save the received email.
+            BucketName (string) -- [REQUIRED]The name of the Amazon S3 bucket that incoming email will be saved to.
             ObjectKeyPrefix (string) --The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
             KmsKeyArn (string) --The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:
             To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses . For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses . If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
@@ -334,7 +425,7 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
             There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
             
             StopAction (dict) --Terminates the evaluation of the receipt rule set and optionally publishes a notification to Amazon SNS.
-            Scope (string) -- [REQUIRED]The scope to which the Stop action applies. That is, what is being stopped.
+            Scope (string) -- [REQUIRED]The name of the RuleSet that is being stopped.
             TopicArn (string) --The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             AddHeaderAction (dict) --Adds a header to the received email.
             HeaderName (string) -- [REQUIRED]The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
@@ -343,7 +434,7 @@ def create_receipt_rule(RuleSetName=None, After=None, Rule=None):
             TopicArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             Encoding (string) --The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
             
-            ScanEnabled (boolean) --If true , then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false .
+            ScanEnabled (boolean) --If true , then messages that this receipt rule applies to are scanned for spam and viruses. The default value is false .
             
 
     :rtype: dict
@@ -357,7 +448,7 @@ def create_receipt_rule_set(RuleSetName=None):
     """
     Creates an empty receipt rule set.
     For information about setting up receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -372,7 +463,7 @@ def create_receipt_rule_set(RuleSetName=None):
     :type RuleSetName: string
     :param RuleSetName: [REQUIRED]
             The name of the rule set to create. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             
@@ -384,11 +475,43 @@ def create_receipt_rule_set(RuleSetName=None):
     """
     pass
 
+def create_template(Template=None):
+    """
+    Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_template(
+        Template={
+            'TemplateName': 'string',
+            'SubjectPart': 'string',
+            'TextPart': 'string',
+            'HtmlPart': 'string'
+        }
+    )
+    
+    
+    :type Template: dict
+    :param Template: [REQUIRED]
+            The content of the email, composed of a subject line, an HTML part, and a text-only part.
+            TemplateName (string) -- [REQUIRED]The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+            SubjectPart (string) --The subject line of the email.
+            TextPart (string) --The email body that will be visible to recipients whose email clients do not display HTML.
+            HtmlPart (string) --The HTML body of the email.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
 def delete_configuration_set(ConfigurationSetName=None):
     """
-    Deletes a configuration set.
-    Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    Deletes a configuration set. Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -411,9 +534,8 @@ def delete_configuration_set(ConfigurationSetName=None):
 
 def delete_configuration_set_event_destination(ConfigurationSetName=None, EventDestinationName=None):
     """
-    Deletes a configuration set event destination.
-    Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    Deletes a configuration set event destination. Configuration set event destinations are associated with configuration sets, which enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -440,10 +562,55 @@ def delete_configuration_set_event_destination(ConfigurationSetName=None, EventD
     """
     pass
 
+def delete_configuration_set_tracking_options(ConfigurationSetName=None):
+    """
+    Deletes an association between a configuration set and a custom domain for open and click event tracking.
+    By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_configuration_set_tracking_options(
+        ConfigurationSetName='string'
+    )
+    
+    
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: [REQUIRED]
+            The name of the configuration set from which you want to delete the tracking options.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def delete_custom_verification_email_template(TemplateName=None):
+    """
+    Deletes an existing custom verification email template.
+    For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_custom_verification_email_template(
+        TemplateName='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the custom verification email template that you want to delete.
+            
+
+    """
+    pass
+
 def delete_identity(Identity=None):
     """
     Deletes the specified identity (an email address or a domain) from the list of verified identities.
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -471,7 +638,7 @@ def delete_identity_policy(Identity=None, PolicyName=None):
     """
     Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.
     Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -506,7 +673,7 @@ def delete_receipt_filter(FilterName=None):
     """
     Deletes the specified IP address filter.
     For information about managing IP address filters, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -534,7 +701,7 @@ def delete_receipt_rule(RuleSetName=None, RuleName=None):
     """
     Deletes the specified receipt rule.
     For information about managing receipt rules, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -568,7 +735,7 @@ def delete_receipt_rule_set(RuleSetName=None):
     """
     Deletes the specified receipt rule set and all of the receipt rules it contains.
     For information about managing receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -592,10 +759,33 @@ def delete_receipt_rule_set(RuleSetName=None):
     """
     pass
 
+def delete_template(TemplateName=None):
+    """
+    Deletes an email template.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_template(
+        TemplateName='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the template to be deleted.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
 def delete_verified_email_address(EmailAddress=None):
     """
-    Deletes the specified email address from the list of verified addresses.
-    This action is throttled at one request per second.
+    Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
     See also: AWS API Documentation
     
     Examples
@@ -626,7 +816,7 @@ def describe_active_receipt_rule_set():
     """
     Returns the metadata and receipt rules for the receipt rule set that is currently active.
     For information about setting up receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -695,7 +885,7 @@ def describe_active_receipt_rule_set():
     
     
     :returns: 
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Start and end with a letter or number.
     Contain less than 64 characters.
     
@@ -704,16 +894,15 @@ def describe_active_receipt_rule_set():
 
 def describe_configuration_set(ConfigurationSetName=None, ConfigurationSetAttributeNames=None):
     """
-    Returns the details of the specified configuration set.
-    Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    Returns the details of the specified configuration set. For information about using configuration sets, see the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
     :example: response = client.describe_configuration_set(
         ConfigurationSetName='string',
         ConfigurationSetAttributeNames=[
-            'eventDestinations',
+            'eventDestinations'|'trackingOptions'|'reputationOptions',
         ]
     )
     
@@ -738,7 +927,7 @@ def describe_configuration_set(ConfigurationSetName=None, ConfigurationSetAttrib
                 'Name': 'string',
                 'Enabled': True|False,
                 'MatchingEventTypes': [
-                    'send'|'reject'|'bounce'|'complaint'|'delivery',
+                    'send'|'reject'|'bounce'|'complaint'|'delivery'|'open'|'click'|'renderingFailure',
                 ],
                 'KinesisFirehoseDestination': {
                     'IAMRoleARN': 'string',
@@ -748,19 +937,30 @@ def describe_configuration_set(ConfigurationSetName=None, ConfigurationSetAttrib
                     'DimensionConfigurations': [
                         {
                             'DimensionName': 'string',
-                            'DimensionValueSource': 'messageTag'|'emailHeader',
+                            'DimensionValueSource': 'messageTag'|'emailHeader'|'linkTag',
                             'DefaultDimensionValue': 'string'
                         },
                     ]
+                },
+                'SNSDestination': {
+                    'TopicARN': 'string'
                 }
             },
-        ]
+        ],
+        'TrackingOptions': {
+            'CustomRedirectDomain': 'string'
+        },
+        'ReputationOptions': {
+            'SendingEnabled': True|False,
+            'ReputationMetricsEnabled': True|False,
+            'LastFreshStart': datetime(2015, 1, 1)
+        }
     }
     
     
     :returns: 
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
-    Contain less than 64 characters.
+    Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain 64 characters or fewer.
     
     """
     pass
@@ -769,7 +969,7 @@ def describe_receipt_rule(RuleSetName=None, RuleName=None):
     """
     Returns the details of the specified receipt rule.
     For information about setting up receipt rules, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -784,7 +984,7 @@ def describe_receipt_rule(RuleSetName=None, RuleName=None):
     
     :type RuleSetName: string
     :param RuleSetName: [REQUIRED]
-            The name of the receipt rule set to which the receipt rule belongs.
+            The name of the receipt rule set that the receipt rule belongs to.
             
 
     :type RuleName: string
@@ -845,7 +1045,7 @@ def describe_receipt_rule(RuleSetName=None, RuleName=None):
     
     
     :returns: 
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Start and end with a letter or number.
     Contain less than 64 characters.
     
@@ -856,7 +1056,7 @@ def describe_receipt_rule_set(RuleSetName=None):
     """
     Returns the details of the specified receipt rule set.
     For information about managing receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -932,7 +1132,7 @@ def describe_receipt_rule_set(RuleSetName=None):
     
     
     :returns: 
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Start and end with a letter or number.
     Contain less than 64 characters.
     
@@ -961,11 +1161,62 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
+def get_account_sending_enabled():
+    """
+    Returns the email sending status of the Amazon SES account.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_account_sending_enabled()
+    
+    
+    :rtype: dict
+    :return: {
+        'Enabled': True|False
+    }
+    
+    
+    """
+    pass
+
+def get_custom_verification_email_template(TemplateName=None):
+    """
+    Returns the custom email verification template for the template name you specify.
+    For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_custom_verification_email_template(
+        TemplateName='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the custom verification email template that you want to retrieve.
+            
+
+    :rtype: dict
+    :return: {
+        'TemplateName': 'string',
+        'FromEmailAddress': 'string',
+        'TemplateSubject': 'string',
+        'TemplateContent': 'string',
+        'SuccessRedirectionURL': 'string',
+        'FailureRedirectionURL': 'string'
+    }
+    
+    
+    """
+    pass
+
 def get_identity_dkim_attributes(Identities=None):
     """
-    Returns the current status of Easy DKIM signing for an entity. For domain name identities, this action also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published.
-    This action takes a list of identities as input and returns the following information for each:
-    This action is throttled at one request per second and can only get DKIM attributes for up to 100 identities at a time.
+    Returns the current status of Easy DKIM signing for an entity. For domain name identities, this operation also returns the DKIM tokens that are required for Easy DKIM signing, and whether Amazon SES has successfully verified that these tokens have been published.
+    This operation takes a list of identities as input and returns the following information for each:
+    This operation is throttled at one request per second and can only get DKIM attributes for up to 100 identities at a time.
     For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -1008,8 +1259,8 @@ def get_identity_dkim_attributes(Identities=None):
 
 def get_identity_mail_from_domain_attributes(Identities=None):
     """
-    Returns the custom MAIL FROM attributes for a list of identities (email addresses and/or domains).
-    This action is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
+    Returns the custom MAIL FROM attributes for a list of identities (email addresses : domains).
+    This operation is throttled at one request per second and can only get custom MAIL FROM attributes for up to 100 identities at a time.
     See also: AWS API Documentation
     
     Examples
@@ -1047,7 +1298,7 @@ def get_identity_mail_from_domain_attributes(Identities=None):
 def get_identity_notification_attributes(Identities=None):
     """
     Given a list of verified identities (email addresses and/or domains), returns a structure describing identity notification attributes.
-    This action is throttled at one request per second and can only get notification attributes for up to 100 identities at a time.
+    This operation is throttled at one request per second and can only get notification attributes for up to 100 identities at a time.
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -1091,7 +1342,7 @@ def get_identity_policies(Identity=None, PolicyNames=None):
     """
     Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.
     Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1138,7 +1389,9 @@ def get_identity_policies(Identity=None, PolicyNames=None):
 def get_identity_verification_attributes(Identities=None):
     """
     Given a list of identities (email addresses and/or domains), returns the verification status and (for domain identities) the verification token for each identity.
-    This action is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
+    The verification status of an email address is "Pending" until the email address owner clicks the link within the verification email that Amazon SES sent to that address. If the email address owner clicks the link within 24 hours, the verification status of the email address changes to "Success". If the link is not clicked within 24 hours, the verification status changes to "Failed." In that case, if you still want to verify the email address, you must restart the verification process from the beginning.
+    For domain identities, the domain's verification status is "Pending" as Amazon SES searches for the required TXT record in the DNS settings of the domain. When Amazon SES detects the record, the domain's verification status changes to "Success". If Amazon SES is unable to detect the record within 72 hours, the domain's verification status changes to "Failed." In that case, if you still want to verify the domain, you must restart the verification process from the beginning.
+    This operation is throttled at one request per second and can only get verification attributes for up to 100 identities at a time.
     See also: AWS API Documentation
     
     Examples
@@ -1190,8 +1443,8 @@ def get_paginator(operation_name=None):
 
 def get_send_quota():
     """
-    Returns the user's current sending limits.
-    This action is throttled at one request per second.
+    Provides the sending limits for the Amazon SES account.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1214,9 +1467,8 @@ def get_send_quota():
 
 def get_send_statistics():
     """
-    Returns the user's sending statistics. The result is a list of data points, representing the last two weeks of sending activity.
-    Each data point in the list contains statistics for a 15-minute interval.
-    This action is throttled at one request per second.
+    Provides sending statistics for the Amazon SES account. The result is a list of data points, representing the last two weeks of sending activity. Each data point in the list contains statistics for a 15-minute period of time.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1243,6 +1495,37 @@ def get_send_statistics():
     """
     pass
 
+def get_template(TemplateName=None):
+    """
+    Displays the template object (which includes the Subject line, HTML part and text part) for the template you specify.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_template(
+        TemplateName='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the template you want to retrieve.
+            
+
+    :rtype: dict
+    :return: {
+        'Template': {
+            'TemplateName': 'string',
+            'SubjectPart': 'string',
+            'TextPart': 'string',
+            'HtmlPart': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_waiter():
     """
     
@@ -1251,9 +1534,8 @@ def get_waiter():
 
 def list_configuration_sets(NextToken=None, MaxItems=None):
     """
-    Lists the configuration sets associated with your AWS account.
-    Configuration sets enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second and can return up to 50 configuration sets at a time.
+    Provides a list of the configuration sets associated with your Amazon SES account. For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.
+    You can execute this operation no more than once per second. This operation will return up to 1,000 configuration sets each time it is run. If your Amazon SES account has more than 1,000 configuration sets, this operation will also return a NextToken element. You can then execute the ListConfigurationSets operation again, passing the NextToken parameter and the value of the NextToken element to retrieve additional results.
     See also: AWS API Documentation
     
     
@@ -1281,8 +1563,46 @@ def list_configuration_sets(NextToken=None, MaxItems=None):
     
     
     :returns: 
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
-    Contain less than 64 characters.
+    Contain only letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain 64 characters or fewer.
+    
+    """
+    pass
+
+def list_custom_verification_email_templates(NextToken=None, MaxResults=None):
+    """
+    Lists the existing custom verification email templates for your account.
+    For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_custom_verification_email_templates(
+        NextToken='string',
+        MaxResults=123
+    )
+    
+    
+    :type NextToken: string
+    :param NextToken: An array the contains the name and creation time stamp for each template in your Amazon SES account.
+
+    :type MaxResults: integer
+    :param MaxResults: The maximum number of custom verification email templates to return. This value must be at least 1 and less than or equal to 50. If you do not specify a value, or if you specify a value less than 1 or greater than 50, the operation will return up to 50 results.
+
+    :rtype: dict
+    :return: {
+        'CustomVerificationEmailTemplates': [
+            {
+                'TemplateName': 'string',
+                'FromEmailAddress': 'string',
+                'TemplateSubject': 'string',
+                'SuccessRedirectionURL': 'string',
+                'FailureRedirectionURL': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
     
     """
     pass
@@ -1290,7 +1610,7 @@ def list_configuration_sets(NextToken=None, MaxItems=None):
 def list_identities(IdentityType=None, NextToken=None, MaxItems=None):
     """
     Returns a list containing all of the identities (email addresses and domains) for your AWS account, regardless of verification status.
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1332,7 +1652,7 @@ def list_identity_policies(Identity=None):
     """
     Returns a list of sending authorization policies that are attached to the given identity (an email address or a domain). This API returns only a list. If you want the actual policy content, you can use GetIdentityPolicies .
     Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1365,7 +1685,7 @@ def list_receipt_filters():
     """
     Lists the IP address filters associated with your AWS account.
     For information about managing IP address filters, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1396,7 +1716,7 @@ def list_receipt_rule_sets(NextToken=None):
     """
     Lists the receipt rule sets that exist under your AWS account. If there are additional receipt rule sets to be retrieved, you will receive a NextToken that you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries.
     For information about managing receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1426,10 +1746,43 @@ def list_receipt_rule_sets(NextToken=None):
     """
     pass
 
+def list_templates(NextToken=None, MaxItems=None):
+    """
+    Lists the email templates present in your Amazon SES account.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_templates(
+        NextToken='string',
+        MaxItems=123
+    )
+    
+    
+    :type NextToken: string
+    :param NextToken: A token returned from a previous call to ListTemplates to indicate the position in the list of email templates.
+
+    :type MaxItems: integer
+    :param MaxItems: The maximum number of templates to return. This value must be at least 1 and less than or equal to 10. If you do not specify a value, or if you specify a value less than 1 or greater than 10, the operation will return up to 10 results.
+
+    :rtype: dict
+    :return: {
+        'TemplatesMetadata': [
+            {
+                'Name': 'string',
+                'CreatedTimestamp': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def list_verified_email_addresses():
     """
-    Returns a list containing all of the email addresses that have been verified.
-    This action is throttled at one request per second.
+    Deprecated. Use the ListIdentities operation to list the email addresses and domains associated with your account.
     See also: AWS API Documentation
     
     Examples
@@ -1454,7 +1807,7 @@ def put_identity_policy(Identity=None, PolicyName=None, Policy=None):
     """
     Adds or updates a sending authorization policy for the specified identity (an email address or a domain).
     Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1470,7 +1823,7 @@ def put_identity_policy(Identity=None, PolicyName=None, Policy=None):
     
     :type Identity: string
     :param Identity: [REQUIRED]
-            The identity to which the policy will apply. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
+            The identity that the policy will apply to. You can specify an identity by using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com , example.com , arn:aws:ses:us-east-1:123456789012:identity/example.com .
             To successfully call this API, you must own the identity.
             
 
@@ -1497,7 +1850,7 @@ def reorder_receipt_rule_set(RuleSetName=None, RuleNames=None):
     """
     Reorders the receipt rules within a receipt rule set.
     For information about managing receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -1534,7 +1887,7 @@ def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, Mes
     """
     Generates and sends a bounce message to the sender of an email you received through Amazon SES. You can only use this API on an email up to 24 hours after you receive it.
     For information about receiving email through Amazon SES, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -1611,7 +1964,7 @@ def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, Mes
             RecipientArn (string) --This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to receive email for the recipient of the bounced email. For more information about sending authorization, see the Amazon SES Developer Guide .
             BounceType (string) --The reason for the bounce. You must provide either this parameter or RecipientDsnFields .
             RecipientDsnFields (dict) --Recipient-related DSN fields, most of which would normally be filled in automatically when provided with a BounceType . You must provide either this parameter or BounceType .
-            FinalRecipient (string) --The email address to which the message was ultimately delivered. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.
+            FinalRecipient (string) --The email address that the message was ultimately delivered to. This corresponds to the Final-Recipient in the DSN. If not specified, FinalRecipient will be set to the Recipient specified in the BouncedRecipientInfo structure. Either FinalRecipient or the recipient in BouncedRecipientInfo must be a recipient of the original bounced message.
             Note
             Do not prepend the FinalRecipient email address with rfc 822; , as described in RFC 3798 .
             Action (string) -- [REQUIRED]The action performed by the reporting mail transfer agent (MTA) as a result of its attempt to deliver the message to the recipient address. This is required by RFC 3464 .
@@ -1640,10 +1993,304 @@ def send_bounce(OriginalMessageId=None, BounceSender=None, Explanation=None, Mes
     """
     pass
 
+def send_bulk_templated_email(Source=None, SourceArn=None, ReplyToAddresses=None, ReturnPath=None, ReturnPathArn=None, ConfigurationSetName=None, DefaultTags=None, Template=None, TemplateArn=None, DefaultTemplateData=None, Destinations=None):
+    """
+    Composes an email message to multiple destinations. The message body is created using an email template.
+    In order to send email using the SendBulkTemplatedEmail operation, your call to the API must meet the following requirements:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.send_bulk_templated_email(
+        Source='string',
+        SourceArn='string',
+        ReplyToAddresses=[
+            'string',
+        ],
+        ReturnPath='string',
+        ReturnPathArn='string',
+        ConfigurationSetName='string',
+        DefaultTags=[
+            {
+                'Name': 'string',
+                'Value': 'string'
+            },
+        ],
+        Template='string',
+        TemplateArn='string',
+        DefaultTemplateData='string',
+        Destinations=[
+            {
+                'Destination': {
+                    'ToAddresses': [
+                        'string',
+                    ],
+                    'CcAddresses': [
+                        'string',
+                    ],
+                    'BccAddresses': [
+                        'string',
+                    ]
+                },
+                'ReplacementTags': [
+                    {
+                        'Name': 'string',
+                        'Value': 'string'
+                    },
+                ],
+                'ReplacementTemplateData': 'string'
+            },
+        ]
+    )
+    
+    
+    :type Source: string
+    :param Source: [REQUIRED]
+            The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
+            If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
+            Note
+            Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047 . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
+            
+
+    :type SourceArn: string
+    :param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
+            For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
+            For more information about sending authorization, see the Amazon SES Developer Guide .
+            
+
+    :type ReplyToAddresses: list
+    :param ReplyToAddresses: The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+            (string) --
+            
+
+    :type ReturnPath: string
+    :param ReturnPath: The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+
+    :type ReturnPathArn: string
+    :param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
+            For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
+            For more information about sending authorization, see the Amazon SES Developer Guide .
+            
+
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: The name of the configuration set to use when you send an email using SendBulkTemplatedEmail .
+
+    :type DefaultTags: list
+    :param DefaultTags: A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail .
+            (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
+            Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+            Name (string) -- [REQUIRED]The name of the tag. The name must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            Value (string) -- [REQUIRED]The value of the tag. The value must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            
+            
+
+    :type Template: string
+    :param Template: [REQUIRED]
+            The template to use when sending this email.
+            
+
+    :type TemplateArn: string
+    :param TemplateArn: The ARN of the template to use when sending this email.
+
+    :type DefaultTemplateData: string
+    :param DefaultTemplateData: A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available.
+            The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+            
+
+    :type Destinations: list
+    :param Destinations: [REQUIRED]
+            One or more Destination objects. All of the recipients in a Destination will receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
+            (dict) --An array that contains one or more Destinations, as well as the tags and replacement data associated with each of those Destinations.
+            Destination (dict) -- [REQUIRED]Represents the destination of the message, consisting of To:, CC:, and BCC: fields.
+            Note
+            Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 .
+            ToAddresses (list) --The To: field(s) of the message.
+            (string) --
+            CcAddresses (list) --The CC: field(s) of the message.
+            (string) --
+            BccAddresses (list) --The BCC: field(s) of the message.
+            (string) --
+            
+            ReplacementTags (list) --A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+            (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
+            Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+            Name (string) -- [REQUIRED]The name of the tag. The name must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            Value (string) -- [REQUIRED]The value of the tag. The value must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            
+            ReplacementTemplateData (string) --A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'Status': [
+            {
+                'Status': 'Success'|'MessageRejected'|'MailFromDomainNotVerified'|'ConfigurationSetDoesNotExist'|'TemplateDoesNotExist'|'AccountSuspended'|'AccountThrottled'|'AccountDailyQuotaExceeded'|'InvalidSendingPoolName'|'AccountSendingPaused'|'ConfigurationSetSendingPaused'|'InvalidParameterValue'|'TransientFailure'|'Failed',
+                'Error': 'string',
+                'MessageId': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    Source (string) -- [REQUIRED]
+    The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
+    If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
+    
+    Note
+    Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047 . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
+    
+    
+    SourceArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
+    For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
+    For more information about sending authorization, see the Amazon SES Developer Guide .
+    
+    ReplyToAddresses (list) -- The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    
+    (string) --
+    
+    
+    ReturnPath (string) -- The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    ReturnPathArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
+    For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
+    For more information about sending authorization, see the Amazon SES Developer Guide .
+    
+    ConfigurationSetName (string) -- The name of the configuration set to use when you send an email using SendBulkTemplatedEmail .
+    DefaultTags (list) -- A list of tags, in the form of name/value pairs, to apply to an email that you send to a destination using SendBulkTemplatedEmail .
+    
+    (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
+    Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+    
+    Name (string) -- [REQUIRED]The name of the tag. The name must:
+    
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain less than 256 characters.
+    
+    
+    Value (string) -- [REQUIRED]The value of the tag. The value must:
+    
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain less than 256 characters.
+    
+    
+    
+    
+    
+    
+    Template (string) -- [REQUIRED]
+    The template to use when sending this email.
+    
+    TemplateArn (string) -- The ARN of the template to use when sending this email.
+    DefaultTemplateData (string) -- A list of replacement values to apply to the template when replacement data is not specified in a Destination object. These values act as a default or fallback option when no other data is available.
+    The template data is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+    
+    Destinations (list) -- [REQUIRED]
+    One or more Destination objects. All of the recipients in a Destination will receive the same version of the email. You can specify up to 50 Destination objects within a Destinations array.
+    
+    (dict) --An array that contains one or more Destinations, as well as the tags and replacement data associated with each of those Destinations.
+    
+    Destination (dict) -- [REQUIRED]Represents the destination of the message, consisting of To:, CC:, and BCC: fields.
+    
+    Note
+    Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 .
+    
+    
+    ToAddresses (list) --The To: field(s) of the message.
+    
+    (string) --
+    
+    
+    CcAddresses (list) --The CC: field(s) of the message.
+    
+    (string) --
+    
+    
+    BccAddresses (list) --The BCC: field(s) of the message.
+    
+    (string) --
+    
+    
+    
+    
+    ReplacementTags (list) --A list of tags, in the form of name/value pairs, to apply to an email that you send using SendBulkTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+    
+    (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
+    Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+    
+    Name (string) -- [REQUIRED]The name of the tag. The name must:
+    
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain less than 256 characters.
+    
+    
+    Value (string) -- [REQUIRED]The value of the tag. The value must:
+    
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    Contain less than 256 characters.
+    
+    
+    
+    
+    
+    
+    ReplacementTemplateData (string) --A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
+def send_custom_verification_email(EmailAddress=None, TemplateName=None, ConfigurationSetName=None):
+    """
+    Adds an email address to the list of identities for your Amazon SES account and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address.
+    To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.send_custom_verification_email(
+        EmailAddress='string',
+        TemplateName='string',
+        ConfigurationSetName='string'
+    )
+    
+    
+    :type EmailAddress: string
+    :param EmailAddress: [REQUIRED]
+            The email address to verify.
+            
+
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the custom verification email template to use when sending the verification email.
+            
+
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: Name of a configuration set to use when sending the verification email.
+
+    :rtype: dict
+    :return: {
+        'MessageId': 'string'
+    }
+    
+    
+    """
+    pass
+
 def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=None, ReturnPath=None, SourceArn=None, ReturnPathArn=None, Tags=None, ConfigurationSetName=None):
     """
-    Composes an email message based on input data, and then immediately queues the message for sending.
-    There are several important points to know about SendEmail :
+    Composes an email message and immediately queues it for sending. In order to send email using the SendEmail operation, your message must meet the following requirements:
     See also: AWS API Documentation
     
     Examples
@@ -1699,7 +2346,8 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
     :param Source: [REQUIRED]
             The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
             If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
-            In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
+            Note
+            Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047 . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
             
 
     :type Destination: dict
@@ -1735,7 +2383,7 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
             
 
     :type ReturnPath: string
-    :param ReturnPath: The email address to which bounces and complaints are to be forwarded when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    :param ReturnPath: The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
 
     :type SourceArn: string
     :param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
@@ -1754,10 +2402,10 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
             (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
             Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
             Name (string) -- [REQUIRED]The name of the tag. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             Value (string) -- [REQUIRED]The value of the tag. The value must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             
             
@@ -1775,7 +2423,10 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
     Source (string) -- [REQUIRED]
     The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
     If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
-    In all cases, the email address must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
+    
+    Note
+    Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047 . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
+    
     
     Destination (dict) -- [REQUIRED]
     The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -1835,7 +2486,7 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
     (string) --
     
     
-    ReturnPath (string) -- The email address to which bounces and complaints are to be forwarded when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+    ReturnPath (string) -- The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     SourceArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
     For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
     For more information about sending authorization, see the Amazon SES Developer Guide .
@@ -1851,13 +2502,13 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
     
     Name (string) -- [REQUIRED]The name of the tag. The name must:
     
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Contain less than 256 characters.
     
     
     Value (string) -- [REQUIRED]The value of the tag. The value must:
     
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Contain less than 256 characters.
     
     
@@ -1872,9 +2523,10 @@ def send_email(Source=None, Destination=None, Message=None, ReplyToAddresses=Non
 
 def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None, SourceArn=None, ReturnPathArn=None, Tags=None, ConfigurationSetName=None):
     """
-    Sends an email message, with header and content specified by the client. The SendRawEmail action is useful for sending multipart MIME emails. The raw text of the message must comply with Internet email standards; otherwise, the message cannot be sent.
-    There are several important points to know about SendRawEmail :
-    For the most common sending authorization use case, we recommend that you specify the SourceIdentityArn and do not specify either the FromIdentityArn or ReturnPathIdentityArn . (The same note applies to the corresponding X-headers.) If you only specify the SourceIdentityArn , Amazon SES will simply set the "From" address and the "Return Path" address to the identity specified in SourceIdentityArn . For more information about sending authorization, see the Amazon SES Developer Guide .
+    Composes an email message and immediately queues it for sending. When calling this operation, you may specify the message headers as well as the content. The SendRawEmail operation is particularly useful for sending multipart MIME emails (such as those that contain both a plain-text and an HTML version).
+    In order to send email using the SendRawEmail operation, your message must meet the following requirements:
+    Additionally, keep the following considerations in mind when using the SendRawEmail operation:
+    For most common sending authorization scenarios, we recommend that you specify the SourceIdentityArn parameter and not the FromIdentityArn or ReturnPathIdentityArn parameters. If you only specify the SourceIdentityArn parameter, Amazon SES will set the From and Return Path addresses to the identity specified in SourceIdentityArn . For more information about sending authorization, see the Using Sending Authorization with Amazon SES in the Amazon SES Developer Guide.
     See also: AWS API Documentation
     
     Examples
@@ -1904,8 +2556,8 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
     
     :type Source: string
     :param Source: The identity's email address. If you do not provide a value for this parameter, you must specify a 'From' address in the raw text of the message. (You can also specify both.)
-            By default, the string must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
             Note
+            Amazon SES does not support the SMTPUTF8 extension, as described in`RFC6531 <https://tools.ietf.org/html/rfc6531>`__ . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in RFC 2047 . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
             If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
             
 
@@ -1922,7 +2574,8 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
             Each part of a multipart MIME message must be formatted properly.
             MIME content types must be among those supported by Amazon SES. For more information, go to the Amazon SES Developer Guide .
             Must be base64-encoded.
-            Data (bytes) -- [REQUIRED]The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding.
+            Per RFC 5321 , the maximum length of each line of text, including the CRLF, must not exceed 1,000 characters.
+            Data (bytes) -- [REQUIRED]The raw data of the message. This data needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an AWS SDK, the SDK takes care of the base 64-encoding for you. In all cases, the client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, and MIME encoding.
             The To:, CC:, and BCC: headers in the raw message can contain a group list.
             If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the 'Source,' 'From,' and 'Return-Path' addresses. For more information, see the documentation for SendRawEmail .
             Warning
@@ -1958,10 +2611,10 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
             (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
             Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
             Name (string) -- [REQUIRED]The name of the tag. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             Value (string) -- [REQUIRED]The value of the tag. The value must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             
             
@@ -1976,76 +2629,187 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
     
     
     :returns: 
-    Source (string) -- The identity's email address. If you do not provide a value for this parameter, you must specify a "From" address in the raw text of the message. (You can also specify both.)
-    By default, the string must be 7-bit ASCII. If the text must contain any other characters, then you must use MIME encoded-word syntax (RFC 2047) instead of a literal string. MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= . For more information, see RFC 2047 .
+    Although you can customize the message headers when using the SendRawEmail operation, Amazon SES will automatically apply its own Message-ID and Date headers; if you passed these headers when creating the message, they will be overwritten by the values that Amazon SES provides.
+    If you are using sending authorization to send on behalf of another user, SendRawEmail enables you to specify the cross-account identity for the email's Source, From, and Return-Path parameters in one of two ways: you can pass optional parameters SourceArn , FromArn , and/or ReturnPathArn to the API, or you can include the following X-headers in the header of your raw email:
+    X-SES-SOURCE-ARN
+    X-SES-FROM-ARN
+    X-SES-RETURN-PATH-ARN
+    
+    
+    
+    """
+    pass
+
+def send_templated_email(Source=None, Destination=None, ReplyToAddresses=None, ReturnPath=None, SourceArn=None, ReturnPathArn=None, Tags=None, ConfigurationSetName=None, Template=None, TemplateArn=None, TemplateData=None):
+    """
+    Composes an email message using an email template and immediately queues it for sending.
+    In order to send email using the SendTemplatedEmail operation, your call to the API must meet the following requirements:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.send_templated_email(
+        Source='string',
+        Destination={
+            'ToAddresses': [
+                'string',
+            ],
+            'CcAddresses': [
+                'string',
+            ],
+            'BccAddresses': [
+                'string',
+            ]
+        },
+        ReplyToAddresses=[
+            'string',
+        ],
+        ReturnPath='string',
+        SourceArn='string',
+        ReturnPathArn='string',
+        Tags=[
+            {
+                'Name': 'string',
+                'Value': 'string'
+            },
+        ],
+        ConfigurationSetName='string',
+        Template='string',
+        TemplateArn='string',
+        TemplateData='string'
+    )
+    
+    
+    :type Source: string
+    :param Source: [REQUIRED]
+            The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
+            If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
+            Note
+            Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in`RFC 2047 <https://tools.ietf.org/html/rfc2047>`__ . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
+            
+
+    :type Destination: dict
+    :param Destination: [REQUIRED]
+            The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
+            ToAddresses (list) --The To: field(s) of the message.
+            (string) --
+            CcAddresses (list) --The CC: field(s) of the message.
+            (string) --
+            BccAddresses (list) --The BCC: field(s) of the message.
+            (string) --
+            
+
+    :type ReplyToAddresses: list
+    :param ReplyToAddresses: The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+            (string) --
+            
+
+    :type ReturnPath: string
+    :param ReturnPath: The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+
+    :type SourceArn: string
+    :param SourceArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
+            For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
+            For more information about sending authorization, see the Amazon SES Developer Guide .
+            
+
+    :type ReturnPathArn: string
+    :param ReturnPathArn: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
+            For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
+            For more information about sending authorization, see the Amazon SES Developer Guide .
+            
+
+    :type Tags: list
+    :param Tags: A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+            (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
+            Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
+            Name (string) -- [REQUIRED]The name of the tag. The name must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            Value (string) -- [REQUIRED]The value of the tag. The value must:
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            Contain less than 256 characters.
+            
+            
+
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: The name of the configuration set to use when you send an email using SendTemplatedEmail .
+
+    :type Template: string
+    :param Template: [REQUIRED]
+            The template to use when sending this email.
+            
+
+    :type TemplateArn: string
+    :param TemplateArn: The ARN of the template to use when sending this email.
+
+    :type TemplateData: string
+    :param TemplateData: [REQUIRED]
+            A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+            
+
+    :rtype: dict
+    :return: {
+        'MessageId': 'string'
+    }
+    
+    
+    :returns: 
+    Source (string) -- [REQUIRED]
+    The email address that is sending the email. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES. For information about verifying identities, see the Amazon SES Developer Guide .
+    If you are sending on behalf of another user and have been permitted to do so by a sending authorization policy, then you must also specify the SourceArn parameter. For more information about sending authorization, see the Amazon SES Developer Guide .
     
     Note
-    If you specify the Source parameter and have feedback forwarding enabled, then bounces and complaints will be sent to this email address. This takes precedence over any Return-Path header that you might include in the raw text of the message.
+    Amazon SES does not support the SMTPUTF8 extension, as described in RFC6531 . For this reason, the local part of a source email address (the part of the email address that precedes the @ sign) may only contain 7-bit ASCII characters . If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in RFC3492 . The sender name (also known as the friendly name ) may contain non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as described in`RFC 2047 <https://tools.ietf.org/html/rfc2047>`__ . MIME encoded-word syntax uses the following form: =?charset?encoding?encoded-text?= .
     
     
-    Destinations (list) -- A list of destinations for the message, consisting of To:, CC:, and BCC: addresses.
+    Destination (dict) -- [REQUIRED]
+    The destination for this email, composed of To:, CC:, and BCC: fields. A Destination can include up to 50 recipients across these three fields.
+    
+    ToAddresses (list) --The To: field(s) of the message.
     
     (string) --
     
     
-    RawMessage (dict) -- [REQUIRED]
-    The raw text of the message. The client is responsible for ensuring the following:
+    CcAddresses (list) --The CC: field(s) of the message.
     
-    Message must contain a header and a body, separated by a blank line.
-    All required header fields must be present.
-    Each part of a multipart MIME message must be formatted properly.
-    MIME content types must be among those supported by Amazon SES. For more information, go to the Amazon SES Developer Guide .
-    Must be base64-encoded.
+    (string) --
     
     
-    Data (bytes) -- [REQUIRED]The raw data of the message. The client must ensure that the message format complies with Internet email standards regarding email header fields, MIME types, MIME encoding, and base64 encoding.
-    The To:, CC:, and BCC: headers in the raw message can contain a group list.
-    If you are using SendRawEmail with sending authorization, you can include X-headers in the raw message to specify the "Source," "From," and "Return-Path" addresses. For more information, see the documentation for SendRawEmail .
+    BccAddresses (list) --The BCC: field(s) of the message.
     
-    Warning
-    Do not include these X-headers in the DKIM signature, because they are removed by Amazon SES before sending the email.
-    
-    For more information, go to the Amazon SES Developer Guide .
+    (string) --
     
     
     
-    FromArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to specify a particular "From" address in the header of the raw email.
-    Instead of using this parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of the FromArn parameter.
     
-    Note
-    For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
+    ReplyToAddresses (list) -- The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+    
+    (string) --
     
     
+    ReturnPath (string) -- The email address that bounces and complaints will be forwarded to when feedback forwarding is enabled. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter. The ReturnPath parameter is never overwritten. This email address must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
     SourceArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to send for the email address specified in the Source parameter.
     For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to send from user@example.com , then you would specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the Source to be user@example.com .
-    Instead of using this parameter, you can use the X-header X-SES-SOURCE-ARN in the raw message of the email. If you use both the SourceArn parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn parameter.
-    
-    Note
-    For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
-    
+    For more information about sending authorization, see the Amazon SES Developer Guide .
     
     ReturnPathArn (string) -- This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the ReturnPath parameter.
     For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com ) attaches a policy to it that authorizes you to use feedback@example.com , then you would specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com , and the ReturnPath to be feedback@example.com .
-    Instead of using this parameter, you can use the X-header X-SES-RETURN-PATH-ARN in the raw message of the email. If you use both the ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the ReturnPathArn parameter.
+    For more information about sending authorization, see the Amazon SES Developer Guide .
     
-    Note
-    For information about when to use this parameter, see the description of SendRawEmail in this guide, or see the Amazon SES Developer Guide .
-    
-    
-    Tags (list) -- A list of tags, in the form of name/value pairs, to apply to an email that you send using SendRawEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
+    Tags (list) -- A list of tags, in the form of name/value pairs, to apply to an email that you send using SendTemplatedEmail . Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
     
     (dict) --Contains the name and value of a tag that you can provide to SendEmail or SendRawEmail to apply to an email.
     Message tags, which you use with configuration sets, enable you to publish email sending events. For information about using configuration sets, see the Amazon SES Developer Guide .
     
     Name (string) -- [REQUIRED]The name of the tag. The name must:
     
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Contain less than 256 characters.
     
     
     Value (string) -- [REQUIRED]The value of the tag. The value must:
     
-    Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+    This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
     Contain less than 256 characters.
     
     
@@ -2053,7 +2817,14 @@ def send_raw_email(Source=None, Destinations=None, RawMessage=None, FromArn=None
     
     
     
-    ConfigurationSetName (string) -- The name of the configuration set to use when you send an email using SendRawEmail .
+    ConfigurationSetName (string) -- The name of the configuration set to use when you send an email using SendTemplatedEmail .
+    Template (string) -- [REQUIRED]
+    The template to use when sending this email.
+    
+    TemplateArn (string) -- The ARN of the template to use when sending this email.
+    TemplateData (string) -- [REQUIRED]
+    A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+    
     
     """
     pass
@@ -2062,7 +2833,7 @@ def set_active_receipt_rule_set(RuleSetName=None):
     """
     Sets the specified receipt rule set as the active receipt rule set.
     For information about managing receipt rule sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -2087,8 +2858,8 @@ def set_active_receipt_rule_set(RuleSetName=None):
 def set_identity_dkim_enabled(Identity=None, DkimEnabled=None):
     """
     Enables or disables Easy DKIM signing of email sent from an identity:
-    For email addresses (e.g., user@example.com ), you can only enable Easy DKIM signing if the corresponding domain (e.g., example.com ) has been set up for Easy DKIM using the AWS Console or the VerifyDomainDkim action.
-    This action is throttled at one request per second.
+    For email addresses (for example, user@example.com ), you can only enable Easy DKIM signing if the corresponding domain (in this case, example.com ) has been set up for Easy DKIM using the AWS Console or the VerifyDomainDkim operation.
+    You can execute this operation no more than once per second.
     For more information about Easy DKIM signing, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -2130,7 +2901,7 @@ def set_identity_dkim_enabled(Identity=None, DkimEnabled=None):
 def set_identity_feedback_forwarding_enabled(Identity=None, ForwardingEnabled=None):
     """
     Given an identity (an email address or a domain), enables or disables whether Amazon SES forwards bounce and complaint notifications as email. Feedback forwarding can only be disabled when Amazon Simple Notification Service (Amazon SNS) topics are specified for both bounces and complaints.
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -2164,7 +2935,7 @@ def set_identity_feedback_forwarding_enabled(Identity=None, ForwardingEnabled=No
 def set_identity_headers_in_notifications_enabled(Identity=None, NotificationType=None, Enabled=None):
     """
     Given an identity (an email address or a domain), sets whether Amazon SES includes the original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications of a specified type.
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     For more information about using notifications with Amazon SES, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -2205,7 +2976,7 @@ def set_identity_headers_in_notifications_enabled(Identity=None, NotificationTyp
 def set_identity_mail_from_domain(Identity=None, MailFromDomain=None, BehaviorOnMXFailure=None):
     """
     Enables or disables the custom MAIL FROM domain setup for a verified identity (an email address or a domain).
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -2242,7 +3013,7 @@ def set_identity_mail_from_domain(Identity=None, MailFromDomain=None, BehaviorOn
 def set_identity_notification_topic(Identity=None, NotificationType=None, SnsTopic=None):
     """
     Given an identity (an email address or a domain), sets the Amazon Simple Notification Service (Amazon SNS) topic to which Amazon SES will publish bounce, complaint, and/or delivery notifications for emails sent with that identity as the Source .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     For more information about feedback notification, see the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -2281,7 +3052,7 @@ def set_receipt_rule_position(RuleSetName=None, RuleName=None, After=None):
     """
     Sets the position of the specified receipt rule in the receipt rule set.
     For information about managing receipt rules, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -2315,11 +3086,60 @@ def set_receipt_rule_position(RuleSetName=None, RuleName=None, After=None):
     """
     pass
 
+def test_render_template(TemplateName=None, TemplateData=None):
+    """
+    Creates a preview of the MIME content of an email when provided with a template and a set of replacement data.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.test_render_template(
+        TemplateName='string',
+        TemplateData='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the template that you want to render.
+            
+
+    :type TemplateData: string
+    :param TemplateData: [REQUIRED]
+            A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+            
+
+    :rtype: dict
+    :return: {
+        'RenderedTemplate': 'string'
+    }
+    
+    
+    """
+    pass
+
+def update_account_sending_enabled(Enabled=None):
+    """
+    Enables or disables email sending across your entire Amazon SES account. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending across your Amazon SES account when reputation metrics (such as your bounce on complaint rate) reach certain thresholds.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_account_sending_enabled(
+        Enabled=True|False
+    )
+    
+    
+    :type Enabled: boolean
+    :param Enabled: Describes whether email sending is enabled or disabled for your Amazon SES account.
+
+    """
+    pass
+
 def update_configuration_set_event_destination(ConfigurationSetName=None, EventDestination=None):
     """
-    Updates the event destination of a configuration set.
-    Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch or Amazon Kinesis Firehose. For information about using configuration sets, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    Updates the event destination of a configuration set. Event destinations are associated with configuration sets, which enable you to publish email sending events to Amazon CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS). For information about using configuration sets, see Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     
@@ -2329,7 +3149,7 @@ def update_configuration_set_event_destination(ConfigurationSetName=None, EventD
             'Name': 'string',
             'Enabled': True|False,
             'MatchingEventTypes': [
-                'send'|'reject'|'bounce'|'complaint'|'delivery',
+                'send'|'reject'|'bounce'|'complaint'|'delivery'|'open'|'click'|'renderingFailure',
             ],
             'KinesisFirehoseDestination': {
                 'IAMRoleARN': 'string',
@@ -2339,10 +3159,13 @@ def update_configuration_set_event_destination(ConfigurationSetName=None, EventD
                 'DimensionConfigurations': [
                     {
                         'DimensionName': 'string',
-                        'DimensionValueSource': 'messageTag'|'emailHeader',
+                        'DimensionValueSource': 'messageTag'|'emailHeader'|'linkTag',
                         'DefaultDimensionValue': 'string'
                     },
                 ]
+            },
+            'SNSDestination': {
+                'TopicARN': 'string'
             }
         }
     )
@@ -2350,33 +3173,36 @@ def update_configuration_set_event_destination(ConfigurationSetName=None, EventD
     
     :type ConfigurationSetName: string
     :param ConfigurationSetName: [REQUIRED]
-            The name of the configuration set that you want to update.
+            The name of the configuration set that contains the event destination that you want to update.
             
 
     :type EventDestination: dict
     :param EventDestination: [REQUIRED]
             The event destination object that you want to apply to the specified configuration set.
             Name (string) -- [REQUIRED]The name of the event destination. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 64 characters.
             Enabled (boolean) --Sets whether Amazon SES publishes events to this destination when you send an email with the associated configuration set. Set to true to enable publishing to this destination; set to false to prevent publishing to this destination. The default value is false .
             MatchingEventTypes (list) -- [REQUIRED]The type of email sending events to publish to the event destination.
             (string) --
             KinesisFirehoseDestination (dict) --An object that contains the delivery stream ARN and the IAM role ARN associated with an Amazon Kinesis Firehose event destination.
             IAMRoleARN (string) -- [REQUIRED]The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
-            DeliveryStreamARN (string) -- [REQUIRED]The ARN of the Amazon Kinesis Firehose stream to which to publish email sending events.
+            DeliveryStreamARN (string) -- [REQUIRED]The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
             CloudWatchDestination (dict) --An object that contains the names, default values, and sources of the dimensions associated with an Amazon CloudWatch event destination.
             DimensionConfigurations (list) -- [REQUIRED]A list of dimensions upon which to categorize your emails when you publish email sending events to Amazon CloudWatch.
             (dict) --Contains the dimension configuration to use when you publish email sending events to Amazon CloudWatch.
             For information about publishing email sending events to Amazon CloudWatch, see the Amazon SES Developer Guide .
             DimensionName (string) -- [REQUIRED]The name of an Amazon CloudWatch dimension associated with an email sending metric. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             DimensionValueSource (string) -- [REQUIRED]The place where Amazon SES finds the value of a dimension to publish to Amazon CloudWatch. If you want Amazon SES to use the message tags that you specify using an X-SES-MESSAGE-TAGS header or a parameter to the SendEmail /SendRawEmail API, choose messageTag . If you want Amazon SES to use your own email headers, choose emailHeader .
             DefaultDimensionValue (string) -- [REQUIRED]The default value of the dimension that is published to Amazon CloudWatch if you do not provide the value of the dimension when you send an email. The default value must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Contain less than 256 characters.
             
+            
+            SNSDestination (dict) --An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
+            TopicARN (string) -- [REQUIRED]The ARN of the Amazon SNS topic that email sending events will be published to. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             
             
 
@@ -2387,11 +3213,138 @@ def update_configuration_set_event_destination(ConfigurationSetName=None, EventD
     """
     pass
 
+def update_configuration_set_reputation_metrics_enabled(ConfigurationSetName=None, Enabled=None):
+    """
+    Enables or disables the publishing of reputation metrics for emails sent using a specific configuration set. Reputation metrics include bounce and complaint rates. These metrics are published to Amazon CloudWatch. By using Amazon CloudWatch, you can create alarms when bounce or complaint rates exceed a certain threshold.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_configuration_set_reputation_metrics_enabled(
+        ConfigurationSetName='string',
+        Enabled=True|False
+    )
+    
+    
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: [REQUIRED]
+            The name of the configuration set that you want to update.
+            
+
+    :type Enabled: boolean
+    :param Enabled: [REQUIRED]
+            Describes whether or not Amazon SES will publish reputation metrics for the configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
+            
+
+    """
+    pass
+
+def update_configuration_set_sending_enabled(ConfigurationSetName=None, Enabled=None):
+    """
+    Enables or disables email sending for messages sent using a specific configuration set. You can use this operation in conjunction with Amazon CloudWatch alarms to temporarily pause email sending for a configuration set when the reputation metrics for that configuration set (such as your bounce on complaint rate) reach certain thresholds.
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_configuration_set_sending_enabled(
+        ConfigurationSetName='string',
+        Enabled=True|False
+    )
+    
+    
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: [REQUIRED]
+            The name of the configuration set that you want to update.
+            
+
+    :type Enabled: boolean
+    :param Enabled: [REQUIRED]
+            Describes whether email sending is enabled or disabled for the configuration set.
+            
+
+    """
+    pass
+
+def update_configuration_set_tracking_options(ConfigurationSetName=None, TrackingOptions=None):
+    """
+    Modifies an association between a configuration set and a custom domain for open and click event tracking.
+    By default, images and links used for tracking open and click events are hosted on domains operated by Amazon SES. You can configure a subdomain of your own to handle these events. For information about using configuration sets, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_configuration_set_tracking_options(
+        ConfigurationSetName='string',
+        TrackingOptions={
+            'CustomRedirectDomain': 'string'
+        }
+    )
+    
+    
+    :type ConfigurationSetName: string
+    :param ConfigurationSetName: [REQUIRED]
+            The name of the configuration set for which you want to update the custom tracking domain.
+            
+
+    :type TrackingOptions: dict
+    :param TrackingOptions: [REQUIRED]
+            A domain that is used to redirect email recipients to an Amazon SES-operated domain. This domain captures open and click events generated by Amazon SES emails.
+            For more information, see Configuring Custom Domains to Handle Open and Click Tracking in the Amazon SES Developer Guide .
+            CustomRedirectDomain (string) --The custom subdomain that will be used to redirect email recipients to the Amazon SES event tracking domain.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def update_custom_verification_email_template(TemplateName=None, FromEmailAddress=None, TemplateSubject=None, TemplateContent=None, SuccessRedirectionURL=None, FailureRedirectionURL=None):
+    """
+    Updates an existing custom verification email template.
+    For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_custom_verification_email_template(
+        TemplateName='string',
+        FromEmailAddress='string',
+        TemplateSubject='string',
+        TemplateContent='string',
+        SuccessRedirectionURL='string',
+        FailureRedirectionURL='string'
+    )
+    
+    
+    :type TemplateName: string
+    :param TemplateName: [REQUIRED]
+            The name of the custom verification email template that you want to update.
+            
+
+    :type FromEmailAddress: string
+    :param FromEmailAddress: The email address that the custom verification email is sent from.
+
+    :type TemplateSubject: string
+    :param TemplateSubject: The subject line of the custom verification email.
+
+    :type TemplateContent: string
+    :param TemplateContent: The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide .
+
+    :type SuccessRedirectionURL: string
+    :param SuccessRedirectionURL: The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+
+    :type FailureRedirectionURL: string
+    :param FailureRedirectionURL: The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+
+    """
+    pass
+
 def update_receipt_rule(RuleSetName=None, Rule=None):
     """
     Updates a receipt rule.
     For information about managing receipt rules, see the Amazon SES Developer Guide .
-    This action is throttled at one request per second.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -2452,26 +3405,26 @@ def update_receipt_rule(RuleSetName=None, Rule=None):
     
     :type RuleSetName: string
     :param RuleSetName: [REQUIRED]
-            The name of the receipt rule set to which the receipt rule belongs.
+            The name of the receipt rule set that the receipt rule belongs to.
             
 
     :type Rule: dict
     :param Rule: [REQUIRED]
             A data structure that contains the updated receipt rule information.
             Name (string) -- [REQUIRED]The name of the receipt rule. The name must:
-            Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-).
+            This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).
             Start and end with a letter or number.
             Contain less than 64 characters.
             Enabled (boolean) --If true , the receipt rule is active. The default value is false .
             TlsPolicy (string) --Specifies whether Amazon SES should require that incoming email is delivered over a connection encrypted with Transport Layer Security (TLS). If this parameter is set to Require , Amazon SES will bounce emails that are not received over TLS. The default is Optional .
-            Recipients (list) --The recipient domains and email addresses to which the receipt rule applies. If this field is not specified, this rule will match all recipients under all verified domains.
+            Recipients (list) --The recipient domains and email addresses that the receipt rule applies to. If this field is not specified, this rule will match all recipients under all verified domains.
             (string) --
             Actions (list) --An ordered list of actions to perform on messages that match at least one of the recipient email addresses or domains specified in the receipt rule.
             (dict) --An action that Amazon SES can take when it receives an email on behalf of one or more email addresses or domains that you own. An instance of this data type can represent only one action.
             For information about setting up receipt rules, see the Amazon SES Developer Guide .
             S3Action (dict) --Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
             TopicArn (string) --The ARN of the Amazon SNS topic to notify when the message is saved to the Amazon S3 bucket. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
-            BucketName (string) -- [REQUIRED]The name of the Amazon S3 bucket to which to save the received email.
+            BucketName (string) -- [REQUIRED]The name of the Amazon S3 bucket that incoming email will be saved to.
             ObjectKeyPrefix (string) --The key prefix of the Amazon S3 bucket. The key prefix is similar to a directory name that enables you to store similar data under the same directory in a bucket.
             KmsKeyArn (string) --The customer master key that Amazon SES should use to encrypt your emails before saving them to the Amazon S3 bucket. You can use the default master key or a custom master key you created in AWS KMS as follows:
             To use the default master key, provide an ARN in the form of arn:aws:kms:REGION:ACCOUNT-ID-WITHOUT-HYPHENS:alias/aws/ses . For example, if your AWS account ID is 123456789012 and you want to use the default master key in the US West (Oregon) region, the ARN of the default master key would be arn:aws:kms:us-west-2:123456789012:alias/aws/ses . If you use the default master key, you don't need to perform any extra steps to give Amazon SES permission to use the key.
@@ -2497,7 +3450,7 @@ def update_receipt_rule(RuleSetName=None, Rule=None):
             There is a 30-second timeout on RequestResponse invocations. You should use Event invocation in most cases. Use RequestResponse only when you want to make a mail flow decision, such as whether to stop the receipt rule or the receipt rule set.
             
             StopAction (dict) --Terminates the evaluation of the receipt rule set and optionally publishes a notification to Amazon SNS.
-            Scope (string) -- [REQUIRED]The scope to which the Stop action applies. That is, what is being stopped.
+            Scope (string) -- [REQUIRED]The name of the RuleSet that is being stopped.
             TopicArn (string) --The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the stop action is taken. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             AddHeaderAction (dict) --Adds a header to the received email.
             HeaderName (string) -- [REQUIRED]The name of the header to add. Must be between 1 and 50 characters, inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes only.
@@ -2506,7 +3459,40 @@ def update_receipt_rule(RuleSetName=None, Rule=None):
             TopicArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example of an Amazon SNS topic ARN is arn:aws:sns:us-west-2:123456789012:MyTopic . For more information about Amazon SNS topics, see the Amazon SNS Developer Guide .
             Encoding (string) --The encoding to use for the email within the Amazon SNS notification. UTF-8 is easier to use, but may not preserve all special characters when a message was encoded with a different encoding format. Base64 preserves all special characters. The default value is UTF-8.
             
-            ScanEnabled (boolean) --If true , then messages to which this receipt rule applies are scanned for spam and viruses. The default value is false .
+            ScanEnabled (boolean) --If true , then messages that this receipt rule applies to are scanned for spam and viruses. The default value is false .
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def update_template(Template=None):
+    """
+    Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide .
+    You can execute this operation no more than once per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_template(
+        Template={
+            'TemplateName': 'string',
+            'SubjectPart': 'string',
+            'TextPart': 'string',
+            'HtmlPart': 'string'
+        }
+    )
+    
+    
+    :type Template: dict
+    :param Template: [REQUIRED]
+            The content of the email, composed of a subject line, an HTML part, and a text-only part.
+            TemplateName (string) -- [REQUIRED]The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+            SubjectPart (string) --The subject line of the email.
+            TextPart (string) --The email body that will be visible to recipients whose email clients do not display HTML.
+            HtmlPart (string) --The HTML body of the email.
             
 
     :rtype: dict
@@ -2519,8 +3505,8 @@ def update_receipt_rule(RuleSetName=None, Rule=None):
 def verify_domain_dkim(Domain=None):
     """
     Returns a set of DKIM tokens for a domain. DKIM tokens are character strings that represent your domain's identity. Using these tokens, you will need to create DNS CNAME records that point to DKIM public keys hosted by Amazon SES. Amazon Web Services will eventually detect that you have updated your DNS records; this detection process may take up to 72 hours. Upon successful detection, Amazon SES will be able to DKIM-sign email originating from that domain.
-    This action is throttled at one request per second.
-    To enable or disable Easy DKIM signing for a domain, use the SetIdentityDkimEnabled action.
+    You can execute this operation no more than once per second.
+    To enable or disable Easy DKIM signing for a domain, use the SetIdentityDkimEnabled operation.
     For more information about creating DNS records using DKIM tokens, go to the Amazon SES Developer Guide .
     See also: AWS API Documentation
     
@@ -2551,8 +3537,8 @@ def verify_domain_dkim(Domain=None):
 
 def verify_domain_identity(Domain=None):
     """
-    Verifies a domain.
-    This action is throttled at one request per second.
+    Adds a domain to the list of identities for your Amazon SES account and attempts to verify it. For more information about verifying domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples
@@ -2580,8 +3566,7 @@ def verify_domain_identity(Domain=None):
 
 def verify_email_address(EmailAddress=None):
     """
-    Verifies an email address. This action causes a confirmation email message to be sent to the specified address.
-    This action is throttled at one request per second.
+    Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
     See also: AWS API Documentation
     
     Examples
@@ -2610,8 +3595,8 @@ def verify_email_address(EmailAddress=None):
 
 def verify_email_identity(EmailAddress=None):
     """
-    Verifies an email address. This action causes a confirmation email message to be sent to the specified address.
-    This action is throttled at one request per second.
+    Adds an email address to the list of identities for your Amazon SES account and attempts to verify it. As a result of executing this operation, a verification email is sent to the specified address.
+    You can execute this operation no more than once per second.
     See also: AWS API Documentation
     
     Examples

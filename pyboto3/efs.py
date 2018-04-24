@@ -39,7 +39,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_file_system(CreationToken=None, PerformanceMode=None):
+def create_file_system(CreationToken=None, PerformanceMode=None, Encrypted=None, KmsKeyId=None):
     """
     Creates a new, empty file system. The operation requires a creation token in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's AWS account with the specified creation token, this operation does the following:
     Otherwise, this operation returns a FileSystemAlreadyExists error with the ID of the existing file system.
@@ -55,7 +55,9 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
     
     :example: response = client.create_file_system(
         CreationToken='string',
-        PerformanceMode='generalPurpose'|'maxIO'
+        PerformanceMode='generalPurpose'|'maxIO',
+        Encrypted=True|False,
+        KmsKeyId='string'
     )
     
     
@@ -66,6 +68,18 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
 
     :type PerformanceMode: string
     :param PerformanceMode: The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
+
+    :type Encrypted: boolean
+    :param Encrypted: A boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem , is used to protect the encrypted file system.
+
+    :type KmsKeyId: string
+    :param KmsKeyId: The id of the AWS KMS CMK that will be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This id can be in one of the following formats:
+            Key ID - A unique identifier of the key. For example, 1234abcd-12ab-34cd-56ef-1234567890ab .
+            ARN - An Amazon Resource Name for the key. For example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab .
+            Key alias - A previously created display name for a key. For example, alias/projectKey1 .
+            Key alias ARN - An Amazon Resource Name for a key alias. For example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1 .
+            Note that if the KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.
+            
 
     :rtype: dict
     :return: {
@@ -80,7 +94,9 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
             'Value': 123,
             'Timestamp': datetime(2015, 1, 1)
         },
-        'PerformanceMode': 'generalPurpose'|'maxIO'
+        'PerformanceMode': 'generalPurpose'|'maxIO',
+        'Encrypted': True|False,
+        'KmsKeyId': 'string'
     }
     
     
@@ -89,6 +105,16 @@ def create_file_system(CreationToken=None, PerformanceMode=None):
     String of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
     
     PerformanceMode (string) -- The PerformanceMode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. This can't be changed after the file system has been created.
+    Encrypted (boolean) -- A boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying a  CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem , is used to protect the encrypted file system.
+    KmsKeyId (string) -- The id of the AWS KMS CMK that will be used to protect the encrypted file system. This parameter is only required if you want to use a non-default CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This id can be in one of the following formats:
+    
+    Key ID - A unique identifier of the key. For example, 1234abcd-12ab-34cd-56ef-1234567890ab .
+    ARN - An Amazon Resource Name for the key. For example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab .
+    Key alias - A previously created display name for a key. For example, alias/projectKey1 .
+    Key alias ARN - An Amazon Resource Name for a key alias. For example, arn:aws:kms:us-west-2:444455556666:alias/projectKey1 .
+    
+    Note that if the KmsKeyId is specified, the  CreateFileSystemRequest$Encrypted parameter must be set to true.
+    
     
     """
     pass
@@ -368,7 +394,9 @@ def describe_file_systems(MaxItems=None, Marker=None, CreationToken=None, FileSy
                     'Value': 123,
                     'Timestamp': datetime(2015, 1, 1)
                 },
-                'PerformanceMode': 'generalPurpose'|'maxIO'
+                'PerformanceMode': 'generalPurpose'|'maxIO',
+                'Encrypted': True|False,
+                'KmsKeyId': 'string'
             },
         ],
         'NextMarker': 'string'

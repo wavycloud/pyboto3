@@ -254,6 +254,7 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
         'virtualInterfaceName': 'string',
         'vlan': 123,
         'asn': 123,
+        'amazonSideAsn': 123,
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
@@ -261,6 +262,7 @@ def allocate_private_virtual_interface(connectionId=None, ownerAccount=None, new
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
+        'directConnectGatewayId': 'string',
         'routeFilterPrefixes': [
             {
                 'cidr': 'string'
@@ -365,6 +367,7 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
         'virtualInterfaceName': 'string',
         'vlan': 123,
         'asn': 123,
+        'amazonSideAsn': 123,
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
@@ -372,6 +375,7 @@ def allocate_public_virtual_interface(connectionId=None, ownerAccount=None, newP
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
+        'directConnectGatewayId': 'string',
         'routeFilterPrefixes': [
             {
                 'cidr': 'string'
@@ -516,7 +520,7 @@ def associate_virtual_interface(virtualInterfaceId=None, connectionId=None):
     """
     Associates a virtual interface with a specified link aggregation group (LAG) or connection. Connectivity to AWS is temporarily interrupted as the virtual interface is being migrated. If the target connection or LAG has an associated virtual interface with a conflicting VLAN number or a conflicting IP address, the operation fails.
     Virtual interfaces associated with a hosted connection cannot be associated with a LAG; hosted connections must be migrated along with their virtual interfaces using  AssociateHostedConnection .
-    Hosted virtual interfaces (an interface for which the owner of the connection is not the owner of physical connection) can only be reassociated by the owner of the physical connection.
+    In order to reassociate a virtual interface to a new connection or LAG, the requester must own either the virtual interface itself or the connection to which the virtual interface is currently associated. Additionally, the requester must own the connection or LAG to which the virtual interface will be newly associated.
     See also: AWS API Documentation
     
     
@@ -550,6 +554,7 @@ def associate_virtual_interface(virtualInterfaceId=None, connectionId=None):
         'virtualInterfaceName': 'string',
         'vlan': 123,
         'asn': 123,
+        'amazonSideAsn': 123,
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
@@ -557,6 +562,7 @@ def associate_virtual_interface(virtualInterfaceId=None, connectionId=None):
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
+        'directConnectGatewayId': 'string',
         'routeFilterPrefixes': [
             {
                 'cidr': 'string'
@@ -626,16 +632,17 @@ def confirm_connection(connectionId=None):
     """
     pass
 
-def confirm_private_virtual_interface(virtualInterfaceId=None, virtualGatewayId=None):
+def confirm_private_virtual_interface(virtualInterfaceId=None, virtualGatewayId=None, directConnectGatewayId=None):
     """
     Accept ownership of a private virtual interface created by another customer.
-    After the virtual interface owner calls this function, the virtual interface will be created and attached to the given virtual private gateway, and will be available for handling traffic.
+    After the virtual interface owner calls this function, the virtual interface will be created and attached to the given virtual private gateway or direct connect gateway, and will be available for handling traffic.
     See also: AWS API Documentation
     
     
     :example: response = client.confirm_private_virtual_interface(
         virtualInterfaceId='string',
-        virtualGatewayId='string'
+        virtualGatewayId='string',
+        directConnectGatewayId='string'
     )
     
     
@@ -647,9 +654,14 @@ def confirm_private_virtual_interface(virtualInterfaceId=None, virtualGatewayId=
             
 
     :type virtualGatewayId: string
-    :param virtualGatewayId: [REQUIRED]
-            ID of the virtual private gateway that will be attached to the virtual interface.
+    :param virtualGatewayId: ID of the virtual private gateway that will be attached to the virtual interface.
             A virtual private gateway can be managed via the Amazon Virtual Private Cloud (VPC) console or the EC2 CreateVpnGateway action.
+            Default: None
+            
+
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: ID of the direct connect gateway that will be attached to the virtual interface.
+            A direct connect gateway can be managed via the AWS Direct Connect console or the CreateDirectConnectGateway action.
             Default: None
             
 
@@ -754,6 +766,7 @@ def create_bgp_peer(virtualInterfaceId=None, newBGPPeer=None):
             'virtualInterfaceName': 'string',
             'vlan': 123,
             'asn': 123,
+            'amazonSideAsn': 123,
             'authKey': 'string',
             'amazonAddress': 'string',
             'customerAddress': 'string',
@@ -761,6 +774,7 @@ def create_bgp_peer(virtualInterfaceId=None, newBGPPeer=None):
             'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
             'customerRouterConfig': 'string',
             'virtualGatewayId': 'string',
+            'directConnectGatewayId': 'string',
             'routeFilterPrefixes': [
                 {
                     'cidr': 'string'
@@ -792,6 +806,7 @@ def create_connection(location=None, bandwidth=None, connectionName=None, lagId=
     """
     Creates a new connection between the customer network and a specific AWS Direct Connect location.
     A connection links your internal network to an AWS Direct Connect location over a standard 1 gigabit or 10 gigabit Ethernet fiber-optic cable. One end of the cable is connected to your router, the other to an AWS Direct Connect router. An AWS Direct Connect location provides access to Amazon Web Services in the region it is associated with. You can establish connections with AWS Direct Connect locations in multiple regions, but a connection in one region does not provide connectivity to other regions.
+    To find the locations for your region, use  DescribeLocations .
     You can automatically add the new connection to a link aggregation group (LAG) by specifying a LAG ID in the request. This ensures that the new connection is allocated on the same AWS Direct Connect endpoint that hosts the specified LAG. If there are no available ports on the endpoint, the request fails and no connection will be created.
     See also: AWS API Documentation
     
@@ -856,6 +871,101 @@ def create_connection(location=None, bandwidth=None, connectionName=None, lagId=
     Deleting : The connection is in the process of being deleted.
     Deleted : The connection has been deleted.
     Rejected : A hosted connection in the 'Ordering' state will enter the 'Rejected' state if it is deleted by the end customer.
+    
+    """
+    pass
+
+def create_direct_connect_gateway(directConnectGatewayName=None, amazonSideAsn=None):
+    """
+    Creates a new direct connect gateway. A direct connect gateway is an intermediate object that enables you to connect a set of virtual interfaces and virtual private gateways. direct connect gateways are global and visible in any AWS region after they are created. The virtual interfaces and virtual private gateways that are connected through a direct connect gateway can be in different regions. This enables you to connect to a VPC in any region, regardless of the region in which the virtual interfaces are located, and pass traffic between them.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_direct_connect_gateway(
+        directConnectGatewayName='string',
+        amazonSideAsn=123
+    )
+    
+    
+    :type directConnectGatewayName: string
+    :param directConnectGatewayName: [REQUIRED]
+            The name of the direct connect gateway.
+            Example: 'My direct connect gateway'
+            Default: None
+            
+
+    :type amazonSideAsn: integer
+    :param amazonSideAsn: The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294
+            Example: 65200
+            Default: 64512
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGateway': {
+            'directConnectGatewayId': 'string',
+            'directConnectGatewayName': 'string',
+            'amazonSideAsn': 123,
+            'ownerAccount': 'string',
+            'directConnectGatewayState': 'pending'|'available'|'deleting'|'deleted',
+            'stateChangeError': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    Pending : The initial state after calling  CreateDirectConnectGateway .
+    Available : The direct connect gateway is ready for use.
+    Deleting : The initial state after calling  DeleteDirectConnectGateway .
+    Deleted : The direct connect gateway is deleted and cannot pass traffic.
+    
+    """
+    pass
+
+def create_direct_connect_gateway_association(directConnectGatewayId=None, virtualGatewayId=None):
+    """
+    Creates an association between a direct connect gateway and a virtual private gateway (VGW). The VGW must be attached to a VPC and must not be associated with another direct connect gateway.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_direct_connect_gateway_association(
+        directConnectGatewayId='string',
+        virtualGatewayId='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: [REQUIRED]
+            The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :type virtualGatewayId: string
+    :param virtualGatewayId: [REQUIRED]
+            The ID of the virtual private gateway.
+            Example: 'vgw-abc123ef'
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGatewayAssociation': {
+            'directConnectGatewayId': 'string',
+            'virtualGatewayId': 'string',
+            'virtualGatewayRegion': 'string',
+            'virtualGatewayOwnerAccount': 'string',
+            'associationState': 'associating'|'associated'|'disassociating'|'disassociated',
+            'stateChangeError': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    Associating : The initial state after calling  CreateDirectConnectGatewayAssociation .
+    Associated : The direct connect gateway and virtual private gateway are successfully associated and ready to pass traffic.
+    Disassociating : The initial state after calling  DeleteDirectConnectGatewayAssociation .
+    Disassociated : The virtual private gateway is successfully disassociated from the direct connect gateway. Traffic flow between the direct connect gateway and virtual private gateway stops.
     
     """
     pass
@@ -1039,7 +1149,8 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
             'amazonAddress': 'string',
             'customerAddress': 'string',
             'addressFamily': 'ipv4'|'ipv6',
-            'virtualGatewayId': 'string'
+            'virtualGatewayId': 'string',
+            'directConnectGatewayId': 'string'
         }
     )
     
@@ -1070,8 +1181,10 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
             addressFamily (string) --Indicates the address family for the BGP peer.
             ipv4 : IPv4 address family
             ipv6 : IPv6 address family
-            virtualGatewayId (string) -- [REQUIRED]The ID of the virtual private gateway to a VPC. This only applies to private virtual interfaces.
+            virtualGatewayId (string) --The ID of the virtual private gateway to a VPC. This only applies to private virtual interfaces.
             Example: vgw-123er56
+            directConnectGatewayId (string) --The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
             
 
     :rtype: dict
@@ -1084,6 +1197,7 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
         'virtualInterfaceName': 'string',
         'vlan': 123,
         'asn': 123,
+        'amazonSideAsn': 123,
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
@@ -1091,6 +1205,7 @@ def create_private_virtual_interface(connectionId=None, newPrivateVirtualInterfa
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
+        'directConnectGatewayId': 'string',
         'routeFilterPrefixes': [
             {
                 'cidr': 'string'
@@ -1187,6 +1302,7 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
         'virtualInterfaceName': 'string',
         'vlan': 123,
         'asn': 123,
+        'amazonSideAsn': 123,
         'authKey': 'string',
         'amazonAddress': 'string',
         'customerAddress': 'string',
@@ -1194,6 +1310,7 @@ def create_public_virtual_interface(connectionId=None, newPublicVirtualInterface
         'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
         'customerRouterConfig': 'string',
         'virtualGatewayId': 'string',
+        'directConnectGatewayId': 'string',
         'routeFilterPrefixes': [
             {
                 'cidr': 'string'
@@ -1260,6 +1377,7 @@ def delete_bgp_peer(virtualInterfaceId=None, asn=None, customerAddress=None):
             'virtualInterfaceName': 'string',
             'vlan': 123,
             'asn': 123,
+            'amazonSideAsn': 123,
             'authKey': 'string',
             'amazonAddress': 'string',
             'customerAddress': 'string',
@@ -1267,6 +1385,7 @@ def delete_bgp_peer(virtualInterfaceId=None, asn=None, customerAddress=None):
             'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
             'customerRouterConfig': 'string',
             'virtualGatewayId': 'string',
+            'directConnectGatewayId': 'string',
             'routeFilterPrefixes': [
                 {
                     'cidr': 'string'
@@ -1329,6 +1448,88 @@ def delete_connection(connectionId=None):
         'awsDevice': 'string'
     }
     
+    
+    """
+    pass
+
+def delete_direct_connect_gateway(directConnectGatewayId=None):
+    """
+    Deletes a direct connect gateway. You must first delete all virtual interfaces that are attached to the direct connect gateway and disassociate all virtual private gateways that are associated with the direct connect gateway.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_direct_connect_gateway(
+        directConnectGatewayId='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: [REQUIRED]
+            The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGateway': {
+            'directConnectGatewayId': 'string',
+            'directConnectGatewayName': 'string',
+            'amazonSideAsn': 123,
+            'ownerAccount': 'string',
+            'directConnectGatewayState': 'pending'|'available'|'deleting'|'deleted',
+            'stateChangeError': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
+def delete_direct_connect_gateway_association(directConnectGatewayId=None, virtualGatewayId=None):
+    """
+    Deletes the association between a direct connect gateway and a virtual private gateway.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_direct_connect_gateway_association(
+        directConnectGatewayId='string',
+        virtualGatewayId='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: [REQUIRED]
+            The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :type virtualGatewayId: string
+    :param virtualGatewayId: [REQUIRED]
+            The ID of the virtual private gateway.
+            Example: 'vgw-abc123ef'
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGatewayAssociation': {
+            'directConnectGatewayId': 'string',
+            'virtualGatewayId': 'string',
+            'virtualGatewayRegion': 'string',
+            'virtualGatewayOwnerAccount': 'string',
+            'associationState': 'associating'|'associated'|'disassociating'|'disassociated',
+            'stateChangeError': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    Associating : The initial state after calling  CreateDirectConnectGatewayAssociation .
+    Associated : The direct connect gateway and virtual private gateway are successfully associated and ready to pass traffic.
+    Disassociating : The initial state after calling  DeleteDirectConnectGatewayAssociation .
+    Disassociated : The virtual private gateway is successfully disassociated from the direct connect gateway. Traffic flow between the direct connect gateway and virtual private gateway stops.
     
     """
     pass
@@ -1578,6 +1779,185 @@ def describe_connections_on_interconnect(interconnectId=None):
     """
     pass
 
+def describe_direct_connect_gateway_associations(directConnectGatewayId=None, virtualGatewayId=None, maxResults=None, nextToken=None):
+    """
+    Returns a list of all direct connect gateway and virtual private gateway (VGW) associations. Either a direct connect gateway ID or a VGW ID must be provided in the request. If a direct connect gateway ID is provided, the response returns all VGWs associated with the direct connect gateway. If a VGW ID is provided, the response returns all direct connect gateways associated with the VGW. If both are provided, the response only returns the association that matches both the direct connect gateway and the VGW.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_direct_connect_gateway_associations(
+        directConnectGatewayId='string',
+        virtualGatewayId='string',
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :type virtualGatewayId: string
+    :param virtualGatewayId: The ID of the virtual private gateway.
+            Example: 'vgw-abc123ef'
+            Default: None
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of direct connect gateway associations to return per page.
+            Example: 15
+            Default: None
+            
+
+    :type nextToken: string
+    :param nextToken: The token provided in the previous describe result to retrieve the next page of the result.
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGatewayAssociations': [
+            {
+                'directConnectGatewayId': 'string',
+                'virtualGatewayId': 'string',
+                'virtualGatewayRegion': 'string',
+                'virtualGatewayOwnerAccount': 'string',
+                'associationState': 'associating'|'associated'|'disassociating'|'disassociated',
+                'stateChangeError': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    Associating : The initial state after calling  CreateDirectConnectGatewayAssociation .
+    Associated : The direct connect gateway and virtual private gateway are successfully associated and ready to pass traffic.
+    Disassociating : The initial state after calling  DeleteDirectConnectGatewayAssociation .
+    Disassociated : The virtual private gateway is successfully disassociated from the direct connect gateway. Traffic flow between the direct connect gateway and virtual private gateway stops.
+    
+    """
+    pass
+
+def describe_direct_connect_gateway_attachments(directConnectGatewayId=None, virtualInterfaceId=None, maxResults=None, nextToken=None):
+    """
+    Returns a list of all direct connect gateway and virtual interface (VIF) attachments. Either a direct connect gateway ID or a VIF ID must be provided in the request. If a direct connect gateway ID is provided, the response returns all VIFs attached to the direct connect gateway. If a VIF ID is provided, the response returns all direct connect gateways attached to the VIF. If both are provided, the response only returns the attachment that matches both the direct connect gateway and the VIF.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_direct_connect_gateway_attachments(
+        directConnectGatewayId='string',
+        virtualInterfaceId='string',
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :type virtualInterfaceId: string
+    :param virtualInterfaceId: The ID of the virtual interface.
+            Example: 'dxvif-abc123ef'
+            Default: None
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of direct connect gateway attachments to return per page.
+            Example: 15
+            Default: None
+            
+
+    :type nextToken: string
+    :param nextToken: The token provided in the previous describe result to retrieve the next page of the result.
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGatewayAttachments': [
+            {
+                'directConnectGatewayId': 'string',
+                'virtualInterfaceId': 'string',
+                'virtualInterfaceRegion': 'string',
+                'virtualInterfaceOwnerAccount': 'string',
+                'attachmentState': 'attaching'|'attached'|'detaching'|'detached',
+                'stateChangeError': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    Attaching : The initial state after a virtual interface is created using the direct connect gateway.
+    Attached : The direct connect gateway and virtual interface are successfully attached and ready to pass traffic.
+    Detaching : The initial state after calling  DeleteVirtualInterface on a virtual interface that is attached to a direct connect gateway.
+    Detached : The virtual interface is successfully detached from the direct connect gateway. Traffic flow between the direct connect gateway and virtual interface stops.
+    
+    """
+    pass
+
+def describe_direct_connect_gateways(directConnectGatewayId=None, maxResults=None, nextToken=None):
+    """
+    Returns a list of direct connect gateways in your account. Deleted direct connect gateways are not returned. You can provide a direct connect gateway ID in the request to return information about the specific direct connect gateway only. Otherwise, if a direct connect gateway ID is not provided, information about all of your direct connect gateways is returned.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_direct_connect_gateways(
+        directConnectGatewayId='string',
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type directConnectGatewayId: string
+    :param directConnectGatewayId: The ID of the direct connect gateway.
+            Example: 'abcd1234-dcba-5678-be23-cdef9876ab45'
+            Default: None
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of direct connect gateways to return per page.
+            Example: 15
+            Default: None
+            
+
+    :type nextToken: string
+    :param nextToken: The token provided in the previous describe result to retrieve the next page of the result.
+            Default: None
+            
+
+    :rtype: dict
+    :return: {
+        'directConnectGateways': [
+            {
+                'directConnectGatewayId': 'string',
+                'directConnectGatewayName': 'string',
+                'amazonSideAsn': 123,
+                'ownerAccount': 'string',
+                'directConnectGatewayState': 'pending'|'available'|'deleting'|'deleted',
+                'stateChangeError': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    Pending : The initial state after calling  CreateDirectConnectGateway .
+    Available : The direct connect gateway is ready for use.
+    Deleting : The initial state after calling  DeleteDirectConnectGateway .
+    Deleted : The direct connect gateway is deleted and cannot pass traffic.
+    
+    """
+    pass
+
 def describe_hosted_connections(connectionId=None):
     """
     Returns a list of hosted connections that have been provisioned on the given interconnect or link aggregation group (LAG).
@@ -1811,7 +2191,7 @@ def describe_loa(connectionId=None, providerName=None, loaContentType=None):
 
 def describe_locations():
     """
-    Returns the list of AWS Direct Connect locations in the current AWS region. These are the locations that may be selected when calling CreateConnection or CreateInterconnect.
+    Returns the list of AWS Direct Connect locations in the current AWS region. These are the locations that may be selected when calling  CreateConnection or  CreateInterconnect .
     See also: AWS API Documentation
     
     
@@ -1931,6 +2311,7 @@ def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None):
                 'virtualInterfaceName': 'string',
                 'vlan': 123,
                 'asn': 123,
+                'amazonSideAsn': 123,
                 'authKey': 'string',
                 'amazonAddress': 'string',
                 'customerAddress': 'string',
@@ -1938,6 +2319,7 @@ def describe_virtual_interfaces(connectionId=None, virtualInterfaceId=None):
                 'virtualInterfaceState': 'confirming'|'verifying'|'pending'|'available'|'down'|'deleting'|'deleted'|'rejected',
                 'customerRouterConfig': 'string',
                 'virtualGatewayId': 'string',
+                'directConnectGatewayId': 'string',
                 'routeFilterPrefixes': [
                     {
                         'cidr': 'string'

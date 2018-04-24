@@ -49,7 +49,7 @@ def associate_team_member(projectId=None, clientRequestToken=None, userArn=None,
 
     :type userArn: string
     :param userArn: [REQUIRED]
-            The Amazon Resource Name (ARN) for the IAM user you want to add to the DevHub project.
+            The Amazon Resource Name (ARN) for the IAM user you want to add to the AWS CodeStar project.
             
 
     :type projectRole: string
@@ -424,7 +424,7 @@ def list_resources(projectId=None, nextToken=None, maxResults=None):
     :param nextToken: The continuation token for the next set of results, if the results cannot be returned in one response.
 
     :type maxResults: integer
-    :param maxResults: he maximum amount of data that can be contained in a single set of results.
+    :param maxResults: The maximum amount of data that can be contained in a single set of results.
 
     :rtype: dict
     :return: {
@@ -435,6 +435,48 @@ def list_resources(projectId=None, nextToken=None, maxResults=None):
         ],
         'nextToken': 'string'
     }
+    
+    
+    """
+    pass
+
+def list_tags_for_project(id=None, nextToken=None, maxResults=None):
+    """
+    Gets the tags for a project.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_tags_for_project(
+        id='string',
+        nextToken='string',
+        maxResults=123
+    )
+    
+    
+    :type id: string
+    :param id: [REQUIRED]
+            The ID of the project to get tags for.
+            
+
+    :type nextToken: string
+    :param nextToken: Reserved for future use.
+
+    :type maxResults: integer
+    :param maxResults: Reserved for future use.
+
+    :rtype: dict
+    :return: {
+        'tags': {
+            'string': 'string'
+        },
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    (string) --
+    
     
     
     """
@@ -515,6 +557,84 @@ def list_user_profiles(nextToken=None, maxResults=None):
     """
     pass
 
+def tag_project(id=None, tags=None):
+    """
+    Adds tags to a project.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_project(
+        id='string',
+        tags={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type id: string
+    :param id: [REQUIRED]
+            The ID of the project you want to add a tag to.
+            
+
+    :type tags: dict
+    :param tags: [REQUIRED]
+            The tags you want to add to the project.
+            (string) --
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'tags': {
+            'string': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    (string) --
+    
+    
+    
+    """
+    pass
+
+def untag_project(id=None, tags=None):
+    """
+    Removes tags from a project.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_project(
+        id='string',
+        tags=[
+            'string',
+        ]
+    )
+    
+    
+    :type id: string
+    :param id: [REQUIRED]
+            The ID of the project to remove tags from.
+            
+
+    :type tags: list
+    :param tags: [REQUIRED]
+            The tags to remove from the project.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def update_project(id=None, name=None, description=None):
     """
     Updates a project in AWS CodeStar.
@@ -574,7 +694,7 @@ def update_team_member(projectId=None, userArn=None, projectRole=None, remoteAcc
             
 
     :type projectRole: string
-    :param projectRole: The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
+    :param projectRole: The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide .
 
     :type remoteAccessAllowed: boolean
     :param remoteAccessAllowed: Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile. Even if this is set to True, the user must associate a public key with their profile before the user can access resources.

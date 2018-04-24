@@ -180,7 +180,7 @@ def create_custom_action_type(category=None, provider=None, version=None, settin
             key (boolean) -- [REQUIRED]Whether the configuration property is a key.
             secret (boolean) -- [REQUIRED]Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs.
             When updating a pipeline, passing * * * * * without changing any other values of the action will preserve the prior value of the secret.
-            queryable (boolean) --Indicates that the proprety will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret.
+            queryable (boolean) --Indicates that the property will be used in conjunction with PollForJobs. When creating a custom action, an action can have up to one queryable property. If it has one, that property must be both required and not secret.
             If you create a pipeline with a custom action type, and that custom action contains a queryable property, the value for that configuration property is subject to additional restrictions. The value must be less than or equal to twenty (20) characters. The value can contain only alphanumeric characters, underscores, and hyphens.
             description (string) --The description of the action configuration property that will be displayed to users.
             type (string) --The type of the configuration property.
@@ -189,14 +189,14 @@ def create_custom_action_type(category=None, provider=None, version=None, settin
 
     :type inputArtifactDetails: dict
     :param inputArtifactDetails: [REQUIRED]
-            Returns information about the details of an artifact.
+            The details of the input artifact for the action, such as its commit ID.
             minimumCount (integer) -- [REQUIRED]The minimum number of artifacts allowed for the action type.
             maximumCount (integer) -- [REQUIRED]The maximum number of artifacts allowed for the action type.
             
 
     :type outputArtifactDetails: dict
     :param outputArtifactDetails: [REQUIRED]
-            Returns information about the details of an artifact.
+            The details of the output artifact of the action, such as its commit ID.
             minimumCount (integer) -- [REQUIRED]The minimum number of artifacts allowed for the action type.
             maximumCount (integer) -- [REQUIRED]The maximum number of artifacts allowed for the action type.
             
@@ -307,9 +307,9 @@ def create_pipeline(pipeline=None):
             Represents the structure of actions and stages to be performed in the pipeline.
             name (string) -- [REQUIRED]The name of the action to be performed.
             roleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
-            artifactStore (dict) -- [REQUIRED]The Amazon S3 location where artifacts are stored for the pipeline. If this Amazon S3 bucket is created manually, it must meet the requirements for AWS CodePipeline. For more information, see the Concepts .
+            artifactStore (dict) -- [REQUIRED]Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline.
             type (string) -- [REQUIRED]The type of the artifact store, such as S3.
-            location (string) -- [REQUIRED]The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
+            location (string) -- [REQUIRED]The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
             encryptionKey (dict) --The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
             id (string) -- [REQUIRED]The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
             type (string) -- [REQUIRED]The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
@@ -729,6 +729,11 @@ def get_pipeline(name=None, version=None):
                 },
             ],
             'version': 123
+        },
+        'metadata': {
+            'pipelineArn': 'string',
+            'created': datetime(2015, 1, 1),
+            'updated': datetime(2015, 1, 1)
         }
     }
     
@@ -787,9 +792,9 @@ def get_pipeline_execution(pipelineName=None, pipelineExecutionId=None):
     
     :returns: 
     InProgress: The pipeline execution is currently running.
-    Succeeded: The pipeline execution completed successfully.
-    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution caught up and continued through the pipeline instead.
-    Failed: The pipeline did not complete successfully.
+    Succeeded: The pipeline execution was completed successfully.
+    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.
+    Failed: The pipeline execution was not completed successfully.
     
     """
     pass
@@ -1025,6 +1030,53 @@ def list_action_types(actionOwnerFilter=None, nextToken=None):
         'nextToken': 'string'
     }
     
+    
+    """
+    pass
+
+def list_pipeline_executions(pipelineName=None, maxResults=None, nextToken=None):
+    """
+    Gets a summary of the most recent executions for a pipeline.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_pipeline_executions(
+        pipelineName='string',
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type pipelineName: string
+    :param pipelineName: [REQUIRED]
+            The name of the pipeline for which you want to get execution summary information.
+            
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. The available pipeline execution history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
+
+    :type nextToken: string
+    :param nextToken: The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
+
+    :rtype: dict
+    :return: {
+        'pipelineExecutionSummaries': [
+            {
+                'pipelineExecutionId': 'string',
+                'status': 'InProgress'|'Succeeded'|'Superseded'|'Failed',
+                'startTime': datetime(2015, 1, 1),
+                'lastUpdateTime': datetime(2015, 1, 1)
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    InProgress: The pipeline execution is currently running.
+    Succeeded: The pipeline execution was completed successfully.
+    Superseded: While this pipeline execution was waiting for the next stage to be completed, a newer pipeline execution advanced and continued through the pipeline instead.
+    Failed: The pipeline execution was not completed successfully.
     
     """
     pass
@@ -1632,9 +1684,9 @@ def update_pipeline(pipeline=None):
             The name of the pipeline to be updated.
             name (string) -- [REQUIRED]The name of the action to be performed.
             roleArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
-            artifactStore (dict) -- [REQUIRED]The Amazon S3 location where artifacts are stored for the pipeline. If this Amazon S3 bucket is created manually, it must meet the requirements for AWS CodePipeline. For more information, see the Concepts .
+            artifactStore (dict) -- [REQUIRED]Represents information about the Amazon S3 bucket where artifacts are stored for the pipeline.
             type (string) -- [REQUIRED]The type of the artifact store, such as S3.
-            location (string) -- [REQUIRED]The location for storing the artifacts for a pipeline, such as an S3 bucket or folder.
+            location (string) -- [REQUIRED]The Amazon S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder within the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any Amazon S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
             encryptionKey (dict) --The encryption key used to encrypt the data in the artifact store, such as an AWS Key Management Service (AWS KMS) key. If this is undefined, the default key for Amazon S3 is used.
             id (string) -- [REQUIRED]The ID used to identify the key. For an AWS KMS key, this is the key ID or key ARN.
             type (string) -- [REQUIRED]The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.

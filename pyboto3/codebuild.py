@@ -24,6 +24,45 @@ SOFTWARE.
 
 '''
 
+def batch_delete_builds(ids=None):
+    """
+    Deletes one or more builds.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.batch_delete_builds(
+        ids=[
+            'string',
+        ]
+    )
+    
+    
+    :type ids: list
+    :param ids: [REQUIRED]
+            The IDs of the builds to delete.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'buildsDeleted': [
+            'string',
+        ],
+        'buildsNotDeleted': [
+            {
+                'id': 'string',
+                'statusCode': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def batch_get_builds(ids=None):
     """
     Gets information about builds.
@@ -71,18 +110,24 @@ def batch_get_builds(ids=None):
                     },
                 ],
                 'source': {
-                    'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                    'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                     'location': 'string',
+                    'gitCloneDepth': 123,
                     'buildspec': 'string',
                     'auth': {
                         'type': 'OAUTH',
                         'resource': 'string'
-                    }
+                    },
+                    'insecureSsl': True|False
                 },
                 'artifacts': {
                     'location': 'string',
                     'sha256sum': 'string',
                     'md5sum': 'string'
+                },
+                'cache': {
+                    'type': 'NO_CACHE'|'S3',
+                    'location': 'string'
                 },
                 'environment': {
                     'type': 'LINUX_CONTAINER',
@@ -91,9 +136,12 @@ def batch_get_builds(ids=None):
                     'environmentVariables': [
                         {
                             'name': 'string',
-                            'value': 'string'
+                            'value': 'string',
+                            'type': 'PLAINTEXT'|'PARAMETER_STORE'
                         },
-                    ]
+                    ],
+                    'privilegedMode': True|False,
+                    'certificate': 'string'
                 },
                 'logs': {
                     'groupName': 'string',
@@ -102,7 +150,20 @@ def batch_get_builds(ids=None):
                 },
                 'timeoutInMinutes': 123,
                 'buildComplete': True|False,
-                'initiator': 'string'
+                'initiator': 'string',
+                'vpcConfig': {
+                    'vpcId': 'string',
+                    'subnets': [
+                        'string',
+                    ],
+                    'securityGroupIds': [
+                        'string',
+                    ]
+                },
+                'networkInterface': {
+                    'subnetId': 'string',
+                    'networkInterfaceId': 'string'
+                }
             },
         ],
         'buildsNotFound': [
@@ -149,13 +210,15 @@ def batch_get_projects(names=None):
                 'arn': 'string',
                 'description': 'string',
                 'source': {
-                    'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                    'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                     'location': 'string',
+                    'gitCloneDepth': 123,
                     'buildspec': 'string',
                     'auth': {
                         'type': 'OAUTH',
                         'resource': 'string'
-                    }
+                    },
+                    'insecureSsl': True|False
                 },
                 'artifacts': {
                     'type': 'CODEPIPELINE'|'S3'|'NO_ARTIFACTS',
@@ -165,6 +228,10 @@ def batch_get_projects(names=None):
                     'name': 'string',
                     'packaging': 'NONE'|'ZIP'
                 },
+                'cache': {
+                    'type': 'NO_CACHE'|'S3',
+                    'location': 'string'
+                },
                 'environment': {
                     'type': 'LINUX_CONTAINER',
                     'image': 'string',
@@ -172,9 +239,12 @@ def batch_get_projects(names=None):
                     'environmentVariables': [
                         {
                             'name': 'string',
-                            'value': 'string'
+                            'value': 'string',
+                            'type': 'PLAINTEXT'|'PARAMETER_STORE'
                         },
-                    ]
+                    ],
+                    'privilegedMode': True|False,
+                    'certificate': 'string'
                 },
                 'serviceRole': 'string',
                 'timeoutInMinutes': 123,
@@ -186,7 +256,27 @@ def batch_get_projects(names=None):
                     },
                 ],
                 'created': datetime(2015, 1, 1),
-                'lastModified': datetime(2015, 1, 1)
+                'lastModified': datetime(2015, 1, 1),
+                'webhook': {
+                    'url': 'string',
+                    'payloadUrl': 'string',
+                    'secret': 'string',
+                    'branchFilter': 'string',
+                    'lastModifiedSecret': datetime(2015, 1, 1)
+                },
+                'vpcConfig': {
+                    'vpcId': 'string',
+                    'subnets': [
+                        'string',
+                    ],
+                    'securityGroupIds': [
+                        'string',
+                    ]
+                },
+                'badge': {
+                    'badgeEnabled': True|False,
+                    'badgeRequestUrl': 'string'
+                }
             },
         ],
         'projectsNotFound': [
@@ -196,6 +286,7 @@ def batch_get_projects(names=None):
     
     
     :returns: 
+    BITBUCKET : The source code is in a Bitbucket repository.
     CODECOMMIT : The source code is in an AWS CodeCommit repository.
     CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
     GITHUB : The source code is in a GitHub repository.
@@ -219,7 +310,7 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_project(name=None, description=None, source=None, artifacts=None, environment=None, serviceRole=None, timeoutInMinutes=None, encryptionKey=None, tags=None):
+def create_project(name=None, description=None, source=None, artifacts=None, cache=None, environment=None, serviceRole=None, timeoutInMinutes=None, encryptionKey=None, tags=None, vpcConfig=None, badgeEnabled=None):
     """
     Creates a build project.
     See also: AWS API Documentation
@@ -229,13 +320,15 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
         name='string',
         description='string',
         source={
-            'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+            'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
             'location': 'string',
+            'gitCloneDepth': 123,
             'buildspec': 'string',
             'auth': {
                 'type': 'OAUTH',
                 'resource': 'string'
-            }
+            },
+            'insecureSsl': True|False
         },
         artifacts={
             'type': 'CODEPIPELINE'|'S3'|'NO_ARTIFACTS',
@@ -245,6 +338,10 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             'name': 'string',
             'packaging': 'NONE'|'ZIP'
         },
+        cache={
+            'type': 'NO_CACHE'|'S3',
+            'location': 'string'
+        },
         environment={
             'type': 'LINUX_CONTAINER',
             'image': 'string',
@@ -252,9 +349,12 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             'environmentVariables': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'type': 'PLAINTEXT'|'PARAMETER_STORE'
                 },
-            ]
+            ],
+            'privilegedMode': True|False,
+            'certificate': 'string'
         },
         serviceRole='string',
         timeoutInMinutes=123,
@@ -264,7 +364,17 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
                 'key': 'string',
                 'value': 'string'
             },
-        ]
+        ],
+        vpcConfig={
+            'vpcId': 'string',
+            'subnets': [
+                'string',
+            ],
+            'securityGroupIds': [
+                'string',
+            ]
+        },
+        badgeEnabled=True|False
     )
     
     
@@ -280,6 +390,7 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
     :param source: [REQUIRED]
             Information about the build input source code for the build project.
             type (string) -- [REQUIRED]The type of repository that contains the source code to be built. Valid values include:
+            BITBUCKET : The source code is in a Bitbucket repository.
             CODECOMMIT : The source code is in an AWS CodeCommit repository.
             CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
             GITHUB : The source code is in a GitHub repository.
@@ -288,14 +399,16 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.
             For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, ``https://git-codecommit.*region-ID* .amazonaws.com/v1/repos/repo-name `` ).
             For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example, `` bucket-name /path /to /object-name .zip`` )
-            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page that displays, for Organization access , choose Request access next to each repository you want to allow AWS CodeBuild to have access to. Then choose Authorize application . (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your Bitbucket account. To do this, use the AWS CodeBuild console to begin creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page that displays, choose Grant access . (After you have connected to your Bitbucket account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            gitCloneDepth (integer) --Information about the git clone depth for the build project.
             buildspec (string) --The build spec declaration to use for the builds in this build project.
             If this value is not specified, a build spec must be included along with the source code to be built.
             auth (dict) --Information about the authorization settings for AWS CodeBuild to access the source code to be built.
-            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB ).
+            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is BITBUCKET or GITHUB ).
             type (string) -- [REQUIRED]The authorization type to use. The only valid value is OAUTH , which represents the OAuth authorization type.
             resource (string) --The resource value that applies to the specified authorization type.
-            
+            insecureSsl (boolean) --Enable this flag to ignore SSL warnings while connecting to the project source code.
             
 
     :type artifacts: dict
@@ -335,6 +448,16 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             
             
 
+    :type cache: dict
+    :param cache: Stores recently used information so that it can be quickly accessed at a later time.
+            type (string) -- [REQUIRED]The type of cache used by the build project. Valid values include:
+            NO_CACHE : The build project will not use any cache.
+            S3 : The build project will read and write from/to S3.
+            location (string) --Information about the cache location, as follows:
+            NO_CACHE : This value will be ignored.
+            S3 : This is the S3 bucket name/prefix.
+            
+
     :type environment: dict
     :param environment: [REQUIRED]
             Information about the build environment for the build project.
@@ -348,7 +471,15 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             (dict) --Information about an environment variable for a build project or a build.
             name (string) -- [REQUIRED]The name or key of the environment variable.
             value (string) -- [REQUIRED]The value of the environment variable.
+            Warning
+            We strongly discourage using environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using tools such as the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI).
+            type (string) --The type of environment variable. Valid values include:
+            PARAMETER_STORE : An environment variable stored in Amazon EC2 Systems Manager Parameter Store.
+            PLAINTEXT : An environment variable in plaintext format.
             
+            privilegedMode (boolean) --Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon will fail. Note that you must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run the following build commands if the specified build environment image is provided by AWS CodeBuild with Docker support.)
+            - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay- timeout -t 15 sh -c 'until docker info; do echo .; sleep 1; done'
+            certificate (string) --The certificate to use with this build project.
             
 
     :type serviceRole: string
@@ -372,6 +503,18 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             
             
 
+    :type vpcConfig: dict
+    :param vpcConfig: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+            vpcId (string) --The ID of the Amazon VPC.
+            subnets (list) --A list of one or more subnet IDs in your Amazon VPC.
+            (string) --
+            securityGroupIds (list) --A list of one or more security groups IDs in your Amazon VPC.
+            (string) --
+            
+
+    :type badgeEnabled: boolean
+    :param badgeEnabled: Set this to true to generate a publicly-accessible URL for your project's build badge.
+
     :rtype: dict
     :return: {
         'project': {
@@ -379,13 +522,15 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
             'arn': 'string',
             'description': 'string',
             'source': {
-                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                 'location': 'string',
+                'gitCloneDepth': 123,
                 'buildspec': 'string',
                 'auth': {
                     'type': 'OAUTH',
                     'resource': 'string'
-                }
+                },
+                'insecureSsl': True|False
             },
             'artifacts': {
                 'type': 'CODEPIPELINE'|'S3'|'NO_ARTIFACTS',
@@ -395,6 +540,10 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
                 'name': 'string',
                 'packaging': 'NONE'|'ZIP'
             },
+            'cache': {
+                'type': 'NO_CACHE'|'S3',
+                'location': 'string'
+            },
             'environment': {
                 'type': 'LINUX_CONTAINER',
                 'image': 'string',
@@ -402,9 +551,12 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
                 'environmentVariables': [
                     {
                         'name': 'string',
-                        'value': 'string'
+                        'value': 'string',
+                        'type': 'PLAINTEXT'|'PARAMETER_STORE'
                     },
-                ]
+                ],
+                'privilegedMode': True|False,
+                'certificate': 'string'
             },
             'serviceRole': 'string',
             'timeoutInMinutes': 123,
@@ -416,16 +568,72 @@ def create_project(name=None, description=None, source=None, artifacts=None, env
                 },
             ],
             'created': datetime(2015, 1, 1),
-            'lastModified': datetime(2015, 1, 1)
+            'lastModified': datetime(2015, 1, 1),
+            'webhook': {
+                'url': 'string',
+                'payloadUrl': 'string',
+                'secret': 'string',
+                'branchFilter': 'string',
+                'lastModifiedSecret': datetime(2015, 1, 1)
+            },
+            'vpcConfig': {
+                'vpcId': 'string',
+                'subnets': [
+                    'string',
+                ],
+                'securityGroupIds': [
+                    'string',
+                ]
+            },
+            'badge': {
+                'badgeEnabled': True|False,
+                'badgeRequestUrl': 'string'
+            }
         }
     }
     
     
     :returns: 
+    BITBUCKET : The source code is in a Bitbucket repository.
     CODECOMMIT : The source code is in an AWS CodeCommit repository.
     CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
     GITHUB : The source code is in a GitHub repository.
     S3 : The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.
+    
+    """
+    pass
+
+def create_webhook(projectName=None, branchFilter=None):
+    """
+    For an existing AWS CodeBuild build project that has its source code stored in a GitHub repository, enables AWS CodeBuild to begin automatically rebuilding the source code every time a code change is pushed to the repository.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_webhook(
+        projectName='string',
+        branchFilter='string'
+    )
+    
+    
+    :type projectName: string
+    :param projectName: [REQUIRED]
+            The name of the AWS CodeBuild project.
+            
+
+    :type branchFilter: string
+    :param branchFilter: A regular expression used to determine which branches in a repository are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If it doesn't match, then it is not. If branchFilter is empty, then all branches are built.
+
+    :rtype: dict
+    :return: {
+        'webhook': {
+            'url': 'string',
+            'payloadUrl': 'string',
+            'secret': 'string',
+            'branchFilter': 'string',
+            'lastModifiedSecret': datetime(2015, 1, 1)
+        }
+    }
+    
     
     """
     pass
@@ -444,6 +652,29 @@ def delete_project(name=None):
     :type name: string
     :param name: [REQUIRED]
             The name of the build project.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def delete_webhook(projectName=None):
+    """
+    For an existing AWS CodeBuild build project that has its source code stored in a GitHub repository, stops AWS CodeBuild from automatically rebuilding the source code every time a code change is pushed to the repository.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_webhook(
+        projectName='string'
+    )
+    
+    
+    :type projectName: string
+    :param projectName: [REQUIRED]
+            The name of the AWS CodeBuild project.
             
 
     :rtype: dict
@@ -493,6 +724,29 @@ def get_paginator(operation_name=None):
 
 def get_waiter():
     """
+    
+    """
+    pass
+
+def invalidate_project_cache(projectName=None):
+    """
+    Resets the cache for a project.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.invalidate_project_cache(
+        projectName='string'
+    )
+    
+    
+    :type projectName: string
+    :param projectName: [REQUIRED]
+            The name of the AWS CodeBuild build project that the cache will be reset for.
+            
+
+    :rtype: dict
+    :return: {}
+    
     
     """
     pass
@@ -548,7 +802,7 @@ def list_builds_for_project(projectName=None, sortOrder=None, nextToken=None):
     
     :type projectName: string
     :param projectName: [REQUIRED]
-            The name of the build project.
+            The name of the AWS CodeBuild project.
             
 
     :type sortOrder: string
@@ -591,11 +845,14 @@ def list_curated_environment_images():
                 'platform': 'DEBIAN'|'AMAZON_LINUX'|'UBUNTU',
                 'languages': [
                     {
-                        'language': 'JAVA'|'PYTHON'|'NODE_JS'|'RUBY'|'GOLANG'|'DOCKER'|'ANDROID'|'BASE',
+                        'language': 'JAVA'|'PYTHON'|'NODE_JS'|'RUBY'|'GOLANG'|'DOCKER'|'ANDROID'|'DOTNET'|'BASE',
                         'images': [
                             {
                                 'name': 'string',
-                                'description': 'string'
+                                'description': 'string',
+                                'versions': [
+                                    'string',
+                                ]
                             },
                         ]
                     },
@@ -654,7 +911,7 @@ def list_projects(sortBy=None, sortOrder=None, nextToken=None):
     """
     pass
 
-def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, environmentVariablesOverride=None, buildspecOverride=None, timeoutInMinutesOverride=None):
+def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, environmentVariablesOverride=None, gitCloneDepthOverride=None, buildspecOverride=None, timeoutInMinutesOverride=None):
     """
     Starts running a build.
     See also: AWS API Documentation
@@ -674,9 +931,11 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
         environmentVariablesOverride=[
             {
                 'name': 'string',
-                'value': 'string'
+                'value': 'string',
+                'type': 'PLAINTEXT'|'PARAMETER_STORE'
             },
         ],
+        gitCloneDepthOverride=123,
         buildspecOverride='string',
         timeoutInMinutesOverride=123
     )
@@ -684,12 +943,14 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
     
     :type projectName: string
     :param projectName: [REQUIRED]
-            The name of the build project to start running a build.
+            The name of the AWS CodeBuild build project to start running a build.
             
 
     :type sourceVersion: string
     :param sourceVersion: A version of the build input to be built, for this build only. If not specified, the latest version will be used. If specified, must be one of:
-            For AWS CodeCommit or GitHub: the commit ID to use.
+            For AWS CodeCommit: the commit ID to use.
+            For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25 ). If a branch name is specified, the branch's HEAD commit ID will be used. If not specified, the default branch's HEAD commit ID will be used.
+            For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID will be used. If not specified, the default branch's HEAD commit ID will be used.
             For Amazon Simple Storage Service (Amazon S3): the version ID of the object representing the build input ZIP file to use.
             
 
@@ -734,8 +995,16 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
             (dict) --Information about an environment variable for a build project or a build.
             name (string) -- [REQUIRED]The name or key of the environment variable.
             value (string) -- [REQUIRED]The value of the environment variable.
+            Warning
+            We strongly discourage using environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using tools such as the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI).
+            type (string) --The type of environment variable. Valid values include:
+            PARAMETER_STORE : An environment variable stored in Amazon EC2 Systems Manager Parameter Store.
+            PLAINTEXT : An environment variable in plaintext format.
             
             
+
+    :type gitCloneDepthOverride: integer
+    :param gitCloneDepthOverride: The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
 
     :type buildspecOverride: string
     :param buildspecOverride: A build spec declaration that overrides, for this build only, the latest one already defined in the build project.
@@ -770,18 +1039,24 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
                 },
             ],
             'source': {
-                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                 'location': 'string',
+                'gitCloneDepth': 123,
                 'buildspec': 'string',
                 'auth': {
                     'type': 'OAUTH',
                     'resource': 'string'
-                }
+                },
+                'insecureSsl': True|False
             },
             'artifacts': {
                 'location': 'string',
                 'sha256sum': 'string',
                 'md5sum': 'string'
+            },
+            'cache': {
+                'type': 'NO_CACHE'|'S3',
+                'location': 'string'
             },
             'environment': {
                 'type': 'LINUX_CONTAINER',
@@ -790,9 +1065,12 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
                 'environmentVariables': [
                     {
                         'name': 'string',
-                        'value': 'string'
+                        'value': 'string',
+                        'type': 'PLAINTEXT'|'PARAMETER_STORE'
                     },
-                ]
+                ],
+                'privilegedMode': True|False,
+                'certificate': 'string'
             },
             'logs': {
                 'groupName': 'string',
@@ -801,7 +1079,20 @@ def start_build(projectName=None, sourceVersion=None, artifactsOverride=None, en
             },
             'timeoutInMinutes': 123,
             'buildComplete': True|False,
-            'initiator': 'string'
+            'initiator': 'string',
+            'vpcConfig': {
+                'vpcId': 'string',
+                'subnets': [
+                    'string',
+                ],
+                'securityGroupIds': [
+                    'string',
+                ]
+            },
+            'networkInterface': {
+                'subnetId': 'string',
+                'networkInterfaceId': 'string'
+            }
         }
     }
     
@@ -860,18 +1151,24 @@ def stop_build(id=None):
                 },
             ],
             'source': {
-                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                 'location': 'string',
+                'gitCloneDepth': 123,
                 'buildspec': 'string',
                 'auth': {
                     'type': 'OAUTH',
                     'resource': 'string'
-                }
+                },
+                'insecureSsl': True|False
             },
             'artifacts': {
                 'location': 'string',
                 'sha256sum': 'string',
                 'md5sum': 'string'
+            },
+            'cache': {
+                'type': 'NO_CACHE'|'S3',
+                'location': 'string'
             },
             'environment': {
                 'type': 'LINUX_CONTAINER',
@@ -880,9 +1177,12 @@ def stop_build(id=None):
                 'environmentVariables': [
                     {
                         'name': 'string',
-                        'value': 'string'
+                        'value': 'string',
+                        'type': 'PLAINTEXT'|'PARAMETER_STORE'
                     },
-                ]
+                ],
+                'privilegedMode': True|False,
+                'certificate': 'string'
             },
             'logs': {
                 'groupName': 'string',
@@ -891,7 +1191,20 @@ def stop_build(id=None):
             },
             'timeoutInMinutes': 123,
             'buildComplete': True|False,
-            'initiator': 'string'
+            'initiator': 'string',
+            'vpcConfig': {
+                'vpcId': 'string',
+                'subnets': [
+                    'string',
+                ],
+                'securityGroupIds': [
+                    'string',
+                ]
+            },
+            'networkInterface': {
+                'subnetId': 'string',
+                'networkInterfaceId': 'string'
+            }
         }
     }
     
@@ -911,7 +1224,7 @@ def stop_build(id=None):
     """
     pass
 
-def update_project(name=None, description=None, source=None, artifacts=None, environment=None, serviceRole=None, timeoutInMinutes=None, encryptionKey=None, tags=None):
+def update_project(name=None, description=None, source=None, artifacts=None, cache=None, environment=None, serviceRole=None, timeoutInMinutes=None, encryptionKey=None, tags=None, vpcConfig=None, badgeEnabled=None):
     """
     Changes the settings of a build project.
     See also: AWS API Documentation
@@ -921,13 +1234,15 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
         name='string',
         description='string',
         source={
-            'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+            'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
             'location': 'string',
+            'gitCloneDepth': 123,
             'buildspec': 'string',
             'auth': {
                 'type': 'OAUTH',
                 'resource': 'string'
-            }
+            },
+            'insecureSsl': True|False
         },
         artifacts={
             'type': 'CODEPIPELINE'|'S3'|'NO_ARTIFACTS',
@@ -937,6 +1252,10 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             'name': 'string',
             'packaging': 'NONE'|'ZIP'
         },
+        cache={
+            'type': 'NO_CACHE'|'S3',
+            'location': 'string'
+        },
         environment={
             'type': 'LINUX_CONTAINER',
             'image': 'string',
@@ -944,9 +1263,12 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             'environmentVariables': [
                 {
                     'name': 'string',
-                    'value': 'string'
+                    'value': 'string',
+                    'type': 'PLAINTEXT'|'PARAMETER_STORE'
                 },
-            ]
+            ],
+            'privilegedMode': True|False,
+            'certificate': 'string'
         },
         serviceRole='string',
         timeoutInMinutes=123,
@@ -956,7 +1278,17 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
                 'key': 'string',
                 'value': 'string'
             },
-        ]
+        ],
+        vpcConfig={
+            'vpcId': 'string',
+            'subnets': [
+                'string',
+            ],
+            'securityGroupIds': [
+                'string',
+            ]
+        },
+        badgeEnabled=True|False
     )
     
     
@@ -973,6 +1305,7 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
     :type source: dict
     :param source: Information to be changed about the build input source code for the build project.
             type (string) -- [REQUIRED]The type of repository that contains the source code to be built. Valid values include:
+            BITBUCKET : The source code is in a Bitbucket repository.
             CODECOMMIT : The source code is in an AWS CodeCommit repository.
             CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
             GITHUB : The source code is in a GitHub repository.
@@ -981,14 +1314,16 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline will ignore it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.
             For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec (for example, ``https://git-codecommit.*region-ID* .amazonaws.com/v1/repos/repo-name `` ).
             For source code in an Amazon Simple Storage Service (Amazon S3) input bucket, the path to the ZIP file that contains the source code (for example, `` bucket-name /path /to /object-name .zip`` )
-            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project, and follow the on-screen instructions to complete the connection. (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your GitHub account. To do this, use the AWS CodeBuild console to begin creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page that displays, for Organization access , choose Request access next to each repository you want to allow AWS CodeBuild to have access to. Then choose Authorize application . (After you have connected to your GitHub account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec. Also, you must connect your AWS account to your Bitbucket account. To do this, use the AWS CodeBuild console to begin creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page that displays, choose Grant access . (After you have connected to your Bitbucket account, you do not need to finish creating the build project, and you may then leave the AWS CodeBuild console.) To instruct AWS CodeBuild to then use this connection, in the source object, set the auth object's type value to OAUTH .
+            gitCloneDepth (integer) --Information about the git clone depth for the build project.
             buildspec (string) --The build spec declaration to use for the builds in this build project.
             If this value is not specified, a build spec must be included along with the source code to be built.
             auth (dict) --Information about the authorization settings for AWS CodeBuild to access the source code to be built.
-            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is GITHUB ).
+            This information is for the AWS CodeBuild console's use only. Your code should not get or set this information directly (unless the build project's source type value is BITBUCKET or GITHUB ).
             type (string) -- [REQUIRED]The authorization type to use. The only valid value is OAUTH , which represents the OAuth authorization type.
             resource (string) --The resource value that applies to the specified authorization type.
-            
+            insecureSsl (boolean) --Enable this flag to ignore SSL warnings while connecting to the project source code.
             
 
     :type artifacts: dict
@@ -1027,6 +1362,16 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             
             
 
+    :type cache: dict
+    :param cache: Stores recently used information so that it can be quickly accessed at a later time.
+            type (string) -- [REQUIRED]The type of cache used by the build project. Valid values include:
+            NO_CACHE : The build project will not use any cache.
+            S3 : The build project will read and write from/to S3.
+            location (string) --Information about the cache location, as follows:
+            NO_CACHE : This value will be ignored.
+            S3 : This is the S3 bucket name/prefix.
+            
+
     :type environment: dict
     :param environment: Information to be changed about the build environment for the build project.
             type (string) -- [REQUIRED]The type of build environment to use for related builds.
@@ -1039,7 +1384,15 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             (dict) --Information about an environment variable for a build project or a build.
             name (string) -- [REQUIRED]The name or key of the environment variable.
             value (string) -- [REQUIRED]The value of the environment variable.
+            Warning
+            We strongly discourage using environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. Environment variables can be displayed in plain text using tools such as the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI).
+            type (string) --The type of environment variable. Valid values include:
+            PARAMETER_STORE : An environment variable stored in Amazon EC2 Systems Manager Parameter Store.
+            PLAINTEXT : An environment variable in plaintext format.
             
+            privilegedMode (boolean) --Enables running the Docker daemon inside a Docker container. Set to true only if the build project is be used to build Docker images, and the specified build environment image is not provided by AWS CodeBuild with Docker support. Otherwise, all associated builds that attempt to interact with the Docker daemon will fail. Note that you must also start the Docker daemon so that builds can interact with it. One way to do this is to initialize the Docker daemon during the install phase of your build spec by running the following build commands. (Do not run the following build commands if the specified build environment image is provided by AWS CodeBuild with Docker support.)
+            - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 --storage-driver=overlay- timeout -t 15 sh -c 'until docker info; do echo .; sleep 1; done'
+            certificate (string) --The certificate to use with this build project.
             
 
     :type serviceRole: string
@@ -1063,6 +1416,18 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             
             
 
+    :type vpcConfig: dict
+    :param vpcConfig: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+            vpcId (string) --The ID of the Amazon VPC.
+            subnets (list) --A list of one or more subnet IDs in your Amazon VPC.
+            (string) --
+            securityGroupIds (list) --A list of one or more security groups IDs in your Amazon VPC.
+            (string) --
+            
+
+    :type badgeEnabled: boolean
+    :param badgeEnabled: Set this to true to generate a publicly-accessible URL for your project's build badge.
+
     :rtype: dict
     :return: {
         'project': {
@@ -1070,13 +1435,15 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
             'arn': 'string',
             'description': 'string',
             'source': {
-                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3',
+                'type': 'CODECOMMIT'|'CODEPIPELINE'|'GITHUB'|'S3'|'BITBUCKET'|'GITHUB_ENTERPRISE',
                 'location': 'string',
+                'gitCloneDepth': 123,
                 'buildspec': 'string',
                 'auth': {
                     'type': 'OAUTH',
                     'resource': 'string'
-                }
+                },
+                'insecureSsl': True|False
             },
             'artifacts': {
                 'type': 'CODEPIPELINE'|'S3'|'NO_ARTIFACTS',
@@ -1086,6 +1453,10 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
                 'name': 'string',
                 'packaging': 'NONE'|'ZIP'
             },
+            'cache': {
+                'type': 'NO_CACHE'|'S3',
+                'location': 'string'
+            },
             'environment': {
                 'type': 'LINUX_CONTAINER',
                 'image': 'string',
@@ -1093,9 +1464,12 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
                 'environmentVariables': [
                     {
                         'name': 'string',
-                        'value': 'string'
+                        'value': 'string',
+                        'type': 'PLAINTEXT'|'PARAMETER_STORE'
                     },
-                ]
+                ],
+                'privilegedMode': True|False,
+                'certificate': 'string'
             },
             'serviceRole': 'string',
             'timeoutInMinutes': 123,
@@ -1107,16 +1481,76 @@ def update_project(name=None, description=None, source=None, artifacts=None, env
                 },
             ],
             'created': datetime(2015, 1, 1),
-            'lastModified': datetime(2015, 1, 1)
+            'lastModified': datetime(2015, 1, 1),
+            'webhook': {
+                'url': 'string',
+                'payloadUrl': 'string',
+                'secret': 'string',
+                'branchFilter': 'string',
+                'lastModifiedSecret': datetime(2015, 1, 1)
+            },
+            'vpcConfig': {
+                'vpcId': 'string',
+                'subnets': [
+                    'string',
+                ],
+                'securityGroupIds': [
+                    'string',
+                ]
+            },
+            'badge': {
+                'badgeEnabled': True|False,
+                'badgeRequestUrl': 'string'
+            }
         }
     }
     
     
     :returns: 
+    BITBUCKET : The source code is in a Bitbucket repository.
     CODECOMMIT : The source code is in an AWS CodeCommit repository.
     CODEPIPELINE : The source code settings are specified in the source action of a pipeline in AWS CodePipeline.
     GITHUB : The source code is in a GitHub repository.
     S3 : The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.
+    
+    """
+    pass
+
+def update_webhook(projectName=None, branchFilter=None, rotateSecret=None):
+    """
+    Updates the webhook associated with an AWS CodeBuild build project.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_webhook(
+        projectName='string',
+        branchFilter='string',
+        rotateSecret=True|False
+    )
+    
+    
+    :type projectName: string
+    :param projectName: [REQUIRED]
+            The name of the AWS CodeBuild project.
+            
+
+    :type branchFilter: string
+    :param branchFilter: A regular expression used to determine which branches in a repository are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If it doesn't match, then it is not. If branchFilter is empty, then all branches are built.
+
+    :type rotateSecret: boolean
+    :param rotateSecret: A boolean value that specifies whether the associated repository's secret token should be updated.
+
+    :rtype: dict
+    :return: {
+        'webhook': {
+            'url': 'string',
+            'payloadUrl': 'string',
+            'secret': 'string',
+            'branchFilter': 'string',
+            'lastModifiedSecret': datetime(2015, 1, 1)
+        }
+    }
+    
     
     """
     pass

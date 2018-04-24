@@ -41,7 +41,7 @@ def can_paginate(operation_name=None):
 
 def cancel_job(jobId=None, reason=None):
     """
-    Cancels jobs in an AWS Batch job queue. Jobs that are in the SUBMITTED , PENDING , or RUNNABLE state are cancelled. Jobs that have progressed to STARTING or RUNNING are not cancelled (but the API operation still succeeds, even if no jobs are cancelled); these jobs must be terminated with the  TerminateJob operation.
+    Cancels a job in an AWS Batch job queue. Jobs that are in the SUBMITTED , PENDING , or RUNNABLE state are cancelled. Jobs that have progressed to STARTING or RUNNING are not cancelled (but the API operation still succeeds, even if no job is cancelled); these jobs must be terminated with the  TerminateJob operation.
     See also: AWS API Documentation
     
     Examples
@@ -56,12 +56,12 @@ def cancel_job(jobId=None, reason=None):
     
     :type jobId: string
     :param jobId: [REQUIRED]
-            A list of up to 100 job IDs to cancel.
+            The AWS Batch job ID of the job to cancel.
             
 
     :type reason: string
     :param reason: [REQUIRED]
-            A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
+            A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
             
 
     :rtype: dict
@@ -77,8 +77,8 @@ def cancel_job(jobId=None, reason=None):
 def create_compute_environment(computeEnvironmentName=None, type=None, state=None, computeResources=None, serviceRole=None):
     """
     Creates an AWS Batch compute environment. You can create MANAGED or UNMANAGED compute environments.
-    In a managed compute environment, AWS Batch manages the compute resources within the environment, based on the compute resources that you specify. Instances launched into a managed compute environment use the latest Amazon ECS-optimized AMI. You can choose to use Amazon EC2 On-Demand instances in your managed compute environment, or you can use Amazon EC2 Spot instances that only launch when the Spot bid price is below a specified percentage of the On-Demand price.
-    In an unmanaged compute environment, you can manage your own compute resources. This provides more compute resource configuration options, such as using a custom AMI, but you must ensure that your AMI meets the Amazon ECS container instance AMI specification. For more information, see Container Instance AMIs in the Amazon EC2 Container Service Developer Guide . After you have created your unmanaged compute environment, you can use the  DescribeComputeEnvironments operation to find the Amazon ECS cluster that is associated with it and then manually launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS Container Instance in the Amazon EC2 Container Service Developer Guide .
+    In a managed compute environment, AWS Batch manages the compute resources within the environment, based on the compute resources that you specify. Instances launched into a managed compute environment use a recent, approved version of the Amazon ECS-optimized AMI. You can choose to use Amazon EC2 On-Demand Instances in your managed compute environment, or you can use Amazon EC2 Spot Instances that only launch when the Spot bid price is below a specified percentage of the On-Demand price.
+    In an unmanaged compute environment, you can manage your own compute resources. This provides more compute resource configuration options, such as using a custom AMI, but you must ensure that your AMI meets the Amazon ECS container instance AMI specification. For more information, see Container Instance AMIs in the Amazon Elastic Container Service Developer Guide . After you have created your unmanaged compute environment, you can use the  DescribeComputeEnvironments operation to find the Amazon ECS cluster that is associated with it and then manually launch your container instances into that Amazon ECS cluster. For more information, see Launching an Amazon ECS Container Instance in the Amazon Elastic Container Service Developer Guide .
     See also: AWS API Documentation
     
     Examples
@@ -120,7 +120,7 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
     
     :type computeEnvironmentName: string
     :param computeEnvironmentName: [REQUIRED]
-            The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, and underscores are allowed.
+            The name for your compute environment. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
             
 
     :type type: string
@@ -137,7 +137,7 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
             minvCpus (integer) -- [REQUIRED]The minimum number of EC2 vCPUs that an environment should maintain.
             maxvCpus (integer) -- [REQUIRED]The maximum number of EC2 vCPUs that an environment can reach.
             desiredvCpus (integer) --The desired number of EC2 vCPUS in the compute environment.
-            instanceTypes (list) -- [REQUIRED]The instances types that may launched.
+            instanceTypes (list) -- [REQUIRED]The instances types that may be launched. You can specify instance families to launch any instance type within those families (for example, c4 or p3 ), or you can specify specific sizes within a family (such as c4.8xlarge ). You can also choose optimal to pick instance types (from the latest C, M, and R instance families) on the fly that match the demand of your job queues.
             (string) --
             imageId (string) --The Amazon Machine Image (AMI) ID used for instances launched in the compute environment.
             subnets (list) -- [REQUIRED]The VPC subnets into which the compute resources are launched.
@@ -145,7 +145,7 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
             securityGroupIds (list) -- [REQUIRED]The EC2 security group that is associated with instances launched in the compute environment.
             (string) --
             ec2KeyPair (string) --The EC2 key pair that is used for instances launched in the compute environment.
-            instanceRole (string) -- [REQUIRED]The Amazon ECS instance role applied to Amazon EC2 instances in a compute environment.
+            instanceRole (string) -- [REQUIRED]The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example, ecsInstanceRole or arn:aws:iam::aws_account_id:instance-profile/ecsInstanceRole . For more information, see Amazon ECS Instance Role in the AWS Batch User Guide .
             tags (dict) --Key-value pair tags to be applied to resources that are launched in the compute environment.
             (string) --
             (string) --
@@ -157,6 +157,9 @@ def create_compute_environment(computeEnvironmentName=None, type=None, state=Non
     :type serviceRole: string
     :param serviceRole: [REQUIRED]
             The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf.
+            If your specified role has a path other than / , then you must either specify the full role ARN (this is recommended) or prefix the role name with the path.
+            Note
+            Depending on how you created your AWS Batch service role, its ARN may contain the service-role path prefix. When you only specify the name of the service role, AWS Batch assumes that your ARN does not use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
             
 
     :rtype: dict
@@ -204,12 +207,12 @@ def create_job_queue(jobQueueName=None, state=None, priority=None, computeEnviro
 
     :type priority: integer
     :param priority: [REQUIRED]
-            The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10 .
+            The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1 .
             
 
     :type computeEnvironmentOrder: list
     :param computeEnvironmentOrder: [REQUIRED]
-            The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to 3 compute environments with a job queue.
+            The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue.
             (dict) --The order in which compute environments are tried for job placement within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first.
             order (integer) -- [REQUIRED]The order of the compute environment.
             computeEnvironment (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the compute environment.
@@ -255,7 +258,7 @@ def delete_compute_environment(computeEnvironment=None):
 
 def delete_job_queue(jobQueue=None):
     """
-    Deletes the specified job queue. You must first disable submissions for a queue with the  UpdateJobQueue operation and terminate any jobs that have not completed with the  TerminateJob .
+    Deletes the specified job queue. You must first disable submissions for a queue with the  UpdateJobQueue operation. All jobs in the queue are terminated when you delete a job queue.
     It is not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
     See also: AWS API Documentation
     
@@ -480,6 +483,9 @@ def describe_job_definitions(jobDefinitions=None, maxResults=None, jobDefinition
                         },
                     ],
                     'user': 'string'
+                },
+                'timeout': {
+                    'attemptDurationSeconds': 123
                 }
             },
         ],
@@ -589,7 +595,8 @@ def describe_jobs(jobs=None):
                             'containerInstanceArn': 'string',
                             'taskArn': 'string',
                             'exitCode': 123,
-                            'reason': 'string'
+                            'reason': 'string',
+                            'logStreamName': 'string'
                         },
                         'startedAt': 123,
                         'stoppedAt': 123,
@@ -605,7 +612,8 @@ def describe_jobs(jobs=None):
                 'stoppedAt': 123,
                 'dependsOn': [
                     {
-                        'jobId': 'string'
+                        'jobId': 'string',
+                        'type': 'N_TO_N'|'SEQUENTIAL'
                     },
                 ],
                 'jobDefinition': 'string',
@@ -654,7 +662,18 @@ def describe_jobs(jobs=None):
                     'exitCode': 123,
                     'reason': 'string',
                     'containerInstanceArn': 'string',
-                    'taskArn': 'string'
+                    'taskArn': 'string',
+                    'logStreamName': 'string'
+                },
+                'arrayProperties': {
+                    'statusSummary': {
+                        'string': 123
+                    },
+                    'size': 123,
+                    'index': 123
+                },
+                'timeout': {
+                    'attemptDurationSeconds': 123
                 }
             },
         ]
@@ -714,9 +733,9 @@ def get_waiter():
     """
     pass
 
-def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
+def list_jobs(jobQueue=None, arrayJobId=None, jobStatus=None, maxResults=None, nextToken=None):
     """
-    Returns a list of task jobs for a specified job queue. You can filter the results by job status with the jobStatus parameter.
+    Returns a list of task jobs for a specified job queue. You can filter the results by job status with the jobStatus parameter. If you do not specify a status, only RUNNING jobs are returned.
     See also: AWS API Documentation
     
     Examples
@@ -727,6 +746,7 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
     
     :example: response = client.list_jobs(
         jobQueue='string',
+        arrayJobId='string',
         jobStatus='SUBMITTED'|'PENDING'|'RUNNABLE'|'STARTING'|'RUNNING'|'SUCCEEDED'|'FAILED',
         maxResults=123,
         nextToken='string'
@@ -734,12 +754,13 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
     
     
     :type jobQueue: string
-    :param jobQueue: [REQUIRED]
-            The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
-            
+    :param jobQueue: The name or full Amazon Resource Name (ARN) of the job queue with which to list jobs.
+
+    :type arrayJobId: string
+    :param arrayJobId: The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
 
     :type jobStatus: string
-    :param jobStatus: The job status with which to filter jobs in the specified queue.
+    :param jobStatus: The job status with which to filter jobs in the specified queue. If you do not specify a status, only RUNNING jobs are returned.
 
     :type maxResults: integer
     :param maxResults: The maximum number of results returned by ListJobs in paginated output. When this parameter is used, ListJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListJobs returns up to 100 results and a nextToken value if applicable.
@@ -755,7 +776,20 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
         'jobSummaryList': [
             {
                 'jobId': 'string',
-                'jobName': 'string'
+                'jobName': 'string',
+                'createdAt': 123,
+                'status': 'SUBMITTED'|'PENDING'|'RUNNABLE'|'STARTING'|'RUNNING'|'SUCCEEDED'|'FAILED',
+                'statusReason': 'string',
+                'startedAt': 123,
+                'stoppedAt': 123,
+                'container': {
+                    'exitCode': 123,
+                    'reason': 'string'
+                },
+                'arrayProperties': {
+                    'size': 123,
+                    'index': 123
+                }
             },
         ],
         'nextToken': 'string'
@@ -765,7 +799,7 @@ def list_jobs(jobQueue=None, jobStatus=None, maxResults=None, nextToken=None):
     """
     pass
 
-def register_job_definition(jobDefinitionName=None, type=None, parameters=None, containerProperties=None, retryStrategy=None):
+def register_job_definition(jobDefinitionName=None, type=None, parameters=None, containerProperties=None, retryStrategy=None, timeout=None):
     """
     Registers an AWS Batch job definition.
     See also: AWS API Documentation
@@ -822,13 +856,16 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
         },
         retryStrategy={
             'attempts': 123
+        },
+        timeout={
+            'attemptDurationSeconds': 123
         }
     )
     
     
     :type jobDefinitionName: string
     :param jobDefinitionName: [REQUIRED]
-            The name of the job definition to register.
+            The name of the job definition to register. Up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
             
 
     :type type: string
@@ -849,23 +886,27 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
             Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo ).
             Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent ).
             Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu ).
-            vcpus (integer) -- [REQUIRED]The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run . Each vCPU is equivalent to 1,024 CPU shares.
-            memory (integer) -- [REQUIRED]The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run .
+            vcpus (integer) -- [REQUIRED]The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run . Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
+            memory (integer) -- [REQUIRED]The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run . You must specify at least 4 MiB of memory for a job.
+            Note
+            If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide .
             command (list) --The command that is passed to the container. This parameter maps to Cmd in the Create a container section of the Docker Remote API and the COMMAND parameter to docker run . For more information, see https://docs.docker.com/engine/reference/builder/#cmd .
             (string) --
             jobRoleArn (string) --The Amazon Resource Name (ARN) of the IAM role that the container can assume for AWS permissions.
             volumes (list) --A list of data volumes used in a job.
             (dict) --A data volume used in a job's container properties.
-            host (dict) --The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume, but the data is not guaranteed to persist after the containers associated with it stop running.
+            host (dict) --The contents of the host parameter determine whether your data volume persists on the host container instance and where it is stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data is not guaranteed to persist after the containers associated with it stop running.
             sourcePath (string) --The path on the host container instance that is presented to the container. If this parameter is empty, then the Docker daemon has assigned a host path for you. If the host parameter contains a sourcePath file location, then the data volume persists at the specified location on the host container instance until you delete it manually. If the sourcePath value does not exist on the host container instance, the Docker daemon creates it. If the location does exist, the contents of the source path folder are exported.
             name (string) --The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints .
             
             environment (list) --The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run .
             Warning
-            We do not recommend using plain text environment variables for sensitive information, such as credential data.
+            We do not recommend using plaintext environment variables for sensitive information, such as credential data.
+            Note
+            Environment variables must not start with AWS_BATCH ; this naming convention is reserved for variables that are set by the AWS Batch service.
             (dict) --A key-value pair object.
-            name (string) --The name of the key value pair. For environment variables, this is the name of the environment variable.
-            value (string) --The value of the key value pair. For environment variables, this is the value of the environment variable.
+            name (string) --The name of the key-value pair. For environment variables, this is the name of the environment variable.
+            value (string) --The value of the key-value pair. For environment variables, this is the value of the environment variable.
             
             mountPoints (list) --The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run .
             (dict) --Details on a Docker volume mount point that is used in a job's container properties.
@@ -885,8 +926,13 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
             
 
     :type retryStrategy: dict
-    :param retryStrategy: The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here.
-            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+    :param retryStrategy: The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it is not retried.
+            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+            
+
+    :type timeout: dict
+    :param timeout: The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide .
+            attemptDurationSeconds (integer) --The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
             
 
     :rtype: dict
@@ -900,7 +946,7 @@ def register_job_definition(jobDefinitionName=None, type=None, parameters=None, 
     """
     pass
 
-def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, parameters=None, containerOverrides=None, retryStrategy=None):
+def submit_job(jobName=None, jobQueue=None, arrayProperties=None, dependsOn=None, jobDefinition=None, parameters=None, containerOverrides=None, retryStrategy=None, timeout=None):
     """
     Submits an AWS Batch job from a job definition. Parameters specified during  SubmitJob override parameters defined in the job definition.
     See also: AWS API Documentation
@@ -912,9 +958,13 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
     :example: response = client.submit_job(
         jobName='string',
         jobQueue='string',
+        arrayProperties={
+            'size': 123
+        },
         dependsOn=[
             {
-                'jobId': 'string'
+                'jobId': 'string',
+                'type': 'N_TO_N'|'SEQUENTIAL'
             },
         ],
         jobDefinition='string',
@@ -936,25 +986,33 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
         },
         retryStrategy={
             'attempts': 123
+        },
+        timeout={
+            'attemptDurationSeconds': 123
         }
     )
     
     
     :type jobName: string
     :param jobName: [REQUIRED]
-            The name of the job. A name must be 1 to 128 characters in length.
-            Pattern: ^[a-zA-Z0-9_]+$
+            The name of the job. The first character must be alphanumeric, and up to 128 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
             
 
     :type jobQueue: string
     :param jobQueue: [REQUIRED]
-            The job queue into which the job will be submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue.
+            The job queue into which the job is submitted. You can specify either the name or the Amazon Resource Name (ARN) of the queue.
+            
+
+    :type arrayProperties: dict
+    :param arrayProperties: The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the AWS Batch User Guide .
+            size (integer) --The size of the array job.
             
 
     :type dependsOn: list
-    :param dependsOn: A list of job IDs on which this job depends. A job can depend upon a maximum of 100 jobs.
+    :param dependsOn: A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs so that each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
             (dict) --An object representing an AWS Batch job dependency.
             jobId (string) --The job ID of the AWS Batch job associated with this dependency.
+            type (string) --The type of the job dependency.
             
             
 
@@ -976,15 +1034,22 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
             command (list) --The command to send to the container that overrides the default command from the Docker image or the job definition.
             (string) --
             environment (list) --The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition.
+            Note
+            Environment variables must not start with AWS_BATCH ; this naming convention is reserved for variables that are set by the AWS Batch service.
             (dict) --A key-value pair object.
-            name (string) --The name of the key value pair. For environment variables, this is the name of the environment variable.
-            value (string) --The value of the key value pair. For environment variables, this is the value of the environment variable.
+            name (string) --The name of the key-value pair. For environment variables, this is the name of the environment variable.
+            value (string) --The value of the key-value pair. For environment variables, this is the value of the environment variable.
             
             
 
     :type retryStrategy: dict
     :param retryStrategy: The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
-            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+            attempts (integer) --The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried if it fails until it has moved to RUNNABLE that many times.
+            
+
+    :type timeout: dict
+    :param timeout: The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide .
+            attemptDurationSeconds (integer) --The time duration in seconds (measured from the job attempt's startedAt timestamp) after which AWS Batch terminates your jobs if they have not finished.
             
 
     :rtype: dict
@@ -999,7 +1064,7 @@ def submit_job(jobName=None, jobQueue=None, dependsOn=None, jobDefinition=None, 
 
 def terminate_job(jobId=None, reason=None):
     """
-    Terminates jobs in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled.
+    Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED . Jobs that have not progressed to the STARTING state are cancelled.
     See also: AWS API Documentation
     
     Examples
@@ -1014,12 +1079,12 @@ def terminate_job(jobId=None, reason=None):
     
     :type jobId: string
     :param jobId: [REQUIRED]
-            Job IDs to be terminated. Up to 100 jobs can be specified.
+            The AWS Batch job ID of the job to terminate.
             
 
     :type reason: string
     :param reason: [REQUIRED]
-            A message to attach to the job that explains the reason for cancelling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
+            A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs.
             
 
     :rtype: dict
@@ -1069,7 +1134,11 @@ def update_compute_environment(computeEnvironment=None, state=None, computeResou
             
 
     :type serviceRole: string
-    :param serviceRole: The name or full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to ECS, Auto Scaling, and EC2 on your behalf.
+    :param serviceRole: The full Amazon Resource Name (ARN) of the IAM role that allows AWS Batch to make calls to other AWS services on your behalf.
+            If your specified role has a path other than / , then you must either specify the full role ARN (this is recommended) or prefix the role name with the path.
+            Note
+            Depending on how you created your AWS Batch service role, its ARN may contain the service-role path prefix. When you only specify the name of the service role, AWS Batch assumes that your ARN does not use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
+            
 
     :rtype: dict
     :return: {
@@ -1112,7 +1181,7 @@ def update_job_queue(jobQueue=None, state=None, priority=None, computeEnvironmen
     :param state: Describes the queue's ability to accept new jobs.
 
     :type priority: integer
-    :param priority: The priority of the job queue. Job queues with a higher priority (or a lower integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in ascending order, for example, a job queue with a priority value of 1 is given scheduling preference over a job queue with a priority value of 10 .
+    :param priority: The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1 .
 
     :type computeEnvironmentOrder: list
     :param computeEnvironmentOrder: Details the set of compute environments mapped to a job queue and their order relative to each other. This is one of the parameters used by the job scheduler to determine which compute environment should execute a given job.

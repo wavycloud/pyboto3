@@ -41,7 +41,7 @@ def can_paginate(operation_name=None):
 
 def cancel_key_deletion(KeyId=None):
     """
-    Cancels the deletion of a customer master key (CMK). When this operation is successful, the CMK is set to the Disabled state. To enable a CMK, use  EnableKey .
+    Cancels the deletion of a customer master key (CMK). When this operation is successful, the CMK is set to the Disabled state. To enable a CMK, use  EnableKey . You cannot perform this operation on a CMK in a different AWS account.
     For more information about scheduling and canceling deletion of a CMK, see Deleting Customer Master Keys in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
@@ -57,10 +57,11 @@ def cancel_key_deletion(KeyId=None):
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The unique identifier for the customer master key (CMK) for which to cancel deletion.
-            To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-            To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey .
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :rtype: dict
@@ -74,9 +75,12 @@ def cancel_key_deletion(KeyId=None):
 
 def create_alias(AliasName=None, TargetKeyId=None):
     """
-    Creates a display name for a customer master key. An alias can be used to identify a key and should be unique. The console enforces a one-to-one mapping between the alias and a key. An alias name can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). An alias must start with the word "alias" followed by a forward slash (alias/). An alias that begins with "aws" after the forward slash (alias/aws...) is reserved by Amazon Web Services (AWS).
-    The alias and the key it is mapped to must be in the same AWS account and the same region.
-    To map an alias to a different key, call  UpdateAlias .
+    Creates a display name for a customer master key (CMK). You can use an alias to identify a CMK in selected operations, such as  Encrypt and  GenerateDataKey .
+    Each CMK can have multiple aliases, but each alias points to only one CMK. The alias name must be unique in the AWS account and region. To simplify code that runs in multiple regions, use the same alias name, but point it to a different CMK in each region.
+    Because an alias is not a property of a CMK, you can delete and change the aliases of a CMK without affecting the CMK. Also, aliases do not appear in the response from the  DescribeKey operation. To get the aliases of all CMKs, use the  ListAliases operation.
+    An alias must start with the word alias followed by a forward slash (alias/ ). The alias name can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Alias names cannot begin with aws ; that alias name prefix is reserved by Amazon Web Services (AWS).
+    The alias and the CMK it is mapped to must be in the same AWS account and the same region. You cannot perform this operation on an alias in a different AWS account.
+    To map an existing alias to a different CMK, call  UpdateAlias .
     See also: AWS API Documentation
     
     Examples
@@ -96,9 +100,12 @@ def create_alias(AliasName=None, TargetKeyId=None):
 
     :type TargetKeyId: string
     :param TargetKeyId: [REQUIRED]
-            An identifier of the key for which you are creating the alias. This value cannot be another alias but can be a globally unique identifier or a fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            Identifies the CMK for which you are creating the alias. This value cannot be an alias.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.create_alias(
@@ -116,8 +123,8 @@ def create_alias(AliasName=None, TargetKeyId=None):
 
 def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Operations=None, Constraints=None, GrantTokens=None, Name=None):
     """
-    Adds a grant to a key to specify who can use the key and under what conditions. Grants are alternate permission mechanisms to key policies.
-    For more information about grants, see Grants in the AWS Key Management Service Developer Guide .
+    Adds a grant to a customer master key (CMK). The grant specifies who can use the CMK and under what conditions. When setting permissions, grants are an alternative to key policies.
+    To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter. For more information about grants, see Grants in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
     Examples
@@ -149,9 +156,11 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The unique identifier for the customer master key (CMK) that the grant applies to.
-            To specify this value, use the globally unique key ID or the Amazon Resource Name (ARN) of the key. Examples:
-            Globally unique key ID: 12345678-1234-1234-1234-123456789012
-            Key ARN: arn:aws:kms:us-west-2:123456789012:key/12345678-1234-1234-1234-123456789012
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type GranteePrincipal: string
@@ -166,7 +175,8 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
             
 
     :type Operations: list
-    :param Operations: A list of operations that the grant permits.
+    :param Operations: [REQUIRED]
+            A list of operations that the grant permits.
             (string) --
             
 
@@ -206,8 +216,9 @@ def create_grant(KeyId=None, GranteePrincipal=None, RetiringPrincipal=None, Oper
 
 def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, BypassPolicyLockoutSafetyCheck=None, Tags=None):
     """
-    Creates a customer master key (CMK).
+    Creates a customer master key (CMK) in the caller's AWS account.
     You can use a CMK to encrypt small amounts of data (4 KiB or less) directly, but CMKs are more commonly used to encrypt data encryption keys (DEKs), which are used to encrypt raw data. For more information about DEKs and the difference between CMKs and DEKs, see the following:
+    You cannot use this operation to create a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -231,11 +242,11 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     
     :type Policy: string
     :param Policy: The key policy to attach to the CMK.
-            If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
-            It must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
-            If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
-            The policy size limit is 32 KiB (32768 bytes).
+            If you provide a key policy, it must meet the following criteria:
+            If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide .
+            Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide .
+            If you do not provide a key policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
+            The key policy size limit is 32 kilobytes (32768 bytes).
             
 
     :type Description: string
@@ -257,7 +268,7 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     :type BypassPolicyLockoutSafetyCheck: boolean
     :param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
             Warning
-            Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
+            Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
@@ -267,6 +278,7 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     :param Tags: One or more tags. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
             Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using TagResource .
             (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+            For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide .
             TagKey (string) -- [REQUIRED]The key of the tag.
             TagValue (string) -- [REQUIRED]The value of the tag.
             
@@ -286,20 +298,21 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
             'DeletionDate': datetime(2015, 1, 1),
             'ValidTo': datetime(2015, 1, 1),
             'Origin': 'AWS_KMS'|'EXTERNAL',
-            'ExpirationModel': 'KEY_MATERIAL_EXPIRES'|'KEY_MATERIAL_DOES_NOT_EXPIRE'
+            'ExpirationModel': 'KEY_MATERIAL_EXPIRES'|'KEY_MATERIAL_DOES_NOT_EXPIRE',
+            'KeyManager': 'AWS'|'CUSTOMER'
         }
     }
     
     
     :returns: 
     Policy (string) -- The key policy to attach to the CMK.
-    If you specify a policy and do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
+    If you provide a key policy, it must meet the following criteria:
     
-    It must allow the principal that is making the CreateKey request to make a subsequent  PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-    The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
+    If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the CreateKey request to make a subsequent  PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide .
+    Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide .
     
-    If you do not specify a policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
-    The policy size limit is 32 KiB (32768 bytes).
+    If you do not provide a key policy, AWS KMS attaches a default key policy to the CMK. For more information, see Default Key Policy in the AWS Key Management Service Developer Guide .
+    The key policy size limit is 32 kilobytes (32768 bytes).
     
     Description (string) -- A description of the CMK.
     Use a description that helps you decide whether the CMK is appropriate for a task.
@@ -314,7 +327,7 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     BypassPolicyLockoutSafetyCheck (boolean) -- A flag to indicate whether to bypass the key policy lockout safety check.
     
     Warning
-    Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
+    Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
     For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
     
     Use this parameter only when you include a policy in the request and you intend to prevent the principal that is making the request from making a subsequent  PutKeyPolicy request on the CMK.
@@ -324,6 +337,7 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
     Use this parameter to tag the CMK when it is created. Alternately, you can omit this parameter and instead tag the CMK after it is created using  TagResource .
     
     (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+    For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide .
     
     TagKey (string) -- [REQUIRED]The key of the tag.
     
@@ -339,7 +353,7 @@ def create_key(Policy=None, Description=None, KeyUsage=None, Origin=None, Bypass
 
 def decrypt(CiphertextBlob=None, EncryptionContext=None, GrantTokens=None):
     """
-    Decrypts ciphertext. Ciphertext is plaintext that has been previously encrypted by using any of the following functions:
+    Decrypts ciphertext. Ciphertext is plaintext that has been previously encrypted by using any of the following operations:
     Note that if a caller has been granted access permissions to all keys (through, for example, IAM user policies that grant Decrypt permission on all resources), then ciphertext encrypted by using keys in other accounts where the key grants access to the caller can be decrypted. To remedy this, we recommend that you do not grant Decrypt access in an IAM user policy. Instead grant Decrypt access only in key policies. If you must grant Decrypt access in an IAM user policy, you should scope the resource to specific keys or to specific trusted accounts.
     See also: AWS API Documentation
     
@@ -406,7 +420,9 @@ def decrypt(CiphertextBlob=None, EncryptionContext=None, GrantTokens=None):
 
 def delete_alias(AliasName=None):
     """
-    Deletes the specified alias. To map an alias to a different key, call  UpdateAlias .
+    Deletes the specified alias. You cannot perform this operation on an alias in a different AWS account.
+    Because an alias is not a property of a CMK, you can delete and change the aliases of a CMK without affecting the CMK. Also, aliases do not appear in the response from the  DescribeKey operation. To get the aliases of all CMKs, use the  ListAliases operation.
+    Each CMK can have multiple aliases. To change the alias of a CMK, use  DeleteAlias to delete the current alias and  CreateAlias to create a new alias. To associate an existing alias with a different customer master key (CMK), call  UpdateAlias .
     See also: AWS API Documentation
     
     Examples
@@ -420,7 +436,7 @@ def delete_alias(AliasName=None):
     
     :type AliasName: string
     :param AliasName: [REQUIRED]
-            The alias to be deleted. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/AWS' are reserved.
+            The alias to be deleted. The name must start with the word 'alias' followed by a forward slash (alias/). Aliases that begin with 'alias/aws' are reserved.
             
 
     :return: response = client.delete_alias(
@@ -436,7 +452,7 @@ def delete_alias(AliasName=None):
 
 def delete_imported_key_material(KeyId=None):
     """
-    Deletes key material that you previously imported and makes the specified customer master key (CMK) unusable. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide .
+    Deletes key material that you previously imported. This operation makes the specified customer master key (CMK) unusable. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide . You cannot perform this operation on a CMK in a different AWS account.
     When the specified CMK is in the PendingDeletion state, this operation does not change the CMK's state. Otherwise, it changes the CMK's state to PendingImport .
     After you delete key material, you can use  ImportKeyMaterial to reimport the same key material into the CMK.
     See also: AWS API Documentation
@@ -453,9 +469,11 @@ def delete_imported_key_material(KeyId=None):
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The identifier of the CMK whose key material to delete. The CMK's Origin must be EXTERNAL .
-            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.delete_imported_key_material(
@@ -471,7 +489,8 @@ def delete_imported_key_material(KeyId=None):
 
 def describe_key(KeyId=None, GrantTokens=None):
     """
-    Provides detailed information about the specified customer master key.
+    Provides detailed information about the specified customer master key (CMK).
+    To perform this operation on a CMK in a different AWS account, specify the key ARN or alias ARN in the value of the KeyId parameter.
     See also: AWS API Documentation
     
     Examples
@@ -488,11 +507,14 @@ def describe_key(KeyId=None, GrantTokens=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            Alias Name Example - alias/MyAliasName
+            A unique identifier for the customer master key (CMK).
+            To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with 'alias/'. To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            Alias name: alias/ExampleAlias
+            Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases .
             
 
     :type GrantTokens: list
@@ -515,7 +537,8 @@ def describe_key(KeyId=None, GrantTokens=None):
             'DeletionDate': datetime(2015, 1, 1),
             'ValidTo': datetime(2015, 1, 1),
             'Origin': 'AWS_KMS'|'EXTERNAL',
-            'ExpirationModel': 'KEY_MATERIAL_EXPIRES'|'KEY_MATERIAL_DOES_NOT_EXPIRE'
+            'ExpirationModel': 'KEY_MATERIAL_EXPIRES'|'KEY_MATERIAL_DOES_NOT_EXPIRE',
+            'KeyManager': 'AWS'|'CUSTOMER'
         }
     }
     
@@ -525,7 +548,8 @@ def describe_key(KeyId=None, GrantTokens=None):
 
 def disable_key(KeyId=None):
     """
-    Sets the state of a customer master key (CMK) to disabled, thereby preventing its use for cryptographic operations. For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide .
+    Sets the state of a customer master key (CMK) to disabled, thereby preventing its use for cryptographic operations. You cannot perform this operation on a CMK in a different AWS account.
+    For more information about how key state affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
     Examples
@@ -539,10 +563,12 @@ def disable_key(KeyId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK.
-            Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:
-            Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-            ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.disable_key(
@@ -558,7 +584,7 @@ def disable_key(KeyId=None):
 
 def disable_key_rotation(KeyId=None):
     """
-    Disables rotation of the specified key.
+    Disables automatic rotation of the key material for the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -572,9 +598,12 @@ def disable_key_rotation(KeyId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.disable_key_rotation(
@@ -590,7 +619,7 @@ def disable_key_rotation(KeyId=None):
 
 def enable_key(KeyId=None):
     """
-    Marks a key as enabled, thereby permitting its use.
+    Sets the state of a customer master key (CMK) to enabled, thereby permitting its use for cryptographic operations. You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -604,9 +633,12 @@ def enable_key(KeyId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.enable_key(
@@ -622,7 +654,7 @@ def enable_key(KeyId=None):
 
 def enable_key_rotation(KeyId=None):
     """
-    Enables rotation of the specified customer master key.
+    Enables automatic rotation of the key material for the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -636,9 +668,12 @@ def enable_key_rotation(KeyId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :return: response = client.enable_key_rotation(
@@ -654,9 +689,10 @@ def enable_key_rotation(KeyId=None):
 
 def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None):
     """
-    Encrypts plaintext into ciphertext by using a customer master key. The Encrypt function has two primary use cases:
-    Unless you are moving encrypted data from one region to another, you don't use this function to encrypt a generated data key within a region. You retrieve data keys already encrypted by calling the  GenerateDataKey or  GenerateDataKeyWithoutPlaintext function. Data keys don't need to be encrypted again by calling Encrypt .
-    If you want to encrypt data locally in your application, you can use the GenerateDataKey function to return a plaintext data encryption key and a copy of the key encrypted under the customer master key (CMK) of your choosing.
+    Encrypts plaintext into ciphertext by using a customer master key (CMK). The Encrypt operation has two primary use cases:
+    To perform this operation on a CMK in a different AWS account, specify the key ARN or alias ARN in the value of the KeyId parameter.
+    Unless you are moving encrypted data from one region to another, you don't use this operation to encrypt a generated data key within a region. To get data keys that are already encrypted, call the  GenerateDataKey or  GenerateDataKeyWithoutPlaintext operation. Data keys don't need to be encrypted again by calling Encrypt .
+    To encrypt data locally in your application, use the  GenerateDataKey operation to return a plaintext data encryption key and a copy of the key encrypted under the CMK of your choosing.
     See also: AWS API Documentation
     
     Examples
@@ -677,11 +713,14 @@ def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            Alias Name Example - alias/MyAliasName
+            A unique identifier for the customer master key (CMK).
+            To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with 'alias/'. To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            Alias name: alias/ExampleAlias
+            Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases .
             
 
     :type Plaintext: bytes
@@ -710,13 +749,16 @@ def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None
     
     :returns: 
     KeyId (string) -- [REQUIRED]
-    A unique identifier for the customer master key. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".
+    A unique identifier for the customer master key (CMK).
+    To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+    For example:
     
-    Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-    Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-    Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-    Alias Name Example - alias/MyAliasName
+    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    Alias name: alias/ExampleAlias
+    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
     
+    To get the key ID and key ARN for a CMK, use  ListKeys or  DescribeKey . To get the alias name and alias ARN, use  ListAliases .
     
     Plaintext (bytes) -- [REQUIRED]
     Data to be encrypted.
@@ -742,7 +784,7 @@ def encrypt(KeyId=None, Plaintext=None, EncryptionContext=None, GrantTokens=None
 def generate_data_key(KeyId=None, EncryptionContext=None, NumberOfBytes=None, KeySpec=None, GrantTokens=None):
     """
     Returns a data encryption key that you can use in your application to encrypt data locally.
-    You must specify the customer master key (CMK) under which to generate the data key. You must also specify the length of the data key using either the KeySpec or NumberOfBytes field. You must specify one field or the other, but not both. For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use KeySpec .
+    You must specify the customer master key (CMK) under which to generate the data key. You must also specify the length of the data key using either the KeySpec or NumberOfBytes field. You must specify one field or the other, but not both. For common key lengths (128-bit and 256-bit symmetric keys), we recommend that you use KeySpec . To perform this operation on a CMK in a different AWS account, specify the key ARN or alias ARN in the value of the KeyId parameter.
     This operation returns a plaintext copy of the data key in the Plaintext field of the response, and an encrypted copy of the data key in the CiphertextBlob field. The data key is encrypted under the CMK specified in the KeyId field of the request.
     We recommend that you use the following pattern to encrypt data locally in your application:
     To decrypt data locally:
@@ -770,11 +812,13 @@ def generate_data_key(KeyId=None, EncryptionContext=None, NumberOfBytes=None, Ke
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The identifier of the CMK under which to generate and encrypt the data encryption key.
-            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that refers to the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-            CMK ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with 'alias/'. To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             Alias name: alias/ExampleAlias
             Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases .
             
 
     :type EncryptionContext: dict
@@ -814,6 +858,7 @@ def generate_data_key(KeyId=None, EncryptionContext=None, NumberOfBytes=None, Ke
 def generate_data_key_without_plaintext(KeyId=None, EncryptionContext=None, KeySpec=None, NumberOfBytes=None, GrantTokens=None):
     """
     Returns a data encryption key encrypted under a customer master key (CMK). This operation is identical to  GenerateDataKey but returns only the encrypted copy of the data key.
+    To perform this operation on a CMK in a different AWS account, specify the key ARN or alias ARN in the value of the KeyId parameter.
     This operation is useful in a system that has multiple components with different degrees of trust. For example, consider a system that stores encrypted data in containers. Each container stores the encrypted data and an encrypted copy of the data key. One component of the system, called the control plane , creates new containers. When it creates a new container, it uses this operation (GenerateDataKeyWithoutPlaintext ) to get an encrypted data key and then stores it in the container. Later, a different component of the system, called the data plane , puts encrypted data into the containers. To do this, it passes the encrypted data key to the  Decrypt operation, then uses the returned plaintext data key to encrypt data, and finally stores the encrypted data in the container. In this system, the control plane never sees the plaintext data key.
     See also: AWS API Documentation
     
@@ -836,12 +881,14 @@ def generate_data_key_without_plaintext(KeyId=None, EncryptionContext=None, KeyS
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            The identifier of the CMK under which to generate and encrypt the data encryption key.
-            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK, or the alias name or ARN of an alias that refers to the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-            CMK ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            The identifier of the customer master key (CMK) under which to generate and encrypt the data encryption key.
+            To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with 'alias/'. To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
             Alias name: alias/ExampleAlias
             Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases .
             
 
     :type EncryptionContext: dict
@@ -924,7 +971,7 @@ def generate_random(NumberOfBytes=None):
 
 def get_key_policy(KeyId=None, PolicyName=None):
     """
-    Retrieves a policy attached to the specified key.
+    Gets a key policy attached to the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -939,14 +986,17 @@ def get_key_policy(KeyId=None, PolicyName=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
-            String that contains the name of the policy. Currently, this must be 'default'. Policy names can be discovered by calling ListKeyPolicies .
+            Specifies the name of the key policy. The only valid name is default . To get the names of key policies, use ListKeyPolicies .
             
 
     :rtype: dict
@@ -960,7 +1010,8 @@ def get_key_policy(KeyId=None, PolicyName=None):
 
 def get_key_rotation_status(KeyId=None):
     """
-    Retrieves a Boolean value that indicates whether key rotation is enabled for the specified key.
+    Gets a Boolean value that indicates whether automatic rotation of the key material is enabled for the specified customer master key (CMK).
+    To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.
     See also: AWS API Documentation
     
     Examples
@@ -974,9 +1025,12 @@ def get_key_rotation_status(KeyId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :rtype: dict
@@ -1007,8 +1061,8 @@ def get_paginator(operation_name=None):
 def get_parameters_for_import(KeyId=None, WrappingAlgorithm=None, WrappingKeySpec=None):
     """
     Returns the items you need in order to import key material into AWS KMS from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide .
-    You must specify the key ID of the customer master key (CMK) into which you will import key material. This CMK's Origin must be EXTERNAL . You must also specify the wrapping algorithm and type of wrapping key (public key) that you will use to encrypt the key material.
-    This operation returns a public key and an import token. Use the public key to encrypt the key material. Store the import token to send with a subsequent  ImportKeyMaterial request. The public key and import token from the same response must be used together. These items are valid for 24 hours, after which they cannot be used for a subsequent  ImportKeyMaterial request. To retrieve new ones, send another GetParametersForImport request.
+    You must specify the key ID of the customer master key (CMK) into which you will import key material. This CMK's Origin must be EXTERNAL . You must also specify the wrapping algorithm and type of wrapping key (public key) that you will use to encrypt the key material. You cannot perform this operation on a CMK in a different AWS account.
+    This operation returns a public key and an import token. Use the public key to encrypt the key material. Store the import token to send with a subsequent  ImportKeyMaterial request. The public key and import token from the same response must be used together. These items are valid for 24 hours. When they expire, they cannot be used for a subsequent  ImportKeyMaterial request. To get new ones, send another GetParametersForImport request.
     See also: AWS API Documentation
     
     Examples
@@ -1025,9 +1079,11 @@ def get_parameters_for_import(KeyId=None, WrappingAlgorithm=None, WrappingKeySpe
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The identifier of the CMK into which you will import key material. The CMK's Origin must be EXTERNAL .
-            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type WrappingAlgorithm: string
@@ -1060,10 +1116,10 @@ def get_waiter():
 
 def import_key_material(KeyId=None, ImportToken=None, EncryptedKeyMaterial=None, ValidTo=None, ExpirationModel=None):
     """
-    Imports key material into an AWS KMS customer master key (CMK) from your existing key management infrastructure. For more information about importing key material into AWS KMS, see Importing Key Material in the AWS Key Management Service Developer Guide .
-    You must specify the key ID of the CMK to import the key material into. This CMK's Origin must be EXTERNAL . You must also send an import token and the encrypted key material. Send the import token that you received in the same  GetParametersForImport response that contained the public key that you used to encrypt the key material. You must also specify whether the key material expires and if so, when. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. To use the CMK again, you can reimport the same key material. If you set an expiration date, you can change it only by reimporting the same key material and specifying a new expiration date.
-    When this operation is successful, the specified CMK's key state changes to Enabled , and you can use the CMK.
-    After you successfully import key material into a CMK, you can reimport the same key material into that CMK, but you cannot import different key material.
+    Imports key material into an existing AWS KMS customer master key (CMK) that was created without key material. You cannot perform this operation on a CMK in a different AWS account. For more information about creating CMKs with no key material and then importing key material, see Importing Key Material in the AWS Key Management Service Developer Guide .
+    Before using this operation, call  GetParametersForImport . Its response includes a public key and an import token. Use the public key to encrypt the key material. Then, submit the import token from the same GetParametersForImport response.
+    When calling this operation, you must specify the following values:
+    When this operation is successful, the CMK's key state changes from PendingImport to Enabled , and you can use the CMK. After you successfully import key material into a CMK, you can reimport the same key material into that CMK, but you cannot import different key material.
     See also: AWS API Documentation
     
     Examples
@@ -1082,9 +1138,11 @@ def import_key_material(KeyId=None, ImportToken=None, EncryptedKeyMaterial=None,
     :type KeyId: string
     :param KeyId: [REQUIRED]
             The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL .
-            A valid identifier is the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type ImportToken: bytes
@@ -1108,14 +1166,32 @@ def import_key_material(KeyId=None, ImportToken=None, EncryptedKeyMaterial=None,
     
     
     :returns: 
-    (dict) --
+    KeyId (string) -- [REQUIRED]
+    The identifier of the CMK to import the key material into. The CMK's Origin must be EXTERNAL .
+    Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+    For example:
+    
+    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    
+    To get the key ID and key ARN for a CMK, use  ListKeys or  DescribeKey .
+    
+    ImportToken (bytes) -- [REQUIRED]
+    The import token that you received in the response to a previous  GetParametersForImport request. It must be from the same response that contained the public key that you used to encrypt the key material.
+    
+    EncryptedKeyMaterial (bytes) -- [REQUIRED]
+    The encrypted key material to import. It must be encrypted with the public key that you received in the response to a previous  GetParametersForImport request, using the wrapping algorithm that you specified in that request.
+    
+    ValidTo (datetime) -- The time at which the imported key material expires. When the key material expires, AWS KMS deletes the key material and the CMK becomes unusable. You must omit this parameter when the ExpirationModel parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE . Otherwise it is required.
+    ExpirationModel (string) -- Specifies whether the key material expires. The default is KEY_MATERIAL_EXPIRES , in which case you must include the ValidTo parameter. When this parameter is set to KEY_MATERIAL_DOES_NOT_EXPIRE , you must omit the ValidTo parameter.
     
     """
     pass
 
 def list_aliases(Limit=None, Marker=None):
     """
-    Lists all of the key aliases in the account.
+    Gets a list of all aliases in the caller's AWS account and region. You cannot list aliases in other accounts. For more information about aliases, see  CreateAlias .
+    The response might include several aliases that do not have a TargetKeyId field because they are not associated with a CMK. These are predefined aliases that are reserved for CMKs managed by AWS services. If an alias is not associated with a CMK, the alias does not count against the alias limit for your account.
     See also: AWS API Documentation
     
     Examples
@@ -1155,7 +1231,8 @@ def list_aliases(Limit=None, Marker=None):
 
 def list_grants(Limit=None, Marker=None, KeyId=None):
     """
-    List the grants for a specified key.
+    Gets a list of all grants for the specified customer master key (CMK).
+    To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.
     See also: AWS API Documentation
     
     Examples
@@ -1179,9 +1256,12 @@ def list_grants(Limit=None, Marker=None, KeyId=None):
 
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :rtype: dict
@@ -1221,7 +1301,7 @@ def list_grants(Limit=None, Marker=None, KeyId=None):
 
 def list_key_policies(KeyId=None, Limit=None, Marker=None):
     """
-    Retrieves a list of policies attached to a key.
+    Gets the names of the key policies that are attached to a customer master key (CMK). This operation is designed to get policy names that you can use in a  GetKeyPolicy operation. However, the only valid policy name is default . You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -1237,9 +1317,12 @@ def list_key_policies(KeyId=None, Limit=None, Marker=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key (CMK). You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type Limit: integer
@@ -1269,7 +1352,7 @@ def list_key_policies(KeyId=None, Limit=None, Marker=None):
 
 def list_keys(Limit=None, Marker=None):
     """
-    Lists the customer master keys.
+    Gets a list of all customer master keys (CMKs) in the caller's AWS account and region.
     See also: AWS API Documentation
     
     Examples
@@ -1309,6 +1392,7 @@ def list_keys(Limit=None, Marker=None):
 def list_resource_tags(KeyId=None, Limit=None, Marker=None):
     """
     Returns a list of all tags for the specified customer master key (CMK).
+    You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     
@@ -1321,9 +1405,12 @@ def list_resource_tags(KeyId=None, Limit=None, Marker=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK whose tags you are listing. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type Limit: integer
@@ -1420,16 +1507,13 @@ def list_retirable_grants(Limit=None, Marker=None, RetiringPrincipal=None):
 
 def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockoutSafetyCheck=None):
     """
-    Attaches a key policy to the specified customer master key (CMK).
+    Attaches a key policy to the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     For more information about key policies, see Key Policies in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
     Examples
     The following example attaches a key policy to the specified CMK.
-    "Version": "2012-10-17",
-    "Id": "custom-policy-2016-12-07",
-    "Statement": [
-    ]
+    Expected Output:
     
     :example: response = client.put_key_policy(
         KeyId='string',
@@ -1441,31 +1525,32 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK.
-            Use the CMK's unique identifier or its Amazon Resource Name (ARN). For example:
-            Unique ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-            ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type PolicyName: string
     :param PolicyName: [REQUIRED]
-            The name of the key policy.
-            This value must be default .
+            The name of the key policy. The only valid value is default .
             
 
     :type Policy: string
     :param Policy: [REQUIRED]
             The key policy to attach to the CMK.
-            If you do not set BypassPolicyLockoutSafetyCheck to true, the policy must meet the following criteria:
-            It must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the likelihood that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
-            The principals that are specified in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before specifying the new principal in a key policy because the new principal might not immediately be visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the IAM User Guide .
-            The policy size limit is 32 KiB (32768 bytes).
+            The key policy must meet the following criteria:
+            If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must allow the principal that is making the PutKeyPolicy request to make a subsequent PutKeyPolicy request on the CMK. This reduces the risk that the CMK becomes unmanageable. For more information, refer to the scenario in the Default Key Policy section of the AWS Key Management Service Developer Guide .
+            Each statement in the key policy must contain one or more principals. The principals in the key policy must exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM user or role), you might need to enforce a delay before including the new principal in a key policy because the new principal might not be immediately visible to AWS KMS. For more information, see Changes that I make are not always immediately visible in the AWS Identity and Access Management User Guide .
+            The key policy size limit is 32 kilobytes (32768 bytes).
             
 
     :type BypassPolicyLockoutSafetyCheck: boolean
     :param BypassPolicyLockoutSafetyCheck: A flag to indicate whether to bypass the key policy lockout safety check.
             Warning
-            Setting this value to true increases the likelihood that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
+            Setting this value to true increases the risk that the CMK becomes unmanageable. Do not set this value to true indiscriminately.
             For more information, refer to the scenario in the Default Key Policy section in the AWS Key Management Service Developer Guide .
             Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent PutKeyPolicy request on the CMK.
             The default value is false.
@@ -1475,7 +1560,12 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
         # The identifier of the CMK to attach the key policy to. You can use the key ID or the Amazon Resource Name (ARN) of the CMK.
         KeyId='1234abcd-12ab-34cd-56ef-1234567890ab',
         # The key policy document.
-        Policy='{
+        Policy='{\n    "Version": "2012-10-17",\n    "Id": "custom-policy-2016-12-07",\n    "Statement": [\n        {\n            "Sid": "Enable IAM User Permissions",\n            "Effect": "Allow",\n            "Principal": {\n                "AWS": "arn:aws:iam::111122223333:root"\n            },\n            "Action": "kms:*",\n            "Resource": "*"\n        },\n        {\n            "Sid": "Allow access for Key Administrators",\n            "Effect": "Allow",\n            "Principal": {\n                "AWS": [\n                    "arn:aws:iam::111122223333:user/ExampleAdminUser",\n                    "arn:aws:iam::111122223333:role/ExampleAdminRole"\n                ]\n            },\n            "Action": [\n                "kms:Create*",\n                "kms:Describe*",\n                "kms:Enable*",\n                "kms:List*",\n                "kms:Put*",\n                "kms:Update*",\n                "kms:Revoke*",\n                "kms:Disable*",\n                "kms:Get*",\n                "kms:Delete*",\n                "kms:ScheduleKeyDeletion",\n                "kms:CancelKeyDeletion"\n            ],\n            "Resource": "*"\n        },\n        {\n            "Sid": "Allow use of the key",\n            "Effect": "Allow",\n            "Principal": {\n                "AWS": "arn:aws:iam::111122223333:role/ExamplePowerUserRole"\n            },\n            "Action": [\n                "kms:Encrypt",\n                "kms:Decrypt",\n                "kms:ReEncrypt*",\n                "kms:GenerateDataKey*",\n                "kms:DescribeKey"\n            ],\n            "Resource": "*"\n        },\n        {\n            "Sid": "Allow attachment of persistent resources",\n            "Effect": "Allow",\n            "Principal": {\n                "AWS": "arn:aws:iam::111122223333:role/ExamplePowerUserRole"\n            },\n            "Action": [\n                "kms:CreateGrant",\n                "kms:ListGrants",\n                "kms:RevokeGrant"\n            ],\n            "Resource": "*",\n            "Condition": {\n                "Bool": {\n                    "kms:GrantIsForAWSResource": "true"\n                }\n            }\n        }\n    ]\n}\n',
+        # The name of the key policy.
+        PolicyName='default',
+    )
+    
+    print(response)
     
     
     """
@@ -1484,6 +1574,7 @@ def put_key_policy(KeyId=None, PolicyName=None, Policy=None, BypassPolicyLockout
 def re_encrypt(CiphertextBlob=None, SourceEncryptionContext=None, DestinationKeyId=None, DestinationEncryptionContext=None, GrantTokens=None):
     """
     Encrypts data on the server side with a new customer master key (CMK) without exposing the plaintext of the data on the client side. The data is first decrypted and then reencrypted. You can also use this operation to change the encryption context of a ciphertext.
+    You can reencrypt data using CMKs in different AWS accounts.
     Unlike other operations, ReEncrypt is authorized twice, once as ReEncryptFrom on the source CMK and once as ReEncryptTo on the destination CMK. We recommend that you include the "kms:ReEncrypt*" permission in your key policies to permit reencryption from or to the CMK. This permission is automatically included in the key policy when you create a CMK through the console, but you must include it manually when you create a CMK programmatically or when you set a key policy with the  PutKeyPolicy operation.
     See also: AWS API Documentation
     
@@ -1519,11 +1610,14 @@ def re_encrypt(CiphertextBlob=None, SourceEncryptionContext=None, DestinationKey
 
     :type DestinationKeyId: string
     :param DestinationKeyId: [REQUIRED]
-            A unique identifier for the CMK to use to reencrypt the data. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by 'alias/'.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Alias ARN Example - arn:aws:kms:us-east-1:123456789012:alias/MyAliasName
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            Alias Name Example - alias/MyAliasName
+            A unique identifier for the CMK that is used to reencrypt the data.
+            To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with 'alias/'. To specify a CMK in a different AWS account, you must use the key ARN or alias ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            Alias name: alias/ExampleAlias
+            Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey . To get the alias name and alias ARN, use ListAliases .
             
 
     :type DestinationEncryptionContext: dict
@@ -1570,8 +1664,8 @@ def retire_grant(GrantToken=None, KeyId=None, GrantId=None):
     :param GrantToken: Token that identifies the grant to be retired.
 
     :type KeyId: string
-    :param KeyId: The Amazon Resource Name of the CMK associated with the grant. Example:
-            arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    :param KeyId: The Amazon Resource Name (ARN) of the CMK associated with the grant.
+            For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
             
 
     :type GrantId: string
@@ -1591,10 +1685,8 @@ def retire_grant(GrantToken=None, KeyId=None, GrantId=None):
     
     :returns: 
     GrantToken (string) -- Token that identifies the grant to be retired.
-    KeyId (string) -- The Amazon Resource Name of the CMK associated with the grant. Example:
-    
-    arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
-    
+    KeyId (string) -- The Amazon Resource Name (ARN) of the CMK associated with the grant.
+    For example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
     
     GrantId (string) -- Unique identifier of the grant to retire. The grant ID is returned in the response to a CreateGrant operation.
     
@@ -1607,7 +1699,8 @@ def retire_grant(GrantToken=None, KeyId=None, GrantId=None):
 
 def revoke_grant(KeyId=None, GrantId=None):
     """
-    Revokes a grant. You can revoke a grant to actively deny operations that depend on it.
+    Revokes the specified grant for the specified customer master key (CMK). You can revoke a grant to actively deny operations that depend on it.
+    To perform this operation on a CMK in a different AWS account, specify the key ARN in the value of the KeyId parameter.
     See also: AWS API Documentation
     
     Examples
@@ -1622,9 +1715,12 @@ def revoke_grant(KeyId=None, GrantId=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the customer master key associated with the grant. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key associated with the grant.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you must use the key ARN.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type GrantId: string
@@ -1648,6 +1744,7 @@ def revoke_grant(KeyId=None, GrantId=None):
 def schedule_key_deletion(KeyId=None, PendingWindowInDays=None):
     """
     Schedules the deletion of a customer master key (CMK). You may provide a waiting period, specified in days, before deletion occurs. If you do not provide a waiting period, the default period of 30 days is used. When this operation is successful, the state of the CMK changes to PendingDeletion . Before the waiting period ends, you can use  CancelKeyDeletion to cancel the deletion of the CMK. After the waiting period ends, AWS KMS deletes the CMK and all AWS KMS data associated with it, including all aliases that refer to it.
+    You cannot perform this operation on a CMK in a different AWS account.
     For more information about scheduling a CMK for deletion, see Deleting Customer Master Keys in the AWS Key Management Service Developer Guide .
     See also: AWS API Documentation
     
@@ -1663,11 +1760,12 @@ def schedule_key_deletion(KeyId=None, PendingWindowInDays=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            The unique identifier for the customer master key (CMK) to delete.
-            To specify this value, use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            The unique identifier of the customer master key (CMK) to delete.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-            To obtain the unique key ID and key ARN for a given CMK, use ListKeys or DescribeKey .
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type PendingWindowInDays: integer
@@ -1687,9 +1785,10 @@ def schedule_key_deletion(KeyId=None, PendingWindowInDays=None):
 
 def tag_resource(KeyId=None, Tags=None):
     """
-    Adds or overwrites one or more tags for the specified customer master key (CMK).
+    Adds or overwrites one or more tags for the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
     You cannot use the same tag key more than once per CMK. For example, consider a CMK with one tag whose tag key is Purpose and tag value is Test . If you send a TagResource request for this CMK with a tag key of Purpose and a tag value of Prod , it does not create a second tag. Instead, the original tag is overwritten with the new tag value.
+    For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide .
     See also: AWS API Documentation
     
     
@@ -1706,15 +1805,19 @@ def tag_resource(KeyId=None, Tags=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK you are tagging. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the CMK you are tagging.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type Tags: list
     :param Tags: [REQUIRED]
             One or more tags. Each tag consists of a tag key and a tag value.
             (dict) --A key-value pair. A tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty (null) strings.
+            For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide .
             TagKey (string) -- [REQUIRED]The key of the tag.
             TagValue (string) -- [REQUIRED]The value of the tag.
             
@@ -1725,7 +1828,7 @@ def tag_resource(KeyId=None, Tags=None):
 
 def untag_resource(KeyId=None, TagKeys=None):
     """
-    Removes the specified tag or tags from the specified customer master key (CMK).
+    Removes the specified tag or tags from the specified customer master key (CMK). You cannot perform this operation on a CMK in a different AWS account.
     To remove a tag, you specify the tag key for each tag to remove. You do not specify the tag value. To overwrite the tag value for an existing tag, use  TagResource .
     See also: AWS API Documentation
     
@@ -1740,9 +1843,12 @@ def untag_resource(KeyId=None, TagKeys=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK from which you are removing tags. You can use the unique key ID or the Amazon Resource Name (ARN) of the CMK. Examples:
-            Unique key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            A unique identifier for the CMK from which you are removing tags.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
             Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type TagKeys: list
@@ -1756,10 +1862,10 @@ def untag_resource(KeyId=None, TagKeys=None):
 
 def update_alias(AliasName=None, TargetKeyId=None):
     """
-    Updates an alias to map it to a different key.
-    An alias is not a property of a key. Therefore, an alias can be mapped to and unmapped from an existing key without changing the properties of the key.
-    An alias name can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). An alias must start with the word "alias" followed by a forward slash (alias/). An alias that begins with "aws" after the forward slash (alias/aws...) is reserved by Amazon Web Services (AWS).
-    The alias and the key it is mapped to must be in the same AWS account and the same region.
+    Associates an existing alias with a different customer master key (CMK). Each CMK can have multiple aliases, but the aliases must be unique within the account and region. You cannot perform this operation on an alias in a different AWS account.
+    This operation works only on existing aliases. To change the alias of a CMK to a new value, use  CreateAlias to create a new alias and  DeleteAlias to delete the old alias.
+    Because an alias is not a property of a CMK, you can create, update, and delete the aliases of a CMK without affecting the CMK. Also, aliases do not appear in the response from the  DescribeKey operation. To get the aliases of all CMKs in the account, use the  ListAliases operation.
+    An alias name can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). An alias must start with the word alias followed by a forward slash (alias/ ). The alias name can contain only alphanumeric characters, forward slashes (/), underscores (_), and dashes (-). Alias names cannot begin with aws ; that alias name prefix is reserved by Amazon Web Services (AWS).
     See also: AWS API Documentation
     
     Examples
@@ -1779,10 +1885,13 @@ def update_alias(AliasName=None, TargetKeyId=None):
 
     :type TargetKeyId: string
     :param TargetKeyId: [REQUIRED]
-            Unique identifier of the customer master key to be mapped to the alias. This value can be a globally unique identifier or the fully specified ARN of a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
-            You can call ListAliases to verify that the alias is mapped to the correct TargetKeyId .
+            Unique identifier of the customer master key to be mapped to the alias.
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
+            To verify that the alias is mapped to the correct CMK, use ListAliases .
             
 
     :return: response = client.update_alias(
@@ -1800,7 +1909,8 @@ def update_alias(AliasName=None, TargetKeyId=None):
 
 def update_key_description(KeyId=None, Description=None):
     """
-    Updates the description of a customer master key (CMK).
+    Updates the description of a customer master key (CMK). To see the decription of a CMK, use  DescribeKey .
+    You cannot perform this operation on a CMK in a different AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -1815,9 +1925,12 @@ def update_key_description(KeyId=None, Description=None):
     
     :type KeyId: string
     :param KeyId: [REQUIRED]
-            A unique identifier for the CMK. This value can be a globally unique identifier or the fully specified ARN to a key.
-            Key ARN Example - arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012
-            Globally Unique Key ID Example - 12345678-1234-1234-1234-123456789012
+            A unique identifier for the customer master key (CMK).
+            Specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+            For example:
+            Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+            Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+            To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey .
             
 
     :type Description: string

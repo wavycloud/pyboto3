@@ -237,7 +237,7 @@ def copy_object(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=Non
         MetadataDirective='COPY'|'REPLACE',
         TaggingDirective='COPY'|'REPLACE',
         ServerSideEncryption='AES256'|'aws:kms',
-        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         WebsiteRedirectLocation='string',
         SSECustomerAlgorithm='string',
         SSECustomerKey='string',
@@ -450,7 +450,7 @@ def create_bucket(ACL=None, Bucket=None, CreateBucketConfiguration=None, GrantFu
     """
     pass
 
-def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentType=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None):
+def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDisposition=None, ContentEncoding=None, ContentLanguage=None, ContentType=None, Expires=None, GrantFullControl=None, GrantRead=None, GrantReadACP=None, GrantWriteACP=None, Key=None, Metadata=None, ServerSideEncryption=None, StorageClass=None, WebsiteRedirectLocation=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, SSEKMSKeyId=None, RequestPayer=None, Tagging=None):
     """
     Initiates a multipart upload and returns an upload ID.
     Note: After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
@@ -475,12 +475,13 @@ def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDis
             'string': 'string'
         },
         ServerSideEncryption='AES256'|'aws:kms',
-        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         WebsiteRedirectLocation='string',
         SSECustomerAlgorithm='string',
         SSECustomerKey='string',
         SSEKMSKeyId='string',
-        RequestPayer='requester'
+        RequestPayer='requester',
+        Tagging='string'
     )
     
     
@@ -552,6 +553,9 @@ def create_multipart_upload(ACL=None, Bucket=None, CacheControl=None, ContentDis
 
     :type RequestPayer: string
     :param RequestPayer: Confirms that the requester knows that she or he will be charged for the request. Bucket owners need not specify this parameter in their requests. Documentation on downloading objects from requester pays buckets can be found at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
+
+    :type Tagging: string
+    :param Tagging: The tag-set for the object. The tag-set must be encoded as URL Query parameters
 
     :rtype: dict
     :return: {
@@ -637,6 +641,23 @@ def delete_bucket_cors(Bucket=None):
     
     :type Bucket: string
     :param Bucket: [REQUIRED]
+
+    """
+    pass
+
+def delete_bucket_encryption(Bucket=None):
+    """
+    Deletes the server-side encryption configuration from the bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_bucket_encryption(
+        Bucket='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket containing the server-side encryption configuration to delete.
 
     """
     pass
@@ -1282,6 +1303,38 @@ def get_bucket_cors(Bucket=None):
     """
     pass
 
+def get_bucket_encryption(Bucket=None):
+    """
+    Returns the server-side encryption configuration of a bucket.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_bucket_encryption(
+        Bucket='string'
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket from which the server-side encryption configuration is retrieved.
+
+    :rtype: dict
+    :return: {
+        'ServerSideEncryptionConfiguration': {
+            'Rules': [
+                {
+                    'ApplyServerSideEncryptionByDefault': {
+                        'SSEAlgorithm': 'AES256'|'aws:kms',
+                        'KMSMasterKeyID': 'string'
+                    }
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_bucket_inventory_configuration(Bucket=None, Id=None):
     """
     Returns an inventory configuration (identified by the inventory ID) from the bucket.
@@ -1307,8 +1360,14 @@ def get_bucket_inventory_configuration(Bucket=None, Id=None):
                 'S3BucketDestination': {
                     'AccountId': 'string',
                     'Bucket': 'string',
-                    'Format': 'CSV',
-                    'Prefix': 'string'
+                    'Format': 'CSV'|'ORC',
+                    'Prefix': 'string',
+                    'Encryption': {
+                        'SSES3': {},
+                        'SSEKMS': {
+                            'KeyId': 'string'
+                        }
+                    }
                 }
             },
             'IsEnabled': True|False,
@@ -1318,7 +1377,7 @@ def get_bucket_inventory_configuration(Bucket=None, Id=None):
             'Id': 'string',
             'IncludedObjectVersions': 'All'|'Current',
             'OptionalFields': [
-                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus'|'EncryptionStatus',
             ],
             'Schedule': {
                 'Frequency': 'Daily'|'Weekly'
@@ -1336,6 +1395,14 @@ def get_bucket_inventory_configuration(Bucket=None, Id=None):
     Bucket (string) -- The Amazon resource name (ARN) of the bucket where inventory results will be published.
     Format (string) -- Specifies the output format of the inventory results.
     Prefix (string) -- The prefix that is prepended to all inventory results.
+    Encryption (dict) -- Contains the type of server-side encryption used to encrypt the inventory results.
+    SSES3 (dict) -- Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+    SSEKMS (dict) -- Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+    KeyId (string) -- Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
+    
+    
+    
+    
     
     
     
@@ -1392,11 +1459,11 @@ def get_bucket_lifecycle(Bucket=None):
                 'Transition': {
                     'Date': datetime(2015, 1, 1),
                     'Days': 123,
-                    'StorageClass': 'GLACIER'|'STANDARD_IA'
+                    'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                 },
                 'NoncurrentVersionTransition': {
                     'NoncurrentDays': 123,
-                    'StorageClass': 'GLACIER'|'STANDARD_IA'
+                    'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                 },
                 'NoncurrentVersionExpiration': {
                     'NoncurrentDays': 123
@@ -1458,13 +1525,13 @@ def get_bucket_lifecycle_configuration(Bucket=None):
                     {
                         'Date': datetime(2015, 1, 1),
                         'Days': 123,
-                        'StorageClass': 'GLACIER'|'STANDARD_IA'
+                        'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                     },
                 ],
                 'NoncurrentVersionTransitions': [
                     {
                         'NoncurrentDays': 123,
-                        'StorageClass': 'GLACIER'|'STANDARD_IA'
+                        'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                     },
                 ],
                 'NoncurrentVersionExpiration': {
@@ -1789,9 +1856,21 @@ def get_bucket_replication(Bucket=None):
                     'ID': 'string',
                     'Prefix': 'string',
                     'Status': 'Enabled'|'Disabled',
+                    'SourceSelectionCriteria': {
+                        'SseKmsEncryptedObjects': {
+                            'Status': 'Enabled'|'Disabled'
+                        }
+                    },
                     'Destination': {
                         'Bucket': 'string',
-                        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'
+                        'Account': 'string',
+                        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
+                        'AccessControlTranslation': {
+                            'Owner': 'Destination'
+                        },
+                        'EncryptionConfiguration': {
+                            'ReplicaKmsKeyID': 'string'
+                        }
                     }
                 },
             ]
@@ -2036,7 +2115,7 @@ def get_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=None
         'SSECustomerAlgorithm': 'string',
         'SSECustomerKeyMD5': 'string',
         'SSEKMSKeyId': 'string',
-        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         'RequestCharged': 'requester',
         'ReplicationStatus': 'COMPLETE'|'PENDING'|'FAILED'|'REPLICA',
         'PartsCount': 123,
@@ -2378,7 +2457,7 @@ def head_object(Bucket=None, IfMatch=None, IfModifiedSince=None, IfNoneMatch=Non
         'SSECustomerAlgorithm': 'string',
         'SSECustomerKeyMD5': 'string',
         'SSEKMSKeyId': 'string',
-        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         'RequestCharged': 'requester',
         'ReplicationStatus': 'COMPLETE'|'PENDING'|'FAILED'|'REPLICA',
         'PartsCount': 123
@@ -2567,8 +2646,14 @@ def list_bucket_inventory_configurations(Bucket=None, ContinuationToken=None):
                     'S3BucketDestination': {
                         'AccountId': 'string',
                         'Bucket': 'string',
-                        'Format': 'CSV',
-                        'Prefix': 'string'
+                        'Format': 'CSV'|'ORC',
+                        'Prefix': 'string',
+                        'Encryption': {
+                            'SSES3': {},
+                            'SSEKMS': {
+                                'KeyId': 'string'
+                            }
+                        }
                     }
                 },
                 'IsEnabled': True|False,
@@ -2578,7 +2663,7 @@ def list_bucket_inventory_configurations(Bucket=None, ContinuationToken=None):
                 'Id': 'string',
                 'IncludedObjectVersions': 'All'|'Current',
                 'OptionalFields': [
-                    'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+                    'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus'|'EncryptionStatus',
                 ],
                 'Schedule': {
                     'Frequency': 'Daily'|'Weekly'
@@ -2601,6 +2686,14 @@ def list_bucket_inventory_configurations(Bucket=None, ContinuationToken=None):
     Bucket (string) -- The Amazon resource name (ARN) of the bucket where inventory results will be published.
     Format (string) -- Specifies the output format of the inventory results.
     Prefix (string) -- The prefix that is prepended to all inventory results.
+    Encryption (dict) -- Contains the type of server-side encryption used to encrypt the inventory results.
+    SSES3 (dict) -- Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+    SSEKMS (dict) -- Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+    KeyId (string) -- Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
+    
+    
+    
+    
     
     
     
@@ -2799,7 +2892,7 @@ def list_multipart_uploads(Bucket=None, Delimiter=None, EncodingType=None, KeyMa
                 'UploadId': 'string',
                 'Key': 'string',
                 'Initiated': datetime(2015, 1, 1),
-                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
                 'Owner': {
                     'DisplayName': 'string',
                     'ID': 'string'
@@ -3056,7 +3149,7 @@ def list_objects(Bucket=None, Delimiter=None, EncodingType=None, Marker=None, Ma
                 'LastModified': datetime(2015, 1, 1),
                 'ETag': 'string',
                 'Size': 123,
-                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'GLACIER',
+                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'GLACIER'|'STANDARD_IA'|'ONEZONE_IA',
                 'Owner': {
                     'DisplayName': 'string',
                     'ID': 'string'
@@ -3170,7 +3263,7 @@ def list_objects_v2(Bucket=None, Delimiter=None, EncodingType=None, MaxKeys=None
                 'LastModified': datetime(2015, 1, 1),
                 'ETag': 'string',
                 'Size': 123,
-                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'GLACIER',
+                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'GLACIER'|'STANDARD_IA'|'ONEZONE_IA',
                 'Owner': {
                     'DisplayName': 'string',
                     'ID': 'string'
@@ -3296,7 +3389,7 @@ def list_parts(Bucket=None, Key=None, MaxParts=None, PartNumberMarker=None, Uplo
             'DisplayName': 'string',
             'ID': 'string'
         },
-        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         'RequestCharged': 'requester'
     }
     
@@ -3576,6 +3669,47 @@ def put_bucket_cors(Bucket=None, CORSConfiguration=None):
     """
     pass
 
+def put_bucket_encryption(Bucket=None, ContentMD5=None, ServerSideEncryptionConfiguration=None):
+    """
+    Creates a new server-side encryption configuration (or replaces an existing one, if present).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_bucket_encryption(
+        Bucket='string',
+        ContentMD5='string',
+        ServerSideEncryptionConfiguration={
+            'Rules': [
+                {
+                    'ApplyServerSideEncryptionByDefault': {
+                        'SSEAlgorithm': 'AES256'|'aws:kms',
+                        'KMSMasterKeyID': 'string'
+                    }
+                },
+            ]
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The name of the bucket for which the server-side encryption configuration is set.
+
+    :type ContentMD5: string
+    :param ContentMD5: The base64-encoded 128-bit MD5 digest of the server-side encryption configuration.
+
+    :type ServerSideEncryptionConfiguration: dict
+    :param ServerSideEncryptionConfiguration: [REQUIRED] Container for server-side encryption configuration rules. Currently S3 supports one rule only.
+            Rules (list) -- [REQUIRED] Container for information about a particular server-side encryption configuration rule.
+            (dict) -- Container for information about a particular server-side encryption configuration rule.
+            ApplyServerSideEncryptionByDefault (dict) -- Describes the default server-side encryption to apply to new objects in the bucket. If Put Object request does not specify any server-side encryption, this default encryption will be applied.
+            SSEAlgorithm (string) -- [REQUIRED] Server-side encryption algorithm to use for the default encryption.
+            KMSMasterKeyID (string) -- KMS master key ID to use for the default encryption. This parameter is allowed if SSEAlgorithm is aws:kms.
+            
+            
+
+    """
+    pass
+
 def put_bucket_inventory_configuration(Bucket=None, Id=None, InventoryConfiguration=None):
     """
     Adds an inventory configuration (identified by the inventory ID) from the bucket.
@@ -3590,8 +3724,15 @@ def put_bucket_inventory_configuration(Bucket=None, Id=None, InventoryConfigurat
                 'S3BucketDestination': {
                     'AccountId': 'string',
                     'Bucket': 'string',
-                    'Format': 'CSV',
-                    'Prefix': 'string'
+                    'Format': 'CSV'|'ORC',
+                    'Prefix': 'string',
+                    'Encryption': {
+                        'SSES3': {}
+                        ,
+                        'SSEKMS': {
+                            'KeyId': 'string'
+                        }
+                    }
                 }
             },
             'IsEnabled': True|False,
@@ -3601,7 +3742,7 @@ def put_bucket_inventory_configuration(Bucket=None, Id=None, InventoryConfigurat
             'Id': 'string',
             'IncludedObjectVersions': 'All'|'Current',
             'OptionalFields': [
-                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus',
+                'Size'|'LastModifiedDate'|'StorageClass'|'ETag'|'IsMultipartUploaded'|'ReplicationStatus'|'EncryptionStatus',
             ],
             'Schedule': {
                 'Frequency': 'Daily'|'Weekly'
@@ -3624,6 +3765,11 @@ def put_bucket_inventory_configuration(Bucket=None, Id=None, InventoryConfigurat
             Bucket (string) -- [REQUIRED] The Amazon resource name (ARN) of the bucket where inventory results will be published.
             Format (string) -- [REQUIRED] Specifies the output format of the inventory results.
             Prefix (string) -- The prefix that is prepended to all inventory results.
+            Encryption (dict) -- Contains the type of server-side encryption used to encrypt the inventory results.
+            SSES3 (dict) -- Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+            SSEKMS (dict) -- Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+            KeyId (string) -- [REQUIRED] Specifies the ID of the AWS Key Management Service (KMS) master encryption key to use for encrypting Inventory reports.
+            
             
             IsEnabled (boolean) -- [REQUIRED] Specifies whether the inventory is enabled or disabled.
             Filter (dict) -- Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
@@ -3661,11 +3807,11 @@ def put_bucket_lifecycle(Bucket=None, LifecycleConfiguration=None):
                     'Transition': {
                         'Date': datetime(2015, 1, 1),
                         'Days': 123,
-                        'StorageClass': 'GLACIER'|'STANDARD_IA'
+                        'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                     },
                     'NoncurrentVersionTransition': {
                         'NoncurrentDays': 123,
-                        'StorageClass': 'GLACIER'|'STANDARD_IA'
+                        'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                     },
                     'NoncurrentVersionExpiration': {
                         'NoncurrentDays': 123
@@ -3697,7 +3843,7 @@ def put_bucket_lifecycle(Bucket=None, LifecycleConfiguration=None):
             Date (datetime) -- Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
             Days (integer) -- Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
             StorageClass (string) -- The class of storage used to store the object.
-            NoncurrentVersionTransition (dict) -- Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA or GLACIER storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA or GLACIER storage class at a specific period in the object's lifetime.
+            NoncurrentVersionTransition (dict) -- Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA, ONEZONE_IA or GLACIER storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA, ONEZONE_IA or GLACIER storage class at a specific period in the object's lifetime.
             NoncurrentDays (integer) -- Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
             StorageClass (string) -- The class of storage used to store the object.
             NoncurrentVersionExpiration (dict) -- Specifies when noncurrent object versions expire. Upon expiration, Amazon S3 permanently deletes the noncurrent object versions. You set this lifecycle configuration action on a bucket that has versioning enabled (or suspended) to request that Amazon S3 delete noncurrent object versions at a specific period in the object's lifetime.
@@ -3749,13 +3895,13 @@ def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None)
                         {
                             'Date': datetime(2015, 1, 1),
                             'Days': 123,
-                            'StorageClass': 'GLACIER'|'STANDARD_IA'
+                            'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                         },
                     ],
                     'NoncurrentVersionTransitions': [
                         {
                             'NoncurrentDays': 123,
-                            'StorageClass': 'GLACIER'|'STANDARD_IA'
+                            'StorageClass': 'GLACIER'|'STANDARD_IA'|'ONEZONE_IA'
                         },
                     ],
                     'NoncurrentVersionExpiration': {
@@ -3804,7 +3950,7 @@ def put_bucket_lifecycle_configuration(Bucket=None, LifecycleConfiguration=None)
             StorageClass (string) -- The class of storage used to store the object.
             
             NoncurrentVersionTransitions (list) --
-            (dict) -- Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA or GLACIER storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA or GLACIER storage class at a specific period in the object's lifetime.
+            (dict) -- Container for the transition rule that describes when noncurrent objects transition to the STANDARD_IA, ONEZONE_IA or GLACIER storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA, ONEZONE_IA or GLACIER storage class at a specific period in the object's lifetime.
             NoncurrentDays (integer) -- Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
             StorageClass (string) -- The class of storage used to store the object.
             
@@ -3853,8 +3999,8 @@ def put_bucket_logging(Bucket=None, BucketLoggingStatus=None):
 
     :type BucketLoggingStatus: dict
     :param BucketLoggingStatus: [REQUIRED]
-            LoggingEnabled (dict) --
-            TargetBucket (string) -- Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
+            LoggingEnabled (dict) -- Container for logging information. Presence of this element indicates that logging is enabled. Parameters TargetBucket and TargetPrefix are required in this case.
+            TargetBucket (string) -- [REQUIRED] Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
             TargetGrants (list) --
             (dict) --
             Grantee (dict) --
@@ -3865,7 +4011,7 @@ def put_bucket_logging(Bucket=None, BucketLoggingStatus=None):
             URI (string) -- URI of the grantee group.
             Permission (string) -- Logging permissions assigned to the Grantee for the bucket.
             
-            TargetPrefix (string) -- This element lets you specify a prefix for the keys that the log files will be stored under.
+            TargetPrefix (string) -- [REQUIRED] This element lets you specify a prefix for the keys that the log files will be stored under.
             
 
     """
@@ -4121,7 +4267,7 @@ def put_bucket_notification_configuration(Bucket=None, NotificationConfiguration
     """
     pass
 
-def put_bucket_policy(Bucket=None, Policy=None):
+def put_bucket_policy(Bucket=None, ConfirmRemoveSelfBucketAccess=None, Policy=None):
     """
     Replaces a policy on a bucket. If the bucket already has a policy, the one in this request completely replaces it.
     See also: AWS API Documentation
@@ -4129,12 +4275,16 @@ def put_bucket_policy(Bucket=None, Policy=None):
     
     :example: response = client.put_bucket_policy(
         Bucket='string',
+        ConfirmRemoveSelfBucketAccess=True|False,
         Policy='string'
     )
     
     
     :type Bucket: string
     :param Bucket: [REQUIRED]
+
+    :type ConfirmRemoveSelfBucketAccess: boolean
+    :param ConfirmRemoveSelfBucketAccess: Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
 
     :type Policy: string
     :param Policy: [REQUIRED] The bucket policy as a JSON document.
@@ -4157,9 +4307,21 @@ def put_bucket_replication(Bucket=None, ReplicationConfiguration=None):
                     'ID': 'string',
                     'Prefix': 'string',
                     'Status': 'Enabled'|'Disabled',
+                    'SourceSelectionCriteria': {
+                        'SseKmsEncryptedObjects': {
+                            'Status': 'Enabled'|'Disabled'
+                        }
+                    },
                     'Destination': {
                         'Bucket': 'string',
-                        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'
+                        'Account': 'string',
+                        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
+                        'AccessControlTranslation': {
+                            'Owner': 'Destination'
+                        },
+                        'EncryptionConfiguration': {
+                            'ReplicaKmsKeyID': 'string'
+                        }
                     }
                 },
             ]
@@ -4174,13 +4336,23 @@ def put_bucket_replication(Bucket=None, ReplicationConfiguration=None):
     :param ReplicationConfiguration: [REQUIRED] Container for replication rules. You can add as many as 1,000 rules. Total replication configuration size can be up to 2 MB.
             Role (string) -- [REQUIRED] Amazon Resource Name (ARN) of an IAM role for Amazon S3 to assume when replicating the objects.
             Rules (list) -- [REQUIRED] Container for information about a particular replication rule. Replication configuration must have at least one rule and can contain up to 1,000 rules.
-            (dict) --
+            (dict) -- Container for information about a particular replication rule.
             ID (string) -- Unique identifier for the rule. The value cannot be longer than 255 characters.
             Prefix (string) -- [REQUIRED] Object keyname prefix identifying one or more objects to which the rule applies. Maximum prefix length can be up to 1,024 characters. Overlapping prefixes are not supported.
             Status (string) -- [REQUIRED] The rule is ignored if status is not Enabled.
-            Destination (dict) -- [REQUIRED]
+            SourceSelectionCriteria (dict) -- Container for filters that define which source objects should be replicated.
+            SseKmsEncryptedObjects (dict) -- Container for filter information of selection of KMS Encrypted S3 objects.
+            Status (string) -- [REQUIRED] The replication for KMS encrypted S3 objects is disabled if status is not Enabled.
+            
+            Destination (dict) -- [REQUIRED] Container for replication destination information.
             Bucket (string) -- [REQUIRED] Amazon resource name (ARN) of the bucket where you want Amazon S3 to store replicas of the object identified by the rule.
+            Account (string) -- Account ID of the destination bucket. Currently this is only being verified if Access Control Translation is enabled
             StorageClass (string) -- The class of storage used to store the object.
+            AccessControlTranslation (dict) -- Container for information regarding the access control for replicas.
+            Owner (string) -- [REQUIRED] The override value for the owner of the replica object.
+            EncryptionConfiguration (dict) -- Container for information regarding encryption based configuration for replicas.
+            ReplicaKmsKeyID (string) -- The id of the KMS key used to encrypt the replica object.
+            
             
             
 
@@ -4371,7 +4543,7 @@ def put_object(ACL=None, Body=None, Bucket=None, CacheControl=None, ContentDispo
             'string': 'string'
         },
         ServerSideEncryption='AES256'|'aws:kms',
-        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA',
+        StorageClass='STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA',
         WebsiteRedirectLocation='string',
         SSECustomerAlgorithm='string',
         SSECustomerKey='string',
@@ -4663,6 +4835,78 @@ def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, R
             'Days': 123,
             'GlacierJobParameters': {
                 'Tier': 'Standard'|'Bulk'|'Expedited'
+            },
+            'Type': 'SELECT',
+            'Tier': 'Standard'|'Bulk'|'Expedited',
+            'Description': 'string',
+            'SelectParameters': {
+                'InputSerialization': {
+                    'CSV': {
+                        'FileHeaderInfo': 'USE'|'IGNORE'|'NONE',
+                        'Comments': 'string',
+                        'QuoteEscapeCharacter': 'string',
+                        'RecordDelimiter': 'string',
+                        'FieldDelimiter': 'string',
+                        'QuoteCharacter': 'string'
+                    },
+                    'CompressionType': 'NONE'|'GZIP',
+                    'JSON': {
+                        'Type': 'DOCUMENT'|'LINES'
+                    }
+                },
+                'ExpressionType': 'SQL',
+                'Expression': 'string',
+                'OutputSerialization': {
+                    'CSV': {
+                        'QuoteFields': 'ALWAYS'|'ASNEEDED',
+                        'QuoteEscapeCharacter': 'string',
+                        'RecordDelimiter': 'string',
+                        'FieldDelimiter': 'string',
+                        'QuoteCharacter': 'string'
+                    },
+                    'JSON': {
+                        'RecordDelimiter': 'string'
+                    }
+                }
+            },
+            'OutputLocation': {
+                'S3': {
+                    'BucketName': 'string',
+                    'Prefix': 'string',
+                    'Encryption': {
+                        'EncryptionType': 'AES256'|'aws:kms',
+                        'KMSKeyId': 'string',
+                        'KMSContext': 'string'
+                    },
+                    'CannedACL': 'private'|'public-read'|'public-read-write'|'authenticated-read'|'aws-exec-read'|'bucket-owner-read'|'bucket-owner-full-control',
+                    'AccessControlList': [
+                        {
+                            'Grantee': {
+                                'DisplayName': 'string',
+                                'EmailAddress': 'string',
+                                'ID': 'string',
+                                'Type': 'CanonicalUser'|'AmazonCustomerByEmail'|'Group',
+                                'URI': 'string'
+                            },
+                            'Permission': 'FULL_CONTROL'|'WRITE'|'WRITE_ACP'|'READ'|'READ_ACP'
+                        },
+                    ],
+                    'Tagging': {
+                        'TagSet': [
+                            {
+                                'Key': 'string',
+                                'Value': 'string'
+                            },
+                        ]
+                    },
+                    'UserMetadata': [
+                        {
+                            'Name': 'string',
+                            'Value': 'string'
+                        },
+                    ],
+                    'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'|'ONEZONE_IA'
+                }
             }
         },
         RequestPayer='requester'
@@ -4679,10 +4923,70 @@ def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, R
     :param VersionId: 
 
     :type RestoreRequest: dict
-    :param RestoreRequest: 
-            Days (integer) -- [REQUIRED] Lifetime of the active copy in days
-            GlacierJobParameters (dict) -- Glacier related prameters pertaining to this job.
+    :param RestoreRequest: Container for restore job parameters.
+            Days (integer) -- Lifetime of the active copy in days. Do not use with restores that specify OutputLocation.
+            GlacierJobParameters (dict) -- Glacier related parameters pertaining to this job. Do not use with restores that specify OutputLocation.
             Tier (string) -- [REQUIRED] Glacier retrieval tier at which the restore will be processed.
+            Type (string) -- Type of restore request.
+            Tier (string) -- Glacier retrieval tier at which the restore will be processed.
+            Description (string) -- The optional description for the job.
+            SelectParameters (dict) -- Describes the parameters for Select job types.
+            InputSerialization (dict) -- [REQUIRED] Describes the serialization format of the object.
+            CSV (dict) -- Describes the serialization of a CSV-encoded object.
+            FileHeaderInfo (string) -- Describes the first line of input. Valid values: None, Ignore, Use.
+            Comments (string) -- Single character used to indicate a row should be ignored when present at the start of a row.
+            QuoteEscapeCharacter (string) -- Single character used for escaping the quote character inside an already escaped value.
+            RecordDelimiter (string) -- Value used to separate individual records.
+            FieldDelimiter (string) -- Value used to separate individual fields in a record.
+            QuoteCharacter (string) -- Value used for escaping where the field delimiter is part of the value.
+            CompressionType (string) -- Specifies object's compression format. Valid values: NONE, GZIP. Default Value: NONE.
+            JSON (dict) -- Specifies JSON as object's input serialization format.
+            Type (string) -- The type of JSON. Valid values: Document, Lines.
+            
+            ExpressionType (string) -- [REQUIRED] The type of the provided expression (e.g., SQL).
+            Expression (string) -- [REQUIRED] The expression that is used to query the object.
+            OutputSerialization (dict) -- [REQUIRED] Describes how the results of the Select job are serialized.
+            CSV (dict) -- Describes the serialization of CSV-encoded Select results.
+            QuoteFields (string) -- Indicates whether or not all output fields should be quoted.
+            QuoteEscapeCharacter (string) -- Single character used for escaping the quote character inside an already escaped value.
+            RecordDelimiter (string) -- Value used to separate individual records.
+            FieldDelimiter (string) -- Value used to separate individual fields in a record.
+            QuoteCharacter (string) -- Value used for escaping where the field delimiter is part of the value.
+            JSON (dict) -- Specifies JSON as request's output serialization format.
+            RecordDelimiter (string) -- The value used to separate individual records in the output.
+            
+            OutputLocation (dict) -- Describes the location where the restore job's output is stored.
+            S3 (dict) -- Describes an S3 location that will receive the results of the restore request.
+            BucketName (string) -- [REQUIRED] The name of the bucket where the restore results will be placed.
+            Prefix (string) -- [REQUIRED] The prefix that is prepended to the restore results for this request.
+            Encryption (dict) -- Describes the server-side encryption that will be applied to the restore results.
+            EncryptionType (string) -- [REQUIRED] The server-side encryption algorithm used when storing job results in Amazon S3 (e.g., AES256, aws:kms).
+            KMSKeyId (string) -- If the encryption type is aws:kms, this optional value specifies the AWS KMS key ID to use for encryption of job results.
+            KMSContext (string) -- If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
+            CannedACL (string) -- The canned ACL to apply to the restore results.
+            AccessControlList (list) -- A list of grants that control access to the staged results.
+            (dict) --
+            Grantee (dict) --
+            DisplayName (string) -- Screen name of the grantee.
+            EmailAddress (string) -- Email address of the grantee.
+            ID (string) -- The canonical user ID of the grantee.
+            Type (string) -- [REQUIRED] Type of grantee
+            URI (string) -- URI of the grantee group.
+            Permission (string) -- Specifies the permission given to the grantee.
+            
+            Tagging (dict) -- The tag-set that is applied to the restore results.
+            TagSet (list) -- [REQUIRED]
+            (dict) --
+            Key (string) -- [REQUIRED] Name of the tag.
+            Value (string) -- [REQUIRED] Value of the tag.
+            
+            UserMetadata (list) -- A list of metadata to store with the restore results in S3.
+            (dict) -- A metadata key-value pair to store with an object.
+            Name (string) --
+            Value (string) --
+            
+            StorageClass (string) -- The class of storage used to store the restore results.
+            
             
 
     :type RequestPayer: string
@@ -4690,13 +4994,169 @@ def restore_object(Bucket=None, Key=None, VersionId=None, RestoreRequest=None, R
 
     :rtype: dict
     :return: {
-        'RequestCharged': 'requester'
+        'RequestCharged': 'requester',
+        'RestoreOutputPath': 'string'
     }
     
     
     :returns: 
     (dict) --
     RequestCharged (string) -- If present, indicates that the requester was successfully charged for the request.
+    RestoreOutputPath (string) -- Indicates the path in the provided S3 output location where Select results will be restored to.
+    
+    
+    
+    """
+    pass
+
+def select_object_content(Bucket=None, Key=None, SSECustomerAlgorithm=None, SSECustomerKey=None, SSECustomerKeyMD5=None, Expression=None, ExpressionType=None, RequestProgress=None, InputSerialization=None, OutputSerialization=None):
+    """
+    This operation filters the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must also specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records, and returns only records that match the specified SQL expression. You must also specify the data serialization format for the response.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.select_object_content(
+        Bucket='string',
+        Key='string',
+        SSECustomerAlgorithm='string',
+        SSECustomerKey='string',
+        Expression='string',
+        ExpressionType='SQL',
+        RequestProgress={
+            'Enabled': True|False
+        },
+        InputSerialization={
+            'CSV': {
+                'FileHeaderInfo': 'USE'|'IGNORE'|'NONE',
+                'Comments': 'string',
+                'QuoteEscapeCharacter': 'string',
+                'RecordDelimiter': 'string',
+                'FieldDelimiter': 'string',
+                'QuoteCharacter': 'string'
+            },
+            'CompressionType': 'NONE'|'GZIP',
+            'JSON': {
+                'Type': 'DOCUMENT'|'LINES'
+            }
+        },
+        OutputSerialization={
+            'CSV': {
+                'QuoteFields': 'ALWAYS'|'ASNEEDED',
+                'QuoteEscapeCharacter': 'string',
+                'RecordDelimiter': 'string',
+                'FieldDelimiter': 'string',
+                'QuoteCharacter': 'string'
+            },
+            'JSON': {
+                'RecordDelimiter': 'string'
+            }
+        }
+    )
+    
+    
+    :type Bucket: string
+    :param Bucket: [REQUIRED] The S3 Bucket.
+
+    :type Key: string
+    :param Key: [REQUIRED] The Object Key.
+
+    :type SSECustomerAlgorithm: string
+    :param SSECustomerAlgorithm: The SSE Algorithm used to encrypt the object. For more information, go to Server-Side Encryption (Using Customer-Provided Encryption Keys .
+
+    :type SSECustomerKey: string
+    :param SSECustomerKey: The SSE Customer Key. For more information, go to Server-Side Encryption (Using Customer-Provided Encryption Keys .
+
+    :type SSECustomerKeyMD5: string
+    :param SSECustomerKeyMD5: The SSE Customer Key MD5. For more information, go to Server-Side Encryption (Using Customer-Provided Encryption Keys .   Please note that this parameter is automatically populated if it is not provided. Including this parameter is not required
+
+    :type Expression: string
+    :param Expression: [REQUIRED] The expression that is used to query the object.
+
+    :type ExpressionType: string
+    :param ExpressionType: [REQUIRED] The type of the provided expression (e.g., SQL).
+
+    :type RequestProgress: dict
+    :param RequestProgress: Specifies if periodic request progress information should be enabled.
+            Enabled (boolean) -- Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
+            
+
+    :type InputSerialization: dict
+    :param InputSerialization: [REQUIRED] Describes the format of the data in the object that is being queried.
+            CSV (dict) -- Describes the serialization of a CSV-encoded object.
+            FileHeaderInfo (string) -- Describes the first line of input. Valid values: None, Ignore, Use.
+            Comments (string) -- Single character used to indicate a row should be ignored when present at the start of a row.
+            QuoteEscapeCharacter (string) -- Single character used for escaping the quote character inside an already escaped value.
+            RecordDelimiter (string) -- Value used to separate individual records.
+            FieldDelimiter (string) -- Value used to separate individual fields in a record.
+            QuoteCharacter (string) -- Value used for escaping where the field delimiter is part of the value.
+            CompressionType (string) -- Specifies object's compression format. Valid values: NONE, GZIP. Default Value: NONE.
+            JSON (dict) -- Specifies JSON as object's input serialization format.
+            Type (string) -- The type of JSON. Valid values: Document, Lines.
+            
+
+    :type OutputSerialization: dict
+    :param OutputSerialization: [REQUIRED] Describes the format of the data that you want Amazon S3 to return in response.
+            CSV (dict) -- Describes the serialization of CSV-encoded Select results.
+            QuoteFields (string) -- Indicates whether or not all output fields should be quoted.
+            QuoteEscapeCharacter (string) -- Single character used for escaping the quote character inside an already escaped value.
+            RecordDelimiter (string) -- Value used to separate individual records.
+            FieldDelimiter (string) -- Value used to separate individual fields in a record.
+            QuoteCharacter (string) -- Value used for escaping where the field delimiter is part of the value.
+            JSON (dict) -- Specifies JSON as request's output serialization format.
+            RecordDelimiter (string) -- The value used to separate individual records in the output.
+            
+
+    :rtype: dict
+    :return: {
+        'Payload': EventStream({
+            'Records': {
+                'Payload': b'bytes'
+            },
+            'Stats': {
+                'Details': {
+                    'BytesScanned': 123,
+                    'BytesProcessed': 123
+                }
+            },
+            'Progress': {
+                'Details': {
+                    'BytesScanned': 123,
+                    'BytesProcessed': 123
+                }
+            },
+            'Cont': {},
+            'End': {}
+        })
+    }
+    
+    
+    :returns: 
+    (dict) --
+    Payload (EventStream) --
+    Records (dict) -- The Records Event.
+    Payload (bytes) -- The byte array of partial, one or more result records.
+    
+    
+    Stats (dict) -- The Stats Event.
+    Details (dict) -- The Stats event details.
+    BytesScanned (integer) -- Total number of object bytes scanned.
+    BytesProcessed (integer) -- Total number of uncompressed object bytes processed.
+    
+    
+    
+    
+    Progress (dict) -- The Progress Event.
+    Details (dict) -- The Progress event details.
+    BytesScanned (integer) -- Current number of object bytes scanned.
+    BytesProcessed (integer) -- Current number of uncompressed object bytes processed.
+    
+    
+    
+    
+    Cont (dict) -- The Continuation Event.
+    End (dict) -- The End Event.
+    
+    
     
     
     

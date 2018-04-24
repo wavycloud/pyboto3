@@ -359,7 +359,7 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     :param RequestItems: [REQUIRED]
             A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest ). Each element in the map consists of the following:
             DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
-            Key - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
+            Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
             PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:
             Item - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a ValidationException exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
             
@@ -582,7 +582,7 @@ def batch_write_item(RequestItems=None, ReturnConsumedCapacity=None, ReturnItemC
     A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest ). Each element in the map consists of the following:
     
     DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
-    Key - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
+    Key - A map of primary key attribute values that uniquely identify the item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide all of the key attributes. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide values for both the partition key and the sort key.
     
     
     PutRequest - Perform a PutItem operation on the specified item. The item to be put is identified by an Item subelement:
@@ -796,7 +796,123 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None, GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None):
+def create_backup(TableName=None, BackupName=None):
+    """
+    Creates a backup for an existing table.
+    Each time you create an On-Demand Backup, the entire table data is backed up. There is no limit to the number of on-demand backups that can be taken.
+    When you create an On-Demand Backup, a time marker of the request is cataloged, and the backup is created asynchronously, by applying all changes until the time of the request to the last full table snapshot. Backup requests are processed instantaneously and become available for restore within minutes.
+    You can call CreateBackup at a maximum rate of 50 times per second.
+    All backups in DynamoDB work without consuming any provisioned throughput on the table.
+    If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to contain all data committed to the table up to 14:24:00, and data committed after 14:26:00 will not be. The backup may or may not contain data modifications made between 14:24:00 and 14:26:00. On-Demand Backup does not support causal consistency.
+    Along with data, the following are also included on the backups:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_backup(
+        TableName='string',
+        BackupName='string'
+    )
+    
+    
+    :type TableName: string
+    :param TableName: [REQUIRED]
+            The name of the table.
+            
+
+    :type BackupName: string
+    :param BackupName: [REQUIRED]
+            Specified name for the backup.
+            
+
+    :rtype: dict
+    :return: {
+        'BackupDetails': {
+            'BackupArn': 'string',
+            'BackupName': 'string',
+            'BackupSizeBytes': 123,
+            'BackupStatus': 'CREATING'|'DELETED'|'AVAILABLE',
+            'BackupCreationDateTime': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    :returns: 
+    TableName (string) -- [REQUIRED]
+    The name of the table.
+    
+    BackupName (string) -- [REQUIRED]
+    Specified name for the backup.
+    
+    
+    """
+    pass
+
+def create_global_table(GlobalTableName=None, ReplicationGroup=None):
+    """
+    Creates a global table from an existing table. A global table creates a replication relationship between two or more DynamoDB tables with the same table name in the provided regions.
+    Tables can only be added as the replicas of a global table group under the following conditions:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_global_table(
+        GlobalTableName='string',
+        ReplicationGroup=[
+            {
+                'RegionName': 'string'
+            },
+        ]
+    )
+    
+    
+    :type GlobalTableName: string
+    :param GlobalTableName: [REQUIRED]
+            The global table name.
+            
+
+    :type ReplicationGroup: list
+    :param ReplicationGroup: [REQUIRED]
+            The regions where the global table needs to be created.
+            (dict) --Represents the properties of a replica.
+            RegionName (string) --The region where the replica needs to be created.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'GlobalTableDescription': {
+            'ReplicationGroup': [
+                {
+                    'RegionName': 'string'
+                },
+            ],
+            'GlobalTableArn': 'string',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'GlobalTableStatus': 'CREATING'|'ACTIVE'|'DELETING'|'UPDATING',
+            'GlobalTableName': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    GlobalTableName (string) -- [REQUIRED]
+    The global table name.
+    
+    ReplicationGroup (list) -- [REQUIRED]
+    The regions where the global table needs to be created.
+    
+    (dict) --Represents the properties of a replica.
+    
+    RegionName (string) --The region where the replica needs to be created.
+    
+    
+    
+    
+    
+    
+    """
+    pass
+
+def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, LocalSecondaryIndexes=None, GlobalSecondaryIndexes=None, ProvisionedThroughput=None, StreamSpecification=None, SSESpecification=None):
     """
     The CreateTable operation adds a new table to your account. In an AWS account, table names must be unique within each region. That is, you can have two tables with same name if you create the tables in different regions.
     You can optionally define secondary indexes on the new table, as part of the CreateTable operation. If you want to create multiple tables with secondary indexes on them, you must create the tables sequentially. Only one table with secondary indexes can be in the CREATING state at any given time.
@@ -866,6 +982,9 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
         StreamSpecification={
             'StreamEnabled': True|False,
             'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+        },
+        SSESpecification={
+            'Enabled': True|False
         }
     )
     
@@ -1028,6 +1147,11 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
             
 
+    :type SSESpecification: dict
+    :param SSESpecification: Represents the settings used to enable server-side encryption.
+            Enabled (boolean) -- [REQUIRED]Indicates whether server-side encryption is enabled (true) or disabled (false) on the table.
+            
+
     :rtype: dict
     :return: {
         'TableDescription': {
@@ -1056,6 +1180,7 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
             'TableSizeBytes': 123,
             'ItemCount': 123,
             'TableArn': 'string',
+            'TableId': 'string',
             'LocalSecondaryIndexes': [
                 {
                     'IndexName': 'string',
@@ -1110,7 +1235,16 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
                 'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
             },
             'LatestStreamLabel': 'string',
-            'LatestStreamArn': 'string'
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
         }
     }
     
@@ -1118,6 +1252,113 @@ def create_table(AttributeDefinitions=None, TableName=None, KeySchema=None, Loca
     :returns: 
     AttributeName - The name of the attribute.
     AttributeType - The data type for the attribute.
+    
+    """
+    pass
+
+def delete_backup(BackupArn=None):
+    """
+    Deletes an existing backup of a table.
+    You can call DeleteBackup at a maximum rate of 10 times per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_backup(
+        BackupArn='string'
+    )
+    
+    
+    :type BackupArn: string
+    :param BackupArn: [REQUIRED]
+            The ARN associated with the backup.
+            
+
+    :rtype: dict
+    :return: {
+        'BackupDescription': {
+            'BackupDetails': {
+                'BackupArn': 'string',
+                'BackupName': 'string',
+                'BackupSizeBytes': 123,
+                'BackupStatus': 'CREATING'|'DELETED'|'AVAILABLE',
+                'BackupCreationDateTime': datetime(2015, 1, 1)
+            },
+            'SourceTableDetails': {
+                'TableName': 'string',
+                'TableId': 'string',
+                'TableArn': 'string',
+                'TableSizeBytes': 123,
+                'KeySchema': [
+                    {
+                        'AttributeName': 'string',
+                        'KeyType': 'HASH'|'RANGE'
+                    },
+                ],
+                'TableCreationDateTime': datetime(2015, 1, 1),
+                'ProvisionedThroughput': {
+                    'ReadCapacityUnits': 123,
+                    'WriteCapacityUnits': 123
+                },
+                'ItemCount': 123
+            },
+            'SourceTableFeatureDetails': {
+                'LocalSecondaryIndexes': [
+                    {
+                        'IndexName': 'string',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'string',
+                                'KeyType': 'HASH'|'RANGE'
+                            },
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                            'NonKeyAttributes': [
+                                'string',
+                            ]
+                        }
+                    },
+                ],
+                'GlobalSecondaryIndexes': [
+                    {
+                        'IndexName': 'string',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'string',
+                                'KeyType': 'HASH'|'RANGE'
+                            },
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                            'NonKeyAttributes': [
+                                'string',
+                            ]
+                        },
+                        'ProvisionedThroughput': {
+                            'ReadCapacityUnits': 123,
+                            'WriteCapacityUnits': 123
+                        }
+                    },
+                ],
+                'StreamDescription': {
+                    'StreamEnabled': True|False,
+                    'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+                },
+                'TimeToLiveDescription': {
+                    'TimeToLiveStatus': 'ENABLING'|'DISABLING'|'ENABLED'|'DISABLED',
+                    'AttributeName': 'string'
+                },
+                'SSEDescription': {
+                    'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    HASH - partition key
+    RANGE - sort key
     
     """
     pass
@@ -1297,7 +1538,7 @@ def delete_item(TableName=None, Key=None, Expected=None, ConditionalOperator=Non
             
 
     :type Expected: dict
-    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
+    :param Expected: This is a legacy parameter. Use ConditionExpression instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
@@ -1640,6 +1881,7 @@ def delete_table(TableName=None):
             'TableSizeBytes': 123,
             'ItemCount': 123,
             'TableArn': 'string',
+            'TableId': 'string',
             'LocalSecondaryIndexes': [
                 {
                     'IndexName': 'string',
@@ -1694,7 +1936,16 @@ def delete_table(TableName=None):
                 'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
             },
             'LatestStreamLabel': 'string',
-            'LatestStreamArn': 'string'
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
         }
     }
     
@@ -1703,6 +1954,182 @@ def delete_table(TableName=None):
     S - the attribute is of type String
     N - the attribute is of type Number
     B - the attribute is of type Binary
+    
+    """
+    pass
+
+def describe_backup(BackupArn=None):
+    """
+    Describes an existing backup of a table.
+    You can call DescribeBackup at a maximum rate of 10 times per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_backup(
+        BackupArn='string'
+    )
+    
+    
+    :type BackupArn: string
+    :param BackupArn: [REQUIRED]
+            The ARN associated with the backup.
+            
+
+    :rtype: dict
+    :return: {
+        'BackupDescription': {
+            'BackupDetails': {
+                'BackupArn': 'string',
+                'BackupName': 'string',
+                'BackupSizeBytes': 123,
+                'BackupStatus': 'CREATING'|'DELETED'|'AVAILABLE',
+                'BackupCreationDateTime': datetime(2015, 1, 1)
+            },
+            'SourceTableDetails': {
+                'TableName': 'string',
+                'TableId': 'string',
+                'TableArn': 'string',
+                'TableSizeBytes': 123,
+                'KeySchema': [
+                    {
+                        'AttributeName': 'string',
+                        'KeyType': 'HASH'|'RANGE'
+                    },
+                ],
+                'TableCreationDateTime': datetime(2015, 1, 1),
+                'ProvisionedThroughput': {
+                    'ReadCapacityUnits': 123,
+                    'WriteCapacityUnits': 123
+                },
+                'ItemCount': 123
+            },
+            'SourceTableFeatureDetails': {
+                'LocalSecondaryIndexes': [
+                    {
+                        'IndexName': 'string',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'string',
+                                'KeyType': 'HASH'|'RANGE'
+                            },
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                            'NonKeyAttributes': [
+                                'string',
+                            ]
+                        }
+                    },
+                ],
+                'GlobalSecondaryIndexes': [
+                    {
+                        'IndexName': 'string',
+                        'KeySchema': [
+                            {
+                                'AttributeName': 'string',
+                                'KeyType': 'HASH'|'RANGE'
+                            },
+                        ],
+                        'Projection': {
+                            'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                            'NonKeyAttributes': [
+                                'string',
+                            ]
+                        },
+                        'ProvisionedThroughput': {
+                            'ReadCapacityUnits': 123,
+                            'WriteCapacityUnits': 123
+                        }
+                    },
+                ],
+                'StreamDescription': {
+                    'StreamEnabled': True|False,
+                    'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+                },
+                'TimeToLiveDescription': {
+                    'TimeToLiveStatus': 'ENABLING'|'DISABLING'|'ENABLED'|'DISABLED',
+                    'AttributeName': 'string'
+                },
+                'SSEDescription': {
+                    'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+                }
+            }
+        }
+    }
+    
+    
+    :returns: 
+    HASH - partition key
+    RANGE - sort key
+    
+    """
+    pass
+
+def describe_continuous_backups(TableName=None):
+    """
+    Checks the status of continuous backups and point in time recovery on the specified table. Continuous backups are ENABLED on all tables at table creation. If point in time recovery is enabled, PointInTimeRecoveryStatus will be set to ENABLED.
+    Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime .
+    You can call DescribeContinuousBackups at a maximum rate of 10 times per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_continuous_backups(
+        TableName='string'
+    )
+    
+    
+    :type TableName: string
+    :param TableName: [REQUIRED]
+            Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
+            
+
+    :rtype: dict
+    :return: {
+        'ContinuousBackupsDescription': {
+            'ContinuousBackupsStatus': 'ENABLED'|'DISABLED',
+            'PointInTimeRecoveryDescription': {
+                'PointInTimeRecoveryStatus': 'ENABLED'|'DISABLED',
+                'EarliestRestorableDateTime': datetime(2015, 1, 1),
+                'LatestRestorableDateTime': datetime(2015, 1, 1)
+            }
+        }
+    }
+    
+    
+    """
+    pass
+
+def describe_global_table(GlobalTableName=None):
+    """
+    Returns information about the specified global table.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_global_table(
+        GlobalTableName='string'
+    )
+    
+    
+    :type GlobalTableName: string
+    :param GlobalTableName: [REQUIRED]
+            The name of the global table.
+            
+
+    :rtype: dict
+    :return: {
+        'GlobalTableDescription': {
+            'ReplicationGroup': [
+                {
+                    'RegionName': 'string'
+                },
+            ],
+            'GlobalTableArn': 'string',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'GlobalTableStatus': 'CREATING'|'ACTIVE'|'DELETING'|'UPDATING',
+            'GlobalTableName': 'string'
+        }
+    }
+    
     
     """
     pass
@@ -1785,6 +2212,7 @@ def describe_table(TableName=None):
             'TableSizeBytes': 123,
             'ItemCount': 123,
             'TableArn': 'string',
+            'TableId': 'string',
             'LocalSecondaryIndexes': [
                 {
                     'IndexName': 'string',
@@ -1839,7 +2267,16 @@ def describe_table(TableName=None):
                 'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
             },
             'LatestStreamLabel': 'string',
-            'LatestStreamArn': 'string'
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
         }
     }
     
@@ -2111,6 +2548,100 @@ def get_waiter():
     """
     pass
 
+def list_backups(TableName=None, Limit=None, TimeRangeLowerBound=None, TimeRangeUpperBound=None, ExclusiveStartBackupArn=None):
+    """
+    List backups associated with an AWS account. To list backups for a given table, specify TableName . ListBackups returns a paginated list of results with at most 1MB worth of items in a page. You can also specify a limit for the maximum number of entries to be returned in a page.
+    In the request, start time is inclusive but end time is exclusive. Note that these limits are for the time at which the original backup was requested.
+    You can call ListBackups a maximum of 5 times per second.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_backups(
+        TableName='string',
+        Limit=123,
+        TimeRangeLowerBound=datetime(2015, 1, 1),
+        TimeRangeUpperBound=datetime(2015, 1, 1),
+        ExclusiveStartBackupArn='string'
+    )
+    
+    
+    :type TableName: string
+    :param TableName: The backups from the table specified by TableName are listed.
+
+    :type Limit: integer
+    :param Limit: Maximum number of backups to return at once.
+
+    :type TimeRangeLowerBound: datetime
+    :param TimeRangeLowerBound: Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
+
+    :type TimeRangeUpperBound: datetime
+    :param TimeRangeUpperBound: Only backups created before this time are listed. TimeRangeUpperBound is exclusive.
+
+    :type ExclusiveStartBackupArn: string
+    :param ExclusiveStartBackupArn: LastEvaluatedBackupARN returned by the previous ListBackups call.
+
+    :rtype: dict
+    :return: {
+        'BackupSummaries': [
+            {
+                'TableName': 'string',
+                'TableId': 'string',
+                'TableArn': 'string',
+                'BackupArn': 'string',
+                'BackupName': 'string',
+                'BackupCreationDateTime': datetime(2015, 1, 1),
+                'BackupStatus': 'CREATING'|'DELETED'|'AVAILABLE',
+                'BackupSizeBytes': 123
+            },
+        ],
+        'LastEvaluatedBackupArn': 'string'
+    }
+    
+    
+    """
+    pass
+
+def list_global_tables(ExclusiveStartGlobalTableName=None, Limit=None, RegionName=None):
+    """
+    Lists all global tables that have a replica in the specified region.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_global_tables(
+        ExclusiveStartGlobalTableName='string',
+        Limit=123,
+        RegionName='string'
+    )
+    
+    
+    :type ExclusiveStartGlobalTableName: string
+    :param ExclusiveStartGlobalTableName: The first global table name that this operation will evaluate.
+
+    :type Limit: integer
+    :param Limit: The maximum number of table names to return.
+
+    :type RegionName: string
+    :param RegionName: Lists the global tables in a specific region.
+
+    :rtype: dict
+    :return: {
+        'GlobalTables': [
+            {
+                'GlobalTableName': 'string',
+                'ReplicationGroup': [
+                    {
+                        'RegionName': 'string'
+                    },
+                ]
+            },
+        ],
+        'LastEvaluatedGlobalTableName': 'string'
+    }
+    
+    
+    """
+    pass
+
 def list_tables(ExclusiveStartTableName=None, Limit=None):
     """
     Returns an array of table names associated with the current account and endpoint. The output from ListTables is paginated, with each page returning a maximum of 100 table names.
@@ -2185,8 +2716,7 @@ def list_tags_of_resource(ResourceArn=None, NextToken=None):
 
 def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, ConditionalOperator=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
-    Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values.
-    In addition to putting an item, you can also return the item's attribute values in the same operation, using the ReturnValues parameter.
+    Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter.
     When you add an item, the primary key attribute(s) are the only required attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes cannot be empty. Requests with empty values will be rejected with a ValidationException exception.
     For more information about PutItem , see Working with Items in the Amazon DynamoDB Developer Guide .
     See also: AWS API Documentation
@@ -2361,7 +2891,7 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
             
 
     :type Expected: dict
-    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
+    :param Expected: This is a legacy parameter. Use ConditionExpression instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
@@ -2649,17 +3179,464 @@ def put_item(TableName=None, Item=None, Expected=None, ReturnValues=None, Return
     
     
     :returns: 
+    TableName (string) -- [REQUIRED]
+    The name of the table to contain the item.
+    
+    Item (dict) -- [REQUIRED]
+    A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item.
+    You must provide all of the attributes for the primary key. For example, with a simple primary key, you only need to provide a value for the partition key. For a composite primary key, you must provide both values for both the partition key and the sort key.
+    If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.
+    For more information about primary keys, see Primary Key in the Amazon DynamoDB Developer Guide .
+    Each element in the Item map is an AttributeValue object.
+    
     (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    S (string) --An attribute of type String. For example:
+    
+    "S": "Hello"
+    
+    N (string) --An attribute of type Number. For example:
+    
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
+    
+    (string) --
+    
+    
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    (string) --
+    
+    
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
+    
+    (bytes) --
+    
+    
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
+    
+    (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    L (list) --An attribute of type List. For example:
+    
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    NULL (boolean) --An attribute of type Null. For example:
+    
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
+    
+    
+    
+    
+    
+    
+    
+    Expected (dict) -- This is a legacy parameter. Use ConditionExpression instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
+    
+    (string) --
+    (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
+    
+    Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
+    Use Value to specify a value that DynamoDB will compare against an attribute. If the values match, then ExpectedAttributeValue evaluates to true and the conditional operation succeeds. Optionally, you can also set Exists to false, indicating that you do not expect to find the attribute value in the table. In this case, the conditional operation succeeds only if the comparison evaluates to false.
+    
+    
+    Value and Exists are incompatible with AttributeValueList and ComparisonOperator . Note that if you use both sets of parameters at once, DynamoDB will return a ValidationException exception.
+    
+    Value (dict) --Represents the data for the expected attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    S (string) --An attribute of type String. For example:
+    
+    "S": "Hello"
+    
+    N (string) --An attribute of type Number. For example:
+    
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
+    
+    (string) --
+    
+    
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    (string) --
+    
+    
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
+    
+    (bytes) --
+    
+    
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
+    
+    (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    L (list) --An attribute of type List. For example:
+    
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    NULL (boolean) --An attribute of type Null. For example:
+    
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
+    
+    
+    
+    Exists (boolean) --Causes DynamoDB to evaluate the value before attempting a conditional operation:
+    
+    If Exists is true , DynamoDB will check to see if that attribute value already exists in the table. If it is found, then the operation succeeds. If it is not found, the operation fails with a ConditionalCheckFailedException .
+    If Exists is false , DynamoDB assumes that the attribute value does not exist in the table. If in fact the value does not exist, then the assumption is valid and the operation succeeds. If the value is found, despite the assumption that it does not exist, the operation fails with a ConditionalCheckFailedException .
+    
+    The default setting for Exists is true . If you supply a Value all by itself, DynamoDB assumes the attribute exists: You don't have to set Exists to true , because it is implied.
+    DynamoDB returns a ValidationException if:
+    
+    Exists is true but there is no Value to check. (You expect a value to exist, but don't specify what that value is.)
+    Exists is false but you also provide a Value . (You cannot expect an attribute to have a value, while also expecting it not to exist.)
+    
+    
+    ComparisonOperator (string) --A comparator for evaluating attributes in the AttributeValueList . For example, equals, greater than, less than, etc.
+    The following comparison operators are available:
+    
+    EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN
+    The following are descriptions of each comparison operator.
+    
+    EQ : Equal. EQ is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue element of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]} .
+    NE : Not equal. NE is supported for all data types, including lists and maps.  AttributeValueList can contain only one AttributeValue of type String, Number, Binary, String Set, Number Set, or Binary Set. If an item contains an AttributeValue of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not equal {"NS":["6", "2", "1"]} .
+    LE : Less than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]} .
+    LT : Less than.   AttributeValueList can contain only one AttributeValue of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]} .
+    GE : Greater than or equal.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]} .
+    GT : Greater than.   AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not equal {"N":"6"} . Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]} .
+    NOT_NULL : The attribute exists. NOT_NULL is supported for all data types, including lists and maps.
+    
+    
+    Note
+    This operator tests for the existence of an attribute, not its data type. If the data type of attribute "a " is null, and you evaluate it using NOT_NULL , the result is a Boolean true . This result is because the attribute "a " exists; its data type is not relevant to the NOT_NULL comparison operator.
+    
+    
+    NULL : The attribute does not exist. NULL is supported for all data types, including lists and maps.
+    
+    
+    Note
+    This operator tests for the nonexistence of an attribute, not its data type. If the data type of attribute "a " is null, and you evaluate it using NULL , the result is a Boolean false . This is because the attribute "a " exists; its data type is not relevant to the NULL comparison operator.
+    
+    
+    CONTAINS : Checks for a subsequence, or value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is of type String, then the operator checks for a substring match. If the target attribute of the comparison is of type Binary, then the operator looks for a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS ", "NS ", or "BS "), then the operator evaluates to true if it finds an exact match with any member of the set. CONTAINS is supported for lists: When evaluating "a CONTAINS b ", "a " can be a list; however, "b " cannot be a set, a map, or a list.
+    NOT_CONTAINS : Checks for absence of a subsequence, or absence of a value in a set.  AttributeValueList can contain only one AttributeValue element of type String, Number, or Binary (not a set type). If the target attribute of the comparison is a String, then the operator checks for the absence of a substring match. If the target attribute of the comparison is Binary, then the operator checks for the absence of a subsequence of the target that matches the input. If the target attribute of the comparison is a set ("SS ", "NS ", or "BS "), then the operator evaluates to true if it does not find an exact match with any member of the set. NOT_CONTAINS is supported for lists: When evaluating "a NOT CONTAINS b ", "a " can be a list; however, "b " cannot be a set, a map, or a list.
+    BEGINS_WITH : Checks for a prefix.   AttributeValueList can contain only one AttributeValue of type String or Binary (not a Number or a set type). The target attribute of the comparison must be of type String or Binary (not a Number or a set type).
+    IN : Checks for matching elements in a list.  AttributeValueList can contain one or more AttributeValue elements of type String, Number, or Binary. These attributes are compared against an existing attribute of an item. If any elements of the input are equal to the item attribute, the expression evaluates to true.
+    BETWEEN : Greater than or equal to the first value, and less than or equal to the second value.   AttributeValueList must contain two AttributeValue elements of the same type, either String, Number, or Binary (not a set type). A target attribute matches if the target value is greater than, or equal to, the first element and less than, or equal to, the second element. If an item contains an AttributeValue element of a different type than the one provided in the request, the value does not match. For example, {"S":"6"} does not compare to {"N":"6"} . Also, {"N":"6"} does not compare to {"NS":["6", "2", "1"]}
+    
+    
+    AttributeValueList (list) --One or more values to evaluate against the supplied attribute. The number of values in the list depends on the ComparisonOperator being used.
+    For type Number, value comparisons are numeric.
+    String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, a is greater than A , and a is greater than B . For a list of code values, see http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters .
+    For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values.
+    For information on specifying data types in JSON, see JSON Data Format in the Amazon DynamoDB Developer Guide .
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    S (string) --An attribute of type String. For example:
+    
+    "S": "Hello"
+    
+    N (string) --An attribute of type Number. For example:
+    
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
+    
+    (string) --
+    
+    
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    (string) --
+    
+    
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
+    
+    (bytes) --
+    
+    
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
+    
+    (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    L (list) --An attribute of type List. For example:
+    
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    NULL (boolean) --An attribute of type Null. For example:
+    
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ReturnValues (string) -- Use ReturnValues if you want to get the item attributes as they appeared before they were updated with the PutItem request. For PutItem , the valid values are:
+    
+    NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
+    ALL_OLD - If PutItem overwrote an attribute name-value pair, then the content of the old item is returned.
+    
+    
+    Note
+    The ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not recognize any values other than NONE or ALL_OLD .
+    
+    
+    ReturnConsumedCapacity (string) -- Determines the level of detail about provisioned throughput consumption that is returned in the response:
+    
+    INDEXES - The response includes the aggregate ConsumedCapacity for the operation, together with ConsumedCapacity for each table and secondary index that was accessed. Note that some operations, such as GetItem and BatchGetItem , do not access any indexes at all. In these cases, specifying INDEXES will only return ConsumedCapacity information for table(s).
+    TOTAL - The response includes only the aggregate ConsumedCapacity for the operation.
+    NONE - No ConsumedCapacity details are included in the response.
+    
+    
+    ReturnItemCollectionMetrics (string) -- Determines whether item collection metrics are returned. If set to SIZE , the response includes statistics about item collections, if any, that were modified during the operation are returned in the response. If set to NONE (the default), no statistics are returned.
+    ConditionalOperator (string) -- This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
+    ConditionExpression (string) -- A condition that must be satisfied in order for a conditional PutItem operation to succeed.
+    An expression can contain any of the following:
+    
+    Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size   These function names are case-sensitive.
+    Comparison operators: = | | | | = | = | BETWEEN | IN
+    Logical operators: AND | OR | NOT
+    
+    For more information on condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
+    
+    ExpressionAttributeNames (dict) -- One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames :
+    
+    To access an attribute whose name conflicts with a DynamoDB reserved word.
+    To create a placeholder for repeating occurrences of an attribute name in an expression.
+    To prevent special characters in an attribute name from being misinterpreted in an expression.
+    
+    Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:
+    
+    Percentile
+    
+    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide ). To work around this, you could specify the following for ExpressionAttributeNames :
+    
+    {"#P":"Percentile"}
+    
+    You could then use this substitution in an expression, as in this example:
+    
+    #P = :val
+    
+    
+    Note
+    Tokens that begin with the : character are expression attribute values , which are placeholders for the actual value at runtime.
+    
+    For more information on expression attribute names, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide .
+    
+    (string) --
+    (string) --
+    
+    
+    
+    
+    ExpressionAttributeValues (dict) -- One or more values that can be substituted in an expression.
+    Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following:
+    
+    Available | Backordered | Discontinued
+    You would first need to specify ExpressionAttributeValues as follows:
+    
+    { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} }
+    You could then use these values in an expression, such as this:
+    
+    ProductStatus IN (:avail, :back, :disc)
+    For more information on expression attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide .
+    
+    (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    S (string) --An attribute of type String. For example:
+    
+    "S": "Hello"
+    
+    N (string) --An attribute of type Number. For example:
+    
+    "N": "123.45"
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    B (bytes) --An attribute of type Binary. For example:
+    
+    "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+    
+    SS (list) --An attribute of type String Set. For example:
+    
+    "SS": ["Giraffe", "Hippo" ,"Zebra"]
+    
+    (string) --
+    
+    
+    NS (list) --An attribute of type Number Set. For example:
+    
+    "NS": ["42.2", "-19", "7.5", "3.14"]
+    Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
+    
+    (string) --
+    
+    
+    BS (list) --An attribute of type Binary Set. For example:
+    
+    "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
+    
+    (bytes) --
+    
+    
+    M (dict) --An attribute of type Map. For example:
+    
+    "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
+    
+    (string) --
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    
+    
+    L (list) --An attribute of type List. For example:
+    
+    "L": ["Cookies", "Coffee", 3.14159]
+    
+    (dict) --Represents the data for an attribute.
+    Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
+    For more information, see Data Types in the Amazon DynamoDB Developer Guide .
+    
+    
+    
+    NULL (boolean) --An attribute of type Null. For example:
+    
+    "NULL": true
+    
+    BOOL (boolean) --An attribute of type Boolean. For example:
+    
+    "BOOL": true
+    
+    
+    
+    
+    
+    
+    
     
     """
     pass
 
 def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Limit=None, ConsistentRead=None, KeyConditions=None, QueryFilter=None, ConditionalOperator=None, ScanIndexForward=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, ProjectionExpression=None, FilterExpression=None, KeyConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
-    A Query operation uses the primary key of a table or a secondary index to directly access items from that table or index.
-    Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression . You can use the ScanIndexForward parameter to get results in forward or reverse order, by sort key.
-    Queries that do not return results consume the minimum number of read capacity units for that type of read operation.
-    If the total number of items meeting the query criteria exceeds the result set size limit of 1 MB, the query stops and results are returned to the user with the LastEvaluatedKey element to continue the query in a subsequent operation. Unlike a Scan operation, a Query operation never returns both an empty result set and a LastEvaluatedKey value. LastEvaluatedKey is only provided if you have used the Limit parameter, or if the result set exceeds 1 MB (prior to applying a filter).
+    The Query operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).
+    Use the KeyConditionExpression parameter to provide a specific value for the partition key. The Query operation will return all of the items from the table or index with that partition key value. You can optionally narrow the scope of the Query operation by specifying a sort key value and a comparison operator in KeyConditionExpression . To further refine the Query results, you can optionally provide a FilterExpression . A FilterExpression determines which items within the results should be returned to you. All of the other results are discarded.
+    A Query operation always returns a result set. If no matching items are found, the result set will be empty. Queries that do not return results consume the minimum number of read capacity units for that type of read operation.
+    A single Query operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression . If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide .
     You can query a table, a local secondary index, or a global secondary index. For a query on a table or on a local secondary index, you can set the ConsistentRead parameter to true and obtain a strongly consistent result. Global secondary indexes support eventually consistent reads only, so do not specify ConsistentRead when querying a global secondary index.
     See also: AWS API Documentation
     
@@ -2975,7 +3952,7 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
 
     :type ScanIndexForward: boolean
     :param ScanIndexForward: Specifies the order for index traversal: If true (default), the traversal is performed in ascending order; if false , the traversal is performed in descending order.
-            Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of ASCII character code values. For type Binary, DynamoDB treats each byte of the binary data as unsigned.
+            Items with the same partition key value are stored in sorted order by sort key. If the sort key data type is Number, the results are stored in numeric order. For type String, the results are stored in order of UTF-8 bytes. For type Binary, DynamoDB treats each byte of the binary data as unsigned.
             If ScanIndexForward is true , DynamoDB returns the results in the order in which they are stored (by sort key value). This is the default behavior. If ScanIndexForward is false , DynamoDB reads the results in reverse order by sort key value, and then returns the results to the client.
             
 
@@ -3045,16 +4022,17 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
 
     :type KeyConditionExpression: string
     :param KeyConditionExpression: The condition that specifies the key value(s) for items to be retrieved by the Query action.
-            The condition must perform an equality test on a single partition key value. The condition can also perform one of several comparison tests on a single sort key value. Query can use KeyConditionExpression to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values.
+            The condition must perform an equality test on a single partition key value.
+            The condition can optionally perform one of several comparison tests on a single sort key value. This allows Query to retrieve one item with a given partition key value and sort key value, or several items that have the same partition key value but different sort key values.
             The partition key equality test is required, and must be specified in the following format:
             partitionKeyName = :partitionkeyval
             If you also want to provide a condition for the sort key, it must be combined using AND with the condition for the sort key. Following is an example, using the = comparison operator for the sort key:
             partitionKeyName = :partitionkeyval AND sortKeyName = :sortkeyval
             Valid comparisons for the sort key condition are as follows:
             sortKeyName = :sortkeyval - true if the sort key value is equal to :sortkeyval .
-            sortKeyName ```` :sortkeyval - true if the sort key value is less than :sortkeyval .
+            sortKeyName :sortkeyval - true if the sort key value is less than :sortkeyval .
             sortKeyName = :sortkeyval - true if the sort key value is less than or equal to :sortkeyval .
-            sortKeyName ```` :sortkeyval - true if the sort key value is greater than :sortkeyval .
+            sortKeyName :sortkeyval - true if the sort key value is greater than :sortkeyval .
             sortKeyName = :sortkeyval - true if the sort key value is greater than or equal to :sortkeyval .
             sortKeyName BETWEEN :sortkeyval1 AND :sortkeyval2 - true if the sort key value is greater than or equal to :sortkeyval1 , and less than or equal to :sortkeyval2 .
             begins_with ( sortKeyName , :sortkeyval ) - true if the sort key value begins with a particular operand. (You cannot use this function with a sort key that is of type Number.) Note that the function name begins_with is case-sensitive.
@@ -3214,12 +4192,284 @@ def query(TableName=None, IndexName=None, Select=None, AttributesToGet=None, Lim
     """
     pass
 
+def restore_table_from_backup(TargetTableName=None, BackupArn=None):
+    """
+    Creates a new table from an existing backup. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account.
+    You can call RestoreTableFromBackup at a maximum rate of 10 times per second.
+    You must manually set up the following on the restored table:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.restore_table_from_backup(
+        TargetTableName='string',
+        BackupArn='string'
+    )
+    
+    
+    :type TargetTableName: string
+    :param TargetTableName: [REQUIRED]
+            The name of the new table to which the backup must be restored.
+            
+
+    :type BackupArn: string
+    :param BackupArn: [REQUIRED]
+            The ARN associated with the backup.
+            
+
+    :rtype: dict
+    :return: {
+        'TableDescription': {
+            'AttributeDefinitions': [
+                {
+                    'AttributeName': 'string',
+                    'AttributeType': 'S'|'N'|'B'
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
+                    'AttributeName': 'string',
+                    'KeyType': 'HASH'|'RANGE'
+                },
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'TableId': 'string',
+            'LocalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+                    'Backfilling': True|False,
+                    'ProvisionedThroughput': {
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    TargetTableName (string) -- [REQUIRED]
+    The name of the new table to which the backup must be restored.
+    
+    BackupArn (string) -- [REQUIRED]
+    The ARN associated with the backup.
+    
+    
+    """
+    pass
+
+def restore_table_to_point_in_time(SourceTableName=None, TargetTableName=None, UseLatestRestorableTime=None, RestoreDateTime=None):
+    """
+    Restores the specified table to the specified point in time within EarliestRestorableDateTime and LatestRestorableDateTime . You can restore your table to any point in time during the last 35 days with a 1-minute granularity. Any number of users can execute up to 4 concurrent restores (any type of restore) in a given account.
+    You must manually set up the following on the restored table:
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.restore_table_to_point_in_time(
+        SourceTableName='string',
+        TargetTableName='string',
+        UseLatestRestorableTime=True|False,
+        RestoreDateTime=datetime(2015, 1, 1)
+    )
+    
+    
+    :type SourceTableName: string
+    :param SourceTableName: [REQUIRED]
+            Name of the source table that is being restored.
+            
+
+    :type TargetTableName: string
+    :param TargetTableName: [REQUIRED]
+            The name of the new table to which it must be restored to.
+            
+
+    :type UseLatestRestorableTime: boolean
+    :param UseLatestRestorableTime: Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
+
+    :type RestoreDateTime: datetime
+    :param RestoreDateTime: Time in the past to restore the table to.
+
+    :rtype: dict
+    :return: {
+        'TableDescription': {
+            'AttributeDefinitions': [
+                {
+                    'AttributeName': 'string',
+                    'AttributeType': 'S'|'N'|'B'
+                },
+            ],
+            'TableName': 'string',
+            'KeySchema': [
+                {
+                    'AttributeName': 'string',
+                    'KeyType': 'HASH'|'RANGE'
+                },
+            ],
+            'TableStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'ProvisionedThroughput': {
+                'LastIncreaseDateTime': datetime(2015, 1, 1),
+                'LastDecreaseDateTime': datetime(2015, 1, 1),
+                'NumberOfDecreasesToday': 123,
+                'ReadCapacityUnits': 123,
+                'WriteCapacityUnits': 123
+            },
+            'TableSizeBytes': 123,
+            'ItemCount': 123,
+            'TableArn': 'string',
+            'TableId': 'string',
+            'LocalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'GlobalSecondaryIndexes': [
+                {
+                    'IndexName': 'string',
+                    'KeySchema': [
+                        {
+                            'AttributeName': 'string',
+                            'KeyType': 'HASH'|'RANGE'
+                        },
+                    ],
+                    'Projection': {
+                        'ProjectionType': 'ALL'|'KEYS_ONLY'|'INCLUDE',
+                        'NonKeyAttributes': [
+                            'string',
+                        ]
+                    },
+                    'IndexStatus': 'CREATING'|'UPDATING'|'DELETING'|'ACTIVE',
+                    'Backfilling': True|False,
+                    'ProvisionedThroughput': {
+                        'LastIncreaseDateTime': datetime(2015, 1, 1),
+                        'LastDecreaseDateTime': datetime(2015, 1, 1),
+                        'NumberOfDecreasesToday': 123,
+                        'ReadCapacityUnits': 123,
+                        'WriteCapacityUnits': 123
+                    },
+                    'IndexSizeBytes': 123,
+                    'ItemCount': 123,
+                    'IndexArn': 'string'
+                },
+            ],
+            'StreamSpecification': {
+                'StreamEnabled': True|False,
+                'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
+            },
+            'LatestStreamLabel': 'string',
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    SourceTableName (string) -- [REQUIRED]
+    Name of the source table that is being restored.
+    
+    TargetTableName (string) -- [REQUIRED]
+    The name of the new table to which it must be restored to.
+    
+    UseLatestRestorableTime (boolean) -- Restore the table to the latest possible time. LatestRestorableDateTime is typically 5 minutes before the current time.
+    RestoreDateTime (datetime) -- Time in the past to restore the table to.
+    
+    """
+    pass
+
 def scan(TableName=None, IndexName=None, AttributesToGet=None, Limit=None, Select=None, ScanFilter=None, ConditionalOperator=None, ExclusiveStartKey=None, ReturnConsumedCapacity=None, TotalSegments=None, Segment=None, ProjectionExpression=None, FilterExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None, ConsistentRead=None):
     """
     The Scan operation returns one or more items and item attributes by accessing every item in a table or a secondary index. To have DynamoDB return fewer items, you can provide a FilterExpression operation.
     If the total number of scanned items exceeds the maximum data set size limit of 1 MB, the scan stops and results are returned to the user as a LastEvaluatedKey value to continue the scan in a subsequent operation. The results also include the number of items exceeding the limit. A scan can result in no table data meeting the filter criteria.
-    By default, Scan operations proceed sequentially; however, for faster performance on a large table or secondary index, applications can request a parallel Scan operation by providing the Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon DynamoDB Developer Guide .
-    By default, Scan uses eventually consistent reads when accessing the data in a table; therefore, the result set might not include the changes to data in the table immediately before the operation began. If you need a consistent copy of the data, as of the time that the Scan begins, you can set the ConsistentRead parameter to true .
+    A single Scan operation will read up to the maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to the results using FilterExpression . If LastEvaluatedKey is present in the response, you will need to paginate the result set. For more information, see Paginating the Results in the Amazon DynamoDB Developer Guide .
     See also: AWS API Documentation
     
     Examples
@@ -3725,6 +4975,117 @@ def untag_resource(ResourceArn=None, TagKeys=None):
     """
     pass
 
+def update_continuous_backups(TableName=None, PointInTimeRecoverySpecification=None):
+    """
+    Once continuous backups and point in time recovery are enabled, you can restore to any point in time within EarliestRestorableDateTime and LatestRestorableDateTime .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_continuous_backups(
+        TableName='string',
+        PointInTimeRecoverySpecification={
+            'PointInTimeRecoveryEnabled': True|False
+        }
+    )
+    
+    
+    :type TableName: string
+    :param TableName: [REQUIRED]
+            The name of the table.
+            
+
+    :type PointInTimeRecoverySpecification: dict
+    :param PointInTimeRecoverySpecification: [REQUIRED]
+            Represents the settings used to enable point in time recovery.
+            PointInTimeRecoveryEnabled (boolean) -- [REQUIRED]Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
+            
+
+    :rtype: dict
+    :return: {
+        'ContinuousBackupsDescription': {
+            'ContinuousBackupsStatus': 'ENABLED'|'DISABLED',
+            'PointInTimeRecoveryDescription': {
+                'PointInTimeRecoveryStatus': 'ENABLED'|'DISABLED',
+                'EarliestRestorableDateTime': datetime(2015, 1, 1),
+                'LatestRestorableDateTime': datetime(2015, 1, 1)
+            }
+        }
+    }
+    
+    
+    :returns: 
+    ENABLING - Point in time recovery is being enabled.
+    ENABLED - Point in time recovery is enabled.
+    DISABLED - Point in time recovery is disabled.
+    
+    """
+    pass
+
+def update_global_table(GlobalTableName=None, ReplicaUpdates=None):
+    """
+    Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, must have the same name as the global table, must have the same key schema, and must have DynamoDB Streams enabled.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_global_table(
+        GlobalTableName='string',
+        ReplicaUpdates=[
+            {
+                'Create': {
+                    'RegionName': 'string'
+                },
+                'Delete': {
+                    'RegionName': 'string'
+                }
+            },
+        ]
+    )
+    
+    
+    :type GlobalTableName: string
+    :param GlobalTableName: [REQUIRED]
+            The global table name.
+            
+
+    :type ReplicaUpdates: list
+    :param ReplicaUpdates: [REQUIRED]
+            A list of regions that should be added or removed from the global table.
+            (dict) --Represents one of the following:
+            A new replica to be added to an existing global table.
+            New parameters for an existing replica.
+            An existing replica to be removed from an existing global table.
+            Create (dict) --The parameters required for creating a replica on an existing global table.
+            RegionName (string) -- [REQUIRED]The region of the replica to be added.
+            Delete (dict) --The name of the existing replica to be removed.
+            RegionName (string) -- [REQUIRED]The region of the replica to be removed.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'GlobalTableDescription': {
+            'ReplicationGroup': [
+                {
+                    'RegionName': 'string'
+                },
+            ],
+            'GlobalTableArn': 'string',
+            'CreationDateTime': datetime(2015, 1, 1),
+            'GlobalTableStatus': 'CREATING'|'ACTIVE'|'DELETING'|'UPDATING',
+            'GlobalTableName': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    CREATING - The global table is being created.
+    UPDATING - The global table is being updated.
+    DELETING - The global table is being deleted.
+    ACTIVE - The global table is ready for use.
+    
+    """
+    pass
+
 def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, ConditionalOperator=None, ReturnValues=None, ReturnConsumedCapacity=None, ReturnItemCollectionMetrics=None, UpdateExpression=None, ConditionExpression=None, ExpressionAttributeNames=None, ExpressionAttributeValues=None):
     """
     Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values).
@@ -3934,7 +5295,7 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             Attribute values cannot be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests with empty values will be rejected with a ValidationException exception.
             Value (dict) --Represents the data for an attribute.
             Each attribute value is described as a name-value pair. The name is the data type, and the value is the data itself.
-            For more information, see Data TYpes in the Amazon DynamoDB Developer Guide .
+            For more information, see Data Types in the Amazon DynamoDB Developer Guide .
             S (string) --An attribute of type String. For example:
             'S': 'Hello'
             N (string) --An attribute of type Number. For example:
@@ -3986,7 +5347,7 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
             
 
     :type Expected: dict
-    :param Expected: This is a legacy parameter. Use ConditionExpresssion instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
+    :param Expected: This is a legacy parameter. Use ConditionExpression instead. For more information, see Expected in the Amazon DynamoDB Developer Guide .
             (string) --
             (dict) --Represents a condition to be compared with an attribute value. This condition can be used with DeleteItem , PutItem or UpdateItem operations; if the comparison evaluates to true, the operation succeeds; if not, the operation fails. You can use ExpectedAttributeValue in one of two different ways:
             Use AttributeValueList to specify one or more values to compare against an attribute. Use ComparisonOperator to specify how you want to perform the comparison. If the comparison evaluates to true, then the conditional operation succeeds.
@@ -4105,14 +5466,14 @@ def update_item(TableName=None, Key=None, AttributeUpdates=None, Expected=None, 
     :param ConditionalOperator: This is a legacy parameter. Use ConditionExpression instead. For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide .
 
     :type ReturnValues: string
-    :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appeared either before or after they were updated. For UpdateItem , the valid values are:
+    :param ReturnValues: Use ReturnValues if you want to get the item attributes as they appear before or after they are updated. For UpdateItem , the valid values are:
             NONE - If ReturnValues is not specified, or if its value is NONE , then nothing is returned. (This setting is the default for ReturnValues .)
             ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.
             UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.
             ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.
             UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.
-            There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No Read Capacity Units are consumed.
-            Values returned are strongly consistent
+            There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+            The values returned are strongly consistent.
             
 
     :type ReturnConsumedCapacity: string
@@ -4484,6 +5845,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
             'TableSizeBytes': 123,
             'ItemCount': 123,
             'TableArn': 'string',
+            'TableId': 'string',
             'LocalSecondaryIndexes': [
                 {
                     'IndexName': 'string',
@@ -4538,7 +5900,16 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
                 'StreamViewType': 'NEW_IMAGE'|'OLD_IMAGE'|'NEW_AND_OLD_IMAGES'|'KEYS_ONLY'
             },
             'LatestStreamLabel': 'string',
-            'LatestStreamArn': 'string'
+            'LatestStreamArn': 'string',
+            'RestoreSummary': {
+                'SourceBackupArn': 'string',
+                'SourceTableArn': 'string',
+                'RestoreDateTime': datetime(2015, 1, 1),
+                'RestoreInProgress': True|False
+            },
+            'SSEDescription': {
+                'Status': 'ENABLING'|'ENABLED'|'DISABLING'|'DISABLED'
+            }
         }
     }
     
@@ -4698,7 +6069,7 @@ def update_table(AttributeDefinitions=None, TableName=None, ProvisionedThroughpu
 
 def update_time_to_live(TableName=None, TimeToLiveSpecification=None):
     """
-    Specify the lifetime of individual table items. The database automatically removes the item at the expiration of the item. The UpdateTimeToLive method will enable or disable TTL for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification ; it may take up to one hour for the change to fully process.
+    The UpdateTimeToLive method will enable or disable TTL for the specified table. A successful UpdateTimeToLive call returns the current TimeToLiveSpecification ; it may take up to one hour for the change to fully process. Any additional UpdateTimeToLive calls for the same table during this one hour duration result in a ValidationException .
     TTL compares the current time in epoch time format to the time stored in the TTL attribute of an item. If the epoch time value stored in the attribute is less than the current time, the item is marked as expired and subsequently deleted.
     DynamoDB deletes expired items on a best-effort basis to ensure availability of throughput for other data operations.
     As items are deleted, they are removed from any Local Secondary Index and Global Secondary Index immediately in the same eventually consistent way as a standard delete operation.

@@ -225,6 +225,12 @@ def get_service_graph(StartTime=None, EndTime=None, NextToken=None):
                         'Value': 123.0,
                         'Count': 123
                     },
+                ],
+                'ResponseTimeHistogram': [
+                    {
+                        'Value': 123.0,
+                        'Count': 123
+                    },
                 ]
             },
         ],
@@ -331,6 +337,12 @@ def get_trace_graph(TraceIds=None, NextToken=None):
                         'Value': 123.0,
                         'Count': 123
                     },
+                ],
+                'ResponseTimeHistogram': [
+                    {
+                        'Value': 123.0,
+                        'Count': 123
+                    },
                 ]
             },
         ],
@@ -347,6 +359,9 @@ def get_trace_graph(TraceIds=None, NextToken=None):
 def get_trace_summaries(StartTime=None, EndTime=None, Sampling=None, FilterExpression=None, NextToken=None):
     """
     Retrieves IDs and metadata for traces available for a specified time frame using an optional filter. To get the full traces, pass the trace IDs to BatchGetTraces .
+    A filter expression can target traced requests that hit specific service nodes or edges, have errors, or come from a known user. For example, the following filter expression targets traces that pass through api.example.com :
+    This filter expression finds traces that have an annotation named account with the value 12345 :
+    For a full list of indexed fields and keywords that you can use in filter expressions, see Using Filter Expressions in the AWS X-Ray Developer Guide .
     See also: AWS API Documentation
     
     
@@ -504,7 +519,7 @@ def put_telemetry_records(TelemetryRecords=None, EC2InstanceId=None, Hostname=No
     :type TelemetryRecords: list
     :param TelemetryRecords: [REQUIRED]
             (dict) --
-            Timestamp (datetime) --
+            Timestamp (datetime) -- [REQUIRED]
             SegmentsReceivedCount (integer) --
             SegmentsSentCount (integer) --
             SegmentsSpilloverCount (integer) --
@@ -541,6 +556,8 @@ def put_telemetry_records(TelemetryRecords=None, EC2InstanceId=None, Hostname=No
 def put_trace_segments(TraceSegmentDocuments=None):
     """
     Uploads segment documents to AWS X-Ray. The X-Ray SDK generates segment documents and sends them to the X-Ray daemon, which uploads them in batches. A segment document can be a completed segment, an in-progress segment, or an array of subsegments.
+    Segments must include the following fields. For the full segment document schema, see AWS X-Ray Segment Documents in the AWS X-Ray Developer Guide .
+    A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:
     See also: AWS API Documentation
     
     
@@ -553,19 +570,7 @@ def put_trace_segments(TraceSegmentDocuments=None):
     
     :type TraceSegmentDocuments: list
     :param TraceSegmentDocuments: [REQUIRED]
-            A JSON document defining one or more segments or subsegments. Segments must include the following fields.
-            Required Segment Document Fields
-            name - The name of the service that handled the request.
-            id - A 64-bit identifier for the segment, unique among segments in the same trace, in 16 hexadecimal digits.
-            trace_id - A unique identifier that connects all segments and subsegments originating from a single client request.
-            start_time - Time the segment or subsegment was created, in floating point seconds in epoch time, accurate to milliseconds. For example, 1480615200.010 or 1.480615200010E9 .
-            end_time - Time the segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9 . Specify either an end_time or in_progress .
-            in_progress - Set to true instead of specifying an end_time to record that a segment has been started, but is not complete. Send an in progress segment when your application receives a request that will take a long time to serve, to trace the fact that the request was received. When the response is sent, send the complete segment to overwrite the in-progress segment.
-            A trace_id consists of three numbers separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:
-            Trace ID Format
-            The version number, i.e. 1 .
-            The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in epoch time is 1480615200 seconds, or 58406520 in hexadecimal.
-            A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
+            A string containing a JSON document defining one or more segments or subsegments.
             (string) --
             
 

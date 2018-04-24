@@ -233,7 +233,7 @@ def can_paginate(operation_name=None):
 
 def complete_layer_upload(registryId=None, repositoryName=None, uploadId=None, layerDigests=None):
     """
-    Inform Amazon ECR that the image layer upload for a specified registry, repository name, and upload ID, has completed. You can optionally provide a sha256 digest of the image layer for data validation purposes.
+    Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes.
     See also: AWS API Documentation
     
     
@@ -312,6 +312,38 @@ def create_repository(repositoryName=None):
     """
     pass
 
+def delete_lifecycle_policy(registryId=None, repositoryName=None):
+    """
+    Deletes the specified lifecycle policy.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_lifecycle_policy(
+        registryId='string',
+        repositoryName='string'
+    )
+    
+    
+    :type registryId: string
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository.
+            
+
+    :rtype: dict
+    :return: {
+        'registryId': 'string',
+        'repositoryName': 'string',
+        'lifecyclePolicyText': 'string',
+        'lastEvaluatedAt': datetime(2015, 1, 1)
+    }
+    
+    
+    """
+    pass
+
 def delete_repository(registryId=None, repositoryName=None, force=None):
     """
     Deletes an existing image repository. If a repository contains images, you must use the force option to delete it.
@@ -337,7 +369,7 @@ def delete_repository(registryId=None, repositoryName=None, force=None):
             
 
     :type force: boolean
-    :param force: Force the deletion of the repository if it contains images.
+    :param force: If a repository contains images, forces the deletion.
 
     :rtype: dict
     :return: {
@@ -428,10 +460,10 @@ def describe_images(registryId=None, repositoryName=None, imageIds=None, nextTok
             
 
     :type nextToken: string
-    :param nextToken: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    :param nextToken: The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds .
 
     :type maxResults: integer
-    :param maxResults: The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable.
+    :param maxResults: The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds .
 
     :type filter: dict
     :param filter: The filter key and value with which to filter your DescribeImages results.
@@ -490,13 +522,13 @@ def describe_repositories(registryId=None, repositoryNames=None, nextToken=None,
             
 
     :type nextToken: string
-    :param nextToken: The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    :param nextToken: The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames .
             Note
             This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
             
 
     :type maxResults: integer
-    :param maxResults: The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable.
+    :param maxResults: The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames .
 
     :rtype: dict
     :return: {
@@ -611,6 +643,120 @@ def get_download_url_for_layer(registryId=None, repositoryName=None, layerDigest
     """
     pass
 
+def get_lifecycle_policy(registryId=None, repositoryName=None):
+    """
+    Retrieves the specified lifecycle policy.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_lifecycle_policy(
+        registryId='string',
+        repositoryName='string'
+    )
+    
+    
+    :type registryId: string
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository.
+            
+
+    :rtype: dict
+    :return: {
+        'registryId': 'string',
+        'repositoryName': 'string',
+        'lifecyclePolicyText': 'string',
+        'lastEvaluatedAt': datetime(2015, 1, 1)
+    }
+    
+    
+    """
+    pass
+
+def get_lifecycle_policy_preview(registryId=None, repositoryName=None, imageIds=None, nextToken=None, maxResults=None, filter=None):
+    """
+    Retrieves the results of the specified lifecycle policy preview request.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_lifecycle_policy_preview(
+        registryId='string',
+        repositoryName='string',
+        imageIds=[
+            {
+                'imageDigest': 'string',
+                'imageTag': 'string'
+            },
+        ],
+        nextToken='string',
+        maxResults=123,
+        filter={
+            'tagStatus': 'TAGGED'|'UNTAGGED'
+        }
+    )
+    
+    
+    :type registryId: string
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository.
+            
+
+    :type imageIds: list
+    :param imageIds: The list of imageIDs to be included.
+            (dict) --An object with identifying information for an Amazon ECR image.
+            imageDigest (string) --The sha256 digest of the image manifest.
+            imageTag (string) --The tag used for the image.
+            
+            
+
+    :type nextToken: string
+    :param nextToken: The nextToken value returned from a previous paginated GetLifecyclePolicyPreviewRequest request where maxResults was used and theresults exceeded the value of that parameter. Pagination continues from the end of theprevious results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds .
+
+    :type maxResults: integer
+    :param maxResults: The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest inpaginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sendinganother GetLifecyclePolicyPreviewRequest request with the returned nextToken value. This value can be between 1 and 100. If thisparameter is not used, then GetLifecyclePolicyPreviewRequest returns up to100 results and a nextToken value, ifapplicable. This option cannot be used when you specify images with imageIds .
+
+    :type filter: dict
+    :param filter: An optional parameter that filters results based on image tag status and all tags, if tagged.
+            tagStatus (string) --The tag status of the image.
+            
+
+    :rtype: dict
+    :return: {
+        'registryId': 'string',
+        'repositoryName': 'string',
+        'lifecyclePolicyText': 'string',
+        'status': 'IN_PROGRESS'|'COMPLETE'|'EXPIRED'|'FAILED',
+        'nextToken': 'string',
+        'previewResults': [
+            {
+                'imageTags': [
+                    'string',
+                ],
+                'imageDigest': 'string',
+                'imagePushedAt': datetime(2015, 1, 1),
+                'action': {
+                    'type': 'EXPIRE'
+                },
+                'appliedRulePriority': 123
+            },
+        ],
+        'summary': {
+            'expiringImageTotalCount': 123
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -647,7 +793,7 @@ def get_repository_policy(registryId=None, repositoryName=None):
 
     :type repositoryName: string
     :param repositoryName: [REQUIRED]
-            The name of the repository whose policy you want to retrieve.
+            The name of the repository with the policy to retrieve.
             
 
     :rtype: dict
@@ -680,11 +826,11 @@ def initiate_layer_upload(registryId=None, repositoryName=None):
     
     
     :type registryId: string
-    :param registryId: The AWS account ID associated with the registry that you intend to upload layers to. If you do not specify a registry, the default registry is assumed.
+    :param registryId: The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default registry is assumed.
 
     :type repositoryName: string
     :param repositoryName: [REQUIRED]
-            The name of the repository that you intend to upload layers to.
+            The name of the repository to which you intend to upload layers.
             
 
     :rtype: dict
@@ -719,11 +865,11 @@ def list_images(registryId=None, repositoryName=None, nextToken=None, maxResults
     
     
     :type registryId: string
-    :param registryId: The AWS account ID associated with the registry that contains the repository to list images in. If you do not specify a registry, the default registry is assumed.
+    :param registryId: The AWS account ID associated with the registry that contains the repository in which to list images. If you do not specify a registry, the default registry is assumed.
 
     :type repositoryName: string
     :param repositoryName: [REQUIRED]
-            The repository whose image IDs are to be listed.
+            The repository with image IDs to be listed.
             
 
     :type nextToken: string
@@ -802,6 +948,43 @@ def put_image(registryId=None, repositoryName=None, imageManifest=None, imageTag
     """
     pass
 
+def put_lifecycle_policy(registryId=None, repositoryName=None, lifecyclePolicyText=None):
+    """
+    Creates or updates a lifecycle policy. For information about lifecycle policy syntax, see Lifecycle Policy Template .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_lifecycle_policy(
+        registryId='string',
+        repositoryName='string',
+        lifecyclePolicyText='string'
+    )
+    
+    
+    :type registryId: string
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you donot specify a registry, the default registry is assumed.
+
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository to receive the policy.
+            
+
+    :type lifecyclePolicyText: string
+    :param lifecyclePolicyText: [REQUIRED]
+            The JSON repository policy text to apply to the repository.
+            
+
+    :rtype: dict
+    :return: {
+        'registryId': 'string',
+        'repositoryName': 'string',
+        'lifecyclePolicyText': 'string'
+    }
+    
+    
+    """
+    pass
+
 def set_repository_policy(registryId=None, repositoryName=None, policyText=None, force=None):
     """
     Applies a repository policy on a specified repository to control access permissions.
@@ -843,6 +1026,42 @@ def set_repository_policy(registryId=None, repositoryName=None, policyText=None,
     """
     pass
 
+def start_lifecycle_policy_preview(registryId=None, repositoryName=None, lifecyclePolicyText=None):
+    """
+    Starts a preview of the specified lifecycle policy. This allows you to see the results before creating the lifecycle policy.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.start_lifecycle_policy_preview(
+        registryId='string',
+        repositoryName='string',
+        lifecyclePolicyText='string'
+    )
+    
+    
+    :type registryId: string
+    :param registryId: The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+
+    :type repositoryName: string
+    :param repositoryName: [REQUIRED]
+            The name of the repository to be evaluated.
+            
+
+    :type lifecyclePolicyText: string
+    :param lifecyclePolicyText: The policy to be evaluated against. If you do not specify a policy, the current policy for the repository is used.
+
+    :rtype: dict
+    :return: {
+        'registryId': 'string',
+        'repositoryName': 'string',
+        'lifecyclePolicyText': 'string',
+        'status': 'IN_PROGRESS'|'COMPLETE'|'EXPIRED'|'FAILED'
+    }
+    
+    
+    """
+    pass
+
 def upload_layer_part(registryId=None, repositoryName=None, uploadId=None, partFirstByte=None, partLastByte=None, layerPartBlob=None):
     """
     Uploads an image layer part to Amazon ECR.
@@ -860,11 +1079,11 @@ def upload_layer_part(registryId=None, repositoryName=None, uploadId=None, partF
     
     
     :type registryId: string
-    :param registryId: The AWS account ID associated with the registry that you are uploading layer parts to. If you do not specify a registry, the default registry is assumed.
+    :param registryId: The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default registry is assumed.
 
     :type repositoryName: string
     :param repositoryName: [REQUIRED]
-            The name of the repository that you are uploading layer parts to.
+            The name of the repository to which you are uploading layer parts.
             
 
     :type uploadId: string

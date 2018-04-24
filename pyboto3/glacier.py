@@ -490,7 +490,7 @@ def describe_job(accountId=None, vaultName=None, jobId=None):
     This operation returns information about a job you previously initiated, including the job initiation date, the user who initiated the job, the job status code/message and the Amazon SNS topic to notify after Amazon Glacier completes the job. For more information about initiating a job, see  InitiateJob .
     A job ID will not expire for at least 24 hours after Amazon Glacier completes the job.
     An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM) .
-    For information about the underlying REST API, see Working with Archives in Amazon Glacier in the Amazon Glacier Developer Guide .
+    For more information about using this operation, see the documentation for the underlying REST API Describe Job in the Amazon Glacier Developer Guide .
     See also: AWS API Documentation
     
     Examples
@@ -522,7 +522,7 @@ def describe_job(accountId=None, vaultName=None, jobId=None):
     :return: {
         'JobId': 'string',
         'JobDescription': 'string',
-        'Action': 'ArchiveRetrieval'|'InventoryRetrieval',
+        'Action': 'ArchiveRetrieval'|'InventoryRetrieval'|'Select',
         'ArchiveId': 'string',
         'VaultARN': 'string',
         'CreationDate': 'string',
@@ -543,14 +543,70 @@ def describe_job(accountId=None, vaultName=None, jobId=None):
             'EndDate': 'string',
             'Limit': 'string',
             'Marker': 'string'
+        },
+        'JobOutputPath': 'string',
+        'SelectParameters': {
+            'InputSerialization': {
+                'csv': {
+                    'FileHeaderInfo': 'USE'|'IGNORE'|'NONE',
+                    'Comments': 'string',
+                    'QuoteEscapeCharacter': 'string',
+                    'RecordDelimiter': 'string',
+                    'FieldDelimiter': 'string',
+                    'QuoteCharacter': 'string'
+                }
+            },
+            'ExpressionType': 'SQL',
+            'Expression': 'string',
+            'OutputSerialization': {
+                'csv': {
+                    'QuoteFields': 'ALWAYS'|'ASNEEDED',
+                    'QuoteEscapeCharacter': 'string',
+                    'RecordDelimiter': 'string',
+                    'FieldDelimiter': 'string',
+                    'QuoteCharacter': 'string'
+                }
+            }
+        },
+        'OutputLocation': {
+            'S3': {
+                'BucketName': 'string',
+                'Prefix': 'string',
+                'Encryption': {
+                    'EncryptionType': 'aws:kms'|'AES256',
+                    'KMSKeyId': 'string',
+                    'KMSContext': 'string'
+                },
+                'CannedACL': 'private'|'public-read'|'public-read-write'|'aws-exec-read'|'authenticated-read'|'bucket-owner-read'|'bucket-owner-full-control',
+                'AccessControlList': [
+                    {
+                        'Grantee': {
+                            'Type': 'AmazonCustomerByEmail'|'CanonicalUser'|'Group',
+                            'DisplayName': 'string',
+                            'URI': 'string',
+                            'ID': 'string',
+                            'EmailAddress': 'string'
+                        },
+                        'Permission': 'FULL_CONTROL'|'WRITE'|'WRITE_ACP'|'READ'|'READ_ACP'
+                    },
+                ],
+                'Tagging': {
+                    'string': 'string'
+                },
+                'UserMetadata': {
+                    'string': 'string'
+                },
+                'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'
+            }
         }
     }
     
     
     :returns: 
-    Archive retrieval jobs that specify a range that is not tree-hash aligned.
-    Archival jobs that specify a range that is equal to the whole archive and the job status is InProgress.
-    Inventory jobs.
+    Archive retrieval jobs that specify a range that is not tree-hash aligned
+    Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress
+    Inventory jobs
+    Select jobs
     
     """
     pass
@@ -869,22 +925,7 @@ def get_waiter():
 
 def initiate_job(accountId=None, vaultName=None, jobParameters=None):
     """
-    This operation initiates a job of the specified type. In this release, you can initiate a job to retrieve either an archive or a vault inventory (a list of archives in a vault).
-    Retrieving data from Amazon Glacier is a two-step process:
-    The retrieval request is executed asynchronously. When you initiate a retrieval job, Amazon Glacier creates a job and returns a job ID in the response. When Amazon Glacier completes the job, you can get the job output (archive or inventory data). For information about getting job output, see  GetJobOutput operation.
-    The job must complete before you can get its output. To determine when a job is complete, you have the following options:
-    If for a specific event, you add both the notification configuration on the vault and also specify an SNS topic in your initiate job request, Amazon Glacier sends both notifications. For more information, see  SetVaultNotifications .
-    An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM) .
-    Amazon Glacier prepares an inventory for each vault periodically, every 24 hours. When you initiate a job for a vault inventory, Amazon Glacier returns the last inventory for the vault. The inventory data you get might be up to a day or two days old. Also, the initiate inventory job might take some time to complete before you can download the vault inventory. So you do not want to retrieve a vault inventory for each vault operation. However, in some scenarios, you might find the vault inventory useful. For example, when you upload an archive, you can provide an archive description but not an archive name. Amazon Glacier provides you a unique archive ID, an opaque string of characters. So, you might maintain your own database that maps archive names to their corresponding Amazon Glacier assigned archive IDs. You might find the vault inventory useful in the event you need to reconcile information in your database with the actual vault inventory.
-    You can limit the number of inventory items retrieved by filtering on the archive creation date or by setting a limit.
-    You can retrieve inventory items for archives created between StartDate and EndDate by specifying values for these parameters in the InitiateJob request. Archives created on or after the StartDate and before the EndDate will be returned. If you only provide the StartDate without the EndDate , you will retrieve the inventory for all archives created on or after the StartDate . If you only provide the EndDate without the StartDate , you will get back the inventory for all archives created before the EndDate .
-    You can limit the number of inventory items returned by setting the Limit parameter in the InitiateJob request. The inventory job output will contain inventory items up to the specified Limit . If there are more inventory items available, the result is paginated. After a job is complete you can use the  DescribeJob operation to get a marker that you use in a subsequent InitiateJob request. The marker will indicate the starting point to retrieve the next set of inventory items. You can page through your entire inventory by repeatedly making InitiateJob requests with the marker from the previous DescribeJob output, until you get a marker from DescribeJob that returns null, indicating that there are no more inventory items available.
-    You can use the Limit parameter together with the date range parameters.
-    You can initiate an archive retrieval for the whole archive or a range of the archive. In the case of ranged archive retrieval, you specify a byte range to return or the whole archive. The range specified must be megabyte (MB) aligned, that is the range start value must be divisible by 1 MB and range end value plus 1 must be divisible by 1 MB or equal the end of the archive. If the ranged archive retrieval is not megabyte aligned, this operation returns a 400 response. Furthermore, to ensure you get checksum values for data you download using Get Job Output API, the range must be tree hash aligned.
-    An AWS account has full permission to perform all operations (actions). However, AWS Identity and Access Management (IAM) users don't have any permissions by default. You must grant them explicit permission to perform specific actions. For more information, see Access Control Using AWS Identity and Access Management (IAM) .
-    For conceptual information and the underlying REST API, see Initiate a Job and Downloading a Vault Inventory
-    When retrieving an archive, you can specify one of the following options in the Tier field of the request body:
-    For more information about expedited and bulk retrievals, see Retrieving Amazon Glacier Archives .
+    This operation initiates a job of the specified type, which can be a select, an archival retrieval, or a vault retrieval. For more information about using this operation, see the documentation for the underlying REST API Initiate a Job .
     See also: AWS API Documentation
     
     Examples
@@ -906,6 +947,60 @@ def initiate_job(accountId=None, vaultName=None, jobParameters=None):
                 'EndDate': 'string',
                 'Limit': 'string',
                 'Marker': 'string'
+            },
+            'SelectParameters': {
+                'InputSerialization': {
+                    'csv': {
+                        'FileHeaderInfo': 'USE'|'IGNORE'|'NONE',
+                        'Comments': 'string',
+                        'QuoteEscapeCharacter': 'string',
+                        'RecordDelimiter': 'string',
+                        'FieldDelimiter': 'string',
+                        'QuoteCharacter': 'string'
+                    }
+                },
+                'ExpressionType': 'SQL',
+                'Expression': 'string',
+                'OutputSerialization': {
+                    'csv': {
+                        'QuoteFields': 'ALWAYS'|'ASNEEDED',
+                        'QuoteEscapeCharacter': 'string',
+                        'RecordDelimiter': 'string',
+                        'FieldDelimiter': 'string',
+                        'QuoteCharacter': 'string'
+                    }
+                }
+            },
+            'OutputLocation': {
+                'S3': {
+                    'BucketName': 'string',
+                    'Prefix': 'string',
+                    'Encryption': {
+                        'EncryptionType': 'aws:kms'|'AES256',
+                        'KMSKeyId': 'string',
+                        'KMSContext': 'string'
+                    },
+                    'CannedACL': 'private'|'public-read'|'public-read-write'|'aws-exec-read'|'authenticated-read'|'bucket-owner-read'|'bucket-owner-full-control',
+                    'AccessControlList': [
+                        {
+                            'Grantee': {
+                                'Type': 'AmazonCustomerByEmail'|'CanonicalUser'|'Group',
+                                'DisplayName': 'string',
+                                'URI': 'string',
+                                'ID': 'string',
+                                'EmailAddress': 'string'
+                            },
+                            'Permission': 'FULL_CONTROL'|'WRITE'|'WRITE_ACP'|'READ'|'READ_ACP'
+                        },
+                    ],
+                    'Tagging': {
+                        'string': 'string'
+                    },
+                    'UserMetadata': {
+                        'string': 'string'
+                    },
+                    'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'
+                }
             }
         }
     )
@@ -924,30 +1019,76 @@ def initiate_job(accountId=None, vaultName=None, jobParameters=None):
     :type jobParameters: dict
     :param jobParameters: Provides options for specifying job information.
             Format (string) --When initiating a job to retrieve a vault inventory, you can optionally add this parameter to your request to specify the output format. If you are initiating an inventory job and do not specify a Format field, JSON is the default format. Valid values are 'CSV' and 'JSON'.
-            Type (string) --The job type. You can initiate a job to retrieve an archive or get an inventory of a vault. Valid values are 'archive-retrieval' and 'inventory-retrieval'.
-            ArchiveId (string) --The ID of the archive that you want to retrieve. This field is required only if Type is set to archive-retrieval. An error occurs if you specify this request parameter for an inventory retrieval job request.
+            Type (string) --The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are 'select', 'archive-retrieval' and 'inventory-retrieval'.
+            ArchiveId (string) --The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrieval code. An error occurs if you specify this request parameter for an inventory retrieval job request.
             Description (string) --The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
             SNSTopic (string) --The Amazon SNS topic ARN to which Amazon Glacier sends a notification when the job is completed and the output is ready for you to download. The specified topic publishes the notification to its subscribers. The SNS topic must exist.
             RetrievalByteRange (string) --The byte range to retrieve for an archive retrieval. in the form 'StartByteValue -EndByteValue ' If not specified, the whole archive is retrieved. If specified, the byte range must be megabyte (1024*1024) aligned which means that StartByteValue must be divisible by 1 MB and EndByteValue plus 1 must be divisible by 1 MB or be the end of the archive specified as the archive byte size value minus 1. If RetrievalByteRange is not megabyte aligned, this operation returns a 400 response.
             An error occurs if you specify this field for an inventory retrieval job request.
-            Tier (string) --The retrieval option to use for the archive retrieval. Valid values are Expedited , Standard , or Bulk . Standard is the default.
+            Tier (string) --The tier to use for a select or an archive retrieval job. Valid values are Expedited , Standard , or Bulk . Standard is the default.
             InventoryRetrievalParameters (dict) --Input parameters used for range inventory retrieval.
             StartDate (string) --The start of the date range in UTC for vault inventory retrieval that includes archives created on or after this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z .
             EndDate (string) --The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z .
             Limit (string) --Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
             Marker (string) --An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null .
+            SelectParameters (dict) --Contains the parameters that define a job.
+            InputSerialization (dict) --Describes the serialization format of the object.
+            csv (dict) --Describes the serialization of a CSV-encoded object.
+            FileHeaderInfo (string) --Describes the first line of input. Valid values are None , Ignore , and Use .
+            Comments (string) --A single character used to indicate that a row should be ignored when the character is present at the start of that row.
+            QuoteEscapeCharacter (string) --A single character used for escaping the quotation-mark character inside an already escaped value.
+            RecordDelimiter (string) --A value used to separate individual records from each other.
+            FieldDelimiter (string) --A value used to separate individual fields from each other within a record.
+            QuoteCharacter (string) --A value used as an escape character where the field delimiter is part of the value.
+            
+            ExpressionType (string) --The type of the provided expression, for example SQL .
+            Expression (string) --The expression that is used to select the object.
+            OutputSerialization (dict) --Describes how the results of the select job are serialized.
+            csv (dict) --Describes the serialization of CSV-encoded query results.
+            QuoteFields (string) --A value that indicates whether all output fields should be contained within quotation marks.
+            QuoteEscapeCharacter (string) --A single character used for escaping the quotation-mark character inside an already escaped value.
+            RecordDelimiter (string) --A value used to separate individual records from each other.
+            FieldDelimiter (string) --A value used to separate individual fields from each other within a record.
+            QuoteCharacter (string) --A value used as an escape character where the field delimiter is part of the value.
+            
+            OutputLocation (dict) --Contains information about the location where the select job results are stored.
+            S3 (dict) --Describes an S3 location that will receive the results of the job request.
+            BucketName (string) --The name of the Amazon S3 bucket where the job results are stored.
+            Prefix (string) --The prefix that is prepended to the results for this request.
+            Encryption (dict) --Contains information about the encryption used to store the job results in Amazon S3.
+            EncryptionType (string) --The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms .
+            KMSKeyId (string) --The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4.
+            KMSContext (string) --Optional. If the encryption type is aws:kms , you can use this value to specify the encryption context for the job results.
+            CannedACL (string) --The canned access control list (ACL) to apply to the job results.
+            AccessControlList (list) --A list of grants that control access to the staged results.
+            (dict) --Contains information about a grant.
+            Grantee (dict) --The grantee.
+            Type (string) -- [REQUIRED]Type of grantee
+            DisplayName (string) --Screen name of the grantee.
+            URI (string) --URI of the grantee group.
+            ID (string) --The canonical user ID of the grantee.
+            EmailAddress (string) --Email address of the grantee.
+            Permission (string) --Specifies the permission given to the grantee.
+            
+            Tagging (dict) --The tag-set that is applied to the job results.
+            (string) --
+            (string) --
+            
+            UserMetadata (dict) --A map of metadata to store with the job results in Amazon S3.
+            (string) --
+            (string) --
+            
+            StorageClass (string) --The storage class used to store the job results.
             
             
 
     :rtype: dict
     :return: {
         'location': 'string',
-        'jobId': 'string'
+        'jobId': 'string',
+        'jobOutputPath': 'string'
     }
     
-    
-    :returns: 
-    After the job completes, download the bytes.
     
     """
     pass
@@ -1064,12 +1205,11 @@ def initiate_vault_lock(accountId=None, vaultName=None, policy=None):
 
 def list_jobs(accountId=None, vaultName=None, limit=None, marker=None, statuscode=None, completed=None):
     """
-    This operation lists jobs for a vault, including jobs that are in-progress and jobs that have recently finished.
-    To retrieve an archive or retrieve a vault inventory from Amazon Glacier, you first initiate a job, and after the job completes, you download the data. For an archive retrieval, the output is the archive data. For an inventory retrieval, it is the inventory list. The List Job operation returns a list of these jobs sorted by job initiation time.
+    This operation lists jobs for a vault, including jobs that are in-progress and jobs that have recently finished. The List Job operation returns a list of these jobs sorted by job initiation time.
     The List Jobs operation supports pagination. You should always check the response Marker field. If there are no more jobs to list, the Marker field is set to null . If there are more jobs to list, the Marker field is set to a non-null value, which you can use to continue the pagination of the list. To return a list of jobs that begins at a specific job, set the marker request parameter to the Marker value for that job that you obtained from a previous List Jobs request.
     You can set a maximum limit for the number of jobs returned in the response by specifying the limit parameter in the request. The default limit is 1000. The number of jobs returned might be fewer than the limit, but the number of returned jobs never exceeds the limit.
     Additionally, you can filter the jobs list returned by specifying the optional statuscode parameter or completed parameter, or both. Using the statuscode parameter, you can specify to return only jobs that match either the InProgress , Succeeded , or Failed status. Using the completed parameter, you can specify to return only jobs that were completed (true ) or jobs that were not completed (false ).
-    For the underlying REST API, see List Jobs .
+    For more information about using this operation, see the documentation for the underlying REST API List Jobs .
     See also: AWS API Documentation
     
     Examples
@@ -1113,7 +1253,7 @@ def list_jobs(accountId=None, vaultName=None, limit=None, marker=None, statuscod
             {
                 'JobId': 'string',
                 'JobDescription': 'string',
-                'Action': 'ArchiveRetrieval'|'InventoryRetrieval',
+                'Action': 'ArchiveRetrieval'|'InventoryRetrieval'|'Select',
                 'ArchiveId': 'string',
                 'VaultARN': 'string',
                 'CreationDate': 'string',
@@ -1134,6 +1274,61 @@ def list_jobs(accountId=None, vaultName=None, limit=None, marker=None, statuscod
                     'EndDate': 'string',
                     'Limit': 'string',
                     'Marker': 'string'
+                },
+                'JobOutputPath': 'string',
+                'SelectParameters': {
+                    'InputSerialization': {
+                        'csv': {
+                            'FileHeaderInfo': 'USE'|'IGNORE'|'NONE',
+                            'Comments': 'string',
+                            'QuoteEscapeCharacter': 'string',
+                            'RecordDelimiter': 'string',
+                            'FieldDelimiter': 'string',
+                            'QuoteCharacter': 'string'
+                        }
+                    },
+                    'ExpressionType': 'SQL',
+                    'Expression': 'string',
+                    'OutputSerialization': {
+                        'csv': {
+                            'QuoteFields': 'ALWAYS'|'ASNEEDED',
+                            'QuoteEscapeCharacter': 'string',
+                            'RecordDelimiter': 'string',
+                            'FieldDelimiter': 'string',
+                            'QuoteCharacter': 'string'
+                        }
+                    }
+                },
+                'OutputLocation': {
+                    'S3': {
+                        'BucketName': 'string',
+                        'Prefix': 'string',
+                        'Encryption': {
+                            'EncryptionType': 'aws:kms'|'AES256',
+                            'KMSKeyId': 'string',
+                            'KMSContext': 'string'
+                        },
+                        'CannedACL': 'private'|'public-read'|'public-read-write'|'aws-exec-read'|'authenticated-read'|'bucket-owner-read'|'bucket-owner-full-control',
+                        'AccessControlList': [
+                            {
+                                'Grantee': {
+                                    'Type': 'AmazonCustomerByEmail'|'CanonicalUser'|'Group',
+                                    'DisplayName': 'string',
+                                    'URI': 'string',
+                                    'ID': 'string',
+                                    'EmailAddress': 'string'
+                                },
+                                'Permission': 'FULL_CONTROL'|'WRITE'|'WRITE_ACP'|'READ'|'READ_ACP'
+                            },
+                        ],
+                        'Tagging': {
+                            'string': 'string'
+                        },
+                        'UserMetadata': {
+                            'string': 'string'
+                        },
+                        'StorageClass': 'STANDARD'|'REDUCED_REDUNDANCY'|'STANDARD_IA'
+                    }
                 }
             },
         ],
@@ -1142,9 +1337,10 @@ def list_jobs(accountId=None, vaultName=None, limit=None, marker=None, statuscod
     
     
     :returns: 
-    Archive retrieval jobs that specify a range that is not tree-hash aligned.
-    Archival jobs that specify a range that is equal to the whole archive and the job status is InProgress.
-    Inventory jobs.
+    Archive retrieval jobs that specify a range that is not tree-hash aligned
+    Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress
+    Inventory jobs
+    Select jobs
     
     """
     pass
@@ -1266,7 +1462,7 @@ def list_parts(accountId=None, vaultName=None, uploadId=None, marker=None, limit
 
 def list_provisioned_capacity(accountId=None):
     """
-    This operation lists the provisioned capacity for the specified AWS account.
+    This operation lists the provisioned capacity units for the specified AWS account.
     See also: AWS API Documentation
     
     Examples
@@ -1279,7 +1475,7 @@ def list_provisioned_capacity(accountId=None):
     
     
     :type accountId: string
-    :param accountId: The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
+    :param accountId: The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
             Note: this parameter is set to '-' bydefault if no value is not specified.
             
 

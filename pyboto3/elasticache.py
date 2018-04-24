@@ -44,7 +44,7 @@ def add_tags_to_resource(ResourceName=None, Tags=None):
     
     :type ResourceName: string
     :param ResourceName: [REQUIRED]
-            The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot .
+            The Amazon Resource Name (ARN) of the resource to which the tags are to be added, for example arn:aws:elasticache:us-west-2:0123456789:cluster:myCluster or arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot . ElastiCache resources are cluster and snapshot .
             For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces .
             
 
@@ -234,7 +234,7 @@ def copy_snapshot(SourceSnapshotName=None, TargetSnapshotName=None, TargetBucket
 
 def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=None, PreferredAvailabilityZone=None, PreferredAvailabilityZones=None, NumCacheNodes=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, AuthToken=None):
     """
-    Creates a cache cluster. All nodes in the cache cluster run the same protocol-compliant cache engine software, either Memcached or Redis.
+    Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine software, either Memcached or Redis.
     See also: AWS API Documentation
     
     
@@ -291,21 +291,21 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
     :param ReplicationGroupId: 
             Warning
             Due to current limitations on Redis (cluster mode disabled), this operation or parameter is not supported on Redis (cluster mode enabled) replication groups.
-            The ID of the replication group to which this cache cluster should belong. If this parameter is specified, the cache cluster is added to the specified replication group as a read replica; otherwise, the cache cluster is a standalone primary that is not part of any replication group.
-            If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cache cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.
+            The ID of the replication group to which this cluster should belong. If this parameter is specified, the cluster is added to the specified replication group as a read replica; otherwise, the cluster is a standalone primary that is not part of any replication group.
+            If the specified replication group is Multi-AZ enabled and the Availability Zone is not specified, the cluster is created in Availability Zones that provide the best spread of read replicas across Availability Zones.
             Note
             This parameter is only valid if the Engine parameter is redis .
             
 
     :type AZMode: string
     :param AZMode: Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region.
-            This parameter is only supported for Memcached cache clusters.
+            This parameter is only supported for Memcached clusters.
             If the AZMode and PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
             
 
     :type PreferredAvailabilityZone: string
-    :param PreferredAvailabilityZone: The EC2 Availability Zone in which the cache cluster is created.
-            All nodes belonging to this Memcached cache cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones .
+    :param PreferredAvailabilityZone: The EC2 Availability Zone in which the cluster is created.
+            All nodes belonging to this Memcached cluster are placed in the preferred Availability Zone. If you want to create your nodes across multiple Availability Zones, use PreferredAvailabilityZones .
             Default: System chosen Availability Zone.
             
 
@@ -313,7 +313,7 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
     :param PreferredAvailabilityZones: A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important.
             This option is only supported on Memcached.
             Note
-            If you are creating your cache cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group.
+            If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group.
             The number of Availability Zones listed must equal the value of NumCacheNodes .
             If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the list.
             Default: System chosen Availability Zones.
@@ -321,63 +321,65 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
             
 
     :type NumCacheNodes: integer
-    :param NumCacheNodes: The initial number of cache nodes that the cache cluster has.
+    :param NumCacheNodes: The initial number of cache nodes that the cluster has.
             For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
             If you need more than 20 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/ .
             
 
     :type CacheNodeType: string
     :param CacheNodeType: The compute and memory capacity of the nodes in the node group (shard).
-            Valid node types are as follows:
+            The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
             General purpose:
-            Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-            Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
-            Compute optimized: cache.c1.xlarge
+            Current generation:  T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+            Previous generation: (not recommended) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+            Compute optimized:
+            Previous generation: (not recommended) C1 node types: cache.c1.xlarge
             Memory optimized:
-            Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-            Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+            Current generation:  R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+            Previous generation: (not recommended) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
             
             Notes:
             All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
-            Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.
+            Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.
+            Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
             Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
             For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis .
             
 
     :type Engine: string
-    :param Engine: The name of the cache engine to be used for this cache cluster.
+    :param Engine: The name of the cache engine to be used for this cluster.
             Valid values for this parameter are: memcached | redis
             
 
     :type EngineVersion: string
-    :param EngineVersion: The version number of the cache engine to be used for this cache cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
-            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cache cluster or replication group and create it anew with the earlier engine version.
+    :param EngineVersion: The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
+            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
             
 
     :type CacheParameterGroupName: string
-    :param CacheParameterGroupName: The name of the parameter group to associate with this cache cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
+    :param CacheParameterGroupName: The name of the parameter group to associate with this cluster. If this argument is omitted, the default parameter group for the specified engine is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a cluster.
 
     :type CacheSubnetGroupName: string
-    :param CacheSubnetGroupName: The name of the subnet group to be used for the cache cluster.
-            Use this parameter only when you are creating a cache cluster in an Amazon Virtual Private Cloud (Amazon VPC).
+    :param CacheSubnetGroupName: The name of the subnet group to be used for the cluster.
+            Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
             Warning
             If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups .
             
 
     :type CacheSecurityGroupNames: list
-    :param CacheSecurityGroupNames: A list of security group names to associate with this cache cluster.
-            Use this parameter only when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
+    :param CacheSecurityGroupNames: A list of security group names to associate with this cluster.
+            Use this parameter only when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC).
             (string) --
             
 
     :type SecurityGroupIds: list
-    :param SecurityGroupIds: One or more VPC security groups associated with the cache cluster.
-            Use this parameter only when you are creating a cache cluster in an Amazon Virtual Private Cloud (Amazon VPC).
+    :param SecurityGroupIds: One or more VPC security groups associated with the cluster.
+            Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).
             (string) --
             
 
     :type Tags: list
-    :param Tags: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
+    :param Tags: A list of cost allocation tags to be added to this resource.
             (dict) --A cost allocation Tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. A tag with a null Value is permitted.
             Key (string) --The key for the tag. May not be null.
             Value (string) --The tag's value. May be null.
@@ -399,7 +401,7 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
             
 
     :type PreferredMaintenanceWindow: string
-    :param PreferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cache cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+    :param PreferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
             Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
             Valid values for ddd are:
             sun
@@ -418,7 +420,7 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
     :type NotificationTopicArn: string
     :param NotificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.
             Note
-            The Amazon SNS topic owner must be the same as the cache cluster owner.
+            The Amazon SNS topic owner must be the same as the cluster owner.
             
 
     :type AutoMinorVersionUpgrade: boolean
@@ -428,24 +430,28 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
     :param SnapshotRetentionLimit: The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot taken today is retained for 5 days before being deleted.
             Note
             This parameter is only valid if the Engine parameter is redis .
-            Default: 0 (i.e., automatic backups are disabled for this cache cluster).
+            Default: 0 (i.e., automatic backups are disabled for this cluster).
             
 
     :type SnapshotWindow: string
     :param SnapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard).
             Example: 05:00-09:00
             If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
-            Note: This parameter is only valid if the Engine parameter is redis .
+            Note
+            This parameter is only valid if the Engine parameter is redis .
             
 
     :type AuthToken: string
     :param AuthToken: 
             Reserved parameter. The password used to access a password protected server.
+            This parameter is valid only if:
+            The parameter TransitEncryptionEnabled was set to true when the cluster was created.
+            The line requirepass was added to the database configuration file.
             Password constraints:
             Must be only printable ASCII characters.
             Must be at least 16 characters and no more than 128 characters in length.
             Cannot contain any of the following characters: '/', ''', or '@'.
-            For more information, see AUTH password at Redis.
+            For more information, see AUTH password at http://redis.io/commands/AUTH.
             
 
     :rtype: dict
@@ -514,21 +520,27 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
             ],
             'ReplicationGroupId': 'string',
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -537,7 +549,7 @@ def create_cache_cluster(CacheClusterId=None, ReplicationGroupId=None, AZMode=No
 
 def create_cache_parameter_group(CacheParameterGroupName=None, CacheParameterGroupFamily=None, Description=None):
     """
-    Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cache cluster or replication group using the CacheParameterGroup.
+    Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup.
     A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:
     See also: AWS API Documentation
     
@@ -592,8 +604,8 @@ def create_cache_parameter_group(CacheParameterGroupName=None, CacheParameterGro
 
 def create_cache_security_group(CacheSecurityGroupName=None, Description=None):
     """
-    Creates a new cache security group. Use a cache security group to control access to one or more cache clusters.
-    Cache security groups are only used when you are creating a cache cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cache cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup .
+    Creates a new cache security group. Use a cache security group to control access to one or more clusters.
+    Cache security groups are only used when you are creating a cluster outside of an Amazon Virtual Private Cloud (Amazon VPC). If you are creating a cluster inside of a VPC, use a cache subnet group instead. For more information, see CreateCacheSubnetGroup .
     See also: AWS API Documentation
     
     
@@ -699,10 +711,10 @@ def create_cache_subnet_group(CacheSubnetGroupName=None, CacheSubnetGroupDescrip
     """
     pass
 
-def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, AutomaticFailoverEnabled=None, NumCacheClusters=None, PreferredCacheClusterAZs=None, NumNodeGroups=None, ReplicasPerNodeGroup=None, NodeGroupConfiguration=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, AuthToken=None):
+def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescription=None, PrimaryClusterId=None, AutomaticFailoverEnabled=None, NumCacheClusters=None, PreferredCacheClusterAZs=None, NumNodeGroups=None, ReplicasPerNodeGroup=None, NodeGroupConfiguration=None, CacheNodeType=None, Engine=None, EngineVersion=None, CacheParameterGroupName=None, CacheSubnetGroupName=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, Tags=None, SnapshotArns=None, SnapshotName=None, PreferredMaintenanceWindow=None, Port=None, NotificationTopicArn=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, AuthToken=None, TransitEncryptionEnabled=None, AtRestEncryptionEnabled=None):
     """
     Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group.
-    A Redis (cluster mode disabled) replication group is a collection of cache clusters, where one of the cache clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas.
+    A Redis (cluster mode disabled) replication group is a collection of clusters, where one of the clusters is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas.
     A Redis (cluster mode enabled) replication group is a collection of 1 to 15 node groups (shards). Each node group (shard) has one read/write primary node and up to 5 read-only replica nodes. Writes to the primary are asynchronously propagated to the replicas. Redis (cluster mode enabled) replication groups partition the data across node groups (shards).
     When a Redis (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. You cannot alter a Redis (cluster mode enabled) replication group after it has been created. However, if you need to increase or decrease the number of node groups (console: shards), you can avail yourself of ElastiCache for Redis' enhanced backup and restore. For more information, see Restoring From a Backup with Cluster Resizing in the ElastiCache User Guide .
     See also: AWS API Documentation
@@ -756,7 +768,9 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
         AutoMinorVersionUpgrade=True|False,
         SnapshotRetentionLimit=123,
         SnapshotWindow='string',
-        AuthToken='string'
+        AuthToken='string',
+        TransitEncryptionEnabled=True|False,
+        AtRestEncryptionEnabled=True|False
     )
     
     
@@ -775,7 +789,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             
 
     :type PrimaryClusterId: string
-    :param PrimaryClusterId: The identifier of the cache cluster that serves as the primary for this replication group. This cache cluster must already exist and have a status of available .
+    :param PrimaryClusterId: The identifier of the cluster that serves as the primary for this replication group. This cluster must already exist and have a status of available .
             This parameter is not required if NumCacheClusters , NumNodeGroups , or ReplicasPerNodeGroup is specified.
             
 
@@ -784,10 +798,10 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             If true , Multi-AZ is enabled for this replication group. If false , Multi-AZ is disabled for this replication group.
             AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups.
             Default: false
-            Note
-            ElastiCache Multi-AZ replication groups is not supported on:
+            Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:
             Redis versions earlier than 2.8.6.
-            Redis (cluster mode disabled): T1 and T2 node types. Redis (cluster mode enabled): T2 node types.
+            Redis (cluster mode disabled): T1 and T2 cache node types.
+            Redis (cluster mode enabled): T1 node types.
             
 
     :type NumCacheClusters: integer
@@ -798,10 +812,10 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             
 
     :type PreferredCacheClusterAZs: list
-    :param PreferredCacheClusterAZs: A list of EC2 Availability Zones in which the replication group's cache clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list.
+    :param PreferredCacheClusterAZs: A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list.
             This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead.
             Note
-            If you are creating your replication group in an Amazon VPC (recommended), you can only locate cache clusters in Availability Zones associated with the subnets in the selected subnet group.
+            If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group.
             The number of Availability Zones listed must equal the value of NumCacheClusters .
             Default: system chosen Availability Zones.
             (string) --
@@ -818,7 +832,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :type NodeGroupConfiguration: list
     :param NodeGroupConfiguration: A list of node group (shard) configuration options. Each node group (shard) configuration has the following: Slots, PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount.
             If you're creating a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter.
-            (dict) --node group (shard) configuration options. Each node group (shard) configuration has the following: Slots , PrimaryAvailabilityZone , ReplicaAvailabilityZones , ReplicaCount .
+            (dict) --Node group (shard) configuration options. Each node group (shard) configuration has the following: Slots , PrimaryAvailabilityZone , ReplicaAvailabilityZones , ReplicaCount .
             Slots (string) --A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey .
             Example: '0-3999'
             ReplicaCount (integer) --The number of read replica nodes in this node group (shard).
@@ -830,28 +844,30 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 
     :type CacheNodeType: string
     :param CacheNodeType: The compute and memory capacity of the nodes in the node group (shard).
-            Valid node types are as follows:
+            The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
             General purpose:
-            Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-            Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
-            Compute optimized: cache.c1.xlarge
+            Current generation:  T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+            Previous generation: (not recommended) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+            Compute optimized:
+            Previous generation: (not recommended) C1 node types: cache.c1.xlarge
             Memory optimized:
-            Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-            Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+            Current generation:  R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+            Previous generation: (not recommended) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
             
             Notes:
             All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
-            Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.
+            Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.
+            Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
             Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
             For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis .
             
 
     :type Engine: string
-    :param Engine: The name of the cache engine to be used for the cache clusters in this replication group.
+    :param Engine: The name of the cache engine to be used for the clusters in this replication group.
 
     :type EngineVersion: string
-    :param EngineVersion: The version number of the cache engine to be used for the cache clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
-            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ) in the ElastiCache User Guide , but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cache cluster or replication group and create it anew with the earlier engine version.
+    :param EngineVersion: The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
+            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ) in the ElastiCache User Guide , but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
             
 
     :type CacheParameterGroupName: string
@@ -879,7 +895,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             
 
     :type Tags: list
-    :param Tags: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value.
+    :param Tags: A list of cost allocation tags to be added to this resource. A tag is a key-value pair. A tag key does not have to be accompanied by a tag value.
             (dict) --A cost allocation Tag that can be added to an ElastiCache cluster or replication group. Tags are composed of a Key/Value pair. A tag with a null Value is permitted.
             Key (string) --The key for the tag. May not be null.
             Value (string) --The tag's value. May be null.
@@ -888,20 +904,15 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 
     :type SnapshotArns: list
     :param SnapshotArns: A list of Amazon Resource Names (ARN) that uniquely identify the Redis RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new replication group will have the number of node groups (console: shards) specified by the parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration regardless of the number of ARNs specified here.
-            Note
-            This parameter is only valid if the Engine parameter is redis .
             Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
             (string) --
             
 
     :type SnapshotName: string
     :param SnapshotName: The name of a snapshot from which to restore data into the new replication group. The snapshot status changes to restoring while the new replication group is being created.
-            Note
-            This parameter is only valid if the Engine parameter is redis .
-            
 
     :type PreferredMaintenanceWindow: string
-    :param PreferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cache cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+    :param PreferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
             Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
             Valid values for ddd are:
             sun
@@ -920,7 +931,7 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :type NotificationTopicArn: string
     :param NotificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.
             Note
-            The Amazon SNS topic owner must be the same as the cache cluster owner.
+            The Amazon SNS topic owner must be the same as the cluster owner.
             
 
     :type AutoMinorVersionUpgrade: boolean
@@ -928,27 +939,42 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
 
     :type SnapshotRetentionLimit: integer
     :param SnapshotRetentionLimit: The number of days for which ElastiCache retains automatic snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
-            Note
-            This parameter is only valid if the Engine parameter is redis .
-            Default: 0 (i.e., automatic backups are disabled for this cache cluster).
+            Default: 0 (i.e., automatic backups are disabled for this cluster).
             
 
     :type SnapshotWindow: string
     :param SnapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your node group (shard).
             Example: 05:00-09:00
             If you do not specify this parameter, ElastiCache automatically chooses an appropriate time range.
-            Note
-            This parameter is only valid if the Engine parameter is redis .
             
 
     :type AuthToken: string
     :param AuthToken: 
             Reserved parameter. The password used to access a password protected server.
+            This parameter is valid only if:
+            The parameter TransitEncryptionEnabled was set to true when the cluster was created.
+            The line requirepass was added to the database configuration file.
             Password constraints:
             Must be only printable ASCII characters.
             Must be at least 16 characters and no more than 128 characters in length.
             Cannot contain any of the following characters: '/', ''', or '@'.
-            For more information, see AUTH password at Redis.
+            For more information, see AUTH password at http://redis.io/commands/AUTH.
+            
+
+    :type TransitEncryptionEnabled: boolean
+    :param TransitEncryptionEnabled: A flag that enables in-transit encryption when set to true .
+            You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster.
+            This parameter is valid only if the Engine parameter is redis , the EngineVersion parameter is 3.2.4 or later, and the cluster is being created in an Amazon VPC.
+            If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup .
+            Default: false
+            
+
+    :type AtRestEncryptionEnabled: boolean
+    :param AtRestEncryptionEnabled: A flag that enables encryption at rest when set to true .
+            You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.
+            Note
+            This parameter is valid only if the Engine parameter is redis and the cluster is being created in an Amazon VPC.
+            Default: false
             
 
     :rtype: dict
@@ -959,7 +985,12 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             'Status': 'string',
             'PendingModifiedValues': {
                 'PrimaryClusterId': 'string',
-                'AutomaticFailoverStatus': 'enabled'|'disabled'
+                'AutomaticFailoverStatus': 'enabled'|'disabled',
+                'Resharding': {
+                    'SlotMigration': {
+                        'ProgressPercentage': 123.0
+                    }
+                }
             },
             'MemberClusters': [
                 'string',
@@ -996,21 +1027,25 @@ def create_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             'SnapshotRetentionLimit': 123,
             'SnapshotWindow': 'string',
             'ClusterEnabled': True|False,
-            'CacheNodeType': 'string'
+            'CacheNodeType': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     Redis versions earlier than 2.8.6.
-    Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.
+    Redis (cluster mode disabled): T1 and T2 cache node types.
+    Redis (cluster mode enabled): T1 node types.
     
     """
     pass
 
 def create_snapshot(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=None):
     """
-    Creates a copy of an entire cache cluster or replication group at a specific moment in time.
+    Creates a copy of an entire cluster or replication group at a specific moment in time.
     See also: AWS API Documentation
     
     
@@ -1025,7 +1060,7 @@ def create_snapshot(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=N
     :param ReplicationGroupId: The identifier of an existing replication group. The snapshot is created from this replication group.
 
     :type CacheClusterId: string
-    :param CacheClusterId: The identifier of an existing cache cluster. The snapshot is created from this cache cluster.
+    :param CacheClusterId: The identifier of an existing cluster. The snapshot is created from this cluster.
 
     :type SnapshotName: string
     :param SnapshotName: [REQUIRED]
@@ -1082,14 +1117,17 @@ def create_snapshot(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=N
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -1098,8 +1136,8 @@ def create_snapshot(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=N
 
 def delete_cache_cluster(CacheClusterId=None, FinalSnapshotIdentifier=None):
     """
-    Deletes a previously provisioned cache cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cache cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cache cluster; you cannot cancel or revert this operation.
-    This operation cannot be used to delete a cache cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cache cluster from a Redis (cluster mode enabled) replication group.
+    Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache nodes, node endpoints and the cluster itself. When you receive a successful response from this operation, Amazon ElastiCache immediately begins deleting the cluster; you cannot cancel or revert this operation.
+    This operation cannot be used to delete a cluster that is the last read replica of a replication group or node group (shard) that has Multi-AZ mode enabled or a cluster from a Redis (cluster mode enabled) replication group.
     See also: AWS API Documentation
     
     
@@ -1111,11 +1149,11 @@ def delete_cache_cluster(CacheClusterId=None, FinalSnapshotIdentifier=None):
     
     :type CacheClusterId: string
     :param CacheClusterId: [REQUIRED]
-            The cache cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
+            The cluster identifier for the cluster to be deleted. This parameter is not case sensitive.
             
 
     :type FinalSnapshotIdentifier: string
-    :param FinalSnapshotIdentifier: The user-supplied name of a final cache cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cache cluster immediately afterward.
+    :param FinalSnapshotIdentifier: The user-supplied name of a final cluster snapshot. This is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then deletes the cluster immediately afterward.
 
     :rtype: dict
     :return: {
@@ -1183,21 +1221,27 @@ def delete_cache_cluster(CacheClusterId=None, FinalSnapshotIdentifier=None):
             ],
             'ReplicationGroupId': 'string',
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -1219,7 +1263,7 @@ def delete_cache_parameter_group(CacheParameterGroupName=None):
     :param CacheParameterGroupName: [REQUIRED]
             The name of the cache parameter group to delete.
             Note
-            The specified cache security group must not be associated with any cache clusters.
+            The specified cache security group must not be associated with any clusters.
             
 
     """
@@ -1299,7 +1343,12 @@ def delete_replication_group(ReplicationGroupId=None, RetainPrimaryCluster=None,
             'Status': 'string',
             'PendingModifiedValues': {
                 'PrimaryClusterId': 'string',
-                'AutomaticFailoverStatus': 'enabled'|'disabled'
+                'AutomaticFailoverStatus': 'enabled'|'disabled',
+                'Resharding': {
+                    'SlotMigration': {
+                        'ProgressPercentage': 123.0
+                    }
+                }
             },
             'MemberClusters': [
                 'string',
@@ -1336,14 +1385,18 @@ def delete_replication_group(ReplicationGroupId=None, RetainPrimaryCluster=None,
             'SnapshotRetentionLimit': 123,
             'SnapshotWindow': 'string',
             'ClusterEnabled': True|False,
-            'CacheNodeType': 'string'
+            'CacheNodeType': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     Redis versions earlier than 2.8.6.
-    Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.
+    Redis (cluster mode disabled): T1 and T2 cache node types.
+    Redis (cluster mode enabled): T1 node types.
     
     """
     pass
@@ -1414,7 +1467,8 @@ def delete_snapshot(SnapshotName=None):
     
     :returns: 
     All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
-    Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.
+    Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.
+    Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
     Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
     
     """
@@ -1422,12 +1476,12 @@ def delete_snapshot(SnapshotName=None):
 
 def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, ShowCacheNodeInfo=None, ShowCacheClustersNotInReplicationGroups=None):
     """
-    Returns information about all provisioned cache clusters if no cache cluster identifier is specified, or about a specific cache cluster if a cache cluster identifier is supplied.
-    By default, abbreviated information about the cache clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the cache clusters. These details include the DNS address and port for the cache node endpoint.
+    Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied.
+    By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint.
     If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned.
     If the cluster is in the deleting state, only cluster-level information is displayed.
-    If cache nodes are currently being added to the cache cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cache cluster state is available , the cluster is ready for use.
-    If cache nodes are currently being removed from the cache cluster, no endpoint information for the removed nodes is displayed.
+    If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available , the cluster is ready for use.
+    If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
     See also: AWS API Documentation
     
     
@@ -1441,7 +1495,7 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
     
     
     :type CacheClusterId: string
-    :param CacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cache cluster is returned. This parameter isn't case sensitive.
+    :param CacheClusterId: The user-supplied cluster identifier. If this parameter is specified, only information about that specific cluster is returned. This parameter isn't case sensitive.
 
     :type MaxRecords: integer
     :param MaxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -1526,7 +1580,10 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
                 ],
                 'ReplicationGroupId': 'string',
                 'SnapshotRetentionLimit': 123,
-                'SnapshotWindow': 'string'
+                'SnapshotWindow': 'string',
+                'AuthTokenEnabled': True|False,
+                'TransitEncryptionEnabled': True|False,
+                'AtRestEncryptionEnabled': True|False
             },
         ]
     }
@@ -1534,14 +1591,17 @@ def describe_cache_clusters(CacheClusterId=None, MaxRecords=None, Marker=None, S
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -1904,7 +1964,7 @@ def describe_engine_default_parameters(CacheParameterGroupFamily=None, MaxRecord
 
 def describe_events(SourceIdentifier=None, SourceType=None, StartTime=None, EndTime=None, Duration=None, MaxRecords=None, Marker=None):
     """
-    Returns events related to cache clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cache cluster, cache security group, or cache parameter group by providing the name as a parameter.
+    Returns events related to clusters, cache security groups, and cache parameter groups. You can obtain events specific to a particular cluster, cache security group, or cache parameter group by providing the name as a parameter.
     By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
     See also: AWS API Documentation
     
@@ -2002,7 +2062,12 @@ def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker
                 'Status': 'string',
                 'PendingModifiedValues': {
                     'PrimaryClusterId': 'string',
-                    'AutomaticFailoverStatus': 'enabled'|'disabled'
+                    'AutomaticFailoverStatus': 'enabled'|'disabled',
+                    'Resharding': {
+                        'SlotMigration': {
+                            'ProgressPercentage': 123.0
+                        }
+                    }
                 },
                 'MemberClusters': [
                     'string',
@@ -2039,7 +2104,10 @@ def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker
                 'SnapshotRetentionLimit': 123,
                 'SnapshotWindow': 'string',
                 'ClusterEnabled': True|False,
-                'CacheNodeType': 'string'
+                'CacheNodeType': 'string',
+                'AuthTokenEnabled': True|False,
+                'TransitEncryptionEnabled': True|False,
+                'AtRestEncryptionEnabled': True|False
             },
         ]
     }
@@ -2047,7 +2115,8 @@ def describe_replication_groups(ReplicationGroupId=None, MaxRecords=None, Marker
     
     :returns: 
     Redis versions earlier than 2.8.6.
-    Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.
+    Redis (cluster mode disabled): T1 and T2 cache node types.
+    Redis (cluster mode enabled): T1 node types.
     
     """
     pass
@@ -2078,18 +2147,20 @@ def describe_reserved_cache_nodes(ReservedCacheNodeId=None, ReservedCacheNodesOf
 
     :type CacheNodeType: string
     :param CacheNodeType: The cache node type filter value. Use this parameter to show only those reservations matching the specified cache node type.
-            Valid node types are as follows:
+            The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
             General purpose:
-            Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-            Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
-            Compute optimized: cache.c1.xlarge
+            Current generation:  T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+            Previous generation: (not recommended) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+            Compute optimized:
+            Previous generation: (not recommended) C1 node types: cache.c1.xlarge
             Memory optimized:
-            Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-            Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+            Current generation:  R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+            Previous generation: (not recommended) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
             
             Notes:
             All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
-            Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.
+            Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.
+            Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
             Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
             For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis .
             
@@ -2145,14 +2216,17 @@ def describe_reserved_cache_nodes(ReservedCacheNodeId=None, ReservedCacheNodesOf
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -2183,18 +2257,20 @@ def describe_reserved_cache_nodes_offerings(ReservedCacheNodesOfferingId=None, C
 
     :type CacheNodeType: string
     :param CacheNodeType: The cache node type filter value. Use this parameter to show only the available offerings matching the specified cache node type.
-            Valid node types are as follows:
+            The following node types are supported by ElastiCache. Generally speaking, the current generation types provide more memory and computational power at lower cost when compared to their equivalent previous generation counterparts.
             General purpose:
-            Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-            Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
-            Compute optimized: cache.c1.xlarge
+            Current generation:  T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+            Previous generation: (not recommended) T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+            Compute optimized:
+            Previous generation: (not recommended) C1 node types: cache.c1.xlarge
             Memory optimized:
-            Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-            Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+            Current generation:  R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+            Previous generation: (not recommended) M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
             
             Notes:
             All T2 instances are created in an Amazon Virtual Private Cloud (Amazon VPC).
-            Redis backup/restore is not supported for Redis (cluster mode disabled) T1 and T2 instances. Backup/restore is supported on Redis (cluster mode enabled) T2 instances.
+            Redis (cluster mode disabled): Redis backup/restore is not supported on T1 and T2 instances.
+            Redis (cluster mode enabled): Backup/restore is not supported on T1 instances.
             Redis Append-only files (AOF) functionality is not supported for T1 or T2 instances.
             For a complete listing of node types and specifications, see Amazon ElastiCache Product Features and Details and either Cache Node Type-Specific Parameters for Memcached or Cache Node Type-Specific Parameters for Redis .
             
@@ -2246,14 +2322,17 @@ def describe_reserved_cache_nodes_offerings(ReservedCacheNodesOfferingId=None, C
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -2262,7 +2341,7 @@ def describe_reserved_cache_nodes_offerings(ReservedCacheNodesOfferingId=None, C
 
 def describe_snapshots(ReplicationGroupId=None, CacheClusterId=None, SnapshotName=None, SnapshotSource=None, Marker=None, MaxRecords=None, ShowNodeGroupConfig=None):
     """
-    Returns information about cache cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.
+    Returns information about cluster or replication group snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot, or just the snapshots associated with a particular cache cluster.
     See also: AWS API Documentation
     
     
@@ -2281,7 +2360,7 @@ def describe_snapshots(ReplicationGroupId=None, CacheClusterId=None, SnapshotNam
     :param ReplicationGroupId: A user-supplied replication group identifier. If this parameter is specified, only snapshots associated with that specific replication group are described.
 
     :type CacheClusterId: string
-    :param CacheClusterId: A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cache cluster are described.
+    :param CacheClusterId: A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
 
     :type SnapshotName: string
     :param SnapshotName: A user-supplied name of the snapshot. If this parameter is specified, only this snapshot are described.
@@ -2354,14 +2433,17 @@ def describe_snapshots(ReplicationGroupId=None, CacheClusterId=None, SnapshotNam
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -2426,7 +2508,7 @@ def list_allowed_node_type_modifications(CacheClusterId=None, ReplicationGroupId
     
     
     :type CacheClusterId: string
-    :param CacheClusterId: The name of the cache cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.
+    :param CacheClusterId: The name of the cluster you want to scale up to a larger node instanced type. ElastiCache uses the cluster id to identify the current node type of this cluster and from that to create a list of node types you can scale up to.
             Warning
             You must provide a value for either the CacheClusterId or the ReplicationGroupId .
             
@@ -2485,7 +2567,7 @@ def list_tags_for_resource(ResourceName=None):
 
 def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsToRemove=None, AZMode=None, NewAvailabilityZones=None, CacheSecurityGroupNames=None, SecurityGroupIds=None, PreferredMaintenanceWindow=None, NotificationTopicArn=None, CacheParameterGroupName=None, NotificationTopicStatus=None, ApplyImmediately=None, EngineVersion=None, AutoMinorVersionUpgrade=None, SnapshotRetentionLimit=None, SnapshotWindow=None, CacheNodeType=None):
     """
-    Modifies the settings for a cache cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
+    Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     See also: AWS API Documentation
     
     
@@ -2520,30 +2602,30 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
     
     :type CacheClusterId: string
     :param CacheClusterId: [REQUIRED]
-            The cache cluster identifier. This value is stored as a lowercase string.
+            The cluster identifier. This value is stored as a lowercase string.
             
 
     :type NumCacheNodes: integer
-    :param NumCacheNodes: The number of cache nodes that the cache cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled.
+    :param NumCacheNodes: The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled.
             If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove.
             For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 20.
             Note
             Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately ).
-            A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cache cluster.
+            A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
             
 
     :type CacheNodeIdsToRemove: list
     :param CacheNodeIdsToRemove: A list of cache node IDs to be removed. A node ID is a numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than the existing number of cache nodes. The number of cache node IDs supplied in this parameter must match the difference between the existing number of cache nodes in the cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request.
-            For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluser call is 5, you must list 2 (7 - 5) cache node IDs to remove.
+            For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to remove.
             (string) --
             
 
     :type AZMode: string
-    :param AZMode: Specifies whether the new nodes in this Memcached cache cluster are all created in a single Availability Zone or created across multiple Availability Zones.
+    :param AZMode: Specifies whether the new nodes in this Memcached cluster are all created in a single Availability Zone or created across multiple Availability Zones.
             Valid values: single-az | cross-az .
-            This option is only supported for Memcached cache clusters.
+            This option is only supported for Memcached clusters.
             Note
-            You cannot specify single-az if the Memcached cache cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone.
+            You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone.
             Only newly created nodes are located in different Availability Zones. For instructions on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached .
             
 
@@ -2581,14 +2663,14 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
             
 
     :type CacheSecurityGroupNames: list
-    :param CacheSecurityGroupNames: A list of cache security group names to authorize on this cache cluster. This change is asynchronously applied as soon as possible.
+    :param CacheSecurityGroupNames: A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible.
             You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC).
             Constraints: Must contain no more than 255 alphanumeric characters. Must not be 'Default'.
             (string) --
             
 
     :type SecurityGroupIds: list
-    :param SecurityGroupIds: Specifies the VPC Security Groups associated with the cache cluster.
+    :param SecurityGroupIds: Specifies the VPC Security Groups associated with the cluster.
             This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
             (string) --
             
@@ -2609,11 +2691,11 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
     :type NotificationTopicArn: string
     :param NotificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.
             Note
-            The Amazon SNS topic owner must be same as the cache cluster owner.
+            The Amazon SNS topic owner must be same as the cluster owner.
             
 
     :type CacheParameterGroupName: string
-    :param CacheParameterGroupName: The name of the cache parameter group to apply to this cache cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
+    :param CacheParameterGroupName: The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
 
     :type NotificationTopicStatus: string
     :param NotificationTopicStatus: The status of the Amazon SNS notification topic. Notifications are sent only if the status is active .
@@ -2621,8 +2703,8 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
             
 
     :type ApplyImmediately: boolean
-    :param ApplyImmediately: If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cache cluster.
-            If false , changes to the cache cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.
+    :param ApplyImmediately: If true , this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster.
+            If false , changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.
             Warning
             If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.
             Valid values: true | false
@@ -2631,23 +2713,23 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
 
     :type EngineVersion: string
     :param EngineVersion: The upgraded version of the cache engine to be run on the cache nodes.
-            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cache cluster and create it anew with the earlier engine version.
+            Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
             
 
     :type AutoMinorVersionUpgrade: boolean
     :param AutoMinorVersionUpgrade: This parameter is currently disabled.
 
     :type SnapshotRetentionLimit: integer
-    :param SnapshotRetentionLimit: The number of days for which ElastiCache retains automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
+    :param SnapshotRetentionLimit: The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.
             Note
             If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
             
 
     :type SnapshotWindow: string
-    :param SnapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cache cluster.
+    :param SnapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster.
 
     :type CacheNodeType: string
-    :param CacheNodeType: A valid cache node type that you want to scale this cache cluster up to.
+    :param CacheNodeType: A valid cache node type that you want to scale this cluster up to.
 
     :rtype: dict
     :return: {
@@ -2715,21 +2797,27 @@ def modify_cache_cluster(CacheClusterId=None, NumCacheNodes=None, CacheNodeIdsTo
             ],
             'ReplicationGroupId': 'string',
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -2879,27 +2967,27 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
     :param PrimaryClusterId: For replication groups with a single primary, if this parameter is specified, ElastiCache promotes the specified cluster in the specified replication group to the primary role. The nodes of all other clusters in the replication group are read replicas.
 
     :type SnapshottingClusterId: string
-    :param SnapshottingClusterId: The cache cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
+    :param SnapshottingClusterId: The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
 
     :type AutomaticFailoverEnabled: boolean
     :param AutomaticFailoverEnabled: Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
             Valid values: true | false
-            Note
-            ElastiCache Multi-AZ replication groups are not supported on:
+            Amazon ElastiCache for Redis does not support Multi-AZ with automatic failover on:
             Redis versions earlier than 2.8.6.
-            Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.
+            Redis (cluster mode disabled): T1 and T2 cache node types.
+            Redis (cluster mode enabled): T1 node types.
             
 
     :type CacheSecurityGroupNames: list
     :param CacheSecurityGroupNames: A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible.
-            This parameter can be used only with replication group containing cache clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC).
+            This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC).
             Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default .
             (string) --
             
 
     :type SecurityGroupIds: list
-    :param SecurityGroupIds: Specifies the VPC Security Groups associated with the cache clusters in the replication group.
-            This parameter can be used only with replication group containing cache clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
+    :param SecurityGroupIds: Specifies the VPC Security Groups associated with the clusters in the replication group.
+            This parameter can be used only with replication group containing clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
             (string) --
             
 
@@ -2938,7 +3026,7 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             
 
     :type EngineVersion: string
-    :param EngineVersion: The upgraded version of the cache engine to be run on the cache clusters in the replication group.
+    :param EngineVersion: The upgraded version of the cache engine to be run on the clusters in the replication group.
             Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version ), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
             
 
@@ -2970,7 +3058,12 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             'Status': 'string',
             'PendingModifiedValues': {
                 'PrimaryClusterId': 'string',
-                'AutomaticFailoverStatus': 'enabled'|'disabled'
+                'AutomaticFailoverStatus': 'enabled'|'disabled',
+                'Resharding': {
+                    'SlotMigration': {
+                        'ProgressPercentage': 123.0
+                    }
+                }
             },
             'MemberClusters': [
                 'string',
@@ -3007,14 +3100,138 @@ def modify_replication_group(ReplicationGroupId=None, ReplicationGroupDescriptio
             'SnapshotRetentionLimit': 123,
             'SnapshotWindow': 'string',
             'ClusterEnabled': True|False,
-            'CacheNodeType': 'string'
+            'CacheNodeType': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     Redis versions earlier than 2.8.6.
-    Redis (cluster mode disabled):T1 and T2 cache node types. Redis (cluster mode enabled): T1 node types.
+    Redis (cluster mode disabled): T1 and T2 cache node types.
+    Redis (cluster mode enabled): T1 node types.
+    
+    """
+    pass
+
+def modify_replication_group_shard_configuration(ReplicationGroupId=None, NodeGroupCount=None, ApplyImmediately=None, ReshardingConfiguration=None, NodeGroupsToRemove=None):
+    """
+    Performs horizontal scaling on a Redis (cluster mode enabled) cluster with no downtime. Requires Redis engine version 3.2.10 or newer. For information on upgrading your engine to a newer version, see Upgrading Engine Versions in the Amazon ElastiCache User Guide.
+    For more information on ElastiCache for Redis online horizontal scaling, see ElastiCache for Redis Horizontal Scaling
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.modify_replication_group_shard_configuration(
+        ReplicationGroupId='string',
+        NodeGroupCount=123,
+        ApplyImmediately=True|False,
+        ReshardingConfiguration=[
+            {
+                'PreferredAvailabilityZones': [
+                    'string',
+                ]
+            },
+        ],
+        NodeGroupsToRemove=[
+            'string',
+        ]
+    )
+    
+    
+    :type ReplicationGroupId: string
+    :param ReplicationGroupId: [REQUIRED]
+            The name of the Redis (cluster mode enabled) cluster (replication group) on which the shards are to be configured.
+            
+
+    :type NodeGroupCount: integer
+    :param NodeGroupCount: [REQUIRED]
+            The number of node groups (shards) that results from the modification of the shard configuration.
+            
+
+    :type ApplyImmediately: boolean
+    :param ApplyImmediately: [REQUIRED]
+            Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true .
+            Value: true
+            
+
+    :type ReshardingConfiguration: list
+    :param ReshardingConfiguration: Specifies the preferred availability zones for each node group in the cluster. If the value of NodeGroupCount is greater than the current number of node groups (shards), you can use this parameter to specify the preferred availability zones of the cluster's shards. If you omit this parameter ElastiCache selects availability zones for you.
+            You can specify this parameter only if the value of NodeGroupCount is greater than the current number of node groups (shards).
+            (dict) --A list of PreferredAvailabilityZones objects that specifies the configuration of a node group in the resharded cluster.
+            PreferredAvailabilityZones (list) --A list of preferred availability zones for the nodes in this cluster.
+            (string) --
+            
+            
+
+    :type NodeGroupsToRemove: list
+    :param NodeGroupsToRemove: If the value of NodeGroupCount is less than the current number of node groups (shards), NodeGroupsToRemove is a required list of node group ids to remove from the cluster.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'ReplicationGroup': {
+            'ReplicationGroupId': 'string',
+            'Description': 'string',
+            'Status': 'string',
+            'PendingModifiedValues': {
+                'PrimaryClusterId': 'string',
+                'AutomaticFailoverStatus': 'enabled'|'disabled',
+                'Resharding': {
+                    'SlotMigration': {
+                        'ProgressPercentage': 123.0
+                    }
+                }
+            },
+            'MemberClusters': [
+                'string',
+            ],
+            'NodeGroups': [
+                {
+                    'NodeGroupId': 'string',
+                    'Status': 'string',
+                    'PrimaryEndpoint': {
+                        'Address': 'string',
+                        'Port': 123
+                    },
+                    'Slots': 'string',
+                    'NodeGroupMembers': [
+                        {
+                            'CacheClusterId': 'string',
+                            'CacheNodeId': 'string',
+                            'ReadEndpoint': {
+                                'Address': 'string',
+                                'Port': 123
+                            },
+                            'PreferredAvailabilityZone': 'string',
+                            'CurrentRole': 'string'
+                        },
+                    ]
+                },
+            ],
+            'SnapshottingClusterId': 'string',
+            'AutomaticFailover': 'enabled'|'disabled'|'enabling'|'disabling',
+            'ConfigurationEndpoint': {
+                'Address': 'string',
+                'Port': 123
+            },
+            'SnapshotRetentionLimit': 123,
+            'SnapshotWindow': 'string',
+            'ClusterEnabled': True|False,
+            'CacheNodeType': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
+        }
+    }
+    
+    
+    :returns: 
+    Redis versions earlier than 2.8.6.
+    Redis (cluster mode disabled): T1 and T2 cache node types.
+    Redis (cluster mode enabled): T1 node types.
     
     """
     pass
@@ -3076,14 +3293,17 @@ def purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId=None, Re
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -3092,9 +3312,11 @@ def purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId=None, Re
 
 def reboot_cache_cluster(CacheClusterId=None, CacheNodeIdsToReboot=None):
     """
-    Reboots some, or all, of the cache nodes within a provisioned cache cluster. This operation applies any modified cache parameter groups to the cache cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cache cluster. During the reboot, the cache cluster status is set to REBOOTING.
+    Reboots some, or all, of the cache nodes within a provisioned cluster. This operation applies any modified cache parameter groups to the cluster. The reboot operation takes place as soon as possible, and results in a momentary outage to the cluster. During the reboot, the cluster status is set to REBOOTING.
     The reboot causes the contents of the cache (for each cache node being rebooted) to be lost.
-    When the reboot is complete, a cache cluster event is created.
+    When the reboot is complete, a cluster event is created.
+    Rebooting a cluster is currently supported on Memcached and Redis (cluster mode disabled) clusters. Rebooting is not supported on Redis (cluster mode enabled) clusters.
+    If you make changes to parameters that require a Redis (cluster mode enabled) cluster reboot for the changes to be applied, see Rebooting a Cluster for an alternate process.
     See also: AWS API Documentation
     
     
@@ -3108,12 +3330,12 @@ def reboot_cache_cluster(CacheClusterId=None, CacheNodeIdsToReboot=None):
     
     :type CacheClusterId: string
     :param CacheClusterId: [REQUIRED]
-            The cache cluster identifier. This parameter is stored as a lowercase string.
+            The cluster identifier. This parameter is stored as a lowercase string.
             
 
     :type CacheNodeIdsToReboot: list
     :param CacheNodeIdsToReboot: [REQUIRED]
-            A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cache cluster, specify all of the cache node IDs.
+            A list of cache node IDs to reboot. A node ID is a numeric identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
             (string) --
             
 
@@ -3183,21 +3405,27 @@ def reboot_cache_cluster(CacheClusterId=None, CacheNodeIdsToReboot=None):
             ],
             'ReplicationGroupId': 'string',
             'SnapshotRetentionLimit': 123,
-            'SnapshotWindow': 'string'
+            'SnapshotWindow': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     
     
     :returns: 
     General purpose:
-    Current generation: cache.t2.micro , cache.t2.small , cache.t2.medium , cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge , cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
-    Previous generation: cache.t1.micro , cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
+    Current generation:   T2 node types: cache.t2.micro , cache.t2.small , cache.t2.medium M3 node types: cache.m3.medium , cache.m3.large , cache.m3.xlarge , cache.m3.2xlarge M4 node types: cache.m4.large , cache.m4.xlarge , cache.m4.2xlarge , cache.m4.4xlarge , cache.m4.10xlarge
+    Previous generation: (not recommended)  T1 node types: cache.t1.micro M1 node types: cache.m1.small , cache.m1.medium , cache.m1.large , cache.m1.xlarge
     
     
-    Compute optimized: cache.c1.xlarge
+    Compute optimized:
+    Previous generation: (not recommended)  C1 node types: cache.c1.xlarge
+    
+    
     Memory optimized:
-    Current generation: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
-    Previous generation: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
+    Current generation:   R3 node types: cache.r3.large , cache.r3.xlarge , cache.r3.2xlarge , cache.r3.4xlarge , cache.r3.8xlarge
+    Previous generation: (not recommended)  M2 node types: cache.m2.xlarge , cache.m2.2xlarge , cache.m2.4xlarge
     
     
     
@@ -3378,7 +3606,12 @@ def test_failover(ReplicationGroupId=None, NodeGroupId=None):
             'Status': 'string',
             'PendingModifiedValues': {
                 'PrimaryClusterId': 'string',
-                'AutomaticFailoverStatus': 'enabled'|'disabled'
+                'AutomaticFailoverStatus': 'enabled'|'disabled',
+                'Resharding': {
+                    'SlotMigration': {
+                        'ProgressPercentage': 123.0
+                    }
+                }
             },
             'MemberClusters': [
                 'string',
@@ -3415,7 +3648,10 @@ def test_failover(ReplicationGroupId=None, NodeGroupId=None):
             'SnapshotRetentionLimit': 123,
             'SnapshotWindow': 'string',
             'ClusterEnabled': True|False,
-            'CacheNodeType': 'string'
+            'CacheNodeType': 'string',
+            'AuthTokenEnabled': True|False,
+            'TransitEncryptionEnabled': True|False,
+            'AtRestEncryptionEnabled': True|False
         }
     }
     

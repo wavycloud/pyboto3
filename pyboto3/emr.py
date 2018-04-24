@@ -99,9 +99,9 @@ def add_instance_fleet(ClusterId=None, InstanceFleet=None):
             Note
             The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
             InstanceType (string) -- [REQUIRED]An EC2 instance type, such as m3.xlarge .
-            WeightedCapacity (integer) --The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig . This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets.
+            WeightedCapacity (integer) --The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig . This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified.
             BidPrice (string) --The bid price for each EC2 Spot instance type as defined by InstanceType . Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
-            BidPriceAsPercentageOfOnDemandPrice (float) --The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType . Expressed as a number between 0 and 1000 (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+            BidPriceAsPercentageOfOnDemandPrice (float) --The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType . Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
             EbsConfiguration (dict) --The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType .
             EbsBlockDeviceConfigs (list) --An array of Amazon EBS volume specifications attached to a cluster instance.
             (dict) --Configuration of requested EBS block device associated with the instance group with count of volumes that will be associated to every instance.
@@ -128,7 +128,7 @@ def add_instance_fleet(ClusterId=None, InstanceFleet=None):
             LaunchSpecifications (dict) --The launch specification for the instance fleet.
             SpotSpecification (dict) -- [REQUIRED]The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
             TimeoutDurationMinutes (integer) -- [REQUIRED]The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-            TimeoutAction (string) -- [REQUIRED]The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
+            TimeoutAction (string) -- [REQUIRED]The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND . SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
             BlockDurationMinutes (integer) --The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates.
             
             
@@ -270,8 +270,8 @@ def add_instance_groups(InstanceGroups=None, JobFlowId=None):
             Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
             Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
             SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
-            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as an integer. For example, -20 indicates a decrease in 20% increments of cluster capacity.
             CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
             
             Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
@@ -388,7 +388,7 @@ def add_job_flow_steps(JobFlowId=None, Steps=None):
 
 def add_tags(ResourceId=None, Tags=None):
     """
-    Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
+    Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters .
     See also: AWS API Documentation
     
     
@@ -411,9 +411,9 @@ def add_tags(ResourceId=None, Tags=None):
     :type Tags: list
     :param Tags: [REQUIRED]
             A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
-            (dict) --A key/value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
-            Key (string) --A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources .
-            Value (string) --A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources .
+            (dict) --A key/value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters .
+            Key (string) --A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag .
+            Value (string) --A user-defined value, which is optional in a tag. For more information, see Tag Clusters .
             
             
 
@@ -495,7 +495,7 @@ def create_security_configuration(Name=None, SecurityConfiguration=None):
 
     :type SecurityConfiguration: string
     :param SecurityConfiguration: [REQUIRED]
-            The security configuration details in JSON format.
+            The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide .
             
 
     :rtype: dict
@@ -555,7 +555,7 @@ def describe_cluster(ClusterId=None):
             'Status': {
                 'State': 'STARTING'|'BOOTSTRAPPING'|'RUNNING'|'WAITING'|'TERMINATING'|'TERMINATED'|'TERMINATED_WITH_ERRORS',
                 'StateChangeReason': {
-                    'Code': 'INTERNAL_ERROR'|'VALIDATION_ERROR'|'INSTANCE_FAILURE'|'BOOTSTRAP_FAILURE'|'USER_REQUEST'|'STEP_FAILURE'|'ALL_STEPS_COMPLETED',
+                    'Code': 'INTERNAL_ERROR'|'VALIDATION_ERROR'|'INSTANCE_FAILURE'|'INSTANCE_FLEET_TIMEOUT'|'BOOTSTRAP_FAILURE'|'USER_REQUEST'|'STEP_FAILURE'|'ALL_STEPS_COMPLETED',
                     'Message': 'string'
                 },
                 'Timeline': {
@@ -625,7 +625,17 @@ def describe_cluster(ClusterId=None):
             ],
             'SecurityConfiguration': 'string',
             'AutoScalingRole': 'string',
-            'ScaleDownBehavior': 'TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION'
+            'ScaleDownBehavior': 'TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION',
+            'CustomAmiId': 'string',
+            'EbsRootVolumeSize': 123,
+            'RepoUpgradeOnBoot': 'SECURITY'|'NONE',
+            'KerberosAttributes': {
+                'Realm': 'string',
+                'KdcAdminPassword': 'string',
+                'CrossRealmTrustPrincipalPassword': 'string',
+                'ADDomainJoinUser': 'string',
+                'ADDomainJoinPassword': 'string'
+            }
         }
     }
     
@@ -1018,7 +1028,7 @@ def list_clusters(CreatedAfter=None, CreatedBefore=None, ClusterStates=None, Mar
                 'Status': {
                     'State': 'STARTING'|'BOOTSTRAPPING'|'RUNNING'|'WAITING'|'TERMINATING'|'TERMINATED'|'TERMINATED_WITH_ERRORS',
                     'StateChangeReason': {
-                        'Code': 'INTERNAL_ERROR'|'VALIDATION_ERROR'|'INSTANCE_FAILURE'|'BOOTSTRAP_FAILURE'|'USER_REQUEST'|'STEP_FAILURE'|'ALL_STEPS_COMPLETED',
+                        'Code': 'INTERNAL_ERROR'|'VALIDATION_ERROR'|'INSTANCE_FAILURE'|'INSTANCE_FLEET_TIMEOUT'|'BOOTSTRAP_FAILURE'|'USER_REQUEST'|'STEP_FAILURE'|'ALL_STEPS_COMPLETED',
                         'Message': 'string'
                     },
                     'Timeline': {
@@ -1122,10 +1132,13 @@ def list_instance_fleets(ClusterId=None, Marker=None):
     
     
     :returns: 
-    (string) --
-    (string) --
-    
-    
+    PROVISIONING The instance fleet is provisioning EC2 resources and is not yet ready to run jobs.
+    BOOTSTRAPPING EC2 instances and other resources have been provisioned and the bootstrap actions specified for the instances are underway.
+    RUNNING EC2 instances and other resources are running. They are either executing jobs or waiting to execute jobs.
+    RESIZING A resize operation is underway. EC2 instances are either being added or removed.
+    SUSPENDED A resize operation could not complete. Existing EC2 instances are running, but instances can't be added or removed.
+    TERMINATING The instance fleet is terminating EC2 instances.
+    TERMINATED The instance fleet is no longer active, and all EC2 instances have been terminated.
     
     """
     pass
@@ -1268,7 +1281,7 @@ def list_instance_groups(ClusterId=None, Marker=None):
 
 def list_instances(ClusterId=None, InstanceGroupId=None, InstanceGroupTypes=None, InstanceFleetId=None, InstanceFleetType=None, InstanceStates=None, Marker=None):
     """
-    Provides information about the cluster instances that Amazon EMR provisions on behalf of a user when it creates the cluster. For example, this operation indicates when the EC2 instances reach the Ready state, when instances become available to Amazon EMR to use for jobs, and the IP addresses for cluster instances, etc.
+    Provides information for all active EC2 instances and EC2 instances terminated in the last 30 days, up to a maximum of 2,000. EC2 instances in any of the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
     See also: AWS API Documentation
     
     
@@ -1631,8 +1644,8 @@ def put_auto_scaling_policy(ClusterId=None, InstanceGroupId=None, AutoScalingPol
             Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
             Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
             SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
-            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as an integer. For example, -20 indicates a decrease in 20% increments of cluster capacity.
             CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
             
             Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
@@ -1743,7 +1756,7 @@ def remove_auto_scaling_policy(ClusterId=None, InstanceGroupId=None):
 
 def remove_tags(ResourceId=None, TagKeys=None):
     """
-    Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
+    Removes tags from an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters .
     The following example removes the stack tag with value Prod from a cluster:
     See also: AWS API Documentation
     
@@ -1774,7 +1787,7 @@ def remove_tags(ResourceId=None, TagKeys=None):
     """
     pass
 
-def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, ReleaseLabel=None, Instances=None, Steps=None, BootstrapActions=None, SupportedProducts=None, NewSupportedProducts=None, Applications=None, Configurations=None, VisibleToAllUsers=None, JobFlowRole=None, ServiceRole=None, Tags=None, SecurityConfiguration=None, AutoScalingRole=None, ScaleDownBehavior=None):
+def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, ReleaseLabel=None, Instances=None, Steps=None, BootstrapActions=None, SupportedProducts=None, NewSupportedProducts=None, Applications=None, Configurations=None, VisibleToAllUsers=None, JobFlowRole=None, ServiceRole=None, Tags=None, SecurityConfiguration=None, AutoScalingRole=None, ScaleDownBehavior=None, CustomAmiId=None, EbsRootVolumeSize=None, RepoUpgradeOnBoot=None, KerberosAttributes=None):
     """
     RunJobFlow creates and starts running a new cluster (job flow). The cluster runs the steps specified. After the steps complete, the cluster stops and the HDFS partition is lost. To prevent loss of data, configure the last step of the job flow to store results in Amazon S3. If the  JobFlowInstancesConfig  KeepJobFlowAliveWhenNoSteps parameter is set to TRUE , the cluster transitions to the WAITING state rather than shutting down after the steps have completed.
     For additional protection, you can set the  JobFlowInstancesConfig  TerminationProtected parameter to TRUE to lock the cluster and prevent it from being terminated by API call, user intervention, or in the event of a job flow error.
@@ -2006,7 +2019,17 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
         ],
         SecurityConfiguration='string',
         AutoScalingRole='string',
-        ScaleDownBehavior='TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION'
+        ScaleDownBehavior='TERMINATE_AT_INSTANCE_HOUR'|'TERMINATE_AT_TASK_COMPLETION',
+        CustomAmiId='string',
+        EbsRootVolumeSize=123,
+        RepoUpgradeOnBoot='SECURITY'|'NONE',
+        KerberosAttributes={
+            'Realm': 'string',
+            'KdcAdminPassword': 'string',
+            'CrossRealmTrustPrincipalPassword': 'string',
+            'ADDomainJoinUser': 'string',
+            'ADDomainJoinPassword': 'string'
+        }
     )
     
     
@@ -2022,23 +2045,14 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
     :param AdditionalInfo: A JSON string for selecting additional features.
 
     :type AmiVersion: string
-    :param AmiVersion: 
-            Note
-            For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use ReleaseLabel.
-            The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. The following values are valid:
-            The version number of the AMI to use, for example, '2.0.'
-            If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20) you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above.
-            For details about the AMI versions currently supported by Amazon Elastic MapReduce, see AMI Versions Supported in Elastic MapReduce in the Amazon Elastic MapReduce Developer Guide.
+    :param AmiVersion: For Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases 4.0 and later, the Linux AMI is determined by the ReleaseLabel specified or by CustomAmiID . The version of the Amazon Machine Image (AMI) to use when launching Amazon EC2 instances in the job flow. For details about the AMI versions currently supported in EMR version 3.x and 2.x, see AMI Versions Supported in EMR in the Amazon EMR Developer Guide .
+            If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports both Hadoop 0.18 and 0.20), you can use the JobFlowInstancesConfig HadoopVersion parameter to modify the version of Hadoop from the defaults shown above.
             Note
             Previously, the EMR AMI version API parameter options allowed you to use latest for the latest AMI version rather than specify a numerical value. Some regions no longer support this deprecated option as they only have a newer release label version of EMR, which requires you to specify an EMR release label release (EMR 4.x or later).
             
 
     :type ReleaseLabel: string
-    :param ReleaseLabel: 
-            Note
-            Amazon EMR releases 4.x or later.
-            The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use amiVersion instead instead of ReleaseLabel.
-            
+    :param ReleaseLabel: The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x AMIs, use AmiVersion instead.
 
     :type Instances: dict
     :param Instances: [REQUIRED]
@@ -2090,8 +2104,8 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             Action (dict) -- [REQUIRED]The conditions that trigger an automatic scaling activity.
             Market (string) --Not available for instance groups. Instance groups use the market type specified for the group.
             SimpleScalingPolicyConfiguration (dict) -- [REQUIRED]The type of adjustment the automatic scaling activity makes when triggered, and the periodicity of the adjustment.
-            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as a decimal. For example, 0.20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
-            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as a decimal. For example, -0.20 indicates a decrease in 20% increments of cluster capacity.
+            AdjustmentType (string) --The way in which EC2 instances are added (if ScalingAdjustment is a positive number) or terminated (if ScalingAdjustment is a negative number) each time the scaling activity is triggered. CHANGE_IN_CAPACITY is the default. CHANGE_IN_CAPACITY indicates that the EC2 instance count increments or decrements by ScalingAdjustment , which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates the instance count increments or decrements by the percentage specified by ScalingAdjustment , which should be expressed as an integer. For example, 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY indicates the scaling activity results in an instance group with the number of EC2 instances specified by ScalingAdjustment , which should be expressed as a positive integer.
+            ScalingAdjustment (integer) -- [REQUIRED]The amount by which to scale in or scale out, based on the specified AdjustmentType . A positive value adds to the instance group's EC2 instance count while a negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY , the number should only be a positive integer. If AdjustmentType is set to PERCENT_CHANGE_IN_CAPACITY , the value should express the percentage as an integer. For example, -20 indicates a decrease in 20% increments of cluster capacity.
             CoolDown (integer) --The amount of time, in seconds, after a scaling activity completes before any further trigger-related scaling activities can start. The default value is 0.
             
             Trigger (dict) -- [REQUIRED]The CloudWatch alarm definition that determines when automatic scaling activity is triggered.
@@ -2132,9 +2146,9 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             Note
             The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions.
             InstanceType (string) -- [REQUIRED]An EC2 instance type, such as m3.xlarge .
-            WeightedCapacity (integer) --The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig . This value is 1 for a master instance fleet, and must be greater than 0 for core and task instance fleets.
+            WeightedCapacity (integer) --The number of units that a provisioned instance of this type provides toward fulfilling the target capacities defined in InstanceFleetConfig . This value is 1 for a master instance fleet, and must be 1 or greater for core and task instance fleets. Defaults to 1 if not specified.
             BidPrice (string) --The bid price for each EC2 Spot instance type as defined by InstanceType . Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
-            BidPriceAsPercentageOfOnDemandPrice (float) --The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType . Expressed as a number between 0 and 1000 (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
+            BidPriceAsPercentageOfOnDemandPrice (float) --The bid price, as a percentage of On-Demand price, for each EC2 Spot instance as defined by InstanceType . Expressed as a number (for example, 20 specifies 20%). If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
             EbsConfiguration (dict) --The configuration of Amazon Elastic Block Storage (EBS) attached to each instance as defined by InstanceType .
             EbsBlockDeviceConfigs (list) --An array of Amazon EBS volume specifications attached to a cluster instance.
             (dict) --Configuration of requested EBS block device associated with the instance group with count of volumes that will be associated to every instance.
@@ -2161,7 +2175,7 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             LaunchSpecifications (dict) --The launch specification for the instance fleet.
             SpotSpecification (dict) -- [REQUIRED]The launch specification for Spot instances in the fleet, which determines the defined duration and provisioning timeout behavior.
             TimeoutDurationMinutes (integer) -- [REQUIRED]The spot provisioning timeout period in minutes. If Spot instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
-            TimeoutAction (string) -- [REQUIRED]The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND to fulfill the remaining capacity.
+            TimeoutAction (string) -- [REQUIRED]The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired. Spot instances are not uprovisioned within the Spot provisioining timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND . SWITCH_TO_ON_DEMAND specifies that if no Spot instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
             BlockDurationMinutes (integer) --The defined duration for Spot instances (also known as Spot blocks) in minutes. When specified, the Spot instance does not terminate before the defined duration expires, and defined duration pricing for Spot instances applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration period starts as soon as a Spot instance receives its instance ID. At the end of the duration, Amazon EC2 marks the Spot instance for termination and provides a Spot instance termination notice, which gives the instance a two-minute warning before it terminates.
             
             
@@ -2223,8 +2237,8 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
     :type SupportedProducts: list
     :param SupportedProducts: 
             Note
-            For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.
-            A list of strings that indicates third-party software to use. For more information, see Use Third Party Applications with Amazon EMR . Currently supported values are:
+            For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.
+            A list of strings that indicates third-party software to use. For more information, see the Amazon EMR Developer Guide . Currently supported values are:
             'mapr-m3' - launch the job flow using MapR M3 Edition.
             'mapr-m5' - launch the job flow using MapR M5 Edition.
             (string) --
@@ -2233,7 +2247,7 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
     :type NewSupportedProducts: list
     :param NewSupportedProducts: 
             Note
-            For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and greater, use Applications.
+            For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.
             A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see 'Launch a Job Flow on the MapR Distribution for Hadoop' in the Amazon EMR Developer Guide . Supported values are:
             'mapr-m3' - launch the cluster using MapR M3 Edition.
             'mapr-m5' - launch the cluster using MapR M5 Edition.
@@ -2251,16 +2265,13 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             
 
     :type Applications: list
-    :param Applications: 
-            Note
-            Amazon EMR releases 4.x or later.
-            A list of applications for the cluster. Valid values are: 'Hadoop', 'Hive', 'Mahout', 'Pig', and 'Spark.' They are case insensitive.
+    :param Applications: For Amazon EMR releases 4.0 and later. A list of applications for the cluster. Valid values are: 'Hadoop', 'Hive', 'Mahout', 'Pig', and 'Spark.' They are case insensitive.
             (dict) --An application is any Amazon or third-party software that you can add to the cluster. This structure contains a list of strings that indicates the software to use with the cluster and accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action argument. For more information, see Using the MapR Distribution for Hadoop . Currently supported values are:
             'mapr-m3' - launch the cluster using MapR M3 Edition.
             'mapr-m5' - launch the cluster using MapR M5 Edition.
             'mapr' with the user arguments specifying '--edition,m3' or '--edition,m5' - launch the cluster using MapR M3 or M5 Edition, respectively.
             Note
-            In Amazon EMR releases 4.0 and greater, the only accepted parameter is the application name. To pass arguments to applications, you supply a configuration for each application.
+            In Amazon EMR releases 4.x and later, the only accepted parameter is the application name. To pass arguments to applications, you supply a configuration for each application.
             Name (string) --The name of the application.
             Version (string) --The version of the application.
             Args (list) --Arguments for Amazon EMR to pass to the application.
@@ -2272,10 +2283,7 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
             
 
     :type Configurations: list
-    :param Configurations: 
-            Note
-            Amazon EMR releases 4.x or later.
-            The list of configurations supplied for the EMR cluster you are creating.
+    :param Configurations: For Amazon EMR releases 4.0 and later. The list of configurations supplied for the EMR cluster you are creating.
             (dict) --
             Note
             Amazon EMR releases 4.x or later.
@@ -2299,9 +2307,9 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
 
     :type Tags: list
     :param Tags: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-            (dict) --A key/value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tagging Amazon EMR Resources .
-            Key (string) --A user-defined key, which is the minimum required information for a valid tag. For more information, see Tagging Amazon EMR Resources .
-            Value (string) --A user-defined value, which is optional in a tag. For more information, see Tagging Amazon EMR Resources .
+            (dict) --A key/value pair containing user-defined metadata that you can associate with an Amazon EMR resource. Tags make it easier to associate clusters in various ways, such as grouping clusters to track your Amazon EMR resource allocation costs. For more information, see Tag Clusters .
+            Key (string) --A user-defined key, which is the minimum required information for a valid tag. For more information, see Tag .
+            Value (string) --A user-defined value, which is optional in a tag. For more information, see Tag Clusters .
             
             
 
@@ -2313,6 +2321,26 @@ def run_job_flow(Name=None, LogUri=None, AdditionalInfo=None, AmiVersion=None, R
 
     :type ScaleDownBehavior: string
     :param ScaleDownBehavior: Specifies the way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR indicates that Amazon EMR terminates nodes at the instance-hour boundary, regardless of when the request to terminate the instance was submitted. This option is only available with Amazon EMR 5.1.0 and later and is the default for clusters created using that version. TERMINATE_AT_TASK_COMPLETION indicates that Amazon EMR blacklists and drains tasks from nodes before terminating the Amazon EC2 instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR removes the least active nodes first and blocks instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0 and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+
+    :type CustomAmiId: string
+    :param CustomAmiId: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a Custom AMI in the Amazon EMR Management Guide . If omitted, the cluster uses the base Linux AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion instead.
+            For information about creating a custom AMI, see Creating an Amazon EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances . For information about finding an AMI ID, see Finding a Linux AMI .
+            
+
+    :type EbsRootVolumeSize: integer
+    :param EbsRootVolumeSize: The size, in GiB, of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
+
+    :type RepoUpgradeOnBoot: string
+    :param RepoUpgradeOnBoot: Applies only when CustomAmiID is used. Specifies which updates from the Amazon Linux AMI package repositories to apply automatically when the instance boots using the AMI. If omitted, the default is SECURITY , which indicates that only security updates are applied. If NONE is specified, no updates are applied, and all updates must be applied manually.
+
+    :type KerberosAttributes: dict
+    :param KerberosAttributes: Attributes for Kerberos configuration when Kerberos authentication is enabled using a security configuration. For more information see Use Kerberos Authentication in the EMR Management Guide .
+            Realm (string) -- [REQUIRED]The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL .
+            KdcAdminPassword (string) -- [REQUIRED]The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster.
+            CrossRealmTrustPrincipalPassword (string) --Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms.
+            ADDomainJoinUser (string) --Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain.
+            ADDomainJoinPassword (string) --The Active Directory password for ADDomainJoinUser .
+            
 
     :rtype: dict
     :return: {
@@ -2327,7 +2355,7 @@ def set_termination_protection(JobFlowIds=None, TerminationProtected=None):
     """
     SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the cluster cannot be terminated by user intervention, an API call, or in the event of a job-flow error. The cluster still terminates upon successful completion of the job flow. Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2 DisableAPITermination API on all EC2 instances in a cluster.
     To terminate a cluster that has been locked by setting SetTerminationProtection to true , you must first unlock the job flow by a subsequent call to SetTerminationProtection in which you set the value to false .
-    For more information, see`Managing Cluster Termination`_ in the Amazon EMR Management Guide .
+    For more information, see`Managing Cluster Termination <http://docs.aws.amazon.com/emr/latest/ManagementGuide/UsingEMR_TerminationProtection.html>`__ in the Amazon EMR Management Guide .
     See also: AWS API Documentation
     
     

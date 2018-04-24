@@ -26,9 +26,12 @@ SOFTWARE.
 
 def associate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     """
-    Associates a new node with the Chef server. This command is an alternative to knife bootstrap . For more information about how to disassociate a node, see  DisassociateNode .
+    Associates a new node with the server. For more information about how to disassociate a node, see  DisassociateNode .
+    On a Chef server: This command is an alternative to knife bootstrap .
+    Example (Chef): aws opsworks-cm associate-node --server-name *MyServer* --node-name *MyManagedNode* --engine-attributes "Name=*CHEF_ORGANIZATION* ,Value=default" "Name=*CHEF_NODE_PUBLIC_KEY* ,Value=*public-key-pem* "
+    On a Puppet server, this command is an alternative to the puppet cert sign command that signs a Puppet node CSR.
+    Example (Chef): aws opsworks-cm associate-node --server-name *MyServer* --node-name *MyManagedNode* --engine-attributes "Name=*PUPPET_NODE_CSR* ,Value=*csr-pem* "
     A node can can only be associated with servers that are in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid. The AssociateNode API call can be integrated into Auto Scaling configurations, AWS Cloudformation templates, or the user data of a server's instance.
-    Example: aws opsworks-cm associate-node --server-name *MyServer* --node-name *MyManagedNode* --engine-attributes "Name=*MyOrganization* ,Value=default" "Name=*Chef_node_public_key* ,Value=*Public_key_contents* "
     See also: AWS API Documentation
     
     
@@ -51,15 +54,17 @@ def associate_node(ServerName=None, NodeName=None, EngineAttributes=None):
 
     :type NodeName: string
     :param NodeName: [REQUIRED]
-            The name of the Chef client node.
+            The name of the node.
             
 
     :type EngineAttributes: list
     :param EngineAttributes: [REQUIRED]
             Engine attributes used for associating the node.
-            Attributes accepted in a AssociateNode request:
+            Attributes accepted in a AssociateNode request for Chef
             CHEF_ORGANIZATION : The Chef organization with which the node is associated. By default only one organization named default can exist.
             CHEF_NODE_PUBLIC_KEY : A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.
+            Attributes accepted in a AssociateNode request for Puppet
+            PUPPET_NODE_CSR : A PEM-formatted certificate-signing request (CSR) that is created by the node.
             (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
             Value (string) --The value of the engine attribute.
@@ -159,8 +164,8 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
     Creates and immedately starts a new server. The server is ready to use when it is in the HEALTHY state. By default, you can create a maximum of 10 servers.
     This operation is asynchronous.
     A LimitExceededException is thrown when you have created the maximum number of servers (10). A ResourceAlreadyExistsException is thrown when a server with the same name already exists in the account. A ResourceNotFoundException is thrown when you specify a backup ID that is not valid or is for a backup that does not exist. A ValidationException is thrown when parameters of the request are not valid.
-    If you do not specify a security group by adding the SecurityGroupIds parameter, AWS OpsWorks creates a new security group. The default security group opens the Chef server to the world on TCP port 443. If a KeyName is present, AWS OpsWorks enables SSH access. SSH is also open to the world on TCP port 22.
-    By default, the Chef Server is accessible from any IP address. We recommend that you update your security group rules to allow access from known IP addresses and address ranges only. To edit security group rules, open Security Groups in the navigation pane of the EC2 management console.
+    If you do not specify a security group by adding the SecurityGroupIds parameter, AWS OpsWorks creates a new security group.
+    By default, your server is accessible from any IP address. We recommend that you update your security group rules to allow access from known IP addresses and address ranges only. To edit security group rules, open Security Groups in the navigation pane of the EC2 management console.
     See also: AWS API Documentation
     
     
@@ -201,19 +206,21 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
     :param DisableAutomatedBackup: Enable or disable scheduled backups. Valid values are true or false . The default value is true .
 
     :type Engine: string
-    :param Engine: The configuration management engine to use. Valid values include Chef .
+    :param Engine: The configuration management engine to use. Valid values include Chef and Puppet .
 
     :type EngineModel: string
-    :param EngineModel: The engine model, or option. Valid values include Single .
+    :param EngineModel: The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
 
     :type EngineVersion: string
-    :param EngineVersion: The major release version of the engine that you want to use. Values depend on the engine that you choose.
+    :param EngineVersion: The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 12 . For a Puppet server, the valid value is 2017 .
 
     :type EngineAttributes: list
     :param EngineAttributes: Optional engine attributes on a specified server.
-            Attributes accepted in a createServer request:
-            CHEF_PIVOTAL_KEY : A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.
+            Attributes accepted in a Chef createServer request:
+            CHEF_PIVOTAL_KEY : A base64-encoded RSA private key that is not stored by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in the response.
             CHEF_DELIVERY_ADMIN_PASSWORD : The password for the administrative user in the Chef Automate GUI. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned in the response.
+            Attributes accepted in a Puppet createServer request:
+            PUPPET_ADMIN_PASSWORD : To work with the Puppet Enterprise console, a password must use ASCII characters.
             (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
             Value (string) --The value of the engine attribute.
@@ -221,7 +228,7 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
             
 
     :type BackupRetentionCount: integer
-    :param BackupRetentionCount: The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks for Chef Automate deletes the oldest backups if this number is exceeded. The default value is 1 .
+    :param BackupRetentionCount: The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1 .
 
     :type ServerName: string
     :param ServerName: [REQUIRED]
@@ -235,19 +242,19 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
 
     :type InstanceType: string
     :param InstanceType: [REQUIRED]
-            The Amazon EC2 instance type to use. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m4.large . Valid values are t2.medium , m4.large , or m4.2xlarge .
+            The Amazon EC2 instance type to use. For example, m4.large . Recommended instance types include t2.medium and greater, m4.* , or c4.xlarge and greater.
             
 
     :type KeyPair: string
     :param KeyPair: The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH.
 
     :type PreferredMaintenanceWindow: string
-    :param PreferredMaintenanceWindow: The start time for a one-hour period each week during which AWS OpsWorks for Chef Automate performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM . The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.
+    :param PreferredMaintenanceWindow: The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM . The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.
             Example: Mon:08:00 , which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
             
 
     :type PreferredBackupWindow: string
-    :param PreferredBackupWindow: The start time for a one-hour period during which AWS OpsWorks for Chef Automate backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:
+    :param PreferredBackupWindow: The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:
             HH:MM for daily backups
             DDD:HH:MM for weekly backups
             The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.
@@ -256,13 +263,13 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
 
     :type SecurityGroupIds: list
     :param SecurityGroupIds: A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds .
-            If you do not specify this parameter, AWS OpsWorks for Chef Automate creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+            If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
             (string) --
             
 
     :type ServiceRoleArn: string
     :param ServiceRoleArn: [REQUIRED]
-            The service role that the AWS OpsWorks for Chef Automate service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-stuff/latest/service-role-creation.yaml. This template creates a CloudFormation stack that includes the service role that you need.
+            The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need.
             
 
     :type SubnetIds: list
@@ -274,7 +281,7 @@ def create_server(AssociatePublicIpAddress=None, DisableAutomatedBackup=None, En
             
 
     :type BackupId: string
-    :param BackupId: If you specify this field, AWS OpsWorks for Chef Automate creates the server by using the backup represented by BackupId.
+    :param BackupId: If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId.
 
     :rtype: dict
     :return: {
@@ -348,7 +355,7 @@ def delete_backup(BackupId=None):
 
 def delete_server(ServerName=None):
     """
-    Deletes the server and the underlying AWS CloudFormation stack (including the server's EC2 instance). When you run this command, the server state is updated to DELETING . After the server is deleted, it is no longer returned by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted, the server cannot be deleted.
+    Deletes the server and the underlying AWS CloudFormation stacks (including the server's EC2 instance). When you run this command, the server state is updated to DELETING . After the server is deleted, it is no longer returned by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted, the server cannot be deleted.
     This operation is asynchronous.
     An InvalidStateException is thrown when a server deletion is already in progress. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
@@ -526,6 +533,8 @@ def describe_node_association_status(NodeAssociationStatusToken=None, ServerName
     
     :type NodeAssociationStatusToken: string
     :param NodeAssociationStatusToken: [REQUIRED]
+            The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse.
+            
 
     :type ServerName: string
     :param ServerName: [REQUIRED]
@@ -534,7 +543,13 @@ def describe_node_association_status(NodeAssociationStatusToken=None, ServerName
 
     :rtype: dict
     :return: {
-        'NodeAssociationStatus': 'SUCCESS'|'FAILED'|'IN_PROGRESS'
+        'NodeAssociationStatus': 'SUCCESS'|'FAILED'|'IN_PROGRESS',
+        'EngineAttributes': [
+            {
+                'Name': 'string',
+                'Value': 'string'
+            },
+        ]
     }
     
     
@@ -548,7 +563,7 @@ def describe_node_association_status(NodeAssociationStatusToken=None, ServerName
 
 def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
     """
-    Lists all configuration management servers that are identified with your account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks for Chef Automate does not query other services.
+    Lists all configuration management servers that are identified with your account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks CM does not query other services.
     This operation is synchronous.
     A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
@@ -621,7 +636,7 @@ def describe_servers(ServerName=None, NextToken=None, MaxResults=None):
 
 def disassociate_node(ServerName=None, NodeName=None, EngineAttributes=None):
     """
-    Disassociates a node from a Chef server, and removes the node from the Chef server's managed nodes. After a node is disassociated, the node key pair is no longer valid for accessing the Chef API. For more information about how to associate a node, see  AssociateNode .
+    Disassociates a node from an AWS OpsWorks CM server, and removes the node from the server's managed nodes. After a node is disassociated, the node key pair is no longer valid for accessing the configuration manager's API. For more information about how to associate a node, see  AssociateNode .
     A node can can only be disassociated from a server that is in a HEALTHY state. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation
     
@@ -645,12 +660,12 @@ def disassociate_node(ServerName=None, NodeName=None, EngineAttributes=None):
 
     :type NodeName: string
     :param NodeName: [REQUIRED]
-            The name of the Chef client node.
+            The name of the client node.
             
 
     :type EngineAttributes: list
-    :param EngineAttributes: Engine attributes used for disassociating the node.
-            Attributes accepted in a DisassociateNode request:
+    :param EngineAttributes: Engine attributes that are used for disassociating the node. No attributes are required for Puppet.
+            Attributes required in a DisassociateNode request for Chef
             CHEF_ORGANIZATION : The Chef organization with which the node was associated. By default only one organization named default can exist.
             (dict) --A name and value pair that is specific to the engine of the server.
             Name (string) --The name of the engine attribute.
@@ -753,7 +768,7 @@ def restore_server(BackupId=None, ServerName=None, InstanceType=None, KeyPair=No
     """
     pass
 
-def start_maintenance(ServerName=None):
+def start_maintenance(ServerName=None, EngineAttributes=None):
     """
     Manually starts server maintenance. This command can be useful if an earlier maintenance attempt failed, and the underlying cause of maintenance failure has been resolved. The server is in an UNDER_MAINTENANCE state while maintenance is in progress.
     Maintenance can only be started on servers in HEALTHY and UNHEALTHY states. Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
@@ -761,13 +776,27 @@ def start_maintenance(ServerName=None):
     
     
     :example: response = client.start_maintenance(
-        ServerName='string'
+        ServerName='string',
+        EngineAttributes=[
+            {
+                'Name': 'string',
+                'Value': 'string'
+            },
+        ]
     )
     
     
     :type ServerName: string
     :param ServerName: [REQUIRED]
             The name of the server on which to run maintenance.
+            
+
+    :type EngineAttributes: list
+    :param EngineAttributes: Engine attributes that are specific to the server on which you want to run maintenance.
+            (dict) --A name and value pair that is specific to the engine of the server.
+            Name (string) --The name of the engine attribute.
+            Value (string) --The value of the engine attribute.
+            
             
 
     :rtype: dict
@@ -810,7 +839,8 @@ def start_maintenance(ServerName=None):
     
     
     :returns: 
-    (string) --
+    CHEF_PIVOTAL_KEY : A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.
+    CHEF_STARTER_KIT : A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.
     
     """
     pass
@@ -902,7 +932,7 @@ def update_server(DisableAutomatedBackup=None, BackupRetentionCount=None, Server
 
 def update_server_engine_attributes(ServerName=None, AttributeName=None, AttributeValue=None):
     """
-    Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset the Chef server's private key (CHEF_PIVOTAL_KEY ).
+    Updates engine-specific attributes on a specified server. The server enters the MODIFYING state when this operation is in progress. Only one update can occur at a time. You can use this command to reset a Chef server's private key (CHEF_PIVOTAL_KEY ), a Chef server's admin password (CHEF_DELIVERY_ADMIN_PASSWORD ), or a Puppet server's admin password (PUPPET_ADMIN_PASSWORD ).
     This operation is asynchronous.
     This operation can only be called for servers in HEALTHY or UNHEALTHY states. Otherwise, an InvalidStateException is raised. A ResourceNotFoundException is thrown when the server does not exist. A ValidationException is raised when parameters of the request are not valid.
     See also: AWS API Documentation

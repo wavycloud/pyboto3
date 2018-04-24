@@ -236,7 +236,7 @@ def create_data_source_from_rds(DataSourceId=None, DataSourceName=None, RDSData=
             
 
     :type ComputeStatistics: boolean
-    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
+    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSourceneeds to be used for MLModel training.
 
     :rtype: dict
     :return: {
@@ -410,7 +410,7 @@ def create_data_source_from_s3(DataSourceId=None, DataSourceName=None, DataSpec=
             
 
     :type ComputeStatistics: boolean
-    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the ```` DataSource```` needs to be used for MLModel training.
+    :param ComputeStatistics: The compute statistics for a DataSource . The statistics are generated from the observation data referenced by a DataSource . Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSourceneeds to be used for MLModel training.
 
     :rtype: dict
     :return: {

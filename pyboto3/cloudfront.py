@@ -191,7 +191,8 @@ def create_distribution(DistributionConfig=None):
                             'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                         },
                     ]
-                }
+                },
+                'FieldLevelEncryptionId': 'string'
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -256,7 +257,8 @@ def create_distribution(DistributionConfig=None):
                                     'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                 },
                             ]
-                        }
+                        },
+                        'FieldLevelEncryptionId': 'string'
                     },
                 ]
             },
@@ -285,7 +287,7 @@ def create_distribution(DistributionConfig=None):
                 'IAMCertificateId': 'string',
                 'ACMCertificateArn': 'string',
                 'SSLSupportMethod': 'sni-only'|'vip',
-                'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                 'Certificate': 'string',
                 'CertificateSource': 'cloudfront'|'iam'|'acm'
             },
@@ -318,7 +320,7 @@ def create_distribution(DistributionConfig=None):
             (string) --
             
             DefaultRootObject (string) --The object that you want CloudFront to request from your origin (for example, index.html ) when a viewer requests the root URL for your distribution (http://www.example.com ) instead of an object in your distribution (http://www.example.com/product-description.html ). Specifying a default root object avoids exposing the contents of your distribution.
-            Specify only the object name, for example, index.html . Do not add a / before the object name.
+            Specify only the object name, for example, index.html . Don't add a / before the object name.
             If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element.
             To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element.
             To replace the default root object, update the distribution configuration and specify the new object.
@@ -333,7 +335,7 @@ def create_distribution(DistributionConfig=None):
             DomainName (string) -- [REQUIRED]
             Amazon S3 origins : The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com .
             Constraints for Amazon S3 origins:
-            If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+            If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
             The bucket name must be between 3 and 63 characters long (inclusive).
             The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
             The bucket name must not contain adjacent periods.
@@ -358,7 +360,7 @@ def create_distribution(DistributionConfig=None):
             
             S3OriginConfig (dict) --A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
             OriginAccessIdentity (string) -- [REQUIRED]The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is:
-            origin-access-identity/CloudFront/ID-of-origin-access-identity
+            origin-access-identity/cloudfront/ID-of-origin-access-identity
             where `` ID-of-origin-access-identity `` is the value that CloudFront returned in the ID element when you created the origin access identity.
             If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element.
             To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element.
@@ -379,7 +381,7 @@ def create_distribution(DistributionConfig=None):
             If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
-            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
             TargetOriginId (string) -- [REQUIRED]The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
             ForwardedValues (dict) -- [REQUIRED]A complex type that specifies how CloudFront handles query strings and cookies.
             QueryString (boolean) -- [REQUIRED]Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys , if any:
@@ -397,14 +399,17 @@ def create_distribution(DistributionConfig=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -456,14 +461,15 @@ def create_distribution(DistributionConfig=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -496,14 +502,17 @@ def create_distribution(DistributionConfig=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -555,14 +564,15 @@ def create_distribution(DistributionConfig=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -595,71 +605,84 @@ def create_distribution(DistributionConfig=None):
             To add or change a comment, update the distribution configuration and specify the new comment.
             Logging (dict) --A complex type that controls whether access logs are written for the distribution.
             For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
-            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you do not want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
+            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
             Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
-            Which SSL/TLS certificate to use when viewers request objects using HTTPS
-            Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
-            The minimum protocol version that you want CloudFront to use when communicating with viewers
-            For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --
-            IAMCertificateId (string) --
-            ACMCertificateArn (string) --
-            SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
-            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
-            Use the vip option (dedicated IP addresses) instead of sni-only .
-            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
-            If you can control which browser your users use, upgrade the browser to one that supports SNI.
-            Use HTTP instead of HTTPS.
-            Do not specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
-            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            MinimumProtocolVersion (string) --Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1 . CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1 . Note the following:
-            If you specify CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate, the minimum SSL protocol version is TLSv1 and can't be changed.
-            If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId ) and if you're using SNI (if you specify sni-only for SSLSupportMethod ), you must specify TLSv1 for MinimumProtocolVersion .
-            Certificate (string) --Include one of these values to specify the following:
             Whether you want viewers to use HTTP or HTTPS to request your objects.
             If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net .
             If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.
-            You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate .
-            If you want viewers to use HTTP to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            You must specify only one of the following values:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            Don't specify false for CloudFrontDefaultCertificate .
+            If you want viewers to use HTTP instead of HTTPS to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
             In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.
             If you want viewers to use HTTPS to request your objects : Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:
             If you're using an alternate domain name, such as example.com : Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:
-            ACMCertificateArnARN for ACM SSL/TLS certificateACMCertificateArn where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
-            IAMCertificateIdIAM certificate IDIAMCertificateId where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.
+            ACMCertificateArn*ARN for ACM SSL/TLS certificate* ACMCertificateArn where `` ARN for ACM SSL/TLS certificate `` is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
+            IAMCertificateId*IAM certificate ID* IAMCertificateId where `` IAM certificate ID `` is the ID that IAM returned when you added the certificate to the IAM certificate store.
             If you specify ACMCertificateArn or IAMCertificateId , you must also specify a value for SSLSupportMethod .
-            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
+            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (such as https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
             vip : The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.
             sni-only : CloudFront drops the connection with the browser without returning the object.
-            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: `` CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate``  If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
+            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
             ViewerProtocolPolicyhttps-onlyViewerProtocolPolicy
             ViewerProtocolPolicyredirect-to-httpsViewerProtocolPolicy
             You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:
             OriginProtocolPolicyhttps-onlyOriginProtocolPolicy
             OriginProtocolPolicymatch-viewerOriginProtocolPolicy
             For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            CertificateSource (string) --
+            CloudFrontDefaultCertificate (boolean) --For information about how and when to use CloudFrontDefaultCertificate , see ViewerCertificate .
+            IAMCertificateId (string) --For information about how and when to use IAMCertificateId , see ViewerCertificate .
+            ACMCertificateArn (string) --For information about how and when to use ACMCertificateArn , see ViewerCertificate .
+            SSLSupportMethod (string) --If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
+            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
+            Use the vip option (dedicated IP addresses) instead of sni-only .
+            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
+            If you can control which browser your users use, upgrade the browser to one that supports SNI.
+            Use HTTP instead of HTTPS.
+            Don't specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
+            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
+            MinimumProtocolVersion (string) --Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:
+            The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers
+            The cipher that CloudFront uses to encrypt the content that it returns to viewers
             Note
-            This field is deprecated. You can use one of the following: [ACMCertificateArn , IAMCertificateId , or CloudFrontDefaultCertificate] .
+            On the CloudFront console, this setting is called Security policy .
+            We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later.
+            When both of the following are true, you must specify TLSv1 or later for the security policy:
+            You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId
+            You're using SNI: you specified sni-only for SSLSupportMethod
+            If you specify true for CloudFrontDefaultCertificate , CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion .
+            For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide .
+            Certificate (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            CertificateSource (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
             
             Restrictions (dict) --A complex type that identifies ways in which you want to restrict distribution of your content.
             GeoRestriction (dict) -- [REQUIRED]A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
             RestrictionType (string) -- [REQUIRED]The method that you want to use to restrict distribution of your content by country:
             none : No geo restriction is enabled, meaning access to content is not restricted by client geo location.
-            blacklist : The Location elements specify the countries in which you do not want CloudFront to distribute your content.
+            blacklist : The Location elements specify the countries in which you don't want CloudFront to distribute your content.
             whitelist : The Location elements specify the countries in which you want CloudFront to distribute your content.
             Quantity (integer) -- [REQUIRED]When geo restriction is enabled , this is the number of countries in your whitelist or blacklist . Otherwise, when it is not enabled, Quantity is 0 , and you can omit Items .
             Items (list) --A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist ) or not distribute your content (blacklist ).
             The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist . Include one Location element for each country.
-            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
+            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
             (string) --
             
             WebACLId (string) --A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.
@@ -668,7 +691,7 @@ def create_distribution(DistributionConfig=None):
             For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI).
             In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for 'http/2 optimization.'
             IsIPV6Enabled (boolean) --If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true . If you specify false , CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.
-            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
+            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
             If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
             You enable IPv6 for the distribution
             You're using alternate domain names in the URLs for your objects
@@ -803,7 +826,8 @@ def create_distribution(DistributionConfig=None):
                                 'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                             },
                         ]
-                    }
+                    },
+                    'FieldLevelEncryptionId': 'string'
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -868,7 +892,8 @@ def create_distribution(DistributionConfig=None):
                                         'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                     },
                                 ]
-                            }
+                            },
+                            'FieldLevelEncryptionId': 'string'
                         },
                     ]
                 },
@@ -897,7 +922,7 @@ def create_distribution(DistributionConfig=None):
                     'IAMCertificateId': 'string',
                     'ACMCertificateArn': 'string',
                     'SSLSupportMethod': 'sni-only'|'vip',
-                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                     'Certificate': 'string',
                     'CertificateSource': 'cloudfront'|'iam'|'acm'
                 },
@@ -921,7 +946,7 @@ def create_distribution(DistributionConfig=None):
     
     
     :returns: 
-    If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
     The bucket name must be between 3 and 63 characters long (inclusive).
     The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
     The bucket name must not contain adjacent periods.
@@ -1040,7 +1065,8 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                 'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                             },
                         ]
-                    }
+                    },
+                    'FieldLevelEncryptionId': 'string'
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -1105,7 +1131,8 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                         'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                     },
                                 ]
-                            }
+                            },
+                            'FieldLevelEncryptionId': 'string'
                         },
                     ]
                 },
@@ -1134,7 +1161,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                     'IAMCertificateId': 'string',
                     'ACMCertificateArn': 'string',
                     'SSLSupportMethod': 'sni-only'|'vip',
-                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                     'Certificate': 'string',
                     'CertificateSource': 'cloudfront'|'iam'|'acm'
                 },
@@ -1177,7 +1204,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             (string) --
             
             DefaultRootObject (string) --The object that you want CloudFront to request from your origin (for example, index.html ) when a viewer requests the root URL for your distribution (http://www.example.com ) instead of an object in your distribution (http://www.example.com/product-description.html ). Specifying a default root object avoids exposing the contents of your distribution.
-            Specify only the object name, for example, index.html . Do not add a / before the object name.
+            Specify only the object name, for example, index.html . Don't add a / before the object name.
             If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element.
             To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element.
             To replace the default root object, update the distribution configuration and specify the new object.
@@ -1192,7 +1219,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             DomainName (string) -- [REQUIRED]
             Amazon S3 origins : The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com .
             Constraints for Amazon S3 origins:
-            If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+            If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
             The bucket name must be between 3 and 63 characters long (inclusive).
             The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
             The bucket name must not contain adjacent periods.
@@ -1217,7 +1244,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             
             S3OriginConfig (dict) --A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
             OriginAccessIdentity (string) -- [REQUIRED]The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is:
-            origin-access-identity/CloudFront/ID-of-origin-access-identity
+            origin-access-identity/cloudfront/ID-of-origin-access-identity
             where `` ID-of-origin-access-identity `` is the value that CloudFront returned in the ID element when you created the origin access identity.
             If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element.
             To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element.
@@ -1238,7 +1265,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
-            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
             TargetOriginId (string) -- [REQUIRED]The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
             ForwardedValues (dict) -- [REQUIRED]A complex type that specifies how CloudFront handles query strings and cookies.
             QueryString (boolean) -- [REQUIRED]Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys , if any:
@@ -1256,14 +1283,17 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -1315,14 +1345,15 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -1355,14 +1386,17 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -1414,14 +1448,15 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -1454,71 +1489,84 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             To add or change a comment, update the distribution configuration and specify the new comment.
             Logging (dict) --A complex type that controls whether access logs are written for the distribution.
             For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
-            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you do not want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
+            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
             Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
-            Which SSL/TLS certificate to use when viewers request objects using HTTPS
-            Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
-            The minimum protocol version that you want CloudFront to use when communicating with viewers
-            For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --
-            IAMCertificateId (string) --
-            ACMCertificateArn (string) --
-            SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
-            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
-            Use the vip option (dedicated IP addresses) instead of sni-only .
-            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
-            If you can control which browser your users use, upgrade the browser to one that supports SNI.
-            Use HTTP instead of HTTPS.
-            Do not specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
-            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            MinimumProtocolVersion (string) --Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1 . CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1 . Note the following:
-            If you specify CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate, the minimum SSL protocol version is TLSv1 and can't be changed.
-            If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId ) and if you're using SNI (if you specify sni-only for SSLSupportMethod ), you must specify TLSv1 for MinimumProtocolVersion .
-            Certificate (string) --Include one of these values to specify the following:
             Whether you want viewers to use HTTP or HTTPS to request your objects.
             If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net .
             If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.
-            You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate .
-            If you want viewers to use HTTP to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            You must specify only one of the following values:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            Don't specify false for CloudFrontDefaultCertificate .
+            If you want viewers to use HTTP instead of HTTPS to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
             In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.
             If you want viewers to use HTTPS to request your objects : Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:
             If you're using an alternate domain name, such as example.com : Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:
-            ACMCertificateArnARN for ACM SSL/TLS certificateACMCertificateArn where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
-            IAMCertificateIdIAM certificate IDIAMCertificateId where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.
+            ACMCertificateArn*ARN for ACM SSL/TLS certificate* ACMCertificateArn where `` ARN for ACM SSL/TLS certificate `` is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
+            IAMCertificateId*IAM certificate ID* IAMCertificateId where `` IAM certificate ID `` is the ID that IAM returned when you added the certificate to the IAM certificate store.
             If you specify ACMCertificateArn or IAMCertificateId , you must also specify a value for SSLSupportMethod .
-            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
+            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (such as https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
             vip : The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.
             sni-only : CloudFront drops the connection with the browser without returning the object.
-            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: `` CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate``  If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
+            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
             ViewerProtocolPolicyhttps-onlyViewerProtocolPolicy
             ViewerProtocolPolicyredirect-to-httpsViewerProtocolPolicy
             You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:
             OriginProtocolPolicyhttps-onlyOriginProtocolPolicy
             OriginProtocolPolicymatch-viewerOriginProtocolPolicy
             For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            CertificateSource (string) --
+            CloudFrontDefaultCertificate (boolean) --For information about how and when to use CloudFrontDefaultCertificate , see ViewerCertificate .
+            IAMCertificateId (string) --For information about how and when to use IAMCertificateId , see ViewerCertificate .
+            ACMCertificateArn (string) --For information about how and when to use ACMCertificateArn , see ViewerCertificate .
+            SSLSupportMethod (string) --If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
+            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
+            Use the vip option (dedicated IP addresses) instead of sni-only .
+            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
+            If you can control which browser your users use, upgrade the browser to one that supports SNI.
+            Use HTTP instead of HTTPS.
+            Don't specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
+            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
+            MinimumProtocolVersion (string) --Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:
+            The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers
+            The cipher that CloudFront uses to encrypt the content that it returns to viewers
             Note
-            This field is deprecated. You can use one of the following: [ACMCertificateArn , IAMCertificateId , or CloudFrontDefaultCertificate] .
+            On the CloudFront console, this setting is called Security policy .
+            We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later.
+            When both of the following are true, you must specify TLSv1 or later for the security policy:
+            You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId
+            You're using SNI: you specified sni-only for SSLSupportMethod
+            If you specify true for CloudFrontDefaultCertificate , CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion .
+            For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide .
+            Certificate (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            CertificateSource (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
             
             Restrictions (dict) --A complex type that identifies ways in which you want to restrict distribution of your content.
             GeoRestriction (dict) -- [REQUIRED]A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
             RestrictionType (string) -- [REQUIRED]The method that you want to use to restrict distribution of your content by country:
             none : No geo restriction is enabled, meaning access to content is not restricted by client geo location.
-            blacklist : The Location elements specify the countries in which you do not want CloudFront to distribute your content.
+            blacklist : The Location elements specify the countries in which you don't want CloudFront to distribute your content.
             whitelist : The Location elements specify the countries in which you want CloudFront to distribute your content.
             Quantity (integer) -- [REQUIRED]When geo restriction is enabled , this is the number of countries in your whitelist or blacklist . Otherwise, when it is not enabled, Quantity is 0 , and you can omit Items .
             Items (list) --A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist ) or not distribute your content (blacklist ).
             The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist . Include one Location element for each country.
-            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
+            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
             (string) --
             
             WebACLId (string) --A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.
@@ -1527,7 +1575,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
             For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI).
             In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for 'http/2 optimization.'
             IsIPV6Enabled (boolean) --If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true . If you specify false , CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.
-            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
+            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
             If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
             You enable IPv6 for the distribution
             You're using alternate domain names in the URLs for your objects
@@ -1671,7 +1719,8 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                 'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                             },
                         ]
-                    }
+                    },
+                    'FieldLevelEncryptionId': 'string'
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -1736,7 +1785,8 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                                         'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                     },
                                 ]
-                            }
+                            },
+                            'FieldLevelEncryptionId': 'string'
                         },
                     ]
                 },
@@ -1765,7 +1815,7 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
                     'IAMCertificateId': 'string',
                     'ACMCertificateArn': 'string',
                     'SSLSupportMethod': 'sni-only'|'vip',
-                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                     'Certificate': 'string',
                     'CertificateSource': 'cloudfront'|'iam'|'acm'
                 },
@@ -1789,10 +1839,207 @@ def create_distribution_with_tags(DistributionConfigWithTags=None):
     
     
     :returns: 
-    If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
     The bucket name must be between 3 and 63 characters long (inclusive).
     The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
     The bucket name must not contain adjacent periods.
+    
+    """
+    pass
+
+def create_field_level_encryption_config(FieldLevelEncryptionConfig=None):
+    """
+    Create a new field-level encryption configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_field_level_encryption_config(
+        FieldLevelEncryptionConfig={
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'QueryArgProfileConfig': {
+                'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                'QueryArgProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'QueryArg': 'string',
+                            'ProfileId': 'string'
+                        },
+                    ]
+                }
+            },
+            'ContentTypeProfileConfig': {
+                'ForwardWhenContentTypeIsUnknown': True|False,
+                'ContentTypeProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'Format': 'URLEncoded',
+                            'ProfileId': 'string',
+                            'ContentType': 'string'
+                        },
+                    ]
+                }
+            }
+        }
+    )
+    
+    
+    :type FieldLevelEncryptionConfig: dict
+    :param FieldLevelEncryptionConfig: [REQUIRED]
+            The request to create a new field-level encryption configuration.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Comment (string) --An optional comment about the configuration.
+            QueryArgProfileConfig (dict) --A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
+            ForwardWhenQueryArgProfileIsUnknown (boolean) -- [REQUIRED]Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
+            QueryArgProfiles (dict) --Profiles specified for query argument-profile mapping for field-level encryption.
+            Quantity (integer) -- [REQUIRED]Number of profiles for query argument-profile mapping for field-level encryption.
+            Items (list) --Number of items for query argument-profile mapping for field-level encryption.
+            (dict) --Query argument-profile mapping for field-level encryption.
+            QueryArg (string) -- [REQUIRED]Query argument for field-level encryption query argument-profile mapping.
+            ProfileId (string) -- [REQUIRED]ID of profile to use for field-level encryption query argument-profile mapping
+            
+            
+            ContentTypeProfileConfig (dict) --A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
+            ForwardWhenContentTypeIsUnknown (boolean) -- [REQUIRED]The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown.
+            ContentTypeProfiles (dict) --The configuration for a field-level encryption content type-profile.
+            Quantity (integer) -- [REQUIRED]The number of field-level encryption content type-profile mappings.
+            Items (list) --Items in a field-level encryption content type-profile mapping.
+            (dict) --A field-level encryption content type profile.
+            Format (string) -- [REQUIRED]The format for a field-level encryption content type-profile mapping.
+            ProfileId (string) --The profile ID for a field-level encryption content type-profile mapping.
+            ContentType (string) -- [REQUIRED]The content type for a field-level encryption content type-profile mapping.
+            
+            
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryption': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionConfig': {
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'QueryArgProfileConfig': {
+                    'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                    'QueryArgProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'QueryArg': 'string',
+                                'ProfileId': 'string'
+                            },
+                        ]
+                    }
+                },
+                'ContentTypeProfileConfig': {
+                    'ForwardWhenContentTypeIsUnknown': True|False,
+                    'ContentTypeProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'Format': 'URLEncoded',
+                                'ProfileId': 'string',
+                                'ContentType': 'string'
+                            },
+                        ]
+                    }
+                }
+            }
+        },
+        'Location': 'string',
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def create_field_level_encryption_profile(FieldLevelEncryptionProfileConfig=None):
+    """
+    Create a field-level encryption profile.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_field_level_encryption_profile(
+        FieldLevelEncryptionProfileConfig={
+            'Name': 'string',
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'EncryptionEntities': {
+                'Quantity': 123,
+                'Items': [
+                    {
+                        'PublicKeyId': 'string',
+                        'ProviderId': 'string',
+                        'FieldPatterns': {
+                            'Quantity': 123,
+                            'Items': [
+                                'string',
+                            ]
+                        }
+                    },
+                ]
+            }
+        }
+    )
+    
+    
+    :type FieldLevelEncryptionProfileConfig: dict
+    :param FieldLevelEncryptionProfileConfig: [REQUIRED]
+            The request to create a field-level encryption profile.
+            Name (string) -- [REQUIRED]Profile name for the field-level encryption profile.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Comment (string) --An optional comment for the field-level encryption profile.
+            EncryptionEntities (dict) -- [REQUIRED]A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
+            Quantity (integer) -- [REQUIRED]Number of field pattern items in a field-level encryption content type-profile mapping.
+            Items (list) --An array of field patterns in a field-level encryption content type-profile mapping.
+            (dict) --Complex data type for field-level encryption profiles that includes the encryption key and field pattern specifications.
+            PublicKeyId (string) -- [REQUIRED]The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns.
+            ProviderId (string) -- [REQUIRED]The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data.
+            FieldPatterns (dict) -- [REQUIRED]Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive.
+            Quantity (integer) -- [REQUIRED]The number of field-level encryption field patterns.
+            Items (list) --An array of the field-level encryption field patterns.
+            (string) --
+            
+            
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionProfile': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionProfileConfig': {
+                'Name': 'string',
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'EncryptionEntities': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'PublicKeyId': 'string',
+                            'ProviderId': 'string',
+                            'FieldPatterns': {
+                                'Quantity': 123,
+                                'Items': [
+                                    'string',
+                                ]
+                            }
+                        },
+                    ]
+                }
+            }
+        },
+        'Location': 'string',
+        'ETag': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -1861,6 +2108,51 @@ def create_invalidation(DistributionId=None, InvalidationBatch=None):
     """
     pass
 
+def create_public_key(PublicKeyConfig=None):
+    """
+    Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_public_key(
+        PublicKeyConfig={
+            'CallerReference': 'string',
+            'Name': 'string',
+            'EncodedKey': 'string',
+            'Comment': 'string'
+        }
+    )
+    
+    
+    :type PublicKeyConfig: dict
+    :param PublicKeyConfig: [REQUIRED]
+            The request to add a public key to CloudFront.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Name (string) -- [REQUIRED]The name for a public key you add to CloudFront to use with features like field-level encryption.
+            EncodedKey (string) -- [REQUIRED]The encoded public key that you want to add to CloudFront to use with features like field-level encryption.
+            Comment (string) --An optional comment about a public key.
+            
+
+    :rtype: dict
+    :return: {
+        'PublicKey': {
+            'Id': 'string',
+            'CreatedTime': datetime(2015, 1, 1),
+            'PublicKeyConfig': {
+                'CallerReference': 'string',
+                'Name': 'string',
+                'EncodedKey': 'string',
+                'Comment': 'string'
+            }
+        },
+        'Location': 'string',
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
 def create_streaming_distribution(StreamingDistributionConfig=None):
     """
     Creates a new RMTP distribution. An RTMP distribution is similar to a web distribution, but an RTMP distribution streams media files using the Adobe Real-Time Messaging Protocol (RTMP) instead of serving files using HTTP.
@@ -1920,9 +2212,9 @@ def create_streaming_distribution(StreamingDistributionConfig=None):
             
             Comment (string) -- [REQUIRED]Any comments you want to include about the streaming distribution.
             Logging (dict) --A complex type that controls whether access logs are written for the streaming distribution.
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             TrustedSigners (dict) -- [REQUIRED]A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide .
             Enabled (boolean) -- [REQUIRED]Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId .
             Quantity (integer) -- [REQUIRED]The number of trusted signers for this cache behavior.
@@ -2064,9 +2356,9 @@ def create_streaming_distribution_with_tags(StreamingDistributionConfigWithTags=
             
             Comment (string) -- [REQUIRED]Any comments you want to include about the streaming distribution.
             Logging (dict) --A complex type that controls whether access logs are written for the streaming distribution.
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             TrustedSigners (dict) -- [REQUIRED]A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide .
             Enabled (boolean) -- [REQUIRED]Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId .
             Quantity (integer) -- [REQUIRED]The number of trusted signers for this cache behavior.
@@ -2192,6 +2484,91 @@ def delete_distribution(Id=None, IfMatch=None):
 
     :type IfMatch: string
     :param IfMatch: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL .
+
+    """
+    pass
+
+def delete_field_level_encryption_config(Id=None, IfMatch=None):
+    """
+    Remove a field-level encryption configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_field_level_encryption_config(
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the configuration you want to delete from CloudFront.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL .
+
+    """
+    pass
+
+def delete_field_level_encryption_profile(Id=None, IfMatch=None):
+    """
+    Remove a field-level encryption profile.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_field_level_encryption_profile(
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Request the ID of the profile you want to delete from CloudFront.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL .
+
+    """
+    pass
+
+def delete_public_key(Id=None, IfMatch=None):
+    """
+    Remove a public key you previously added to CloudFront.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_public_key(
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the public key you want to remove from CloudFront.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL .
+
+    """
+    pass
+
+def delete_service_linked_role(RoleName=None):
+    """
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_service_linked_role(
+        RoleName='string'
+    )
+    
+    
+    :type RoleName: string
+    :param RoleName: [REQUIRED]
 
     """
     pass
@@ -2453,7 +2830,8 @@ def get_distribution(Id=None):
                                 'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                             },
                         ]
-                    }
+                    },
+                    'FieldLevelEncryptionId': 'string'
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -2518,7 +2896,8 @@ def get_distribution(Id=None):
                                         'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                     },
                                 ]
-                            }
+                            },
+                            'FieldLevelEncryptionId': 'string'
                         },
                     ]
                 },
@@ -2547,7 +2926,7 @@ def get_distribution(Id=None):
                     'IAMCertificateId': 'string',
                     'ACMCertificateArn': 'string',
                     'SSLSupportMethod': 'sni-only'|'vip',
-                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                     'Certificate': 'string',
                     'CertificateSource': 'cloudfront'|'iam'|'acm'
                 },
@@ -2696,7 +3075,8 @@ def get_distribution_config(Id=None):
                             'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                         },
                     ]
-                }
+                },
+                'FieldLevelEncryptionId': 'string'
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -2761,7 +3141,8 @@ def get_distribution_config(Id=None):
                                     'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                 },
                             ]
-                        }
+                        },
+                        'FieldLevelEncryptionId': 'string'
                     },
                 ]
             },
@@ -2790,7 +3171,7 @@ def get_distribution_config(Id=None):
                 'IAMCertificateId': 'string',
                 'ACMCertificateArn': 'string',
                 'SSLSupportMethod': 'sni-only'|'vip',
-                'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                 'Certificate': 'string',
                 'CertificateSource': 'cloudfront'|'iam'|'acm'
             },
@@ -2812,10 +3193,216 @@ def get_distribution_config(Id=None):
     
     
     :returns: 
-    If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+    If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
     The bucket name must be between 3 and 63 characters long (inclusive).
     The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
     The bucket name must not contain adjacent periods.
+    
+    """
+    pass
+
+def get_field_level_encryption(Id=None):
+    """
+    Get the field-level encryption configuration information.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_field_level_encryption(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Request the ID for the field-level encryption configuration information.
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryption': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionConfig': {
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'QueryArgProfileConfig': {
+                    'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                    'QueryArgProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'QueryArg': 'string',
+                                'ProfileId': 'string'
+                            },
+                        ]
+                    }
+                },
+                'ContentTypeProfileConfig': {
+                    'ForwardWhenContentTypeIsUnknown': True|False,
+                    'ContentTypeProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'Format': 'URLEncoded',
+                                'ProfileId': 'string',
+                                'ContentType': 'string'
+                            },
+                        ]
+                    }
+                }
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_field_level_encryption_config(Id=None):
+    """
+    Get the field-level encryption configuration information.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_field_level_encryption_config(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Request the ID for the field-level encryption configuration information.
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionConfig': {
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'QueryArgProfileConfig': {
+                'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                'QueryArgProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'QueryArg': 'string',
+                            'ProfileId': 'string'
+                        },
+                    ]
+                }
+            },
+            'ContentTypeProfileConfig': {
+                'ForwardWhenContentTypeIsUnknown': True|False,
+                'ContentTypeProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'Format': 'URLEncoded',
+                            'ProfileId': 'string',
+                            'ContentType': 'string'
+                        },
+                    ]
+                }
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_field_level_encryption_profile(Id=None):
+    """
+    Get the field-level encryption profile information.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_field_level_encryption_profile(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Get the ID for the field-level encryption profile information.
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionProfile': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionProfileConfig': {
+                'Name': 'string',
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'EncryptionEntities': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'PublicKeyId': 'string',
+                            'ProviderId': 'string',
+                            'FieldPatterns': {
+                                'Quantity': 123,
+                                'Items': [
+                                    'string',
+                                ]
+                            }
+                        },
+                    ]
+                }
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_field_level_encryption_profile_config(Id=None):
+    """
+    Get the field-level encryption profile configuration information.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_field_level_encryption_profile_config(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Get the ID for the field-level encryption profile configuration information.
+            
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionProfileConfig': {
+            'Name': 'string',
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'EncryptionEntities': {
+                'Quantity': 123,
+                'Items': [
+                    {
+                        'PublicKeyId': 'string',
+                        'ProviderId': 'string',
+                        'FieldPatterns': {
+                            'Quantity': 123,
+                            'Items': [
+                                'string',
+                            ]
+                        }
+                    },
+                ]
+            }
+        },
+        'ETag': 'string'
+    }
+    
     
     """
     pass
@@ -2880,6 +3467,72 @@ def get_paginator(operation_name=None):
             call client.get_paginator('create_foo').
 
     :rtype: L{botocore.paginate.Paginator}
+    """
+    pass
+
+def get_public_key(Id=None):
+    """
+    Get the public key information.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_public_key(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Request the ID for the public key.
+            
+
+    :rtype: dict
+    :return: {
+        'PublicKey': {
+            'Id': 'string',
+            'CreatedTime': datetime(2015, 1, 1),
+            'PublicKeyConfig': {
+                'CallerReference': 'string',
+                'Name': 'string',
+                'EncodedKey': 'string',
+                'Comment': 'string'
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_public_key_config(Id=None):
+    """
+    Return public key configuration informaation
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_public_key_config(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            Request the ID for the public key configuration.
+            
+
+    :rtype: dict
+    :return: {
+        'PublicKeyConfig': {
+            'CallerReference': 'string',
+            'Name': 'string',
+            'EncodedKey': 'string',
+            'Comment': 'string'
+        },
+        'ETag': 'string'
+    }
+    
+    
     """
     pass
 
@@ -3196,7 +3849,8 @@ def list_distributions(Marker=None, MaxItems=None):
                                     'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                 },
                             ]
-                        }
+                        },
+                        'FieldLevelEncryptionId': 'string'
                     },
                     'CacheBehaviors': {
                         'Quantity': 123,
@@ -3261,7 +3915,8 @@ def list_distributions(Marker=None, MaxItems=None):
                                             'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                         },
                                     ]
-                                }
+                                },
+                                'FieldLevelEncryptionId': 'string'
                             },
                         ]
                     },
@@ -3284,7 +3939,7 @@ def list_distributions(Marker=None, MaxItems=None):
                         'IAMCertificateId': 'string',
                         'ACMCertificateArn': 'string',
                         'SSLSupportMethod': 'sni-only'|'vip',
-                        'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                        'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                         'Certificate': 'string',
                         'CertificateSource': 'cloudfront'|'iam'|'acm'
                     },
@@ -3451,7 +4106,8 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                                     'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                 },
                             ]
-                        }
+                        },
+                        'FieldLevelEncryptionId': 'string'
                     },
                     'CacheBehaviors': {
                         'Quantity': 123,
@@ -3516,7 +4172,8 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                                             'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                         },
                                     ]
-                                }
+                                },
+                                'FieldLevelEncryptionId': 'string'
                             },
                         ]
                     },
@@ -3539,7 +4196,7 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                         'IAMCertificateId': 'string',
                         'ACMCertificateArn': 'string',
                         'SSLSupportMethod': 'sni-only'|'vip',
-                        'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                        'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                         'Certificate': 'string',
                         'CertificateSource': 'cloudfront'|'iam'|'acm'
                     },
@@ -3555,6 +4212,126 @@ def list_distributions_by_web_acl_id(Marker=None, MaxItems=None, WebACLId=None):
                     'WebACLId': 'string',
                     'HttpVersion': 'http1.1'|'http2',
                     'IsIPV6Enabled': True|False
+                },
+            ]
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def list_field_level_encryption_configs(Marker=None, MaxItems=None):
+    """
+    List all field-level encryption configurations that have been created in CloudFront for this account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_field_level_encryption_configs(
+        Marker='string',
+        MaxItems='string'
+    )
+    
+    
+    :type Marker: string
+    :param Marker: Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page).
+
+    :type MaxItems: string
+    :param MaxItems: The maximum number of field-level encryption configurations you want in the response body.
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionList': {
+            'NextMarker': 'string',
+            'MaxItems': 123,
+            'Quantity': 123,
+            'Items': [
+                {
+                    'Id': 'string',
+                    'LastModifiedTime': datetime(2015, 1, 1),
+                    'Comment': 'string',
+                    'QueryArgProfileConfig': {
+                        'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                        'QueryArgProfiles': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'QueryArg': 'string',
+                                    'ProfileId': 'string'
+                                },
+                            ]
+                        }
+                    },
+                    'ContentTypeProfileConfig': {
+                        'ForwardWhenContentTypeIsUnknown': True|False,
+                        'ContentTypeProfiles': {
+                            'Quantity': 123,
+                            'Items': [
+                                {
+                                    'Format': 'URLEncoded',
+                                    'ProfileId': 'string',
+                                    'ContentType': 'string'
+                                },
+                            ]
+                        }
+                    }
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
+def list_field_level_encryption_profiles(Marker=None, MaxItems=None):
+    """
+    Request a list of field-level encryption profiles that have been created in CloudFront for this account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_field_level_encryption_profiles(
+        Marker='string',
+        MaxItems='string'
+    )
+    
+    
+    :type Marker: string
+    :param Marker: Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page).
+
+    :type MaxItems: string
+    :param MaxItems: The maximum number of field-level encryption profiles you want in the response body.
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionProfileList': {
+            'NextMarker': 'string',
+            'MaxItems': 123,
+            'Quantity': 123,
+            'Items': [
+                {
+                    'Id': 'string',
+                    'LastModifiedTime': datetime(2015, 1, 1),
+                    'Name': 'string',
+                    'EncryptionEntities': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'PublicKeyId': 'string',
+                                'ProviderId': 'string',
+                                'FieldPatterns': {
+                                    'Quantity': 123,
+                                    'Items': [
+                                        'string',
+                                    ]
+                                }
+                            },
+                        ]
+                    },
+                    'Comment': 'string'
                 },
             ]
         }
@@ -3604,6 +4381,46 @@ def list_invalidations(DistributionId=None, Marker=None, MaxItems=None):
                     'Id': 'string',
                     'CreateTime': datetime(2015, 1, 1),
                     'Status': 'string'
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
+def list_public_keys(Marker=None, MaxItems=None):
+    """
+    List all public keys that have been added to CloudFront for this account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_public_keys(
+        Marker='string',
+        MaxItems='string'
+    )
+    
+    
+    :type Marker: string
+    :param Marker: Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page).
+
+    :type MaxItems: string
+    :param MaxItems: The maximum number of public keys you want in the response body.
+
+    :rtype: dict
+    :return: {
+        'PublicKeyList': {
+            'NextMarker': 'string',
+            'MaxItems': 123,
+            'Quantity': 123,
+            'Items': [
+                {
+                    'Id': 'string',
+                    'Name': 'string',
+                    'CreatedTime': datetime(2015, 1, 1),
+                    'EncodedKey': 'string',
+                    'Comment': 'string'
                 },
             ]
         }
@@ -3835,7 +4652,8 @@ def update_cloud_front_origin_access_identity(CloudFrontOriginAccessIdentityConf
 
 def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
     """
-    Update a distribution.
+    Updates the configuration for a web distribution. Perform the following steps.
+    For information about updating a distribution using the CloudFront console, see Creating or Updating a Web Distribution Using the CloudFront Console in the Amazon CloudFront Developer Guide .
     See also: AWS API Documentation
     
     
@@ -3943,7 +4761,8 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                             'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                         },
                     ]
-                }
+                },
+                'FieldLevelEncryptionId': 'string'
             },
             'CacheBehaviors': {
                 'Quantity': 123,
@@ -4008,7 +4827,8 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                                     'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                 },
                             ]
-                        }
+                        },
+                        'FieldLevelEncryptionId': 'string'
                     },
                 ]
             },
@@ -4037,7 +4857,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                 'IAMCertificateId': 'string',
                 'ACMCertificateArn': 'string',
                 'SSLSupportMethod': 'sni-only'|'vip',
-                'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                 'Certificate': 'string',
                 'CertificateSource': 'cloudfront'|'iam'|'acm'
             },
@@ -4072,7 +4892,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             (string) --
             
             DefaultRootObject (string) --The object that you want CloudFront to request from your origin (for example, index.html ) when a viewer requests the root URL for your distribution (http://www.example.com ) instead of an object in your distribution (http://www.example.com/product-description.html ). Specifying a default root object avoids exposing the contents of your distribution.
-            Specify only the object name, for example, index.html . Do not add a / before the object name.
+            Specify only the object name, for example, index.html . Don't add a / before the object name.
             If you don't want to specify a default root object when you create a distribution, include an empty DefaultRootObject element.
             To delete the default root object from an existing distribution, update the distribution configuration and include an empty DefaultRootObject element.
             To replace the default root object, update the distribution configuration and specify the new object.
@@ -4087,7 +4907,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             DomainName (string) -- [REQUIRED]
             Amazon S3 origins : The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin, for example, myawsbucket.s3.amazonaws.com .
             Constraints for Amazon S3 origins:
-            If you configured Amazon S3 Transfer Acceleration for your bucket, do not specify the s3-accelerate endpoint for DomainName .
+            If you configured Amazon S3 Transfer Acceleration for your bucket, don't specify the s3-accelerate endpoint for DomainName .
             The bucket name must be between 3 and 63 characters long (inclusive).
             The bucket name must contain only lowercase characters, numbers, periods, underscores, and dashes.
             The bucket name must not contain adjacent periods.
@@ -4112,7 +4932,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             
             S3OriginConfig (dict) --A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin, use the CustomOriginConfig element instead.
             OriginAccessIdentity (string) -- [REQUIRED]The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is:
-            origin-access-identity/CloudFront/ID-of-origin-access-identity
+            origin-access-identity/cloudfront/ID-of-origin-access-identity
             where `` ID-of-origin-access-identity `` is the value that CloudFront returned in the ID element when you created the origin access identity.
             If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element.
             To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element.
@@ -4133,7 +4953,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             If you need to increase the maximum time limit, contact the AWS Support Center .
             
             
-            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you do not specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+            DefaultCacheBehavior (dict) -- [REQUIRED]A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if files don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
             TargetOriginId (string) -- [REQUIRED]The value of ID for the origin that you want CloudFront to route requests to when a request matches the path pattern either for a cache behavior or for the default cache behavior.
             ForwardedValues (dict) -- [REQUIRED]A complex type that specifies how CloudFront handles query strings and cookies.
             QueryString (boolean) -- [REQUIRED]Indicates whether you want CloudFront to forward query strings to the origin that is associated with this cache behavior and cache based on the query string parameters. CloudFront behavior depends on the value of QueryString and on the values that you specify for QueryStringCacheKeys , if any:
@@ -4151,14 +4971,17 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -4210,14 +5033,15 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             CacheBehaviors (dict) --A complex type that contains zero or more CacheBehavior elements.
             Quantity (integer) -- [REQUIRED]The number of cache behaviors for this distribution.
             Items (list) --Optional: A complex type that contains cache behaviors for this distribution. If Quantity is 0 , you can omit Items .
@@ -4250,14 +5074,17 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Items (list) --A complex type that contains one Name element for each cookie that you want CloudFront to forward to the origin for this cache behavior.
             (string) --
             
-            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to vary upon for this cache behavior.
-            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to forward to the origin for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
+            Headers (dict) --A complex type that specifies the Headers , if any, that you want CloudFront to base caching on for this cache behavior.
+            Quantity (integer) -- [REQUIRED]The number of different headers that you want CloudFront to base caching on for this cache behavior. You can configure each cache behavior in a web distribution to do one of the following:
             Forward all headers to your origin : Specify 1 for Quantity and * for Name .
             Warning
-            If you configure CloudFront to forward all headers to your origin, CloudFront doesn't cache the objects associated with this cache behavior. Instead, it sends every request to the origin.
-            Forward a whitelist of headers you specify : Specify the number of headers that you want to forward, and specify the header names in Name elements. CloudFront caches your objects based on the values in all of the specified headers. CloudFront also forwards the headers that it forwards by default, but it caches your objects based only on the headers that you specify.
+            CloudFront doesn't cache the objects that are associated with this cache behavior. Instead, CloudFront sends every request to the origin.
+            Forward a whitelist of headers you specify : Specify the number of headers that you want CloudFront to base caching on. Then specify the header names in Name elements. CloudFront caches your objects based on the values in the specified headers.
             Forward only the default headers : Specify 0 for Quantity and omit Items . In this configuration, CloudFront doesn't cache based on the values in the request headers.
-            Items (list) --A complex type that contains one Name element for each header that you want CloudFront to forward to the origin and to vary on for this cache behavior. If Quantity is 0 , omit Items .
+            Regardless of which option you choose, CloudFront forwards headers to your origin based on whether the origin is an S3 bucket or a custom origin. See the following documentation:
+            S3 bucket : See HTTP Request Headers That CloudFront Removes or Updates
+            Custom origin : See HTTP Request Headers and CloudFront Behavior
+            Items (list) --A list that contains one Name element for each header that you want CloudFront to use for caching in this cache behavior. If Quantity is 0 , omit Items .
             (string) --
             
             QueryStringCacheKeys (dict) --A complex type that contains information about the query string parameters that you want CloudFront to use for caching for this cache behavior.
@@ -4309,14 +5136,15 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             Items (list) --
             Optional : A complex type that contains LambdaFunctionAssociation items for this cache behavior. If Quantity is 0 , you can omit Items .
             (dict) --A complex type that contains a Lambda function association.
-            LambdaFunctionARN (string) --The ARN of the Lambda function.
-            EventType (string) --Specifies the event type that triggers a Lambda function invocation. Valid values are:
-            viewer-request
-            origin-request
-            viewer-response
-            origin-response
+            LambdaFunctionARN (string) -- [REQUIRED]The ARN of the Lambda function. You must specify the ARN of a function version; you can't specify a Lambda alias or $LATEST.
+            EventType (string) -- [REQUIRED]Specifies the event type that triggers a Lambda function invocation. You can specify the following values:
+            viewer-request : The function executes when CloudFront receives a request from a viewer and before it checks to see whether the requested object is in the edge cache.
+            origin-request : The function executes only when CloudFront forwards a request to your origin. When the requested object is in the edge cache, the function doesn't execute.
+            origin-response : The function executes after CloudFront receives a response from the origin and before it caches the object in the response. When the requested object is in the edge cache, the function doesn't execute. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
+            viewer-response : The function executes before CloudFront returns the requested object to the viewer. The function executes regardless of whether the object was already in the edge cache. If the origin returns an HTTP status code other than HTTP 200 (OK), the function doesn't execute.
             
             
+            FieldLevelEncryptionId (string) --
             
             CustomErrorResponses (dict) --A complex type that controls the following:
             Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -4349,71 +5177,84 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             To add or change a comment, update the distribution configuration and specify the new comment.
             Logging (dict) --A complex type that controls whether access logs are written for the distribution.
             For more information about logging, see Access Logs in the Amazon CloudFront Developer Guide .
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
-            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you do not want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a distribution or if you want to disable logging for an existing distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket , prefix , and IncludeCookies , the values are automatically deleted.
+            IncludeCookies (boolean) -- [REQUIRED]Specifies whether you want CloudFront to include cookies in access logs, specify true for IncludeCookies . If you choose to include cookies in logs, CloudFront logs all cookies regardless of how you configure the cache behaviors for this distribution. If you don't want to include cookies when you create a distribution or if you want to disable include cookies for an existing distribution, specify false for IncludeCookies .
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             PriceClass (string) --The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All , CloudFront responds to requests for your objects from all CloudFront edge locations.
             If you specify a price class other than PriceClass_All , CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance.
             For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide . For information about CloudFront pricing, including how price classes map to CloudFront regions, see Amazon CloudFront Pricing .
             Enabled (boolean) -- [REQUIRED]From this field, you can enable or disable the selected distribution.
             If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             ViewerCertificate (dict) --A complex type that specifies the following:
-            Which SSL/TLS certificate to use when viewers request objects using HTTPS
-            Whether you want CloudFront to use dedicated IP addresses or SNI when you're using alternate domain names in your object names
-            The minimum protocol version that you want CloudFront to use when communicating with viewers
-            For more information, see Using an HTTPS Connection to Access Your Objects in the Amazon Amazon CloudFront Developer Guide .
-            CloudFrontDefaultCertificate (boolean) --
-            IAMCertificateId (string) --
-            ACMCertificateArn (string) --
-            SSLSupportMethod (string) --If you specify a value for ACMCertificateArn or for IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
-            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
-            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
-            Use the vip option (dedicated IP addresses) instead of sni-only .
-            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
-            If you can control which browser your users use, upgrade the browser to one that supports SNI.
-            Use HTTP instead of HTTPS.
-            Do not specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
-            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            MinimumProtocolVersion (string) --Specify the minimum version of the SSL/TLS protocol that you want CloudFront to use for HTTPS connections between viewers and CloudFront: SSLv3 or TLSv1 . CloudFront serves your objects only to viewers that support SSL/TLS version that you specify and later versions. The TLSv1 protocol is more secure, so we recommend that you specify SSLv3 only if your users are using browsers or devices that don't support TLSv1 . Note the following:
-            If you specify CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate, the minimum SSL protocol version is TLSv1 and can't be changed.
-            If you're using a custom certificate (if you specify a value for ACMCertificateArn or for IAMCertificateId ) and if you're using SNI (if you specify sni-only for SSLSupportMethod ), you must specify TLSv1 for MinimumProtocolVersion .
-            Certificate (string) --Include one of these values to specify the following:
             Whether you want viewers to use HTTP or HTTPS to request your objects.
             If you want viewers to use HTTPS, whether you're using an alternate domain name such as example.com or the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net .
             If you're using an alternate domain name, whether AWS Certificate Manager (ACM) provided the certificate, or you purchased a certificate from a third-party certificate authority and imported it into ACM or uploaded it to the IAM certificate store.
-            You must specify one (and only one) of the three values. Do not specify false for CloudFrontDefaultCertificate .
-            If you want viewers to use HTTP to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            You must specify only one of the following values:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            Don't specify false for CloudFrontDefaultCertificate .
+            If you want viewers to use HTTP instead of HTTPS to request your objects : Specify the following value:CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
             In addition, specify allow-all for ViewerProtocolPolicy for all of your cache behaviors.
             If you want viewers to use HTTPS to request your objects : Choose the type of certificate that you want to use based on whether you're using an alternate domain name for your objects or the CloudFront domain name:
             If you're using an alternate domain name, such as example.com : Specify one of the following values, depending on whether ACM provided your certificate or you purchased your certificate from third-party certificate authority:
-            ACMCertificateArnARN for ACM SSL/TLS certificateACMCertificateArn where ARN for ACM SSL/TLS certificate is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
-            IAMCertificateIdIAM certificate IDIAMCertificateId where IAM certificate ID is the ID that IAM returned when you added the certificate to the IAM certificate store.
+            ACMCertificateArn*ARN for ACM SSL/TLS certificate* ACMCertificateArn where `` ARN for ACM SSL/TLS certificate `` is the ARN for the ACM SSL/TLS certificate that you want to use for this distribution.
+            IAMCertificateId*IAM certificate ID* IAMCertificateId where `` IAM certificate ID `` is the ID that IAM returned when you added the certificate to the IAM certificate store.
             If you specify ACMCertificateArn or IAMCertificateId , you must also specify a value for SSLSupportMethod .
-            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
+            If you choose to use an ACM certificate or a certificate in the IAM certificate store, we recommend that you use only an alternate domain name in your object URLs (https://example.com/logo.jpg ). If you use the domain name that is associated with your CloudFront distribution (such as https://d111111abcdef8.cloudfront.net/logo.jpg ) and the viewer supports SNI , then CloudFront behaves normally. However, if the browser does not support SNI, the user's experience depends on the value that you choose for SSLSupportMethod :
             vip : The viewer displays a warning because there is a mismatch between the CloudFront domain name and the domain name in your SSL/TLS certificate.
             sni-only : CloudFront drops the connection with the browser without returning the object.
-            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: `` CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate``  If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
+            **If you're using the CloudFront domain name for your distribution, such as d111111abcdef8.cloudfront.net ** : Specify the following value: CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate
+            If you want viewers to use HTTPS, you must also specify one of the following values in your cache behaviors:
             ViewerProtocolPolicyhttps-onlyViewerProtocolPolicy
             ViewerProtocolPolicyredirect-to-httpsViewerProtocolPolicy
             You can also optionally require that CloudFront use HTTPS to communicate with your origin by specifying one of the following values for the applicable origins:
             OriginProtocolPolicyhttps-onlyOriginProtocolPolicy
             OriginProtocolPolicymatch-viewerOriginProtocolPolicy
             For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
-            CertificateSource (string) --
+            CloudFrontDefaultCertificate (boolean) --For information about how and when to use CloudFrontDefaultCertificate , see ViewerCertificate .
+            IAMCertificateId (string) --For information about how and when to use IAMCertificateId , see ViewerCertificate .
+            ACMCertificateArn (string) --For information about how and when to use ACMCertificateArn , see ViewerCertificate .
+            SSLSupportMethod (string) --If you specify a value for ViewerCertificate$ACMCertificateArn or for ViewerCertificate$IAMCertificateId , you must also specify how you want CloudFront to serve HTTPS requests: using a method that works for all clients or one that works for most clients:
+            vip : CloudFront uses dedicated IP addresses for your content and can respond to HTTPS requests from any viewer. However, you will incur additional monthly charges.
+            sni-only : CloudFront can respond to HTTPS requests from viewers that support Server Name Indication (SNI). All modern browsers support SNI, but some browsers still in use don't support SNI. If some of your users' browsers don't support SNI, we recommend that you do one of the following:
+            Use the vip option (dedicated IP addresses) instead of sni-only .
+            Use the CloudFront SSL/TLS certificate instead of a custom certificate. This requires that you use the CloudFront domain name of your distribution in the URLs for your objects, for example, https://d111111abcdef8.cloudfront.net/logo.png .
+            If you can control which browser your users use, upgrade the browser to one that supports SNI.
+            Use HTTP instead of HTTPS.
+            Don't specify a value for SSLSupportMethod if you specified CloudFrontDefaultCertificatetrueCloudFrontDefaultCertificate .
+            For more information, see Using Alternate Domain Names and HTTPS in the Amazon CloudFront Developer Guide .
+            MinimumProtocolVersion (string) --Specify the security policy that you want CloudFront to use for HTTPS connections. A security policy determines two settings:
+            The minimum SSL/TLS protocol that CloudFront uses to communicate with viewers
+            The cipher that CloudFront uses to encrypt the content that it returns to viewers
             Note
-            This field is deprecated. You can use one of the following: [ACMCertificateArn , IAMCertificateId , or CloudFrontDefaultCertificate] .
+            On the CloudFront console, this setting is called Security policy .
+            We recommend that you specify TLSv1.1_2016 unless your users are using browsers or devices that do not support TLSv1.1 or later.
+            When both of the following are true, you must specify TLSv1 or later for the security policy:
+            You're using a custom certificate: you specified a value for ACMCertificateArn or for IAMCertificateId
+            You're using SNI: you specified sni-only for SSLSupportMethod
+            If you specify true for CloudFrontDefaultCertificate , CloudFront automatically sets the security policy to TLSv1 regardless of the value that you specify for MinimumProtocolVersion .
+            For information about the relationship between the security policy that you choose and the protocols and ciphers that CloudFront uses to communicate with viewers, see Supported SSL/TLS Protocols and Ciphers for Communication Between Viewers and CloudFront in the Amazon CloudFront Developer Guide .
+            Certificate (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
+            CertificateSource (string) --This field has been deprecated. Use one of the following fields instead:
+            ViewerCertificate$ACMCertificateArn
+            ViewerCertificate$IAMCertificateId
+            ViewerCertificate$CloudFrontDefaultCertificate
             
             Restrictions (dict) --A complex type that identifies ways in which you want to restrict distribution of your content.
             GeoRestriction (dict) -- [REQUIRED]A complex type that controls the countries in which your content is distributed. CloudFront determines the location of your users using MaxMind GeoIP databases.
             RestrictionType (string) -- [REQUIRED]The method that you want to use to restrict distribution of your content by country:
             none : No geo restriction is enabled, meaning access to content is not restricted by client geo location.
-            blacklist : The Location elements specify the countries in which you do not want CloudFront to distribute your content.
+            blacklist : The Location elements specify the countries in which you don't want CloudFront to distribute your content.
             whitelist : The Location elements specify the countries in which you want CloudFront to distribute your content.
             Quantity (integer) -- [REQUIRED]When geo restriction is enabled , this is the number of countries in your whitelist or blacklist . Otherwise, when it is not enabled, Quantity is 0 , and you can omit Items .
             Items (list) --A complex type that contains a Location element for each country in which you want CloudFront either to distribute your content (whitelist ) or not distribute your content (blacklist ).
             The Location element is a two-letter, uppercase country code for a country that you want to include in your blacklist or whitelist . Include one Location element for each country.
-            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list in the CloudFront console, which includes both country names and codes.
+            CloudFront and MaxMind both use ISO 3166 country codes. For the current list of countries and the corresponding codes, see ISO 3166-1-alpha-2 code on the International Organization for Standardization website. You can also refer to the country list on the CloudFront console, which includes both country names and codes.
             (string) --
             
             WebACLId (string) --A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.
@@ -4422,7 +5263,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
             For viewers and CloudFront to use HTTP/2, viewers must support TLS 1.2 or later, and must support Server Name Identification (SNI).
             In general, configuring CloudFront to communicate with viewers using HTTP/2 reduces latency. You can improve performance by optimizing for HTTP/2. For more information, do an Internet search for 'http/2 optimization.'
             IsIPV6Enabled (boolean) --If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true . If you specify false , CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution.
-            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, do not enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
+            In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see Creating a Signed URL Using a Custom Policy in the Amazon CloudFront Developer Guide .
             If you're using an Amazon Route 53 alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
             You enable IPv6 for the distribution
             You're using alternate domain names in the URLs for your objects
@@ -4565,7 +5406,8 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                                 'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                             },
                         ]
-                    }
+                    },
+                    'FieldLevelEncryptionId': 'string'
                 },
                 'CacheBehaviors': {
                     'Quantity': 123,
@@ -4630,7 +5472,8 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                                         'EventType': 'viewer-request'|'viewer-response'|'origin-request'|'origin-response'
                                     },
                                 ]
-                            }
+                            },
+                            'FieldLevelEncryptionId': 'string'
                         },
                     ]
                 },
@@ -4659,7 +5502,7 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
                     'IAMCertificateId': 'string',
                     'ACMCertificateArn': 'string',
                     'SSLSupportMethod': 'sni-only'|'vip',
-                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1',
+                    'MinimumProtocolVersion': 'SSLv3'|'TLSv1'|'TLSv1_2016'|'TLSv1.1_2016'|'TLSv1.2_2018',
                     'Certificate': 'string',
                     'CertificateSource': 'cloudfront'|'iam'|'acm'
                 },
@@ -4682,8 +5525,276 @@ def update_distribution(DistributionConfig=None, Id=None, IfMatch=None):
     
     
     :returns: 
-    self , which is the AWS account used to create the distribution.
-    An AWS account number.
+    Update the XML document that was returned in the response to your GetDistributionConfig request to include the desired changes. You can't change the value of CallerReference . If you try to change this value, CloudFront returns an IllegalUpdate error.
+    
+    """
+    pass
+
+def update_field_level_encryption_config(FieldLevelEncryptionConfig=None, Id=None, IfMatch=None):
+    """
+    Update a field-level encryption configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_field_level_encryption_config(
+        FieldLevelEncryptionConfig={
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'QueryArgProfileConfig': {
+                'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                'QueryArgProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'QueryArg': 'string',
+                            'ProfileId': 'string'
+                        },
+                    ]
+                }
+            },
+            'ContentTypeProfileConfig': {
+                'ForwardWhenContentTypeIsUnknown': True|False,
+                'ContentTypeProfiles': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'Format': 'URLEncoded',
+                            'ProfileId': 'string',
+                            'ContentType': 'string'
+                        },
+                    ]
+                }
+            }
+        },
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type FieldLevelEncryptionConfig: dict
+    :param FieldLevelEncryptionConfig: [REQUIRED]
+            Request to update a field-level encryption configuration.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Comment (string) --An optional comment about the configuration.
+            QueryArgProfileConfig (dict) --A complex data type that specifies when to forward content if a profile isn't found and the profile that can be provided as a query argument in a request.
+            ForwardWhenQueryArgProfileIsUnknown (boolean) -- [REQUIRED]Flag to set if you want a request to be forwarded to the origin even if the profile specified by the field-level encryption query argument, fle-profile, is unknown.
+            QueryArgProfiles (dict) --Profiles specified for query argument-profile mapping for field-level encryption.
+            Quantity (integer) -- [REQUIRED]Number of profiles for query argument-profile mapping for field-level encryption.
+            Items (list) --Number of items for query argument-profile mapping for field-level encryption.
+            (dict) --Query argument-profile mapping for field-level encryption.
+            QueryArg (string) -- [REQUIRED]Query argument for field-level encryption query argument-profile mapping.
+            ProfileId (string) -- [REQUIRED]ID of profile to use for field-level encryption query argument-profile mapping
+            
+            
+            ContentTypeProfileConfig (dict) --A complex data type that specifies when to forward content if a content type isn't recognized and profiles to use as by default in a request if a query argument doesn't specify a profile to use.
+            ForwardWhenContentTypeIsUnknown (boolean) -- [REQUIRED]The setting in a field-level encryption content type-profile mapping that specifies what to do when an unknown content type is provided for the profile. If true, content is forwarded without being encrypted when the content type is unknown. If false (the default), an error is returned when the content type is unknown.
+            ContentTypeProfiles (dict) --The configuration for a field-level encryption content type-profile.
+            Quantity (integer) -- [REQUIRED]The number of field-level encryption content type-profile mappings.
+            Items (list) --Items in a field-level encryption content type-profile mapping.
+            (dict) --A field-level encryption content type profile.
+            Format (string) -- [REQUIRED]The format for a field-level encryption content type-profile mapping.
+            ProfileId (string) --The profile ID for a field-level encryption content type-profile mapping.
+            ContentType (string) -- [REQUIRED]The content type for a field-level encryption content type-profile mapping.
+            
+            
+            
+
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the configuration you want to update.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL .
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryption': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionConfig': {
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'QueryArgProfileConfig': {
+                    'ForwardWhenQueryArgProfileIsUnknown': True|False,
+                    'QueryArgProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'QueryArg': 'string',
+                                'ProfileId': 'string'
+                            },
+                        ]
+                    }
+                },
+                'ContentTypeProfileConfig': {
+                    'ForwardWhenContentTypeIsUnknown': True|False,
+                    'ContentTypeProfiles': {
+                        'Quantity': 123,
+                        'Items': [
+                            {
+                                'Format': 'URLEncoded',
+                                'ProfileId': 'string',
+                                'ContentType': 'string'
+                            },
+                        ]
+                    }
+                }
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    """
+    pass
+
+def update_field_level_encryption_profile(FieldLevelEncryptionProfileConfig=None, Id=None, IfMatch=None):
+    """
+    Update a field-level encryption profile.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_field_level_encryption_profile(
+        FieldLevelEncryptionProfileConfig={
+            'Name': 'string',
+            'CallerReference': 'string',
+            'Comment': 'string',
+            'EncryptionEntities': {
+                'Quantity': 123,
+                'Items': [
+                    {
+                        'PublicKeyId': 'string',
+                        'ProviderId': 'string',
+                        'FieldPatterns': {
+                            'Quantity': 123,
+                            'Items': [
+                                'string',
+                            ]
+                        }
+                    },
+                ]
+            }
+        },
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type FieldLevelEncryptionProfileConfig: dict
+    :param FieldLevelEncryptionProfileConfig: [REQUIRED]
+            Request to update a field-level encryption profile.
+            Name (string) -- [REQUIRED]Profile name for the field-level encryption profile.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Comment (string) --An optional comment for the field-level encryption profile.
+            EncryptionEntities (dict) -- [REQUIRED]A complex data type of encryption entities for the field-level encryption profile that include the public key ID, provider, and field patterns for specifying which fields to encrypt with this key.
+            Quantity (integer) -- [REQUIRED]Number of field pattern items in a field-level encryption content type-profile mapping.
+            Items (list) --An array of field patterns in a field-level encryption content type-profile mapping.
+            (dict) --Complex data type for field-level encryption profiles that includes the encryption key and field pattern specifications.
+            PublicKeyId (string) -- [REQUIRED]The public key associated with a set of field-level encryption patterns, to be used when encrypting the fields that match the patterns.
+            ProviderId (string) -- [REQUIRED]The provider associated with the public key being used for encryption. This value must also be provided with the private key for applications to be able to decrypt data.
+            FieldPatterns (dict) -- [REQUIRED]Field patterns in a field-level encryption content type profile specify the fields that you want to be encrypted. You can provide the full field name, or any beginning characters followed by a wildcard (*). You can't overlap field patterns. For example, you can't have both ABC* and AB*. Note that field patterns are case-sensitive.
+            Quantity (integer) -- [REQUIRED]The number of field-level encryption field patterns.
+            Items (list) --An array of the field-level encryption field patterns.
+            (string) --
+            
+            
+            
+
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the field-level encryption profile request.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL .
+
+    :rtype: dict
+    :return: {
+        'FieldLevelEncryptionProfile': {
+            'Id': 'string',
+            'LastModifiedTime': datetime(2015, 1, 1),
+            'FieldLevelEncryptionProfileConfig': {
+                'Name': 'string',
+                'CallerReference': 'string',
+                'Comment': 'string',
+                'EncryptionEntities': {
+                    'Quantity': 123,
+                    'Items': [
+                        {
+                            'PublicKeyId': 'string',
+                            'ProviderId': 'string',
+                            'FieldPatterns': {
+                                'Quantity': 123,
+                                'Items': [
+                                    'string',
+                                ]
+                            }
+                        },
+                    ]
+                }
+            }
+        },
+        'ETag': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def update_public_key(PublicKeyConfig=None, Id=None, IfMatch=None):
+    """
+    Update public key information. Note that the only value you can change is the comment.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_public_key(
+        PublicKeyConfig={
+            'CallerReference': 'string',
+            'Name': 'string',
+            'EncodedKey': 'string',
+            'Comment': 'string'
+        },
+        Id='string',
+        IfMatch='string'
+    )
+    
+    
+    :type PublicKeyConfig: dict
+    :param PublicKeyConfig: [REQUIRED]
+            Request to update public key information.
+            CallerReference (string) -- [REQUIRED]A unique number that ensures the request can't be replayed.
+            Name (string) -- [REQUIRED]The name for a public key you add to CloudFront to use with features like field-level encryption.
+            EncodedKey (string) -- [REQUIRED]The encoded public key that you want to add to CloudFront to use with features like field-level encryption.
+            Comment (string) --An optional comment about a public key.
+            
+
+    :type Id: string
+    :param Id: [REQUIRED]
+            ID of the public key to be updated.
+            
+
+    :type IfMatch: string
+    :param IfMatch: The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL .
+
+    :rtype: dict
+    :return: {
+        'PublicKey': {
+            'Id': 'string',
+            'CreatedTime': datetime(2015, 1, 1),
+            'PublicKeyConfig': {
+                'CallerReference': 'string',
+                'Name': 'string',
+                'EncodedKey': 'string',
+                'Comment': 'string'
+            }
+        },
+        'ETag': 'string'
+    }
+    
     
     """
     pass
@@ -4746,9 +5857,9 @@ def update_streaming_distribution(StreamingDistributionConfig=None, Id=None, IfM
             
             Comment (string) -- [REQUIRED]Any comments you want to include about the streaming distribution.
             Logging (dict) --A complex type that controls whether access logs are written for the streaming distribution.
-            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you do not want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
+            Enabled (boolean) -- [REQUIRED]Specifies whether you want CloudFront to save access logs to an Amazon S3 bucket. If you don't want to enable logging when you create a streaming distribution or if you want to disable logging for an existing streaming distribution, specify false for Enabled , and specify empty Bucket and Prefix elements. If you specify false for Enabled but you specify values for Bucket and Prefix , the values are automatically deleted.
             Bucket (string) -- [REQUIRED]The Amazon S3 bucket to store the access logs in, for example, myawslogbucket.s3.amazonaws.com .
-            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you do not want to specify a prefix, you still must include an empty Prefix element in the Logging element.
+            Prefix (string) -- [REQUIRED]An optional string that you want CloudFront to prefix to the access log filenames for this streaming distribution, for example, myprefix/ . If you want to enable logging, but you don't want to specify a prefix, you still must include an empty Prefix element in the Logging element.
             TrustedSigners (dict) -- [REQUIRED]A complex type that specifies any AWS accounts that you want to permit to create signed URLs for private content. If you want the distribution to use signed URLs, include this element; if you want the distribution to use public URLs, remove this element. For more information, see Serving Private Content through CloudFront in the Amazon CloudFront Developer Guide .
             Enabled (boolean) -- [REQUIRED]Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId .
             Quantity (integer) -- [REQUIRED]The number of trusted signers for this cache behavior.

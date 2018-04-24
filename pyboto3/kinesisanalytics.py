@@ -24,6 +24,49 @@ SOFTWARE.
 
 '''
 
+def add_application_cloud_watch_logging_option(ApplicationName=None, CurrentApplicationVersionId=None, CloudWatchLoggingOption=None):
+    """
+    Adds a CloudWatch log stream to monitor application configuration errors. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.add_application_cloud_watch_logging_option(
+        ApplicationName='string',
+        CurrentApplicationVersionId=123,
+        CloudWatchLoggingOption={
+            'LogStreamARN': 'string',
+            'RoleARN': 'string'
+        }
+    )
+    
+    
+    :type ApplicationName: string
+    :param ApplicationName: [REQUIRED]
+            The Kinesis Analytics application name.
+            
+
+    :type CurrentApplicationVersionId: integer
+    :param CurrentApplicationVersionId: [REQUIRED]
+            The version ID of the Kinesis Analytics application.
+            
+
+    :type CloudWatchLoggingOption: dict
+    :param CloudWatchLoggingOption: [REQUIRED]
+            Provides the CloudWatch log stream Amazon Resource Name (ARN) and the IAM role ARN. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
+            LogStreamARN (string) -- [REQUIRED]ARN of the CloudWatch log to receive application messages.
+            RoleARN (string) -- [REQUIRED]IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def add_application_input(ApplicationName=None, CurrentApplicationVersionId=None, Input=None):
     """
     Adds a streaming source to your Amazon Kinesis application. For conceptual information, see Configuring Application Input .
@@ -38,6 +81,12 @@ def add_application_input(ApplicationName=None, CurrentApplicationVersionId=None
         CurrentApplicationVersionId=123,
         Input={
             'NamePrefix': 'string',
+            'InputProcessingConfiguration': {
+                'InputLambdaProcessor': {
+                    'ResourceARN': 'string',
+                    'RoleARN': 'string'
+                }
+            },
             'KinesisStreamsInput': {
                 'ResourceARN': 'string',
                 'RoleARN': 'string'
@@ -87,16 +136,23 @@ def add_application_input(ApplicationName=None, CurrentApplicationVersionId=None
 
     :type Input: dict
     :param Input: [REQUIRED]
-            When you configure the application input, you specify the streaming source, the in-application stream name that is created, and the mapping between the two. For more information, see Configuring Application Input .
-            NamePrefix (string) -- [REQUIRED]Name prefix to use when creating in-application stream. Suppose you specify a prefix 'MyInApplicationStream'. Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names 'MyInApplicationStream_001', 'MyInApplicationStream_002' and so on.
+            The Input to add.
+            NamePrefix (string) -- [REQUIRED]Name prefix to use when creating an in-application stream. Suppose that you specify a prefix 'MyInApplicationStream.' Amazon Kinesis Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with names 'MyInApplicationStream_001,' 'MyInApplicationStream_002,' and so on.
+            InputProcessingConfiguration (dict) --The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor .
+            InputLambdaProcessor (dict) -- [REQUIRED]The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
+            ResourceARN (string) -- [REQUIRED]The ARN of the AWS Lambda function that operates on records in the stream.
+            RoleARN (string) -- [REQUIRED]The ARN of the IAM role that is used to access the AWS Lambda function.
+            
             KinesisStreamsInput (dict) --If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+            Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
             ResourceARN (string) -- [REQUIRED]ARN of the input Amazon Kinesis stream to read.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-            KinesisFirehoseInput (dict) --If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-            ResourceARN (string) -- [REQUIRED]ARN of the input Firehose delivery stream.
+            KinesisFirehoseInput (dict) --If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+            Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
+            ResourceARN (string) -- [REQUIRED]ARN of the input delivery stream.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure the role has necessary permissions to access the stream.
             InputParallelism (dict) --Describes the number of in-application streams to create.
-            Data from your source will be routed to these in-application input streams.
+            Data from your source is routed to these in-application input streams.
             (see Configuring Application Input .
             Count (integer) --Number of in-application streams to create. For more information, see Limits .
             InputSchema (dict) -- [REQUIRED]Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created.
@@ -106,8 +162,6 @@ def add_application_input(ApplicationName=None, CurrentApplicationVersionId=None
             MappingParameters (dict) --When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
             JSONMappingParameters (dict) --Provides additional mapping information when JSON is the record format on the streaming source.
             RecordRowPath (string) -- [REQUIRED]Path to the top-level parent that contains the records.
-            For example, consider the following JSON record:
-            In the RecordRowPath , '$' refers to the root and path '$.vehicle.Model' refers to the specific 'Model' key in the JSON.
             CSVMappingParameters (dict) --Provides additional mapping information when the record format uses delimiters (for example, CSV).
             RecordRowDelimiter (string) -- [REQUIRED]Row delimiter. For example, in a CSV format, 'n' is the typical row delimiter.
             RecordColumnDelimiter (string) -- [REQUIRED]Column delimiter. For example, in a CSV format, a comma (',') is the typical column delimiter.
@@ -133,10 +187,63 @@ def add_application_input(ApplicationName=None, CurrentApplicationVersionId=None
     """
     pass
 
+def add_application_input_processing_configuration(ApplicationName=None, CurrentApplicationVersionId=None, InputId=None, InputProcessingConfiguration=None):
+    """
+    Adds an  InputProcessingConfiguration to an application. An input processor preprocesses records on the input stream before the application's SQL code executes. Currently, the only input processor available is AWS Lambda .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.add_application_input_processing_configuration(
+        ApplicationName='string',
+        CurrentApplicationVersionId=123,
+        InputId='string',
+        InputProcessingConfiguration={
+            'InputLambdaProcessor': {
+                'ResourceARN': 'string',
+                'RoleARN': 'string'
+            }
+        }
+    )
+    
+    
+    :type ApplicationName: string
+    :param ApplicationName: [REQUIRED]
+            Name of the application to which you want to add the input processing configuration.
+            
+
+    :type CurrentApplicationVersionId: integer
+    :param CurrentApplicationVersionId: [REQUIRED]
+            Version of the application to which you want to add the input processing configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+            
+
+    :type InputId: string
+    :param InputId: [REQUIRED]
+            The ID of the input configuration to add the input processing configuration to. You can get a list of the input IDs for an application using the DescribeApplication operation.
+            
+
+    :type InputProcessingConfiguration: dict
+    :param InputProcessingConfiguration: [REQUIRED]
+            The InputProcessingConfiguration to add to the application.
+            InputLambdaProcessor (dict) -- [REQUIRED]The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
+            ResourceARN (string) -- [REQUIRED]The ARN of the AWS Lambda function that operates on records in the stream.
+            RoleARN (string) -- [REQUIRED]The ARN of the IAM role that is used to access the AWS Lambda function.
+            
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def add_application_output(ApplicationName=None, CurrentApplicationVersionId=None, Output=None):
     """
     Adds an external destination to your Amazon Kinesis Analytics application.
-    If you want Amazon Kinesis Analytics to deliver data from an in-application stream within your application to an external destination (such as an Amazon Kinesis stream or a Firehose delivery stream), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination.
+    If you want Amazon Kinesis Analytics to deliver data from an in-application stream within your application to an external destination (such as an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination.
     You can use one of the output configurations to deliver data from your in-application error stream to an external destination so that you can analyze the errors. For conceptual information, see Understanding Application Output (Destination) .
     Note that any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the  DescribeApplication operation to find the current application version.
     For the limits on the number of application inputs and outputs you can configure, see Limits .
@@ -157,6 +264,10 @@ def add_application_output(ApplicationName=None, CurrentApplicationVersionId=Non
                 'ResourceARN': 'string',
                 'RoleARN': 'string'
             },
+            'LambdaOutput': {
+                'ResourceARN': 'string',
+                'RoleARN': 'string'
+            },
             'DestinationSchema': {
                 'RecordFormatType': 'JSON'|'CSV'
             }
@@ -171,12 +282,12 @@ def add_application_output(ApplicationName=None, CurrentApplicationVersionId=Non
 
     :type CurrentApplicationVersionId: integer
     :param CurrentApplicationVersionId: [REQUIRED]
-            Version of the application to which you want add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
+            Version of the application to which you want to add the output configuration. You can use the DescribeApplication operation to get the current application version. If the version specified is not the current version, the ConcurrentModificationException is returned.
             
 
     :type Output: dict
     :param Output: [REQUIRED]
-            An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream or an Amazon Kinesis Firehose delivery stream), and record the formation to use when writing to the destination.
+            An array of objects, each describing one output configuration. In the output configuration, you specify the name of an in-application stream, a destination (that is, an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an Amazon Lambda function), and record the formation to use when writing to the destination.
             Name (string) -- [REQUIRED]Name of the in-application stream.
             KinesisStreamsOutput (dict) --Identifies an Amazon Kinesis stream as the destination.
             ResourceARN (string) -- [REQUIRED]ARN of the destination Amazon Kinesis stream to write to.
@@ -184,6 +295,9 @@ def add_application_output(ApplicationName=None, CurrentApplicationVersionId=Non
             KinesisFirehoseOutput (dict) --Identifies an Amazon Kinesis Firehose delivery stream as the destination.
             ResourceARN (string) -- [REQUIRED]ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
+            LambdaOutput (dict) --Identifies an AWS Lambda function as the destination.
+            ResourceARN (string) -- [REQUIRED]Amazon Resource Name (ARN) of the destination Lambda function to write to.
+            RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role.
             DestinationSchema (dict) -- [REQUIRED]Describes the data format when records are written to the destination. For more information, see Configuring Application Output .
             RecordFormatType (string) --Specifies the format of the records on the output stream.
             
@@ -258,8 +372,7 @@ def add_application_reference_data_source(ApplicationName=None, CurrentApplicati
     :param ReferenceDataSource: [REQUIRED]
             The reference data source can be an object in your Amazon S3 bucket. Amazon Kinesis Analytics reads the object and copies the data into the in-application table that is created. You provide an S3 bucket, object key name, and the resulting in-application table that is created. You must also provide an IAM role with the necessary permissions that Amazon Kinesis Analytics can assume to read the object from your S3 bucket on your behalf.
             TableName (string) -- [REQUIRED]Name of the in-application table to create.
-            S3ReferenceDataSource (dict) --Identifies the S3 bucket and object that contains the reference data. Also identifies the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf.
-            An Amazon Kinesis Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application.
+            S3ReferenceDataSource (dict) --Identifies the S3 bucket and object that contains the reference data. Also identifies the IAM role Amazon Kinesis Analytics can assume to read this object on your behalf. An Amazon Kinesis Analytics application loads reference data only once. If the data changes, you call the UpdateApplication operation to trigger reloading of data into your application.
             BucketARN (string) -- [REQUIRED]Amazon Resource Name (ARN) of the S3 bucket.
             FileKey (string) -- [REQUIRED]Object key name containing reference data.
             ReferenceRoleARN (string) -- [REQUIRED]ARN of the IAM role that the service can assume to read data on your behalf. This role must have permission for the s3:GetObject action on the object and trust policy that allows Amazon Kinesis Analytics service principal to assume this role.
@@ -269,8 +382,6 @@ def add_application_reference_data_source(ApplicationName=None, CurrentApplicati
             MappingParameters (dict) --When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
             JSONMappingParameters (dict) --Provides additional mapping information when JSON is the record format on the streaming source.
             RecordRowPath (string) -- [REQUIRED]Path to the top-level parent that contains the records.
-            For example, consider the following JSON record:
-            In the RecordRowPath , '$' refers to the root and path '$.vehicle.Model' refers to the specific 'Model' key in the JSON.
             CSVMappingParameters (dict) --Provides additional mapping information when the record format uses delimiters (for example, CSV).
             RecordRowDelimiter (string) -- [REQUIRED]Row delimiter. For example, in a CSV format, 'n' is the typical row delimiter.
             RecordColumnDelimiter (string) -- [REQUIRED]Column delimiter. For example, in a CSV format, a comma (',') is the typical column delimiter.
@@ -311,12 +422,12 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_application(ApplicationName=None, ApplicationDescription=None, Inputs=None, Outputs=None, ApplicationCode=None):
+def create_application(ApplicationName=None, ApplicationDescription=None, Inputs=None, Outputs=None, CloudWatchLoggingOptions=None, ApplicationCode=None):
     """
-    Creates an Amazon Kinesis Analytics application. You can configure each application with one streaming source as input, application code to process the input, and up to five streaming destinations where you want Amazon Kinesis Analytics to write the output data from your application. For an overview, see How it Works .
-    In the input configuration, you map the streaming source to an in-application stream, which you can think of as a constantly updating table. In the mapping, you must provide a schema for the in-application stream and map each data column in the in-application stream to a data element in the streaming source, with the option of renaming, casting and dropping columns as desired.
+    Creates an Amazon Kinesis Analytics application. You can configure each application with one streaming source as input, application code to process the input, and up to three destinations where you want Amazon Kinesis Analytics to write the output data from your application. For an overview, see How it Works .
+    In the input configuration, you map the streaming source to an in-application stream, which you can think of as a constantly updating table. In the mapping, you must provide a schema for the in-application stream and map each data column in the in-application stream to a data element in the streaming source.
     Your application code is one or more SQL statements that read input data, transform it, and generate output. Your application code can create one or more SQL artifacts like SQL streams or pumps.
-    In the output configuration, you can configure the application to write data from in-application streams created in your applications to up to five streaming destinations.
+    In the output configuration, you can configure the application to write data from in-application streams created in your applications to up to three destinations.
     To read data from your source stream or write data to destination streams, Amazon Kinesis Analytics needs your permissions. You grant these permissions by creating IAM roles. This operation requires permissions to perform the kinesisanalytics:CreateApplication action.
     For introductory exercises to create an Amazon Kinesis Analytics application, see Getting Started .
     See also: AWS API Documentation
@@ -328,6 +439,12 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
         Inputs=[
             {
                 'NamePrefix': 'string',
+                'InputProcessingConfiguration': {
+                    'InputLambdaProcessor': {
+                        'ResourceARN': 'string',
+                        'RoleARN': 'string'
+                    }
+                },
                 'KinesisStreamsInput': {
                     'ResourceARN': 'string',
                     'RoleARN': 'string'
@@ -374,9 +491,19 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
                     'ResourceARN': 'string',
                     'RoleARN': 'string'
                 },
+                'LambdaOutput': {
+                    'ResourceARN': 'string',
+                    'RoleARN': 'string'
+                },
                 'DestinationSchema': {
                     'RecordFormatType': 'JSON'|'CSV'
                 }
+            },
+        ],
+        CloudWatchLoggingOptions=[
+            {
+                'LogStreamARN': 'string',
+                'RoleARN': 'string'
             },
         ],
         ApplicationCode='string'
@@ -394,18 +521,25 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
     :type Inputs: list
     :param Inputs: Use this parameter to configure the application input.
             You can configure your application to receive input from a single streaming source. In this configuration, you map this streaming source to an in-application stream that is created. Your application code can then query the in-application stream like a table (you can think of it as a constantly updating table).
-            For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf.
+            For the streaming source, you provide its Amazon Resource Name (ARN) and format of data on the stream (for example, JSON, CSV, etc.). You also must provide an IAM role that Amazon Kinesis Analytics can assume to read this stream on your behalf.
             To create the in-application stream, you need to specify a schema to transform your data into a schematized version used in SQL. In the schema, you provide the necessary mapping of the data elements in the streaming source to record columns in the in-app stream.
             (dict) --When you configure the application input, you specify the streaming source, the in-application stream name that is created, and the mapping between the two. For more information, see Configuring Application Input .
-            NamePrefix (string) -- [REQUIRED]Name prefix to use when creating in-application stream. Suppose you specify a prefix 'MyInApplicationStream'. Kinesis Analytics will then create one or more (as per the InputParallelism count you specified) in-application streams with names 'MyInApplicationStream_001', 'MyInApplicationStream_002' and so on.
+            NamePrefix (string) -- [REQUIRED]Name prefix to use when creating an in-application stream. Suppose that you specify a prefix 'MyInApplicationStream.' Amazon Kinesis Analytics then creates one or more (as per the InputParallelism count you specified) in-application streams with names 'MyInApplicationStream_001,' 'MyInApplicationStream_002,' and so on.
+            InputProcessingConfiguration (dict) --The InputProcessingConfiguration for the input. An input processor transforms records as they are received from the stream, before the application's SQL code executes. Currently, the only input processing configuration available is InputLambdaProcessor .
+            InputLambdaProcessor (dict) -- [REQUIRED]The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
+            ResourceARN (string) -- [REQUIRED]The ARN of the AWS Lambda function that operates on records in the stream.
+            RoleARN (string) -- [REQUIRED]The ARN of the IAM role that is used to access the AWS Lambda function.
+            
             KinesisStreamsInput (dict) --If the streaming source is an Amazon Kinesis stream, identifies the stream's Amazon Resource Name (ARN) and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+            Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
             ResourceARN (string) -- [REQUIRED]ARN of the input Amazon Kinesis stream to read.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-            KinesisFirehoseInput (dict) --If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the Firehose delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
-            ResourceARN (string) -- [REQUIRED]ARN of the input Firehose delivery stream.
+            KinesisFirehoseInput (dict) --If the streaming source is an Amazon Kinesis Firehose delivery stream, identifies the delivery stream's ARN and an IAM role that enables Amazon Kinesis Analytics to access the stream on your behalf.
+            Note: Either KinesisStreamsInput or KinesisFirehoseInput is required.
+            ResourceARN (string) -- [REQUIRED]ARN of the input delivery stream.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to make sure the role has necessary permissions to access the stream.
             InputParallelism (dict) --Describes the number of in-application streams to create.
-            Data from your source will be routed to these in-application input streams.
+            Data from your source is routed to these in-application input streams.
             (see Configuring Application Input .
             Count (integer) --Number of in-application streams to create. For more information, see Limits .
             InputSchema (dict) -- [REQUIRED]Describes the format of the data in the streaming source, and how each data element maps to corresponding columns in the in-application stream that is being created.
@@ -415,8 +549,6 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
             MappingParameters (dict) --When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
             JSONMappingParameters (dict) --Provides additional mapping information when JSON is the record format on the streaming source.
             RecordRowPath (string) -- [REQUIRED]Path to the top-level parent that contains the records.
-            For example, consider the following JSON record:
-            In the RecordRowPath , '$' refers to the root and path '$.vehicle.Model' refers to the specific 'Model' key in the JSON.
             CSVMappingParameters (dict) --Provides additional mapping information when the record format uses delimiters (for example, CSV).
             RecordRowDelimiter (string) -- [REQUIRED]Row delimiter. For example, in a CSV format, 'n' is the typical row delimiter.
             RecordColumnDelimiter (string) -- [REQUIRED]Column delimiter. For example, in a CSV format, a comma (',') is the typical column delimiter.
@@ -433,12 +565,12 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
             
 
     :type Outputs: list
-    :param Outputs: You can configure application output to write data from any of the in-application streams to up to five destinations.
-            These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, or both.
-            In the configuration, you specify the in-application stream name, the destination stream Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf.
-            In the output configuration, you also provide the output stream Amazon Resource Name (ARN) and the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to this stream on your behalf.
+    :param Outputs: You can configure application output to write data from any of the in-application streams to up to three destinations.
+            These destinations can be Amazon Kinesis streams, Amazon Kinesis Firehose delivery streams, Amazon Lambda destinations, or any combination of the three.
+            In the configuration, you specify the in-application stream name, the destination stream or Lambda function Amazon Resource Name (ARN), and the format to use when writing data. You must also provide an IAM role that Amazon Kinesis Analytics can assume to write to the destination stream or Lambda function on your behalf.
+            In the output configuration, you also provide the output stream or Lambda function ARN. For stream destinations, you provide the format of data in the stream (for example, JSON, CSV). You also must provide an IAM role that Amazon Kinesis Analytics can assume to write to the stream or Lambda function on your behalf.
             (dict) --Describes application output configuration in which you identify an in-application stream and a destination where you want the in-application stream data to be written. The destination can be an Amazon Kinesis stream or an Amazon Kinesis Firehose delivery stream.
-            You can configure your application to write output to up to five destinations.
+            For limits on how many destinations an application can write and other limitations, see Limits .
             Name (string) -- [REQUIRED]Name of the in-application stream.
             KinesisStreamsOutput (dict) --Identifies an Amazon Kinesis stream as the destination.
             ResourceARN (string) -- [REQUIRED]ARN of the destination Amazon Kinesis stream to write to.
@@ -446,14 +578,25 @@ def create_application(ApplicationName=None, ApplicationDescription=None, Inputs
             KinesisFirehoseOutput (dict) --Identifies an Amazon Kinesis Firehose delivery stream as the destination.
             ResourceARN (string) -- [REQUIRED]ARN of the destination Amazon Kinesis Firehose delivery stream to write to.
             RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination stream on your behalf. You need to grant the necessary permissions to this role.
+            LambdaOutput (dict) --Identifies an AWS Lambda function as the destination.
+            ResourceARN (string) -- [REQUIRED]Amazon Resource Name (ARN) of the destination Lambda function to write to.
+            RoleARN (string) -- [REQUIRED]ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role.
             DestinationSchema (dict) -- [REQUIRED]Describes the data format when records are written to the destination. For more information, see Configuring Application Output .
             RecordFormatType (string) --Specifies the format of the records on the output stream.
             
             
 
+    :type CloudWatchLoggingOptions: list
+    :param CloudWatchLoggingOptions: Use this parameter to configure a CloudWatch log stream to monitor application configuration errors. For more information, see Working with Amazon CloudWatch Logs .
+            (dict) --Provides a description of CloudWatch logging options, including the log stream Amazon Resource Name (ARN) and the role ARN.
+            LogStreamARN (string) -- [REQUIRED]ARN of the CloudWatch log to receive application messages.
+            RoleARN (string) -- [REQUIRED]IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role that is used must have the PutLogEvents policy action enabled.
+            
+            
+
     :type ApplicationCode: string
-    :param ApplicationCode: One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads input data and generates a running average of the number of advertisement clicks by vendor.
-            You can also provide a series of SQL statements, where output of one statement can be used as the input for the next statement.
+    :param ApplicationCode: One or more SQL statements that read input data, transform it, and generate output. For example, you can write a SQL statement that reads data from one in-application stream, generates a running average of the number of advertisement clicks by vendor, and insert resulting rows in another in-application stream using pumps. For more information about the typical pattern, see Application Code .
+            You can provide such series of SQL statements, where output of one statement can be used as the input for the next statement. You store intermediate results by creating in-application streams and pumps.
             Note that the application code must create the streams with names specified in the Outputs . For example, if your Outputs defines output streams named ExampleOutputStream1 and ExampleOutputStream2 , then your application code must create these streams.
             
 
@@ -491,6 +634,82 @@ def delete_application(ApplicationName=None, CreateTimestamp=None):
     :type CreateTimestamp: datetime
     :param CreateTimestamp: [REQUIRED]
             You can use the DescribeApplication operation to get this value.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def delete_application_cloud_watch_logging_option(ApplicationName=None, CurrentApplicationVersionId=None, CloudWatchLoggingOptionId=None):
+    """
+    Deletes a CloudWatch log stream from an application. For more information about using CloudWatch log streams with Amazon Kinesis Analytics applications, see Working with Amazon CloudWatch Logs .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_application_cloud_watch_logging_option(
+        ApplicationName='string',
+        CurrentApplicationVersionId=123,
+        CloudWatchLoggingOptionId='string'
+    )
+    
+    
+    :type ApplicationName: string
+    :param ApplicationName: [REQUIRED]
+            The Kinesis Analytics application name.
+            
+
+    :type CurrentApplicationVersionId: integer
+    :param CurrentApplicationVersionId: [REQUIRED]
+            The version ID of the Kinesis Analytics application.
+            
+
+    :type CloudWatchLoggingOptionId: string
+    :param CloudWatchLoggingOptionId: [REQUIRED]
+            The CloudWatchLoggingOptionId of the CloudWatch logging option to delete. You can get the CloudWatchLoggingOptionId by using the DescribeApplication operation.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def delete_application_input_processing_configuration(ApplicationName=None, CurrentApplicationVersionId=None, InputId=None):
+    """
+    Deletes an  InputProcessingConfiguration from an input.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_application_input_processing_configuration(
+        ApplicationName='string',
+        CurrentApplicationVersionId=123,
+        InputId='string'
+    )
+    
+    
+    :type ApplicationName: string
+    :param ApplicationName: [REQUIRED]
+            The Kinesis Analytics application name.
+            
+
+    :type CurrentApplicationVersionId: integer
+    :param CurrentApplicationVersionId: [REQUIRED]
+            The version ID of the Kinesis Analytics application.
+            
+
+    :type InputId: string
+    :param InputId: [REQUIRED]
+            The ID of the input configuration from which to delete the input processing configuration. You can get a list of the input IDs for an application by using the DescribeApplication operation.
             
 
     :rtype: dict
@@ -616,6 +835,12 @@ def describe_application(ApplicationName=None):
                     'InAppStreamNames': [
                         'string',
                     ],
+                    'InputProcessingConfigurationDescription': {
+                        'InputLambdaProcessorDescription': {
+                            'ResourceARN': 'string',
+                            'RoleARN': 'string'
+                        }
+                    },
                     'KinesisStreamsInputDescription': {
                         'ResourceARN': 'string',
                         'RoleARN': 'string'
@@ -666,6 +891,10 @@ def describe_application(ApplicationName=None):
                         'ResourceARN': 'string',
                         'RoleARN': 'string'
                     },
+                    'LambdaOutputDescription': {
+                        'ResourceARN': 'string',
+                        'RoleARN': 'string'
+                    },
                     'DestinationSchema': {
                         'RecordFormatType': 'JSON'|'CSV'
                     }
@@ -704,6 +933,13 @@ def describe_application(ApplicationName=None):
                     }
                 },
             ],
+            'CloudWatchLoggingOptionDescriptions': [
+                {
+                    'CloudWatchLoggingOptionId': 'string',
+                    'LogStreamARN': 'string',
+                    'RoleARN': 'string'
+                },
+            ],
             'ApplicationCode': 'string',
             'ApplicationVersionId': 123
         }
@@ -711,16 +947,16 @@ def describe_application(ApplicationName=None):
     
     
     :returns: 
-    LATEST - Start reading just after the most recent record in the stream.
+    NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued.
     TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.
     LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
     
     """
     pass
 
-def discover_input_schema(ResourceARN=None, RoleARN=None, InputStartingPositionConfiguration=None):
+def discover_input_schema(ResourceARN=None, RoleARN=None, InputStartingPositionConfiguration=None, S3Configuration=None, InputProcessingConfiguration=None):
     """
-    Infers a schema by evaluating sample records on the specified streaming source (Amazon Kinesis stream or Amazon Kinesis Firehose delivery stream). In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema.
+    Infers a schema by evaluating sample records on the specified streaming source (Amazon Kinesis stream or Amazon Kinesis Firehose delivery stream) or S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema.
     You can use the inferred schema when configuring a streaming source for your application. For conceptual information, see Configuring Application Input . Note that when you create an application using the Amazon Kinesis Analytics console, the console uses this operation to infer a schema and show it in the console user interface.
     This operation requires permissions to perform the kinesisanalytics:DiscoverInputSchema action.
     See also: AWS API Documentation
@@ -731,27 +967,48 @@ def discover_input_schema(ResourceARN=None, RoleARN=None, InputStartingPositionC
         RoleARN='string',
         InputStartingPositionConfiguration={
             'InputStartingPosition': 'NOW'|'TRIM_HORIZON'|'LAST_STOPPED_POINT'
+        },
+        S3Configuration={
+            'RoleARN': 'string',
+            'BucketARN': 'string',
+            'FileKey': 'string'
+        },
+        InputProcessingConfiguration={
+            'InputLambdaProcessor': {
+                'ResourceARN': 'string',
+                'RoleARN': 'string'
+            }
         }
     )
     
     
     :type ResourceARN: string
-    :param ResourceARN: [REQUIRED]
-            Amazon Resource Name (ARN) of the streaming source.
-            
+    :param ResourceARN: Amazon Resource Name (ARN) of the streaming source.
 
     :type RoleARN: string
-    :param RoleARN: [REQUIRED]
-            ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
-            
+    :param RoleARN: ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf.
 
     :type InputStartingPositionConfiguration: dict
-    :param InputStartingPositionConfiguration: [REQUIRED]
-            Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
+    :param InputStartingPositionConfiguration: Point at which you want Amazon Kinesis Analytics to start reading records from the specified streaming source discovery purposes.
             InputStartingPosition (string) --The starting position on the stream.
-            LATEST - Start reading just after the most recent record in the stream.
+            NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued.
             TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.
             LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
+            
+
+    :type S3Configuration: dict
+    :param S3Configuration: Specify this parameter to discover a schema from data in an S3 object.
+            RoleARN (string) -- [REQUIRED]IAM ARN of the role used to access the data.
+            BucketARN (string) -- [REQUIRED]ARN of the S3 bucket that contains the data.
+            FileKey (string) -- [REQUIRED]The name of the object that contains the data.
+            
+
+    :type InputProcessingConfiguration: dict
+    :param InputProcessingConfiguration: The InputProcessingConfiguration to use to preprocess the records before discovering the schema of the records.
+            InputLambdaProcessor (dict) -- [REQUIRED]The InputLambdaProcessor that is used to preprocess the records in the stream before being processed by your application code.
+            ResourceARN (string) -- [REQUIRED]The ARN of the AWS Lambda function that operates on records in the stream.
+            RoleARN (string) -- [REQUIRED]The ARN of the IAM role that is used to access the AWS Lambda function.
+            
             
 
     :rtype: dict
@@ -782,6 +1039,9 @@ def discover_input_schema(ResourceARN=None, RoleARN=None, InputStartingPositionC
             [
                 'string',
             ],
+        ],
+        'ProcessedInputRecords': [
+            'string',
         ],
         'RawInputRecords': [
             'string',
@@ -913,7 +1173,7 @@ def start_application(ApplicationName=None, InputConfigurations=None):
             Id (string) -- [REQUIRED]Input source ID. You can get this ID by calling the DescribeApplication operation.
             InputStartingPositionConfiguration (dict) -- [REQUIRED]Point at which you want the application to start processing records from the streaming source.
             InputStartingPosition (string) --The starting position on the stream.
-            LATEST - Start reading just after the most recent record in the stream.
+            NOW - Start reading just after the most recent record in the stream, start at the request time stamp that the customer issued.
             TRIM_HORIZON - Start reading at the last untrimmed record in the stream, which is the oldest record available in the stream. This option is not available for an Amazon Kinesis Firehose delivery stream.
             LAST_STOPPED_POINT - Resume reading from where the application last stopped reading.
             
@@ -955,9 +1215,9 @@ def stop_application(ApplicationName=None):
 
 def update_application(ApplicationName=None, CurrentApplicationVersionId=None, ApplicationUpdate=None):
     """
-    Updates an existing Kinesis Analytics application. Using this API, you can update application code, input configuration, and output configuration.
-    Note that Kinesis Analytics updates the CurrentApplicationVersionId each time you update your application.
-    This opeation requires permission for the kinesisanalytics:UpdateApplication action.
+    Updates an existing Amazon Kinesis Analytics application. Using this API, you can update application code, input configuration, and output configuration.
+    Note that Amazon Kinesis Analytics updates the CurrentApplicationVersionId each time you update your application.
+    This operation requires permission for the kinesisanalytics:UpdateApplication action.
     See also: AWS API Documentation
     
     
@@ -969,6 +1229,12 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
                 {
                     'InputId': 'string',
                     'NamePrefixUpdate': 'string',
+                    'InputProcessingConfigurationUpdate': {
+                        'InputLambdaProcessorUpdate': {
+                            'ResourceARNUpdate': 'string',
+                            'RoleARNUpdate': 'string'
+                        }
+                    },
                     'KinesisStreamsInputUpdate': {
                         'ResourceARNUpdate': 'string',
                         'RoleARNUpdate': 'string'
@@ -1017,6 +1283,10 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
                         'ResourceARNUpdate': 'string',
                         'RoleARNUpdate': 'string'
                     },
+                    'LambdaOutputUpdate': {
+                        'ResourceARNUpdate': 'string',
+                        'RoleARNUpdate': 'string'
+                    },
                     'DestinationSchemaUpdate': {
                         'RecordFormatType': 'JSON'|'CSV'
                     }
@@ -1054,6 +1324,13 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
                         ]
                     }
                 },
+            ],
+            'CloudWatchLoggingOptionUpdates': [
+                {
+                    'CloudWatchLoggingOptionId': 'string',
+                    'LogStreamARNUpdate': 'string',
+                    'RoleARNUpdate': 'string'
+                },
             ]
         }
     )
@@ -1061,7 +1338,7 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
     
     :type ApplicationName: string
     :param ApplicationName: [REQUIRED]
-            Name of the Kinesis Analytics application to update.
+            Name of the Amazon Kinesis Analytics application to update.
             
 
     :type CurrentApplicationVersionId: integer
@@ -1075,21 +1352,24 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
             InputUpdates (list) --Describes application input configuration updates.
             (dict) --Describes updates to a specific input configuration (identified by the InputId of an application).
             InputId (string) -- [REQUIRED]Input ID of the application input to be updated.
-            NamePrefixUpdate (string) --Name prefix for in-application stream(s) that Kinesis Analytics creates for the specific streaming source.
-            KinesisStreamsInputUpdate (dict) --If a Amazon Kinesis stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
+            NamePrefixUpdate (string) --Name prefix for in-application streams that Amazon Kinesis Analytics creates for the specific streaming source.
+            InputProcessingConfigurationUpdate (dict) --Describes updates for an input processing configuration.
+            InputLambdaProcessorUpdate (dict) -- [REQUIRED]Provides update information for an InputLambdaProcessor .
+            ResourceARNUpdate (string) --The Amazon Resource Name (ARN) of the new AWS Lambda function that is used to preprocess the records in the stream.
+            RoleARNUpdate (string) --The ARN of the new IAM role that is used to access the AWS Lambda function.
+            
+            KinesisStreamsInputUpdate (dict) --If an Amazon Kinesis stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
             ResourceARNUpdate (string) --Amazon Resource Name (ARN) of the input Amazon Kinesis stream to read.
             RoleARNUpdate (string) --ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-            KinesisFirehoseInputUpdate (dict) --If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream Amazon Resource Name (ARN) and IAM role ARN.
-            ResourceARNUpdate (string) --ARN of the input Amazon Kinesis Firehose delivery stream to read.
-            RoleARNUpdate (string) --Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
+            KinesisFirehoseInputUpdate (dict) --If an Amazon Kinesis Firehose delivery stream is the streaming source to be updated, provides an updated stream ARN and IAM role ARN.
+            ResourceARNUpdate (string) --Amazon Resource Name (ARN) of the input Amazon Kinesis Firehose delivery stream to read.
+            RoleARNUpdate (string) --ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
             InputSchemaUpdate (dict) --Describes the data format on the streaming source, and how record elements on the streaming source map to columns of the in-application stream that is created.
             RecordFormatUpdate (dict) --Specifies the format of the records on the streaming source.
             RecordFormatType (string) -- [REQUIRED]The type of record format.
             MappingParameters (dict) --When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
             JSONMappingParameters (dict) --Provides additional mapping information when JSON is the record format on the streaming source.
             RecordRowPath (string) -- [REQUIRED]Path to the top-level parent that contains the records.
-            For example, consider the following JSON record:
-            In the RecordRowPath , '$' refers to the root and path '$.vehicle.Model' refers to the specific 'Model' key in the JSON.
             CSVMappingParameters (dict) --Provides additional mapping information when the record format uses delimiters (for example, CSV).
             RecordRowDelimiter (string) -- [REQUIRED]Row delimiter. For example, in a CSV format, 'n' is the typical row delimiter.
             RecordColumnDelimiter (string) -- [REQUIRED]Column delimiter. For example, in a CSV format, a comma (',') is the typical column delimiter.
@@ -1102,7 +1382,7 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
             Mapping (string) --Reference to the data element in the streaming input of the reference data source.
             SqlType (string) -- [REQUIRED]Type of column created in the in-application input stream or reference table.
             
-            InputParallelismUpdate (dict) --Describes the parallelism updates (the number in-application streams Kinesis Analytics creates for the specific streaming source).
+            InputParallelismUpdate (dict) --Describes the parallelism updates (the number in-application streams Amazon Kinesis Analytics creates for the specific streaming source).
             CountUpdate (integer) --Number of in-application streams to create for the specified streaming source.
             
             ApplicationCodeUpdate (string) --Describes application code updates.
@@ -1113,9 +1393,12 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
             KinesisStreamsOutputUpdate (dict) --Describes an Amazon Kinesis stream as the destination for the output.
             ResourceARNUpdate (string) --Amazon Resource Name (ARN) of the Amazon Kinesis stream where you want to write the output.
             RoleARNUpdate (string) --ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant the necessary permissions to this role.
-            KinesisFirehoseOutputUpdate (dict) --Describes a Amazon Kinesis Firehose delivery stream as the destination for the output.
+            KinesisFirehoseOutputUpdate (dict) --Describes an Amazon Kinesis Firehose delivery stream as the destination for the output.
             ResourceARNUpdate (string) --Amazon Resource Name (ARN) of the Amazon Kinesis Firehose delivery stream to write to.
             RoleARNUpdate (string) --ARN of the IAM role that Amazon Kinesis Analytics can assume to access the stream on your behalf. You need to grant necessary permissions to this role.
+            LambdaOutputUpdate (dict) --Describes an AWS Lambda function as the destination for the output.
+            ResourceARNUpdate (string) --Amazon Resource Name (ARN) of the destination Lambda function.
+            RoleARNUpdate (string) --ARN of the IAM role that Amazon Kinesis Analytics can assume to write to the destination function on your behalf. You need to grant the necessary permissions to this role.
             DestinationSchemaUpdate (dict) --Describes the data format when records are written to the destination. For more information, see Configuring Application Output .
             RecordFormatType (string) --Specifies the format of the records on the output stream.
             
@@ -1133,8 +1416,6 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
             MappingParameters (dict) --When configuring application input at the time of creating or updating an application, provides additional mapping information specific to the record format (such as JSON, CSV, or record fields delimited by some delimiter) on the streaming source.
             JSONMappingParameters (dict) --Provides additional mapping information when JSON is the record format on the streaming source.
             RecordRowPath (string) -- [REQUIRED]Path to the top-level parent that contains the records.
-            For example, consider the following JSON record:
-            In the RecordRowPath , '$' refers to the root and path '$.vehicle.Model' refers to the specific 'Model' key in the JSON.
             CSVMappingParameters (dict) --Provides additional mapping information when the record format uses delimiters (for example, CSV).
             RecordRowDelimiter (string) -- [REQUIRED]Row delimiter. For example, in a CSV format, 'n' is the typical row delimiter.
             RecordColumnDelimiter (string) -- [REQUIRED]Column delimiter. For example, in a CSV format, a comma (',') is the typical column delimiter.
@@ -1148,6 +1429,11 @@ def update_application(ApplicationName=None, CurrentApplicationVersionId=None, A
             SqlType (string) -- [REQUIRED]Type of column created in the in-application input stream or reference table.
             
             
+            CloudWatchLoggingOptionUpdates (list) --Describes application CloudWatch logging option updates.
+            (dict) --Describes CloudWatch logging option updates.
+            CloudWatchLoggingOptionId (string) -- [REQUIRED]ID of the CloudWatch logging option to update
+            LogStreamARNUpdate (string) --ARN of the CloudWatch log to receive application messages.
+            RoleARNUpdate (string) --IAM ARN of the role to use to send application messages. Note: To write application messages to CloudWatch, the IAM role used must have the PutLogEvents policy action enabled.
             
             
 

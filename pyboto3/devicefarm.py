@@ -54,7 +54,7 @@ def create_device_pool(projectArn=None, name=None, description=None, rules=None)
         description='string',
         rules=[
             {
-                'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                 'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                 'value': 'string'
             },
@@ -87,6 +87,8 @@ def create_device_pool(projectArn=None, name=None, description=None, rules=None)
             PLATFORM: The platform (for example, Android or iOS).
             REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
             APPIUM_VERSION: The Appium version for the test.
+            INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+            INSTANCE_LABELS: The label of the device instance.
             operator (string) --The rule's operator.
             EQUALS: The equals operator.
             GREATER_THAN: The greater-than operator.
@@ -107,7 +109,7 @@ def create_device_pool(projectArn=None, name=None, description=None, rules=None)
             'type': 'CURATED'|'PRIVATE',
             'rules': [
                 {
-                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                     'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                     'value': 'string'
                 },
@@ -119,6 +121,64 @@ def create_device_pool(projectArn=None, name=None, description=None, rules=None)
     :returns: 
     CURATED: A device pool that is created and managed by AWS Device Farm.
     PRIVATE: A device pool that is created and managed by the device pool developer.
+    
+    """
+    pass
+
+def create_instance_profile(name=None, description=None, packageCleanup=None, excludeAppPackagesFromCleanup=None, rebootAfterUse=None):
+    """
+    Creates a profile that can be applied to one or more private fleet device instances.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_instance_profile(
+        name='string',
+        description='string',
+        packageCleanup=True|False,
+        excludeAppPackagesFromCleanup=[
+            'string',
+        ],
+        rebootAfterUse=True|False
+    )
+    
+    
+    :type name: string
+    :param name: [REQUIRED]
+            The name of your instance profile.
+            
+
+    :type description: string
+    :param description: The description of your instance profile.
+
+    :type packageCleanup: boolean
+    :param packageCleanup: When set to true , Device Farm will remove app packages after a test run. The default value is false for private devices.
+
+    :type excludeAppPackagesFromCleanup: list
+    :param excludeAppPackagesFromCleanup: An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over.
+            The list of packages is only considered if you set packageCleanup to true .
+            (string) --
+            
+
+    :type rebootAfterUse: boolean
+    :param rebootAfterUse: When set to true , Device Farm will reboot the instance after a test run. The default value is true .
+
+    :rtype: dict
+    :return: {
+        'instanceProfile': {
+            'arn': 'string',
+            'packageCleanup': True|False,
+            'excludeAppPackagesFromCleanup': [
+                'string',
+            ],
+            'rebootAfterUse': True|False,
+            'name': 'string',
+            'description': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -244,7 +304,7 @@ def create_project(name=None, defaultJobTimeoutMinutes=None):
     """
     pass
 
-def create_remote_access_session(projectArn=None, deviceArn=None, name=None, configuration=None):
+def create_remote_access_session(projectArn=None, deviceArn=None, instanceArn=None, sshPublicKey=None, remoteDebugEnabled=None, remoteRecordEnabled=None, remoteRecordAppArn=None, name=None, clientId=None, configuration=None, interactionMode=None, skipAppResign=None):
     """
     Specifies and starts a remote access session.
     See also: AWS API Documentation
@@ -256,10 +316,18 @@ def create_remote_access_session(projectArn=None, deviceArn=None, name=None, con
     :example: response = client.create_remote_access_session(
         projectArn='string',
         deviceArn='string',
+        instanceArn='string',
+        sshPublicKey='string',
+        remoteDebugEnabled=True|False,
+        remoteRecordEnabled=True|False,
+        remoteRecordAppArn='string',
         name='string',
+        clientId='string',
         configuration={
             'billingMethod': 'METERED'|'UNMETERED'
-        }
+        },
+        interactionMode='INTERACTIVE'|'NO_VIDEO'|'VIDEO_ONLY',
+        skipAppResign=True|False
     )
     
     
@@ -273,12 +341,42 @@ def create_remote_access_session(projectArn=None, deviceArn=None, name=None, con
             The Amazon Resource Name (ARN) of the device for which you want to create a remote access session.
             
 
+    :type instanceArn: string
+    :param instanceArn: The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session.
+
+    :type sshPublicKey: string
+    :param sshPublicKey: The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This is only required if remoteDebugEnabled is set to true .
+
+    :type remoteDebugEnabled: boolean
+    :param remoteDebugEnabled: Set to true if you want to access devices remotely for debugging in your remote access session.
+
+    :type remoteRecordEnabled: boolean
+    :param remoteRecordEnabled: Set to true to enable remote recording for the remote access session.
+
+    :type remoteRecordAppArn: string
+    :param remoteRecordAppArn: The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
+
     :type name: string
     :param name: The name of the remote access session that you wish to create.
 
+    :type clientId: string
+    :param clientId: Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession . This is required only if remoteDebugEnabled is set to true .
+
     :type configuration: dict
     :param configuration: The configuration information for the remote access session request.
-            billingMethod (string) --Returns the billing method for purposes of configuring a remote access session.
+            billingMethod (string) --The billing method for the remote access session.
+            
+
+    :type interactionMode: string
+    :param interactionMode: The interaction mode of the remote access session. Valid values are:
+            INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.
+            NO_VIDEO: You are connected to the device but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.
+            VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
+            
+
+    :type skipAppResign: boolean
+    :param skipAppResign: When set to true , for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect.
+            For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs .
             
 
     :rtype: dict
@@ -297,6 +395,7 @@ def create_remote_access_session(projectArn=None, deviceArn=None, name=None, con
                 'name': 'string',
                 'manufacturer': 'string',
                 'model': 'string',
+                'modelId': 'string',
                 'formFactor': 'PHONE'|'TABLET',
                 'platform': 'ANDROID'|'IOS',
                 'os': 'string',
@@ -315,16 +414,47 @@ def create_remote_access_session(projectArn=None, deviceArn=None, name=None, con
                 'carrier': 'string',
                 'radio': 'string',
                 'remoteAccessEnabled': True|False,
+                'remoteDebugEnabled': True|False,
                 'fleetType': 'string',
-                'fleetName': 'string'
+                'fleetName': 'string',
+                'instances': [
+                    {
+                        'arn': 'string',
+                        'deviceArn': 'string',
+                        'labels': [
+                            'string',
+                        ],
+                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                        'udid': 'string',
+                        'instanceProfile': {
+                            'arn': 'string',
+                            'packageCleanup': True|False,
+                            'excludeAppPackagesFromCleanup': [
+                                'string',
+                            ],
+                            'rebootAfterUse': True|False,
+                            'name': 'string',
+                            'description': 'string'
+                        }
+                    },
+                ]
             },
+            'instanceArn': 'string',
+            'remoteDebugEnabled': True|False,
+            'remoteRecordEnabled': True|False,
+            'remoteRecordAppArn': 'string',
+            'hostAddress': 'string',
+            'clientId': 'string',
             'billingMethod': 'METERED'|'UNMETERED',
             'deviceMinutes': {
                 'total': 123.0,
                 'metered': 123.0,
                 'unmetered': 123.0
             },
-            'endpoint': 'string'
+            'endpoint': 'string',
+            'deviceUdid': 'string',
+            'interactionMode': 'INTERACTIVE'|'NO_VIDEO'|'VIDEO_ONLY',
+            'skipAppResign': True|False
         }
     }
     
@@ -450,6 +580,29 @@ def delete_device_pool(arn=None):
     :type arn: string
     :param arn: [REQUIRED]
             Represents the Amazon Resource Name (ARN) of the Device Farm device pool you wish to delete.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    """
+    pass
+
+def delete_instance_profile(arn=None):
+    """
+    Deletes a profile that can be applied to one or more private device instances.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_instance_profile(
+        arn='string'
+    )
+    
+    
+    :type arn: string
+    :param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the instance profile you are requesting to delete.
             
 
     :rtype: dict
@@ -638,7 +791,8 @@ def get_account_settings():
             'maxSlots': {
                 'string': 123
             },
-            'defaultJobTimeoutMinutes': 123
+            'defaultJobTimeoutMinutes': 123,
+            'skipAppResign': True|False
         }
     }
     
@@ -678,6 +832,7 @@ def get_device(arn=None):
             'name': 'string',
             'manufacturer': 'string',
             'model': 'string',
+            'modelId': 'string',
             'formFactor': 'PHONE'|'TABLET',
             'platform': 'ANDROID'|'IOS',
             'os': 'string',
@@ -696,8 +851,30 @@ def get_device(arn=None):
             'carrier': 'string',
             'radio': 'string',
             'remoteAccessEnabled': True|False,
+            'remoteDebugEnabled': True|False,
             'fleetType': 'string',
-            'fleetName': 'string'
+            'fleetName': 'string',
+            'instances': [
+                {
+                    'arn': 'string',
+                    'deviceArn': 'string',
+                    'labels': [
+                        'string',
+                    ],
+                    'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                    'udid': 'string',
+                    'instanceProfile': {
+                        'arn': 'string',
+                        'packageCleanup': True|False,
+                        'excludeAppPackagesFromCleanup': [
+                            'string',
+                        ],
+                        'rebootAfterUse': True|False,
+                        'name': 'string',
+                        'description': 'string'
+                    }
+                },
+            ]
         }
     }
     
@@ -705,6 +882,52 @@ def get_device(arn=None):
     :returns: 
     ANDROID: The Android platform.
     IOS: The iOS platform.
+    
+    """
+    pass
+
+def get_device_instance(arn=None):
+    """
+    Returns information about a device instance belonging to a private device fleet.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_device_instance(
+        arn='string'
+    )
+    
+    
+    :type arn: string
+    :param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the instance you're requesting information about.
+            
+
+    :rtype: dict
+    :return: {
+        'deviceInstance': {
+            'arn': 'string',
+            'deviceArn': 'string',
+            'labels': [
+                'string',
+            ],
+            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+            'udid': 'string',
+            'instanceProfile': {
+                'arn': 'string',
+                'packageCleanup': True|False,
+                'excludeAppPackagesFromCleanup': [
+                    'string',
+                ],
+                'rebootAfterUse': True|False,
+                'name': 'string',
+                'description': 'string'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -737,7 +960,7 @@ def get_device_pool(arn=None):
             'type': 'CURATED'|'PRIVATE',
             'rules': [
                 {
-                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                     'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                     'value': 'string'
                 },
@@ -753,6 +976,8 @@ def get_device_pool(arn=None):
     PLATFORM: The platform (for example, Android or iOS).
     REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
     APPIUM_VERSION: The Appium version for the test.
+    INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+    INSTANCE_LABELS: The label of the device instance.
     
     """
     pass
@@ -769,9 +994,9 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
     :example: response = client.get_device_pool_compatibility(
         devicePoolArn='string',
         appArn='string',
-        testType='BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+        testType='BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
         test={
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'testPackageArn': 'string',
             'filter': 'string',
             'parameters': {
@@ -875,6 +1100,7 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
                     'name': 'string',
                     'manufacturer': 'string',
                     'model': 'string',
+                    'modelId': 'string',
                     'formFactor': 'PHONE'|'TABLET',
                     'platform': 'ANDROID'|'IOS',
                     'os': 'string',
@@ -893,14 +1119,36 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
                     'carrier': 'string',
                     'radio': 'string',
                     'remoteAccessEnabled': True|False,
+                    'remoteDebugEnabled': True|False,
                     'fleetType': 'string',
-                    'fleetName': 'string'
+                    'fleetName': 'string',
+                    'instances': [
+                        {
+                            'arn': 'string',
+                            'deviceArn': 'string',
+                            'labels': [
+                                'string',
+                            ],
+                            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                            'udid': 'string',
+                            'instanceProfile': {
+                                'arn': 'string',
+                                'packageCleanup': True|False,
+                                'excludeAppPackagesFromCleanup': [
+                                    'string',
+                                ],
+                                'rebootAfterUse': True|False,
+                                'name': 'string',
+                                'description': 'string'
+                            }
+                        },
+                    ]
                 },
                 'compatible': True|False,
                 'incompatibilityMessages': [
                     {
                         'message': 'string',
-                        'type': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION'
+                        'type': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS'
                     },
                 ]
             },
@@ -912,6 +1160,7 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
                     'name': 'string',
                     'manufacturer': 'string',
                     'model': 'string',
+                    'modelId': 'string',
                     'formFactor': 'PHONE'|'TABLET',
                     'platform': 'ANDROID'|'IOS',
                     'os': 'string',
@@ -930,14 +1179,36 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
                     'carrier': 'string',
                     'radio': 'string',
                     'remoteAccessEnabled': True|False,
+                    'remoteDebugEnabled': True|False,
                     'fleetType': 'string',
-                    'fleetName': 'string'
+                    'fleetName': 'string',
+                    'instances': [
+                        {
+                            'arn': 'string',
+                            'deviceArn': 'string',
+                            'labels': [
+                                'string',
+                            ],
+                            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                            'udid': 'string',
+                            'instanceProfile': {
+                                'arn': 'string',
+                                'packageCleanup': True|False,
+                                'excludeAppPackagesFromCleanup': [
+                                    'string',
+                                ],
+                                'rebootAfterUse': True|False,
+                                'name': 'string',
+                                'description': 'string'
+                            }
+                        },
+                    ]
                 },
                 'compatible': True|False,
                 'incompatibilityMessages': [
                     {
                         'message': 'string',
-                        'type': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION'
+                        'type': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS'
                     },
                 ]
             },
@@ -948,6 +1219,40 @@ def get_device_pool_compatibility(devicePoolArn=None, appArn=None, testType=None
     :returns: 
     PHONE: The phone form factor.
     TABLET: The tablet form factor.
+    
+    """
+    pass
+
+def get_instance_profile(arn=None):
+    """
+    Returns information about the specified instance profile.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_instance_profile(
+        arn='string'
+    )
+    
+    
+    :type arn: string
+    :param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of your instance profile.
+            
+
+    :rtype: dict
+    :return: {
+        'instanceProfile': {
+            'arn': 'string',
+            'packageCleanup': True|False,
+            'excludeAppPackagesFromCleanup': [
+                'string',
+            ],
+            'rebootAfterUse': True|False,
+            'name': 'string',
+            'description': 'string'
+        }
+    }
+    
     
     """
     pass
@@ -976,7 +1281,7 @@ def get_job(arn=None):
         'job': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
             'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -997,6 +1302,7 @@ def get_job(arn=None):
                 'name': 'string',
                 'manufacturer': 'string',
                 'model': 'string',
+                'modelId': 'string',
                 'formFactor': 'PHONE'|'TABLET',
                 'platform': 'ANDROID'|'IOS',
                 'os': 'string',
@@ -1015,9 +1321,32 @@ def get_job(arn=None):
                 'carrier': 'string',
                 'radio': 'string',
                 'remoteAccessEnabled': True|False,
+                'remoteDebugEnabled': True|False,
                 'fleetType': 'string',
-                'fleetName': 'string'
+                'fleetName': 'string',
+                'instances': [
+                    {
+                        'arn': 'string',
+                        'deviceArn': 'string',
+                        'labels': [
+                            'string',
+                        ],
+                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                        'udid': 'string',
+                        'instanceProfile': {
+                            'arn': 'string',
+                            'packageCleanup': True|False,
+                            'excludeAppPackagesFromCleanup': [
+                                'string',
+                            ],
+                            'rebootAfterUse': True|False,
+                            'name': 'string',
+                            'description': 'string'
+                        }
+                    },
+                ]
             },
+            'instanceArn': 'string',
             'deviceMinutes': {
                 'total': 123.0,
                 'metered': 123.0,
@@ -1233,6 +1562,7 @@ def get_remote_access_session(arn=None):
                 'name': 'string',
                 'manufacturer': 'string',
                 'model': 'string',
+                'modelId': 'string',
                 'formFactor': 'PHONE'|'TABLET',
                 'platform': 'ANDROID'|'IOS',
                 'os': 'string',
@@ -1251,16 +1581,47 @@ def get_remote_access_session(arn=None):
                 'carrier': 'string',
                 'radio': 'string',
                 'remoteAccessEnabled': True|False,
+                'remoteDebugEnabled': True|False,
                 'fleetType': 'string',
-                'fleetName': 'string'
+                'fleetName': 'string',
+                'instances': [
+                    {
+                        'arn': 'string',
+                        'deviceArn': 'string',
+                        'labels': [
+                            'string',
+                        ],
+                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                        'udid': 'string',
+                        'instanceProfile': {
+                            'arn': 'string',
+                            'packageCleanup': True|False,
+                            'excludeAppPackagesFromCleanup': [
+                                'string',
+                            ],
+                            'rebootAfterUse': True|False,
+                            'name': 'string',
+                            'description': 'string'
+                        }
+                    },
+                ]
             },
+            'instanceArn': 'string',
+            'remoteDebugEnabled': True|False,
+            'remoteRecordEnabled': True|False,
+            'remoteRecordAppArn': 'string',
+            'hostAddress': 'string',
+            'clientId': 'string',
             'billingMethod': 'METERED'|'UNMETERED',
             'deviceMinutes': {
                 'total': 123.0,
                 'metered': 123.0,
                 'unmetered': 123.0
             },
-            'endpoint': 'string'
+            'endpoint': 'string',
+            'deviceUdid': 'string',
+            'interactionMode': 'INTERACTIVE'|'NO_VIDEO'|'VIDEO_ONLY',
+            'skipAppResign': True|False
         }
     }
     
@@ -1301,7 +1662,7 @@ def get_run(arn=None):
         'run': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'platform': 'ANDROID'|'IOS',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
@@ -1339,7 +1700,38 @@ def get_run(arn=None):
                 'downlinkJitterMs': 123,
                 'uplinkLossPercent': 123,
                 'downlinkLossPercent': 123
-            }
+            },
+            'parsingResultUrl': 'string',
+            'resultCode': 'PARSING_FAILED',
+            'seed': 123,
+            'appUpload': 'string',
+            'eventCount': 123,
+            'jobTimeoutMinutes': 123,
+            'devicePoolArn': 'string',
+            'locale': 'string',
+            'radios': {
+                'wifi': True|False,
+                'bluetooth': True|False,
+                'nfc': True|False,
+                'gps': True|False
+            },
+            'location': {
+                'latitude': 123.0,
+                'longitude': 123.0
+            },
+            'customerArtifactPaths': {
+                'iosPaths': [
+                    'string',
+                ],
+                'androidPaths': [
+                    'string',
+                ],
+                'deviceHostPaths': [
+                    'string',
+                ]
+            },
+            'webUrl': 'string',
+            'skipAppResign': True|False
         }
     }
     
@@ -1375,7 +1767,7 @@ def get_suite(arn=None):
         'suite': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
             'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -1438,7 +1830,7 @@ def get_test(arn=None):
         'test': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
             'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -1628,7 +2020,7 @@ def list_artifacts(arn=None, type=None, nextToken=None):
             {
                 'arn': 'string',
                 'name': 'string',
-                'type': 'UNKNOWN'|'SCREENSHOT'|'DEVICE_LOG'|'MESSAGE_LOG'|'VIDEO_LOG'|'RESULT_LOG'|'SERVICE_LOG'|'WEBKIT_LOG'|'INSTRUMENTATION_OUTPUT'|'EXERCISER_MONKEY_OUTPUT'|'CALABASH_JSON_OUTPUT'|'CALABASH_PRETTY_OUTPUT'|'CALABASH_STANDARD_OUTPUT'|'CALABASH_JAVA_XML_OUTPUT'|'AUTOMATION_OUTPUT'|'APPIUM_SERVER_OUTPUT'|'APPIUM_JAVA_OUTPUT'|'APPIUM_JAVA_XML_OUTPUT'|'APPIUM_PYTHON_OUTPUT'|'APPIUM_PYTHON_XML_OUTPUT'|'EXPLORER_EVENT_LOG'|'EXPLORER_SUMMARY_LOG'|'APPLICATION_CRASH_REPORT'|'XCTEST_LOG'|'VIDEO',
+                'type': 'UNKNOWN'|'SCREENSHOT'|'DEVICE_LOG'|'MESSAGE_LOG'|'VIDEO_LOG'|'RESULT_LOG'|'SERVICE_LOG'|'WEBKIT_LOG'|'INSTRUMENTATION_OUTPUT'|'EXERCISER_MONKEY_OUTPUT'|'CALABASH_JSON_OUTPUT'|'CALABASH_PRETTY_OUTPUT'|'CALABASH_STANDARD_OUTPUT'|'CALABASH_JAVA_XML_OUTPUT'|'AUTOMATION_OUTPUT'|'APPIUM_SERVER_OUTPUT'|'APPIUM_JAVA_OUTPUT'|'APPIUM_JAVA_XML_OUTPUT'|'APPIUM_PYTHON_OUTPUT'|'APPIUM_PYTHON_XML_OUTPUT'|'EXPLORER_EVENT_LOG'|'EXPLORER_SUMMARY_LOG'|'APPLICATION_CRASH_REPORT'|'XCTEST_LOG'|'VIDEO'|'CUSTOMER_ARTIFACT'|'CUSTOMER_ARTIFACT_LOG',
                 'extension': 'string',
                 'url': 'string'
             },
@@ -1661,6 +2053,57 @@ def list_artifacts(arn=None, type=None, nextToken=None):
     EXPLORER_SUMMARY_LOG: The Explorer summary log output type.
     APPLICATION_CRASH_REPORT: The application crash report output type.
     XCTEST_LOG: The XCode test output type.
+    
+    """
+    pass
+
+def list_device_instances(maxResults=None, nextToken=None):
+    """
+    Returns information about the private device instances associated with one or more AWS accounts.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_device_instances(
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type maxResults: integer
+    :param maxResults: An integer specifying the maximum number of items you want to return in the API response.
+
+    :type nextToken: string
+    :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+    :rtype: dict
+    :return: {
+        'deviceInstances': [
+            {
+                'arn': 'string',
+                'deviceArn': 'string',
+                'labels': [
+                    'string',
+                ],
+                'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                'udid': 'string',
+                'instanceProfile': {
+                    'arn': 'string',
+                    'packageCleanup': True|False,
+                    'excludeAppPackagesFromCleanup': [
+                        'string',
+                    ],
+                    'rebootAfterUse': True|False,
+                    'name': 'string',
+                    'description': 'string'
+                }
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -1706,7 +2149,7 @@ def list_device_pools(arn=None, type=None, nextToken=None):
                 'type': 'CURATED'|'PRIVATE',
                 'rules': [
                     {
-                        'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                        'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                         'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                         'value': 'string'
                     },
@@ -1753,6 +2196,7 @@ def list_devices(arn=None, nextToken=None):
                 'name': 'string',
                 'manufacturer': 'string',
                 'model': 'string',
+                'modelId': 'string',
                 'formFactor': 'PHONE'|'TABLET',
                 'platform': 'ANDROID'|'IOS',
                 'os': 'string',
@@ -1771,8 +2215,30 @@ def list_devices(arn=None, nextToken=None):
                 'carrier': 'string',
                 'radio': 'string',
                 'remoteAccessEnabled': True|False,
+                'remoteDebugEnabled': True|False,
                 'fleetType': 'string',
-                'fleetName': 'string'
+                'fleetName': 'string',
+                'instances': [
+                    {
+                        'arn': 'string',
+                        'deviceArn': 'string',
+                        'labels': [
+                            'string',
+                        ],
+                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                        'udid': 'string',
+                        'instanceProfile': {
+                            'arn': 'string',
+                            'packageCleanup': True|False,
+                            'excludeAppPackagesFromCleanup': [
+                                'string',
+                            ],
+                            'rebootAfterUse': True|False,
+                            'name': 'string',
+                            'description': 'string'
+                        }
+                    },
+                ]
             },
         ],
         'nextToken': 'string'
@@ -1786,9 +2252,51 @@ def list_devices(arn=None, nextToken=None):
     """
     pass
 
+def list_instance_profiles(maxResults=None, nextToken=None):
+    """
+    Returns information about all the instance profiles in an AWS account.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_instance_profiles(
+        maxResults=123,
+        nextToken='string'
+    )
+    
+    
+    :type maxResults: integer
+    :param maxResults: An integer specifying the maximum number of items you want to return in the API response.
+
+    :type nextToken: string
+    :param nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+
+    :rtype: dict
+    :return: {
+        'instanceProfiles': [
+            {
+                'arn': 'string',
+                'packageCleanup': True|False,
+                'excludeAppPackagesFromCleanup': [
+                    'string',
+                ],
+                'rebootAfterUse': True|False,
+                'name': 'string',
+                'description': 'string'
+            },
+        ],
+        'nextToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
 def list_jobs(arn=None, nextToken=None):
     """
-    Gets information about jobs.
+    Gets information about jobs for a given test run.
     See also: AWS API Documentation
     
     Examples
@@ -1803,7 +2311,7 @@ def list_jobs(arn=None, nextToken=None):
     
     :type arn: string
     :param arn: [REQUIRED]
-            The jobs' ARNs.
+            The run's Amazon Resource Name (ARN).
             
 
     :type nextToken: string
@@ -1815,7 +2323,7 @@ def list_jobs(arn=None, nextToken=None):
             {
                 'arn': 'string',
                 'name': 'string',
-                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
                 'created': datetime(2015, 1, 1),
                 'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
                 'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -1836,6 +2344,7 @@ def list_jobs(arn=None, nextToken=None):
                     'name': 'string',
                     'manufacturer': 'string',
                     'model': 'string',
+                    'modelId': 'string',
                     'formFactor': 'PHONE'|'TABLET',
                     'platform': 'ANDROID'|'IOS',
                     'os': 'string',
@@ -1854,9 +2363,32 @@ def list_jobs(arn=None, nextToken=None):
                     'carrier': 'string',
                     'radio': 'string',
                     'remoteAccessEnabled': True|False,
+                    'remoteDebugEnabled': True|False,
                     'fleetType': 'string',
-                    'fleetName': 'string'
+                    'fleetName': 'string',
+                    'instances': [
+                        {
+                            'arn': 'string',
+                            'deviceArn': 'string',
+                            'labels': [
+                                'string',
+                            ],
+                            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                            'udid': 'string',
+                            'instanceProfile': {
+                                'arn': 'string',
+                                'packageCleanup': True|False,
+                                'excludeAppPackagesFromCleanup': [
+                                    'string',
+                                ],
+                                'rebootAfterUse': True|False,
+                                'name': 'string',
+                                'description': 'string'
+                            }
+                        },
+                    ]
                 },
+                'instanceArn': 'string',
                 'deviceMinutes': {
                     'total': 123.0,
                     'metered': 123.0,
@@ -2143,6 +2675,7 @@ def list_remote_access_sessions(arn=None, nextToken=None):
                     'name': 'string',
                     'manufacturer': 'string',
                     'model': 'string',
+                    'modelId': 'string',
                     'formFactor': 'PHONE'|'TABLET',
                     'platform': 'ANDROID'|'IOS',
                     'os': 'string',
@@ -2161,16 +2694,47 @@ def list_remote_access_sessions(arn=None, nextToken=None):
                     'carrier': 'string',
                     'radio': 'string',
                     'remoteAccessEnabled': True|False,
+                    'remoteDebugEnabled': True|False,
                     'fleetType': 'string',
-                    'fleetName': 'string'
+                    'fleetName': 'string',
+                    'instances': [
+                        {
+                            'arn': 'string',
+                            'deviceArn': 'string',
+                            'labels': [
+                                'string',
+                            ],
+                            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                            'udid': 'string',
+                            'instanceProfile': {
+                                'arn': 'string',
+                                'packageCleanup': True|False,
+                                'excludeAppPackagesFromCleanup': [
+                                    'string',
+                                ],
+                                'rebootAfterUse': True|False,
+                                'name': 'string',
+                                'description': 'string'
+                            }
+                        },
+                    ]
                 },
+                'instanceArn': 'string',
+                'remoteDebugEnabled': True|False,
+                'remoteRecordEnabled': True|False,
+                'remoteRecordAppArn': 'string',
+                'hostAddress': 'string',
+                'clientId': 'string',
                 'billingMethod': 'METERED'|'UNMETERED',
                 'deviceMinutes': {
                     'total': 123.0,
                     'metered': 123.0,
                     'unmetered': 123.0
                 },
-                'endpoint': 'string'
+                'endpoint': 'string',
+                'deviceUdid': 'string',
+                'interactionMode': 'INTERACTIVE'|'NO_VIDEO'|'VIDEO_ONLY',
+                'skipAppResign': True|False
             },
         ],
         'nextToken': 'string'
@@ -2220,7 +2784,7 @@ def list_runs(arn=None, nextToken=None):
             {
                 'arn': 'string',
                 'name': 'string',
-                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
                 'platform': 'ANDROID'|'IOS',
                 'created': datetime(2015, 1, 1),
                 'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
@@ -2258,7 +2822,38 @@ def list_runs(arn=None, nextToken=None):
                     'downlinkJitterMs': 123,
                     'uplinkLossPercent': 123,
                     'downlinkLossPercent': 123
-                }
+                },
+                'parsingResultUrl': 'string',
+                'resultCode': 'PARSING_FAILED',
+                'seed': 123,
+                'appUpload': 'string',
+                'eventCount': 123,
+                'jobTimeoutMinutes': 123,
+                'devicePoolArn': 'string',
+                'locale': 'string',
+                'radios': {
+                    'wifi': True|False,
+                    'bluetooth': True|False,
+                    'nfc': True|False,
+                    'gps': True|False
+                },
+                'location': {
+                    'latitude': 123.0,
+                    'longitude': 123.0
+                },
+                'customerArtifactPaths': {
+                    'iosPaths': [
+                        'string',
+                    ],
+                    'androidPaths': [
+                        'string',
+                    ],
+                    'deviceHostPaths': [
+                        'string',
+                    ]
+                },
+                'webUrl': 'string',
+                'skipAppResign': True|False
             },
         ],
         'nextToken': 'string'
@@ -2344,7 +2939,7 @@ def list_samples(arn=None, nextToken=None):
 
 def list_suites(arn=None, nextToken=None):
     """
-    Gets information about suites.
+    Gets information about test suites for a given job.
     See also: AWS API Documentation
     
     Examples
@@ -2359,7 +2954,7 @@ def list_suites(arn=None, nextToken=None):
     
     :type arn: string
     :param arn: [REQUIRED]
-            The suites' ARNs.
+            The job's Amazon Resource Name (ARN).
             
 
     :type nextToken: string
@@ -2371,7 +2966,7 @@ def list_suites(arn=None, nextToken=None):
             {
                 'arn': 'string',
                 'name': 'string',
-                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
                 'created': datetime(2015, 1, 1),
                 'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
                 'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -2419,7 +3014,7 @@ def list_suites(arn=None, nextToken=None):
 
 def list_tests(arn=None, nextToken=None):
     """
-    Gets information about tests.
+    Gets information about tests in a given test suite.
     See also: AWS API Documentation
     
     Examples
@@ -2434,7 +3029,7 @@ def list_tests(arn=None, nextToken=None):
     
     :type arn: string
     :param arn: [REQUIRED]
-            The tests' ARNs.
+            The test suite's Amazon Resource Name (ARN).
             
 
     :type nextToken: string
@@ -2446,7 +3041,7 @@ def list_tests(arn=None, nextToken=None):
             {
                 'arn': 'string',
                 'name': 'string',
-                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+                'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
                 'created': datetime(2015, 1, 1),
                 'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
                 'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
@@ -2544,6 +3139,7 @@ def list_unique_problems(arn=None, nextToken=None):
                                 'name': 'string',
                                 'manufacturer': 'string',
                                 'model': 'string',
+                                'modelId': 'string',
                                 'formFactor': 'PHONE'|'TABLET',
                                 'platform': 'ANDROID'|'IOS',
                                 'os': 'string',
@@ -2562,8 +3158,30 @@ def list_unique_problems(arn=None, nextToken=None):
                                 'carrier': 'string',
                                 'radio': 'string',
                                 'remoteAccessEnabled': True|False,
+                                'remoteDebugEnabled': True|False,
                                 'fleetType': 'string',
-                                'fleetName': 'string'
+                                'fleetName': 'string',
+                                'instances': [
+                                    {
+                                        'arn': 'string',
+                                        'deviceArn': 'string',
+                                        'labels': [
+                                            'string',
+                                        ],
+                                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                                        'udid': 'string',
+                                        'instanceProfile': {
+                                            'arn': 'string',
+                                            'packageCleanup': True|False,
+                                            'excludeAppPackagesFromCleanup': [
+                                                'string',
+                                            ],
+                                            'rebootAfterUse': True|False,
+                                            'name': 'string',
+                                            'description': 'string'
+                                        }
+                                    },
+                                ]
                             },
                             'result': 'PENDING'|'PASSED'|'WARNED'|'FAILED'|'SKIPPED'|'ERRORED'|'STOPPED',
                             'message': 'string'
@@ -2786,7 +3404,7 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
         devicePoolArn='string',
         name='string',
         test={
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'testPackageArn': 'string',
             'filter': 'string',
             'parameters': {
@@ -2800,6 +3418,17 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
             'location': {
                 'latitude': 123.0,
                 'longitude': 123.0
+            },
+            'customerArtifactPaths': {
+                'iosPaths': [
+                    'string',
+                ],
+                'androidPaths': [
+                    'string',
+                ],
+                'deviceHostPaths': [
+                    'string',
+                ]
             },
             'radios': {
                 'wifi': True|False,
@@ -2815,7 +3444,8 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
         executionConfiguration={
             'jobTimeoutMinutes': 123,
             'accountsCleanup': True|False,
-            'appPackagesCleanup': True|False
+            'appPackagesCleanup': True|False,
+            'skipAppResign': True|False
         }
     )
     
@@ -2903,6 +3533,14 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
             location (dict) --Information about the location that is used for the run.
             latitude (float) -- [REQUIRED]The latitude.
             longitude (float) -- [REQUIRED]The longitude.
+            customerArtifactPaths (dict) --Input CustomerArtifactPaths object for the scheduled run configuration.
+            iosPaths (list) --Comma-separated list of paths on the iOS device where the artifacts generated by the customer's tests will be pulled from.
+            (string) --
+            androidPaths (list) --Comma-separated list of paths on the Android device where the artifacts generated by the customer's tests will be pulled from.
+            (string) --
+            deviceHostPaths (list) --Comma-separated list of paths in the test execution environment where the artifacts generated by the customer's tests will be pulled from.
+            (string) --
+            
             radios (dict) --Information about the radio states for the run.
             wifi (boolean) --True if Wi-Fi is enabled at the beginning of the test; otherwise, false.
             bluetooth (boolean) --True if Bluetooth is enabled at the beginning of the test; otherwise, false.
@@ -2918,6 +3556,8 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
             jobTimeoutMinutes (integer) --The number of minutes a test run will execute before it times out.
             accountsCleanup (boolean) --True if account cleanup is enabled at the beginning of the test; otherwise, false.
             appPackagesCleanup (boolean) --True if app package cleanup is enabled at the beginning of the test; otherwise, false.
+            skipAppResign (boolean) --When set to true , for private devices, Device Farm will not sign your app again. For public devices, Device Farm always signs your apps again and this parameter has no effect.
+            For more information about how Device Farm re-signs your app(s), see Do you modify my app? in the AWS Device Farm FAQs .
             
 
     :rtype: dict
@@ -2925,7 +3565,7 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
         'run': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'platform': 'ANDROID'|'IOS',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
@@ -2963,7 +3603,38 @@ def schedule_run(projectArn=None, appArn=None, devicePoolArn=None, name=None, te
                 'downlinkJitterMs': 123,
                 'uplinkLossPercent': 123,
                 'downlinkLossPercent': 123
-            }
+            },
+            'parsingResultUrl': 'string',
+            'resultCode': 'PARSING_FAILED',
+            'seed': 123,
+            'appUpload': 'string',
+            'eventCount': 123,
+            'jobTimeoutMinutes': 123,
+            'devicePoolArn': 'string',
+            'locale': 'string',
+            'radios': {
+                'wifi': True|False,
+                'bluetooth': True|False,
+                'nfc': True|False,
+                'gps': True|False
+            },
+            'location': {
+                'latitude': 123.0,
+                'longitude': 123.0
+            },
+            'customerArtifactPaths': {
+                'iosPaths': [
+                    'string',
+                ],
+                'androidPaths': [
+                    'string',
+                ],
+                'deviceHostPaths': [
+                    'string',
+                ]
+            },
+            'webUrl': 'string',
+            'skipAppResign': True|False
         }
     }
     
@@ -3019,6 +3690,7 @@ def stop_remote_access_session(arn=None):
                 'name': 'string',
                 'manufacturer': 'string',
                 'model': 'string',
+                'modelId': 'string',
                 'formFactor': 'PHONE'|'TABLET',
                 'platform': 'ANDROID'|'IOS',
                 'os': 'string',
@@ -3037,16 +3709,47 @@ def stop_remote_access_session(arn=None):
                 'carrier': 'string',
                 'radio': 'string',
                 'remoteAccessEnabled': True|False,
+                'remoteDebugEnabled': True|False,
                 'fleetType': 'string',
-                'fleetName': 'string'
+                'fleetName': 'string',
+                'instances': [
+                    {
+                        'arn': 'string',
+                        'deviceArn': 'string',
+                        'labels': [
+                            'string',
+                        ],
+                        'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+                        'udid': 'string',
+                        'instanceProfile': {
+                            'arn': 'string',
+                            'packageCleanup': True|False,
+                            'excludeAppPackagesFromCleanup': [
+                                'string',
+                            ],
+                            'rebootAfterUse': True|False,
+                            'name': 'string',
+                            'description': 'string'
+                        }
+                    },
+                ]
             },
+            'instanceArn': 'string',
+            'remoteDebugEnabled': True|False,
+            'remoteRecordEnabled': True|False,
+            'remoteRecordAppArn': 'string',
+            'hostAddress': 'string',
+            'clientId': 'string',
             'billingMethod': 'METERED'|'UNMETERED',
             'deviceMinutes': {
                 'total': 123.0,
                 'metered': 123.0,
                 'unmetered': 123.0
             },
-            'endpoint': 'string'
+            'endpoint': 'string',
+            'deviceUdid': 'string',
+            'interactionMode': 'INTERACTIVE'|'NO_VIDEO'|'VIDEO_ONLY',
+            'skipAppResign': True|False
         }
     }
     
@@ -3087,7 +3790,7 @@ def stop_run(arn=None):
         'run': {
             'arn': 'string',
             'name': 'string',
-            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI',
+            'type': 'BUILTIN_FUZZ'|'BUILTIN_EXPLORER'|'WEB_PERFORMANCE_PROFILE'|'APPIUM_JAVA_JUNIT'|'APPIUM_JAVA_TESTNG'|'APPIUM_PYTHON'|'APPIUM_WEB_JAVA_JUNIT'|'APPIUM_WEB_JAVA_TESTNG'|'APPIUM_WEB_PYTHON'|'CALABASH'|'INSTRUMENTATION'|'UIAUTOMATION'|'UIAUTOMATOR'|'XCTEST'|'XCTEST_UI'|'REMOTE_ACCESS_RECORD'|'REMOTE_ACCESS_REPLAY',
             'platform': 'ANDROID'|'IOS',
             'created': datetime(2015, 1, 1),
             'status': 'PENDING'|'PENDING_CONCURRENCY'|'PENDING_DEVICE'|'PROCESSING'|'SCHEDULING'|'PREPARING'|'RUNNING'|'COMPLETED'|'STOPPING',
@@ -3125,7 +3828,38 @@ def stop_run(arn=None):
                 'downlinkJitterMs': 123,
                 'uplinkLossPercent': 123,
                 'downlinkLossPercent': 123
-            }
+            },
+            'parsingResultUrl': 'string',
+            'resultCode': 'PARSING_FAILED',
+            'seed': 123,
+            'appUpload': 'string',
+            'eventCount': 123,
+            'jobTimeoutMinutes': 123,
+            'devicePoolArn': 'string',
+            'locale': 'string',
+            'radios': {
+                'wifi': True|False,
+                'bluetooth': True|False,
+                'nfc': True|False,
+                'gps': True|False
+            },
+            'location': {
+                'latitude': 123.0,
+                'longitude': 123.0
+            },
+            'customerArtifactPaths': {
+                'iosPaths': [
+                    'string',
+                ],
+                'androidPaths': [
+                    'string',
+                ],
+                'deviceHostPaths': [
+                    'string',
+                ]
+            },
+            'webUrl': 'string',
+            'skipAppResign': True|False
         }
     }
     
@@ -3133,6 +3867,64 @@ def stop_run(arn=None):
     :returns: 
     ANDROID: The Android platform.
     IOS: The iOS platform.
+    
+    """
+    pass
+
+def update_device_instance(arn=None, profileArn=None, labels=None):
+    """
+    Updates information about an existing private device instance.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_device_instance(
+        arn='string',
+        profileArn='string',
+        labels=[
+            'string',
+        ]
+    )
+    
+    
+    :type arn: string
+    :param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the device instance.
+            
+
+    :type profileArn: string
+    :param profileArn: The Amazon Resource Name (ARN) of the profile that you want to associate with the device instance.
+
+    :type labels: list
+    :param labels: An array of strings that you want to associate with the device instance.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'deviceInstance': {
+            'arn': 'string',
+            'deviceArn': 'string',
+            'labels': [
+                'string',
+            ],
+            'status': 'IN_USE'|'PREPARING'|'AVAILABLE'|'NOT_AVAILABLE',
+            'udid': 'string',
+            'instanceProfile': {
+                'arn': 'string',
+                'packageCleanup': True|False,
+                'excludeAppPackagesFromCleanup': [
+                    'string',
+                ],
+                'rebootAfterUse': True|False,
+                'name': 'string',
+                'description': 'string'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -3152,7 +3944,7 @@ def update_device_pool(arn=None, name=None, description=None, rules=None):
         description='string',
         rules=[
             {
-                'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                 'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                 'value': 'string'
             },
@@ -3182,6 +3974,8 @@ def update_device_pool(arn=None, name=None, description=None, rules=None):
             PLATFORM: The platform (for example, Android or iOS).
             REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
             APPIUM_VERSION: The Appium version for the test.
+            INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+            INSTANCE_LABELS: The label of the device instance.
             operator (string) --The rule's operator.
             EQUALS: The equals operator.
             GREATER_THAN: The greater-than operator.
@@ -3202,7 +3996,7 @@ def update_device_pool(arn=None, name=None, description=None, rules=None):
             'type': 'CURATED'|'PRIVATE',
             'rules': [
                 {
-                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'APPIUM_VERSION',
+                    'attribute': 'ARN'|'PLATFORM'|'FORM_FACTOR'|'MANUFACTURER'|'REMOTE_ACCESS_ENABLED'|'REMOTE_DEBUG_ENABLED'|'APPIUM_VERSION'|'INSTANCE_ARN'|'INSTANCE_LABELS',
                     'operator': 'EQUALS'|'LESS_THAN'|'GREATER_THAN'|'IN'|'NOT_IN'|'CONTAINS',
                     'value': 'string'
                 },
@@ -3214,6 +4008,68 @@ def update_device_pool(arn=None, name=None, description=None, rules=None):
     :returns: 
     CURATED: A device pool that is created and managed by AWS Device Farm.
     PRIVATE: A device pool that is created and managed by the device pool developer.
+    
+    """
+    pass
+
+def update_instance_profile(arn=None, name=None, description=None, packageCleanup=None, excludeAppPackagesFromCleanup=None, rebootAfterUse=None):
+    """
+    Updates information about an existing private device instance profile.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_instance_profile(
+        arn='string',
+        name='string',
+        description='string',
+        packageCleanup=True|False,
+        excludeAppPackagesFromCleanup=[
+            'string',
+        ],
+        rebootAfterUse=True|False
+    )
+    
+    
+    :type arn: string
+    :param arn: [REQUIRED]
+            The Amazon Resource Name (ARN) of the instance profile.
+            
+
+    :type name: string
+    :param name: The updated name for your instance profile.
+
+    :type description: string
+    :param description: The updated description for your instance profile.
+
+    :type packageCleanup: boolean
+    :param packageCleanup: The updated choice for whether you want to specify package cleanup. The default value is false for private devices.
+
+    :type excludeAppPackagesFromCleanup: list
+    :param excludeAppPackagesFromCleanup: An array of strings specifying the list of app packages that should not be cleaned up from the device after a test run is over.
+            The list of packages is only considered if you set packageCleanup to true .
+            (string) --
+            
+
+    :type rebootAfterUse: boolean
+    :param rebootAfterUse: The updated choice for whether you want to reboot the device after use. The default value is true .
+
+    :rtype: dict
+    :return: {
+        'instanceProfile': {
+            'arn': 'string',
+            'packageCleanup': True|False,
+            'excludeAppPackagesFromCleanup': [
+                'string',
+            ],
+            'rebootAfterUse': True|False,
+            'name': 'string',
+            'description': 'string'
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -3242,7 +4098,7 @@ def update_network_profile(arn=None, name=None, description=None, type=None, upl
     
     :type arn: string
     :param arn: [REQUIRED]
-            The Amazon Resource Name (ARN) of the project that you wish to update network profile settings.
+            The Amazon Resource Name (ARN) of the project for which you want to update network profile settings.
             
 
     :type name: string

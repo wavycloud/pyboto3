@@ -79,8 +79,8 @@ def create_api_key(name=None, description=None, enabled=None, generateDistinctId
     :type stageKeys: list
     :param stageKeys: DEPRECATED FOR USAGE PLANS - Specifies stages associated with the API key.
             (dict) --A reference to a unique stage identified in the format {restApiId}/{stage} .
-            restApiId (string) --A list of Stage resources that are associated with the ApiKey resource.
-            stageName (string) --The stage name in the RestApi that the stage key references.
+            restApiId (string) --The string identifier of the associated RestApi .
+            stageName (string) --The stage name associated with the stage key.
             
             
 
@@ -118,7 +118,7 @@ def create_authorizer(restApiId=None, name=None, type=None, providerARNs=None, a
     :example: response = client.create_authorizer(
         restApiId='string',
         name='string',
-        type='TOKEN'|'COGNITO_USER_POOLS',
+        type='TOKEN'|'REQUEST'|'COGNITO_USER_POOLS',
         providerARNs=[
             'string',
         ],
@@ -133,7 +133,7 @@ def create_authorizer(restApiId=None, name=None, type=None, providerARNs=None, a
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier under which the Authorizer will be created.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type name: string
@@ -143,39 +143,40 @@ def create_authorizer(restApiId=None, name=None, type=None, providerARNs=None, a
 
     :type type: string
     :param type: [REQUIRED]
-            [Required] The type of the authorizer.
+            [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
             
 
     :type providerARNs: list
-    :param providerARNs: A list of the Cognito Your User Pool authorizer's provider ARNs.
+    :param providerARNs: A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id} . For a TOKEN or REQUEST authorizer, this is not defined.
             (string) --
             
 
     :type authType: string
-    :param authType: Optional customer-defined field, used in Swagger imports/exports. Has no functional impact.
+    :param authType: Optional customer-defined field, used in Swagger imports and exports without functional impact.
 
     :type authorizerUri: string
-    :param authorizerUri: [Required] Specifies the authorizer's Uniform Resource Identifier (URI).
+    :param authorizerUri: Specifies the authorizer's Uniform Resource Identifier (URI). For TOKEN or REQUEST authorizers, this must be a well-formed Lambda function URI, for example, arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations . In general, the URI has this form arn:aws:apigateway:{region}:lambda:path/{service_api} , where {region} is the same as the region hosting the Lambda function, path indicates that the remaining substring in the URI should be treated as the path to the resource, including the initial / . For Lambda functions, this is usually of the form /2015-03-31/functions/[FunctionARN]/invocations .
 
     :type authorizerCredentials: string
-    :param authorizerCredentials: Specifies the credentials required for the authorizer, if any.
+    :param authorizerCredentials: Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, specify null.
 
     :type identitySource: string
-    :param identitySource: [REQUIRED]
-            [Required] The source of the identity in an incoming request.
+    :param identitySource: The identity source for which authorization is requested.
+            For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth , the header mapping expression is method.request.header.Auth .
+            For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name . These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
             
 
     :type identityValidationExpression: string
-    :param identityValidationExpression: A validation expression for the incoming identity.
+    :param identityValidationExpression: A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
 
     :type authorizerResultTtlInSeconds: integer
-    :param authorizerResultTtlInSeconds: The TTL of cached authorizer results.
+    :param authorizerResultTtlInSeconds: The TTL in seconds of cached authorizer results. If it equals 0, authorization caching is disabled. If it is greater than 0, API Gateway will cache authorizer responses. If this field is not set, the default value is 300. The maximum value is 3600, or 1 hour.
 
     :rtype: dict
     :return: {
         'id': 'string',
         'name': 'string',
-        'type': 'TOKEN'|'COGNITO_USER_POOLS',
+        'type': 'TOKEN'|'REQUEST'|'COGNITO_USER_POOLS',
         'providerARNs': [
             'string',
         ],
@@ -210,7 +211,7 @@ def create_base_path_mapping(domainName=None, basePath=None, restApiId=None, sta
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The domain name of the BasePathMapping resource to create.
+            [Required] The domain name of the BasePathMapping resource to create.
             
 
     :type basePath: string
@@ -218,7 +219,7 @@ def create_base_path_mapping(domainName=None, basePath=None, restApiId=None, sta
 
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The name of the API that you want to apply this mapping to.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stage: string
@@ -235,7 +236,7 @@ def create_base_path_mapping(domainName=None, basePath=None, restApiId=None, sta
     """
     pass
 
-def create_deployment(restApiId=None, stageName=None, stageDescription=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None):
+def create_deployment(restApiId=None, stageName=None, stageDescription=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None, canarySettings=None):
     """
     Creates a  Deployment resource, which makes a specified  RestApi callable over the internet.
     See also: AWS API Documentation
@@ -250,13 +251,20 @@ def create_deployment(restApiId=None, stageName=None, stageDescription=None, des
         cacheClusterSize='0.5'|'1.6'|'6.1'|'13.5'|'28.4'|'58.2'|'118'|'237',
         variables={
             'string': 'string'
+        },
+        canarySettings={
+            'percentTraffic': 123.0,
+            'stageVariableOverrides': {
+                'string': 'string'
+            },
+            'useStageCache': True|False
         }
     )
     
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi resource identifier for the Deployment resource to create.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
@@ -278,6 +286,16 @@ def create_deployment(restApiId=None, stageName=None, stageDescription=None, des
     :param variables: A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#=,]+ .
             (string) --
             (string) --
+            
+
+    :type canarySettings: dict
+    :param canarySettings: The input configuration for the canary deployment when the deployment is a canary release deployment.
+            percentTraffic (float) --The percentage (0.0-100.0) of traffic routed to the canary deployment.
+            stageVariableOverrides (dict) --A stage variable overrides used for the canary release deployment. They can override existing stage variables or add new stage variables for the canary release deployment. These stage variables are represented as a string-to-string map between stage variable names and their values.
+            (string) --
+            (string) --
+            
+            useStageCache (boolean) --A Boolean flag to indicate whether the canary release deployment uses the stage cache or not.
             
 
     :rtype: dict
@@ -319,13 +337,13 @@ def create_documentation_part(restApiId=None, location=None, properties=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-created documentation part.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type location: dict
     :param location: [REQUIRED]
             [Required] The location of the targeted API entity of the to-be-created documentation part.
-            type (string) -- [REQUIRED]The type of API entity to which the documentation content applies. It is a valid and required field for API entity types of API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHROZER , METHOD , MODEL , REQUEST_BODY , or RESOURCE type.
+            type (string) -- [REQUIRED][Required] The type of API entity to which the documentation content applies. Valid values are API , AUTHORIZER , MODEL , RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . Content inheritance does not apply to any entity of the API , AUTHORIZER , METHOD , MODEL , REQUEST_BODY , or RESOURCE type.
             path (string) --The URL path of the target. It is a valid field for the API entity types of RESOURCE , METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is / for the root resource. When an applicable child entity inherits the content of another entity of the same type with more general specifications of the other location attributes, the child entity's path attribute must match that of the parent entity as a prefix.
             method (string) --The HTTP verb of a method. It is a valid field for the API entity types of METHOD , PATH_PARAMETER , QUERY_PARAMETER , REQUEST_HEADER , REQUEST_BODY , RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any method. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's method attribute must match that of the parent entity exactly.
             statusCode (string) --The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE , RESPONSE_HEADER , and RESPONSE_BODY . The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
@@ -369,7 +387,7 @@ def create_documentation_version(restApiId=None, documentationVersion=None, stag
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] Specifies the API identifier of the to-be-created documentation version.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationVersion: string
@@ -394,7 +412,7 @@ def create_documentation_version(restApiId=None, documentationVersion=None, stag
     """
     pass
 
-def create_domain_name(domainName=None, certificateName=None, certificateBody=None, certificatePrivateKey=None, certificateChain=None, certificateArn=None):
+def create_domain_name(domainName=None, certificateName=None, certificateBody=None, certificatePrivateKey=None, certificateChain=None, certificateArn=None, regionalCertificateName=None, regionalCertificateArn=None, endpointConfiguration=None):
     """
     Creates a new domain name.
     See also: AWS API Documentation
@@ -406,29 +424,49 @@ def create_domain_name(domainName=None, certificateName=None, certificateBody=No
         certificateBody='string',
         certificatePrivateKey='string',
         certificateChain='string',
-        certificateArn='string'
+        certificateArn='string',
+        regionalCertificateName='string',
+        regionalCertificateArn='string',
+        endpointConfiguration={
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        }
     )
     
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            (Required) The name of the DomainName resource.
+            [Required] The name of the DomainName resource.
             
 
     :type certificateName: string
-    :param certificateName: The user-friendly name of the certificate.
+    :param certificateName: The user-friendly name of the certificate that will be used by edge-optimized endpoint for this domain name.
 
     :type certificateBody: string
-    :param certificateBody: [Deprecated] The body of the server certificate provided by your certificate authority.
+    :param certificateBody: [Deprecated] The body of the server certificate that will be used by edge-optimized endpoint for this domain name provided by your certificate authority.
 
     :type certificatePrivateKey: string
-    :param certificatePrivateKey: [Deprecated] Your certificate's private key.
+    :param certificatePrivateKey: [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
 
     :type certificateChain: string
-    :param certificateChain: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
+    :param certificateChain: [Deprecated] The intermediate certificates and optionally the root certificate, one after the other without any blank lines, used by an edge-optimized endpoint for this domain name. If you include the root certificate, your certificate chain must start with intermediate certificates and end with the root certificate. Use the intermediate certificates that were provided by your certificate authority. Do not include any intermediaries that are not in the chain of trust path.
 
     :type certificateArn: string
-    :param certificateArn: The reference to an AWS-managed certificate. AWS Certificate Manager is the only supported source.
+    :param certificateArn: The reference to an AWS-managed certificate that will be used by edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported source.
+
+    :type regionalCertificateName: string
+    :param regionalCertificateName: The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
+
+    :type regionalCertificateArn: string
+    :param regionalCertificateArn: The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
+
+    :type endpointConfiguration: dict
+    :param endpointConfiguration: The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+            types (list) --A list of endpoint types of an API ( RestApi ) or its custom domain name ( DomainName ). For an edge-optimized API and its custom domain name, the endpoint type is 'EDGE' . For a regional API and its custom domain name, the endpoint type is REGIONAL .
+            (string) --The endpoint type. The valid value is EDGE for edge-optimized API setup, most suitable for mobile applications, REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region
+            
+            
 
     :rtype: dict
     :return: {
@@ -436,7 +474,17 @@ def create_domain_name(domainName=None, certificateName=None, certificateBody=No
         'certificateName': 'string',
         'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
-        'distributionDomainName': 'string'
+        'regionalDomainName': 'string',
+        'regionalHostedZoneId': 'string',
+        'regionalCertificateName': 'string',
+        'regionalCertificateArn': 'string',
+        'distributionDomainName': 'string',
+        'distributionHostedZoneId': 'string',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        }
     }
     
     
@@ -460,23 +508,23 @@ def create_model(restApiId=None, name=None, description=None, schema=None, conte
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier under which the Model will be created.
+            [Required] The RestApi identifier under which the Model will be created.
             
 
     :type name: string
     :param name: [REQUIRED]
-            The name of the model.
+            [Required] The name of the model. Must be alphanumeric.
             
 
     :type description: string
     :param description: The description of the model.
 
     :type schema: string
-    :param schema: The schema for the model. For application/json models, this should be JSON-schema draft v4 model.
+    :param schema: The schema for the model. For application/json models, this should be JSON schema draft 4 model.
 
     :type contentType: string
     :param contentType: [REQUIRED]
-            The content-type for the model.
+            [Required] The content-type for the model.
             
 
     :rtype: dict
@@ -508,7 +556,7 @@ def create_request_validator(restApiId=None, name=None, validateRequestBody=None
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the RestApi for which the RequestValidator is created.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type name: string
@@ -547,12 +595,12 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi for the resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type parentId: string
     :param parentId: [REQUIRED]
-            The parent resource's identifier.
+            [Required] The parent resource's identifier.
             
 
     :type pathPart: string
@@ -595,6 +643,8 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                     'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
                     'httpMethod': 'string',
                     'uri': 'string',
+                    'connectionType': 'INTERNET'|'VPC_LINK',
+                    'connectionId': 'string',
                     'credentials': 'string',
                     'requestParameters': {
                         'string': 'string'
@@ -604,6 +654,7 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                     },
                     'passthroughBehavior': 'string',
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+                    'timeoutInMillis': 123,
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -621,7 +672,10 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
                             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
-                }
+                },
+                'authorizationScopes': [
+                    'string',
+                ]
             }
         }
     }
@@ -636,7 +690,7 @@ def create_resource(restApiId=None, parentId=None, pathPart=None):
     """
     pass
 
-def create_rest_api(name=None, description=None, version=None, cloneFrom=None, binaryMediaTypes=None):
+def create_rest_api(name=None, description=None, version=None, cloneFrom=None, binaryMediaTypes=None, minimumCompressionSize=None, apiKeySource=None, endpointConfiguration=None, policy=None):
     """
     Creates a new  RestApi resource.
     See also: AWS API Documentation
@@ -649,13 +703,21 @@ def create_rest_api(name=None, description=None, version=None, cloneFrom=None, b
         cloneFrom='string',
         binaryMediaTypes=[
             'string',
-        ]
+        ],
+        minimumCompressionSize=123,
+        apiKeySource='HEADER'|'AUTHORIZER',
+        endpointConfiguration={
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        policy='string'
     )
     
     
     :type name: string
     :param name: [REQUIRED]
-            The name of the RestApi .
+            [Required] The name of the RestApi .
             
 
     :type description: string
@@ -672,6 +734,25 @@ def create_rest_api(name=None, description=None, version=None, cloneFrom=None, b
             (string) --
             
 
+    :type minimumCompressionSize: integer
+    :param minimumCompressionSize: A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
+
+    :type apiKeySource: string
+    :param apiKeySource: The source of the API key for metering requests according to a usage plan. Valid values are:
+            HEADER to read the API key from the X-API-Key header of a request.
+            AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
+            
+
+    :type endpointConfiguration: dict
+    :param endpointConfiguration: The endpoint configuration of this RestApi showing the endpoint types of the API.
+            types (list) --A list of endpoint types of an API ( RestApi ) or its custom domain name ( DomainName ). For an edge-optimized API and its custom domain name, the endpoint type is 'EDGE' . For a regional API and its custom domain name, the endpoint type is REGIONAL .
+            (string) --The endpoint type. The valid value is EDGE for edge-optimized API setup, most suitable for mobile applications, REGIONAL for regional API endpoint setup, most suitable for calling from AWS Region
+            
+            
+
+    :type policy: string
+    :param policy: A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
+
     :rtype: dict
     :return: {
         'id': 'string',
@@ -684,7 +765,15 @@ def create_rest_api(name=None, description=None, version=None, cloneFrom=None, b
         ],
         'binaryMediaTypes': [
             'string',
-        ]
+        ],
+        'minimumCompressionSize': 123,
+        'apiKeySource': 'HEADER'|'AUTHORIZER',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        'policy': 'string'
     }
     
     
@@ -694,7 +783,7 @@ def create_rest_api(name=None, description=None, version=None, cloneFrom=None, b
     """
     pass
 
-def create_stage(restApiId=None, stageName=None, deploymentId=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None, documentationVersion=None):
+def create_stage(restApiId=None, stageName=None, deploymentId=None, description=None, cacheClusterEnabled=None, cacheClusterSize=None, variables=None, documentationVersion=None, canarySettings=None, tags=None):
     """
     Creates a new  Stage resource that references a pre-existing  Deployment for the API.
     See also: AWS API Documentation
@@ -710,23 +799,34 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
         variables={
             'string': 'string'
         },
-        documentationVersion='string'
+        documentationVersion='string',
+        canarySettings={
+            'percentTraffic': 123.0,
+            'deploymentId': 'string',
+            'stageVariableOverrides': {
+                'string': 'string'
+            },
+            'useStageCache': True|False
+        },
+        tags={
+            'string': 'string'
+        }
     )
     
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Stage resource to create.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name for the Stage resource.
+            [Required] The name for the Stage resource.
             
 
     :type deploymentId: string
     :param deploymentId: [REQUIRED]
-            The identifier of the Deployment resource for the Stage resource.
+            [Required] The identifier of the Deployment resource for the Stage resource.
             
 
     :type description: string
@@ -746,6 +846,23 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
 
     :type documentationVersion: string
     :param documentationVersion: The version of the associated API documentation.
+
+    :type canarySettings: dict
+    :param canarySettings: The canary deployment settings of this stage.
+            percentTraffic (float) --The percent (0-100) of traffic diverted to a canary deployment.
+            deploymentId (string) --The ID of the canary deployment.
+            stageVariableOverrides (dict) --Stage variables overridden for a canary release deployment, including new stage variables introduced in the canary. These stage variables are represented as a string-to-string map between stage variable names and their values.
+            (string) --
+            (string) --
+            
+            useStageCache (boolean) --A Boolean flag to indicate whether the canary deployment uses the stage cache or not.
+            
+
+    :type tags: dict
+    :param tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters.
+            (string) --
+            (string) --
+            
 
     :rtype: dict
     :return: {
@@ -774,6 +891,21 @@ def create_stage(restApiId=None, stageName=None, deploymentId=None, description=
             'string': 'string'
         },
         'documentationVersion': 'string',
+        'accessLogSettings': {
+            'format': 'string',
+            'destinationArn': 'string'
+        },
+        'canarySettings': {
+            'percentTraffic': 123.0,
+            'deploymentId': 'string',
+            'stageVariableOverrides': {
+                'string': 'string'
+            },
+            'useStageCache': True|False
+        },
+        'tags': {
+            'string': 'string'
+        },
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -817,7 +949,7 @@ def create_usage_plan(name=None, description=None, apiStages=None, throttle=None
     
     :type name: string
     :param name: [REQUIRED]
-            The name of the usage plan.
+            [Required] The name of the usage plan.
             
 
     :type description: string
@@ -886,17 +1018,17 @@ def create_usage_plan_key(usagePlanId=None, keyId=None, keyType=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
+            [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
             
 
     :type keyId: string
     :param keyId: [REQUIRED]
-            The identifier of a UsagePlanKey resource for a plan customer.
+            [Required] The identifier of a UsagePlanKey resource for a plan customer.
             
 
     :type keyType: string
     :param keyType: [REQUIRED]
-            The type of a UsagePlanKey resource for a plan customer.
+            [Required] The type of a UsagePlanKey resource for a plan customer.
             
 
     :rtype: dict
@@ -907,6 +1039,54 @@ def create_usage_plan_key(usagePlanId=None, keyId=None, keyType=None):
         'name': 'string'
     }
     
+    
+    """
+    pass
+
+def create_vpc_link(name=None, description=None, targetArns=None):
+    """
+    Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_vpc_link(
+        name='string',
+        description='string',
+        targetArns=[
+            'string',
+        ]
+    )
+    
+    
+    :type name: string
+    :param name: [REQUIRED]
+            [Required] The name used to label and identify the VPC link.
+            
+
+    :type description: string
+    :param description: The description of the VPC link.
+
+    :type targetArns: list
+    :param targetArns: [REQUIRED]
+            [Required] The ARNs of network load balancers of the VPC targeted by the VPC link. The network load balancers must be owned by the same AWS account of the API owner.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'description': 'string',
+        'targetArns': [
+            'string',
+        ],
+        'status': 'AVAILABLE'|'PENDING'|'DELETING'|'FAILED',
+        'statusMessage': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -924,7 +1104,7 @@ def delete_api_key(apiKey=None):
     
     :type apiKey: string
     :param apiKey: [REQUIRED]
-            The identifier of the ApiKey resource to be deleted.
+            [Required] The identifier of the ApiKey resource to be deleted.
             
 
     """
@@ -944,12 +1124,12 @@ def delete_authorizer(restApiId=None, authorizerId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Authorizer resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type authorizerId: string
     :param authorizerId: [REQUIRED]
-            The identifier of the Authorizer resource.
+            [Required] The identifier of the Authorizer resource.
             
 
     """
@@ -969,12 +1149,12 @@ def delete_base_path_mapping(domainName=None, basePath=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The domain name of the BasePathMapping resource to delete.
+            [Required] The domain name of the BasePathMapping resource to delete.
             
 
     :type basePath: string
     :param basePath: [REQUIRED]
-            The base path name of the BasePathMapping resource to delete.
+            [Required] The base path name of the BasePathMapping resource to delete.
             
 
     """
@@ -993,7 +1173,7 @@ def delete_client_certificate(clientCertificateId=None):
     
     :type clientCertificateId: string
     :param clientCertificateId: [REQUIRED]
-            The identifier of the ClientCertificate resource to be deleted.
+            [Required] The identifier of the ClientCertificate resource to be deleted.
             
 
     """
@@ -1013,12 +1193,12 @@ def delete_deployment(restApiId=None, deploymentId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Deployment resource to delete.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type deploymentId: string
     :param deploymentId: [REQUIRED]
-            The identifier of the Deployment resource to delete.
+            [Required] The identifier of the Deployment resource to delete.
             
 
     """
@@ -1037,7 +1217,7 @@ def delete_documentation_part(restApiId=None, documentationPartId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] Specifies the identifier of an API of the to-be-deleted documentation part.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationPartId: string
@@ -1061,7 +1241,7 @@ def delete_documentation_version(restApiId=None, documentationVersion=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of a to-be-deleted documentation snapshot.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationVersion: string
@@ -1085,7 +1265,53 @@ def delete_domain_name(domainName=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The name of the DomainName resource to be deleted.
+            [Required] The name of the DomainName resource to be deleted.
+            
+
+    """
+    pass
+
+def delete_gateway_response(restApiId=None, responseType=None):
+    """
+    Clears any customization of a  GatewayResponse of a specified response type on the given  RestApi and resets it with the default settings.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_gateway_response(
+        restApiId='string',
+        responseType='DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The string identifier of the associated RestApi .
+            
+
+    :type responseType: string
+    :param responseType: [REQUIRED]
+            [Required]
+            The response type of the associated GatewayResponse . Valid values are
+            ACCESS_DENIED
+            API_CONFIGURATION_ERROR
+            AUTHORIZER_FAILURE
+            AUTHORIZER_CONFIGURATION_ERROR
+            BAD_REQUEST_PARAMETERS
+            BAD_REQUEST_BODY
+            DEFAULT_4XX
+            DEFAULT_5XX
+            EXPIRED_TOKEN
+            INVALID_SIGNATURE
+            INTEGRATION_FAILURE
+            INTEGRATION_TIMEOUT
+            INVALID_API_KEY
+            MISSING_AUTHENTICATION_TOKEN
+            QUOTA_EXCEEDED
+            REQUEST_TOO_LARGE
+            RESOURCE_NOT_FOUND
+            THROTTLED
+            UNAUTHORIZED
+            UNSUPPORTED_MEDIA_TYPE
             
 
     """
@@ -1106,17 +1332,17 @@ def delete_integration(restApiId=None, resourceId=None, httpMethod=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a delete integration request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a delete integration request's resource identifier.
+            [Required] Specifies a delete integration request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a delete integration request's HTTP method.
+            [Required] Specifies a delete integration request's HTTP method.
             
 
     """
@@ -1138,22 +1364,22 @@ def delete_integration_response(restApiId=None, resourceId=None, httpMethod=None
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a delete integration response request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a delete integration response request's resource identifier.
+            [Required] Specifies a delete integration response request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a delete integration response request's HTTP method.
+            [Required] Specifies a delete integration response request's HTTP method.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            Specifies a delete integration response request's status code.
+            [Required] Specifies a delete integration response request's status code.
             
 
     """
@@ -1174,17 +1400,17 @@ def delete_method(restApiId=None, resourceId=None, httpMethod=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Method resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the Method resource.
+            [Required] The Resource identifier for the Method resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     """
@@ -1206,22 +1432,22 @@ def delete_method_response(restApiId=None, resourceId=None, httpMethod=None, sta
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the MethodResponse resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the MethodResponse resource.
+            [Required] The Resource identifier for the MethodResponse resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            The status code identifier for the MethodResponse resource.
+            [Required] The status code identifier for the MethodResponse resource.
             
 
     """
@@ -1241,12 +1467,12 @@ def delete_model(restApiId=None, modelName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi under which the model will be deleted.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type modelName: string
     :param modelName: [REQUIRED]
-            The name of the model to delete.
+            [Required] The name of the model to delete.
             
 
     """
@@ -1266,7 +1492,7 @@ def delete_request_validator(restApiId=None, requestValidatorId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the RestApi from which the given RequestValidator is deleted.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type requestValidatorId: string
@@ -1291,12 +1517,12 @@ def delete_resource(restApiId=None, resourceId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Resource resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The identifier of the Resource resource.
+            [Required] The identifier of the Resource resource.
             
 
     """
@@ -1315,7 +1541,7 @@ def delete_rest_api(restApiId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The ID of the RestApi you want to delete.
+            [Required] The string identifier of the associated RestApi .
             
 
     """
@@ -1335,12 +1561,12 @@ def delete_stage(restApiId=None, stageName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Stage resource to delete.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the Stage resource to delete.
+            [Required] The name of the Stage resource to delete.
             
 
     """
@@ -1359,7 +1585,7 @@ def delete_usage_plan(usagePlanId=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the to-be-deleted usage plan.
+            [Required] The Id of the to-be-deleted usage plan.
             
 
     """
@@ -1379,12 +1605,31 @@ def delete_usage_plan_key(usagePlanId=None, keyId=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
+            [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
             
 
     :type keyId: string
     :param keyId: [REQUIRED]
-            The Id of the UsagePlanKey resource to be deleted.
+            [Required] The Id of the UsagePlanKey resource to be deleted.
+            
+
+    """
+    pass
+
+def delete_vpc_link(vpcLinkId=None):
+    """
+    Deletes an existing  VpcLink of a specified identifier.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_vpc_link(
+        vpcLinkId='string'
+    )
+    
+    
+    :type vpcLinkId: string
+    :param vpcLinkId: [REQUIRED]
+            [Required] The identifier of the VpcLink . It is used in an Integration to reference this VpcLink .
             
 
     """
@@ -1404,7 +1649,7 @@ def flush_stage_authorizers_cache(restApiId=None, stageName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The API identifier of the stage to flush.
+            The string identifier of the associated RestApi .
             
 
     :type stageName: string
@@ -1429,12 +1674,12 @@ def flush_stage_cache(restApiId=None, stageName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The API identifier of the stage to flush its cache.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the stage to flush its cache.
+            [Required] The name of the stage to flush its cache.
             
 
     """
@@ -1532,7 +1777,7 @@ def get_api_key(apiKey=None, includeValue=None):
     
     :type apiKey: string
     :param apiKey: [REQUIRED]
-            The identifier of the ApiKey resource.
+            [Required] The identifier of the ApiKey resource.
             
 
     :type includeValue: boolean
@@ -1579,7 +1824,7 @@ def get_api_keys(position=None, limit=None, nameQuery=None, customerId=None, inc
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of ApiKeys to get information about.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :type nameQuery: string
     :param nameQuery: The name of queried API keys.
@@ -1634,19 +1879,19 @@ def get_authorizer(restApiId=None, authorizerId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Authorizer resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type authorizerId: string
     :param authorizerId: [REQUIRED]
-            The identifier of the Authorizer resource.
+            [Required] The identifier of the Authorizer resource.
             
 
     :rtype: dict
     :return: {
         'id': 'string',
         'name': 'string',
-        'type': 'TOKEN'|'COGNITO_USER_POOLS',
+        'type': 'TOKEN'|'REQUEST'|'COGNITO_USER_POOLS',
         'providerARNs': [
             'string',
         ],
@@ -1680,14 +1925,14 @@ def get_authorizers(restApiId=None, position=None, limit=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Authorizers resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -1696,7 +1941,7 @@ def get_authorizers(restApiId=None, position=None, limit=None):
             {
                 'id': 'string',
                 'name': 'string',
-                'type': 'TOKEN'|'COGNITO_USER_POOLS',
+                'type': 'TOKEN'|'REQUEST'|'COGNITO_USER_POOLS',
                 'providerARNs': [
                     'string',
                 ],
@@ -1731,12 +1976,12 @@ def get_base_path_mapping(domainName=None, basePath=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The domain name of the BasePathMapping resource to be described.
+            [Required] The domain name of the BasePathMapping resource to be described.
             
 
     :type basePath: string
     :param basePath: [REQUIRED]
-            The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
+            [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Leave this blank if you do not want callers to specify any base path name after the domain name.
             
 
     :rtype: dict
@@ -1765,14 +2010,14 @@ def get_base_path_mappings(domainName=None, position=None, limit=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The domain name of a BasePathMapping resource.
+            [Required] The domain name of a BasePathMapping resource.
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -1803,7 +2048,7 @@ def get_client_certificate(clientCertificateId=None):
     
     :type clientCertificateId: string
     :param clientCertificateId: [REQUIRED]
-            The identifier of the ClientCertificate resource to be described.
+            [Required] The identifier of the ClientCertificate resource to be described.
             
 
     :rtype: dict
@@ -1835,7 +2080,7 @@ def get_client_certificates(position=None, limit=None):
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -1872,12 +2117,12 @@ def get_deployment(restApiId=None, deploymentId=None, embed=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Deployment resource to get information about.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type deploymentId: string
     :param deploymentId: [REQUIRED]
-            The identifier of the Deployment resource to get information about.
+            [Required] The identifier of the Deployment resource to get information about.
             
 
     :type embed: list
@@ -1919,14 +2164,14 @@ def get_deployments(restApiId=None, position=None, limit=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the collection of Deployment resources to get information about.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -1965,12 +2210,12 @@ def get_documentation_part(restApiId=None, documentationPartId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-retrieved documentation part.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationPartId: string
     :param documentationPartId: [REQUIRED]
-            [Required] The identifier of the to-be-retrieved documentation part.
+            [Required] The string identifier of the associated RestApi .
             
 
     :rtype: dict
@@ -1990,7 +2235,7 @@ def get_documentation_part(restApiId=None, documentationPartId=None):
     """
     pass
 
-def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None, position=None, limit=None):
+def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None, position=None, limit=None, locationStatus=None):
     """
     See also: AWS API Documentation
     
@@ -2001,13 +2246,14 @@ def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None
         nameQuery='string',
         path='string',
         position='string',
-        limit=123
+        limit=123,
+        locationStatus='DOCUMENTED'|'UNDOCUMENTED'
     )
     
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the API of the to-be-retrieved documentation parts.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type type: string
@@ -2023,7 +2269,10 @@ def get_documentation_parts(restApiId=None, type=None, nameQuery=None, path=None
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+
+    :type locationStatus: string
+    :param locationStatus: The status of the API documentation parts to retrieve. Valid values are DOCUMENTED for retrieving DocumentationPart resources with content and UNDOCUMENTED for DocumentationPart resources without content.
 
     :rtype: dict
     :return: {
@@ -2060,7 +2309,7 @@ def get_documentation_version(restApiId=None, documentationVersion=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the API of the to-be-retrieved documentation snapshot.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationVersion: string
@@ -2093,14 +2342,14 @@ def get_documentation_versions(restApiId=None, position=None, limit=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-retrieved documentation versions.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -2131,7 +2380,7 @@ def get_domain_name(domainName=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The name of the DomainName resource.
+            [Required] The name of the DomainName resource.
             
 
     :rtype: dict
@@ -2140,7 +2389,17 @@ def get_domain_name(domainName=None):
         'certificateName': 'string',
         'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
-        'distributionDomainName': 'string'
+        'regionalDomainName': 'string',
+        'regionalHostedZoneId': 'string',
+        'regionalCertificateName': 'string',
+        'regionalCertificateArn': 'string',
+        'distributionDomainName': 'string',
+        'distributionHostedZoneId': 'string',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        }
     }
     
     
@@ -2163,7 +2422,7 @@ def get_domain_names(position=None, limit=None):
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -2174,7 +2433,17 @@ def get_domain_names(position=None, limit=None):
                 'certificateName': 'string',
                 'certificateArn': 'string',
                 'certificateUploadDate': datetime(2015, 1, 1),
-                'distributionDomainName': 'string'
+                'regionalDomainName': 'string',
+                'regionalHostedZoneId': 'string',
+                'regionalCertificateName': 'string',
+                'regionalCertificateArn': 'string',
+                'distributionDomainName': 'string',
+                'distributionHostedZoneId': 'string',
+                'endpointConfiguration': {
+                    'types': [
+                        'REGIONAL'|'EDGE',
+                    ]
+                }
             },
         ]
     }
@@ -2202,17 +2471,17 @@ def get_export(restApiId=None, stageName=None, exportType=None, parameters=None,
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi to be exported.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the Stage that will be exported.
+            [Required] The name of the Stage that will be exported.
             
 
     :type exportType: string
     :param exportType: [REQUIRED]
-            The type of export. Currently only 'swagger' is supported.
+            [Required] The type of export. Currently only 'swagger' is supported.
             
 
     :type parameters: dict
@@ -2235,9 +2504,159 @@ def get_export(restApiId=None, stageName=None, exportType=None, parameters=None,
     """
     pass
 
+def get_gateway_response(restApiId=None, responseType=None):
+    """
+    Gets a  GatewayResponse of a specified response type on the given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_gateway_response(
+        restApiId='string',
+        responseType='DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED'
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The string identifier of the associated RestApi .
+            
+
+    :type responseType: string
+    :param responseType: [REQUIRED]
+            [Required]
+            The response type of the associated GatewayResponse . Valid values are
+            ACCESS_DENIED
+            API_CONFIGURATION_ERROR
+            AUTHORIZER_FAILURE
+            AUTHORIZER_CONFIGURATION_ERROR
+            BAD_REQUEST_PARAMETERS
+            BAD_REQUEST_BODY
+            DEFAULT_4XX
+            DEFAULT_5XX
+            EXPIRED_TOKEN
+            INVALID_SIGNATURE
+            INTEGRATION_FAILURE
+            INTEGRATION_TIMEOUT
+            INVALID_API_KEY
+            MISSING_AUTHENTICATION_TOKEN
+            QUOTA_EXCEEDED
+            REQUEST_TOO_LARGE
+            RESOURCE_NOT_FOUND
+            THROTTLED
+            UNAUTHORIZED
+            UNSUPPORTED_MEDIA_TYPE
+            
+
+    :rtype: dict
+    :return: {
+        'responseType': 'DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+        'statusCode': 'string',
+        'responseParameters': {
+            'string': 'string'
+        },
+        'responseTemplates': {
+            'string': 'string'
+        },
+        'defaultResponse': True|False
+    }
+    
+    
+    :returns: 
+    ACCESS_DENIED
+    API_CONFIGURATION_ERROR
+    AUTHORIZER_FAILURE
+    AUTHORIZER_CONFIGURATION_ERROR
+    BAD_REQUEST_PARAMETERS
+    BAD_REQUEST_BODY
+    DEFAULT_4XX
+    DEFAULT_5XX
+    EXPIRED_TOKEN
+    INVALID_SIGNATURE
+    INTEGRATION_FAILURE
+    INTEGRATION_TIMEOUT
+    INVALID_API_KEY
+    MISSING_AUTHENTICATION_TOKEN
+    QUOTA_EXCEEDED
+    REQUEST_TOO_LARGE
+    RESOURCE_NOT_FOUND
+    THROTTLED
+    UNAUTHORIZED
+    UNSUPPORTED_MEDIA_TYPE
+    
+    """
+    pass
+
+def get_gateway_responses(restApiId=None, position=None, limit=None):
+    """
+    Gets the  GatewayResponses collection on the given  RestApi . If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default  GatewayResponses collection for the supported response types.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_gateway_responses(
+        restApiId='string',
+        position='string',
+        limit=123
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The string identifier of the associated RestApi .
+            
+
+    :type position: string
+    :param position: The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
+
+    :type limit: integer
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500. The GatewayResponses collection does not support pagination and the limit does not apply here.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'responseType': 'DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+                'statusCode': 'string',
+                'responseParameters': {
+                    'string': 'string'
+                },
+                'responseTemplates': {
+                    'string': 'string'
+                },
+                'defaultResponse': True|False
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    ACCESS_DENIED
+    API_CONFIGURATION_ERROR
+    AUTHORIZER_FAILURE
+    AUTHORIZER_CONFIGURATION_ERROR
+    BAD_REQUEST_PARAMETERS
+    BAD_REQUEST_BODY
+    DEFAULT_4XX
+    DEFAULT_5XX
+    EXPIRED_TOKEN
+    INVALID_SIGNATURE
+    INTEGRATION_FAILURE
+    INTEGRATION_TIMEOUT
+    INVALID_API_KEY
+    MISSING_AUTHENTICATION_TOKEN
+    QUOTA_EXCEEDED
+    REQUEST_TOO_LARGE
+    RESOURCE_NOT_FOUND
+    THROTTLED
+    UNAUTHORIZED
+    UNSUPPORTED_MEDIA_TYPE
+    
+    """
+    pass
+
 def get_integration(restApiId=None, resourceId=None, httpMethod=None):
     """
-    Represents a get integration.
+    Get the integration settings.
     See also: AWS API Documentation
     
     
@@ -2250,17 +2669,17 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a get integration request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a get integration request's resource identifier
+            [Required] Specifies a get integration request's resource identifier
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a get integration request's HTTP method.
+            [Required] Specifies a get integration request's HTTP method.
             
 
     :rtype: dict
@@ -2268,6 +2687,8 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
         'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
         'httpMethod': 'string',
         'uri': 'string',
+        'connectionType': 'INTERNET'|'VPC_LINK',
+        'connectionId': 'string',
         'credentials': 'string',
         'requestParameters': {
             'string': 'string'
@@ -2277,6 +2698,7 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
         },
         'passthroughBehavior': 'string',
         'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+        'timeoutInMillis': 123,
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -2298,10 +2720,11 @@ def get_integration(restApiId=None, resourceId=None, httpMethod=None):
     
     
     :returns: 
-    (string) --
-    (string) --
-    
-    
+    AWS : for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration.
+    AWS_PROXY : for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration.
+    HTTP : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration.
+    HTTP_PROXY : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration.
+    MOCK : for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.
     
     """
     pass
@@ -2322,22 +2745,22 @@ def get_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a get integration response request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a get integration response request's resource identifier.
+            [Required] Specifies a get integration response request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a get integration response request's HTTP method.
+            [Required] Specifies a get integration response request's HTTP method.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            Specifies a get integration response request's status code.
+            [Required] Specifies a get integration response request's status code.
             
 
     :rtype: dict
@@ -2378,17 +2801,17 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Method resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the Method resource.
+            [Required] The Resource identifier for the Method resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies the method request's HTTP method type.
+            [Required] Specifies the method request's HTTP method type.
             
 
     :rtype: dict
@@ -2420,6 +2843,8 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
             'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
             'httpMethod': 'string',
             'uri': 'string',
+            'connectionType': 'INTERNET'|'VPC_LINK',
+            'connectionId': 'string',
             'credentials': 'string',
             'requestParameters': {
                 'string': 'string'
@@ -2429,6 +2854,7 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
             },
             'passthroughBehavior': 'string',
             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+            'timeoutInMillis': 123,
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -2446,7 +2872,10 @@ def get_method(restApiId=None, resourceId=None, httpMethod=None):
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
-        }
+        },
+        'authorizationScopes': [
+            'string',
+        ]
     }
     
     
@@ -2475,22 +2904,22 @@ def get_method_response(restApiId=None, resourceId=None, httpMethod=None, status
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the MethodResponse resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the MethodResponse resource.
+            [Required] The Resource identifier for the MethodResponse resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            The status code for the MethodResponse resource.
+            [Required] The status code for the MethodResponse resource.
             
 
     :rtype: dict
@@ -2529,12 +2958,12 @@ def get_model(restApiId=None, modelName=None, flatten=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier under which the Model exists.
+            [Required] The RestApi identifier under which the Model exists.
             
 
     :type modelName: string
     :param modelName: [REQUIRED]
-            The name of the model as an identifier.
+            [Required] The name of the model as an identifier.
             
 
     :type flatten: boolean
@@ -2567,12 +2996,12 @@ def get_model_template(restApiId=None, modelName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The ID of the RestApi under which the model exists.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type modelName: string
     :param modelName: [REQUIRED]
-            The name of the model for which to generate a template.
+            [Required] The name of the model for which to generate a template.
             
 
     :rtype: dict
@@ -2599,14 +3028,14 @@ def get_models(restApiId=None, position=None, limit=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -2656,7 +3085,7 @@ def get_request_validator(restApiId=None, requestValidatorId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the RestApi to which the specified RequestValidator belongs.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type requestValidatorId: string
@@ -2691,14 +3120,14 @@ def get_request_validators(restApiId=None, position=None, limit=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of a RestApi to which the RequestValidators collection belongs.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -2734,12 +3163,12 @@ def get_resource(restApiId=None, resourceId=None, embed=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The identifier for the Resource resource.
+            [Required] The identifier for the Resource resource.
             
 
     :type embed: list
@@ -2782,6 +3211,8 @@ def get_resource(restApiId=None, resourceId=None, embed=None):
                     'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
                     'httpMethod': 'string',
                     'uri': 'string',
+                    'connectionType': 'INTERNET'|'VPC_LINK',
+                    'connectionId': 'string',
                     'credentials': 'string',
                     'requestParameters': {
                         'string': 'string'
@@ -2791,6 +3222,7 @@ def get_resource(restApiId=None, resourceId=None, embed=None):
                     },
                     'passthroughBehavior': 'string',
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+                    'timeoutInMillis': 123,
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -2808,7 +3240,10 @@ def get_resource(restApiId=None, resourceId=None, embed=None):
                             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
-                }
+                },
+                'authorizationScopes': [
+                    'string',
+                ]
             }
         }
     }
@@ -2841,14 +3276,14 @@ def get_resources(restApiId=None, position=None, limit=None, embed=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :type embed: list
     :param embed: A query parameter used to retrieve the specified resources embedded in the returned Resources resource in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the 'methods' string. For example, GET /restapis/{restapi_id}/resources?embed=methods .
@@ -2893,6 +3328,8 @@ def get_resources(restApiId=None, position=None, limit=None, embed=None):
                             'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
                             'httpMethod': 'string',
                             'uri': 'string',
+                            'connectionType': 'INTERNET'|'VPC_LINK',
+                            'connectionId': 'string',
                             'credentials': 'string',
                             'requestParameters': {
                                 'string': 'string'
@@ -2902,6 +3339,7 @@ def get_resources(restApiId=None, position=None, limit=None, embed=None):
                             },
                             'passthroughBehavior': 'string',
                             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+                            'timeoutInMillis': 123,
                             'cacheNamespace': 'string',
                             'cacheKeyParameters': [
                                 'string',
@@ -2919,7 +3357,10 @@ def get_resources(restApiId=None, position=None, limit=None, embed=None):
                                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                                 }
                             }
-                        }
+                        },
+                        'authorizationScopes': [
+                            'string',
+                        ]
                     }
                 }
             },
@@ -2949,7 +3390,7 @@ def get_rest_api(restApiId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :rtype: dict
@@ -2964,7 +3405,15 @@ def get_rest_api(restApiId=None):
         ],
         'binaryMediaTypes': [
             'string',
-        ]
+        ],
+        'minimumCompressionSize': 123,
+        'apiKeySource': 'HEADER'|'AUTHORIZER',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        'policy': 'string'
     }
     
     
@@ -2990,7 +3439,7 @@ def get_rest_apis(position=None, limit=None):
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page. The value is 25 by default and could be between 1 - 500.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -3007,7 +3456,15 @@ def get_rest_apis(position=None, limit=None):
                 ],
                 'binaryMediaTypes': [
                     'string',
-                ]
+                ],
+                'minimumCompressionSize': 123,
+                'apiKeySource': 'HEADER'|'AUTHORIZER',
+                'endpointConfiguration': {
+                    'types': [
+                        'REGIONAL'|'EDGE',
+                    ]
+                },
+                'policy': 'string'
             },
         ]
     }
@@ -3037,21 +3494,21 @@ def get_sdk(restApiId=None, stageName=None, sdkType=None, parameters=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi that the SDK will use.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the Stage that the SDK will use.
+            [Required] The name of the Stage that the SDK will use.
             
 
     :type sdkType: string
     :param sdkType: [REQUIRED]
-            The language for the generated SDK. Currently javascript , android , and objectivec (for iOS) are supported.
+            [Required] The language for the generated SDK. Currently java , javascript , android , objectivec (for iOS), swift (for iOS), and ruby are supported.
             
 
     :type parameters: dict
-    :param parameters: A key-value map of query string parameters that specify properties of the SDK, depending on the requested sdkType . For sdkType of objectivec , a parameter named classPrefix is required. For sdkType of android , parameters named groupId , artifactId , artifactVersion , and invokerPackage are required.
+    :param parameters: A string-to-string key-value map of query parameters sdkType -dependent properties of the SDK. For sdkType of objectivec or swift , a parameter named classPrefix is required. For sdkType of android , parameters named groupId , artifactId , artifactVersion , and invokerPackage are required. For sdkType of java , parameters named serviceName and javaPackageName are required.
             (string) --
             (string) --
             
@@ -3079,7 +3536,7 @@ def get_sdk_type(id=None):
     
     :type id: string
     :param id: [REQUIRED]
-            The identifier of the queried SdkType instance.
+            [Required] The identifier of the queried SdkType instance.
             
 
     :rtype: dict
@@ -3117,7 +3574,7 @@ def get_sdk_types(position=None, limit=None):
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -3158,12 +3615,12 @@ def get_stage(restApiId=None, stageName=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Stage resource to get information about.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the Stage resource to get information about.
+            [Required] The name of the Stage resource to get information about.
             
 
     :rtype: dict
@@ -3193,6 +3650,21 @@ def get_stage(restApiId=None, stageName=None):
             'string': 'string'
         },
         'documentationVersion': 'string',
+        'accessLogSettings': {
+            'format': 'string',
+            'destinationArn': 'string'
+        },
+        'canarySettings': {
+            'percentTraffic': 123.0,
+            'deploymentId': 'string',
+            'stageVariableOverrides': {
+                'string': 'string'
+            },
+            'useStageCache': True|False
+        },
+        'tags': {
+            'string': 'string'
+        },
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -3221,7 +3693,7 @@ def get_stages(restApiId=None, deploymentId=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The stages' API identifiers.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type deploymentId: string
@@ -3256,10 +3728,66 @@ def get_stages(restApiId=None, deploymentId=None):
                     'string': 'string'
                 },
                 'documentationVersion': 'string',
+                'accessLogSettings': {
+                    'format': 'string',
+                    'destinationArn': 'string'
+                },
+                'canarySettings': {
+                    'percentTraffic': 123.0,
+                    'deploymentId': 'string',
+                    'stageVariableOverrides': {
+                        'string': 'string'
+                    },
+                    'useStageCache': True|False
+                },
+                'tags': {
+                    'string': 'string'
+                },
                 'createdDate': datetime(2015, 1, 1),
                 'lastUpdatedDate': datetime(2015, 1, 1)
             },
         ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    (string) --
+    
+    
+    
+    """
+    pass
+
+def get_tags(resourceArn=None, position=None, limit=None):
+    """
+    Gets the  Tags collection for a given resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_tags(
+        resourceArn='string',
+        position='string',
+        limit=123
+    )
+    
+    
+    :type resourceArn: string
+    :param resourceArn: [REQUIRED]
+            [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+            
+
+    :type position: string
+    :param position: (Not currently supported) The current pagination position in the paged result set.
+
+    :type limit: integer
+    :param limit: (Not currently supported) The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+
+    :rtype: dict
+    :return: {
+        'tags': {
+            'string': 'string'
+        }
     }
     
     
@@ -3290,7 +3818,7 @@ def get_usage(usagePlanId=None, keyId=None, startDate=None, endDate=None, positi
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the usage plan associated with the usage data.
+            [Required] The Id of the usage plan associated with the usage data.
             
 
     :type keyId: string
@@ -3298,19 +3826,19 @@ def get_usage(usagePlanId=None, keyId=None, startDate=None, endDate=None, positi
 
     :type startDate: string
     :param startDate: [REQUIRED]
-            The starting date (e.g., 2016-01-01) of the usage data.
+            [Required] The starting date (e.g., 2016-01-01) of the usage data.
             
 
     :type endDate: string
     :param endDate: [REQUIRED]
-            The ending date (e.g., 2016-12-31) of the usage data.
+            [Required] The ending date (e.g., 2016-12-31) of the usage data.
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -3356,7 +3884,7 @@ def get_usage_plan(usagePlanId=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The identifier of the UsagePlan resource to be retrieved.
+            [Required] The identifier of the UsagePlan resource to be retrieved.
             
 
     :rtype: dict
@@ -3400,12 +3928,12 @@ def get_usage_plan_key(usagePlanId=None, keyId=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+            [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
             
 
     :type keyId: string
     :param keyId: [REQUIRED]
-            The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
+            [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
             
 
     :rtype: dict
@@ -3436,14 +3964,14 @@ def get_usage_plan_keys(usagePlanId=None, position=None, limit=None, nameQuery=N
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+            [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
             
 
     :type position: string
     :param position: The current pagination position in the paged result set.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :type nameQuery: string
     :param nameQuery: A query parameter specifying the name of the to-be-returned usage plan keys.
@@ -3485,7 +4013,7 @@ def get_usage_plans(position=None, keyId=None, limit=None):
     :param keyId: The identifier of the API key associated with the usage plans.
 
     :type limit: integer
-    :param limit: The maximum number of returned results per page.
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
 
     :rtype: dict
     :return: {
@@ -3515,6 +4043,80 @@ def get_usage_plans(position=None, keyId=None, limit=None):
         ]
     }
     
+    
+    """
+    pass
+
+def get_vpc_link(vpcLinkId=None):
+    """
+    Gets a specified VPC link under the caller's account in a region.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_vpc_link(
+        vpcLinkId='string'
+    )
+    
+    
+    :type vpcLinkId: string
+    :param vpcLinkId: [REQUIRED]
+            [Required] The identifier of the VpcLink . It is used in an Integration to reference this VpcLink .
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'description': 'string',
+        'targetArns': [
+            'string',
+        ],
+        'status': 'AVAILABLE'|'PENDING'|'DELETING'|'FAILED',
+        'statusMessage': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_vpc_links(position=None, limit=None):
+    """
+    Gets the  VpcLinks collection under the caller's account in a selected region.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_vpc_links(
+        position='string',
+        limit=123
+    )
+    
+    
+    :type position: string
+    :param position: The current pagination position in the paged result set.
+
+    :type limit: integer
+    :param limit: The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
+
+    :rtype: dict
+    :return: {
+        'position': 'string',
+        'items': [
+            {
+                'id': 'string',
+                'name': 'string',
+                'description': 'string',
+                'targetArns': [
+                    'string',
+                ],
+                'status': 'AVAILABLE'|'PENDING'|'DELETING'|'FAILED',
+                'statusMessage': 'string'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -3583,7 +4185,7 @@ def import_documentation_parts(restApiId=None, mode=None, failOnWarnings=None, b
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-imported documentation parts.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type mode: string
@@ -3616,7 +4218,7 @@ def import_documentation_parts(restApiId=None, mode=None, failOnWarnings=None, b
 
 def import_rest_api(failOnWarnings=None, parameters=None, body=None):
     """
-    A feature of the Amazon API Gateway control service for creating a new API from an external API definition file.
+    A feature of the API Gateway control service for creating a new API from an external API definition file.
     See also: AWS API Documentation
     
     
@@ -3633,14 +4235,21 @@ def import_rest_api(failOnWarnings=None, parameters=None, body=None):
     :param failOnWarnings: A query parameter to indicate whether to rollback the API creation (true ) or not (false ) when a warning is encountered. The default value is false .
 
     :type parameters: dict
-    :param parameters: Custom header parameters as part of the request.
+    :param parameters: A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.
+            To exclude DocumentationParts from the import, set parameters as ignore=documentation .
+            To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE or``endpointConfigurationTypes=REGIONAL`` . The default endpoint type is EDGE .
+            To handle imported basePath , set parameters as basePath=ignore , basePath=prepend or basePath=split .
+            For example, the AWS CLI command to exclude documentation from the imported API is:
+            aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json
+            The AWS CLI command to set the regional endpoint on the imported API is:
+            aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json
             (string) --
             (string) --
             
 
     :type body: bytes or seekable file-like object
     :param body: [REQUIRED]
-            The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
+            [Required] The POST request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
             
 
     :rtype: dict
@@ -3655,7 +4264,15 @@ def import_rest_api(failOnWarnings=None, parameters=None, body=None):
         ],
         'binaryMediaTypes': [
             'string',
-        ]
+        ],
+        'minimumCompressionSize': 123,
+        'apiKeySource': 'HEADER'|'AUTHORIZER',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        'policy': 'string'
     }
     
     
@@ -3665,9 +4282,113 @@ def import_rest_api(failOnWarnings=None, parameters=None, body=None):
     """
     pass
 
-def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None, integrationHttpMethod=None, uri=None, credentials=None, requestParameters=None, requestTemplates=None, passthroughBehavior=None, cacheNamespace=None, cacheKeyParameters=None, contentHandling=None):
+def put_gateway_response(restApiId=None, responseType=None, statusCode=None, responseParameters=None, responseTemplates=None):
     """
-    Represents a put integration.
+    Creates a customization of a  GatewayResponse of a specified response type and status code on the given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.put_gateway_response(
+        restApiId='string',
+        responseType='DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+        statusCode='string',
+        responseParameters={
+            'string': 'string'
+        },
+        responseTemplates={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The string identifier of the associated RestApi .
+            
+
+    :type responseType: string
+    :param responseType: [REQUIRED]
+            [Required]
+            The response type of the associated GatewayResponse . Valid values are
+            ACCESS_DENIED
+            API_CONFIGURATION_ERROR
+            AUTHORIZER_FAILURE
+            AUTHORIZER_CONFIGURATION_ERROR
+            BAD_REQUEST_PARAMETERS
+            BAD_REQUEST_BODY
+            DEFAULT_4XX
+            DEFAULT_5XX
+            EXPIRED_TOKEN
+            INVALID_SIGNATURE
+            INTEGRATION_FAILURE
+            INTEGRATION_TIMEOUT
+            INVALID_API_KEY
+            MISSING_AUTHENTICATION_TOKEN
+            QUOTA_EXCEEDED
+            REQUEST_TOO_LARGE
+            RESOURCE_NOT_FOUND
+            THROTTLED
+            UNAUTHORIZED
+            UNSUPPORTED_MEDIA_TYPE
+            
+
+    :type statusCode: string
+    :param statusCode: The HTTP status code of the GatewayResponse .
+
+    :type responseParameters: dict
+    :param responseParameters: Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
+            (string) --
+            (string) --
+            
+
+    :type responseTemplates: dict
+    :param responseTemplates: Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
+            (string) --
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'responseType': 'DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+        'statusCode': 'string',
+        'responseParameters': {
+            'string': 'string'
+        },
+        'responseTemplates': {
+            'string': 'string'
+        },
+        'defaultResponse': True|False
+    }
+    
+    
+    :returns: 
+    ACCESS_DENIED
+    API_CONFIGURATION_ERROR
+    AUTHORIZER_FAILURE
+    AUTHORIZER_CONFIGURATION_ERROR
+    BAD_REQUEST_PARAMETERS
+    BAD_REQUEST_BODY
+    DEFAULT_4XX
+    DEFAULT_5XX
+    EXPIRED_TOKEN
+    INVALID_SIGNATURE
+    INTEGRATION_FAILURE
+    INTEGRATION_TIMEOUT
+    INVALID_API_KEY
+    MISSING_AUTHENTICATION_TOKEN
+    QUOTA_EXCEEDED
+    REQUEST_TOO_LARGE
+    RESOURCE_NOT_FOUND
+    THROTTLED
+    UNAUTHORIZED
+    UNSUPPORTED_MEDIA_TYPE
+    
+    """
+    pass
+
+def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None, integrationHttpMethod=None, uri=None, connectionType=None, connectionId=None, credentials=None, requestParameters=None, requestTemplates=None, passthroughBehavior=None, cacheNamespace=None, cacheKeyParameters=None, contentHandling=None, timeoutInMillis=None):
+    """
+    Sets up a method's integration.
     See also: AWS API Documentation
     
     
@@ -3678,6 +4399,8 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
         type='HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
         integrationHttpMethod='string',
         uri='string',
+        connectionType='INTERNET'|'VPC_LINK',
+        connectionId='string',
         credentials='string',
         requestParameters={
             'string': 'string'
@@ -3690,35 +4413,45 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
         cacheKeyParameters=[
             'string',
         ],
-        contentHandling='CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
+        contentHandling='CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+        timeoutInMillis=123
     )
     
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a put integration request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a put integration request's resource ID.
+            [Required] Specifies a put integration request's resource ID.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a put integration request's HTTP method.
+            [Required] Specifies a put integration request's HTTP method.
             
 
     :type type: string
     :param type: [REQUIRED]
-            Specifies a put integration input's type.
+            [Required] Specifies a put integration input's type.
             
 
     :type integrationHttpMethod: string
     :param integrationHttpMethod: Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
 
     :type uri: string
-    :param uri: Specifies a put integration input's Uniform Resource Identifier (URI). When the integration type is HTTP or AWS, this field is required. For integration with Lambda as an AWS service proxy, this value is of the 'arn:aws:apigateway:region:lambda:path/2015-03-31/functions/functionArn/invocations' format.
+    :param uri: Specifies Uniform Resource Identifier (URI) of the integration endpoint.
+            For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification , for either standard integration, where connectionType is not VPC_LINK , or private integration, where connectionType is VPC_LINK . For a private HTTP integration, the URI is not used for routing.
+            For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api} . Here, {Region} is the API Gateway region (e.g., us-east-1 ); {service} is the name of the integrated AWS service (e.g., s3 ); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}{p1}={v1}p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of `GetObject <http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectGET.html>`__ , the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObjectBucket={bucket}Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
+            
+
+    :type connectionType: string
+    :param connectionType: The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET .
+
+    :type connectionId: string
+    :param connectionId: The (`id <http://docs.aws.amazon.com/apigateway/api-reference/resource/vpc-link/#id>`__ ) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
 
     :type credentials: string
     :param credentials: Specifies whether credentials are required for a put integration.
@@ -3757,11 +4490,16 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
             If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehaviors is configured to support payload pass-through.
             
 
+    :type timeoutInMillis: integer
+    :param timeoutInMillis: Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
+
     :rtype: dict
     :return: {
         'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
         'httpMethod': 'string',
         'uri': 'string',
+        'connectionType': 'INTERNET'|'VPC_LINK',
+        'connectionId': 'string',
         'credentials': 'string',
         'requestParameters': {
             'string': 'string'
@@ -3771,6 +4509,7 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
         },
         'passthroughBehavior': 'string',
         'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+        'timeoutInMillis': 123,
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -3792,10 +4531,11 @@ def put_integration(restApiId=None, resourceId=None, httpMethod=None, type=None,
     
     
     :returns: 
-    (string) --
-    (string) --
-    
-    
+    AWS : for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration.
+    AWS_PROXY : for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration.
+    HTTP : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration.
+    HTTP_PROXY : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration.
+    MOCK : for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.
     
     """
     pass
@@ -3824,22 +4564,22 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a put integration response request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a put integration response request's resource identifier.
+            [Required] Specifies a put integration response request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a put integration response request's HTTP method.
+            [Required] Specifies a put integration response request's HTTP method.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            Specifies the status code that is used to map the integration response to an existing MethodResponse .
+            [Required] Specifies the status code that is used to map the integration response to an existing MethodResponse .
             
 
     :type selectionPattern: string
@@ -3887,7 +4627,7 @@ def put_integration_response(restApiId=None, resourceId=None, httpMethod=None, s
     """
     pass
 
-def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, operationName=None, requestParameters=None, requestModels=None, requestValidatorId=None):
+def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationType=None, authorizerId=None, apiKeyRequired=None, operationName=None, requestParameters=None, requestModels=None, requestValidatorId=None, authorizationScopes=None):
     """
     Add a method to an existing  Resource resource.
     See also: AWS API Documentation
@@ -3907,32 +4647,35 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
         requestModels={
             'string': 'string'
         },
-        requestValidatorId='string'
+        requestValidatorId='string',
+        authorizationScopes=[
+            'string',
+        ]
     )
     
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the new Method resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the new Method resource.
+            [Required] The Resource identifier for the new Method resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies the method request's HTTP method type.
+            [Required] Specifies the method request's HTTP method type.
             
 
     :type authorizationType: string
     :param authorizationType: [REQUIRED]
-            The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+            [Required] The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
             
 
     :type authorizerId: string
-    :param authorizerId: Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM.
+    :param authorizerId: Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway when you created the authorizer.
 
     :type apiKeyRequired: boolean
     :param apiKeyRequired: Specifies whether the method required a valid ApiKey .
@@ -3941,7 +4684,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
     :param operationName: A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in PetStore example.
 
     :type requestParameters: dict
-    :param requestParameters: A key-value map defining required or optional method request parameters that can be accepted by Amazon API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
+    :param requestParameters: A key-value map defining required or optional method request parameters that can be accepted by API Gateway. A key defines a method request parameter name matching the pattern of method.request.{location}.{name} , where location is querystring , path , or header and name is a valid and unique parameter name. The value associated with the key is a Boolean flag indicating whether the parameter is required (true ) or optional (false ). The method request parameter names defined here are available in Integration to be mapped to integration request parameters or body-mapping templates.
             (string) --
             (boolean) --
             
@@ -3954,6 +4697,11 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
 
     :type requestValidatorId: string
     :param requestValidatorId: The identifier of a RequestValidator for validating the method request.
+
+    :type authorizationScopes: list
+    :param authorizationScopes: A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
+            (string) --
+            
 
     :rtype: dict
     :return: {
@@ -3984,6 +4732,8 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
             'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
             'httpMethod': 'string',
             'uri': 'string',
+            'connectionType': 'INTERNET'|'VPC_LINK',
+            'connectionId': 'string',
             'credentials': 'string',
             'requestParameters': {
                 'string': 'string'
@@ -3993,6 +4743,7 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
             },
             'passthroughBehavior': 'string',
             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+            'timeoutInMillis': 123,
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -4010,7 +4761,10 @@ def put_method(restApiId=None, resourceId=None, httpMethod=None, authorizationTy
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
-        }
+        },
+        'authorizationScopes': [
+            'string',
+        ]
     }
     
     
@@ -4045,26 +4799,26 @@ def put_method_response(restApiId=None, resourceId=None, httpMethod=None, status
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Method resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the Method resource.
+            [Required] The Resource identifier for the Method resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            The method response's status code.
+            [Required] The method response's status code.
             
 
     :type responseParameters: dict
-    :param responseParameters: A key-value map specifying required or optional response parameters that Amazon API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'application/json' ), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ prefix.)
+    :param responseParameters: A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name} , where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name} , a static value enclosed within a pair of single quotes (e.g., 'application/json' ), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression} , where JSON-expression is a valid JSON expression without the $ prefix.)
             (string) --
             (boolean) --
             
@@ -4098,7 +4852,7 @@ def put_method_response(restApiId=None, resourceId=None, httpMethod=None, status
 
 def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None, body=None):
     """
-    A feature of the Amazon API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
+    A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     See also: AWS API Documentation
     
     
@@ -4115,7 +4869,7 @@ def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi to be updated.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type mode: string
@@ -4125,14 +4879,14 @@ def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None
     :param failOnWarnings: A query parameter to indicate whether to rollback the API update (true ) or not (false ) when a warning is encountered. The default value is false .
 
     :type parameters: dict
-    :param parameters: Custom headers supplied as part of the request.
+    :param parameters: Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json .
             (string) --
             (string) --
             
 
     :type body: bytes or seekable file-like object
     :param body: [REQUIRED]
-            The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported.
+            [Required] The PUT request body containing external API definitions. Currently, only Swagger definition JSON files are supported. The maximum size of the API definition file is 2MB.
             
 
     :rtype: dict
@@ -4147,13 +4901,50 @@ def put_rest_api(restApiId=None, mode=None, failOnWarnings=None, parameters=None
         ],
         'binaryMediaTypes': [
             'string',
-        ]
+        ],
+        'minimumCompressionSize': 123,
+        'apiKeySource': 'HEADER'|'AUTHORIZER',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        'policy': 'string'
     }
     
     
     :returns: 
     (string) --
     
+    """
+    pass
+
+def tag_resource(resourceArn=None, tags=None):
+    """
+    Adds or updates a tag on a given resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.tag_resource(
+        resourceArn='string',
+        tags={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type resourceArn: string
+    :param resourceArn: [REQUIRED]
+            [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+            
+
+    :type tags: dict
+    :param tags: [REQUIRED]
+            [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws: . The tag value can be up to 256 characters.
+            (string) --
+            (string) --
+            
+
     """
     pass
 
@@ -4182,12 +4973,12 @@ def test_invoke_authorizer(restApiId=None, authorizerId=None, headers=None, path
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a test invoke authorizer request's RestApi identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type authorizerId: string
     :param authorizerId: [REQUIRED]
-            Specifies a test invoke authorizer request's Authorizer ID.
+            [Required] Specifies a test invoke authorizer request's Authorizer ID.
             
 
     :type headers: dict
@@ -4268,17 +5059,17 @@ def test_invoke_method(restApiId=None, resourceId=None, httpMethod=None, pathWit
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies a test invoke method request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies a test invoke method request's resource ID.
+            [Required] Specifies a test invoke method request's resource ID.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies a test invoke method request's HTTP method.
+            [Required] Specifies a test invoke method request's HTTP method.
             
 
     :type pathWithQueryString: string
@@ -4323,6 +5114,34 @@ def test_invoke_method(restApiId=None, resourceId=None, httpMethod=None, pathWit
     """
     pass
 
+def untag_resource(resourceArn=None, tagKeys=None):
+    """
+    Removes a tag from a given resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.untag_resource(
+        resourceArn='string',
+        tagKeys=[
+            'string',
+        ]
+    )
+    
+    
+    :type resourceArn: string
+    :param resourceArn: [REQUIRED]
+            [Required] The ARN of a resource that can be tagged. The resource ARN must be URL-encoded. At present, Stage is the only taggable resource.
+            
+
+    :type tagKeys: list
+    :param tagKeys: [REQUIRED]
+            [Required] The Tag keys to delete.
+            (string) --
+            
+
+    """
+    pass
+
 def update_account(patchOperations=None):
     """
     Changes information about the current  Account resource.
@@ -4344,10 +5163,10 @@ def update_account(patchOperations=None):
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4392,16 +5211,16 @@ def update_api_key(apiKey=None, patchOperations=None):
     
     :type apiKey: string
     :param apiKey: [REQUIRED]
-            The identifier of the ApiKey resource to be updated.
+            [Required] The identifier of the ApiKey resource to be updated.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4449,21 +5268,21 @@ def update_authorizer(restApiId=None, authorizerId=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Authorizer resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type authorizerId: string
     :param authorizerId: [REQUIRED]
-            The identifier of the Authorizer resource.
+            [Required] The identifier of the Authorizer resource.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4471,7 +5290,7 @@ def update_authorizer(restApiId=None, authorizerId=None, patchOperations=None):
     :return: {
         'id': 'string',
         'name': 'string',
-        'type': 'TOKEN'|'COGNITO_USER_POOLS',
+        'type': 'TOKEN'|'REQUEST'|'COGNITO_USER_POOLS',
         'providerARNs': [
             'string',
         ],
@@ -4512,21 +5331,21 @@ def update_base_path_mapping(domainName=None, basePath=None, patchOperations=Non
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The domain name of the BasePathMapping resource to change.
+            [Required] The domain name of the BasePathMapping resource to change.
             
 
     :type basePath: string
     :param basePath: [REQUIRED]
-            The base path of the BasePathMapping resource to change.
+            [Required] The base path of the BasePathMapping resource to change.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4562,16 +5381,16 @@ def update_client_certificate(clientCertificateId=None, patchOperations=None):
     
     :type clientCertificateId: string
     :param clientCertificateId: [REQUIRED]
-            The identifier of the ClientCertificate resource to be updated.
+            [Required] The identifier of the ClientCertificate resource to be updated.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4610,7 +5429,7 @@ def update_deployment(restApiId=None, deploymentId=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The replacement identifier of the RestApi resource for the Deployment resource to change information about.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type deploymentId: string
@@ -4621,10 +5440,10 @@ def update_deployment(restApiId=None, deploymentId=None, patchOperations=None):
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4668,7 +5487,7 @@ def update_documentation_part(restApiId=None, documentationPartId=None, patchOpe
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-updated documentation part.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type documentationPartId: string
@@ -4679,10 +5498,10 @@ def update_documentation_part(restApiId=None, documentationPartId=None, patchOpe
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4724,7 +5543,7 @@ def update_documentation_version(restApiId=None, documentationVersion=None, patc
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of an API of the to-be-updated documentation version.
+            [Required] The string identifier of the associated RestApi ..
             
 
     :type documentationVersion: string
@@ -4735,10 +5554,10 @@ def update_documentation_version(restApiId=None, documentationVersion=None, patc
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4774,16 +5593,16 @@ def update_domain_name(domainName=None, patchOperations=None):
     
     :type domainName: string
     :param domainName: [REQUIRED]
-            The name of the DomainName resource to be changed.
+            [Required] The name of the DomainName resource to be changed.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4793,9 +5612,119 @@ def update_domain_name(domainName=None, patchOperations=None):
         'certificateName': 'string',
         'certificateArn': 'string',
         'certificateUploadDate': datetime(2015, 1, 1),
-        'distributionDomainName': 'string'
+        'regionalDomainName': 'string',
+        'regionalHostedZoneId': 'string',
+        'regionalCertificateName': 'string',
+        'regionalCertificateArn': 'string',
+        'distributionDomainName': 'string',
+        'distributionHostedZoneId': 'string',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        }
     }
     
+    
+    """
+    pass
+
+def update_gateway_response(restApiId=None, responseType=None, patchOperations=None):
+    """
+    Updates a  GatewayResponse of a specified response type on the given  RestApi .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_gateway_response(
+        restApiId='string',
+        responseType='DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+        patchOperations=[
+            {
+                'op': 'add'|'remove'|'replace'|'move'|'copy'|'test',
+                'path': 'string',
+                'value': 'string',
+                'from': 'string'
+            },
+        ]
+    )
+    
+    
+    :type restApiId: string
+    :param restApiId: [REQUIRED]
+            [Required] The string identifier of the associated RestApi .
+            
+
+    :type responseType: string
+    :param responseType: [REQUIRED]
+            [Required]
+            The response type of the associated GatewayResponse . Valid values are
+            ACCESS_DENIED
+            API_CONFIGURATION_ERROR
+            AUTHORIZER_FAILURE
+            AUTHORIZER_CONFIGURATION_ERROR
+            BAD_REQUEST_PARAMETERS
+            BAD_REQUEST_BODY
+            DEFAULT_4XX
+            DEFAULT_5XX
+            EXPIRED_TOKEN
+            INVALID_SIGNATURE
+            INTEGRATION_FAILURE
+            INTEGRATION_TIMEOUT
+            INVALID_API_KEY
+            MISSING_AUTHENTICATION_TOKEN
+            QUOTA_EXCEEDED
+            REQUEST_TOO_LARGE
+            RESOURCE_NOT_FOUND
+            THROTTLED
+            UNAUTHORIZED
+            UNSUPPORTED_MEDIA_TYPE
+            
+
+    :type patchOperations: list
+    :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
+            (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
+            
+            
+
+    :rtype: dict
+    :return: {
+        'responseType': 'DEFAULT_4XX'|'DEFAULT_5XX'|'RESOURCE_NOT_FOUND'|'UNAUTHORIZED'|'INVALID_API_KEY'|'ACCESS_DENIED'|'AUTHORIZER_FAILURE'|'AUTHORIZER_CONFIGURATION_ERROR'|'INVALID_SIGNATURE'|'EXPIRED_TOKEN'|'MISSING_AUTHENTICATION_TOKEN'|'INTEGRATION_FAILURE'|'INTEGRATION_TIMEOUT'|'API_CONFIGURATION_ERROR'|'UNSUPPORTED_MEDIA_TYPE'|'BAD_REQUEST_PARAMETERS'|'BAD_REQUEST_BODY'|'REQUEST_TOO_LARGE'|'THROTTLED'|'QUOTA_EXCEEDED',
+        'statusCode': 'string',
+        'responseParameters': {
+            'string': 'string'
+        },
+        'responseTemplates': {
+            'string': 'string'
+        },
+        'defaultResponse': True|False
+    }
+    
+    
+    :returns: 
+    ACCESS_DENIED
+    API_CONFIGURATION_ERROR
+    AUTHORIZER_FAILURE
+    AUTHORIZER_CONFIGURATION_ERROR
+    BAD_REQUEST_PARAMETERS
+    BAD_REQUEST_BODY
+    DEFAULT_4XX
+    DEFAULT_5XX
+    EXPIRED_TOKEN
+    INVALID_SIGNATURE
+    INTEGRATION_FAILURE
+    INTEGRATION_TIMEOUT
+    INVALID_API_KEY
+    MISSING_AUTHENTICATION_TOKEN
+    QUOTA_EXCEEDED
+    REQUEST_TOO_LARGE
+    RESOURCE_NOT_FOUND
+    THROTTLED
+    UNAUTHORIZED
+    UNSUPPORTED_MEDIA_TYPE
     
     """
     pass
@@ -4823,26 +5752,26 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Represents an update integration request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Represents an update integration request's resource identifier.
+            [Required] Represents an update integration request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Represents an update integration request's HTTP method.
+            [Required] Represents an update integration request's HTTP method.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4851,6 +5780,8 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
         'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
         'httpMethod': 'string',
         'uri': 'string',
+        'connectionType': 'INTERNET'|'VPC_LINK',
+        'connectionId': 'string',
         'credentials': 'string',
         'requestParameters': {
             'string': 'string'
@@ -4860,6 +5791,7 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
         },
         'passthroughBehavior': 'string',
         'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+        'timeoutInMillis': 123,
         'cacheNamespace': 'string',
         'cacheKeyParameters': [
             'string',
@@ -4881,10 +5813,11 @@ def update_integration(restApiId=None, resourceId=None, httpMethod=None, patchOp
     
     
     :returns: 
-    (string) --
-    (string) --
-    
-    
+    AWS : for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration.
+    AWS_PROXY : for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration.
+    HTTP : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration.
+    HTTP_PROXY : for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration.
+    MOCK : for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.
     
     """
     pass
@@ -4913,31 +5846,31 @@ def update_integration_response(restApiId=None, resourceId=None, httpMethod=None
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            Specifies an update integration response request's API identifier.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            Specifies an update integration response request's resource identifier.
+            [Required] Specifies an update integration response request's resource identifier.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            Specifies an update integration response request's HTTP method.
+            [Required] Specifies an update integration response request's HTTP method.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            Specifies an update integration response request's status code.
+            [Required] Specifies an update integration response request's status code.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -4987,26 +5920,26 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Method resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the Method resource.
+            [Required] The Resource identifier for the Method resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5039,6 +5972,8 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
             'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
             'httpMethod': 'string',
             'uri': 'string',
+            'connectionType': 'INTERNET'|'VPC_LINK',
+            'connectionId': 'string',
             'credentials': 'string',
             'requestParameters': {
                 'string': 'string'
@@ -5048,6 +5983,7 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
             },
             'passthroughBehavior': 'string',
             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+            'timeoutInMillis': 123,
             'cacheNamespace': 'string',
             'cacheKeyParameters': [
                 'string',
@@ -5065,7 +6001,10 @@ def update_method(restApiId=None, resourceId=None, httpMethod=None, patchOperati
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                 }
             }
-        }
+        },
+        'authorizationScopes': [
+            'string',
+        ]
     }
     
     
@@ -5102,31 +6041,31 @@ def update_method_response(restApiId=None, resourceId=None, httpMethod=None, sta
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the MethodResponse resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The Resource identifier for the MethodResponse resource.
+            [Required] The Resource identifier for the MethodResponse resource.
             
 
     :type httpMethod: string
     :param httpMethod: [REQUIRED]
-            The HTTP verb of the Method resource.
+            [Required] The HTTP verb of the Method resource.
             
 
     :type statusCode: string
     :param statusCode: [REQUIRED]
-            The status code for the MethodResponse resource.
+            [Required] The status code for the MethodResponse resource.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5173,21 +6112,21 @@ def update_model(restApiId=None, modelName=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier under which the model exists.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type modelName: string
     :param modelName: [REQUIRED]
-            The name of the model to update.
+            [Required] The name of the model to update.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5226,7 +6165,7 @@ def update_request_validator(restApiId=None, requestValidatorId=None, patchOpera
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            [Required] The identifier of the RestApi for which the given RequestValidator is updated.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type requestValidatorId: string
@@ -5237,10 +6176,10 @@ def update_request_validator(restApiId=None, requestValidatorId=None, patchOpera
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5278,21 +6217,21 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The RestApi identifier for the Resource resource.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type resourceId: string
     :param resourceId: [REQUIRED]
-            The identifier of the Resource resource.
+            [Required] The identifier of the Resource resource.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5331,6 +6270,8 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                     'type': 'HTTP'|'AWS'|'MOCK'|'HTTP_PROXY'|'AWS_PROXY',
                     'httpMethod': 'string',
                     'uri': 'string',
+                    'connectionType': 'INTERNET'|'VPC_LINK',
+                    'connectionId': 'string',
                     'credentials': 'string',
                     'requestParameters': {
                         'string': 'string'
@@ -5340,6 +6281,7 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                     },
                     'passthroughBehavior': 'string',
                     'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT',
+                    'timeoutInMillis': 123,
                     'cacheNamespace': 'string',
                     'cacheKeyParameters': [
                         'string',
@@ -5357,7 +6299,10 @@ def update_resource(restApiId=None, resourceId=None, patchOperations=None):
                             'contentHandling': 'CONVERT_TO_BINARY'|'CONVERT_TO_TEXT'
                         }
                     }
-                }
+                },
+                'authorizationScopes': [
+                    'string',
+                ]
             }
         }
     }
@@ -5393,16 +6338,16 @@ def update_rest_api(restApiId=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The ID of the RestApi you want to update.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5418,7 +6363,15 @@ def update_rest_api(restApiId=None, patchOperations=None):
         ],
         'binaryMediaTypes': [
             'string',
-        ]
+        ],
+        'minimumCompressionSize': 123,
+        'apiKeySource': 'HEADER'|'AUTHORIZER',
+        'endpointConfiguration': {
+            'types': [
+                'REGIONAL'|'EDGE',
+            ]
+        },
+        'policy': 'string'
     }
     
     
@@ -5450,21 +6403,21 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
     
     :type restApiId: string
     :param restApiId: [REQUIRED]
-            The identifier of the RestApi resource for the Stage resource to change information about.
+            [Required] The string identifier of the associated RestApi .
             
 
     :type stageName: string
     :param stageName: [REQUIRED]
-            The name of the Stage resource to change information about.
+            [Required] The name of the Stage resource to change information about.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5495,6 +6448,21 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
             'string': 'string'
         },
         'documentationVersion': 'string',
+        'accessLogSettings': {
+            'format': 'string',
+            'destinationArn': 'string'
+        },
+        'canarySettings': {
+            'percentTraffic': 123.0,
+            'deploymentId': 'string',
+            'stageVariableOverrides': {
+                'string': 'string'
+            },
+            'useStageCache': True|False
+        },
+        'tags': {
+            'string': 'string'
+        },
         'createdDate': datetime(2015, 1, 1),
         'lastUpdatedDate': datetime(2015, 1, 1)
     }
@@ -5511,7 +6479,7 @@ def update_stage(restApiId=None, stageName=None, patchOperations=None):
 
 def update_usage(usagePlanId=None, keyId=None, patchOperations=None):
     """
-    Grants a temporary extension to the reamining quota of a usage plan associated with a specified API key.
+    Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     See also: AWS API Documentation
     
     
@@ -5531,21 +6499,21 @@ def update_usage(usagePlanId=None, keyId=None, patchOperations=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the usage plan associated with the usage data.
+            [Required] The Id of the usage plan associated with the usage data.
             
 
     :type keyId: string
     :param keyId: [REQUIRED]
-            The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
+            [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5601,16 +6569,16 @@ def update_usage_plan(usagePlanId=None, patchOperations=None):
     
     :type usagePlanId: string
     :param usagePlanId: [REQUIRED]
-            The Id of the to-be-updated usage plan.
+            [Required] The Id of the to-be-updated usage plan.
             
 
     :type patchOperations: list
     :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
             (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
-            op (string) --An update operation to be performed with this PATCH request. The valid value can be 'add', 'remove', or 'replace'. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
             path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
-            value (string) --The new target value of the update operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
-            from (string) --Not supported.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
             
             
 
@@ -5637,6 +6605,59 @@ def update_usage_plan(usagePlanId=None, patchOperations=None):
         'productCode': 'string'
     }
     
+    
+    """
+    pass
+
+def update_vpc_link(vpcLinkId=None, patchOperations=None):
+    """
+    Updates an existing  VpcLink of a specified identifier.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_vpc_link(
+        vpcLinkId='string',
+        patchOperations=[
+            {
+                'op': 'add'|'remove'|'replace'|'move'|'copy'|'test',
+                'path': 'string',
+                'value': 'string',
+                'from': 'string'
+            },
+        ]
+    )
+    
+    
+    :type vpcLinkId: string
+    :param vpcLinkId: [REQUIRED]
+            [Required] The identifier of the VpcLink . It is used in an Integration to reference this VpcLink .
+            
+
+    :type patchOperations: list
+    :param patchOperations: A list of update operations to be applied to the specified resource and in the order specified in this list.
+            (dict) -- A single patch operation to apply to the specified resource. Please refer to http://tools.ietf.org/html/rfc6902#section-4 for an explanation of how each operation is used.
+            op (string) --An update operation to be performed with this PATCH request. The valid value can be add , remove , replace or copy . Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+            path (string) --The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {'name':'value'} , the path for this property is /name . If the name property value is a JSON object (e.g., {'name': {'child/name': 'child-value'}} ), the path for the child/name property will be /name/child~1name . Any slash ('/') character appearing in path names must be escaped with '~1', as shown in the example above. Each op operation can have only one path associated with it.
+            value (string) --The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{'a': ...}'. In a Windows shell, see Using JSON for Parameters .
+            from (string) --The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with 'op':'copy' , 'from':'/canarySettings/deploymentId' and 'path':'/deploymentId' .
+            
+            
+
+    :rtype: dict
+    :return: {
+        'id': 'string',
+        'name': 'string',
+        'description': 'string',
+        'targetArns': [
+            'string',
+        ],
+        'status': 'AVAILABLE'|'PENDING'|'DELETING'|'FAILED',
+        'statusMessage': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass

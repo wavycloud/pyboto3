@@ -41,7 +41,7 @@ def can_paginate(operation_name=None):
 
 def create_tags(ResourceId=None, Tags=None):
     """
-    Creates tags for a WorkSpace.
+    Creates tags for the specified WorkSpace.
     See also: AWS API Documentation
     
     
@@ -58,13 +58,13 @@ def create_tags(ResourceId=None, Tags=None):
     
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
-            The resource ID of the request.
+            The ID of the resource.
             
 
     :type Tags: list
     :param Tags: [REQUIRED]
-            The tags of the request.
-            (dict) --Describes the tag of the WorkSpace.
+            The tags. Each resource can have a maximum of 50 tags.
+            (dict) --Information about a tag.
             Key (string) -- [REQUIRED]The key of the tag.
             Value (string) --The value of the tag.
             
@@ -74,12 +74,16 @@ def create_tags(ResourceId=None, Tags=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
 def create_workspaces(Workspaces=None):
     """
     Creates one or more WorkSpaces.
+    This operation is asynchronous and returns before the WorkSpaces are created.
     See also: AWS API Documentation
     
     
@@ -94,7 +98,10 @@ def create_workspaces(Workspaces=None):
                 'RootVolumeEncryptionEnabled': True|False,
                 'WorkspaceProperties': {
                     'RunningMode': 'AUTO_STOP'|'ALWAYS_ON',
-                    'RunningModeAutoStopTimeoutInMinutes': 123
+                    'RunningModeAutoStopTimeoutInMinutes': 123,
+                    'RootVolumeSizeGib': 123,
+                    'UserVolumeSizeGib': 123,
+                    'ComputeTypeName': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
                 },
                 'Tags': [
                     {
@@ -109,19 +116,22 @@ def create_workspaces(Workspaces=None):
     
     :type Workspaces: list
     :param Workspaces: [REQUIRED]
-            An array of structures that specify the WorkSpaces to create.
-            (dict) --Contains information about a WorkSpace creation request.
-            DirectoryId (string) -- [REQUIRED]The identifier of the AWS Directory Service directory to create the WorkSpace in. You can use the DescribeWorkspaceDirectories operation to obtain a list of the directories that are available.
-            UserName (string) -- [REQUIRED]The username that the WorkSpace is assigned to. This username must exist in the AWS Directory Service directory specified by the DirectoryId member.
-            BundleId (string) -- [REQUIRED]The identifier of the bundle to create the WorkSpace from. You can use the DescribeWorkspaceBundles operation to obtain a list of the bundles that are available.
+            Information about the WorkSpaces to create.
+            (dict) --Information used to create a WorkSpace.
+            DirectoryId (string) -- [REQUIRED]The identifier of the AWS Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
+            UserName (string) -- [REQUIRED]The username of the user for the WorkSpace. This username must exist in the AWS Directory Service directory for the WorkSpace.
+            BundleId (string) -- [REQUIRED]The identifier of the bundle for the WorkSpace. You can use DescribeWorkspaceBundles to list the available bundles.
             VolumeEncryptionKey (string) --The KMS key used to encrypt data stored on your WorkSpace.
-            UserVolumeEncryptionEnabled (boolean) --Specifies whether the data stored on the user volume, or D: drive, is encrypted.
-            RootVolumeEncryptionEnabled (boolean) --Specifies whether the data stored on the root volume, or C: drive, is encrypted.
-            WorkspaceProperties (dict) --Describes the properties of a WorkSpace.
-            RunningMode (string) --The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
+            UserVolumeEncryptionEnabled (boolean) --Indicates whether the data stored on the user volume is encrypted.
+            RootVolumeEncryptionEnabled (boolean) --Indicates whether the data stored on the root volume is encrypted.
+            WorkspaceProperties (dict) --The WorkSpace properties.
+            RunningMode (string) --The running mode. For more information, see Manage the WorkSpace Running Mode .
             RunningModeAutoStopTimeoutInMinutes (integer) --The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
-            Tags (list) --The tags of the WorkSpace request.
-            (dict) --Describes the tag of the WorkSpace.
+            RootVolumeSizeGib (integer) --The size of the root volume.
+            UserVolumeSizeGib (integer) --The size of the user storage.
+            ComputeTypeName (string) --The compute type. For more information, see Amazon WorkSpaces Bundles .
+            Tags (list) --The tags for the WorkSpace.
+            (dict) --Information about a tag.
             Key (string) -- [REQUIRED]The key of the tag.
             Value (string) --The value of the tag.
             
@@ -141,7 +151,10 @@ def create_workspaces(Workspaces=None):
                     'RootVolumeEncryptionEnabled': True|False,
                     'WorkspaceProperties': {
                         'RunningMode': 'AUTO_STOP'|'ALWAYS_ON',
-                        'RunningModeAutoStopTimeoutInMinutes': 123
+                        'RunningModeAutoStopTimeoutInMinutes': 123,
+                        'RootVolumeSizeGib': 123,
+                        'UserVolumeSizeGib': 123,
+                        'ComputeTypeName': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
                     },
                     'Tags': [
                         {
@@ -160,7 +173,7 @@ def create_workspaces(Workspaces=None):
                 'DirectoryId': 'string',
                 'UserName': 'string',
                 'IpAddress': 'string',
-                'State': 'PENDING'|'AVAILABLE'|'IMPAIRED'|'UNHEALTHY'|'REBOOTING'|'STARTING'|'REBUILDING'|'MAINTENANCE'|'TERMINATING'|'TERMINATED'|'SUSPENDED'|'STOPPING'|'STOPPED'|'ERROR',
+                'State': 'PENDING'|'AVAILABLE'|'IMPAIRED'|'UNHEALTHY'|'REBOOTING'|'STARTING'|'REBUILDING'|'MAINTENANCE'|'TERMINATING'|'TERMINATED'|'SUSPENDED'|'UPDATING'|'STOPPING'|'STOPPED'|'ERROR',
                 'BundleId': 'string',
                 'SubnetId': 'string',
                 'ErrorMessage': 'string',
@@ -171,8 +184,17 @@ def create_workspaces(Workspaces=None):
                 'RootVolumeEncryptionEnabled': True|False,
                 'WorkspaceProperties': {
                     'RunningMode': 'AUTO_STOP'|'ALWAYS_ON',
-                    'RunningModeAutoStopTimeoutInMinutes': 123
-                }
+                    'RunningModeAutoStopTimeoutInMinutes': 123,
+                    'RootVolumeSizeGib': 123,
+                    'UserVolumeSizeGib': 123,
+                    'ComputeTypeName': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
+                },
+                'ModificationStates': [
+                    {
+                        'Resource': 'ROOT_VOLUME'|'USER_VOLUME'|'COMPUTE_TYPE',
+                        'State': 'UPDATE_INITIATED'|'UPDATE_IN_PROGRESS'
+                    },
+                ]
             },
         ]
     }
@@ -183,7 +205,7 @@ def create_workspaces(Workspaces=None):
 
 def delete_tags(ResourceId=None, TagKeys=None):
     """
-    Deletes tags from a WorkSpace.
+    Deletes the specified tags from a WorkSpace.
     See also: AWS API Documentation
     
     
@@ -197,12 +219,12 @@ def delete_tags(ResourceId=None, TagKeys=None):
     
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
-            The resource ID of the request.
+            The ID of the resource.
             
 
     :type TagKeys: list
     :param TagKeys: [REQUIRED]
-            The tag keys of the request.
+            The tag keys.
             (string) --
             
 
@@ -210,12 +232,15 @@ def delete_tags(ResourceId=None, TagKeys=None):
     :return: {}
     
     
+    :returns: 
+    (dict) --
+    
     """
     pass
 
 def describe_tags(ResourceId=None):
     """
-    Describes tags for a WorkSpace.
+    Describes the tags for the specified WorkSpace.
     See also: AWS API Documentation
     
     
@@ -226,7 +251,7 @@ def describe_tags(ResourceId=None):
     
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
-            The resource ID of the request.
+            The ID of the resource.
             
 
     :rtype: dict
@@ -245,9 +270,8 @@ def describe_tags(ResourceId=None):
 
 def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
     """
-    Obtains information about the WorkSpace bundles that are available to your account in the specified region.
-    You can filter the results with either the BundleIds parameter, or the Owner parameter, but not both.
-    This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    Describes the available WorkSpace bundles.
+    You can filter the results using either bundle ID or owner, but not both.
     See also: AWS API Documentation
     
     
@@ -261,19 +285,17 @@ def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
     
     
     :type BundleIds: list
-    :param BundleIds: An array of strings that contains the identifiers of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
+    :param BundleIds: The IDs of the bundles. This parameter cannot be combined with any other filter.
             (string) --
             
 
     :type Owner: string
-    :param Owner: The owner of the bundles to retrieve. This parameter cannot be combined with any other filter parameter.
-            This contains one of the following values:
-            null- Retrieves the bundles that belong to the account making the call.
-            AMAZON - Retrieves the bundles that are provided by AWS.
+    :param Owner: The owner of the bundles. This parameter cannot be combined with any other filter.
+            Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
             
 
     :type NextToken: string
-    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :param NextToken: The token for the next set of results. (You received this token from a previous call.)
 
     :rtype: dict
     :return: {
@@ -283,11 +305,14 @@ def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
                 'Name': 'string',
                 'Owner': 'string',
                 'Description': 'string',
+                'RootStorage': {
+                    'Capacity': 'string'
+                },
                 'UserStorage': {
                     'Capacity': 'string'
                 },
                 'ComputeType': {
-                    'Name': 'VALUE'|'STANDARD'|'PERFORMANCE'
+                    'Name': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
                 }
             },
         ],
@@ -300,8 +325,7 @@ def describe_workspace_bundles(BundleIds=None, Owner=None, NextToken=None):
 
 def describe_workspace_directories(DirectoryIds=None, NextToken=None):
     """
-    Retrieves information about the AWS Directory Service directories in the region that are registered with Amazon WorkSpaces and are available to your account.
-    This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    Describes the available AWS Directory Service directories that are registered with Amazon WorkSpaces.
     See also: AWS API Documentation
     
     
@@ -314,12 +338,12 @@ def describe_workspace_directories(DirectoryIds=None, NextToken=None):
     
     
     :type DirectoryIds: list
-    :param DirectoryIds: An array of strings that contains the directory identifiers to retrieve information for. If this member is null, all directories are retrieved.
+    :param DirectoryIds: The identifiers of the directories. If the value is null, all directories are retrieved.
             (string) --
             
 
     :type NextToken: string
-    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :param NextToken: The token for the next set of results. (You received this token from a previous call.)
 
     :rtype: dict
     :return: {
@@ -361,9 +385,8 @@ def describe_workspace_directories(DirectoryIds=None, NextToken=None):
 
 def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, BundleId=None, Limit=None, NextToken=None):
     """
-    Obtains information about the specified WorkSpaces.
-    Only one of the filter parameters, such as BundleId , DirectoryId , or WorkspaceIds , can be specified at a time.
-    This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the NextToken response member contains a token that you pass in the next call to this operation to retrieve the next set of items.
+    Describes the specified WorkSpaces.
+    You can filter the results using bundle ID, directory ID, or owner, but you can specify only one filter at a time.
     See also: AWS API Documentation
     
     
@@ -380,25 +403,25 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
     
     
     :type WorkspaceIds: list
-    :param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces for which to retrieve information. This parameter cannot be combined with any other filter parameter.
+    :param WorkspaceIds: The IDs of the WorkSpaces. This parameter cannot be combined with any other filter.
             Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
             (string) --
             
 
     :type DirectoryId: string
-    :param DirectoryId: Specifies the directory identifier to which to limit the WorkSpaces. Optionally, you can specify a specific directory user with the UserName parameter. This parameter cannot be combined with any other filter parameter.
+    :param DirectoryId: The ID of the directory. In addition, you can optionally specify a specific directory user (see UserName ). This parameter cannot be combined with any other filter.
 
     :type UserName: string
-    :param UserName: Used with the DirectoryId parameter to specify the directory user for whom to obtain the WorkSpace.
+    :param UserName: The name of the directory user. You must specify this parameter with DirectoryId .
 
     :type BundleId: string
-    :param BundleId: The identifier of a bundle to obtain the WorkSpaces for. All WorkSpaces that are created from this bundle will be retrieved. This parameter cannot be combined with any other filter parameter.
+    :param BundleId: The ID of the bundle. All WorkSpaces that are created from this bundle are retrieved. This parameter cannot be combined with any other filter.
 
     :type Limit: integer
     :param Limit: The maximum number of items to return.
 
     :type NextToken: string
-    :param NextToken: The NextToken value from a previous call to this operation. Pass null if this is the first call.
+    :param NextToken: The token for the next set of results. (You received this token from a previous call.)
 
     :rtype: dict
     :return: {
@@ -408,7 +431,7 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
                 'DirectoryId': 'string',
                 'UserName': 'string',
                 'IpAddress': 'string',
-                'State': 'PENDING'|'AVAILABLE'|'IMPAIRED'|'UNHEALTHY'|'REBOOTING'|'STARTING'|'REBUILDING'|'MAINTENANCE'|'TERMINATING'|'TERMINATED'|'SUSPENDED'|'STOPPING'|'STOPPED'|'ERROR',
+                'State': 'PENDING'|'AVAILABLE'|'IMPAIRED'|'UNHEALTHY'|'REBOOTING'|'STARTING'|'REBUILDING'|'MAINTENANCE'|'TERMINATING'|'TERMINATED'|'SUSPENDED'|'UPDATING'|'STOPPING'|'STOPPED'|'ERROR',
                 'BundleId': 'string',
                 'SubnetId': 'string',
                 'ErrorMessage': 'string',
@@ -419,8 +442,17 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
                 'RootVolumeEncryptionEnabled': True|False,
                 'WorkspaceProperties': {
                     'RunningMode': 'AUTO_STOP'|'ALWAYS_ON',
-                    'RunningModeAutoStopTimeoutInMinutes': 123
-                }
+                    'RunningModeAutoStopTimeoutInMinutes': 123,
+                    'RootVolumeSizeGib': 123,
+                    'UserVolumeSizeGib': 123,
+                    'ComputeTypeName': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
+                },
+                'ModificationStates': [
+                    {
+                        'Resource': 'ROOT_VOLUME'|'USER_VOLUME'|'COMPUTE_TYPE',
+                        'State': 'UPDATE_INITIATED'|'UPDATE_IN_PROGRESS'
+                    },
+                ]
             },
         ],
         'NextToken': 'string'
@@ -432,7 +464,7 @@ def describe_workspaces(WorkspaceIds=None, DirectoryId=None, UserName=None, Bund
 
 def describe_workspaces_connection_status(WorkspaceIds=None, NextToken=None):
     """
-    Describes the connection status of a specified WorkSpace.
+    Describes the connection status of the specified WorkSpaces.
     See also: AWS API Documentation
     
     
@@ -445,12 +477,12 @@ def describe_workspaces_connection_status(WorkspaceIds=None, NextToken=None):
     
     
     :type WorkspaceIds: list
-    :param WorkspaceIds: An array of strings that contain the identifiers of the WorkSpaces.
+    :param WorkspaceIds: The identifiers of the WorkSpaces.
             (string) --
             
 
     :type NextToken: string
-    :param NextToken: The next token of the request.
+    :param NextToken: The token for the next set of results. (You received this token from a previous call.)
 
     :rtype: dict
     :return: {
@@ -515,7 +547,7 @@ def get_waiter():
 
 def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
     """
-    Modifies the WorkSpace properties, including the running mode and AutoStop time.
+    Modifies the specified WorkSpace properties.
     See also: AWS API Documentation
     
     
@@ -523,7 +555,10 @@ def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
         WorkspaceId='string',
         WorkspaceProperties={
             'RunningMode': 'AUTO_STOP'|'ALWAYS_ON',
-            'RunningModeAutoStopTimeoutInMinutes': 123
+            'RunningModeAutoStopTimeoutInMinutes': 123,
+            'RootVolumeSizeGib': 123,
+            'UserVolumeSizeGib': 123,
+            'ComputeTypeName': 'VALUE'|'STANDARD'|'PERFORMANCE'|'POWER'|'GRAPHICS'
         }
     )
     
@@ -535,9 +570,12 @@ def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
 
     :type WorkspaceProperties: dict
     :param WorkspaceProperties: [REQUIRED]
-            The WorkSpace properties of the request.
-            RunningMode (string) --The running mode of the WorkSpace. AlwaysOn WorkSpaces are billed monthly. AutoStop WorkSpaces are billed by the hour and stopped when no longer being used in order to save on costs.
+            The properties of the WorkSpace.
+            RunningMode (string) --The running mode. For more information, see Manage the WorkSpace Running Mode .
             RunningModeAutoStopTimeoutInMinutes (integer) --The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60 minute intervals.
+            RootVolumeSizeGib (integer) --The size of the root volume.
+            UserVolumeSizeGib (integer) --The size of the user storage.
+            ComputeTypeName (string) --The compute type. For more information, see Amazon WorkSpaces Bundles .
             
 
     :rtype: dict
@@ -553,7 +591,8 @@ def modify_workspace_properties(WorkspaceId=None, WorkspaceProperties=None):
 def reboot_workspaces(RebootWorkspaceRequests=None):
     """
     Reboots the specified WorkSpaces.
-    To be able to reboot a WorkSpace, the WorkSpace must have a State of AVAILABLE , IMPAIRED , or INOPERABLE .
+    You cannot reboot a WorkSpace unless its state is AVAILABLE , IMPAIRED , or INOPERABLE .
+    This operation is asynchronous and returns before the WorkSpaces have rebooted.
     See also: AWS API Documentation
     
     
@@ -568,9 +607,9 @@ def reboot_workspaces(RebootWorkspaceRequests=None):
     
     :type RebootWorkspaceRequests: list
     :param RebootWorkspaceRequests: [REQUIRED]
-            An array of structures that specify the WorkSpaces to reboot.
-            (dict) --Contains information used with the RebootWorkspaces operation to reboot a WorkSpace.
-            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to reboot.
+            The WorkSpaces to reboot.
+            (dict) --Information used to reboot a WorkSpace.
+            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace.
             
             
 
@@ -592,8 +631,9 @@ def reboot_workspaces(RebootWorkspaceRequests=None):
 def rebuild_workspaces(RebuildWorkspaceRequests=None):
     """
     Rebuilds the specified WorkSpaces.
-    Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. Rebuilding a WorkSpace causes the following to occur:
-    To be able to rebuild a WorkSpace, the WorkSpace must have a State of AVAILABLE or ERROR .
+    You cannot rebuild a WorkSpace unless its state is AVAILABLE or ERROR .
+    Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see Rebuild a WorkSpace .
+    This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     See also: AWS API Documentation
     
     
@@ -608,9 +648,9 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None):
     
     :type RebuildWorkspaceRequests: list
     :param RebuildWorkspaceRequests: [REQUIRED]
-            An array of structures that specify the WorkSpaces to rebuild.
-            (dict) --Contains information used with the RebuildWorkspaces operation to rebuild a WorkSpace.
-            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to rebuild.
+            The WorkSpaces to rebuild.
+            (dict) --Information used to rebuild a WorkSpace.
+            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace.
             
             
 
@@ -631,7 +671,8 @@ def rebuild_workspaces(RebuildWorkspaceRequests=None):
 
 def start_workspaces(StartWorkspaceRequests=None):
     """
-    Starts the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of STOPPED.
+    Starts the specified WorkSpaces.
+    You cannot start a WorkSpace unless it has a running mode of AutoStop and a state of STOPPED .
     See also: AWS API Documentation
     
     
@@ -646,8 +687,8 @@ def start_workspaces(StartWorkspaceRequests=None):
     
     :type StartWorkspaceRequests: list
     :param StartWorkspaceRequests: [REQUIRED]
-            The requests.
-            (dict) --Describes the start request.
+            The WorkSpaces to start.
+            (dict) --Information used to start a WorkSpace.
             WorkspaceId (string) --The ID of the WorkSpace.
             
             
@@ -669,7 +710,8 @@ def start_workspaces(StartWorkspaceRequests=None):
 
 def stop_workspaces(StopWorkspaceRequests=None):
     """
-    Stops the specified WorkSpaces. The WorkSpaces must have a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+    Stops the specified WorkSpaces.
+    You cannot stop a WorkSpace unless it has a running mode of AutoStop and a state of AVAILABLE , IMPAIRED , UNHEALTHY , or ERROR .
     See also: AWS API Documentation
     
     
@@ -684,8 +726,8 @@ def stop_workspaces(StopWorkspaceRequests=None):
     
     :type StopWorkspaceRequests: list
     :param StopWorkspaceRequests: [REQUIRED]
-            The requests.
-            (dict) --Describes the stop request.
+            The WorkSpaces to stop.
+            (dict) --Information used to stop a WorkSpace.
             WorkspaceId (string) --The ID of the WorkSpace.
             
             
@@ -708,8 +750,9 @@ def stop_workspaces(StopWorkspaceRequests=None):
 def terminate_workspaces(TerminateWorkspaceRequests=None):
     """
     Terminates the specified WorkSpaces.
-    Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is not maintained and will be destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace.
+    Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace.
     You can terminate a WorkSpace that is in any state except SUSPENDED .
+    This operation is asynchronous and returns before the WorkSpaces have been completely terminated.
     See also: AWS API Documentation
     
     
@@ -724,9 +767,9 @@ def terminate_workspaces(TerminateWorkspaceRequests=None):
     
     :type TerminateWorkspaceRequests: list
     :param TerminateWorkspaceRequests: [REQUIRED]
-            An array of structures that specify the WorkSpaces to terminate.
-            (dict) --Contains information used with the TerminateWorkspaces operation to terminate a WorkSpace.
-            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace to terminate.
+            The WorkSpaces to terminate.
+            (dict) --Information used to terminate a WorkSpace.
+            WorkspaceId (string) -- [REQUIRED]The identifier of the WorkSpace.
             
             
 

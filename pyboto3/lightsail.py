@@ -46,16 +46,176 @@ def allocate_static_ip(staticIpName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def attach_disk(diskName=None, instanceName=None, diskPath=None):
+    """
+    Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.attach_disk(
+        diskName='string',
+        instanceName='string',
+        diskPath='string'
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique Lightsail disk name (e.g., my-disk ).
+            
+
+    :type instanceName: string
+    :param instanceName: [REQUIRED]
+            The name of the Lightsail instance where you want to utilize the storage disk.
+            
+
+    :type diskPath: string
+    :param diskPath: [REQUIRED]
+            The disk path to expose to the instance (e.g., /dev/xvdf ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def attach_instances_to_load_balancer(loadBalancerName=None, instanceNames=None):
+    """
+    Attaches one or more Lightsail instances to a load balancer.
+    After some time, the instances are attached to the load balancer and the health check status is available.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.attach_instances_to_load_balancer(
+        loadBalancerName='string',
+        instanceNames=[
+            'string',
+        ]
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer.
+            
+
+    :type instanceNames: list
+    :param instanceNames: [REQUIRED]
+            An array of strings representing the instance name(s) you want to attach to your load balancer.
+            An instance must be running before you can attach it to your load balancer.
+            There are no additional limits on the number of instances you can attach to your load balancer, aside from the limit of Lightsail instances you can create in your account (20).
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def attach_load_balancer_tls_certificate(loadBalancerName=None, certificateName=None):
+    """
+    Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+    Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached certificate, and it will replace the existing one and become the attached certificate.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.attach_load_balancer_tls_certificate(
+        loadBalancerName='string',
+        certificateName='string'
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer to which you want to associate the SSL/TLS certificate.
+            
+
+    :type certificateName: string
+    :param certificateName: [REQUIRED]
+            The name of your SSL/TLS certificate.
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -95,16 +255,16 @@ def attach_static_ip(staticIpName=None, instanceName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -165,20 +325,188 @@ def close_instance_public_ports(portInfo=None, instanceName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
         }
+    }
+    
+    
+    """
+    pass
+
+def create_disk(diskName=None, availabilityZone=None, sizeInGb=None):
+    """
+    Creates a block storage disk that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a ). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_disk(
+        diskName='string',
+        availabilityZone='string',
+        sizeInGb=123
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique Lightsail disk name (e.g., my-disk ).
+            
+
+    :type availabilityZone: string
+    :param availabilityZone: [REQUIRED]
+            The Availability Zone where you want to create the disk (e.g., us-east-2a ). Choose the same Availability Zone as the Lightsail instance where you want to create the disk.
+            Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+            
+
+    :type sizeInGb: integer
+    :param sizeInGb: [REQUIRED]
+            The size of the disk in GB (e.g., 32 ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def create_disk_from_snapshot(diskName=None, diskSnapshotName=None, availabilityZone=None, sizeInGb=None):
+    """
+    Creates a block storage disk from a disk snapshot that can be attached to a Lightsail instance in the same Availability Zone (e.g., us-east-2a ). The disk is created in the regional endpoint that you send the HTTP request to. For more information, see Regions and Availability Zones in Lightsail .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_disk_from_snapshot(
+        diskName='string',
+        diskSnapshotName='string',
+        availabilityZone='string',
+        sizeInGb=123
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique Lightsail disk name (e.g., my-disk ).
+            
+
+    :type diskSnapshotName: string
+    :param diskSnapshotName: [REQUIRED]
+            The name of the disk snapshot (e.g., my-snapshot ) from which to create the new storage disk.
+            
+
+    :type availabilityZone: string
+    :param availabilityZone: [REQUIRED]
+            The Availability Zone where you want to create the disk (e.g., us-east-2a ). Choose the same Availability Zone as the Lightsail instance where you want to create the disk.
+            Use the GetRegions operation to list the Availability Zones where Lightsail is currently available.
+            
+
+    :type sizeInGb: integer
+    :param sizeInGb: [REQUIRED]
+            The size of the disk in GB (e.g., 32 ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def create_disk_snapshot(diskName=None, diskSnapshotName=None):
+    """
+    Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance.
+    You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_disk_snapshot(
+        diskName='string',
+        diskSnapshotName='string'
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique name of the source disk (e.g., my-source-disk ).
+            
+
+    :type diskSnapshotName: string
+    :param diskSnapshotName: [REQUIRED]
+            The name of the destination disk snapshot (e.g., my-disk-snapshot ) based on the source disk.
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
     }
     
     
@@ -208,16 +536,16 @@ def create_domain(domainName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -240,6 +568,7 @@ def create_domain_entry(domainName=None, domainEntry=None):
             'id': 'string',
             'name': 'string',
             'target': 'string',
+            'isAlias': True|False,
             'type': 'string',
             'options': {
                 'string': 'string'
@@ -259,8 +588,12 @@ def create_domain_entry(domainName=None, domainEntry=None):
             id (string) --The ID of the domain recordset entry.
             name (string) --The name of the domain.
             target (string) --The target AWS name server (e.g., ns-111.awsdns-22.com. ).
+            For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com . Be sure to also set isAlias to true when setting up an A record for a load balancer.
+            isAlias (boolean) --When true , specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
             type (string) --The type of domain entry (e.g., SOA or NS ).
-            options (dict) --The options for the domain entry.
+            options (dict) --(Deprecated) The options for the domain entry.
+            Note
+            In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated.
             (string) --
             (string) --
             
@@ -271,16 +604,16 @@ def create_domain_entry(domainName=None, domainEntry=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -319,16 +652,16 @@ def create_instance_snapshot(instanceSnapshotName=None, instanceName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -367,11 +700,14 @@ def create_instances(instanceNames=None, availabilityZone=None, customImageName=
 
     :type availabilityZone: string
     :param availabilityZone: [REQUIRED]
-            The Availability Zone in which to create your instance. Use the following format: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
+            The Availability Zone in which to create your instance. Use the following format: us-east-2a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
             
 
     :type customImageName: string
-    :param customImageName: The name for your custom image.
+    :param customImageName: (Deprecated) The name for your custom image.
+            Note
+            In releases prior to June 12, 2017, this parameter was ignored by the API. It is now deprecated.
+            
 
     :type blueprintId: string
     :param blueprintId: [REQUIRED]
@@ -384,7 +720,7 @@ def create_instances(instanceNames=None, availabilityZone=None, customImageName=
             
 
     :type userData: string
-    :param userData: A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get  y update .
+    :param userData: A launch script you can create that configures a server with additional user data. For example, you might want to run apt-get -y update .
             Note
             Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Dev Guide .
             
@@ -398,16 +734,16 @@ def create_instances(instanceNames=None, availabilityZone=None, customImageName=
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -419,7 +755,7 @@ def create_instances(instanceNames=None, availabilityZone=None, customImageName=
     """
     pass
 
-def create_instances_from_snapshot(instanceNames=None, availabilityZone=None, instanceSnapshotName=None, bundleId=None, userData=None, keyPairName=None):
+def create_instances_from_snapshot(instanceNames=None, attachedDiskMapping=None, availabilityZone=None, instanceSnapshotName=None, bundleId=None, userData=None, keyPairName=None):
     """
     Uses a specific snapshot as a blueprint for creating one or more new instances that are based on that identical configuration.
     See also: AWS API Documentation
@@ -429,6 +765,14 @@ def create_instances_from_snapshot(instanceNames=None, availabilityZone=None, in
         instanceNames=[
             'string',
         ],
+        attachedDiskMapping={
+            'string': [
+                {
+                    'originalDiskPath': 'string',
+                    'newDiskName': 'string'
+                },
+            ]
+        },
         availabilityZone='string',
         instanceSnapshotName='string',
         bundleId='string',
@@ -443,9 +787,20 @@ def create_instances_from_snapshot(instanceNames=None, availabilityZone=None, in
             (string) --
             
 
+    :type attachedDiskMapping: dict
+    :param attachedDiskMapping: An object containing information about one or more disk mappings.
+            (string) --
+            (list) --
+            (dict) --Describes a block storage disk mapping.
+            originalDiskPath (string) --The original disk path exposed to the instance (for example, /dev/sdh ).
+            newDiskName (string) --The new disk name (e.g., my-new-disk ).
+            
+            
+            
+
     :type availabilityZone: string
     :param availabilityZone: [REQUIRED]
-            The Availability Zone where you want to create your instances. Use the following formatting: us-east-1a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
+            The Availability Zone where you want to create your instances. Use the following formatting: us-east-2a (case sensitive). You can get a list of availability zones by using the get regions operation. Be sure to add the include availability zones parameter to your request.
             
 
     :type instanceSnapshotName: string
@@ -459,7 +814,7 @@ def create_instances_from_snapshot(instanceNames=None, availabilityZone=None, in
             
 
     :type userData: string
-    :param userData: You can create a launch script that configures a server with additional user data. For example, apt-get  y update .
+    :param userData: You can create a launch script that configures a server with additional user data. For example, apt-get -y update .
             Note
             Depending on the machine image you choose, the command to get software on your instance varies. Amazon Linux and CentOS use yum , Debian and Ubuntu use apt-get , and FreeBSD uses pkg . For a complete list, see the Dev Guide .
             
@@ -473,16 +828,16 @@ def create_instances_from_snapshot(instanceNames=None, availabilityZone=None, in
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -519,9 +874,9 @@ def create_key_pair(keyPairName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'fingerprint': 'string'
         },
         'publicKeyBase64': 'string',
@@ -529,20 +884,248 @@ def create_key_pair(keyPairName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
         }
+    }
+    
+    
+    """
+    pass
+
+def create_load_balancer(loadBalancerName=None, instancePort=None, healthCheckPath=None, certificateName=None, certificateDomainName=None, certificateAlternativeNames=None):
+    """
+    Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see Configure your Lightsail instances for load balancing . You can create up to 5 load balancers per AWS Region in your account.
+    When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_load_balancer(
+        loadBalancerName='string',
+        instancePort=123,
+        healthCheckPath='string',
+        certificateName='string',
+        certificateDomainName='string',
+        certificateAlternativeNames=[
+            'string',
+        ]
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of your load balancer.
+            
+
+    :type instancePort: integer
+    :param instancePort: [REQUIRED]
+            The instance port where you're creating your load balancer.
+            
+
+    :type healthCheckPath: string
+    :param healthCheckPath: The path you provided to perform the load balancer health check. If you didn't specify a health check path, Lightsail uses the root path of your website (e.g., '/' ).
+            You may want to specify a custom health check path other than the root of your application if your home page loads slowly or has a lot of media or scripting on it.
+            
+
+    :type certificateName: string
+    :param certificateName: The name of the SSL/TLS certificate.
+            If you specify certificateName , then certificateDomainName is required (and vice-versa).
+            
+
+    :type certificateDomainName: string
+    :param certificateDomainName: The domain name with which your certificate is associated (e.g., example.com ).
+            If you specify certificateDomainName , then certificateName is required (and vice-versa).
+            
+
+    :type certificateAlternativeNames: list
+    :param certificateAlternativeNames: The optional alternative domains and subdomains to use with your SSL/TLS certificate (e.g., www.example.com , example.com , m.example.com , blog.example.com ).
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def create_load_balancer_tls_certificate(loadBalancerName=None, certificateName=None, certificateDomainName=None, certificateAlternativeNames=None):
+    """
+    Creates a Lightsail load balancer TLS certificate.
+    TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_load_balancer_tls_certificate(
+        loadBalancerName='string',
+        certificateName='string',
+        certificateDomainName='string',
+        certificateAlternativeNames=[
+            'string',
+        ]
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The load balancer name where you want to create the SSL/TLS certificate.
+            
+
+    :type certificateName: string
+    :param certificateName: [REQUIRED]
+            The SSL/TLS certificate name.
+            You can have up to 10 certificates in your account at one time. Each Lightsail load balancer can have up to 2 certificates associated with it at one time. There is also an overall limit to the number of certificates that can be issue in a 365-day period. For more information, see Limits .
+            
+
+    :type certificateDomainName: string
+    :param certificateDomainName: [REQUIRED]
+            The domain name (e.g., example.com ) for your SSL/TLS certificate.
+            
+
+    :type certificateAlternativeNames: list
+    :param certificateAlternativeNames: An array of strings listing alternative domains and subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not support wildcards (e.g., *.example.com ).
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def delete_disk(diskName=None):
+    """
+    Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_disk(
+        diskName='string'
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique name of the disk you want to delete (e.g., my-disk ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def delete_disk_snapshot(diskSnapshotName=None):
+    """
+    Deletes the specified disk snapshot.
+    When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_disk_snapshot(
+        diskSnapshotName='string'
+    )
+    
+    
+    :type diskSnapshotName: string
+    :param diskSnapshotName: [REQUIRED]
+            The name of the disk snapshot you want to delete (e.g., my-disk-snapshot ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
     }
     
     
@@ -570,16 +1153,16 @@ def delete_domain(domainName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -602,6 +1185,7 @@ def delete_domain_entry(domainName=None, domainEntry=None):
             'id': 'string',
             'name': 'string',
             'target': 'string',
+            'isAlias': True|False,
             'type': 'string',
             'options': {
                 'string': 'string'
@@ -621,8 +1205,12 @@ def delete_domain_entry(domainName=None, domainEntry=None):
             id (string) --The ID of the domain recordset entry.
             name (string) --The name of the domain.
             target (string) --The target AWS name server (e.g., ns-111.awsdns-22.com. ).
+            For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com . Be sure to also set isAlias to true when setting up an A record for a load balancer.
+            isAlias (boolean) --When true , specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
             type (string) --The type of domain entry (e.g., SOA or NS ).
-            options (dict) --The options for the domain entry.
+            options (dict) --(Deprecated) The options for the domain entry.
+            Note
+            In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated.
             (string) --
             (string) --
             
@@ -633,16 +1221,16 @@ def delete_domain_entry(domainName=None, domainEntry=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -675,16 +1263,16 @@ def delete_instance(instanceName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -718,16 +1306,16 @@ def delete_instance_snapshot(instanceSnapshotName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -760,20 +1348,214 @@ def delete_key_pair(keyPairName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
         }
+    }
+    
+    
+    """
+    pass
+
+def delete_load_balancer(loadBalancerName=None):
+    """
+    Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_load_balancer(
+        loadBalancerName='string'
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer you want to delete.
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def delete_load_balancer_tls_certificate(loadBalancerName=None, certificateName=None, force=None):
+    """
+    Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_load_balancer_tls_certificate(
+        loadBalancerName='string',
+        certificateName='string',
+        force=True|False
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The load balancer name.
+            
+
+    :type certificateName: string
+    :param certificateName: [REQUIRED]
+            The SSL/TLS certificate name.
+            
+
+    :type force: boolean
+    :param force: When true , forces the deletion of an SSL/TLS certificate.
+            There can be two certificates associated with a Lightsail load balancer: the primary and the backup. The force parameter is required when the primary SSL/TLS certificate is in use by an instance attached to the load balancer.
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def detach_disk(diskName=None):
+    """
+    Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.detach_disk(
+        diskName='string'
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The unique name of the disk you want to detach from your instance (e.g., my-disk ).
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def detach_instances_from_load_balancer(loadBalancerName=None, instanceNames=None):
+    """
+    Detaches the specified instances from a Lightsail load balancer.
+    This operation waits until the instances are no longer needed before they are detached from the load balancer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.detach_instances_from_load_balancer(
+        loadBalancerName='string',
+        instanceNames=[
+            'string',
+        ]
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the Lightsail load balancer.
+            
+
+    :type instanceNames: list
+    :param instanceNames: [REQUIRED]
+            An array of strings containing the names of the instances you want to detach from the load balancer.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
     }
     
     
@@ -802,16 +1584,16 @@ def detach_static_ip(staticIpName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -922,7 +1704,8 @@ def get_blueprints(includeInactive=None, pageToken=None):
                 'version': 'string',
                 'versionCode': 'string',
                 'productUrl': 'string',
-                'licenseUrl': 'string'
+                'licenseUrl': 'string',
+                'platform': 'LINUX_UNIX'|'WINDOWS'
             },
         ],
         'nextPageToken': 'string'
@@ -963,7 +1746,185 @@ def get_bundles(includeInactive=None, pageToken=None):
                 'name': 'string',
                 'power': 123,
                 'ramSizeInGb': ...,
-                'transferPerMonthInGb': 123
+                'transferPerMonthInGb': 123,
+                'supportedPlatforms': [
+                    'LINUX_UNIX'|'WINDOWS',
+                ]
+            },
+        ],
+        'nextPageToken': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def get_disk(diskName=None):
+    """
+    Returns information about a specific block storage disk.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_disk(
+        diskName='string'
+    )
+    
+    
+    :type diskName: string
+    :param diskName: [REQUIRED]
+            The name of the disk (e.g., my-disk ).
+            
+
+    :rtype: dict
+    :return: {
+        'disk': {
+            'name': 'string',
+            'arn': 'string',
+            'supportCode': 'string',
+            'createdAt': datetime(2015, 1, 1),
+            'location': {
+                'availabilityZone': 'string',
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+            },
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+            'sizeInGb': 123,
+            'isSystemDisk': True|False,
+            'iops': 123,
+            'path': 'string',
+            'state': 'pending'|'error'|'available'|'in-use'|'unknown',
+            'attachedTo': 'string',
+            'isAttached': True|False,
+            'attachmentState': 'string',
+            'gbInUse': 123
+        }
+    }
+    
+    
+    """
+    pass
+
+def get_disk_snapshot(diskSnapshotName=None):
+    """
+    Returns information about a specific block storage disk snapshot.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_disk_snapshot(
+        diskSnapshotName='string'
+    )
+    
+    
+    :type diskSnapshotName: string
+    :param diskSnapshotName: [REQUIRED]
+            The name of the disk snapshot (e.g., my-disk-snapshot ).
+            
+
+    :rtype: dict
+    :return: {
+        'diskSnapshot': {
+            'name': 'string',
+            'arn': 'string',
+            'supportCode': 'string',
+            'createdAt': datetime(2015, 1, 1),
+            'location': {
+                'availabilityZone': 'string',
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+            },
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+            'sizeInGb': 123,
+            'state': 'pending'|'completed'|'error'|'unknown',
+            'progress': 'string',
+            'fromDiskName': 'string',
+            'fromDiskArn': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
+def get_disk_snapshots(pageToken=None):
+    """
+    Returns information about all block storage disk snapshots in your AWS account and region.
+    If you are describing a long list of disk snapshots, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_disk_snapshots(
+        pageToken='string'
+    )
+    
+    
+    :type pageToken: string
+    :param pageToken: A token used for advancing to the next page of results from your GetDiskSnapshots request.
+
+    :rtype: dict
+    :return: {
+        'diskSnapshots': [
+            {
+                'name': 'string',
+                'arn': 'string',
+                'supportCode': 'string',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'sizeInGb': 123,
+                'state': 'pending'|'completed'|'error'|'unknown',
+                'progress': 'string',
+                'fromDiskName': 'string',
+                'fromDiskArn': 'string'
+            },
+        ],
+        'nextPageToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_disks(pageToken=None):
+    """
+    Returns information about all block storage disks in your AWS account and region.
+    If you are describing a long list of disks, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_disks(
+        pageToken='string'
+    )
+    
+    
+    :type pageToken: string
+    :param pageToken: A token used for advancing to the next page of results from your GetDisks request.
+
+    :rtype: dict
+    :return: {
+        'disks': [
+            {
+                'name': 'string',
+                'arn': 'string',
+                'supportCode': 'string',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'sizeInGb': 123,
+                'isSystemDisk': True|False,
+                'iops': 123,
+                'path': 'string',
+                'state': 'pending'|'error'|'available'|'in-use'|'unknown',
+                'attachedTo': 'string',
+                'isAttached': True|False,
+                'attachmentState': 'string',
+                'gbInUse': 123
             },
         ],
         'nextPageToken': 'string'
@@ -998,14 +1959,15 @@ def get_domain(domainName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'domainEntries': [
                 {
                     'id': 'string',
                     'name': 'string',
                     'target': 'string',
+                    'isAlias': True|False,
                     'type': 'string',
                     'options': {
                         'string': 'string'
@@ -1043,14 +2005,15 @@ def get_domains(pageToken=None):
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'domainEntries': [
                     {
                         'id': 'string',
                         'name': 'string',
                         'target': 'string',
+                        'isAlias': True|False,
                         'type': 'string',
                         'options': {
                             'string': 'string'
@@ -1091,9 +2054,9 @@ def get_instance(instanceName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'blueprintId': 'string',
             'blueprintName': 'string',
             'bundleId': 'string',
@@ -1111,17 +2074,18 @@ def get_instance(instanceName=None):
                         'createdAt': datetime(2015, 1, 1),
                         'location': {
                             'availabilityZone': 'string',
-                            'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                            'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                         },
-                        'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                        'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                         'sizeInGb': 123,
-                        'gbInUse': 123,
                         'isSystemDisk': True|False,
                         'iops': 123,
                         'path': 'string',
+                        'state': 'pending'|'error'|'available'|'in-use'|'unknown',
                         'attachedTo': 'string',
                         'isAttached': True|False,
-                        'attachmentState': 'string'
+                        'attachmentState': 'string',
+                        'gbInUse': 123
                     },
                 ],
                 'ramSizeInGb': ...
@@ -1182,6 +2146,10 @@ def get_instance_access_details(instanceName=None, protocol=None):
             'expiresAt': datetime(2015, 1, 1),
             'ipAddress': 'string',
             'password': 'string',
+            'passwordData': {
+                'ciphertext': 'string',
+                'keyPairName': 'string'
+            },
             'privateKey': 'string',
             'protocol': 'ssh'|'rdp',
             'instanceName': 'string',
@@ -1325,11 +2293,33 @@ def get_instance_snapshot(instanceSnapshotName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'state': 'pending'|'error'|'available',
             'progress': 'string',
+            'fromAttachedDisks': [
+                {
+                    'name': 'string',
+                    'arn': 'string',
+                    'supportCode': 'string',
+                    'createdAt': datetime(2015, 1, 1),
+                    'location': {
+                        'availabilityZone': 'string',
+                        'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    },
+                    'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                    'sizeInGb': 123,
+                    'isSystemDisk': True|False,
+                    'iops': 123,
+                    'path': 'string',
+                    'state': 'pending'|'error'|'available'|'in-use'|'unknown',
+                    'attachedTo': 'string',
+                    'isAttached': True|False,
+                    'attachmentState': 'string',
+                    'gbInUse': 123
+                },
+            ],
             'fromInstanceName': 'string',
             'fromInstanceArn': 'string',
             'fromBlueprintId': 'string',
@@ -1366,11 +2356,33 @@ def get_instance_snapshots(pageToken=None):
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'state': 'pending'|'error'|'available',
                 'progress': 'string',
+                'fromAttachedDisks': [
+                    {
+                        'name': 'string',
+                        'arn': 'string',
+                        'supportCode': 'string',
+                        'createdAt': datetime(2015, 1, 1),
+                        'location': {
+                            'availabilityZone': 'string',
+                            'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                        },
+                        'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                        'sizeInGb': 123,
+                        'isSystemDisk': True|False,
+                        'iops': 123,
+                        'path': 'string',
+                        'state': 'pending'|'error'|'available'|'in-use'|'unknown',
+                        'attachedTo': 'string',
+                        'isAttached': True|False,
+                        'attachmentState': 'string',
+                        'gbInUse': 123
+                    },
+                ],
                 'fromInstanceName': 'string',
                 'fromInstanceArn': 'string',
                 'fromBlueprintId': 'string',
@@ -1437,9 +2449,9 @@ def get_instances(pageToken=None):
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'blueprintId': 'string',
                 'blueprintName': 'string',
                 'bundleId': 'string',
@@ -1457,17 +2469,18 @@ def get_instances(pageToken=None):
                             'createdAt': datetime(2015, 1, 1),
                             'location': {
                                 'availabilityZone': 'string',
-                                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                             },
-                            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                             'sizeInGb': 123,
-                            'gbInUse': 123,
                             'isSystemDisk': True|False,
                             'iops': 123,
                             'path': 'string',
+                            'state': 'pending'|'error'|'available'|'in-use'|'unknown',
                             'attachedTo': 'string',
                             'isAttached': True|False,
-                            'attachmentState': 'string'
+                            'attachmentState': 'string',
+                            'gbInUse': 123
                         },
                     ],
                     'ramSizeInGb': ...
@@ -1528,9 +2541,9 @@ def get_key_pair(keyPairName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'fingerprint': 'string'
         }
     }
@@ -1563,15 +2576,327 @@ def get_key_pairs(pageToken=None):
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'fingerprint': 'string'
             },
         ],
         'nextPageToken': 'string'
     }
     
+    
+    """
+    pass
+
+def get_load_balancer(loadBalancerName=None):
+    """
+    Returns information about the specified Lightsail load balancer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_load_balancer(
+        loadBalancerName='string'
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer.
+            
+
+    :rtype: dict
+    :return: {
+        'loadBalancer': {
+            'name': 'string',
+            'arn': 'string',
+            'supportCode': 'string',
+            'createdAt': datetime(2015, 1, 1),
+            'location': {
+                'availabilityZone': 'string',
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+            },
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+            'dnsName': 'string',
+            'state': 'active'|'provisioning'|'active_impaired'|'failed'|'unknown',
+            'protocol': 'HTTP_HTTPS'|'HTTP',
+            'publicPorts': [
+                123,
+            ],
+            'healthCheckPath': 'string',
+            'instancePort': 123,
+            'instanceHealthSummary': [
+                {
+                    'instanceName': 'string',
+                    'instanceHealth': 'initial'|'healthy'|'unhealthy'|'unused'|'draining'|'unavailable',
+                    'instanceHealthReason': 'Lb.RegistrationInProgress'|'Lb.InitialHealthChecking'|'Lb.InternalError'|'Instance.ResponseCodeMismatch'|'Instance.Timeout'|'Instance.FailedHealthChecks'|'Instance.NotRegistered'|'Instance.NotInUse'|'Instance.DeregistrationInProgress'|'Instance.InvalidState'|'Instance.IpUnusable'
+                },
+            ],
+            'tlsCertificateSummaries': [
+                {
+                    'name': 'string',
+                    'isAttached': True|False
+                },
+            ],
+            'configurationOptions': {
+                'string': 'string'
+            }
+        }
+    }
+    
+    
+    :returns: 
+    **Lb.RegistrationInProgress ** - The target instance is in the process of being registered with the load balancer.
+    **Lb.InitialHealthChecking ** - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.
+    
+    """
+    pass
+
+def get_load_balancer_metric_data(loadBalancerName=None, metricName=None, period=None, startTime=None, endTime=None, unit=None, statistics=None):
+    """
+    Returns information about health metrics for your Lightsail load balancer.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_load_balancer_metric_data(
+        loadBalancerName='string',
+        metricName='ClientTLSNegotiationErrorCount'|'HealthyHostCount'|'UnhealthyHostCount'|'HTTPCode_LB_4XX_Count'|'HTTPCode_LB_5XX_Count'|'HTTPCode_Instance_2XX_Count'|'HTTPCode_Instance_3XX_Count'|'HTTPCode_Instance_4XX_Count'|'HTTPCode_Instance_5XX_Count'|'InstanceResponseTime'|'RejectedConnectionCount'|'RequestCount',
+        period=123,
+        startTime=datetime(2015, 1, 1),
+        endTime=datetime(2015, 1, 1),
+        unit='Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None',
+        statistics=[
+            'Minimum'|'Maximum'|'Sum'|'Average'|'SampleCount',
+        ]
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer.
+            
+
+    :type metricName: string
+    :param metricName: [REQUIRED]
+            The metric about which you want to return information. Valid values are listed below, along with the most useful statistics to include in your request.
+            **ClientTLSNegotiationErrorCount ** - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols. Statistics : The most useful statistic is Sum .
+            **HealthyHostCount ** - The number of target instances that are considered healthy. Statistics : The most useful statistic are Average , Minimum , and Maximum .
+            **UnhealthyHostCount ** - The number of target instances that are considered unhealthy. Statistics : The most useful statistic are Average , Minimum , and Maximum .
+            **HTTPCode_LB_4XX_Count ** - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            **HTTPCode_LB_5XX_Count ** - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 . Note that Minimum , Maximum , and Average all return 1 .
+            **HTTPCode_Instance_2XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            **HTTPCode_Instance_3XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            **HTTPCode_Instance_4XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            **HTTPCode_Instance_5XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            **InstanceResponseTime ** - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received. Statistics : The most useful statistic is Average .
+            **RejectedConnectionCount ** - The number of connections that were rejected because the load balancer had reached its maximum number of connections. Statistics : The most useful statistic is Sum .
+            **RequestCount ** - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer. Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+            
+
+    :type period: integer
+    :param period: [REQUIRED]
+            The time period duration for your health data request.
+            
+
+    :type startTime: datetime
+    :param startTime: [REQUIRED]
+            The start time of the period.
+            
+
+    :type endTime: datetime
+    :param endTime: [REQUIRED]
+            The end time of the period.
+            
+
+    :type unit: string
+    :param unit: [REQUIRED]
+            The unit for the time period request. Valid values are listed below.
+            
+
+    :type statistics: list
+    :param statistics: [REQUIRED]
+            An array of statistics that you want to request metrics for. Valid values are listed below.
+            **SampleCount ** - The count (number) of data points used for the statistical calculation.
+            **Average ** - The value of Sum / SampleCount during the specified period. By comparing this statistic with the Minimum and Maximum, you can determine the full scope of a metric and how close the average use is to the Minimum and Maximum. This comparison helps you to know when to increase or decrease your resources as needed.
+            **Sum ** - All values submitted for the matching metric added together. This statistic can be useful for determining the total volume of a metric.
+            **Minimum ** - The lowest value observed during the specified period. You can use this value to determine low volumes of activity for your application.
+            **Maximum ** - The highest value observed during the specified period. You can use this value to determine high volumes of activity for your application.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'metricName': 'ClientTLSNegotiationErrorCount'|'HealthyHostCount'|'UnhealthyHostCount'|'HTTPCode_LB_4XX_Count'|'HTTPCode_LB_5XX_Count'|'HTTPCode_Instance_2XX_Count'|'HTTPCode_Instance_3XX_Count'|'HTTPCode_Instance_4XX_Count'|'HTTPCode_Instance_5XX_Count'|'InstanceResponseTime'|'RejectedConnectionCount'|'RequestCount',
+        'metricData': [
+            {
+                'average': 123.0,
+                'maximum': 123.0,
+                'minimum': 123.0,
+                'sampleCount': 123.0,
+                'sum': 123.0,
+                'timestamp': datetime(2015, 1, 1),
+                'unit': 'Seconds'|'Microseconds'|'Milliseconds'|'Bytes'|'Kilobytes'|'Megabytes'|'Gigabytes'|'Terabytes'|'Bits'|'Kilobits'|'Megabits'|'Gigabits'|'Terabits'|'Percent'|'Count'|'Bytes/Second'|'Kilobytes/Second'|'Megabytes/Second'|'Gigabytes/Second'|'Terabytes/Second'|'Bits/Second'|'Kilobits/Second'|'Megabits/Second'|'Gigabits/Second'|'Terabits/Second'|'Count/Second'|'None'
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    **ClientTLSNegotiationErrorCount ** - The number of TLS connections initiated by the client that did not establish a session with the load balancer. Possible causes include a mismatch of ciphers or protocols.  Statistics : The most useful statistic is Sum .
+    **HealthyHostCount ** - The number of target instances that are considered healthy.  Statistics : The most useful statistic are Average , Minimum , and Maximum .
+    **UnhealthyHostCount ** - The number of target instances that are considered unhealthy.  Statistics : The most useful statistic are Average , Minimum , and Maximum .
+    **HTTPCode_LB_4XX_Count ** - The number of HTTP 4XX client error codes that originate from the load balancer. Client errors are generated when requests are malformed or incomplete. These requests have not been received by the target instance. This count does not include any response codes generated by the target instances.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    **HTTPCode_LB_5XX_Count ** - The number of HTTP 5XX server error codes that originate from the load balancer. This count does not include any response codes generated by the target instances.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 . Note that Minimum , Maximum , and Average all return 1 .
+    **HTTPCode_Instance_2XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    **HTTPCode_Instance_3XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.   Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    **HTTPCode_Instance_4XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    **HTTPCode_Instance_5XX_Count ** - The number of HTTP response codes generated by the target instances. This does not include any response codes generated by the load balancer.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    **InstanceResponseTime ** - The time elapsed, in seconds, after the request leaves the load balancer until a response from the target instance is received.  Statistics : The most useful statistic is Average .
+    **RejectedConnectionCount ** - The number of connections that were rejected because the load balancer had reached its maximum number of connections.  Statistics : The most useful statistic is Sum .
+    **RequestCount ** - The number of requests processed over IPv4. This count includes only the requests with a response generated by a target instance of the load balancer.  Statistics : The most useful statistic is Sum . Note that Minimum , Maximum , and Average all return 1 .
+    
+    """
+    pass
+
+def get_load_balancer_tls_certificates(loadBalancerName=None):
+    """
+    Returns information about the TLS certificates that are associated with the specified Lightsail load balancer.
+    TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+    You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_load_balancer_tls_certificates(
+        loadBalancerName='string'
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer you associated with your SSL/TLS certificate.
+            
+
+    :rtype: dict
+    :return: {
+        'tlsCertificates': [
+            {
+                'name': 'string',
+                'arn': 'string',
+                'supportCode': 'string',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'loadBalancerName': 'string',
+                'isAttached': True|False,
+                'status': 'PENDING_VALIDATION'|'ISSUED'|'INACTIVE'|'EXPIRED'|'VALIDATION_TIMED_OUT'|'REVOKED'|'FAILED'|'UNKNOWN',
+                'domainName': 'string',
+                'domainValidationRecords': [
+                    {
+                        'name': 'string',
+                        'type': 'string',
+                        'value': 'string',
+                        'validationStatus': 'PENDING_VALIDATION'|'FAILED'|'SUCCESS',
+                        'domainName': 'string'
+                    },
+                ],
+                'failureReason': 'NO_AVAILABLE_CONTACTS'|'ADDITIONAL_VERIFICATION_REQUIRED'|'DOMAIN_NOT_ALLOWED'|'INVALID_PUBLIC_DOMAIN'|'OTHER',
+                'issuedAt': datetime(2015, 1, 1),
+                'issuer': 'string',
+                'keyAlgorithm': 'string',
+                'notAfter': datetime(2015, 1, 1),
+                'notBefore': datetime(2015, 1, 1),
+                'renewalSummary': {
+                    'renewalStatus': 'PENDING_AUTO_RENEWAL'|'PENDING_VALIDATION'|'SUCCESS'|'FAILED',
+                    'domainValidationOptions': [
+                        {
+                            'domainName': 'string',
+                            'validationStatus': 'PENDING_VALIDATION'|'FAILED'|'SUCCESS'
+                        },
+                    ]
+                },
+                'revocationReason': 'UNSPECIFIED'|'KEY_COMPROMISE'|'CA_COMPROMISE'|'AFFILIATION_CHANGED'|'SUPERCEDED'|'CESSATION_OF_OPERATION'|'CERTIFICATE_HOLD'|'REMOVE_FROM_CRL'|'PRIVILEGE_WITHDRAWN'|'A_A_COMPROMISE',
+                'revokedAt': datetime(2015, 1, 1),
+                'serial': 'string',
+                'signatureAlgorithm': 'string',
+                'subject': 'string',
+                'subjectAlternativeNames': [
+                    'string',
+                ]
+            },
+        ]
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def get_load_balancers(pageToken=None):
+    """
+    Returns information about all load balancers in an account.
+    If you are describing a long list of load balancers, you can paginate the output to make the list more manageable. You can use the pageToken and nextPageToken values to retrieve the next items in the list.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_load_balancers(
+        pageToken='string'
+    )
+    
+    
+    :type pageToken: string
+    :param pageToken: A token used for paginating the results from your GetLoadBalancers request.
+
+    :rtype: dict
+    :return: {
+        'loadBalancers': [
+            {
+                'name': 'string',
+                'arn': 'string',
+                'supportCode': 'string',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'dnsName': 'string',
+                'state': 'active'|'provisioning'|'active_impaired'|'failed'|'unknown',
+                'protocol': 'HTTP_HTTPS'|'HTTP',
+                'publicPorts': [
+                    123,
+                ],
+                'healthCheckPath': 'string',
+                'instancePort': 123,
+                'instanceHealthSummary': [
+                    {
+                        'instanceName': 'string',
+                        'instanceHealth': 'initial'|'healthy'|'unhealthy'|'unused'|'draining'|'unavailable',
+                        'instanceHealthReason': 'Lb.RegistrationInProgress'|'Lb.InitialHealthChecking'|'Lb.InternalError'|'Instance.ResponseCodeMismatch'|'Instance.Timeout'|'Instance.FailedHealthChecks'|'Instance.NotRegistered'|'Instance.NotInUse'|'Instance.DeregistrationInProgress'|'Instance.InvalidState'|'Instance.IpUnusable'
+                    },
+                ],
+                'tlsCertificateSummaries': [
+                    {
+                        'name': 'string',
+                        'isAttached': True|False
+                    },
+                ],
+                'configurationOptions': {
+                    'string': 'string'
+                }
+            },
+        ],
+        'nextPageToken': 'string'
+    }
+    
+    
+    :returns: 
+    **Lb.RegistrationInProgress ** - The target instance is in the process of being registered with the load balancer.
+    **Lb.InitialHealthChecking ** - The Lightsail load balancer is still sending the target instance the minimum number of health checks required to determine its health status.
     
     """
     pass
@@ -1597,16 +2922,16 @@ def get_operation(operationId=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -1638,16 +2963,16 @@ def get_operations(pageToken=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -1686,22 +3011,23 @@ def get_operations_for_resource(resourceName=None, pageToken=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
             },
         ],
-        'nextPageCount': 'string'
+        'nextPageCount': 'string',
+        'nextPageToken': 'string'
     }
     
     
@@ -1736,7 +3062,7 @@ def get_regions(includeAvailabilityZones=None):
     
     
     :type includeAvailabilityZones: boolean
-    :param includeAvailabilityZones: A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-1a .
+    :param includeAvailabilityZones: A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: e.g., us-east-2a .
 
     :rtype: dict
     :return: {
@@ -1745,7 +3071,7 @@ def get_regions(includeAvailabilityZones=None):
                 'continentCode': 'string',
                 'description': 'string',
                 'displayName': 'string',
-                'name': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2',
+                'name': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2',
                 'availabilityZones': [
                     {
                         'zoneName': 'string',
@@ -1785,9 +3111,9 @@ def get_static_ip(staticIpName=None):
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'ipAddress': 'string',
             'attachedTo': 'string',
             'isAttached': True|False
@@ -1822,9 +3148,9 @@ def get_static_ips(pageToken=None):
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'ipAddress': 'string',
                 'attachedTo': 'string',
                 'isAttached': True|False
@@ -1870,16 +3196,16 @@ def import_key_pair(keyPairName=None, publicKeyBase64=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -1942,16 +3268,16 @@ def open_instance_public_ports(portInfo=None, instanceName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -1976,16 +3302,16 @@ def peer_vpc():
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -2034,16 +3360,16 @@ def put_instance_public_ports(portInfos=None, instanceName=None):
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -2076,16 +3402,16 @@ def reboot_instance(instanceName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -2119,16 +3445,16 @@ def release_static_ip(staticIpName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -2162,16 +3488,16 @@ def start_instance(instanceName=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -2183,14 +3509,15 @@ def start_instance(instanceName=None):
     """
     pass
 
-def stop_instance(instanceName=None):
+def stop_instance(instanceName=None, force=None):
     """
     Stops a specific Amazon Lightsail instance that is currently running.
     See also: AWS API Documentation
     
     
     :example: response = client.stop_instance(
-        instanceName='string'
+        instanceName='string',
+        force=True|False
     )
     
     
@@ -2199,22 +3526,28 @@ def stop_instance(instanceName=None):
             The name of the instance (a virtual private server) to stop.
             
 
+    :type force: boolean
+    :param force: When set to True , forces a Lightsail instance that is stuck in a stopping state to stop.
+            Warning
+            Only use the force parameter if your instance is stuck in the stopping state. In any other state, your instance should stop normally without adding this parameter to your API request.
+            
+
     :rtype: dict
     :return: {
         'operations': [
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'
@@ -2240,16 +3573,16 @@ def unpeer_vpc():
         'operation': {
             'id': 'string',
             'resourceName': 'string',
-            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+            'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
             'createdAt': datetime(2015, 1, 1),
             'location': {
                 'availabilityZone': 'string',
-                'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
             },
             'isTerminal': True|False,
             'operationDetails': 'string',
-            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-            'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+            'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+            'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
             'statusChangedAt': datetime(2015, 1, 1),
             'errorCode': 'string',
             'errorDetails': 'string'
@@ -2272,6 +3605,7 @@ def update_domain_entry(domainName=None, domainEntry=None):
             'id': 'string',
             'name': 'string',
             'target': 'string',
+            'isAlias': True|False,
             'type': 'string',
             'options': {
                 'string': 'string'
@@ -2291,8 +3625,12 @@ def update_domain_entry(domainName=None, domainEntry=None):
             id (string) --The ID of the domain recordset entry.
             name (string) --The name of the domain.
             target (string) --The target AWS name server (e.g., ns-111.awsdns-22.com. ).
+            For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com . Be sure to also set isAlias to true when setting up an A record for a load balancer.
+            isAlias (boolean) --When true , specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer
             type (string) --The type of domain entry (e.g., SOA or NS ).
-            options (dict) --The options for the domain entry.
+            options (dict) --(Deprecated) The options for the domain entry.
+            Note
+            In releases prior to November 29, 2017, this parameter was not included in the API response. It is now deprecated.
             (string) --
             (string) --
             
@@ -2304,16 +3642,71 @@ def update_domain_entry(domainName=None, domainEntry=None):
             {
                 'id': 'string',
                 'resourceName': 'string',
-                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
                 'createdAt': datetime(2015, 1, 1),
                 'location': {
                     'availabilityZone': 'string',
-                    'regionName': 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-central-1'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
                 },
                 'isTerminal': True|False,
                 'operationDetails': 'string',
-                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot',
-                'status': 'NotStarted'|'Started'|'Failed'|'Completed',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
+                'statusChangedAt': datetime(2015, 1, 1),
+                'errorCode': 'string',
+                'errorDetails': 'string'
+            },
+        ]
+    }
+    
+    
+    """
+    pass
+
+def update_load_balancer_attribute(loadBalancerName=None, attributeName=None, attributeValue=None):
+    """
+    Updates the specified attribute for a load balancer. You can only update one attribute at a time.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_load_balancer_attribute(
+        loadBalancerName='string',
+        attributeName='HealthCheckPath'|'SessionStickinessEnabled'|'SessionStickiness_LB_CookieDurationSeconds',
+        attributeValue='string'
+    )
+    
+    
+    :type loadBalancerName: string
+    :param loadBalancerName: [REQUIRED]
+            The name of the load balancer that you want to modify (e.g., my-load-balancer .
+            
+
+    :type attributeName: string
+    :param attributeName: [REQUIRED]
+            The name of the attribute you want to update. Valid values are below.
+            
+
+    :type attributeValue: string
+    :param attributeValue: [REQUIRED]
+            The value that you want to specify for the attribute name.
+            
+
+    :rtype: dict
+    :return: {
+        'operations': [
+            {
+                'id': 'string',
+                'resourceName': 'string',
+                'resourceType': 'Instance'|'StaticIp'|'KeyPair'|'InstanceSnapshot'|'Domain'|'PeeredVpc'|'LoadBalancer'|'LoadBalancerTlsCertificate'|'Disk'|'DiskSnapshot',
+                'createdAt': datetime(2015, 1, 1),
+                'location': {
+                    'availabilityZone': 'string',
+                    'regionName': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'
+                },
+                'isTerminal': True|False,
+                'operationDetails': 'string',
+                'operationType': 'DeleteInstance'|'CreateInstance'|'StopInstance'|'StartInstance'|'RebootInstance'|'OpenInstancePublicPorts'|'PutInstancePublicPorts'|'CloseInstancePublicPorts'|'AllocateStaticIp'|'ReleaseStaticIp'|'AttachStaticIp'|'DetachStaticIp'|'UpdateDomainEntry'|'DeleteDomainEntry'|'CreateDomain'|'DeleteDomain'|'CreateInstanceSnapshot'|'DeleteInstanceSnapshot'|'CreateInstancesFromSnapshot'|'CreateLoadBalancer'|'DeleteLoadBalancer'|'AttachInstancesToLoadBalancer'|'DetachInstancesFromLoadBalancer'|'UpdateLoadBalancerAttribute'|'CreateLoadBalancerTlsCertificate'|'DeleteLoadBalancerTlsCertificate'|'AttachLoadBalancerTlsCertificate'|'CreateDisk'|'DeleteDisk'|'AttachDisk'|'DetachDisk'|'CreateDiskSnapshot'|'DeleteDiskSnapshot'|'CreateDiskFromSnapshot',
+                'status': 'NotStarted'|'Started'|'Failed'|'Completed'|'Succeeded',
                 'statusChangedAt': datetime(2015, 1, 1),
                 'errorCode': 'string',
                 'errorDetails': 'string'

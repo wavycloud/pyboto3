@@ -24,18 +24,22 @@ SOFTWARE.
 
 '''
 
-def abort_document_version_upload(DocumentId=None, VersionId=None):
+def abort_document_version_upload(AuthenticationToken=None, DocumentId=None, VersionId=None):
     """
-    Aborts the upload of the specified document version that was previously initiated by  InitiateDocumentVersionUpload . The client should make this call only when it no longer intends or fails to upload the document version.
+    Aborts the upload of the specified document version that was previously initiated by  InitiateDocumentVersionUpload . The client should make this call only when it no longer intends to upload the document version, or fails to do so.
     See also: AWS API Documentation
     
     
     :example: response = client.abort_document_version_upload(
+        AuthenticationToken='string',
         DocumentId='string',
         VersionId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -49,14 +53,15 @@ def abort_document_version_upload(DocumentId=None, VersionId=None):
     """
     pass
 
-def activate_user(UserId=None):
+def activate_user(UserId=None, AuthenticationToken=None):
     """
     Activates the specified user. Only active users can access Amazon WorkDocs.
     See also: AWS API Documentation
     
     
     :example: response = client.activate_user(
-        UserId='string'
+        UserId='string',
+        AuthenticationToken='string'
     )
     
     
@@ -64,6 +69,9 @@ def activate_user(UserId=None):
     :param UserId: [REQUIRED]
             The ID of the user.
             
+
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
 
     :rtype: dict
     :return: {
@@ -77,7 +85,7 @@ def activate_user(UserId=None):
             'RootFolderId': 'string',
             'RecycleBinFolderId': 'string',
             'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
-            'Type': 'USER'|'ADMIN',
+            'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
             'CreatedTimestamp': datetime(2015, 1, 1),
             'ModifiedTimestamp': datetime(2015, 1, 1),
             'TimeZoneId': 'string',
@@ -96,13 +104,14 @@ def activate_user(UserId=None):
     """
     pass
 
-def add_resource_permissions(ResourceId=None, Principals=None):
+def add_resource_permissions(AuthenticationToken=None, ResourceId=None, Principals=None, NotificationOptions=None):
     """
     Creates a set of permissions for the specified folder or document. The resource permissions are overwritten if the principals already have different permissions.
     See also: AWS API Documentation
     
     
     :example: response = client.add_resource_permissions(
+        AuthenticationToken='string',
         ResourceId='string',
         Principals=[
             {
@@ -110,10 +119,17 @@ def add_resource_permissions(ResourceId=None, Principals=None):
                 'Type': 'USER'|'GROUP'|'INVITE'|'ANONYMOUS'|'ORGANIZATION',
                 'Role': 'VIEWER'|'CONTRIBUTOR'|'OWNER'|'COOWNER'
             },
-        ]
+        ],
+        NotificationOptions={
+            'SendEmail': True|False,
+            'EmailMessage': 'string'
+        }
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
             The ID of the resource.
@@ -127,6 +143,12 @@ def add_resource_permissions(ResourceId=None, Principals=None):
             Type (string) -- [REQUIRED]The type of the recipient.
             Role (string) -- [REQUIRED]The role of the recipient.
             
+            
+
+    :type NotificationOptions: dict
+    :param NotificationOptions: The notification options.
+            SendEmail (boolean) --Boolean value to indicate an email notification should be sent to the receipients.
+            EmailMessage (string) --Text value to be included in the email body.
             
 
     :rtype: dict
@@ -161,18 +183,155 @@ def can_paginate(operation_name=None):
     """
     pass
 
-def create_folder(Name=None, ParentFolderId=None):
+def create_comment(AuthenticationToken=None, DocumentId=None, VersionId=None, ParentId=None, ThreadId=None, Text=None, Visibility=None, NotifyCollaborators=None):
+    """
+    Adds a new comment to the specified document version.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_comment(
+        AuthenticationToken='string',
+        DocumentId='string',
+        VersionId='string',
+        ParentId='string',
+        ThreadId='string',
+        Text='string',
+        Visibility='PUBLIC'|'PRIVATE',
+        NotifyCollaborators=True|False
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type DocumentId: string
+    :param DocumentId: [REQUIRED]
+            The ID of the document.
+            
+
+    :type VersionId: string
+    :param VersionId: [REQUIRED]
+            The ID of the document version.
+            
+
+    :type ParentId: string
+    :param ParentId: The ID of the parent comment.
+
+    :type ThreadId: string
+    :param ThreadId: The ID of the root comment in the thread.
+
+    :type Text: string
+    :param Text: [REQUIRED]
+            The text of the comment.
+            
+
+    :type Visibility: string
+    :param Visibility: The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
+
+    :type NotifyCollaborators: boolean
+    :param NotifyCollaborators: Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
+
+    :rtype: dict
+    :return: {
+        'Comment': {
+            'CommentId': 'string',
+            'ParentId': 'string',
+            'ThreadId': 'string',
+            'Text': 'string',
+            'Contributor': {
+                'Id': 'string',
+                'Username': 'string',
+                'EmailAddress': 'string',
+                'GivenName': 'string',
+                'Surname': 'string',
+                'OrganizationId': 'string',
+                'RootFolderId': 'string',
+                'RecycleBinFolderId': 'string',
+                'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
+                'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
+                'CreatedTimestamp': datetime(2015, 1, 1),
+                'ModifiedTimestamp': datetime(2015, 1, 1),
+                'TimeZoneId': 'string',
+                'Locale': 'en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default',
+                'Storage': {
+                    'StorageUtilizedInBytes': 123,
+                    'StorageRule': {
+                        'StorageAllocatedInBytes': 123,
+                        'StorageType': 'UNLIMITED'|'QUOTA'
+                    }
+                }
+            },
+            'CreatedTimestamp': datetime(2015, 1, 1),
+            'Status': 'DRAFT'|'PUBLISHED'|'DELETED',
+            'Visibility': 'PUBLIC'|'PRIVATE',
+            'RecipientId': 'string'
+        }
+    }
+    
+    
+    """
+    pass
+
+def create_custom_metadata(AuthenticationToken=None, ResourceId=None, VersionId=None, CustomMetadata=None):
+    """
+    Adds one or more custom properties to the specified resource (a folder, document, or version).
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_custom_metadata(
+        AuthenticationToken='string',
+        ResourceId='string',
+        VersionId='string',
+        CustomMetadata={
+            'string': 'string'
+        }
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type ResourceId: string
+    :param ResourceId: [REQUIRED]
+            The ID of the resource.
+            
+
+    :type VersionId: string
+    :param VersionId: The ID of the version, if the custom metadata is being added to a document version.
+
+    :type CustomMetadata: dict
+    :param CustomMetadata: [REQUIRED]
+            Custom metadata in the form of name-value pairs.
+            (string) --
+            (string) --
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def create_folder(AuthenticationToken=None, Name=None, ParentFolderId=None):
     """
     Creates a folder with the specified name and parent folder.
     See also: AWS API Documentation
     
     
     :example: response = client.create_folder(
+        AuthenticationToken='string',
         Name='string',
         ParentFolderId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type Name: string
     :param Name: The name of the new folder.
 
@@ -191,10 +350,57 @@ def create_folder(Name=None, ParentFolderId=None):
             'CreatedTimestamp': datetime(2015, 1, 1),
             'ModifiedTimestamp': datetime(2015, 1, 1),
             'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
-            'Signature': 'string'
+            'Signature': 'string',
+            'Labels': [
+                'string',
+            ],
+            'Size': 123,
+            'LatestVersionSize': 123
         }
     }
     
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def create_labels(ResourceId=None, Labels=None, AuthenticationToken=None):
+    """
+    Adds the specified list of labels to the given resource (a document or folder)
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_labels(
+        ResourceId='string',
+        Labels=[
+            'string',
+        ],
+        AuthenticationToken='string'
+    )
+    
+    
+    :type ResourceId: string
+    :param ResourceId: [REQUIRED]
+            The ID of the resource.
+            
+
+    :type Labels: list
+    :param Labels: [REQUIRED]
+            List of labels to add to the resource.
+            (string) --
+            
+
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -226,7 +432,7 @@ def create_notification_subscription(OrganizationId=None, Endpoint=None, Protoco
 
     :type Protocol: string
     :param Protocol: [REQUIRED]
-            The protocol to use. The supported value is https, which delivers JSON-encoded messasges using HTTPS POST.
+            The protocol to use. The supported value is https, which delivers JSON-encoded messages using HTTPS POST.
             
 
     :type SubscriptionType: string
@@ -247,7 +453,7 @@ def create_notification_subscription(OrganizationId=None, Endpoint=None, Protoco
     """
     pass
 
-def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None, Password=None, TimeZoneId=None, StorageRule=None):
+def create_user(OrganizationId=None, Username=None, EmailAddress=None, GivenName=None, Surname=None, Password=None, TimeZoneId=None, StorageRule=None, AuthenticationToken=None):
     """
     Creates a user in a Simple AD or Microsoft AD directory. The status of a newly created user is "ACTIVE". New users can access Amazon WorkDocs.
     See also: AWS API Documentation
@@ -256,6 +462,7 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
     :example: response = client.create_user(
         OrganizationId='string',
         Username='string',
+        EmailAddress='string',
         GivenName='string',
         Surname='string',
         Password='string',
@@ -263,7 +470,8 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
         StorageRule={
             'StorageAllocatedInBytes': 123,
             'StorageType': 'UNLIMITED'|'QUOTA'
-        }
+        },
+        AuthenticationToken='string'
     )
     
     
@@ -274,6 +482,9 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
     :param Username: [REQUIRED]
             The login name of the user.
             
+
+    :type EmailAddress: string
+    :param EmailAddress: The email address of the user.
 
     :type GivenName: string
     :param GivenName: [REQUIRED]
@@ -299,6 +510,9 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
             StorageType (string) --The type of storage.
             
 
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :rtype: dict
     :return: {
         'User': {
@@ -311,7 +525,7 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
             'RootFolderId': 'string',
             'RecycleBinFolderId': 'string',
             'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
-            'Type': 'USER'|'ADMIN',
+            'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
             'CreatedTimestamp': datetime(2015, 1, 1),
             'ModifiedTimestamp': datetime(2015, 1, 1),
             'TimeZoneId': 'string',
@@ -330,14 +544,15 @@ def create_user(OrganizationId=None, Username=None, GivenName=None, Surname=None
     """
     pass
 
-def deactivate_user(UserId=None):
+def deactivate_user(UserId=None, AuthenticationToken=None):
     """
     Deactivates the specified user, which revokes the user's access to Amazon WorkDocs.
     See also: AWS API Documentation
     
     
     :example: response = client.deactivate_user(
-        UserId='string'
+        UserId='string',
+        AuthenticationToken='string'
     )
     
     
@@ -346,20 +561,108 @@ def deactivate_user(UserId=None):
             The ID of the user.
             
 
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     """
     pass
 
-def delete_document(DocumentId=None):
+def delete_comment(AuthenticationToken=None, DocumentId=None, VersionId=None, CommentId=None):
+    """
+    Deletes the specified comment from the document version.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_comment(
+        AuthenticationToken='string',
+        DocumentId='string',
+        VersionId='string',
+        CommentId='string'
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type DocumentId: string
+    :param DocumentId: [REQUIRED]
+            The ID of the document.
+            
+
+    :type VersionId: string
+    :param VersionId: [REQUIRED]
+            The ID of the document version.
+            
+
+    :type CommentId: string
+    :param CommentId: [REQUIRED]
+            The ID of the comment.
+            
+
+    """
+    pass
+
+def delete_custom_metadata(AuthenticationToken=None, ResourceId=None, VersionId=None, Keys=None, DeleteAll=None):
+    """
+    Deletes custom metadata from the specified resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_custom_metadata(
+        AuthenticationToken='string',
+        ResourceId='string',
+        VersionId='string',
+        Keys=[
+            'string',
+        ],
+        DeleteAll=True|False
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type ResourceId: string
+    :param ResourceId: [REQUIRED]
+            The ID of the resource, either a document or folder.
+            
+
+    :type VersionId: string
+    :param VersionId: The ID of the version, if the custom metadata is being deleted from a document version.
+
+    :type Keys: list
+    :param Keys: List of properties to remove.
+            (string) --
+            
+
+    :type DeleteAll: boolean
+    :param DeleteAll: Flag to indicate removal of all custom metadata properties from the specified resource.
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def delete_document(AuthenticationToken=None, DocumentId=None):
     """
     Permanently deletes the specified document and its associated metadata.
     See also: AWS API Documentation
     
     
     :example: response = client.delete_document(
+        AuthenticationToken='string',
         DocumentId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -368,17 +671,21 @@ def delete_document(DocumentId=None):
     """
     pass
 
-def delete_folder(FolderId=None):
+def delete_folder(AuthenticationToken=None, FolderId=None):
     """
     Permanently deletes the specified folder and its contents.
     See also: AWS API Documentation
     
     
     :example: response = client.delete_folder(
+        AuthenticationToken='string',
         FolderId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
@@ -387,22 +694,68 @@ def delete_folder(FolderId=None):
     """
     pass
 
-def delete_folder_contents(FolderId=None):
+def delete_folder_contents(AuthenticationToken=None, FolderId=None):
     """
     Deletes the contents of the specified folder.
     See also: AWS API Documentation
     
     
     :example: response = client.delete_folder_contents(
+        AuthenticationToken='string',
         FolderId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
             
 
+    """
+    pass
+
+def delete_labels(ResourceId=None, AuthenticationToken=None, Labels=None, DeleteAll=None):
+    """
+    Deletes the specified list of labels from a resource.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_labels(
+        ResourceId='string',
+        AuthenticationToken='string',
+        Labels=[
+            'string',
+        ],
+        DeleteAll=True|False
+    )
+    
+    
+    :type ResourceId: string
+    :param ResourceId: [REQUIRED]
+            The ID of the resource.
+            
+
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type Labels: list
+    :param Labels: List of labels to delete from the resource.
+            (string) --
+            
+
+    :type DeleteAll: boolean
+    :param DeleteAll: Flag to request removal of all labels from the specified resource.
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
     """
     pass
 
@@ -431,17 +784,21 @@ def delete_notification_subscription(SubscriptionId=None, OrganizationId=None):
     """
     pass
 
-def delete_user(UserId=None):
+def delete_user(AuthenticationToken=None, UserId=None):
     """
     Deletes the specified user from a Simple AD or Microsoft AD directory.
     See also: AWS API Documentation
     
     
     :example: response = client.delete_user(
+        AuthenticationToken='string',
         UserId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type UserId: string
     :param UserId: [REQUIRED]
             The ID of the user.
@@ -450,7 +807,222 @@ def delete_user(UserId=None):
     """
     pass
 
-def describe_document_versions(DocumentId=None, Marker=None, Limit=None, Include=None, Fields=None):
+def describe_activities(AuthenticationToken=None, StartTime=None, EndTime=None, OrganizationId=None, UserId=None, Limit=None, Marker=None):
+    """
+    Describes the user activities in a specified time period.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_activities(
+        AuthenticationToken='string',
+        StartTime=datetime(2015, 1, 1),
+        EndTime=datetime(2015, 1, 1),
+        OrganizationId='string',
+        UserId='string',
+        Limit=123,
+        Marker='string'
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type StartTime: datetime
+    :param StartTime: The timestamp that determines the starting time of the activities. The response includes the activities performed after the specified timestamp.
+
+    :type EndTime: datetime
+    :param EndTime: The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
+
+    :type OrganizationId: string
+    :param OrganizationId: The ID of the organization. This is a mandatory parameter when using administrative API (SigV4) requests.
+
+    :type UserId: string
+    :param UserId: The ID of the user who performed the action. The response includes activities pertaining to this user. This is an optional parameter and is only applicable for administrative API (SigV4) requests.
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return.
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results.
+
+    :rtype: dict
+    :return: {
+        'UserActivities': [
+            {
+                'Type': 'DOCUMENT_CHECKED_IN'|'DOCUMENT_CHECKED_OUT'|'DOCUMENT_RENAMED'|'DOCUMENT_VERSION_UPLOADED'|'DOCUMENT_VERSION_DELETED'|'DOCUMENT_RECYCLED'|'DOCUMENT_RESTORED'|'DOCUMENT_REVERTED'|'DOCUMENT_SHARED'|'DOCUMENT_UNSHARED'|'DOCUMENT_SHARE_PERMISSION_CHANGED'|'DOCUMENT_SHAREABLE_LINK_CREATED'|'DOCUMENT_SHAREABLE_LINK_REMOVED'|'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED'|'DOCUMENT_MOVED'|'DOCUMENT_COMMENT_ADDED'|'DOCUMENT_COMMENT_DELETED'|'DOCUMENT_ANNOTATION_ADDED'|'DOCUMENT_ANNOTATION_DELETED'|'FOLDER_CREATED'|'FOLDER_DELETED'|'FOLDER_RENAMED'|'FOLDER_RECYCLED'|'FOLDER_RESTORED'|'FOLDER_SHARED'|'FOLDER_UNSHARED'|'FOLDER_SHARE_PERMISSION_CHANGED'|'FOLDER_SHAREABLE_LINK_CREATED'|'FOLDER_SHAREABLE_LINK_REMOVED'|'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED'|'FOLDER_MOVED',
+                'TimeStamp': datetime(2015, 1, 1),
+                'OrganizationId': 'string',
+                'Initiator': {
+                    'Id': 'string',
+                    'Username': 'string',
+                    'GivenName': 'string',
+                    'Surname': 'string',
+                    'EmailAddress': 'string'
+                },
+                'Participants': {
+                    'Users': [
+                        {
+                            'Id': 'string',
+                            'Username': 'string',
+                            'GivenName': 'string',
+                            'Surname': 'string',
+                            'EmailAddress': 'string'
+                        },
+                    ],
+                    'Groups': [
+                        {
+                            'Id': 'string',
+                            'Name': 'string'
+                        },
+                    ]
+                },
+                'ResourceMetadata': {
+                    'Type': 'FOLDER'|'DOCUMENT',
+                    'Name': 'string',
+                    'OriginalName': 'string',
+                    'Id': 'string',
+                    'VersionId': 'string',
+                    'Owner': {
+                        'Id': 'string',
+                        'Username': 'string',
+                        'GivenName': 'string',
+                        'Surname': 'string',
+                        'EmailAddress': 'string'
+                    },
+                    'ParentId': 'string'
+                },
+                'OriginalParent': {
+                    'Type': 'FOLDER'|'DOCUMENT',
+                    'Name': 'string',
+                    'OriginalName': 'string',
+                    'Id': 'string',
+                    'VersionId': 'string',
+                    'Owner': {
+                        'Id': 'string',
+                        'Username': 'string',
+                        'GivenName': 'string',
+                        'Surname': 'string',
+                        'EmailAddress': 'string'
+                    },
+                    'ParentId': 'string'
+                },
+                'CommentMetadata': {
+                    'CommentId': 'string',
+                    'Contributor': {
+                        'Id': 'string',
+                        'Username': 'string',
+                        'EmailAddress': 'string',
+                        'GivenName': 'string',
+                        'Surname': 'string',
+                        'OrganizationId': 'string',
+                        'RootFolderId': 'string',
+                        'RecycleBinFolderId': 'string',
+                        'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
+                        'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
+                        'CreatedTimestamp': datetime(2015, 1, 1),
+                        'ModifiedTimestamp': datetime(2015, 1, 1),
+                        'TimeZoneId': 'string',
+                        'Locale': 'en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default',
+                        'Storage': {
+                            'StorageUtilizedInBytes': 123,
+                            'StorageRule': {
+                                'StorageAllocatedInBytes': 123,
+                                'StorageType': 'UNLIMITED'|'QUOTA'
+                            }
+                        }
+                    },
+                    'CreatedTimestamp': datetime(2015, 1, 1),
+                    'CommentStatus': 'DRAFT'|'PUBLISHED'|'DELETED',
+                    'RecipientId': 'string'
+                }
+            },
+        ],
+        'Marker': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_comments(AuthenticationToken=None, DocumentId=None, VersionId=None, Limit=None, Marker=None):
+    """
+    List all the comments for the specified document version.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_comments(
+        AuthenticationToken='string',
+        DocumentId='string',
+        VersionId='string',
+        Limit=123,
+        Marker='string'
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type DocumentId: string
+    :param DocumentId: [REQUIRED]
+            The ID of the document.
+            
+
+    :type VersionId: string
+    :param VersionId: [REQUIRED]
+            The ID of the document version.
+            
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return.
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results. This marker was received from a previous call.
+
+    :rtype: dict
+    :return: {
+        'Comments': [
+            {
+                'CommentId': 'string',
+                'ParentId': 'string',
+                'ThreadId': 'string',
+                'Text': 'string',
+                'Contributor': {
+                    'Id': 'string',
+                    'Username': 'string',
+                    'EmailAddress': 'string',
+                    'GivenName': 'string',
+                    'Surname': 'string',
+                    'OrganizationId': 'string',
+                    'RootFolderId': 'string',
+                    'RecycleBinFolderId': 'string',
+                    'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
+                    'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
+                    'CreatedTimestamp': datetime(2015, 1, 1),
+                    'ModifiedTimestamp': datetime(2015, 1, 1),
+                    'TimeZoneId': 'string',
+                    'Locale': 'en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default',
+                    'Storage': {
+                        'StorageUtilizedInBytes': 123,
+                        'StorageRule': {
+                            'StorageAllocatedInBytes': 123,
+                            'StorageType': 'UNLIMITED'|'QUOTA'
+                        }
+                    }
+                },
+                'CreatedTimestamp': datetime(2015, 1, 1),
+                'Status': 'DRAFT'|'PUBLISHED'|'DELETED',
+                'Visibility': 'PUBLIC'|'PRIVATE',
+                'RecipientId': 'string'
+            },
+        ],
+        'Marker': 'string'
+    }
+    
+    
+    """
+    pass
+
+def describe_document_versions(AuthenticationToken=None, DocumentId=None, Marker=None, Limit=None, Include=None, Fields=None):
     """
     Retrieves the document versions for the specified document.
     By default, only active versions are returned.
@@ -458,6 +1030,7 @@ def describe_document_versions(DocumentId=None, Marker=None, Limit=None, Include
     
     
     :example: response = client.describe_document_versions(
+        AuthenticationToken='string',
         DocumentId='string',
         Marker='string',
         Limit=123,
@@ -466,6 +1039,9 @@ def describe_document_versions(DocumentId=None, Marker=None, Limit=None, Include
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -519,14 +1095,15 @@ def describe_document_versions(DocumentId=None, Marker=None, Limit=None, Include
     """
     pass
 
-def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, Marker=None, Type=None, Include=None):
+def describe_folder_contents(AuthenticationToken=None, FolderId=None, Sort=None, Order=None, Limit=None, Marker=None, Type=None, Include=None):
     """
-    Describes the contents of the specified folder, including its documents and sub-folders.
+    Describes the contents of the specified folder, including its documents and subfolders.
     By default, Amazon WorkDocs returns the first 100 active document and folder metadata items. If there are more results, the response includes a marker that you can use to request the next set of results. You can also request initialized documents.
     See also: AWS API Documentation
     
     
     :example: response = client.describe_folder_contents(
+        AuthenticationToken='string',
         FolderId='string',
         Sort='DATE'|'NAME',
         Order='ASCENDING'|'DESCENDING',
@@ -537,6 +1114,9 @@ def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, M
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
@@ -552,7 +1132,7 @@ def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, M
     :param Limit: The maximum number of items to return with this call.
 
     :type Marker: string
-    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+    :param Marker: The marker for the next set of results. This marker was received from a previous call.
 
     :type Type: string
     :param Type: The type of items.
@@ -571,7 +1151,12 @@ def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, M
                 'CreatedTimestamp': datetime(2015, 1, 1),
                 'ModifiedTimestamp': datetime(2015, 1, 1),
                 'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
-                'Signature': 'string'
+                'Signature': 'string',
+                'Labels': [
+                    'string',
+                ],
+                'Size': 123,
+                'LatestVersionSize': 123
             },
         ],
         'Documents': [
@@ -600,7 +1185,10 @@ def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, M
                         'string': 'string'
                     }
                 },
-                'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED'
+                'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
+                'Labels': [
+                    'string',
+                ]
             },
         ],
         'Marker': 'string'
@@ -609,8 +1197,52 @@ def describe_folder_contents(FolderId=None, Sort=None, Order=None, Limit=None, M
     
     :returns: 
     (string) --
-    (string) --
     
+    """
+    pass
+
+def describe_groups(AuthenticationToken=None, SearchQuery=None, OrganizationId=None, Marker=None, Limit=None):
+    """
+    Describes the groups specified by query.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_groups(
+        AuthenticationToken='string',
+        SearchQuery='string',
+        OrganizationId='string',
+        Marker='string',
+        Limit=123
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
+    :type SearchQuery: string
+    :param SearchQuery: [REQUIRED]
+            A query to describe groups by group name.
+            
+
+    :type OrganizationId: string
+    :param OrganizationId: The ID of the organization.
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return with this call.
+
+    :rtype: dict
+    :return: {
+        'Groups': [
+            {
+                'Id': 'string',
+                'Name': 'string'
+            },
+        ],
+        'Marker': 'string'
+    }
     
     
     """
@@ -656,23 +1288,31 @@ def describe_notification_subscriptions(OrganizationId=None, Marker=None, Limit=
     """
     pass
 
-def describe_resource_permissions(ResourceId=None, Limit=None, Marker=None):
+def describe_resource_permissions(AuthenticationToken=None, ResourceId=None, PrincipalId=None, Limit=None, Marker=None):
     """
     Describes the permissions of a specified resource.
     See also: AWS API Documentation
     
     
     :example: response = client.describe_resource_permissions(
+        AuthenticationToken='string',
         ResourceId='string',
+        PrincipalId='string',
         Limit=123,
         Marker='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
             The ID of the resource.
             
+
+    :type PrincipalId: string
+    :param PrincipalId: The ID of the principal to filter permissions by.
 
     :type Limit: integer
     :param Limit: The maximum number of items to return with this call.
@@ -701,7 +1341,60 @@ def describe_resource_permissions(ResourceId=None, Limit=None, Marker=None):
     """
     pass
 
-def describe_users(OrganizationId=None, UserIds=None, Query=None, Include=None, Order=None, Sort=None, Marker=None, Limit=None, Fields=None):
+def describe_root_folders(AuthenticationToken=None, Limit=None, Marker=None):
+    """
+    Describes the current user's special folders; the RootFolder and the RecycleBin . RootFolder is the root of user's files and folders and RecycleBin is the root of recycled items. This is not a valid action for SigV4 (administrative API) clients.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_root_folders(
+        AuthenticationToken='string',
+        Limit=123,
+        Marker='string'
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: [REQUIRED]
+            Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+            
+
+    :type Limit: integer
+    :param Limit: The maximum number of items to return.
+
+    :type Marker: string
+    :param Marker: The marker for the next set of results. (You received this marker from a previous call.)
+
+    :rtype: dict
+    :return: {
+        'Folders': [
+            {
+                'Id': 'string',
+                'Name': 'string',
+                'CreatorId': 'string',
+                'ParentFolderId': 'string',
+                'CreatedTimestamp': datetime(2015, 1, 1),
+                'ModifiedTimestamp': datetime(2015, 1, 1),
+                'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
+                'Signature': 'string',
+                'Labels': [
+                    'string',
+                ],
+                'Size': 123,
+                'LatestVersionSize': 123
+            },
+        ],
+        'Marker': 'string'
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def describe_users(AuthenticationToken=None, OrganizationId=None, UserIds=None, Query=None, Include=None, Order=None, Sort=None, Marker=None, Limit=None, Fields=None):
     """
     Describes the specified users. You can describe all users or filter the results (for example, by status or organization).
     By default, Amazon WorkDocs returns the first 24 active or pending users. If there are more results, the response includes a marker that you can use to request the next set of results.
@@ -709,6 +1402,7 @@ def describe_users(OrganizationId=None, UserIds=None, Query=None, Include=None, 
     
     
     :example: response = client.describe_users(
+        AuthenticationToken='string',
         OrganizationId='string',
         UserIds='string',
         Query='string',
@@ -721,6 +1415,9 @@ def describe_users(OrganizationId=None, UserIds=None, Query=None, Include=None, 
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type OrganizationId: string
     :param OrganizationId: The ID of the organization.
 
@@ -761,7 +1458,7 @@ def describe_users(OrganizationId=None, UserIds=None, Query=None, Include=None, 
                 'RootFolderId': 'string',
                 'RecycleBinFolderId': 'string',
                 'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
-                'Type': 'USER'|'ADMIN',
+                'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
                 'CreatedTimestamp': datetime(2015, 1, 1),
                 'ModifiedTimestamp': datetime(2015, 1, 1),
                 'TimeZoneId': 'string',
@@ -805,21 +1502,76 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     """
     pass
 
-def get_document(DocumentId=None):
+def get_current_user(AuthenticationToken=None):
     """
-    Retrieves the specified document object.
+    Retrieves details of the current user for whom the authentication token was generated. This is not a valid action for SigV4 (administrative API) clients.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_current_user(
+        AuthenticationToken='string'
+    )
+    
+    
+    :type AuthenticationToken: string
+    :param AuthenticationToken: [REQUIRED]
+            Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+            
+
+    :rtype: dict
+    :return: {
+        'User': {
+            'Id': 'string',
+            'Username': 'string',
+            'EmailAddress': 'string',
+            'GivenName': 'string',
+            'Surname': 'string',
+            'OrganizationId': 'string',
+            'RootFolderId': 'string',
+            'RecycleBinFolderId': 'string',
+            'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
+            'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
+            'CreatedTimestamp': datetime(2015, 1, 1),
+            'ModifiedTimestamp': datetime(2015, 1, 1),
+            'TimeZoneId': 'string',
+            'Locale': 'en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default',
+            'Storage': {
+                'StorageUtilizedInBytes': 123,
+                'StorageRule': {
+                    'StorageAllocatedInBytes': 123,
+                    'StorageType': 'UNLIMITED'|'QUOTA'
+                }
+            }
+        }
+    }
+    
+    
+    """
+    pass
+
+def get_document(AuthenticationToken=None, DocumentId=None, IncludeCustomMetadata=None):
+    """
+    Retrieves details of a document.
     See also: AWS API Documentation
     
     
     :example: response = client.get_document(
-        DocumentId='string'
+        AuthenticationToken='string',
+        DocumentId='string',
+        IncludeCustomMetadata=True|False
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
-            The ID of the document object.
+            The ID of the document.
             
+
+    :type IncludeCustomMetadata: boolean
+    :param IncludeCustomMetadata: Set this to TRUE to include custom metadata in the response.
 
     :rtype: dict
     :return: {
@@ -848,7 +1600,13 @@ def get_document(DocumentId=None):
                     'string': 'string'
                 }
             },
-            'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED'
+            'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
+            'Labels': [
+                'string',
+            ]
+        },
+        'CustomMetadata': {
+            'string': 'string'
         }
     }
     
@@ -862,7 +1620,7 @@ def get_document(DocumentId=None):
     """
     pass
 
-def get_document_path(DocumentId=None, Limit=None, Fields=None, Marker=None):
+def get_document_path(AuthenticationToken=None, DocumentId=None, Limit=None, Fields=None, Marker=None):
     """
     Retrieves the path information (the hierarchy from the root folder) for the requested document.
     By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested document and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the names of the parent folders.
@@ -870,6 +1628,7 @@ def get_document_path(DocumentId=None, Limit=None, Fields=None, Marker=None):
     
     
     :example: response = client.get_document_path(
+        AuthenticationToken='string',
         DocumentId='string',
         Limit=123,
         Fields='string',
@@ -877,6 +1636,9 @@ def get_document_path(DocumentId=None, Limit=None, Fields=None, Marker=None):
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -886,7 +1648,7 @@ def get_document_path(DocumentId=None, Limit=None, Fields=None, Marker=None):
     :param Limit: The maximum number of levels in the hierarchy to return.
 
     :type Fields: string
-    :param Fields: A comma-separated list of values. Specify 'NAME' to include the names of the parent folders.
+    :param Fields: A comma-separated list of values. Specify NAME to include the names of the parent folders.
 
     :type Marker: string
     :param Marker: This value is not supported.
@@ -907,19 +1669,24 @@ def get_document_path(DocumentId=None, Limit=None, Fields=None, Marker=None):
     """
     pass
 
-def get_document_version(DocumentId=None, VersionId=None, Fields=None):
+def get_document_version(AuthenticationToken=None, DocumentId=None, VersionId=None, Fields=None, IncludeCustomMetadata=None):
     """
     Retrieves version metadata for the specified document.
     See also: AWS API Documentation
     
     
     :example: response = client.get_document_version(
+        AuthenticationToken='string',
         DocumentId='string',
         VersionId='string',
-        Fields='string'
+        Fields='string',
+        IncludeCustomMetadata=True|False
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -932,6 +1699,9 @@ def get_document_version(DocumentId=None, VersionId=None, Fields=None):
 
     :type Fields: string
     :param Fields: A comma-separated list of values. Specify 'SOURCE' to include a URL for the source document.
+
+    :type IncludeCustomMetadata: boolean
+    :param IncludeCustomMetadata: Set this to TRUE to include custom metadata in the response.
 
     :rtype: dict
     :return: {
@@ -953,6 +1723,9 @@ def get_document_version(DocumentId=None, VersionId=None, Fields=None):
             'Source': {
                 'string': 'string'
             }
+        },
+        'CustomMetadata': {
+            'string': 'string'
         }
     }
     
@@ -966,21 +1739,29 @@ def get_document_version(DocumentId=None, VersionId=None, Fields=None):
     """
     pass
 
-def get_folder(FolderId=None):
+def get_folder(AuthenticationToken=None, FolderId=None, IncludeCustomMetadata=None):
     """
     Retrieves the metadata of the specified folder.
     See also: AWS API Documentation
     
     
     :example: response = client.get_folder(
-        FolderId='string'
+        AuthenticationToken='string',
+        FolderId='string',
+        IncludeCustomMetadata=True|False
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
             
+
+    :type IncludeCustomMetadata: boolean
+    :param IncludeCustomMetadata: Set to TRUE to include custom metadata in the response.
 
     :rtype: dict
     :return: {
@@ -992,15 +1773,26 @@ def get_folder(FolderId=None):
             'CreatedTimestamp': datetime(2015, 1, 1),
             'ModifiedTimestamp': datetime(2015, 1, 1),
             'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
-            'Signature': 'string'
+            'Signature': 'string',
+            'Labels': [
+                'string',
+            ],
+            'Size': 123,
+            'LatestVersionSize': 123
+        },
+        'CustomMetadata': {
+            'string': 'string'
         }
     }
     
     
+    :returns: 
+    (string) --
+    
     """
     pass
 
-def get_folder_path(FolderId=None, Limit=None, Fields=None, Marker=None):
+def get_folder_path(AuthenticationToken=None, FolderId=None, Limit=None, Fields=None, Marker=None):
     """
     Retrieves the path information (the hierarchy from the root folder) for the specified folder.
     By default, Amazon WorkDocs returns a maximum of 100 levels upwards from the requested folder and only includes the IDs of the parent folders in the path. You can limit the maximum number of levels. You can also request the parent folder names.
@@ -1008,6 +1800,7 @@ def get_folder_path(FolderId=None, Limit=None, Fields=None, Marker=None):
     
     
     :example: response = client.get_folder_path(
+        AuthenticationToken='string',
         FolderId='string',
         Limit=123,
         Fields='string',
@@ -1015,6 +1808,9 @@ def get_folder_path(FolderId=None, Limit=None, Fields=None, Marker=None):
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
@@ -1067,7 +1863,7 @@ def get_waiter():
     """
     pass
 
-def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp=None, ContentModifiedTimestamp=None, ContentType=None, DocumentSizeInBytes=None, ParentFolderId=None):
+def initiate_document_version_upload(AuthenticationToken=None, Id=None, Name=None, ContentCreatedTimestamp=None, ContentModifiedTimestamp=None, ContentType=None, DocumentSizeInBytes=None, ParentFolderId=None):
     """
     Creates a new document object and version object.
     The client specifies the parent folder ID and name of the document to upload. The ID is optionally specified when creating a new version of an existing document. This is the first step to upload a document. Next, upload the document to the URL returned from the call, and then call  UpdateDocumentVersion .
@@ -1076,6 +1872,7 @@ def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp
     
     
     :example: response = client.initiate_document_version_upload(
+        AuthenticationToken='string',
         Id='string',
         Name='string',
         ContentCreatedTimestamp=datetime(2015, 1, 1),
@@ -1086,6 +1883,9 @@ def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type Id: string
     :param Id: The ID of the document.
 
@@ -1093,10 +1893,10 @@ def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp
     :param Name: The name of the document.
 
     :type ContentCreatedTimestamp: datetime
-    :param ContentCreatedTimestamp: The time stamp when the content of the document was originally created.
+    :param ContentCreatedTimestamp: The timestamp when the content of the document was originally created.
 
     :type ContentModifiedTimestamp: datetime
-    :param ContentModifiedTimestamp: The time stamp when the content of the document was modified.
+    :param ContentModifiedTimestamp: The timestamp when the content of the document was modified.
 
     :type ContentType: string
     :param ContentType: The content type of the document.
@@ -1136,7 +1936,10 @@ def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp
                     'string': 'string'
                 }
             },
-            'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED'
+            'ResourceState': 'ACTIVE'|'RESTORING'|'RECYCLING'|'RECYCLED',
+            'Labels': [
+                'string',
+            ]
         },
         'UploadMetadata': {
             'UploadUrl': 'string',
@@ -1156,17 +1959,21 @@ def initiate_document_version_upload(Id=None, Name=None, ContentCreatedTimestamp
     """
     pass
 
-def remove_all_resource_permissions(ResourceId=None):
+def remove_all_resource_permissions(AuthenticationToken=None, ResourceId=None):
     """
     Removes all the permissions from the specified resource.
     See also: AWS API Documentation
     
     
     :example: response = client.remove_all_resource_permissions(
+        AuthenticationToken='string',
         ResourceId='string'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
             The ID of the resource.
@@ -1175,19 +1982,23 @@ def remove_all_resource_permissions(ResourceId=None):
     """
     pass
 
-def remove_resource_permission(ResourceId=None, PrincipalId=None, PrincipalType=None):
+def remove_resource_permission(AuthenticationToken=None, ResourceId=None, PrincipalId=None, PrincipalType=None):
     """
     Removes the permission for the specified principal from the specified resource.
     See also: AWS API Documentation
     
     
     :example: response = client.remove_resource_permission(
+        AuthenticationToken='string',
         ResourceId='string',
         PrincipalId='string',
         PrincipalType='USER'|'GROUP'|'INVITE'|'ANONYMOUS'|'ORGANIZATION'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type ResourceId: string
     :param ResourceId: [REQUIRED]
             The ID of the resource.
@@ -1204,13 +2015,14 @@ def remove_resource_permission(ResourceId=None, PrincipalId=None, PrincipalType=
     """
     pass
 
-def update_document(DocumentId=None, Name=None, ParentFolderId=None, ResourceState=None):
+def update_document(AuthenticationToken=None, DocumentId=None, Name=None, ParentFolderId=None, ResourceState=None):
     """
-    Updates the specified attributes of the specified document. The user must have access to both the document and its parent folder, if applicable.
+    Updates the specified attributes of a document. The user must have access to both the document and its parent folder, if applicable.
     See also: AWS API Documentation
     
     
     :example: response = client.update_document(
+        AuthenticationToken='string',
         DocumentId='string',
         Name='string',
         ParentFolderId='string',
@@ -1218,6 +2030,9 @@ def update_document(DocumentId=None, Name=None, ParentFolderId=None, ResourceSta
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -1230,12 +2045,12 @@ def update_document(DocumentId=None, Name=None, ParentFolderId=None, ResourceSta
     :param ParentFolderId: The ID of the parent folder.
 
     :type ResourceState: string
-    :param ResourceState: The resource state of the document. Note that only ACTIVE and RECYCLED are supported.
+    :param ResourceState: The resource state of the document. Only ACTIVE and RECYCLED are supported.
 
     """
     pass
 
-def update_document_version(DocumentId=None, VersionId=None, VersionStatus=None):
+def update_document_version(AuthenticationToken=None, DocumentId=None, VersionId=None, VersionStatus=None):
     """
     Changes the status of the document version to ACTIVE.
     Amazon WorkDocs also sets its document container to ACTIVE. This is the last step in a document upload, after the client uploads the document to an S3-presigned URL returned by  InitiateDocumentVersionUpload .
@@ -1243,12 +2058,16 @@ def update_document_version(DocumentId=None, VersionId=None, VersionStatus=None)
     
     
     :example: response = client.update_document_version(
+        AuthenticationToken='string',
         DocumentId='string',
         VersionId='string',
         VersionStatus='ACTIVE'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type DocumentId: string
     :param DocumentId: [REQUIRED]
             The ID of the document.
@@ -1265,13 +2084,14 @@ def update_document_version(DocumentId=None, VersionId=None, VersionStatus=None)
     """
     pass
 
-def update_folder(FolderId=None, Name=None, ParentFolderId=None, ResourceState=None):
+def update_folder(AuthenticationToken=None, FolderId=None, Name=None, ParentFolderId=None, ResourceState=None):
     """
     Updates the specified attributes of the specified folder. The user must have access to both the folder and its parent folder, if applicable.
     See also: AWS API Documentation
     
     
     :example: response = client.update_folder(
+        AuthenticationToken='string',
         FolderId='string',
         Name='string',
         ParentFolderId='string',
@@ -1279,6 +2099,9 @@ def update_folder(FolderId=None, Name=None, ParentFolderId=None, ResourceState=N
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type FolderId: string
     :param FolderId: [REQUIRED]
             The ID of the folder.
@@ -1291,31 +2114,36 @@ def update_folder(FolderId=None, Name=None, ParentFolderId=None, ResourceState=N
     :param ParentFolderId: The ID of the parent folder.
 
     :type ResourceState: string
-    :param ResourceState: The resource state of the folder. Note that only ACTIVE and RECYCLED are accepted values from the API.
+    :param ResourceState: The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API.
 
     """
     pass
 
-def update_user(UserId=None, GivenName=None, Surname=None, Type=None, StorageRule=None, TimeZoneId=None, Locale=None):
+def update_user(AuthenticationToken=None, UserId=None, GivenName=None, Surname=None, Type=None, StorageRule=None, TimeZoneId=None, Locale=None, GrantPoweruserPrivileges=None):
     """
     Updates the specified attributes of the specified user, and grants or revokes administrative privileges to the Amazon WorkDocs site.
     See also: AWS API Documentation
     
     
     :example: response = client.update_user(
+        AuthenticationToken='string',
         UserId='string',
         GivenName='string',
         Surname='string',
-        Type='USER'|'ADMIN',
+        Type='USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
         StorageRule={
             'StorageAllocatedInBytes': 123,
             'StorageType': 'UNLIMITED'|'QUOTA'
         },
         TimeZoneId='string',
-        Locale='en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default'
+        Locale='en'|'fr'|'ko'|'de'|'es'|'ja'|'ru'|'zh_CN'|'zh_TW'|'pt_BR'|'default',
+        GrantPoweruserPrivileges='TRUE'|'FALSE'
     )
     
     
+    :type AuthenticationToken: string
+    :param AuthenticationToken: Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+
     :type UserId: string
     :param UserId: [REQUIRED]
             The ID of the user.
@@ -1342,6 +2170,9 @@ def update_user(UserId=None, GivenName=None, Surname=None, Type=None, StorageRul
     :type Locale: string
     :param Locale: The locale of the user.
 
+    :type GrantPoweruserPrivileges: string
+    :param GrantPoweruserPrivileges: Boolean value to determine whether the user is granted Poweruser privileges.
+
     :rtype: dict
     :return: {
         'User': {
@@ -1354,7 +2185,7 @@ def update_user(UserId=None, GivenName=None, Surname=None, Type=None, StorageRul
             'RootFolderId': 'string',
             'RecycleBinFolderId': 'string',
             'Status': 'ACTIVE'|'INACTIVE'|'PENDING',
-            'Type': 'USER'|'ADMIN',
+            'Type': 'USER'|'ADMIN'|'POWERUSER'|'MINIMALUSER'|'WORKSPACESUSER',
             'CreatedTimestamp': datetime(2015, 1, 1),
             'ModifiedTimestamp': datetime(2015, 1, 1),
             'TimeZoneId': 'string',

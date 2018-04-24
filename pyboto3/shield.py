@@ -41,7 +41,7 @@ def can_paginate(operation_name=None):
 
 def create_protection(Name=None, ResourceArn=None):
     """
-    Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, or an Amazon Route 53 hosted zone.
+    Enables AWS Shield Advanced for a specific AWS resource. The resource can be an Amazon CloudFront distribution, Elastic Load Balancing load balancer, Elastic IP Address, or an Amazon Route 53 hosted zone.
     See also: AWS API Documentation
     
     
@@ -59,6 +59,12 @@ def create_protection(Name=None, ResourceArn=None):
     :type ResourceArn: string
     :param ResourceArn: [REQUIRED]
             The ARN (Amazon Resource Name) of the resource to be protected.
+            The ARN should be in one of the following formats:
+            For an Application Load Balancer: ``arn:aws:elasticloadbalancing:region :account-id :loadbalancer/app/load-balancer-name /load-balancer-id ``
+            For an Elastic Load Balancer (Classic Load Balancer): ``arn:aws:elasticloadbalancing:region :account-id :loadbalancer/load-balancer-name ``
+            For AWS CloudFront distribution: ``arn:aws:cloudfront::account-id :distribution/distribution-id ``
+            For Amazon Route 53: ``arn:aws:route53::account-id :hostedzone/hosted-zone-id ``
+            For an Elastic IP address: ``arn:aws:ec2:region :account-id :eip-allocation/allocation-id ``
             
 
     :rtype: dict
@@ -111,7 +117,7 @@ def delete_protection(ProtectionId=None):
 
 def delete_subscription():
     """
-    Removes AWS Shield Advanced from an account.
+    Removes AWS Shield Advanced from an account. AWS Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
     See also: AWS API Documentation
     
     
@@ -187,6 +193,20 @@ def describe_attack(AttackId=None):
                     'Sum': 123.0,
                     'N': 123,
                     'Unit': 'string'
+                },
+            ],
+            'AttackProperties': [
+                {
+                    'AttackLayer': 'NETWORK'|'APPLICATION',
+                    'AttackPropertyIdentifier': 'DESTINATION_URL'|'REFERRER'|'SOURCE_ASN'|'SOURCE_COUNTRY'|'SOURCE_IP_ADDRESS'|'SOURCE_USER_AGENT',
+                    'TopContributors': [
+                        {
+                            'Name': 'string',
+                            'Value': 123
+                        },
+                    ],
+                    'Unit': 'BITS'|'BYTES'|'PACKETS'|'REQUESTS',
+                    'Total': 123
                 },
             ],
             'Mitigations': [
@@ -289,6 +309,24 @@ def get_paginator(operation_name=None):
     """
     pass
 
+def get_subscription_state():
+    """
+    Returns the SubscriptionState , either Active or Inactive .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_subscription_state()
+    
+    
+    :rtype: dict
+    :return: {
+        'SubscriptionState': 'ACTIVE'|'INACTIVE'
+    }
+    
+    
+    """
+    pass
+
 def get_waiter():
     """
     
@@ -324,15 +362,15 @@ def list_attacks(ResourceArns=None, StartTime=None, EndTime=None, NextToken=None
             
 
     :type StartTime: dict
-    :param StartTime: The time period for the attacks.
-            FromInclusive (datetime) --The start time, in the format 2016-12-16T13:50Z.
-            ToExclusive (datetime) --The end time, in the format 2016-12-16T15:50Z.
+    :param StartTime: The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
+            FromInclusive (datetime) --The start time, in Unix time in seconds. For more information see timestamp .
+            ToExclusive (datetime) --The end time, in Unix time in seconds. For more information see timestamp .
             
 
     :type EndTime: dict
-    :param EndTime: The end of the time period for the attacks.
-            FromInclusive (datetime) --The start time, in the format 2016-12-16T13:50Z.
-            ToExclusive (datetime) --The end time, in the format 2016-12-16T15:50Z.
+    :param EndTime: The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
+            FromInclusive (datetime) --The start time, in Unix time in seconds. For more information see timestamp .
+            ToExclusive (datetime) --The end time, in Unix time in seconds. For more information see timestamp .
             
 
     :type NextToken: string
@@ -359,6 +397,23 @@ def list_attacks(ResourceArns=None, StartTime=None, EndTime=None, NextToken=None
         'NextToken': 'string'
     }
     
+    
+    :returns: 
+    UDP_TRAFFIC
+    UDP_FRAGMENT
+    GENERIC_UDP_REFLECTION
+    DNS_REFLECTION
+    NTP_REFLECTION
+    CHARGEN_REFLECTION
+    SSDP_REFLECTION
+    PORT_MAPPER
+    RIP_REFLECTION
+    SNMP_REFLECTION
+    MSSQL_REFLECTION
+    NET_BIOS_REFLECTION
+    SYN_FLOOD
+    ACK_FLOOD
+    REQUEST_FLOOD
     
     """
     pass

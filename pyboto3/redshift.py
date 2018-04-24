@@ -376,14 +376,14 @@ def create_cluster(DBName=None, ClusterIdentifier=None, ClusterType=None, NodeTy
     :type NodeType: string
     :param NodeType: [REQUIRED]
             The node type to be provisioned for the cluster. For information about node types, go to Working with Clusters in the Amazon Redshift Cluster Management Guide .
-            Valid Values: ds1.xlarge | ds1.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge .
+            Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge
             
 
     :type MasterUsername: string
     :param MasterUsername: [REQUIRED]
             The user name associated with the master user account for the cluster that is being created.
             Constraints:
-            Must be 1 - 128 alphanumeric characters.
+            Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC .
             First character must be a letter.
             Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
             
@@ -966,7 +966,12 @@ def create_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
                 {
                     'SubnetIdentifier': 'string',
                     'SubnetAvailabilityZone': {
-                        'Name': 'string'
+                        'Name': 'string',
+                        'SupportedPlatforms': [
+                            {
+                                'Name': 'string'
+                            },
+                        ]
                     },
                     'SubnetStatus': 'string'
                 },
@@ -980,6 +985,9 @@ def create_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
         }
     }
     
+    
+    :returns: 
+    Name (string) --
     
     """
     pass
@@ -1954,7 +1962,7 @@ def describe_cluster_security_groups(ClusterSecurityGroupName=None, MaxRecords=N
     """
     pass
 
-def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, SnapshotType=None, StartTime=None, EndTime=None, MaxRecords=None, Marker=None, OwnerAccount=None, TagKeys=None, TagValues=None):
+def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, SnapshotType=None, StartTime=None, EndTime=None, MaxRecords=None, Marker=None, OwnerAccount=None, TagKeys=None, TagValues=None, ClusterExists=None):
     """
     Returns one or more snapshot objects, which contain metadata about your cluster snapshots. By default, this operation returns information about all snapshots of all clusters that are owned by you AWS customer account. No information is returned for snapshots owned by inactive AWS customer accounts.
     If you specify both tag keys and tag values in the same request, Amazon Redshift returns all snapshots that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all snapshots that have any combination of those values are returned. Only snapshots that you own are returned in the response; shared snapshots are not returned with the tag key and tag value request parameters.
@@ -1976,7 +1984,8 @@ def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, 
         ],
         TagValues=[
             'string',
-        ]
+        ],
+        ClusterExists=True|False
     )
     
     
@@ -2022,6 +2031,9 @@ def describe_cluster_snapshots(ClusterIdentifier=None, SnapshotIdentifier=None, 
     :param TagValues: A tag value or values for which you want to return all matching cluster snapshots that are associated with the specified tag value or values. For example, suppose that you have snapshots that are tagged with values called admin and test . If you specify both of these tag values in the request, Amazon Redshift returns a response with the snapshots that have either or both of these tag values associated with them.
             (string) --
             
+
+    :type ClusterExists: boolean
+    :param ClusterExists: A value that indicates whether to return snapshots only for an existing cluster. Table-level restore can be performed only using a snapshot of an existing cluster, that is, a cluster that has not been deleted. If ClusterExists is set to true , ClusterIdentifier is required.
 
     :rtype: dict
     :return: {
@@ -2138,7 +2150,12 @@ def describe_cluster_subnet_groups(ClusterSubnetGroupName=None, MaxRecords=None,
                     {
                         'SubnetIdentifier': 'string',
                         'SubnetAvailabilityZone': {
-                            'Name': 'string'
+                            'Name': 'string',
+                            'SupportedPlatforms': [
+                                {
+                                    'Name': 'string'
+                                },
+                            ]
                         },
                         'SubnetStatus': 'string'
                     },
@@ -2153,6 +2170,9 @@ def describe_cluster_subnet_groups(ClusterSubnetGroupName=None, MaxRecords=None,
         ]
     }
     
+    
+    :returns: 
+    Name (string) --
     
     """
     pass
@@ -2481,16 +2501,24 @@ def describe_event_categories(SourceType=None):
     """
     pass
 
-def describe_event_subscriptions(SubscriptionName=None, MaxRecords=None, Marker=None):
+def describe_event_subscriptions(SubscriptionName=None, MaxRecords=None, Marker=None, TagKeys=None, TagValues=None):
     """
-    Lists descriptions of all the Amazon Redshift event notifications subscription for a customer account. If you specify a subscription name, lists the description for that subscription.
+    Lists descriptions of all the Amazon Redshift event notification subscriptions for a customer account. If you specify a subscription name, lists the description for that subscription.
+    If you specify both tag keys and tag values in the same request, Amazon Redshift returns all event notification subscriptions that match any combination of the specified keys and values. For example, if you have owner and environment for tag keys, and admin and test for tag values, all subscriptions that have any combination of those values are returned.
+    If both tag keys and values are omitted from the request, subscriptions are returned regardless of whether they have tag keys or values associated with them.
     See also: AWS API Documentation
     
     
     :example: response = client.describe_event_subscriptions(
         SubscriptionName='string',
         MaxRecords=123,
-        Marker='string'
+        Marker='string',
+        TagKeys=[
+            'string',
+        ],
+        TagValues=[
+            'string',
+        ]
     )
     
     
@@ -2505,6 +2533,16 @@ def describe_event_subscriptions(SubscriptionName=None, MaxRecords=None, Marker=
 
     :type Marker: string
     :param Marker: An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeEventSubscriptions request exceed the value specified in MaxRecords , AWS returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+
+    :type TagKeys: list
+    :param TagKeys: A tag key or keys for which you want to return all matching event notification subscriptions that are associated with the specified key or keys. For example, suppose that you have subscriptions that are tagged with keys called owner and environment . If you specify both of these tag keys in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag keys associated with them.
+            (string) --
+            
+
+    :type TagValues: list
+    :param TagValues: A tag value or values for which you want to return all matching event notification subscriptions that are associated with the specified tag value or values. For example, suppose that you have subscriptions that are tagged with values called admin and test . If you specify both of these tag values in the request, Amazon Redshift returns a response with the subscriptions that have either or both of these tag values associated with them.
+            (string) --
+            
 
     :rtype: dict
     :return: {
@@ -2831,7 +2869,12 @@ def describe_orderable_cluster_options(ClusterVersion=None, NodeType=None, MaxRe
                 'NodeType': 'string',
                 'AvailabilityZones': [
                     {
-                        'Name': 'string'
+                        'Name': 'string',
+                        'SupportedPlatforms': [
+                            {
+                                'Name': 'string'
+                            },
+                        ]
                     },
                 ]
             },
@@ -2839,6 +2882,9 @@ def describe_orderable_cluster_options(ClusterVersion=None, NodeType=None, MaxRe
         'Marker': 'string'
     }
     
+    
+    :returns: 
+    Name (string) --
     
     """
     pass
@@ -2886,7 +2932,8 @@ def describe_reserved_node_offerings(ReservedNodeOfferingId=None, MaxRecords=Non
                         'RecurringChargeAmount': 123.0,
                         'RecurringChargeFrequency': 'string'
                     },
-                ]
+                ],
+                'ReservedNodeOfferingType': 'Regular'|'Upgradable'
             },
         ]
     }
@@ -2941,7 +2988,8 @@ def describe_reserved_nodes(ReservedNodeId=None, MaxRecords=None, Marker=None):
                         'RecurringChargeAmount': 123.0,
                         'RecurringChargeFrequency': 'string'
                     },
-                ]
+                ],
+                'ReservedNodeOfferingType': 'Regular'|'Upgradable'
             },
         ]
     }
@@ -3158,7 +3206,7 @@ def describe_tags(ResourceName=None, ResourceType=None, MaxRecords=None, Marker=
             HSM certificate
             Parameter group
             Snapshot copy grant
-            For more information about Amazon Redshift resource types and constructing ARNs, go to Constructing an Amazon Redshift Amazon Resource Name (ARN) in the Amazon Redshift Cluster Management Guide.
+            For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
             
 
     :type MaxRecords: integer
@@ -3208,7 +3256,7 @@ def describe_tags(ResourceName=None, ResourceType=None, MaxRecords=None, Marker=
     Parameter group
     Snapshot copy grant
     
-    For more information about Amazon Redshift resource types and constructing ARNs, go to Constructing an Amazon Redshift Amazon Resource Name (ARN) in the Amazon Redshift Cluster Management Guide.
+    For more information about Amazon Redshift resource types and constructing ARNs, go to Specifying Policy Elements: Actions, Effects, Resources, and Principals in the Amazon Redshift Cluster Management Guide.
     
     MaxRecords (integer) -- The maximum number or response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
     Marker (string) -- A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the marker parameter and retrying the command. If the marker field is empty, all response records have been retrieved for the request.
@@ -3638,8 +3686,8 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 
 def get_cluster_credentials(DbUser=None, DbName=None, ClusterIdentifier=None, DurationSeconds=None, AutoCreate=None, DbGroups=None):
     """
-    Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log in. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Generating IAM Database User Credentials in the Amazon Redshift Cluster Management Guide.
-    The IAM user or role that executes GetClusterCredentials must have an IAM policy attached that allows the redshift:GetClusterCredentials action with access to the dbuser resource on the cluster. The user name specified for dbuser in the IAM policy and the user name specified for the DbUser parameter must match.
+    Returns a database user name and temporary password with temporary authorization to log on to an Amazon Redshift database. The action returns the database user name prefixed with IAM: if AutoCreate is False or IAMA: if AutoCreate is True . You can optionally specify one or more database user groups that the user will join at log on. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Using IAM Authentication to Generate Database User Credentials in the Amazon Redshift Cluster Management Guide.
+    The AWS Identity and Access Management (IAM)user or role that executes GetClusterCredentials must have an IAM policy attached that allows access to all necessary actions and resources. For more information about permissions, see Resource Policies for GetClusterCredentials in the Amazon Redshift Cluster Management Guide.
     If the DbGroups parameter is specified, the IAM policy must allow the redshift:JoinGroup action with access to the listed dbgroups .
     In addition, if the AutoCreate parameter is set to True , then the policy must include the redshift:CreateClusterUser privilege.
     If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
@@ -3663,18 +3711,20 @@ def get_cluster_credentials(DbUser=None, DbName=None, ClusterIdentifier=None, Du
             The name of a database user. If a user name matching DbUser exists in the database, the temporary user credentials have the same permissions as the existing user. If DbUser doesn't exist in the database and Autocreate is True , a new user is created using the value for DbUser with PUBLIC permissions. If a database user matching the value for DbUser doesn't exist and Autocreate is False , then the command succeeds but the connection attempt will fail because the user doesn't exist in the database.
             For more information, see CREATE USER in the Amazon Redshift Database Developer Guide.
             Constraints:
-            Must be 1 to 128 alphanumeric characters or hyphens
-            Must contain only lowercase letters.
+            Must be 1 to 64 alphanumeric characters or hyphens. The user name can't be PUBLIC .
+            Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
             First character must be a letter.
             Must not contain a colon ( : ) or slash ( / ).
             Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
             
 
     :type DbName: string
-    :param DbName: The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log in to any existing database.
+    :param DbName: The name of a database that DbUser is authorized to log on to. If DbName is not specified, DbUser can log on to any existing database.
             Constraints:
             Must be 1 to 64 alphanumeric characters or hyphens
-            Must contain only lowercase letters.
+            Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
+            First character must be a letter.
+            Must not contain a colon ( : ) or slash ( / ).
             Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
             
 
@@ -3690,10 +3740,16 @@ def get_cluster_credentials(DbUser=None, DbName=None, ClusterIdentifier=None, Du
             
 
     :type AutoCreate: boolean
-    :param AutoCreate: Create a database user with the name specified for DbUser if one does not exist.
+    :param AutoCreate: Create a database user with the name specified for the user named in DbUser if one does not exist.
 
     :type DbGroups: list
-    :param DbGroups: A list of the names of existing database groups that DbUser will join for the current session. If not specified, the new user is added only to PUBLIC.
+    :param DbGroups: A list of the names of existing database groups that the user named in DbUser will join for the current session, in addition to any group memberships for an existing user. If not specified, a new user is added only to PUBLIC.
+            Database group name constraints
+            Must be 1 to 64 alphanumeric characters or hyphens
+            Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
+            First character must be a letter.
+            Must not contain a colon ( : ) or slash ( / ).
+            Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
             (string) --
             
 
@@ -3778,7 +3834,7 @@ def modify_cluster(ClusterIdentifier=None, ClusterType=None, NodeType=None, Numb
     :type NodeType: string
     :param NodeType: The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.
             When you submit your request to resize a cluster, Amazon Redshift sets access permissions for the cluster to read-only. After Amazon Redshift provisions a new cluster according to your resize requirements, there will be a temporary outage while the old cluster is deleted and your connection is switched to the new cluster. When the new connection is complete, the original access permissions for the cluster are restored. You can use DescribeResize to track the progress of the resize request.
-            Valid Values: ds1.xlarge | ds1.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge .
+            Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge
             
 
     :type NumberOfNodes: integer
@@ -4270,7 +4326,12 @@ def modify_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
                 {
                     'SubnetIdentifier': 'string',
                     'SubnetAvailabilityZone': {
-                        'Name': 'string'
+                        'Name': 'string',
+                        'SupportedPlatforms': [
+                            {
+                                'Name': 'string'
+                            },
+                        ]
                     },
                     'SubnetStatus': 'string'
                 },
@@ -4284,6 +4345,9 @@ def modify_cluster_subnet_group(ClusterSubnetGroupName=None, Description=None, S
         }
     }
     
+    
+    :returns: 
+    Name (string) --
     
     """
     pass
@@ -4574,7 +4638,8 @@ def purchase_reserved_node_offering(ReservedNodeOfferingId=None, NodeCount=None)
                     'RecurringChargeAmount': 123.0,
                     'RecurringChargeFrequency': 'string'
                 },
-            ]
+            ],
+            'ReservedNodeOfferingType': 'Regular'|'Upgradable'
         }
     }
     
@@ -4924,7 +4989,7 @@ def restore_from_cluster_snapshot(ClusterIdentifier=None, SnapshotIdentifier=Non
 
     :type NodeType: string
     :param NodeType: The node type that the restored cluster will be provisioned with.
-            Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type. For more information about node types, see About Clusters and Nodes in the Amazon Redshift Cluster Management Guide
+            Default: The node type of the cluster from which the snapshot was taken. You can modify this if you are using any DS node type. In that case, you can choose to restore into another DS node type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc1.large instance type into another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more information about node types, see About Clusters and Nodes in the Amazon Redshift Cluster Management Guide .
             
 
     :type EnhancedVpcRouting: boolean

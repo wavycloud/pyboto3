@@ -70,8 +70,8 @@ def add_custom_attributes(UserPoolId=None, CustomAttributes=None):
             MinValue (string) --The minimum value of an attribute that is of the number data type.
             MaxValue (string) --The maximum value of an attribute that is of the number data type.
             StringAttributeConstraints (dict) --Specifies the constraints for an attribute of the string type.
-            MinLength (string) --The minimum length of an attribute value of the string type.
-            MaxLength (string) --The maximum length of an attribute value of the string type.
+            MinLength (string) --The minimum length.
+            MaxLength (string) --The maximum length.
             
             
 
@@ -146,8 +146,11 @@ def admin_confirm_sign_up(UserPoolId=None, Username=None):
 
 def admin_create_user(UserPoolId=None, Username=None, UserAttributes=None, ValidationData=None, TemporaryPassword=None, ForceAliasCreation=None, MessageAction=None, DesiredDeliveryMediums=None):
     """
-    Creates a new user in the specified user pool and sends a welcome message via email or phone (SMS). This message is based on a template that you configured in your call to CreateUserPool or UpdateUserPool . This template includes your custom sign-up instructions and placeholders for user name and temporary password.
-    Requires developer credentials.
+    Creates a new user in the specified user pool.
+    If MessageAction is not set, the default is to send a welcome message via email or phone (SMS).
+    Alternatively, you can call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito will not send any email.
+    In either case, the user will be in the FORCE_CHANGE_PASSWORD state until they sign in and change their password.
+    AdminCreateUser requires developer credentials.
     See also: AWS API Documentation
     
     
@@ -186,10 +189,10 @@ def admin_create_user(UserPoolId=None, Username=None, UserAttributes=None, Valid
             
 
     :type UserAttributes: list
-    :param UserAttributes: An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username . However, any attributes that you specify as required (in CreateUserPool or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser ) or by the user (when he or she signs up in response to your welcome message).
+    :param UserAttributes: An array of name-value pairs that contain user attributes and attribute values to be set for the user to be created. You can create a user without specifying any attributes other than Username . However, any attributes that you specify as required (in or in the Attributes tab of the console) must be supplied either by you (in your call to AdminCreateUser ) or by the user (when he or she signs up in response to your welcome message).
             For custom attributes, you must prepend the custom: prefix to the attribute name.
             To send a message inviting the user to sign up, you must specify the user's email address or phone number. This can be done in your call to AdminCreateUser or in the Users tab of the Amazon Cognito console for managing your user pools.
-            In your call to AdminCreateUser , you can set the email_verified attribute to True , and you can set the phone_number_verified attribute to True . (You can also do this by calling AdminUpdateUserAttributes .)
+            In your call to AdminCreateUser , you can set the email_verified attribute to True , and you can set the phone_number_verified attribute to True . (You can also do this by calling .)
             email : The email address of the user to whom the message that contains the code and username will be sent. Required if the email_verified attribute is set to True , or if 'EMAIL' is specified in the DesiredDeliveryMediums parameter.
             phone_number : The phone number of the user to whom the message that contains the code and username will be sent. Required if the phone_number_verified attribute is set to True , or if 'SMS' is specified in the DesiredDeliveryMediums parameter.
             (dict) --Specifies whether the attribute is standard or custom.
@@ -325,6 +328,50 @@ def admin_delete_user_attributes(UserPoolId=None, Username=None, UserAttributeNa
     :rtype: dict
     :return: {}
     
+    
+    """
+    pass
+
+def admin_disable_provider_for_user(UserPoolId=None, User=None):
+    """
+    Disables the user from signing in with the specified external (SAML or social) identity provider. If the user to disable is a Cognito User Pools native username + password user, they are not permitted to use their password to sign-in. If the user to disable is a linked external IdP user, any link between that user and an existing user is removed. The next time the external user (no longer attached to the previously linked DestinationUser ) signs in, they must create a new user account. See .
+    This action is enabled only for admin access and requires developer credentials.
+    The ProviderName must match the value specified when creating an IdP for the pool.
+    To disable a native username + password user, the ProviderName value must be Cognito and the ProviderAttributeName must be Cognito_Subject , with the ProviderAttributeValue being the name that is used in the user pool for the user.
+    The ProviderAttributeName must always be Cognito_Subject for social identity providers. The ProviderAttributeValue must always be the exact subject that was used when the user was originally linked as a source user.
+    For de-linking a SAML identity, there are two scenarios. If the linked identity has not yet been used to sign-in, the ProviderAttributeName and ProviderAttributeValue must be the same values that were used for the SourceUser when the identities were originally linked in the call. (If the linking was done with ProviderAttributeName set to Cognito_Subject , the same applies here). However, if the user has already signed in, the ProviderAttributeName must be Cognito_Subject and ProviderAttributeValue must be the subject of the SAML assertion.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_disable_provider_for_user(
+        UserPoolId='string',
+        User={
+            'ProviderName': 'string',
+            'ProviderAttributeName': 'string',
+            'ProviderAttributeValue': 'string'
+        }
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type User: dict
+    :param User: [REQUIRED]
+            The user to be disabled.
+            ProviderName (string) --The name of the provider, for example, Facebook, Google, or Login with Amazon.
+            ProviderAttributeName (string) --The name of the provider attribute to link to, for example, NameID .
+            ProviderAttributeValue (string) --The value of the provider attribute to link to, for example, xxxxx_account .
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -511,6 +558,10 @@ def admin_get_user(UserPoolId=None, Username=None):
                 'DeliveryMedium': 'SMS'|'EMAIL',
                 'AttributeName': 'string'
             },
+        ],
+        'PreferredMfaSetting': 'string',
+        'UserMFASettingList': [
+            'string',
         ]
     }
     
@@ -525,7 +576,7 @@ def admin_get_user(UserPoolId=None, Username=None):
     """
     pass
 
-def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParameters=None, ClientMetadata=None):
+def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParameters=None, ClientMetadata=None, AnalyticsMetadata=None, ContextData=None):
     """
     Initiates the authentication flow, as an administrator.
     Requires developer credentials.
@@ -535,12 +586,27 @@ def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParam
     :example: response = client.admin_initiate_auth(
         UserPoolId='string',
         ClientId='string',
-        AuthFlow='USER_SRP_AUTH'|'REFRESH_TOKEN_AUTH'|'REFRESH_TOKEN'|'CUSTOM_AUTH'|'ADMIN_NO_SRP_AUTH',
+        AuthFlow='USER_SRP_AUTH'|'REFRESH_TOKEN_AUTH'|'REFRESH_TOKEN'|'CUSTOM_AUTH'|'ADMIN_NO_SRP_AUTH'|'USER_PASSWORD_AUTH',
         AuthParameters={
             'string': 'string'
         },
         ClientMetadata={
             'string': 'string'
+        },
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        ContextData={
+            'IpAddress': 'string',
+            'ServerName': 'string',
+            'ServerPath': 'string',
+            'HttpHeaders': [
+                {
+                    'headerName': 'string',
+                    'headerValue': 'string'
+                },
+            ],
+            'EncodedData': 'string'
         }
     )
     
@@ -559,18 +625,20 @@ def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParam
     :param AuthFlow: [REQUIRED]
             The authentication flow for this call to execute. The API action will depend on this value. For example:
             REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.
-            USER_SRP_AUTH will take in USERNAME and SRPA and return the SRP variables to be used for next challenge execution.
+            USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.
+            USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.
             Valid values include:
             USER_SRP_AUTH : Authentication flow for the Secure Remote Password (SRP) protocol.
             REFRESH_TOKEN_AUTH /REFRESH_TOKEN : Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.
             CUSTOM_AUTH : Custom authentication flow.
             ADMIN_NO_SRP_AUTH : Non-SRP authentication flow; you can pass in the USERNAME and PASSWORD directly if the flow is enabled for calling the app client.
+            USER_PASSWORD_AUTH : Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.
             
 
     :type AuthParameters: dict
     :param AuthParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow :
-            For USER_SRP_AUTH : USERNAME (required), SRPA (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
-            For REFRESH_TOKEN_AUTH/REFRESH_TOKEN : USERNAME (required), SECRET_HASH (required if the app client is configured with a client secret), REFRESH_TOKEN (required), DEVICE_KEY
+            For USER_SRP_AUTH : USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
+            For REFRESH_TOKEN_AUTH/REFRESH_TOKEN : REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
             For ADMIN_NO_SRP_AUTH : USERNAME (required), SECRET_HASH (if app client is configured with client secret), PASSWORD (required), DEVICE_KEY
             For CUSTOM_AUTH : USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY
             (string) --
@@ -583,9 +651,27 @@ def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParam
             (string) --
             
 
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The analytics metadata for collecting Amazon Pinpoint metrics for AdminInitiateAuth calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type ContextData: dict
+    :param ContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            IpAddress (string) -- [REQUIRED]Source IP address of your user.
+            ServerName (string) -- [REQUIRED]Your server endpoint where this API is invoked.
+            ServerPath (string) -- [REQUIRED]Your server path where this API is invoked.
+            HttpHeaders (list) -- [REQUIRED]HttpHeaders received on your server in same order.
+            (dict) --The HTTP header.
+            headerName (string) --The header name
+            headerValue (string) --The header value.
+            
+            EncodedData (string) --Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
+            
+
     :rtype: dict
     :return: {
-        'ChallengeName': 'SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        'ChallengeName': 'SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         'Session': 'string',
         'ChallengeParameters': {
             'string': 'string'
@@ -612,6 +698,66 @@ def admin_initiate_auth(UserPoolId=None, ClientId=None, AuthFlow=None, AuthParam
     DEVICE_PASSWORD_VERIFIER : Similar to PASSWORD_VERIFIER , but for devices only.
     ADMIN_NO_SRP_AUTH : This is returned if you need to authenticate with USERNAME and PASSWORD directly. An app client must be enabled to use this flow.
     NEW_PASSWORD_REQUIRED : For users which are required to change their passwords after successful first login. This challenge should be passed with NEW_PASSWORD and any other required attributes.
+    
+    """
+    pass
+
+def admin_link_provider_for_user(UserPoolId=None, DestinationUser=None, SourceUser=None):
+    """
+    Links an existing user account in a user pool (DestinationUser ) to an identity from an external identity provider (SourceUser ) based on a specified attribute name and value from the external identity provider. This allows you to create a link from the existing user account to an external federated user identity that has not yet been used to sign in, so that the federated user identity can be used to sign in as the existing user account.
+    For example, if there is an existing user with a username and password, this API links that user to a federated user identity, so that when the federated user identity is used, the user signs in as the existing user account.
+    See also .
+    This action is enabled only for admin access and requires developer credentials.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_link_provider_for_user(
+        UserPoolId='string',
+        DestinationUser={
+            'ProviderName': 'string',
+            'ProviderAttributeName': 'string',
+            'ProviderAttributeValue': 'string'
+        },
+        SourceUser={
+            'ProviderName': 'string',
+            'ProviderAttributeName': 'string',
+            'ProviderAttributeValue': 'string'
+        }
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type DestinationUser: dict
+    :param DestinationUser: [REQUIRED]
+            The existing user in the user pool to be linked to the external identity provider user account. Can be a native (Username + Password) Cognito User Pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, an exception is thrown. This is the user that is returned when the new user (with the linked identity provider attribute) signs in.
+            For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id .
+            The ProviderAttributeName of the DestinationUser is ignored.
+            The ProviderName should be set to Cognito for users in Cognito user pools.
+            ProviderName (string) --The name of the provider, for example, Facebook, Google, or Login with Amazon.
+            ProviderAttributeName (string) --The name of the provider attribute to link to, for example, NameID .
+            ProviderAttributeValue (string) --The value of the provider attribute to link to, for example, xxxxx_account .
+            
+
+    :type SourceUser: dict
+    :param SourceUser: [REQUIRED]
+            An external identity provider account for a user who does not currently exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user.
+            If the SourceUser is a federated social identity provider user (Facebook, Google, or Login with Amazon), you must set the ProviderAttributeName to Cognito_Subject . For social identity providers, the ProviderName will be Facebook , Google , or LoginWithAmazon , and Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id , sub , and user_id , respectively. The ProviderAttributeValue for the user must be the same value as the id , sub , or user_id value found in the social identity provider token.
+            For SAML, the ProviderAttributeName can be any value that matches a claim in the SAML assertion. If you wish to link SAML users based on the subject of the SAML assertion, you should map the subject to a claim through the SAML identity provider and submit that claim name as the ProviderAttributeName . If you set ProviderAttributeName to Cognito_Subject , Cognito will automatically parse the default unique identifier found in the subject from the SAML token.
+            ProviderName (string) --The name of the provider, for example, Facebook, Google, or Login with Amazon.
+            ProviderAttributeName (string) --The name of the provider attribute to link to, for example, NameID .
+            ProviderAttributeValue (string) --The value of the provider attribute to link to, for example, xxxxx_account .
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -721,6 +867,75 @@ def admin_list_groups_for_user(Username=None, UserPoolId=None, Limit=None, NextT
     """
     pass
 
+def admin_list_user_auth_events(UserPoolId=None, Username=None, MaxResults=None, NextToken=None):
+    """
+    Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_list_user_auth_events(
+        UserPoolId='string',
+        Username='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The user pool username or an alias.
+            
+
+    :type MaxResults: integer
+    :param MaxResults: The maximum number of authentication events to return.
+
+    :type NextToken: string
+    :param NextToken: A pagination token.
+
+    :rtype: dict
+    :return: {
+        'AuthEvents': [
+            {
+                'EventId': 'string',
+                'EventType': 'SignIn'|'SignUp'|'ForgotPassword',
+                'CreationDate': datetime(2015, 1, 1),
+                'EventResponse': 'Success'|'Failure',
+                'EventRisk': {
+                    'RiskDecision': 'NoRisk'|'AccountTakeover'|'Block',
+                    'RiskLevel': 'Low'|'Medium'|'High'
+                },
+                'ChallengeResponses': [
+                    {
+                        'ChallengeName': 'Password'|'Mfa',
+                        'ChallengeResponse': 'Success'|'Failure'
+                    },
+                ],
+                'EventContextData': {
+                    'IpAddress': 'string',
+                    'DeviceName': 'string',
+                    'Timezone': 'string',
+                    'City': 'string',
+                    'Country': 'string'
+                },
+                'EventFeedback': {
+                    'FeedbackValue': 'Valid'|'Invalid',
+                    'Provider': 'string',
+                    'FeedbackDate': datetime(2015, 1, 1)
+                }
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
 def admin_remove_user_from_group(UserPoolId=None, Username=None, GroupName=None):
     """
     Removes the specified user from the specified group.
@@ -784,7 +999,7 @@ def admin_reset_user_password(UserPoolId=None, Username=None):
     """
     pass
 
-def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeName=None, ChallengeResponses=None, Session=None):
+def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeName=None, ChallengeResponses=None, Session=None, AnalyticsMetadata=None, ContextData=None):
     """
     Responds to an authentication challenge, as an administrator.
     Requires developer credentials.
@@ -794,11 +1009,26 @@ def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeNam
     :example: response = client.admin_respond_to_auth_challenge(
         UserPoolId='string',
         ClientId='string',
-        ChallengeName='SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        ChallengeName='SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         ChallengeResponses={
             'string': 'string'
         },
-        Session='string'
+        Session='string',
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        ContextData={
+            'IpAddress': 'string',
+            'ServerName': 'string',
+            'ServerPath': 'string',
+            'HttpHeaders': [
+                {
+                    'headerName': 'string',
+                    'headerValue': 'string'
+                },
+            ],
+            'EncodedData': 'string'
+        }
     )
     
     
@@ -814,7 +1044,7 @@ def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeNam
 
     :type ChallengeName: string
     :param ChallengeName: [REQUIRED]
-            The challenge name. For more information, see AdminInitiateAuth .
+            The challenge name. For more information, see .
             
 
     :type ChallengeResponses: dict
@@ -831,9 +1061,27 @@ def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeNam
     :type Session: string
     :param Session: The session which should be passed both ways in challenge-response calls to the service. If InitiateAuth or RespondToAuthChallenge API call determines that the caller needs to go through another challenge, they return a session with other challenge parameters. This session should be passed as it is to the next RespondToAuthChallenge API call.
 
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The analytics metadata for collecting Amazon Pinpoint metrics for AdminRespondToAuthChallenge calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type ContextData: dict
+    :param ContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            IpAddress (string) -- [REQUIRED]Source IP address of your user.
+            ServerName (string) -- [REQUIRED]Your server endpoint where this API is invoked.
+            ServerPath (string) -- [REQUIRED]Your server path where this API is invoked.
+            HttpHeaders (list) -- [REQUIRED]HttpHeaders received on your server in same order.
+            (dict) --The HTTP header.
+            headerName (string) --The header name
+            headerValue (string) --The header value.
+            
+            EncodedData (string) --Encoded data containing device fingerprinting details, collected using the Amazon Cognito context data collection library.
+            
+
     :rtype: dict
     :return: {
-        'ChallengeName': 'SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        'ChallengeName': 'SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         'Session': 'string',
         'ChallengeParameters': {
             'string': 'string'
@@ -857,6 +1105,58 @@ def admin_respond_to_auth_challenge(UserPoolId=None, ClientId=None, ChallengeNam
     (string) --
     
     
+    
+    """
+    pass
+
+def admin_set_user_mfa_preference(SMSMfaSettings=None, SoftwareTokenMfaSettings=None, Username=None, UserPoolId=None):
+    """
+    Sets the user's multi-factor authentication (MFA) preference.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_set_user_mfa_preference(
+        SMSMfaSettings={
+            'Enabled': True|False,
+            'PreferredMfa': True|False
+        },
+        SoftwareTokenMfaSettings={
+            'Enabled': True|False,
+            'PreferredMfa': True|False
+        },
+        Username='string',
+        UserPoolId='string'
+    )
+    
+    
+    :type SMSMfaSettings: dict
+    :param SMSMfaSettings: The SMS text message MFA settings.
+            Enabled (boolean) --Specifies whether SMS text message MFA is enabled.
+            PreferredMfa (boolean) --The preferred MFA method.
+            
+
+    :type SoftwareTokenMfaSettings: dict
+    :param SoftwareTokenMfaSettings: The time-based one-time password software token MFA settings.
+            Enabled (boolean) --Specifies whether software token MFA is enabled.
+            PreferredMfa (boolean) --The preferred MFA method.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The user pool username or alias.
+            
+
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -902,6 +1202,50 @@ def admin_set_user_settings(UserPoolId=None, Username=None, MFAOptions=None):
     :rtype: dict
     :return: {}
     
+    
+    """
+    pass
+
+def admin_update_auth_event_feedback(UserPoolId=None, Username=None, EventId=None, FeedbackValue=None):
+    """
+    Provides feedback for an authentication event as to whether it was from a valid user. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.admin_update_auth_event_feedback(
+        UserPoolId='string',
+        Username='string',
+        EventId='string',
+        FeedbackValue='Valid'|'Invalid'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The user pool username.
+            
+
+    :type EventId: string
+    :param EventId: [REQUIRED]
+            The authentication event ID.
+            
+
+    :type FeedbackValue: string
+    :param FeedbackValue: [REQUIRED]
+            The authentication event feedback value.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
     
     """
     pass
@@ -1024,6 +1368,34 @@ def admin_user_global_sign_out(UserPoolId=None, Username=None):
     """
     pass
 
+def associate_software_token(AccessToken=None, Session=None):
+    """
+    Returns a unique generated shared secret key code for the user account. The request takes an access token or a session string, but not both.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.associate_software_token(
+        AccessToken='string',
+        Session='string'
+    )
+    
+    
+    :type AccessToken: string
+    :param AccessToken: The access token.
+
+    :type Session: string
+    :param Session: The session which should be passed both ways in challenge-response calls to the service. This allows authentication of the user as part of the MFA setup process.
+
+    :rtype: dict
+    :return: {
+        'SecretCode': 'string',
+        'Session': 'string'
+    }
+    
+    
+    """
+    pass
+
 def can_paginate(operation_name=None):
     """
     Check if an operation can be paginated.
@@ -1054,17 +1426,17 @@ def change_password(PreviousPassword=None, ProposedPassword=None, AccessToken=No
     
     :type PreviousPassword: string
     :param PreviousPassword: [REQUIRED]
-            The old password in the change password request.
+            The old password.
             
 
     :type ProposedPassword: string
     :param ProposedPassword: [REQUIRED]
-            The new password in the change password request.
+            The new password.
             
 
     :type AccessToken: string
     :param AccessToken: [REQUIRED]
-            The access token in the change password request.
+            The access token.
             
 
     :rtype: dict
@@ -1119,7 +1491,7 @@ def confirm_device(AccessToken=None, DeviceKey=None, DeviceSecretVerifierConfig=
     """
     pass
 
-def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, Password=None):
+def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, Password=None, AnalyticsMetadata=None, UserContextData=None):
     """
     Allows a user to enter a confirmation code to reset a forgotten password.
     See also: AWS API Documentation
@@ -1130,13 +1502,19 @@ def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, Confi
         SecretHash='string',
         Username='string',
         ConfirmationCode='string',
-        Password='string'
+        Password='string',
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        UserContextData={
+            'EncodedData': 'string'
+        }
     )
     
     
     :type ClientId: string
     :param ClientId: [REQUIRED]
-            The ID of the client associated with the user pool.
+            The app client ID of the app associated with the user pool.
             
 
     :type SecretHash: string
@@ -1149,12 +1527,22 @@ def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, Confi
 
     :type ConfirmationCode: string
     :param ConfirmationCode: [REQUIRED]
-            The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see ForgotPassword
+            The confirmation code sent by a user's request to retrieve a forgotten password. For more information, see
             
 
     :type Password: string
     :param Password: [REQUIRED]
             The password sent by a user's request to retrieve a forgotten password.
+            
+
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmForgotPassword calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
             
 
     :rtype: dict
@@ -1164,7 +1552,7 @@ def confirm_forgot_password(ClientId=None, SecretHash=None, Username=None, Confi
     """
     pass
 
-def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, ForceAliasCreation=None):
+def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationCode=None, ForceAliasCreation=None, AnalyticsMetadata=None, UserContextData=None):
     """
     Confirms registration of a user and handles the existing alias from a previous user.
     See also: AWS API Documentation
@@ -1175,13 +1563,19 @@ def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationC
         SecretHash='string',
         Username='string',
         ConfirmationCode='string',
-        ForceAliasCreation=True|False
+        ForceAliasCreation=True|False,
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        UserContextData={
+            'EncodedData': 'string'
+        }
     )
     
     
     :type ClientId: string
     :param ClientId: [REQUIRED]
-            The ID of the client associated with the user pool.
+            The ID of the app client associated with the user pool.
             
 
     :type SecretHash: string
@@ -1199,6 +1593,16 @@ def confirm_sign_up(ClientId=None, SecretHash=None, Username=None, ConfirmationC
 
     :type ForceAliasCreation: boolean
     :param ForceAliasCreation: Boolean to be specified to force user confirmation irrespective of existing alias. By default set to False . If this parameter is set to True and the phone number/email used for sign up confirmation already exists as an alias with a different user, the API call will migrate the alias from the previous user to the newly created user being confirmed. If set to False , the API will throw an AliasExistsException error.
+
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for ConfirmSignUp calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            
 
     :rtype: dict
     :return: {}
@@ -1271,7 +1675,7 @@ def create_identity_provider(UserPoolId=None, ProviderName=None, ProviderType=No
     :example: response = client.create_identity_provider(
         UserPoolId='string',
         ProviderName='string',
-        ProviderType='SAML',
+        ProviderType='SAML'|'Facebook'|'Google'|'LoginWithAmazon',
         ProviderDetails={
             'string': 'string'
         },
@@ -1322,7 +1726,7 @@ def create_identity_provider(UserPoolId=None, ProviderName=None, ProviderType=No
         'IdentityProvider': {
             'UserPoolId': 'string',
             'ProviderName': 'string',
-            'ProviderType': 'SAML',
+            'ProviderType': 'SAML'|'Facebook'|'Google'|'LoginWithAmazon',
             'ProviderDetails': {
                 'string': 'string'
             },
@@ -1342,6 +1746,67 @@ def create_identity_provider(UserPoolId=None, ProviderName=None, ProviderType=No
     (string) --
     (string) --
     
+    
+    
+    """
+    pass
+
+def create_resource_server(UserPoolId=None, Identifier=None, Name=None, Scopes=None):
+    """
+    Creates a new OAuth2.0 resource server and defines custom scopes in it.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_resource_server(
+        UserPoolId='string',
+        Identifier='string',
+        Name='string',
+        Scopes=[
+            {
+                'ScopeName': 'string',
+                'ScopeDescription': 'string'
+            },
+        ]
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Identifier: string
+    :param Identifier: [REQUIRED]
+            A unique resource server identifier for the resource server. This could be an HTTPS endpoint where the resource server is located. For example, https://my-weather-api.example.com .
+            
+
+    :type Name: string
+    :param Name: [REQUIRED]
+            A friendly name for the resource server.
+            
+
+    :type Scopes: list
+    :param Scopes: A list of scopes. Each scope is map, where the keys are name and description .
+            (dict) --A resource server scope.
+            ScopeName (string) -- [REQUIRED]The name of the scope.
+            ScopeDescription (string) -- [REQUIRED]A description of the scope.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'ResourceServer': {
+            'UserPoolId': 'string',
+            'Identifier': 'string',
+            'Name': 'string',
+            'Scopes': [
+                {
+                    'ScopeName': 'string',
+                    'ScopeDescription': 'string'
+                },
+            ]
+        }
+    }
     
     
     """
@@ -1408,7 +1873,7 @@ def create_user_import_job(JobName=None, UserPoolId=None, CloudWatchLogsRoleArn=
     """
     pass
 
-def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, AliasAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None, Schema=None):
+def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, AliasAttributes=None, UsernameAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, VerificationMessageTemplate=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None, Schema=None, UserPoolAddOns=None):
     """
     Creates a new Amazon Cognito user pool and sets the password policy for the pool.
     See also: AWS API Documentation
@@ -1433,7 +1898,9 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             'PostAuthentication': 'string',
             'DefineAuthChallenge': 'string',
             'CreateAuthChallenge': 'string',
-            'VerifyAuthChallengeResponse': 'string'
+            'VerifyAuthChallengeResponse': 'string',
+            'PreTokenGeneration': 'string',
+            'UserMigration': 'string'
         },
         AutoVerifiedAttributes=[
             'phone_number'|'email',
@@ -1441,9 +1908,20 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
         AliasAttributes=[
             'phone_number'|'email'|'preferred_username',
         ],
+        UsernameAttributes=[
+            'phone_number'|'email',
+        ],
         SmsVerificationMessage='string',
         EmailVerificationMessage='string',
         EmailVerificationSubject='string',
+        VerificationMessageTemplate={
+            'SmsMessage': 'string',
+            'EmailMessage': 'string',
+            'EmailSubject': 'string',
+            'EmailMessageByLink': 'string',
+            'EmailSubjectByLink': 'string',
+            'DefaultEmailOption': 'CONFIRM_WITH_LINK'|'CONFIRM_WITH_CODE'
+        },
         SmsAuthenticationMessage='string',
         MfaConfiguration='OFF'|'ON'|'OPTIONAL',
         DeviceConfiguration={
@@ -1486,7 +1964,10 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
                     'MaxLength': 'string'
                 }
             },
-        ]
+        ],
+        UserPoolAddOns={
+            'AdvancedSecurityMode': 'OFF'|'AUDIT'|'ENFORCED'
+        }
     )
     
     
@@ -1497,7 +1978,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
 
     :type Policies: dict
     :param Policies: The policies associated with the new user pool.
-            PasswordPolicy (dict) --A container for information about the user pool password policy.
+            PasswordPolicy (dict) --The password policy.
             MinimumLength (integer) --The minimum length of the password policy that you have set. Cannot be less than 6.
             RequireUppercase (boolean) --In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
             RequireLowercase (boolean) --In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
@@ -1508,6 +1989,10 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
 
     :type LambdaConfig: dict
     :param LambdaConfig: The Lambda trigger configuration information for the new user pool.
+            Note
+            In a push model, event sources (such as Amazon S3 and custom applications) need permission to invoke a function. So you will need to make an extra call to add permission for these event sources to invoke your Lambda function.
+            For more information on using the Lambda API to add permission, see AddPermission .
+            For adding permission using the AWS CLI, see add-permission .
             PreSignUp (string) --A pre-registration AWS Lambda trigger.
             CustomMessage (string) --A custom Message AWS Lambda trigger.
             PostConfirmation (string) --A post-confirmation AWS Lambda trigger.
@@ -1516,6 +2001,8 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             DefineAuthChallenge (string) --Defines the authentication challenge.
             CreateAuthChallenge (string) --Creates an authentication challenge.
             VerifyAuthChallengeResponse (string) --Verifies the authentication challenge response.
+            PreTokenGeneration (string) --A Lambda trigger that is invoked before token generation.
+            UserMigration (string) --The user migration Lambda config type.
             
 
     :type AutoVerifiedAttributes: list
@@ -1528,6 +2015,11 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             (string) --
             
 
+    :type UsernameAttributes: list
+    :param UsernameAttributes: Specifies whether email addresses or phone numbers can be specified as usernames when a user signs up.
+            (string) --
+            
+
     :type SmsVerificationMessage: string
     :param SmsVerificationMessage: A string representing the SMS verification message.
 
@@ -1536,6 +2028,16 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
 
     :type EmailVerificationSubject: string
     :param EmailVerificationSubject: A string representing the email verification subject.
+
+    :type VerificationMessageTemplate: dict
+    :param VerificationMessageTemplate: The template for the verification message that the user sees when the app requests permission to access the user's information.
+            SmsMessage (string) --The SMS message template.
+            EmailMessage (string) --The email message template.
+            EmailSubject (string) --The subject line for the email message template.
+            EmailMessageByLink (string) --The email message template for sending a confirmation link to the user.
+            EmailSubjectByLink (string) --The subject line for the email message template for sending a confirmation link to the user.
+            DefaultEmailOption (string) --The default email option.
+            
 
     :type SmsAuthenticationMessage: string
     :param SmsAuthenticationMessage: A string representing the SMS authentication message.
@@ -1552,7 +2054,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
     :type EmailConfiguration: dict
     :param EmailConfiguration: The email configuration.
             SourceArn (string) --The Amazon Resource Name (ARN) of the email source.
-            ReplyToEmailAddress (string) --The REPLY-TO email address.
+            ReplyToEmailAddress (string) --The destination to which the receiver of the email should reply to.
             
 
     :type SmsConfiguration: dict
@@ -1572,6 +2074,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             AllowAdminCreateUserOnly (boolean) --Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
             UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter. The default value for this parameter is 7.
             InviteMessageTemplate (dict) --The message template to be used for the welcome message to new users.
+            See also Customizing User Invitation Messages .
             SMSMessage (string) --The message template for SMS messages.
             EmailMessage (string) --The message template for email messages.
             EmailSubject (string) --The subject line for email messages.
@@ -1590,9 +2093,14 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             MinValue (string) --The minimum value of an attribute that is of the number data type.
             MaxValue (string) --The maximum value of an attribute that is of the number data type.
             StringAttributeConstraints (dict) --Specifies the constraints for an attribute of the string type.
-            MinLength (string) --The minimum length of an attribute value of the string type.
-            MaxLength (string) --The maximum length of an attribute value of the string type.
+            MinLength (string) --The minimum length.
+            MaxLength (string) --The maximum length.
             
+            
+
+    :type UserPoolAddOns: dict
+    :param UserPoolAddOns: Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value 'AUDIT'.
+            AdvancedSecurityMode (string) -- [REQUIRED]The advanced security mode.
             
 
     :rtype: dict
@@ -1617,7 +2125,9 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
                 'PostAuthentication': 'string',
                 'DefineAuthChallenge': 'string',
                 'CreateAuthChallenge': 'string',
-                'VerifyAuthChallengeResponse': 'string'
+                'VerifyAuthChallengeResponse': 'string',
+                'PreTokenGeneration': 'string',
+                'UserMigration': 'string'
             },
             'Status': 'Enabled'|'Disabled',
             'LastModifiedDate': datetime(2015, 1, 1),
@@ -1645,9 +2155,20 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             'AliasAttributes': [
                 'phone_number'|'email'|'preferred_username',
             ],
+            'UsernameAttributes': [
+                'phone_number'|'email',
+            ],
             'SmsVerificationMessage': 'string',
             'EmailVerificationMessage': 'string',
             'EmailVerificationSubject': 'string',
+            'VerificationMessageTemplate': {
+                'SmsMessage': 'string',
+                'EmailMessage': 'string',
+                'EmailSubject': 'string',
+                'EmailMessageByLink': 'string',
+                'EmailSubjectByLink': 'string',
+                'DefaultEmailOption': 'CONFIRM_WITH_LINK'|'CONFIRM_WITH_CODE'
+            },
             'SmsAuthenticationMessage': 'string',
             'MfaConfiguration': 'OFF'|'ON'|'OPTIONAL',
             'DeviceConfiguration': {
@@ -1668,6 +2189,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
             },
             'SmsConfigurationFailure': 'string',
             'EmailConfigurationFailure': 'string',
+            'Domain': 'string',
             'AdminCreateUserConfig': {
                 'AllowAdminCreateUserOnly': True|False,
                 'UnusedAccountValidityDays': 123,
@@ -1676,6 +2198,9 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
                     'EmailMessage': 'string',
                     'EmailSubject': 'string'
                 }
+            },
+            'UserPoolAddOns': {
+                'AdvancedSecurityMode': 'OFF'|'AUDIT'|'ENFORCED'
             }
         }
     }
@@ -1687,7 +2212,7 @@ def create_user_pool(PoolName=None, Policies=None, LambdaConfig=None, AutoVerifi
     """
     pass
 
-def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None, SupportedIdentityProviders=None, CallbackURLs=None, LogoutURLs=None, DefaultRedirectURI=None, AllowedOAuthFlows=None, AllowedOAuthScopes=None, AllowedOAuthFlowsUserPoolClient=None):
+def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None, SupportedIdentityProviders=None, CallbackURLs=None, LogoutURLs=None, DefaultRedirectURI=None, AllowedOAuthFlows=None, AllowedOAuthScopes=None, AllowedOAuthFlowsUserPoolClient=None, AnalyticsConfiguration=None):
     """
     Creates the user pool client.
     See also: AWS API Documentation
@@ -1705,7 +2230,7 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
             'string',
         ],
         ExplicitAuthFlows=[
-            'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY',
+            'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY'|'USER_PASSWORD_AUTH',
         ],
         SupportedIdentityProviders=[
             'string',
@@ -1723,7 +2248,13 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
         AllowedOAuthScopes=[
             'string',
         ],
-        AllowedOAuthFlowsUserPoolClient=True|False
+        AllowedOAuthFlowsUserPoolClient=True|False,
+        AnalyticsConfiguration={
+            'ApplicationId': 'string',
+            'RoleArn': 'string',
+            'ExternalId': 'string',
+            'UserDataShared': True|False
+        }
     )
     
     
@@ -1790,6 +2321,14 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
     :type AllowedOAuthFlowsUserPoolClient: boolean
     :param AllowedOAuthFlowsUserPoolClient: Set to True if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
 
+    :type AnalyticsConfiguration: dict
+    :param AnalyticsConfiguration: The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+            ApplicationId (string) -- [REQUIRED]The application ID for an Amazon Pinpoint application.
+            RoleArn (string) -- [REQUIRED]The ARN of an IAM role that authorizes Amazon Cognito to publish events to Amazon Pinpoint analytics.
+            ExternalId (string) -- [REQUIRED]The external ID.
+            UserDataShared (boolean) --If UserDataShared is true , Amazon Cognito will include user data in the events it publishes to Amazon Pinpoint analytics.
+            
+
     :rtype: dict
     :return: {
         'UserPoolClient': {
@@ -1807,7 +2346,7 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
                 'string',
             ],
             'ExplicitAuthFlows': [
-                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY',
+                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY'|'USER_PASSWORD_AUTH',
             ],
             'SupportedIdentityProviders': [
                 'string',
@@ -1825,7 +2364,13 @@ def create_user_pool_client(UserPoolId=None, ClientName=None, GenerateSecret=Non
             'AllowedOAuthScopes': [
                 'string',
             ],
-            'AllowedOAuthFlowsUserPoolClient': True|False
+            'AllowedOAuthFlowsUserPoolClient': True|False,
+            'AnalyticsConfiguration': {
+                'ApplicationId': 'string',
+                'RoleArn': 'string',
+                'ExternalId': 'string',
+                'UserDataShared': True|False
+            }
         }
     }
     
@@ -1919,9 +2464,34 @@ def delete_identity_provider(UserPoolId=None, ProviderName=None):
     """
     pass
 
+def delete_resource_server(UserPoolId=None, Identifier=None):
+    """
+    Deletes a resource server.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_resource_server(
+        UserPoolId='string',
+        Identifier='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool that hosts the resource server.
+            
+
+    :type Identifier: string
+    :param Identifier: [REQUIRED]
+            The identifier for the resource server.
+            
+
+    """
+    pass
+
 def delete_user(AccessToken=None):
     """
-    Allows a user to delete one's self.
+    Allows a user to delete himself or herself.
     See also: AWS API Documentation
     
     
@@ -2009,7 +2579,7 @@ def delete_user_pool_client(UserPoolId=None, ClientId=None):
 
     :type ClientId: string
     :param ClientId: [REQUIRED]
-            The ID of the client associated with the user pool.
+            The app client ID of the app associated with the user pool.
             
 
     """
@@ -2074,7 +2644,7 @@ def describe_identity_provider(UserPoolId=None, ProviderName=None):
         'IdentityProvider': {
             'UserPoolId': 'string',
             'ProviderName': 'string',
-            'ProviderType': 'SAML',
+            'ProviderType': 'SAML'|'Facebook'|'Google'|'LoginWithAmazon',
             'ProviderDetails': {
                 'string': 'string'
             },
@@ -2095,6 +2665,135 @@ def describe_identity_provider(UserPoolId=None, ProviderName=None):
     (string) --
     
     
+    
+    """
+    pass
+
+def describe_resource_server(UserPoolId=None, Identifier=None):
+    """
+    Describes a resource server.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_resource_server(
+        UserPoolId='string',
+        Identifier='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool that hosts the resource server.
+            
+
+    :type Identifier: string
+    :param Identifier: [REQUIRED]
+            The identifier for the resource server
+            
+
+    :rtype: dict
+    :return: {
+        'ResourceServer': {
+            'UserPoolId': 'string',
+            'Identifier': 'string',
+            'Name': 'string',
+            'Scopes': [
+                {
+                    'ScopeName': 'string',
+                    'ScopeDescription': 'string'
+                },
+            ]
+        }
+    }
+    
+    
+    """
+    pass
+
+def describe_risk_configuration(UserPoolId=None, ClientId=None):
+    """
+    Describes the risk configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.describe_risk_configuration(
+        UserPoolId='string',
+        ClientId='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type ClientId: string
+    :param ClientId: The app client ID.
+
+    :rtype: dict
+    :return: {
+        'RiskConfiguration': {
+            'UserPoolId': 'string',
+            'ClientId': 'string',
+            'CompromisedCredentialsRiskConfiguration': {
+                'EventFilter': [
+                    'SIGN_IN'|'PASSWORD_CHANGE'|'SIGN_UP',
+                ],
+                'Actions': {
+                    'EventAction': 'BLOCK'|'NO_ACTION'
+                }
+            },
+            'AccountTakeoverRiskConfiguration': {
+                'NotifyConfiguration': {
+                    'From': 'string',
+                    'ReplyTo': 'string',
+                    'SourceArn': 'string',
+                    'BlockEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    },
+                    'NoActionEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    },
+                    'MfaEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    }
+                },
+                'Actions': {
+                    'LowAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    },
+                    'MediumAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    },
+                    'HighAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    }
+                }
+            },
+            'RiskExceptionConfiguration': {
+                'BlockedIPRangeList': [
+                    'string',
+                ],
+                'SkippedIPRangeList': [
+                    'string',
+                ]
+            },
+            'LastModifiedDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
     
     """
     pass
@@ -2192,7 +2891,9 @@ def describe_user_pool(UserPoolId=None):
                 'PostAuthentication': 'string',
                 'DefineAuthChallenge': 'string',
                 'CreateAuthChallenge': 'string',
-                'VerifyAuthChallengeResponse': 'string'
+                'VerifyAuthChallengeResponse': 'string',
+                'PreTokenGeneration': 'string',
+                'UserMigration': 'string'
             },
             'Status': 'Enabled'|'Disabled',
             'LastModifiedDate': datetime(2015, 1, 1),
@@ -2220,9 +2921,20 @@ def describe_user_pool(UserPoolId=None):
             'AliasAttributes': [
                 'phone_number'|'email'|'preferred_username',
             ],
+            'UsernameAttributes': [
+                'phone_number'|'email',
+            ],
             'SmsVerificationMessage': 'string',
             'EmailVerificationMessage': 'string',
             'EmailVerificationSubject': 'string',
+            'VerificationMessageTemplate': {
+                'SmsMessage': 'string',
+                'EmailMessage': 'string',
+                'EmailSubject': 'string',
+                'EmailMessageByLink': 'string',
+                'EmailSubjectByLink': 'string',
+                'DefaultEmailOption': 'CONFIRM_WITH_LINK'|'CONFIRM_WITH_CODE'
+            },
             'SmsAuthenticationMessage': 'string',
             'MfaConfiguration': 'OFF'|'ON'|'OPTIONAL',
             'DeviceConfiguration': {
@@ -2243,6 +2955,7 @@ def describe_user_pool(UserPoolId=None):
             },
             'SmsConfigurationFailure': 'string',
             'EmailConfigurationFailure': 'string',
+            'Domain': 'string',
             'AdminCreateUserConfig': {
                 'AllowAdminCreateUserOnly': True|False,
                 'UnusedAccountValidityDays': 123,
@@ -2251,6 +2964,9 @@ def describe_user_pool(UserPoolId=None):
                     'EmailMessage': 'string',
                     'EmailSubject': 'string'
                 }
+            },
+            'UserPoolAddOns': {
+                'AdvancedSecurityMode': 'OFF'|'AUDIT'|'ENFORCED'
             }
         }
     }
@@ -2281,7 +2997,7 @@ def describe_user_pool_client(UserPoolId=None, ClientId=None):
 
     :type ClientId: string
     :param ClientId: [REQUIRED]
-            The ID of the client associated with the user pool.
+            The app client ID of the app associated with the user pool.
             
 
     :rtype: dict
@@ -2301,7 +3017,7 @@ def describe_user_pool_client(UserPoolId=None, ClientId=None):
                 'string',
             ],
             'ExplicitAuthFlows': [
-                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY',
+                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY'|'USER_PASSWORD_AUTH',
             ],
             'SupportedIdentityProviders': [
                 'string',
@@ -2319,7 +3035,13 @@ def describe_user_pool_client(UserPoolId=None, ClientId=None):
             'AllowedOAuthScopes': [
                 'string',
             ],
-            'AllowedOAuthFlowsUserPoolClient': True|False
+            'AllowedOAuthFlowsUserPoolClient': True|False,
+            'AnalyticsConfiguration': {
+                'ApplicationId': 'string',
+                'RoleArn': 'string',
+                'ExternalId': 'string',
+                'UserDataShared': True|False
+            }
         }
     }
     
@@ -2355,7 +3077,7 @@ def describe_user_pool_domain(Domain=None):
             'S3Bucket': 'string',
             'CloudFrontDistribution': 'string',
             'Version': 'string',
-            'Status': 'CREATING'|'DELETING'|'UPDATING'|'ACTIVE'
+            'Status': 'CREATING'|'DELETING'|'UPDATING'|'ACTIVE'|'FAILED'
         }
     }
     
@@ -2386,16 +3108,22 @@ def forget_device(AccessToken=None, DeviceKey=None):
     """
     pass
 
-def forgot_password(ClientId=None, SecretHash=None, Username=None):
+def forgot_password(ClientId=None, SecretHash=None, UserContextData=None, Username=None, AnalyticsMetadata=None):
     """
-    Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call ConfirmForgotPassword .
+    Calling this API causes a message to be sent to the end user with a confirmation code that is required to change the user's password. For the Username parameter, you can use the username or user alias. If a verified phone number exists for the user, the confirmation code is sent to the phone number. Otherwise, if a verified email exists, the confirmation code is sent to the email. If neither a verified phone number nor a verified email exists, InvalidParameterException is thrown. To use the confirmation code for resetting the password, call .
     See also: AWS API Documentation
     
     
     :example: response = client.forgot_password(
         ClientId='string',
         SecretHash='string',
-        Username='string'
+        UserContextData={
+            'EncodedData': 'string'
+        },
+        Username='string',
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        }
     )
     
     
@@ -2407,9 +3135,19 @@ def forgot_password(ClientId=None, SecretHash=None, Username=None):
     :type SecretHash: string
     :param SecretHash: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
 
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            
+
     :type Username: string
     :param Username: [REQUIRED]
             The user name of the user for whom you want to enter a code to reset a forgotten password.
+            
+
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for ForgotPassword calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
             
 
     :rtype: dict
@@ -2582,7 +3320,7 @@ def get_identity_provider_by_identifier(UserPoolId=None, IdpIdentifier=None):
         'IdentityProvider': {
             'UserPoolId': 'string',
             'ProviderName': 'string',
-            'ProviderType': 'SAML',
+            'ProviderType': 'SAML'|'Facebook'|'Google'|'LoginWithAmazon',
             'ProviderDetails': {
                 'string': 'string'
             },
@@ -2623,6 +3361,68 @@ def get_paginator(operation_name=None):
     """
     pass
 
+def get_signing_certificate(UserPoolId=None):
+    """
+    This method takes a user pool ID, and returns the signing certificate.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_signing_certificate(
+        UserPoolId='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :rtype: dict
+    :return: {
+        'Certificate': 'string'
+    }
+    
+    
+    """
+    pass
+
+def get_ui_customization(UserPoolId=None, ClientId=None):
+    """
+    Gets the UI Customization information for a particular app client's app UI, if there is something set. If nothing is set for the particular client, but there is an existing pool level customization (app clientId will be ALL ), then that is returned. If nothing is present, then an empty shape is returned.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_ui_customization(
+        UserPoolId='string',
+        ClientId='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type ClientId: string
+    :param ClientId: The client ID for the client app.
+
+    :rtype: dict
+    :return: {
+        'UICustomization': {
+            'UserPoolId': 'string',
+            'ClientId': 'string',
+            'ImageUrl': 'string',
+            'CSS': 'string',
+            'CSSVersion': 'string',
+            'LastModifiedDate': datetime(2015, 1, 1),
+            'CreationDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    """
+    pass
+
 def get_user(AccessToken=None):
     """
     Gets the user attributes and metadata for a user.
@@ -2653,6 +3453,10 @@ def get_user(AccessToken=None):
                 'DeliveryMedium': 'SMS'|'EMAIL',
                 'AttributeName': 'string'
             },
+        ],
+        'PreferredMfaSetting': 'string',
+        'UserMFASettingList': [
+            'string',
         ]
     }
     
@@ -2695,6 +3499,41 @@ def get_user_attribute_verification_code(AccessToken=None, AttributeName=None):
     """
     pass
 
+def get_user_pool_mfa_config(UserPoolId=None):
+    """
+    Gets the user pool multi-factor authentication (MFA) configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_user_pool_mfa_config(
+        UserPoolId='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :rtype: dict
+    :return: {
+        'SmsMfaConfiguration': {
+            'SmsAuthenticationMessage': 'string',
+            'SmsConfiguration': {
+                'SnsCallerArn': 'string',
+                'ExternalId': 'string'
+            }
+        },
+        'SoftwareTokenMfaConfiguration': {
+            'Enabled': True|False
+        },
+        'MfaConfiguration': 'OFF'|'ON'|'OPTIONAL'
+    }
+    
+    
+    """
+    pass
+
 def get_waiter():
     """
     
@@ -2724,21 +3563,27 @@ def global_sign_out(AccessToken=None):
     """
     pass
 
-def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, ClientId=None):
+def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, ClientId=None, AnalyticsMetadata=None, UserContextData=None):
     """
     Initiates the authentication flow.
     See also: AWS API Documentation
     
     
     :example: response = client.initiate_auth(
-        AuthFlow='USER_SRP_AUTH'|'REFRESH_TOKEN_AUTH'|'REFRESH_TOKEN'|'CUSTOM_AUTH'|'ADMIN_NO_SRP_AUTH',
+        AuthFlow='USER_SRP_AUTH'|'REFRESH_TOKEN_AUTH'|'REFRESH_TOKEN'|'CUSTOM_AUTH'|'ADMIN_NO_SRP_AUTH'|'USER_PASSWORD_AUTH',
         AuthParameters={
             'string': 'string'
         },
         ClientMetadata={
             'string': 'string'
         },
-        ClientId='string'
+        ClientId='string',
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        UserContextData={
+            'EncodedData': 'string'
+        }
     )
     
     
@@ -2746,18 +3591,20 @@ def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, Clien
     :param AuthFlow: [REQUIRED]
             The authentication flow for this call to execute. The API action will depend on this value. For example:
             REFRESH_TOKEN_AUTH will take in a valid refresh token and return new tokens.
-            USER_SRP_AUTH will take in USERNAME and SRPA and return the SRP variables to be used for next challenge execution.
+            USER_SRP_AUTH will take in USERNAME and SRP_A and return the SRP variables to be used for next challenge execution.
+            USER_PASSWORD_AUTH will take in USERNAME and PASSWORD and return the next challenge or tokens.
             Valid values include:
             USER_SRP_AUTH : Authentication flow for the Secure Remote Password (SRP) protocol.
             REFRESH_TOKEN_AUTH /REFRESH_TOKEN : Authentication flow for refreshing the access token and ID token by supplying a valid refresh token.
             CUSTOM_AUTH : Custom authentication flow.
+            USER_PASSWORD_AUTH : Non-SRP authentication flow; USERNAME and PASSWORD are passed directly. If a user migration Lambda trigger is set, this flow will invoke the user migration Lambda if the USERNAME is not found in the user pool.
             ADMIN_NO_SRP_AUTH is not a valid value.
             
 
     :type AuthParameters: dict
     :param AuthParameters: The authentication parameters. These are inputs corresponding to the AuthFlow that you are invoking. The required values depend on the value of AuthFlow :
-            For USER_SRP_AUTH : USERNAME (required), SRPA (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
-            For REFRESH_TOKEN_AUTH/REFRESH_TOKEN : USERNAME (required), SECRET_HASH (required if the app client is configured with a client secret), REFRESH_TOKEN (required), DEVICE_KEY
+            For USER_SRP_AUTH : USERNAME (required), SRP_A (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
+            For REFRESH_TOKEN_AUTH/REFRESH_TOKEN : REFRESH_TOKEN (required), SECRET_HASH (required if the app client is configured with a client secret), DEVICE_KEY
             For CUSTOM_AUTH : USERNAME (required), SECRET_HASH (if app client is configured with client secret), DEVICE_KEY
             (string) --
             (string) --
@@ -2774,9 +3621,19 @@ def initiate_auth(AuthFlow=None, AuthParameters=None, ClientMetadata=None, Clien
             The app client ID.
             
 
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for InitiateAuth calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            
+
     :rtype: dict
     :return: {
-        'ChallengeName': 'SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        'ChallengeName': 'SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         'Session': 'string',
         'ChallengeParameters': {
             'string': 'string'
@@ -2927,9 +3784,55 @@ def list_identity_providers(UserPoolId=None, MaxResults=None, NextToken=None):
         'Providers': [
             {
                 'ProviderName': 'string',
-                'ProviderType': 'SAML',
+                'ProviderType': 'SAML'|'Facebook'|'Google'|'LoginWithAmazon',
                 'LastModifiedDate': datetime(2015, 1, 1),
                 'CreationDate': datetime(2015, 1, 1)
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
+    
+    """
+    pass
+
+def list_resource_servers(UserPoolId=None, MaxResults=None, NextToken=None):
+    """
+    Lists the resource servers for a user pool.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_resource_servers(
+        UserPoolId='string',
+        MaxResults=123,
+        NextToken='string'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type MaxResults: integer
+    :param MaxResults: The maximum number of resource servers to return.
+
+    :type NextToken: string
+    :param NextToken: A pagination token.
+
+    :rtype: dict
+    :return: {
+        'ResourceServers': [
+            {
+                'UserPoolId': 'string',
+                'Identifier': 'string',
+                'Name': 'string',
+                'Scopes': [
+                    {
+                        'ScopeName': 'string',
+                        'ScopeDescription': 'string'
+                    },
+                ]
             },
         ],
         'NextToken': 'string'
@@ -3075,7 +3978,9 @@ def list_user_pools(NextToken=None, MaxResults=None):
                     'PostAuthentication': 'string',
                     'DefineAuthChallenge': 'string',
                     'CreateAuthChallenge': 'string',
-                    'VerifyAuthChallengeResponse': 'string'
+                    'VerifyAuthChallengeResponse': 'string',
+                    'PreTokenGeneration': 'string',
+                    'UserMigration': 'string'
                 },
                 'Status': 'Enabled'|'Disabled',
                 'LastModifiedDate': datetime(2015, 1, 1),
@@ -3112,7 +4017,7 @@ def list_users(UserPoolId=None, AttributesToGet=None, Limit=None, PaginationToke
             
 
     :type AttributesToGet: list
-    :param AttributesToGet: An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is empty, all attributes are returned.
+    :param AttributesToGet: An array of strings, where each string is the name of a user attribute to be returned for each user in the search results. If the array is null, all attributes are returned.
             (string) --
             
 
@@ -3138,6 +4043,7 @@ def list_users(UserPoolId=None, AttributesToGet=None, Limit=None, PaginationToke
             preferred_username
             cognito:user_status (called Enabled in the Console) (case-sensitive)
             status (case-insensitive)
+            sub
             Custom attributes are not searchable.
             For more information, see Searching for Users Using the ListUsers API and Examples of Using the ListUsers API in the Amazon Cognito Developer Guide .
             
@@ -3247,7 +4153,7 @@ def list_users_in_group(UserPoolId=None, GroupName=None, Limit=None, NextToken=N
     """
     pass
 
-def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
+def resend_confirmation_code(ClientId=None, SecretHash=None, UserContextData=None, Username=None, AnalyticsMetadata=None):
     """
     Resends the confirmation (for confirmation of registration) to a specific user in the user pool.
     See also: AWS API Documentation
@@ -3256,7 +4162,13 @@ def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
     :example: response = client.resend_confirmation_code(
         ClientId='string',
         SecretHash='string',
-        Username='string'
+        UserContextData={
+            'EncodedData': 'string'
+        },
+        Username='string',
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        }
     )
     
     
@@ -3268,9 +4180,19 @@ def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
     :type SecretHash: string
     :param SecretHash: A keyed-hash message authentication code (HMAC) calculated using the secret key of a user pool client and username plus the client ID in the message.
 
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            
+
     :type Username: string
     :param Username: [REQUIRED]
             The user name of the user to whom you wish to resend a confirmation code.
+            
+
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for ResendConfirmationCode calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
             
 
     :rtype: dict
@@ -3286,7 +4208,7 @@ def resend_confirmation_code(ClientId=None, SecretHash=None, Username=None):
     """
     pass
 
-def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, ChallengeResponses=None):
+def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, ChallengeResponses=None, AnalyticsMetadata=None, UserContextData=None):
     """
     Responds to the authentication challenge.
     See also: AWS API Documentation
@@ -3294,10 +4216,16 @@ def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, C
     
     :example: response = client.respond_to_auth_challenge(
         ClientId='string',
-        ChallengeName='SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        ChallengeName='SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         Session='string',
         ChallengeResponses={
             'string': 'string'
+        },
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        UserContextData={
+            'EncodedData': 'string'
         }
     )
     
@@ -3309,7 +4237,7 @@ def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, C
 
     :type ChallengeName: string
     :param ChallengeName: [REQUIRED]
-            The challenge name. For more information, see InitiateAuth .
+            The challenge name. For more information, see .
             ADMIN_NO_SRP_AUTH is not a valid value.
             
 
@@ -3325,9 +4253,19 @@ def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, C
             (string) --
             
 
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for RespondToAuthChallenge calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            
+
     :rtype: dict
     :return: {
-        'ChallengeName': 'SMS_MFA'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
+        'ChallengeName': 'SMS_MFA'|'SOFTWARE_TOKEN_MFA'|'SELECT_MFA_TYPE'|'MFA_SETUP'|'PASSWORD_VERIFIER'|'CUSTOM_CHALLENGE'|'DEVICE_SRP_AUTH'|'DEVICE_PASSWORD_VERIFIER'|'ADMIN_NO_SRP_AUTH'|'NEW_PASSWORD_REQUIRED',
         'Session': 'string',
         'ChallengeParameters': {
             'string': 'string'
@@ -3350,6 +4288,368 @@ def respond_to_auth_challenge(ClientId=None, ChallengeName=None, Session=None, C
     (string) --
     (string) --
     
+    
+    
+    """
+    pass
+
+def set_risk_configuration(UserPoolId=None, ClientId=None, CompromisedCredentialsRiskConfiguration=None, AccountTakeoverRiskConfiguration=None, RiskExceptionConfiguration=None):
+    """
+    Configures actions on detected risks. To delete the risk configuration for UserPoolId or ClientId , pass null values for all four configuration types.
+    To enable Amazon Cognito advanced security features, update the user pool to include the UserPoolAddOns key``AdvancedSecurityMode`` .
+    See .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.set_risk_configuration(
+        UserPoolId='string',
+        ClientId='string',
+        CompromisedCredentialsRiskConfiguration={
+            'EventFilter': [
+                'SIGN_IN'|'PASSWORD_CHANGE'|'SIGN_UP',
+            ],
+            'Actions': {
+                'EventAction': 'BLOCK'|'NO_ACTION'
+            }
+        },
+        AccountTakeoverRiskConfiguration={
+            'NotifyConfiguration': {
+                'From': 'string',
+                'ReplyTo': 'string',
+                'SourceArn': 'string',
+                'BlockEmail': {
+                    'Subject': 'string',
+                    'HtmlBody': 'string',
+                    'TextBody': 'string'
+                },
+                'NoActionEmail': {
+                    'Subject': 'string',
+                    'HtmlBody': 'string',
+                    'TextBody': 'string'
+                },
+                'MfaEmail': {
+                    'Subject': 'string',
+                    'HtmlBody': 'string',
+                    'TextBody': 'string'
+                }
+            },
+            'Actions': {
+                'LowAction': {
+                    'Notify': True|False,
+                    'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                },
+                'MediumAction': {
+                    'Notify': True|False,
+                    'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                },
+                'HighAction': {
+                    'Notify': True|False,
+                    'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                }
+            }
+        },
+        RiskExceptionConfiguration={
+            'BlockedIPRangeList': [
+                'string',
+            ],
+            'SkippedIPRangeList': [
+                'string',
+            ]
+        }
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type ClientId: string
+    :param ClientId: The app client ID. If ClientId is null, then the risk configuration is mapped to userPoolId . When the client ID is null, the same risk configuration is applied to all the clients in the userPool.
+            Otherwise, ClientId is mapped to the client. When the client ID is not null, the user pool configuration is overridden and the risk configuration for the client is used instead.
+            
+
+    :type CompromisedCredentialsRiskConfiguration: dict
+    :param CompromisedCredentialsRiskConfiguration: The compromised credentials risk configuration.
+            EventFilter (list) --Perform the action for these events. The default is to perform all events if no event filter is specified.
+            (string) --
+            Actions (dict) -- [REQUIRED]The compromised credentials risk configuration actions.
+            EventAction (string) -- [REQUIRED]The event action.
+            
+            
+
+    :type AccountTakeoverRiskConfiguration: dict
+    :param AccountTakeoverRiskConfiguration: The account takeover risk configuration.
+            NotifyConfiguration (dict) --The notify configuration used to construct email notifications.
+            From (string) --The email address that is sending the email. It must be either individually verified with Amazon SES, or from a domain that has been verified with Amazon SES.
+            ReplyTo (string) --The destination to which the receiver of an email should reply to.
+            SourceArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the identity that is associated with the sending authorization policy. It permits Amazon Cognito to send for the email address specified in the From parameter.
+            BlockEmail (dict) --Email template used when a detected risk event is blocked.
+            Subject (string) -- [REQUIRED]The subject.
+            HtmlBody (string) --The HTML body.
+            TextBody (string) --The text body.
+            NoActionEmail (dict) --The email template used when a detected risk event is allowed.
+            Subject (string) -- [REQUIRED]The subject.
+            HtmlBody (string) --The HTML body.
+            TextBody (string) --The text body.
+            MfaEmail (dict) --The MFA email template used when MFA is challenged as part of a detected risk.
+            Subject (string) -- [REQUIRED]The subject.
+            HtmlBody (string) --The HTML body.
+            TextBody (string) --The text body.
+            
+            Actions (dict) -- [REQUIRED]Account takeover risk configuration actions
+            LowAction (dict) --Action to take for a low risk.
+            Notify (boolean) -- [REQUIRED]Flag specifying whether to send a notification.
+            EventAction (string) -- [REQUIRED]The event action.
+            BLOCK Choosing this action will block the request.
+            MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.
+            MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.
+            NO_ACTION Allow the user sign-in.
+            
+            MediumAction (dict) --Action to take for a medium risk.
+            Notify (boolean) -- [REQUIRED]Flag specifying whether to send a notification.
+            EventAction (string) -- [REQUIRED]The event action.
+            BLOCK Choosing this action will block the request.
+            MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.
+            MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.
+            NO_ACTION Allow the user sign-in.
+            
+            HighAction (dict) --Action to take for a high risk.
+            Notify (boolean) -- [REQUIRED]Flag specifying whether to send a notification.
+            EventAction (string) -- [REQUIRED]The event action.
+            BLOCK Choosing this action will block the request.
+            MFA_IF_CONFIGURED Throw MFA challenge if user has configured it, else allow the request.
+            MFA_REQUIRED Throw MFA challenge if user has configured it, else block the request.
+            NO_ACTION Allow the user sign-in.
+            
+            
+
+    :type RiskExceptionConfiguration: dict
+    :param RiskExceptionConfiguration: The configuration to override the risk decision.
+            BlockedIPRangeList (list) --Overrides the risk decision to always block the pre-authentication requests. The IP range is in CIDR notation: a compact representation of an IP address and its associated routing prefix.
+            (string) --
+            SkippedIPRangeList (list) --Risk detection is not performed on the IP addresses in the range list. The IP range is in CIDR notation.
+            (string) --
+            
+
+    :rtype: dict
+    :return: {
+        'RiskConfiguration': {
+            'UserPoolId': 'string',
+            'ClientId': 'string',
+            'CompromisedCredentialsRiskConfiguration': {
+                'EventFilter': [
+                    'SIGN_IN'|'PASSWORD_CHANGE'|'SIGN_UP',
+                ],
+                'Actions': {
+                    'EventAction': 'BLOCK'|'NO_ACTION'
+                }
+            },
+            'AccountTakeoverRiskConfiguration': {
+                'NotifyConfiguration': {
+                    'From': 'string',
+                    'ReplyTo': 'string',
+                    'SourceArn': 'string',
+                    'BlockEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    },
+                    'NoActionEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    },
+                    'MfaEmail': {
+                        'Subject': 'string',
+                        'HtmlBody': 'string',
+                        'TextBody': 'string'
+                    }
+                },
+                'Actions': {
+                    'LowAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    },
+                    'MediumAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    },
+                    'HighAction': {
+                        'Notify': True|False,
+                        'EventAction': 'BLOCK'|'MFA_IF_CONFIGURED'|'MFA_REQUIRED'|'NO_ACTION'
+                    }
+                }
+            },
+            'RiskExceptionConfiguration': {
+                'BlockedIPRangeList': [
+                    'string',
+                ],
+                'SkippedIPRangeList': [
+                    'string',
+                ]
+            },
+            'LastModifiedDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    :returns: 
+    (string) --
+    
+    """
+    pass
+
+def set_ui_customization(UserPoolId=None, ClientId=None, CSS=None, ImageFile=None):
+    """
+    Sets the UI customization information for a user pool's built-in app UI.
+    You can specify app UI customization settings for a single client (with a specific clientId ) or for all clients (by setting the clientId to ALL ). If you specify ALL , the default configuration will be used for every client that has no UI customization set previously. If you specify UI customization settings for a particular client, it will no longer fall back to the ALL configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.set_ui_customization(
+        UserPoolId='string',
+        ClientId='string',
+        CSS='string',
+        ImageFile=b'bytes'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type ClientId: string
+    :param ClientId: The client ID for the client app.
+
+    :type CSS: string
+    :param CSS: The CSS values in the UI customization.
+
+    :type ImageFile: bytes
+    :param ImageFile: The uploaded logo image for the UI customization.
+
+    :rtype: dict
+    :return: {
+        'UICustomization': {
+            'UserPoolId': 'string',
+            'ClientId': 'string',
+            'ImageUrl': 'string',
+            'CSS': 'string',
+            'CSSVersion': 'string',
+            'LastModifiedDate': datetime(2015, 1, 1),
+            'CreationDate': datetime(2015, 1, 1)
+        }
+    }
+    
+    
+    """
+    pass
+
+def set_user_mfa_preference(SMSMfaSettings=None, SoftwareTokenMfaSettings=None, AccessToken=None):
+    """
+    Set the user's multi-factor authentication (MFA) method preference.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.set_user_mfa_preference(
+        SMSMfaSettings={
+            'Enabled': True|False,
+            'PreferredMfa': True|False
+        },
+        SoftwareTokenMfaSettings={
+            'Enabled': True|False,
+            'PreferredMfa': True|False
+        },
+        AccessToken='string'
+    )
+    
+    
+    :type SMSMfaSettings: dict
+    :param SMSMfaSettings: The SMS text message multi-factor authentication (MFA) settings.
+            Enabled (boolean) --Specifies whether SMS text message MFA is enabled.
+            PreferredMfa (boolean) --The preferred MFA method.
+            
+
+    :type SoftwareTokenMfaSettings: dict
+    :param SoftwareTokenMfaSettings: The time-based one-time password software token MFA settings.
+            Enabled (boolean) --Specifies whether software token MFA is enabled.
+            PreferredMfa (boolean) --The preferred MFA method.
+            
+
+    :type AccessToken: string
+    :param AccessToken: [REQUIRED]
+            The access token.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
+def set_user_pool_mfa_config(UserPoolId=None, SmsMfaConfiguration=None, SoftwareTokenMfaConfiguration=None, MfaConfiguration=None):
+    """
+    Set the user pool MFA configuration.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.set_user_pool_mfa_config(
+        UserPoolId='string',
+        SmsMfaConfiguration={
+            'SmsAuthenticationMessage': 'string',
+            'SmsConfiguration': {
+                'SnsCallerArn': 'string',
+                'ExternalId': 'string'
+            }
+        },
+        SoftwareTokenMfaConfiguration={
+            'Enabled': True|False
+        },
+        MfaConfiguration='OFF'|'ON'|'OPTIONAL'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type SmsMfaConfiguration: dict
+    :param SmsMfaConfiguration: The SMS text message MFA configuration.
+            SmsAuthenticationMessage (string) --The SMS authentication message.
+            SmsConfiguration (dict) --The SMS configuration.
+            SnsCallerArn (string) -- [REQUIRED]The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) caller.
+            ExternalId (string) --The external ID.
+            
+            
+
+    :type SoftwareTokenMfaConfiguration: dict
+    :param SoftwareTokenMfaConfiguration: The software token MFA configuration.
+            Enabled (boolean) --Specifies whether software token MFA is enabled.
+            
+
+    :type MfaConfiguration: string
+    :param MfaConfiguration: The MFA configuration.
+
+    :rtype: dict
+    :return: {
+        'SmsMfaConfiguration': {
+            'SmsAuthenticationMessage': 'string',
+            'SmsConfiguration': {
+                'SnsCallerArn': 'string',
+                'ExternalId': 'string'
+            }
+        },
+        'SoftwareTokenMfaConfiguration': {
+            'Enabled': True|False
+        },
+        'MfaConfiguration': 'OFF'|'ON'|'OPTIONAL'
+    }
     
     
     """
@@ -3393,7 +4693,7 @@ def set_user_settings(AccessToken=None, MFAOptions=None):
     """
     pass
 
-def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAttributes=None, ValidationData=None):
+def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAttributes=None, ValidationData=None, AnalyticsMetadata=None, UserContextData=None):
     """
     Registers the user in the specified user pool and creates a user name, password, and user attributes.
     See also: AWS API Documentation
@@ -3415,7 +4715,13 @@ def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAt
                 'Name': 'string',
                 'Value': 'string'
             },
-        ]
+        ],
+        AnalyticsMetadata={
+            'AnalyticsEndpointId': 'string'
+        },
+        UserContextData={
+            'EncodedData': 'string'
+        }
     )
     
     
@@ -3452,6 +4758,16 @@ def sign_up(ClientId=None, SecretHash=None, Username=None, Password=None, UserAt
             Name (string) -- [REQUIRED]The name of the attribute.
             Value (string) --The value of the attribute.
             
+            
+
+    :type AnalyticsMetadata: dict
+    :param AnalyticsMetadata: The Amazon Pinpoint analytics metadata for collecting metrics for SignUp calls.
+            AnalyticsEndpointId (string) --The endpoint ID.
+            
+
+    :type UserContextData: dict
+    :param UserContextData: Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
+            EncodedData (string) --Contextual data such as the user's device fingerprint, IP address, or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
             
 
     :rtype: dict
@@ -3579,6 +4895,56 @@ def stop_user_import_job(UserPoolId=None, JobId=None):
     """
     pass
 
+def update_auth_event_feedback(UserPoolId=None, Username=None, EventId=None, FeedbackToken=None, FeedbackValue=None):
+    """
+    Provides the feedback for an authentication event whether it was from a valid user or not. This feedback is used for improving the risk evaluation decision for the user pool as part of Amazon Cognito advanced security.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_auth_event_feedback(
+        UserPoolId='string',
+        Username='string',
+        EventId='string',
+        FeedbackToken='string',
+        FeedbackValue='Valid'|'Invalid'
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID.
+            
+
+    :type Username: string
+    :param Username: [REQUIRED]
+            The user pool username.
+            
+
+    :type EventId: string
+    :param EventId: [REQUIRED]
+            The event ID.
+            
+
+    :type FeedbackToken: string
+    :param FeedbackToken: [REQUIRED]
+            The feedback token.
+            
+
+    :type FeedbackValue: string
+    :param FeedbackValue: [REQUIRED]
+            The authentication event feedback value.
+            
+
+    :rtype: dict
+    :return: {}
+    
+    
+    :returns: 
+    (dict) --
+    
+    """
+    pass
+
 def update_device_status(AccessToken=None, DeviceKey=None, DeviceRememberedStatus=None):
     """
     Updates the device status.
@@ -3645,7 +5011,7 @@ def update_group(GroupName=None, UserPoolId=None, Description=None, RoleArn=None
     :param RoleArn: The new role ARN for the group. This is used for setting the cognito:roles and cognito:preferred_role claims in the token.
 
     :type Precedence: integer
-    :param Precedence: The new precedence value for the group. For more information about this parameter, see CreateGroup .
+    :param Precedence: The new precedence value for the group. For more information about this parameter, see .
 
     :rtype: dict
     :return: {
@@ -3717,7 +5083,7 @@ def update_identity_provider(UserPoolId=None, ProviderName=None, ProviderDetails
         'IdentityProvider': {
             'UserPoolId': 'string',
             'ProviderName': 'string',
-            'ProviderType': 'SAML',
+            'ProviderType': 'SAML'|'Facebook'|'Google'|'LoginWithAmazon',
             'ProviderDetails': {
                 'string': 'string'
             },
@@ -3737,6 +5103,67 @@ def update_identity_provider(UserPoolId=None, ProviderName=None, ProviderDetails
     (string) --
     (string) --
     
+    
+    
+    """
+    pass
+
+def update_resource_server(UserPoolId=None, Identifier=None, Name=None, Scopes=None):
+    """
+    Updates the name and scopes of resource server. All other fields are read-only.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_resource_server(
+        UserPoolId='string',
+        Identifier='string',
+        Name='string',
+        Scopes=[
+            {
+                'ScopeName': 'string',
+                'ScopeDescription': 'string'
+            },
+        ]
+    )
+    
+    
+    :type UserPoolId: string
+    :param UserPoolId: [REQUIRED]
+            The user pool ID for the user pool.
+            
+
+    :type Identifier: string
+    :param Identifier: [REQUIRED]
+            The identifier for the resource server.
+            
+
+    :type Name: string
+    :param Name: [REQUIRED]
+            The name of the resource server.
+            
+
+    :type Scopes: list
+    :param Scopes: The scope values to be set for the resource server.
+            (dict) --A resource server scope.
+            ScopeName (string) -- [REQUIRED]The name of the scope.
+            ScopeDescription (string) -- [REQUIRED]A description of the scope.
+            
+            
+
+    :rtype: dict
+    :return: {
+        'ResourceServer': {
+            'UserPoolId': 'string',
+            'Identifier': 'string',
+            'Name': 'string',
+            'Scopes': [
+                {
+                    'ScopeName': 'string',
+                    'ScopeDescription': 'string'
+                },
+            ]
+        }
+    }
     
     
     """
@@ -3789,7 +5216,7 @@ def update_user_attributes(UserAttributes=None, AccessToken=None):
     """
     pass
 
-def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None):
+def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVerifiedAttributes=None, SmsVerificationMessage=None, EmailVerificationMessage=None, EmailVerificationSubject=None, VerificationMessageTemplate=None, SmsAuthenticationMessage=None, MfaConfiguration=None, DeviceConfiguration=None, EmailConfiguration=None, SmsConfiguration=None, UserPoolTags=None, AdminCreateUserConfig=None, UserPoolAddOns=None):
     """
     Updates the specified user pool with the specified attributes.
     See also: AWS API Documentation
@@ -3814,7 +5241,9 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
             'PostAuthentication': 'string',
             'DefineAuthChallenge': 'string',
             'CreateAuthChallenge': 'string',
-            'VerifyAuthChallengeResponse': 'string'
+            'VerifyAuthChallengeResponse': 'string',
+            'PreTokenGeneration': 'string',
+            'UserMigration': 'string'
         },
         AutoVerifiedAttributes=[
             'phone_number'|'email',
@@ -3822,6 +5251,14 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
         SmsVerificationMessage='string',
         EmailVerificationMessage='string',
         EmailVerificationSubject='string',
+        VerificationMessageTemplate={
+            'SmsMessage': 'string',
+            'EmailMessage': 'string',
+            'EmailSubject': 'string',
+            'EmailMessageByLink': 'string',
+            'EmailSubjectByLink': 'string',
+            'DefaultEmailOption': 'CONFIRM_WITH_LINK'|'CONFIRM_WITH_CODE'
+        },
         SmsAuthenticationMessage='string',
         MfaConfiguration='OFF'|'ON'|'OPTIONAL',
         DeviceConfiguration={
@@ -3847,6 +5284,9 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
                 'EmailMessage': 'string',
                 'EmailSubject': 'string'
             }
+        },
+        UserPoolAddOns={
+            'AdvancedSecurityMode': 'OFF'|'AUDIT'|'ENFORCED'
         }
     )
     
@@ -3858,7 +5298,7 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
 
     :type Policies: dict
     :param Policies: A container with the policies you wish to update in a user pool.
-            PasswordPolicy (dict) --A container for information about the user pool password policy.
+            PasswordPolicy (dict) --The password policy.
             MinimumLength (integer) --The minimum length of the password policy that you have set. Cannot be less than 6.
             RequireUppercase (boolean) --In the password policy that you have set, refers to whether you have required users to use at least one uppercase letter in their password.
             RequireLowercase (boolean) --In the password policy that you have set, refers to whether you have required users to use at least one lowercase letter in their password.
@@ -3877,6 +5317,8 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
             DefineAuthChallenge (string) --Defines the authentication challenge.
             CreateAuthChallenge (string) --Creates an authentication challenge.
             VerifyAuthChallengeResponse (string) --Verifies the authentication challenge response.
+            PreTokenGeneration (string) --A Lambda trigger that is invoked before token generation.
+            UserMigration (string) --The user migration Lambda config type.
             
 
     :type AutoVerifiedAttributes: list
@@ -3892,6 +5334,16 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
 
     :type EmailVerificationSubject: string
     :param EmailVerificationSubject: The subject of the email verification message.
+
+    :type VerificationMessageTemplate: dict
+    :param VerificationMessageTemplate: The template for verification messages.
+            SmsMessage (string) --The SMS message template.
+            EmailMessage (string) --The email message template.
+            EmailSubject (string) --The subject line for the email message template.
+            EmailMessageByLink (string) --The email message template for sending a confirmation link to the user.
+            EmailSubjectByLink (string) --The subject line for the email message template for sending a confirmation link to the user.
+            DefaultEmailOption (string) --The default email option.
+            
 
     :type SmsAuthenticationMessage: string
     :param SmsAuthenticationMessage: The contents of the SMS authentication message.
@@ -3912,7 +5364,7 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
     :type EmailConfiguration: dict
     :param EmailConfiguration: Email configuration.
             SourceArn (string) --The Amazon Resource Name (ARN) of the email source.
-            ReplyToEmailAddress (string) --The REPLY-TO email address.
+            ReplyToEmailAddress (string) --The destination to which the receiver of the email should reply to.
             
 
     :type SmsConfiguration: dict
@@ -3932,10 +5384,16 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
             AllowAdminCreateUserOnly (boolean) --Set to True if only the administrator is allowed to create user profiles. Set to False if users can sign themselves up via an app.
             UnusedAccountValidityDays (integer) --The user account expiration limit, in days, after which the account is no longer usable. To reset the account after that time limit, you must call AdminCreateUser again, specifying 'RESEND' for the MessageAction parameter. The default value for this parameter is 7.
             InviteMessageTemplate (dict) --The message template to be used for the welcome message to new users.
+            See also Customizing User Invitation Messages .
             SMSMessage (string) --The message template for SMS messages.
             EmailMessage (string) --The message template for email messages.
             EmailSubject (string) --The subject line for email messages.
             
+            
+
+    :type UserPoolAddOns: dict
+    :param UserPoolAddOns: Used to enable advanced security risk detection. Set the key AdvancedSecurityMode to the value 'AUDIT'.
+            AdvancedSecurityMode (string) -- [REQUIRED]The advanced security mode.
             
 
     :rtype: dict
@@ -3945,7 +5403,7 @@ def update_user_pool(UserPoolId=None, Policies=None, LambdaConfig=None, AutoVeri
     """
     pass
 
-def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None, SupportedIdentityProviders=None, CallbackURLs=None, LogoutURLs=None, DefaultRedirectURI=None, AllowedOAuthFlows=None, AllowedOAuthScopes=None, AllowedOAuthFlowsUserPoolClient=None):
+def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, RefreshTokenValidity=None, ReadAttributes=None, WriteAttributes=None, ExplicitAuthFlows=None, SupportedIdentityProviders=None, CallbackURLs=None, LogoutURLs=None, DefaultRedirectURI=None, AllowedOAuthFlows=None, AllowedOAuthScopes=None, AllowedOAuthFlowsUserPoolClient=None, AnalyticsConfiguration=None):
     """
     Allows the developer to update the specified user pool client and password policy.
     See also: AWS API Documentation
@@ -3963,7 +5421,7 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
             'string',
         ],
         ExplicitAuthFlows=[
-            'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY',
+            'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY'|'USER_PASSWORD_AUTH',
         ],
         SupportedIdentityProviders=[
             'string',
@@ -3981,7 +5439,13 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
         AllowedOAuthScopes=[
             'string',
         ],
-        AllowedOAuthFlowsUserPoolClient=True|False
+        AllowedOAuthFlowsUserPoolClient=True|False,
+        AnalyticsConfiguration={
+            'ApplicationId': 'string',
+            'RoleArn': 'string',
+            'ExternalId': 'string',
+            'UserDataShared': True|False
+        }
     )
     
     
@@ -4027,7 +5491,7 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
             
 
     :type LogoutURLs: list
-    :param LogoutURLs: A list ofallowed logout URLs for the identity providers.
+    :param LogoutURLs: A list of allowed logout URLs for the identity providers.
             (string) --
             
 
@@ -4048,6 +5512,14 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
     :type AllowedOAuthFlowsUserPoolClient: boolean
     :param AllowedOAuthFlowsUserPoolClient: Set to TRUE if the client is allowed to follow the OAuth protocol when interacting with Cognito user pools.
 
+    :type AnalyticsConfiguration: dict
+    :param AnalyticsConfiguration: The Amazon Pinpoint analytics configuration for collecting metrics for this user pool.
+            ApplicationId (string) -- [REQUIRED]The application ID for an Amazon Pinpoint application.
+            RoleArn (string) -- [REQUIRED]The ARN of an IAM role that authorizes Amazon Cognito to publish events to Amazon Pinpoint analytics.
+            ExternalId (string) -- [REQUIRED]The external ID.
+            UserDataShared (boolean) --If UserDataShared is true , Amazon Cognito will include user data in the events it publishes to Amazon Pinpoint analytics.
+            
+
     :rtype: dict
     :return: {
         'UserPoolClient': {
@@ -4065,7 +5537,7 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
                 'string',
             ],
             'ExplicitAuthFlows': [
-                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY',
+                'ADMIN_NO_SRP_AUTH'|'CUSTOM_AUTH_FLOW_ONLY'|'USER_PASSWORD_AUTH',
             ],
             'SupportedIdentityProviders': [
                 'string',
@@ -4083,13 +5555,57 @@ def update_user_pool_client(UserPoolId=None, ClientId=None, ClientName=None, Ref
             'AllowedOAuthScopes': [
                 'string',
             ],
-            'AllowedOAuthFlowsUserPoolClient': True|False
+            'AllowedOAuthFlowsUserPoolClient': True|False,
+            'AnalyticsConfiguration': {
+                'ApplicationId': 'string',
+                'RoleArn': 'string',
+                'ExternalId': 'string',
+                'UserDataShared': True|False
+            }
         }
     }
     
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def verify_software_token(AccessToken=None, Session=None, UserCode=None, FriendlyDeviceName=None):
+    """
+    Use this API to register a user's entered TOTP code and mark the user's software token MFA status as "verified" if successful,
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.verify_software_token(
+        AccessToken='string',
+        Session='string',
+        UserCode='string',
+        FriendlyDeviceName='string'
+    )
+    
+    
+    :type AccessToken: string
+    :param AccessToken: The access token.
+
+    :type Session: string
+    :param Session: The session which should be passed both ways in challenge-response calls to the service.
+
+    :type UserCode: string
+    :param UserCode: [REQUIRED]
+            The one time password computed using the secret code returned by
+            
+
+    :type FriendlyDeviceName: string
+    :param FriendlyDeviceName: The friendly device name.
+
+    :rtype: dict
+    :return: {
+        'Status': 'SUCCESS'|'ERROR',
+        'Session': 'string'
+    }
+    
     
     """
     pass

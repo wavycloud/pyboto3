@@ -33,7 +33,7 @@ def associate_vpc_with_hosted_zone(HostedZoneId=None, VPC=None, Comment=None):
     :example: response = client.associate_vpc_with_hosted_zone(
         HostedZoneId='string',
         VPC={
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         },
         Comment='string'
@@ -95,7 +95,7 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax.
     For an example for each type of resource record set, see "Examples."
     Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets .
-    When you submit a ChangeResourceRecordSets request, Amazon Route 53 propagates your changes to all of the Amazon Route 53 authoritative DNS servers. While your changes are propagating, GetChange returns a status of PENDING . When propagation is complete, GetChange returns a status of INSYNC . Changes generally propagate to all Amazon Route 53 name servers in a few minutes. In rare circumstances, propagation can take up to 30 minutes. For more information, see  GetChange .
+    When you submit a ChangeResourceRecordSets request, Amazon Route 53 propagates your changes to all of the Amazon Route 53 authoritative DNS servers. While your changes are propagating, GetChange returns a status of PENDING . When propagation is complete, GetChange returns a status of INSYNC . Changes generally propagate to all Amazon Route 53 name servers within 60 seconds. For more information, see  GetChange .
     For information about the limits on a ChangeResourceRecordSets request, see Limits in the Amazon Route 53 Developer Guide .
     See also: AWS API Documentation
     
@@ -109,16 +109,17 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
                     'Action': 'CREATE'|'DELETE'|'UPSERT',
                     'ResourceRecordSet': {
                         'Name': 'string',
-                        'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+                        'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
                         'SetIdentifier': 'string',
                         'Weight': 123,
-                        'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'cn-north-1'|'ap-south-1',
+                        'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'cn-north-1'|'cn-northwest-1'|'ap-south-1',
                         'GeoLocation': {
                             'ContinentCode': 'string',
                             'CountryCode': 'string',
                             'SubdivisionCode': 'string'
                         },
                         'Failover': 'PRIMARY'|'SECONDARY',
+                        'MultiValueAnswer': True|False,
                         'TTL': 123,
                         'ResourceRecords': [
                             {
@@ -157,21 +158,6 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             Warning
             To delete the resource record set that is associated with a traffic policy instance, use `` DeleteTrafficPolicyInstance `` . Amazon Route 53 will delete the resource record set automatically. If you delete the resource record set by using ChangeResourceRecordSets , Amazon Route 53 doesn't automatically delete the traffic policy instance, and you'll continue to be charged for it even though it's no longer in use.
             UPSERT : If a resource record set doesn't already exist, Amazon Route 53 creates it. If a resource record set does exist, Amazon Route 53 updates it with the values in the request.
-            The values that you need to include in the request depend on the type of resource record set that you're creating, deleting, or updating:
-            Basic resource record sets (excluding alias, failover, geolocation, latency, and weighted resource record sets)
-            Name
-            Type
-            TTL
-            Failover, geolocation, latency, or weighted resource record sets (excluding alias resource record sets)
-            Name
-            Type
-            TTL
-            SetIdentifier
-            Alias resource record sets (including failover alias, geolocation alias, latency alias, and weighted alias resource record sets)
-            Name
-            Type
-            AliasTarget (includes DNSName , EvaluateTargetHealth , and HostedZoneId )
-            SetIdentifier (for failover, geolocation, latency, and weighted resource record sets)
             ResourceRecordSet (dict) -- [REQUIRED]Information about the resource record set to create, delete, or update.
             Name (string) -- [REQUIRED]The name of the domain you want to perform the action on.
             Enter a fully qualified domain name, for example, www.example.com . You can optionally include a trailing dot. If you omit the trailing dot, Amazon Route 53 still assumes that the domain name that you specify is fully qualified. This means that Amazon Route 53 treats www.example.com (without a trailing dot) and www.example.com. (with a trailing dot) as identical.
@@ -184,8 +170,9 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             You can't use the * wildcard for resource records sets that have a type of NS.
             You can use the * wildcard as the leftmost label in a domain name, for example, *.example.com . You can't use an * for one of the middle labels, for example, marketing.*.example.com . In addition, the * must replace the entire label; for example, you can't specify prod*.example.com .
             Type (string) -- [REQUIRED]The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide .
-            Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
-            Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT . When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.
+            Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
+            Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT . When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.
+            Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT
             Note
             SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF . RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1 , has been updated to say, '...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it.' In RFC 7208, see section 14.1, The SPF DNS Record Type .
             Values for alias resource record sets:
@@ -193,7 +180,7 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             AWS Elastic Beanstalk environment that has a regionalized subdomain : A
             ELB load balancers: A | AAAA
             Amazon S3 buckets: A
-            Another resource record set in this hosted zone: Specify the type of the resource record set for which you're creating the alias. Specify any value except NS or SOA .
+            Another resource record set in this hosted zone: Specify the type of the resource record set that you're creating the alias for. All values are supported except NS and SOA .
             SetIdentifier (string) --
             Weighted, Latency, Geo, and Failover resource record sets only: An identifier that differentiates among multiple resource record sets that have the same combination of DNS name and type. The value of SetIdentifier must be unique for each resource record set that has the same combination of DNS name and type. Omit SetIdentifier for any other types of record sets.
             Weight (integer) --
@@ -240,8 +227,17 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             For more information about configuring failover for Amazon Route 53, see the following topics in the Amazon Route 53 Developer Guide :
             Amazon Route 53 Health Checks and DNS Failover
             Configuring Failover in a Private Hosted Zone
+            MultiValueAnswer (boolean) --
+            Multivalue answer resource record sets only : To route traffic approximately randomly to multiple resources, such as web servers, create one multivalue answer record for each resource and specify true for MultiValueAnswer . Note the following:
+            If you associate a health check with a multivalue answer resource record set, Amazon Route 53 responds to DNS queries with the corresponding IP address only when the health check is healthy.
+            If you don't associate a health check with a multivalue answer record, Amazon Route 53 always considers the record to be healthy.
+            Amazon Route 53 responds to DNS queries with up to eight healthy records; if you have eight or fewer healthy records, Amazon Route 53 responds to all DNS queries with all the healthy records.
+            If you have more than eight healthy records, Amazon Route 53 responds to different DNS resolvers with different combinations of healthy records.
+            When all records are unhealthy, Amazon Route 53 responds to DNS queries with up to eight unhealthy records.
+            If a resource becomes unavailable after a resolver caches a response, client software typically tries another of the IP addresses in the response.
+            You can't create multivalue answer alias records.
             TTL (integer) --The resource record cache time to live (TTL), in seconds. Note the following:
-            If you're creating an alias resource record set, omit TTL . Amazon Route 53 uses the value of TTL for the alias target.
+            If you're creating or updating an alias resource record set, omit TTL . Amazon Route 53 uses the value of TTL for the alias target.
             If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.
             All of the resource record sets in a group of weighted resource record sets must have the same value for TTL .
             If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight .
@@ -272,12 +268,15 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             Specify the hosted zone ID for the region in which you created the environment. The environment must have a regionalized subdomain. For a list of regions and the corresponding hosted zone IDs, see AWS Elastic Beanstalk in the 'AWS Regions and Endpoints' chapter of the Amazon Web Services General Reference .
             ELB load balancer
             Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:
-            Elastic Load Balancing table in the 'AWS Regions and Endpoints' chapter of the Amazon Web Services General Reference : Use the value in the 'Amazon Route 53 Hosted Zone ID' column that corresponds with the region that you created your load balancer in.
-            AWS Management Console : Go to the Amazon EC2 page, click Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.
-            Elastic Load Balancing API : Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId . For more information, see the applicable guide:
-            Classic Load Balancer: DescribeLoadBalancers
-            Application Load Balancer: DescribeLoadBalancers
-            AWS CLI : Use `` describe-load-balancers `` to get the value of CanonicalHostedZoneNameID .An Amazon S3 bucket configured as a static website
+            Elastic Load Balancing table in the 'AWS Regions and Endpoints' chapter of the Amazon Web Services General Reference : Use the value that corresponds with the region that you created your load balancer in. Note that there are separate columns for Application and Classic Load Balancers and for Network Load Balancers.
+            AWS Management Console : Go to the Amazon EC2 page, choose Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.
+            Elastic Load Balancing API : Use DescribeLoadBalancers to get the applicable value. For more information, see the applicable guide:
+            Classic Load Balancers: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId .
+            Application and Network Load Balancers: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneId .
+            AWS CLI : Use describe-load-balancers to get the applicable value. For more information, see the applicable guide:
+            Classic Load Balancers: Use describe-load-balancers to get the value of CanonicalHostedZoneNameId .
+            Application and Network Load Balancers: Use describe-load-balancers to get the value of CanonicalHostedZoneId .
+            An Amazon S3 bucket configured as a static website
             Specify the hosted zone ID for the region that you created the bucket in. For more information about valid values, see the Amazon Simple Storage Service Website Endpoints table in the 'AWS Regions and Endpoints' chapter of the Amazon Web Services General Reference .
             Another Amazon Route 53 resource record set in your hosted zone
             Specify the hosted zone ID of your hosted zone. (An alias resource record set can't reference a resource record set in a different hosted zone.)
@@ -294,9 +293,12 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
             Specify the DNS name that is associated with the load balancer. Get the DNS name by using the AWS Management Console, the ELB API, or the AWS CLI.
             AWS Management Console : Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field. (If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack .)
             Elastic Load Balancing API : Use DescribeLoadBalancers to get the value of DNSName . For more information, see the applicable guide:
-            Classic Load Balancer: DescribeLoadBalancers
-            Application Load Balancer: DescribeLoadBalancers
-            AWS CLI : Use `` describe-load-balancers `` to get the value of DNSName .Amazon S3 bucket that is configured as a static website
+            Classic Load Balancers: DescribeLoadBalancers
+            Application and Network Load Balancers: DescribeLoadBalancers
+            AWS CLI : Use describe-load-balancers to get the value of DNSName . For more information, see the applicable guide:
+            Classic Load Balancers: describe-load-balancers
+            Application and Network Load Balancers: describe-load-balancers
+            Amazon S3 bucket that is configured as a static website
             Specify the domain name of the Amazon S3 website endpoint in which you created the bucket, for example, s3-website-us-east-2.amazonaws.com . For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference . For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.
             Another Amazon Route 53 resource record set
             Specify the value of the Name element for a resource record set in the current hosted zone.
@@ -371,30 +373,6 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     
     UPSERT : If a resource record set doesn't already exist, Amazon Route 53 creates it. If a resource record set does exist, Amazon Route 53 updates it with the values in the request.
     
-    The values that you need to include in the request depend on the type of resource record set that you're creating, deleting, or updating:
-    
-    Basic resource record sets (excluding alias, failover, geolocation, latency, and weighted resource record sets)
-    
-    Name
-    Type
-    TTL
-    
-    
-    Failover, geolocation, latency, or weighted resource record sets (excluding alias resource record sets)
-    
-    Name
-    Type
-    TTL
-    SetIdentifier
-    
-    
-    Alias resource record sets (including failover alias, geolocation alias, latency alias, and weighted alias resource record sets)
-    
-    Name
-    Type
-    AliasTarget (includes DNSName , EvaluateTargetHealth , and HostedZoneId )
-    SetIdentifier (for failover, geolocation, latency, and weighted resource record sets)
-    
     
     ResourceRecordSet (dict) -- [REQUIRED]Information about the resource record set to create, delete, or update.
     
@@ -414,8 +392,9 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     You can use the * wildcard as the leftmost label in a domain name, for example, *.example.com . You can't use an * for one of the middle labels, for example, marketing.*.example.com . In addition, the * must replace the entire label; for example, you can't specify prod*.example.com .
     
     Type (string) -- [REQUIRED]The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide .
-    Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
-    Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT . When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.
+    Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
+    Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT . When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group.
+    Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT
     
     Note
     SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF . RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1 , has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type .
@@ -426,7 +405,7 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     AWS Elastic Beanstalk environment that has a regionalized subdomain : A
     ELB load balancers: A | AAAA
     Amazon S3 buckets: A
-    Another resource record set in this hosted zone: Specify the type of the resource record set for which you're creating the alias. Specify any value except NS or SOA .
+    Another resource record set in this hosted zone: Specify the type of the resource record set that you're creating the alias for. All values are supported except NS and SOA .
     
     
     SetIdentifier (string) --
@@ -499,9 +478,21 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     Configuring Failover in a Private Hosted Zone
     
     
+    MultiValueAnswer (boolean) --
+    Multivalue answer resource record sets only : To route traffic approximately randomly to multiple resources, such as web servers, create one multivalue answer record for each resource and specify true for MultiValueAnswer . Note the following:
+    
+    If you associate a health check with a multivalue answer resource record set, Amazon Route 53 responds to DNS queries with the corresponding IP address only when the health check is healthy.
+    If you don't associate a health check with a multivalue answer record, Amazon Route 53 always considers the record to be healthy.
+    Amazon Route 53 responds to DNS queries with up to eight healthy records; if you have eight or fewer healthy records, Amazon Route 53 responds to all DNS queries with all the healthy records.
+    If you have more than eight healthy records, Amazon Route 53 responds to different DNS resolvers with different combinations of healthy records.
+    When all records are unhealthy, Amazon Route 53 responds to DNS queries with up to eight unhealthy records.
+    If a resource becomes unavailable after a resolver caches a response, client software typically tries another of the IP addresses in the response.
+    
+    You can't create multivalue answer alias records.
+    
     TTL (integer) --The resource record cache time to live (TTL), in seconds. Note the following:
     
-    If you're creating an alias resource record set, omit TTL . Amazon Route 53 uses the value of TTL for the alias target.
+    If you're creating or updating an alias resource record set, omit TTL . Amazon Route 53 uses the value of TTL for the alias target.
     If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.
     All of the resource record sets in a group of weighted resource record sets must have the same value for TTL .
     If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight .
@@ -554,14 +545,18 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     ELB load balancer
     Specify the value of the hosted zone ID for the load balancer. Use the following methods to get the hosted zone ID:
     
-    Elastic Load Balancing table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference : Use the value in the "Amazon Route 53 Hosted Zone ID" column that corresponds with the region that you created your load balancer in.
-    AWS Management Console : Go to the Amazon EC2 page, click Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.
-    Elastic Load Balancing API : Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId . For more information, see the applicable guide:
-    Classic Load Balancer: DescribeLoadBalancers
-    Application Load Balancer: DescribeLoadBalancers
+    Elastic Load Balancing table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference : Use the value that corresponds with the region that you created your load balancer in. Note that there are separate columns for Application and Classic Load Balancers and for Network Load Balancers.
+    AWS Management Console : Go to the Amazon EC2 page, choose Load Balancers in the navigation pane, select the load balancer, and get the value of the Hosted zone field on the Description tab.
+    Elastic Load Balancing API : Use DescribeLoadBalancers to get the applicable value. For more information, see the applicable guide:
+    Classic Load Balancers: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneNameId .
+    Application and Network Load Balancers: Use DescribeLoadBalancers to get the value of CanonicalHostedZoneId .
     
     
-    AWS CLI : Use `` describe-load-balancers `` to get the value of CanonicalHostedZoneNameID .An Amazon S3 bucket configured as a static website
+    AWS CLI : Use describe-load-balancers to get the applicable value. For more information, see the applicable guide:
+    Classic Load Balancers: Use describe-load-balancers to get the value of CanonicalHostedZoneNameId .
+    Application and Network Load Balancers: Use describe-load-balancers to get the value of CanonicalHostedZoneId .
+    
+    An Amazon S3 bucket configured as a static website
     
     
     Specify the hosted zone ID for the region that you created the bucket in. For more information about valid values, see the Amazon Simple Storage Service Website Endpoints table in the "AWS Regions and Endpoints" chapter of the Amazon Web Services General Reference .
@@ -588,11 +583,15 @@ def change_resource_record_sets(HostedZoneId=None, ChangeBatch=None):
     
     AWS Management Console : Go to the EC2 page, choose Load Balancers in the navigation pane, choose the load balancer, choose the Description tab, and get the value of the DNS name field. (If you're routing traffic to a Classic Load Balancer, get the value that begins with dualstack .)
     Elastic Load Balancing API : Use DescribeLoadBalancers to get the value of DNSName . For more information, see the applicable guide:
-    Classic Load Balancer: DescribeLoadBalancers
-    Application Load Balancer: DescribeLoadBalancers
+    Classic Load Balancers: DescribeLoadBalancers
+    Application and Network Load Balancers: DescribeLoadBalancers
     
     
-    AWS CLI : Use `` describe-load-balancers `` to get the value of DNSName .Amazon S3 bucket that is configured as a static website
+    AWS CLI : Use describe-load-balancers to get the value of DNSName . For more information, see the applicable guide:
+    Classic Load Balancers: describe-load-balancers
+    Application and Network Load Balancers: describe-load-balancers
+    
+    Amazon S3 bucket that is configured as a static website
     
     
     Specify the domain name of the Amazon S3 website endpoint in which you created the bucket, for example, s3-website-us-east-2.amazonaws.com . For more information about valid values, see the table Amazon Simple Storage Service (S3) Website Endpoints in the Amazon Web Services General Reference . For more information about using S3 buckets for websites, see Getting Started with Amazon Route 53 in the Amazon Route 53 Developer Guide.
@@ -753,7 +752,7 @@ def create_health_check(CallerReference=None, HealthCheckConfig=None):
                 'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
             ],
             'AlarmIdentifier': {
-                'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+                'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
                 'Name': 'string'
             },
             'InsufficientDataHealthStatus': 'Healthy'|'Unhealthy'|'LastKnownStatus'
@@ -856,6 +855,10 @@ def create_health_check(CallerReference=None, HealthCheckConfig=None):
         'HealthCheck': {
             'Id': 'string',
             'CallerReference': 'string',
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            },
             'HealthCheckConfig': {
                 'IPAddress': 'string',
                 'Port': 123,
@@ -876,7 +879,7 @@ def create_health_check(CallerReference=None, HealthCheckConfig=None):
                     'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
                 ],
                 'AlarmIdentifier': {
-                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
                     'Name': 'string'
                 },
                 'InsufficientDataHealthStatus': 'Healthy'|'Unhealthy'|'LastKnownStatus'
@@ -1061,7 +1064,7 @@ def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConf
     :example: response = client.create_hosted_zone(
         Name='string',
         VPC={
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         },
         CallerReference='string',
@@ -1113,7 +1116,11 @@ def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConf
                 'Comment': 'string',
                 'PrivateZone': True|False
             },
-            'ResourceRecordSetCount': 123
+            'ResourceRecordSetCount': 123,
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            }
         },
         'ChangeInfo': {
             'Id': 'string',
@@ -1129,7 +1136,7 @@ def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConf
             ]
         },
         'VPC': {
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         },
         'Location': 'string'
@@ -1171,10 +1178,63 @@ def create_hosted_zone(Name=None, VPC=None, CallerReference=None, HostedZoneConf
     """
     pass
 
+def create_query_logging_config(HostedZoneId=None, CloudWatchLogsLogGroupArn=None):
+    """
+    Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group.
+    DNS query logs contain information about the queries that Amazon Route 53 receives for a specified public hosted zone, such as the following:
+    Before you create a query logging configuration, perform the following operations.
+    When Amazon Route 53 finishes creating the configuration for DNS query logging, it does the following:
+    The name of each log stream is in the following format:
+    The edge location code is a three-letter code and an arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds with the International Air Transport Association airport code for an airport near the edge location. (These abbreviations might change in the future.) For a list of edge locations, see "The Amazon Route 53 Global Network" on the Amazon Route 53 Product Details page.
+    Query logs contain only the queries that DNS resolvers forward to Amazon Route 53. If a DNS resolver has already cached the response to a query (such as the IP address for a load balancer for example.com), the resolver will continue to return the cached response. It doesn't forward another query to Amazon Route 53 until the TTL for the corresponding resource record set expires. Depending on how many DNS queries are submitted for a resource record set, and depending on the TTL for that resource record set, query logs might contain information about only one query out of every several thousand queries that are submitted to DNS. For more information about how DNS works, see Routing Internet Traffic to Your Website or Web Application in the Amazon Route 53 Developer Guide .
+    For a list of the values in each query log and the format of each value, see Logging DNS Queries in the Amazon Route 53 Developer Guide .
+    For information about charges for query logs, see Amazon CloudWatch Pricing .
+    If you want Amazon Route 53 to stop sending query logs to CloudWatch Logs, delete the query logging configuration. For more information, see  DeleteQueryLoggingConfig .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.create_query_logging_config(
+        HostedZoneId='string',
+        CloudWatchLogsLogGroupArn='string'
+    )
+    
+    
+    :type HostedZoneId: string
+    :param HostedZoneId: [REQUIRED]
+            The ID of the hosted zone that you want to log queries for. You can log queries only for public hosted zones.
+            
+
+    :type CloudWatchLogsLogGroupArn: string
+    :param CloudWatchLogsLogGroupArn: [REQUIRED]
+            The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN:
+            arn:aws:logs:region :account-id :log-group:log_group_name
+            To get the ARN for a log group, you can use the CloudWatch console, the DescribeLogGroups API action, the describe-log-groups command, or the applicable command in one of the AWS SDKs.
+            
+
+    :rtype: dict
+    :return: {
+        'QueryLoggingConfig': {
+            'Id': 'string',
+            'HostedZoneId': 'string',
+            'CloudWatchLogsLogGroupArn': 'string'
+        },
+        'Location': 'string'
+    }
+    
+    
+    :returns: 
+    Creates a log stream for an edge location the first time that the edge location responds to DNS queries for the specified hosted zone. That log stream is used to log all queries that Amazon Route 53 responds to for that edge location.
+    Begins to send query logs to the applicable log stream.
+    
+    """
+    pass
+
 def create_reusable_delegation_set(CallerReference=None, HostedZoneId=None):
     """
-    Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones. If a hosted zoned ID is specified, CreateReusableDelegationSet marks the delegation set associated with that zone as reusable
-    For information on how to use a reusable delegation set to configure white label name servers, see Configuring White Label Name Servers .
+    Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones. If a hosted zoned ID is specified, CreateReusableDelegationSet marks the delegation set associated with that zone as reusable.
+    For information about using a reusable delegation set to configure white label name servers, see Configuring White Label Name Servers .
+    The process for migrating existing hosted zones to use a reusable delegation set is comparable to the process for configuring white label name servers. You need to perform the following steps:
+    If you want to migrate existing hosted zones to use a reusable delegation set, the existing hosted zones can't use any of the name servers that are assigned to the reusable delegation set. If one or more hosted zones do use one or more name servers that are assigned to the reusable delegation set, you can do one of the following:
     See also: AWS API Documentation
     
     
@@ -1206,7 +1266,9 @@ def create_reusable_delegation_set(CallerReference=None, HostedZoneId=None):
     
     
     :returns: 
-    (string) --
+    For small numbers of hosted zonesup to a few hundredit's relatively easy to create reusable delegation sets until you get one that has four name servers that don't overlap with any of the name servers in your hosted zones.
+    For larger numbers of hosted zones, the easiest solution is to use more than one reusable delegation set.
+    For larger numbers of hosted zones, you can also migrate hosted zones that have overlapping name servers to hosted zones that don't have overlapping name servers, then migrate the hosted zones again to use the reusable delegation set.
     
     """
     pass
@@ -1243,7 +1305,7 @@ def create_traffic_policy(Name=None, Document=None, Comment=None):
             'Id': 'string',
             'Version': 123,
             'Name': 'string',
-            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
             'Document': 'string',
             'Comment': 'string'
         },
@@ -1305,7 +1367,7 @@ def create_traffic_policy_instance(HostedZoneId=None, Name=None, TTL=None, Traff
             'Message': 'string',
             'TrafficPolicyId': 'string',
             'TrafficPolicyVersion': 123,
-            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
         },
         'Location': 'string'
     }
@@ -1346,7 +1408,7 @@ def create_traffic_policy_version(Id=None, Document=None, Comment=None):
             'Id': 'string',
             'Version': 123,
             'Name': 'string',
-            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
             'Document': 'string',
             'Comment': 'string'
         },
@@ -1366,7 +1428,7 @@ def create_vpc_association_authorization(HostedZoneId=None, VPC=None):
     :example: response = client.create_vpc_association_authorization(
         HostedZoneId='string',
         VPC={
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         }
     )
@@ -1388,7 +1450,7 @@ def create_vpc_association_authorization(HostedZoneId=None, VPC=None):
     :return: {
         'HostedZoneId': 'string',
         'VPC': {
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         }
     }
@@ -1447,6 +1509,30 @@ def delete_hosted_zone(Id=None):
             'Comment': 'string'
         }
     }
+    
+    
+    """
+    pass
+
+def delete_query_logging_config(Id=None):
+    """
+    Deletes a configuration for DNS query logging. If you delete a configuration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Amazon Route 53 doesn't delete any logs that are already in CloudWatch Logs.
+    For more information about DNS query logs, see  CreateQueryLoggingConfig .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.delete_query_logging_config(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the configuration that you want to delete.
+            
+
+    :rtype: dict
+    :return: {}
     
     
     """
@@ -1539,7 +1625,7 @@ def delete_vpc_association_authorization(HostedZoneId=None, VPC=None):
     :example: response = client.delete_vpc_association_authorization(
         HostedZoneId='string',
         VPC={
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         }
     )
@@ -1573,7 +1659,7 @@ def disassociate_vpc_from_hosted_zone(HostedZoneId=None, VPC=None, Comment=None)
     :example: response = client.disassociate_vpc_from_hosted_zone(
         HostedZoneId='string',
         VPC={
-            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+            'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
             'VPCId': 'string'
         },
         Comment='string'
@@ -1628,6 +1714,48 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     :param HttpMethod: The http method to use on the generated url. By
             default, the http method is whatever is used in the method's model.
 
+    """
+    pass
+
+def get_account_limit(Type=None):
+    """
+    Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account.
+    For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_account_limit(
+        Type='MAX_HEALTH_CHECKS_BY_OWNER'|'MAX_HOSTED_ZONES_BY_OWNER'|'MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER'|'MAX_REUSABLE_DELEGATION_SETS_BY_OWNER'|'MAX_TRAFFIC_POLICIES_BY_OWNER'
+    )
+    
+    
+    :type Type: string
+    :param Type: [REQUIRED]
+            The limit that you want to get. Valid values include the following:
+            MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account.
+            MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account.
+            MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current account.
+            MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account.
+            MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
+            
+
+    :rtype: dict
+    :return: {
+        'Limit': {
+            'Type': 'MAX_HEALTH_CHECKS_BY_OWNER'|'MAX_HOSTED_ZONES_BY_OWNER'|'MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER'|'MAX_REUSABLE_DELEGATION_SETS_BY_OWNER'|'MAX_TRAFFIC_POLICIES_BY_OWNER',
+            'Value': 123
+        },
+        'Count': 123
+    }
+    
+    
+    :returns: 
+    MAX_HEALTH_CHECKS_BY_OWNER : The maximum number of health checks that you can create using the current account.
+    MAX_HOSTED_ZONES_BY_OWNER : The maximum number of hosted zones that you can create using the current account.
+    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER : The maximum number of reusable delegation sets that you can create using the current account.
+    MAX_TRAFFIC_POLICIES_BY_OWNER : The maximum number of traffic policies that you can create using the current account.
+    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER : The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
+    
     """
     pass
 
@@ -1750,6 +1878,10 @@ def get_health_check(HealthCheckId=None):
         'HealthCheck': {
             'Id': 'string',
             'CallerReference': 'string',
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            },
             'HealthCheckConfig': {
                 'IPAddress': 'string',
                 'Port': 123,
@@ -1770,7 +1902,7 @@ def get_health_check(HealthCheckId=None):
                     'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
                 ],
                 'AlarmIdentifier': {
-                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
                     'Name': 'string'
                 },
                 'InsufficientDataHealthStatus': 'Healthy'|'Unhealthy'|'LastKnownStatus'
@@ -1835,6 +1967,8 @@ def get_health_check_last_failure_reason(HealthCheckId=None):
     :type HealthCheckId: string
     :param HealthCheckId: [REQUIRED]
             The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.
+            Note
+            If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check.
             
 
     :rtype: dict
@@ -1917,7 +2051,11 @@ def get_hosted_zone(Id=None):
                 'Comment': 'string',
                 'PrivateZone': True|False
             },
-            'ResourceRecordSetCount': 123
+            'ResourceRecordSetCount': 123,
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            }
         },
         'DelegationSet': {
             'Id': 'string',
@@ -1928,7 +2066,7 @@ def get_hosted_zone(Id=None):
         },
         'VPCs': [
             {
-                'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+                'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
                 'VPCId': 'string'
             },
         ]
@@ -1956,6 +2094,48 @@ def get_hosted_zone_count():
     """
     pass
 
+def get_hosted_zone_limit(Type=None, HostedZoneId=None):
+    """
+    Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone.
+    For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_hosted_zone_limit(
+        Type='MAX_RRSETS_BY_ZONE'|'MAX_VPCS_ASSOCIATED_BY_ZONE',
+        HostedZoneId='string'
+    )
+    
+    
+    :type Type: string
+    :param Type: [REQUIRED]
+            The limit that you want to get. Valid values include the following:
+            MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone.
+            MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.
+            
+
+    :type HostedZoneId: string
+    :param HostedZoneId: [REQUIRED]
+            The ID of the hosted zone that you want to get a limit for.
+            
+
+    :rtype: dict
+    :return: {
+        'Limit': {
+            'Type': 'MAX_RRSETS_BY_ZONE'|'MAX_VPCS_ASSOCIATED_BY_ZONE',
+            'Value': 123
+        },
+        'Count': 123
+    }
+    
+    
+    :returns: 
+    MAX_RRSETS_BY_ZONE : The maximum number of records that you can create in the specified hosted zone.
+    MAX_VPCS_ASSOCIATED_BY_ZONE : The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.
+    
+    """
+    pass
+
 def get_paginator(operation_name=None):
     """
     Create a paginator for an operation.
@@ -1969,6 +2149,36 @@ def get_paginator(operation_name=None):
             call client.get_paginator('create_foo').
 
     :rtype: L{botocore.paginate.Paginator}
+    """
+    pass
+
+def get_query_logging_config(Id=None):
+    """
+    Gets information about a specified configuration for DNS query logging.
+    For more information about DNS query logs, see  CreateQueryLoggingConfig and Logging DNS Queries .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_query_logging_config(
+        Id='string'
+    )
+    
+    
+    :type Id: string
+    :param Id: [REQUIRED]
+            The ID of the configuration for DNS query logging that you want to get information about.
+            
+
+    :rtype: dict
+    :return: {
+        'QueryLoggingConfig': {
+            'Id': 'string',
+            'HostedZoneId': 'string',
+            'CloudWatchLogsLogGroupArn': 'string'
+        }
+    }
+    
+    
     """
     pass
 
@@ -2003,6 +2213,42 @@ def get_reusable_delegation_set(Id=None):
     """
     pass
 
+def get_reusable_delegation_set_limit(Type=None, DelegationSetId=None):
+    """
+    Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set.
+    For the default limit, see Limits in the Amazon Route 53 Developer Guide . To request a higher limit, open a case .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_reusable_delegation_set_limit(
+        Type='MAX_ZONES_BY_REUSABLE_DELEGATION_SET',
+        DelegationSetId='string'
+    )
+    
+    
+    :type Type: string
+    :param Type: [REQUIRED]
+            Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set.
+            
+
+    :type DelegationSetId: string
+    :param DelegationSetId: [REQUIRED]
+            The ID of the delegation set that you want to get the limit for.
+            
+
+    :rtype: dict
+    :return: {
+        'Limit': {
+            'Type': 'MAX_ZONES_BY_REUSABLE_DELEGATION_SET',
+            'Value': 123
+        },
+        'Count': 123
+    }
+    
+    
+    """
+    pass
+
 def get_traffic_policy(Id=None, Version=None):
     """
     Gets information about a specific traffic policy version.
@@ -2031,7 +2277,7 @@ def get_traffic_policy(Id=None, Version=None):
             'Id': 'string',
             'Version': 123,
             'Name': 'string',
-            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
             'Document': 'string',
             'Comment': 'string'
         }
@@ -2068,7 +2314,7 @@ def get_traffic_policy_instance(Id=None):
             'Message': 'string',
             'TrafficPolicyId': 'string',
             'TrafficPolicyVersion': 123,
-            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
         }
     }
     
@@ -2183,6 +2429,10 @@ def list_health_checks(Marker=None, MaxItems=None):
             {
                 'Id': 'string',
                 'CallerReference': 'string',
+                'LinkedService': {
+                    'ServicePrincipal': 'string',
+                    'Description': 'string'
+                },
                 'HealthCheckConfig': {
                     'IPAddress': 'string',
                     'Port': 123,
@@ -2203,7 +2453,7 @@ def list_health_checks(Marker=None, MaxItems=None):
                         'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
                     ],
                     'AlarmIdentifier': {
-                        'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+                        'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
                         'Name': 'string'
                     },
                     'InsufficientDataHealthStatus': 'Healthy'|'Unhealthy'|'LastKnownStatus'
@@ -2277,7 +2527,11 @@ def list_hosted_zones(Marker=None, MaxItems=None, DelegationSetId=None):
                     'Comment': 'string',
                     'PrivateZone': True|False
                 },
-                'ResourceRecordSetCount': 123
+                'ResourceRecordSetCount': 123,
+                'LinkedService': {
+                    'ServicePrincipal': 'string',
+                    'Description': 'string'
+                }
             },
         ],
         'Marker': 'string',
@@ -2329,7 +2583,11 @@ def list_hosted_zones_by_name(DNSName=None, HostedZoneId=None, MaxItems=None):
                     'Comment': 'string',
                     'PrivateZone': True|False
                 },
-                'ResourceRecordSetCount': 123
+                'ResourceRecordSetCount': 123,
+                'LinkedService': {
+                    'ServicePrincipal': 'string',
+                    'Description': 'string'
+                }
             },
         ],
         'DNSName': 'string',
@@ -2347,6 +2605,52 @@ def list_hosted_zones_by_name(DNSName=None, HostedZoneId=None, MaxItems=None):
     If you have more hosted zones than the value of maxitems , ListHostedZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid parameters. For the value of hostedzoneid , specify the value of the NextHostedZoneId element from the previous response.
     
     MaxItems (string) -- The maximum number of hosted zones to be included in the response body for this request. If you have more than maxitems hosted zones, then the value of the IsTruncated element in the response is true, and the values of NextDNSName and NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
+    
+    """
+    pass
+
+def list_query_logging_configs(HostedZoneId=None, NextToken=None, MaxResults=None):
+    """
+    Lists the configurations for DNS query logging that are associated with the current AWS account or the configuration that is associated with a specified hosted zone.
+    For more information about DNS query logs, see  CreateQueryLoggingConfig . Additional information, including the format of DNS query logs, appears in Logging DNS Queries in the Amazon Route 53 Developer Guide .
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.list_query_logging_configs(
+        HostedZoneId='string',
+        NextToken='string',
+        MaxResults='string'
+    )
+    
+    
+    :type HostedZoneId: string
+    :param HostedZoneId: (Optional) If you want to list the query logging configuration that is associated with a hosted zone, specify the ID in HostedZoneId .
+            If you don't specify a hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are associated with the current AWS account.
+            
+
+    :type NextToken: string
+    :param NextToken: (Optional) If the current AWS account has more than MaxResults query logging configurations, use NextToken to get the second and subsequent pages of results.
+            For the first ListQueryLoggingConfigs request, omit this value.
+            For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
+            
+
+    :type MaxResults: string
+    :param MaxResults: (Optional) The maximum number of query logging configurations that you want Amazon Route 53 to return in response to the current request. If the current AWS account has more than MaxResults configurations, use the value of ListQueryLoggingConfigsResponse$NextToken in the response to get the next page of results.
+            If you don't specify a value for MaxResults , Amazon Route 53 returns up to 100 configurations.
+            
+
+    :rtype: dict
+    :return: {
+        'QueryLoggingConfigs': [
+            {
+                'Id': 'string',
+                'HostedZoneId': 'string',
+                'CloudWatchLogsLogGroupArn': 'string'
+            },
+        ],
+        'NextToken': 'string'
+    }
+    
     
     """
     pass
@@ -2369,7 +2673,7 @@ def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartReco
     :example: response = client.list_resource_record_sets(
         HostedZoneId='string',
         StartRecordName='string',
-        StartRecordType='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        StartRecordType='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         StartRecordIdentifier='string',
         MaxItems='string'
     )
@@ -2385,13 +2689,14 @@ def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartReco
 
     :type StartRecordType: string
     :param StartRecordType: The type of resource record set to begin the record listing from.
-            Valid values for basic resource record sets: A | AAAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
-            Values for weighted, latency, geo, and failover resource record sets: A | AAAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT
+            Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT
+            Values for weighted, latency, geo, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT
             Values for alias resource record sets:
             CloudFront distribution : A or AAAA
             Elastic Beanstalk environment that has a regionalized subdomain : A
             ELB load balancer : A | AAAA
             Amazon S3 bucket : A
+            Another resource record set in this hosted zone: The type of the resource record set that the alias references.
             Constraint: Specifying type without specifying name returns an InvalidInput error.
             
 
@@ -2406,16 +2711,17 @@ def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartReco
         'ResourceRecordSets': [
             {
                 'Name': 'string',
-                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
                 'SetIdentifier': 'string',
                 'Weight': 123,
-                'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'cn-north-1'|'ap-south-1',
+                'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'cn-north-1'|'cn-northwest-1'|'ap-south-1',
                 'GeoLocation': {
                     'ContinentCode': 'string',
                     'CountryCode': 'string',
                     'SubdivisionCode': 'string'
                 },
                 'Failover': 'PRIMARY'|'SECONDARY',
+                'MultiValueAnswer': True|False,
                 'TTL': 123,
                 'ResourceRecords': [
                     {
@@ -2433,7 +2739,7 @@ def list_resource_record_sets(HostedZoneId=None, StartRecordName=None, StartReco
         ],
         'IsTruncated': True|False,
         'NextRecordName': 'string',
-        'NextRecordType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        'NextRecordType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         'NextRecordIdentifier': 'string',
         'MaxItems': 'string'
     }
@@ -2617,7 +2923,7 @@ def list_traffic_policies(TrafficPolicyIdMarker=None, MaxItems=None):
             {
                 'Id': 'string',
                 'Name': 'string',
-                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
                 'LatestVersion': 123,
                 'TrafficPolicyCount': 123
             },
@@ -2641,7 +2947,7 @@ def list_traffic_policy_instances(HostedZoneIdMarker=None, TrafficPolicyInstance
     :example: response = client.list_traffic_policy_instances(
         HostedZoneIdMarker='string',
         TrafficPolicyInstanceNameMarker='string',
-        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         MaxItems='string'
     )
     
@@ -2676,12 +2982,12 @@ def list_traffic_policy_instances(HostedZoneIdMarker=None, TrafficPolicyInstance
                 'Message': 'string',
                 'TrafficPolicyId': 'string',
                 'TrafficPolicyVersion': 123,
-                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
             },
         ],
         'HostedZoneIdMarker': 'string',
         'TrafficPolicyInstanceNameMarker': 'string',
-        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         'IsTruncated': True|False,
         'MaxItems': 'string'
     }
@@ -2700,7 +3006,7 @@ def list_traffic_policy_instances_by_hosted_zone(HostedZoneId=None, TrafficPolic
     :example: response = client.list_traffic_policy_instances_by_hosted_zone(
         HostedZoneId='string',
         TrafficPolicyInstanceNameMarker='string',
-        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         MaxItems='string'
     )
     
@@ -2735,11 +3041,11 @@ def list_traffic_policy_instances_by_hosted_zone(HostedZoneId=None, TrafficPolic
                 'Message': 'string',
                 'TrafficPolicyId': 'string',
                 'TrafficPolicyVersion': 123,
-                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
             },
         ],
         'TrafficPolicyInstanceNameMarker': 'string',
-        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         'IsTruncated': True|False,
         'MaxItems': 'string'
     }
@@ -2760,7 +3066,7 @@ def list_traffic_policy_instances_by_policy(TrafficPolicyId=None, TrafficPolicyV
         TrafficPolicyVersion=123,
         HostedZoneIdMarker='string',
         TrafficPolicyInstanceNameMarker='string',
-        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        TrafficPolicyInstanceTypeMarker='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         MaxItems='string'
     )
     
@@ -2808,12 +3114,12 @@ def list_traffic_policy_instances_by_policy(TrafficPolicyId=None, TrafficPolicyV
                 'Message': 'string',
                 'TrafficPolicyId': 'string',
                 'TrafficPolicyVersion': 123,
-                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+                'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
             },
         ],
         'HostedZoneIdMarker': 'string',
         'TrafficPolicyInstanceNameMarker': 'string',
-        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        'TrafficPolicyInstanceTypeMarker': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         'IsTruncated': True|False,
         'MaxItems': 'string'
     }
@@ -2856,7 +3162,7 @@ def list_traffic_policy_versions(Id=None, TrafficPolicyVersionMarker=None, MaxIt
                 'Id': 'string',
                 'Version': 123,
                 'Name': 'string',
-                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+                'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
                 'Document': 'string',
                 'Comment': 'string'
             },
@@ -2901,7 +3207,7 @@ def list_vpc_association_authorizations(HostedZoneId=None, NextToken=None, MaxRe
         'NextToken': 'string',
         'VPCs': [
             {
-                'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1'|'ca-central-1'|'cn-north-1',
+                'VPCRegion': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'eu-central-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-south-1'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1'|'ca-central-1'|'cn-north-1',
                 'VPCId': 'string'
             },
         ]
@@ -2920,7 +3226,7 @@ def test_dns_answer(HostedZoneId=None, RecordName=None, RecordType=None, Resolve
     :example: response = client.test_dns_answer(
         HostedZoneId='string',
         RecordName='string',
-        RecordType='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        RecordType='SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         ResolverIP='string',
         EDNS0ClientSubnetIP='string',
         EDNS0ClientSubnetMask='string'
@@ -2955,7 +3261,7 @@ def test_dns_answer(HostedZoneId=None, RecordName=None, RecordType=None, Resolve
     :return: {
         'Nameserver': 'string',
         'RecordName': 'string',
-        'RecordType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+        'RecordType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
         'RecordData': [
             'string',
         ],
@@ -2973,7 +3279,7 @@ def test_dns_answer(HostedZoneId=None, RecordName=None, RecordType=None, Resolve
     """
     pass
 
-def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=None, Port=None, ResourcePath=None, FullyQualifiedDomainName=None, SearchString=None, FailureThreshold=None, Inverted=None, HealthThreshold=None, ChildHealthChecks=None, EnableSNI=None, Regions=None, AlarmIdentifier=None, InsufficientDataHealthStatus=None):
+def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=None, Port=None, ResourcePath=None, FullyQualifiedDomainName=None, SearchString=None, FailureThreshold=None, Inverted=None, HealthThreshold=None, ChildHealthChecks=None, EnableSNI=None, Regions=None, AlarmIdentifier=None, InsufficientDataHealthStatus=None, ResetElements=None):
     """
     Updates an existing health check. Note that some values can't be updated.
     For more information about updating health checks, see Creating, Updating, and Deleting Health Checks in the Amazon Route 53 Developer Guide .
@@ -2999,10 +3305,13 @@ def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=N
             'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
         ],
         AlarmIdentifier={
-            'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+            'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
             'Name': 'string'
         },
-        InsufficientDataHealthStatus='Healthy'|'Unhealthy'|'LastKnownStatus'
+        InsufficientDataHealthStatus='Healthy'|'Unhealthy'|'LastKnownStatus',
+        ResetElements=[
+            'FullyQualifiedDomainName'|'Regions'|'ResourcePath'|'ChildHealthChecks',
+        ]
     )
     
     
@@ -3112,11 +3421,24 @@ def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=N
             LastKnownStatus : Amazon Route 53 uses the status of the health check from the last time CloudWatch had sufficient data to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.
             
 
+    :type ResetElements: list
+    :param ResetElements: A complex type that contains one ResettableElementName element for each element that you want to reset to the default value. Valid values for ResettableElementName include the following:
+            ChildHealthChecks : Amazon Route 53 resets HealthCheckConfig$ChildHealthChecks to null.
+            FullyQualifiedDomainName : Amazon Route 53 resets HealthCheckConfig$FullyQualifiedDomainName to null.
+            Regions : Amazon Route 53 resets the HealthCheckConfig$Regions list to the default set of regions.
+            ResourcePath : Amazon Route 53 resets HealthCheckConfig$ResourcePath to null.
+            (string) --
+            
+
     :rtype: dict
     :return: {
         'HealthCheck': {
             'Id': 'string',
             'CallerReference': 'string',
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            },
             'HealthCheckConfig': {
                 'IPAddress': 'string',
                 'Port': 123,
@@ -3137,7 +3459,7 @@ def update_health_check(HealthCheckId=None, HealthCheckVersion=None, IPAddress=N
                     'us-east-1'|'us-west-1'|'us-west-2'|'eu-west-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'sa-east-1',
                 ],
                 'AlarmIdentifier': {
-                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'sa-east-1',
+                    'Region': 'us-east-1'|'us-east-2'|'us-west-1'|'us-west-2'|'ca-central-1'|'eu-central-1'|'eu-west-1'|'eu-west-2'|'eu-west-3'|'ap-south-1'|'ap-southeast-1'|'ap-southeast-2'|'ap-northeast-1'|'ap-northeast-2'|'ap-northeast-3'|'sa-east-1',
                     'Name': 'string'
                 },
                 'InsufficientDataHealthStatus': 'Healthy'|'Unhealthy'|'LastKnownStatus'
@@ -3199,7 +3521,11 @@ def update_hosted_zone_comment(Id=None, Comment=None):
                 'Comment': 'string',
                 'PrivateZone': True|False
             },
-            'ResourceRecordSetCount': 123
+            'ResourceRecordSetCount': 123,
+            'LinkedService': {
+                'ServicePrincipal': 'string',
+                'Description': 'string'
+            }
         }
     }
     
@@ -3241,7 +3567,7 @@ def update_traffic_policy_comment(Id=None, Version=None, Comment=None):
             'Id': 'string',
             'Version': 123,
             'Name': 'string',
-            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA',
+            'Type': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA',
             'Document': 'string',
             'Comment': 'string'
         }
@@ -3297,7 +3623,7 @@ def update_traffic_policy_instance(Id=None, TTL=None, TrafficPolicyId=None, Traf
             'Message': 'string',
             'TrafficPolicyId': 'string',
             'TrafficPolicyVersion': 123,
-            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'
+            'TrafficPolicyType': 'SOA'|'A'|'TXT'|'NS'|'CNAME'|'MX'|'NAPTR'|'PTR'|'SRV'|'SPF'|'AAAA'|'CAA'
         }
     }
     

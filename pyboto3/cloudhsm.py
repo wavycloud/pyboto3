@@ -26,6 +26,7 @@ SOFTWARE.
 
 def add_tags_to_resource(ResourceArn=None, TagList=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Adds or overwrites one or more tags for the specified AWS CloudHSM resource.
     Each tag consists of a key and a value. Tag keys must be unique to each resource.
     See also: AWS API Documentation
@@ -82,6 +83,7 @@ def can_paginate(operation_name=None):
 
 def create_hapg(Label=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Creates a high-availability partition group. A high-availability partition group is a group of partitions that spans multiple physical HSMs.
     See also: AWS API Documentation
     
@@ -107,8 +109,9 @@ def create_hapg(Label=None):
 
 def create_hsm(SubnetId=None, SshKey=None, EniIp=None, IamRoleArn=None, ExternalId=None, SubscriptionType=None, ClientToken=None, SyslogIp=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Creates an uninitialized HSM instance.
-    There is an upfront fee charged for each HSM instance that you create with the  CreateHsm operation. If you accidentally provision an HSM and want to request a refund, delete the instance using the  DeleteHsm operation, go to the AWS Support Center , create a new case, and select Account and Billing Support .
+    There is an upfront fee charged for each HSM instance that you create with the CreateHsm operation. If you accidentally provision an HSM and want to request a refund, delete the instance using the  DeleteHsm operation, go to the AWS Support Center , create a new case, and select Account and Billing Support .
     See also: AWS API Documentation
     
     
@@ -171,6 +174,7 @@ def create_hsm(SubnetId=None, SshKey=None, EniIp=None, IamRoleArn=None, External
 
 def create_luna_client(Label=None, Certificate=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Creates an HSM client.
     See also: AWS API Documentation
     
@@ -200,6 +204,7 @@ def create_luna_client(Label=None, Certificate=None):
 
 def delete_hapg(HapgArn=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Deletes a high-availability partition group.
     See also: AWS API Documentation
     
@@ -225,6 +230,7 @@ def delete_hapg(HapgArn=None):
 
 def delete_hsm(HsmArn=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Deletes an HSM. After completion, this operation cannot be undone and your key material cannot be recovered.
     See also: AWS API Documentation
     
@@ -250,6 +256,7 @@ def delete_hsm(HsmArn=None):
 
 def delete_luna_client(ClientArn=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Deletes a client.
     See also: AWS API Documentation
     
@@ -275,6 +282,7 @@ def delete_luna_client(ClientArn=None):
 
 def describe_hapg(HapgArn=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Retrieves information about a high-availability partition group.
     See also: AWS API Documentation
     
@@ -316,6 +324,7 @@ def describe_hapg(HapgArn=None):
 
 def describe_hsm(HsmArn=None, HsmSerialNumber=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Retrieves information about an HSM. You can identify the HSM by its ARN or its serial number.
     See also: AWS API Documentation
     
@@ -369,6 +378,7 @@ def describe_hsm(HsmArn=None, HsmSerialNumber=None):
 
 def describe_luna_client(ClientArn=None, CertificateFingerprint=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Retrieves information about an HSM client.
     See also: AWS API Documentation
     
@@ -422,6 +432,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 
 def get_config(ClientArn=None, ClientVersion=None, HapgList=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Gets the configuration files necessary to connect to all high availability partition groups the client is associated with.
     See also: AWS API Documentation
     
@@ -486,6 +497,7 @@ def get_waiter():
 
 def list_available_zones():
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Lists the Availability Zones that have available AWS CloudHSM capacity.
     See also: AWS API Documentation
     
@@ -506,8 +518,9 @@ def list_available_zones():
 
 def list_hapgs(NextToken=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Lists the high-availability partition groups for the account.
-    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListHapgs to retrieve the next set of items.
+    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListHapgs to retrieve the next set of items.
     See also: AWS API Documentation
     
     
@@ -533,8 +546,9 @@ def list_hapgs(NextToken=None):
 
 def list_hsms(NextToken=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Retrieves the identifiers of all of the HSMs provisioned for the current customer.
-    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListHsms to retrieve the next set of items.
+    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListHsms to retrieve the next set of items.
     See also: AWS API Documentation
     
     
@@ -560,8 +574,9 @@ def list_hsms(NextToken=None):
 
 def list_luna_clients(NextToken=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Lists all of the clients.
-    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to  ListLunaClients to retrieve the next set of items.
+    This operation supports pagination with the use of the NextToken member. If more results are available, the NextToken member of the response contains a token that you pass in the next call to ListLunaClients to retrieve the next set of items.
     See also: AWS API Documentation
     
     
@@ -587,6 +602,7 @@ def list_luna_clients(NextToken=None):
 
 def list_tags_for_resource(ResourceArn=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Returns a list of all tags for the specified AWS CloudHSM resource.
     See also: AWS API Documentation
     
@@ -617,6 +633,7 @@ def list_tags_for_resource(ResourceArn=None):
 
 def modify_hapg(HapgArn=None, Label=None, PartitionSerialList=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Modifies an existing high-availability partition group.
     See also: AWS API Documentation
     
@@ -654,6 +671,7 @@ def modify_hapg(HapgArn=None, Label=None, PartitionSerialList=None):
 
 def modify_hsm(HsmArn=None, SubnetId=None, EniIp=None, IamRoleArn=None, ExternalId=None, SyslogIp=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Modifies an HSM.
     See also: AWS API Documentation
     
@@ -701,6 +719,7 @@ def modify_hsm(HsmArn=None, SubnetId=None, EniIp=None, IamRoleArn=None, External
 
 def modify_luna_client(ClientArn=None, Certificate=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Modifies the certificate used by the client.
     This action can potentially start a workflow to install the new certificate on the client's HSMs.
     See also: AWS API Documentation
@@ -733,6 +752,7 @@ def modify_luna_client(ClientArn=None, Certificate=None):
 
 def remove_tags_from_resource(ResourceArn=None, TagKeyList=None):
     """
+    This is documentation for AWS CloudHSM Classic . For more information, see AWS CloudHSM Classic FAQs , the AWS CloudHSM Classic User Guide , and the AWS CloudHSM Classic API Reference .
     Removes one or more tags from the specified AWS CloudHSM resource.
     To remove a tag, specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use  AddTagsToResource .
     See also: AWS API Documentation

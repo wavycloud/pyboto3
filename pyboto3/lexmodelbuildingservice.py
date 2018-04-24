@@ -74,8 +74,9 @@ def create_bot_version(name=None, checksum=None):
         'clarificationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -84,8 +85,9 @@ def create_bot_version(name=None, checksum=None):
         'abortStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -98,7 +100,7 @@ def create_bot_version(name=None, checksum=None):
         'voiceId': 'string',
         'checksum': 'string',
         'version': 'string',
-        'locale': 'en-US',
+        'locale': 'en-US'|'en-GB'|'de-DE',
         'childDirected': True|False
     }
     
@@ -142,8 +144,9 @@ def create_intent_version(name=None, checksum=None):
                 'valueElicitationPrompt': {
                     'messages': [
                         {
-                            'contentType': 'PlainText'|'SSML',
-                            'content': 'string'
+                            'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                            'content': 'string',
+                            'groupNumber': 123
                         },
                     ],
                     'maxAttempts': 123,
@@ -162,8 +165,9 @@ def create_intent_version(name=None, checksum=None):
         'confirmationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -172,8 +176,9 @@ def create_intent_version(name=None, checksum=None):
         'rejectionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -182,8 +187,9 @@ def create_intent_version(name=None, checksum=None):
             'prompt': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'maxAttempts': 123,
@@ -192,8 +198,9 @@ def create_intent_version(name=None, checksum=None):
             'rejectionStatement': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'responseCard': 'string'
@@ -202,8 +209,9 @@ def create_intent_version(name=None, checksum=None):
         'conclusionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -261,13 +269,17 @@ def create_slot_type_version(name=None, checksum=None):
         'description': 'string',
         'enumerationValues': [
             {
-                'value': 'string'
+                'value': 'string',
+                'synonyms': [
+                    'string',
+                ]
             },
         ],
         'lastUpdatedDate': datetime(2015, 1, 1),
         'createdDate': datetime(2015, 1, 1),
         'version': 'string',
-        'checksum': 'string'
+        'checksum': 'string',
+        'valueSelectionStrategy': 'ORIGINAL_VALUE'|'TOP_RESOLUTION'
     }
     
     
@@ -281,7 +293,7 @@ def create_slot_type_version(name=None, checksum=None):
 
 def delete_bot(name=None):
     """
-    Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the operation.
+    Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the  DeleteBotVersion operation.
     If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful.
     This operation requires permissions for the lex:DeleteBot action.
     See also: AWS API Documentation
@@ -360,7 +372,7 @@ def delete_bot_channel_association(name=None, botName=None, botAlias=None):
 
 def delete_bot_version(name=None, version=None):
     """
-    Deletes a specific version of a bot. To delete all versions of a bot, use the operation.
+    Deletes a specific version of a bot. To delete all versions of a bot, use the  DeleteBot operation.
     This operation requires permissions for the lex:DeleteBotVersion action.
     See also: AWS API Documentation
     
@@ -378,7 +390,7 @@ def delete_bot_version(name=None, version=None):
 
     :type version: string
     :param version: [REQUIRED]
-            The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the operation.
+            The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
             
 
     """
@@ -386,7 +398,7 @@ def delete_bot_version(name=None, version=None):
 
 def delete_intent(name=None):
     """
-    Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the operation.
+    Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the  DeleteIntentVersion operation.
     You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see  how-it-works ), you must remove those references first.
     This operation requires permission for the lex:DeleteIntent action.
     See also: AWS API Documentation
@@ -407,7 +419,7 @@ def delete_intent(name=None):
 
 def delete_intent_version(name=None, version=None):
     """
-    Deletes a specific version of an intent. To delete all versions of a intent, use the operation.
+    Deletes a specific version of an intent. To delete all versions of a intent, use the  DeleteIntent operation.
     This operation requires permissions for the lex:DeleteIntentVersion action.
     See also: AWS API Documentation
     
@@ -425,7 +437,7 @@ def delete_intent_version(name=None, version=None):
 
     :type version: string
     :param version: [REQUIRED]
-            The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the operation.
+            The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
             
 
     """
@@ -433,7 +445,7 @@ def delete_intent_version(name=None, version=None):
 
 def delete_slot_type(name=None):
     """
-    Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the operation.
+    Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the  DeleteSlotTypeVersion operation.
     You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.
     This operation requires permission for the lex:DeleteSlotType action.
     See also: AWS API Documentation
@@ -454,7 +466,7 @@ def delete_slot_type(name=None):
 
 def delete_slot_type_version(name=None, version=None):
     """
-    Deletes a specific version of a slot type. To delete all versions of a slot type, use the operation.
+    Deletes a specific version of a slot type. To delete all versions of a slot type, use the  DeleteSlotType operation.
     This operation requires permissions for the lex:DeleteSlotTypeVersion action.
     See also: AWS API Documentation
     
@@ -472,7 +484,7 @@ def delete_slot_type_version(name=None, version=None):
 
     :type version: string
     :param version: [REQUIRED]
-            The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the operation.
+            The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
             
 
     """
@@ -481,7 +493,7 @@ def delete_slot_type_version(name=None, version=None):
 def delete_utterances(botName=None, userId=None):
     """
     Deletes stored utterances.
-    Amazon Lex stores the utterances that users send to your bot unless the childDirected field in the bot is set to true . Utterances are stored for 15 days for use with the operation, and then stored indefinately for use in improving the ability of your bot to respond to user input.
+    Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the  GetUtterancesView operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.
     Use the DeleteStoredUtterances operation to manually delete stored utterances for a specific user.
     This operation requires permissions for the lex:DeleteUtterances action.
     See also: AWS API Documentation
@@ -500,7 +512,7 @@ def delete_utterances(botName=None, userId=None):
 
     :type userId: string
     :param userId: [REQUIRED]
-            The unique identifier for the user that made the utterances. This is the user ID that was sent in the or operation request that contained the utterance.
+            The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
             
 
     """
@@ -531,7 +543,7 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
 def get_bot(name=None, versionOrAlias=None):
     """
     Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.
-    The GetBot operation requires permissions for the lex:GetBot action.
+    This operation requires permissions for the lex:GetBot action.
     See also: AWS API Documentation
     
     
@@ -564,8 +576,9 @@ def get_bot(name=None, versionOrAlias=None):
         'clarificationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -574,8 +587,9 @@ def get_bot(name=None, versionOrAlias=None):
         'abortStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -588,7 +602,7 @@ def get_bot(name=None, versionOrAlias=None):
         'voiceId': 'string',
         'checksum': 'string',
         'version': 'string',
-        'locale': 'en-US',
+        'locale': 'en-US'|'en-GB'|'de-DE',
         'childDirected': True|False
     }
     
@@ -719,10 +733,12 @@ def get_bot_channel_association(name=None, botName=None, botAlias=None):
         'botAlias': 'string',
         'botName': 'string',
         'createdDate': datetime(2015, 1, 1),
-        'type': 'Facebook'|'Slack'|'Twilio-Sms',
+        'type': 'Facebook'|'Slack'|'Twilio-Sms'|'Kik',
         'botConfiguration': {
             'string': 'string'
-        }
+        },
+        'status': 'IN_PROGRESS'|'CREATED'|'FAILED',
+        'failureReason': 'string'
     }
     
     
@@ -779,10 +795,12 @@ def get_bot_channel_associations(botName=None, botAlias=None, nextToken=None, ma
                 'botAlias': 'string',
                 'botName': 'string',
                 'createdDate': datetime(2015, 1, 1),
-                'type': 'Facebook'|'Slack'|'Twilio-Sms',
+                'type': 'Facebook'|'Slack'|'Twilio-Sms'|'Kik',
                 'botConfiguration': {
                     'string': 'string'
-                }
+                },
+                'status': 'IN_PROGRESS'|'CREATED'|'FAILED',
+                'failureReason': 'string'
             },
         ],
         'nextToken': 'string'
@@ -912,7 +930,7 @@ def get_builtin_intent(signature=None):
     :return: {
         'signature': 'string',
         'supportedLocales': [
-            'en-US',
+            'en-US'|'en-GB'|'de-DE',
         ],
         'slots': [
             {
@@ -933,7 +951,7 @@ def get_builtin_intents(locale=None, signatureContains=None, nextToken=None, max
     
     
     :example: response = client.get_builtin_intents(
-        locale='en-US',
+        locale='en-US'|'en-GB'|'de-DE',
         signatureContains='string',
         nextToken='string',
         maxResults=123
@@ -958,7 +976,7 @@ def get_builtin_intents(locale=None, signatureContains=None, nextToken=None, max
             {
                 'signature': 'string',
                 'supportedLocales': [
-                    'en-US',
+                    'en-US'|'en-GB'|'de-DE',
                 ]
             },
         ],
@@ -981,7 +999,7 @@ def get_builtin_slot_types(locale=None, signatureContains=None, nextToken=None, 
     
     
     :example: response = client.get_builtin_slot_types(
-        locale='en-US',
+        locale='en-US'|'en-GB'|'de-DE',
         signatureContains='string',
         nextToken='string',
         maxResults=123
@@ -1006,7 +1024,7 @@ def get_builtin_slot_types(locale=None, signatureContains=None, nextToken=None, 
             {
                 'signature': 'string',
                 'supportedLocales': [
-                    'en-US',
+                    'en-US'|'en-GB'|'de-DE',
                 ]
             },
         ],
@@ -1016,6 +1034,93 @@ def get_builtin_slot_types(locale=None, signatureContains=None, nextToken=None, 
     
     :returns: 
     (string) --
+    
+    """
+    pass
+
+def get_export(name=None, version=None, resourceType=None, exportType=None):
+    """
+    Exports the contents of a Amazon Lex resource in a specified format.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_export(
+        name='string',
+        version='string',
+        resourceType='BOT'|'INTENT'|'SLOT_TYPE',
+        exportType='ALEXA_SKILLS_KIT'|'LEX'
+    )
+    
+    
+    :type name: string
+    :param name: [REQUIRED]
+            The name of the bot to export.
+            
+
+    :type version: string
+    :param version: [REQUIRED]
+            The version of the bot to export.
+            
+
+    :type resourceType: string
+    :param resourceType: [REQUIRED]
+            The type of resource to export.
+            
+
+    :type exportType: string
+    :param exportType: [REQUIRED]
+            The format of the exported data.
+            
+
+    :rtype: dict
+    :return: {
+        'name': 'string',
+        'version': 'string',
+        'resourceType': 'BOT'|'INTENT'|'SLOT_TYPE',
+        'exportType': 'ALEXA_SKILLS_KIT'|'LEX',
+        'exportStatus': 'IN_PROGRESS'|'READY'|'FAILED',
+        'failureReason': 'string',
+        'url': 'string'
+    }
+    
+    
+    :returns: 
+    IN_PROGRESS - The export is in progress.
+    READY - The export is complete.
+    FAILED - The export could not be completed.
+    
+    """
+    pass
+
+def get_import(importId=None):
+    """
+    Gets information about an import job started with the StartImport operation.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.get_import(
+        importId='string'
+    )
+    
+    
+    :type importId: string
+    :param importId: [REQUIRED]
+            The identifier of the import job information to return.
+            
+
+    :rtype: dict
+    :return: {
+        'name': 'string',
+        'resourceType': 'BOT'|'INTENT'|'SLOT_TYPE',
+        'mergeStrategy': 'OVERWRITE_LATEST'|'FAIL_ON_CONFLICT',
+        'importId': 'string',
+        'importStatus': 'IN_PROGRESS'|'COMPLETE'|'FAILED',
+        'failureReason': [
+            'string',
+        ],
+        'createdDate': datetime(2015, 1, 1)
+    }
+    
     
     """
     pass
@@ -1057,8 +1162,9 @@ def get_intent(name=None, version=None):
                 'valueElicitationPrompt': {
                     'messages': [
                         {
-                            'contentType': 'PlainText'|'SSML',
-                            'content': 'string'
+                            'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                            'content': 'string',
+                            'groupNumber': 123
                         },
                     ],
                     'maxAttempts': 123,
@@ -1077,8 +1183,9 @@ def get_intent(name=None, version=None):
         'confirmationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -1087,8 +1194,9 @@ def get_intent(name=None, version=None):
         'rejectionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1097,8 +1205,9 @@ def get_intent(name=None, version=None):
             'prompt': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'maxAttempts': 123,
@@ -1107,8 +1216,9 @@ def get_intent(name=None, version=None):
             'rejectionStatement': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'responseCard': 'string'
@@ -1117,8 +1227,9 @@ def get_intent(name=None, version=None):
         'conclusionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1284,13 +1395,17 @@ def get_slot_type(name=None, version=None):
         'description': 'string',
         'enumerationValues': [
             {
-                'value': 'string'
+                'value': 'string',
+                'synonyms': [
+                    'string',
+                ]
             },
         ],
         'lastUpdatedDate': datetime(2015, 1, 1),
         'createdDate': datetime(2015, 1, 1),
         'version': 'string',
-        'checksum': 'string'
+        'checksum': 'string',
+        'valueSelectionStrategy': 'ORIGINAL_VALUE'|'TOP_RESOLUTION'
     }
     
     
@@ -1398,8 +1513,6 @@ def get_utterances_view(botName=None, botVersions=None, statusType=None):
     Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to.
     For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance.
     After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.
-    Data is available for the last 15 days. You can request information for up to 5 versions in each request. The response contains information about a maximum of 100 utterances for each version.
-    If the bot's childDirected field is set to true , utterances for the bot are not stored and cannot be retrieved with the GetUtterancesView operation. For more information, see .
     This operation requires permissions for the lex:GetUtterancesView action.
     See also: AWS API Documentation
     
@@ -1458,9 +1571,9 @@ def get_waiter():
     """
     pass
 
-def put_bot(name=None, description=None, intents=None, clarificationPrompt=None, abortStatement=None, idleSessionTTLInSeconds=None, voiceId=None, checksum=None, processBehavior=None, locale=None, childDirected=None):
+def put_bot(name=None, description=None, intents=None, clarificationPrompt=None, abortStatement=None, idleSessionTTLInSeconds=None, voiceId=None, checksum=None, processBehavior=None, locale=None, childDirected=None, createVersion=None):
     """
-    Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you only required to specify a name. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with a name only, the bot is created or updated but Amazon Lex returns the ```` response FAILED . You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see  how-it-works .
+    Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name, a locale, and whether the bot is directed toward children under age 13. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with the minimum information, the bot is created or updated but Amazon Lex returns the response FAILED . You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see  how-it-works .
     If you specify the name of an existing bot, the fields in the request replace the existing values in the $LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception.
     This operation requires permissions for the lex:PutBot action. For more information, see  auth-and-access-control .
     See also: AWS API Documentation
@@ -1478,8 +1591,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         clarificationPrompt={
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -1488,8 +1602,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         abortStatement={
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1498,8 +1613,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         voiceId='string',
         checksum='string',
         processBehavior='SAVE'|'BUILD',
-        locale='en-US',
-        childDirected=True|False
+        locale='en-US'|'en-GB'|'de-DE',
+        childDirected=True|False,
+        createVersion=True|False
     )
     
     
@@ -1520,11 +1636,13 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
             
 
     :type clarificationPrompt: dict
-    :param clarificationPrompt: When Amazon Lex doesn't understand the user's intent, it uses one of these messages to get clarification. For example, 'Sorry, I didn't understand. Please repeat.' Amazon Lex repeats the clarification prompt the number of times specified in maxAttempts . If Amazon Lex still can't understand, it sends the message specified in abortStatement .
+    :param clarificationPrompt: When Amazon Lex doesn't understand the user's intent, it uses this message to get clarification. To specify how many times Amazon Lex should repeate the clarification prompt, use the maxAttempts field. If Amazon Lex still doesn't understand, it sends the message in the abortStatement field.
+            When you create a clarification prompt, make sure that it suggests the correct response from the user. for example, for a bot that orders pizza and drinks, you might create this clarification prompt: 'What would you like to do? You can say 'Order a pizza' or 'Order a drink.''
             messages (list) -- [REQUIRED]An array of objects, each of which provides a message string and its type. You can specify the message string in plain text or in Speech Synthesis Markup Language (SSML).
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
             maxAttempts (integer) -- [REQUIRED]The number of times to prompt the user for information.
             responseCard (string) --A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card .
@@ -1538,8 +1656,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
-            responseCard (string) --At runtime, if the client is using the API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
+            responseCard (string) --At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
             
 
     :type idleSessionTTLInSeconds: integer
@@ -1551,7 +1670,7 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
             
 
     :type voiceId: string
-    :param voiceId: The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voice in the Amazon Polly Developer Guide .
+    :param voiceId: The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Available Voices in the Amazon Polly Developer Guide .
 
     :type checksum: string
     :param checksum: Identifies a specific revision of the $LATEST version.
@@ -1560,8 +1679,8 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
             
 
     :type processBehavior: string
-    :param processBehavior: If you set the processBehavior element to Build , Amazon Lex builds the bot so that it can be run. If you set the element to Save Amazon Lex saves the bot, but doesn't build it.
-            If you don't specify this value, the default value is Save .
+    :param processBehavior: If you set the processBehavior element to BUILD , Amazon Lex builds the bot so that it can be run. If you set the element to SAVE Amazon Lex saves the bot, but doesn't build it.
+            If you don't specify this value, the default value is BUILD .
             
 
     :type locale: string
@@ -1576,6 +1695,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
             If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ.
             
 
+    :type createVersion: boolean
+    :param createVersion: 
+
     :rtype: dict
     :return: {
         'name': 'string',
@@ -1589,8 +1711,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         'clarificationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -1599,8 +1722,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         'abortStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1613,8 +1737,9 @@ def put_bot(name=None, description=None, intents=None, clarificationPrompt=None,
         'voiceId': 'string',
         'checksum': 'string',
         'version': 'string',
-        'locale': 'en-US',
-        'childDirected': True|False
+        'locale': 'en-US'|'en-GB'|'de-DE',
+        'childDirected': True|False,
+        'createVersion': True|False
     }
     
     
@@ -1676,13 +1801,13 @@ def put_bot_alias(name=None, description=None, botVersion=None, botName=None, ch
     """
     pass
 
-def put_intent(name=None, description=None, slots=None, sampleUtterances=None, confirmationPrompt=None, rejectionStatement=None, followUpPrompt=None, conclusionStatement=None, dialogCodeHook=None, fulfillmentActivity=None, parentIntentSignature=None, checksum=None):
+def put_intent(name=None, description=None, slots=None, sampleUtterances=None, confirmationPrompt=None, rejectionStatement=None, followUpPrompt=None, conclusionStatement=None, dialogCodeHook=None, fulfillmentActivity=None, parentIntentSignature=None, checksum=None, createVersion=None):
     """
     Creates an intent or replaces an existing intent.
     To define the interaction between the user and your bot, you use one or more intents. For a pizza ordering bot, for example, you would create an OrderPizza intent.
     To create an intent or replace an existing intent, you must provide the following:
     You can specify other optional information in the request, such as:
-    If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the $LATEST version of the slot type with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception.
+    If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the $LATEST version of the intent with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. When you update the $LATEST version of an intent, the status field of any bot that uses the $LATEST version of the intent is set to NOT_BUILT .
     For more information, see  how-it-works .
     This operation requires permissions for the lex:PutIntent action.
     See also: AWS API Documentation
@@ -1701,8 +1826,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
                 'valueElicitationPrompt': {
                     'messages': [
                         {
-                            'contentType': 'PlainText'|'SSML',
-                            'content': 'string'
+                            'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                            'content': 'string',
+                            'groupNumber': 123
                         },
                     ],
                     'maxAttempts': 123,
@@ -1721,8 +1847,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         confirmationPrompt={
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -1731,8 +1858,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         rejectionStatement={
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1741,8 +1869,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             'prompt': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'maxAttempts': 123,
@@ -1751,8 +1880,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             'rejectionStatement': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'responseCard': 'string'
@@ -1761,8 +1891,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         conclusionStatement={
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1779,7 +1910,8 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             }
         },
         parentIntentSignature='string',
-        checksum='string'
+        checksum='string',
+        createVersion=True|False
     )
     
     
@@ -1794,7 +1926,7 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
     :param description: A description of the intent.
 
     :type slots: list
-    :param slots: An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see xref linkend='how-it-works'/.
+    :param slots: An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works .
             (dict) --Identifies the version of a specific slot.
             name (string) -- [REQUIRED]The name of the slot.
             description (string) --A description of the slot.
@@ -1806,6 +1938,7 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
             maxAttempts (integer) -- [REQUIRED]The number of times to prompt the user for information.
             responseCard (string) --A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card .
@@ -1832,6 +1965,7 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
             maxAttempts (integer) -- [REQUIRED]The number of times to prompt the user for information.
             responseCard (string) --A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card .
@@ -1845,31 +1979,36 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
-            responseCard (string) --At runtime, if the client is using the API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
+            responseCard (string) --At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
             
 
     :type followUpPrompt: dict
-    :param followUpPrompt: A user prompt for additional activity after an intent is fulfilled. For example, after the OrderPizza intent is fulfilled (your Lambda function placed an order with a pizzeria), you might prompt the user to find if they want to order a drink (assuming that you have defined an OrderDrink intent in your bot).
-            Note
-            The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one. For example, your bot may not solicit both the following:
-            Follow up prompt - '$session.FirstName , your pizza order has been placed. Would you like to order a drink or a dessert?'
-            Conclusion statement - '$session.FirstName , your pizza order has been placed.'
-            prompt (dict) -- [REQUIRED]Obtains information from the user.
+    :param followUpPrompt: Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink.
+            The action that Amazon Lex takes depends on the user's response, as follows:
+            If the user says 'Yes' it responds with the clarification prompt that is configured for the bot.
+            if the user says 'Yes' and continues with an utterance that triggers an intent it starts a conversation for the intent.
+            If the user says 'No' it responds with the rejection statement configured for the the follow-up prompt.
+            If it doesn't recognize the utterance it repeats the follow-up prompt again.
+            The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one.
+            prompt (dict) -- [REQUIRED]Prompts for information from the user.
             messages (list) -- [REQUIRED]An array of objects, each of which provides a message string and its type. You can specify the message string in plain text or in Speech Synthesis Markup Language (SSML).
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
             maxAttempts (integer) -- [REQUIRED]The number of times to prompt the user for information.
             responseCard (string) --A response card. Amazon Lex uses this prompt at runtime, in the PostText API response. It substitutes session attributes and slot values for placeholders in the response card. For more information, see ex-resp-card .
-            rejectionStatement (dict) -- [REQUIRED]If the user answers 'no' to the question defined in confirmationPrompt , Amazon Lex responds with this statement to acknowledge that the intent was canceled.
+            rejectionStatement (dict) -- [REQUIRED]If the user answers 'no' to the question defined in the prompt field, Amazon Lex responds with this statement to acknowledge that the intent was canceled.
             messages (list) -- [REQUIRED]A collection of message objects.
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
-            responseCard (string) --At runtime, if the client is using the API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
+            responseCard (string) --At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
             
             
 
@@ -1882,8 +2021,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             (dict) --The message object that provides the message text and its type.
             contentType (string) -- [REQUIRED]The content type of the message string.
             content (string) -- [REQUIRED]The text of the message.
+            groupNumber (integer) --Identifies the message group that the message belongs to. When a group is assigned to a message, Amazon Lex returns one message from each group in the response.
             
-            responseCard (string) --At runtime, if the client is using the API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
+            responseCard (string) --At runtime, if the client is using the PostText API, Amazon Lex includes the response card in the response. It substitutes all of the session attributes and slot values for placeholders in the response card.
             
 
     :type dialogCodeHook: dict
@@ -1894,7 +2034,7 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             
 
     :type fulfillmentActivity: dict
-    :param fulfillmentActivity: Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.
+    :param fulfillmentActivity: Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.
             You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria).
             type (string) -- [REQUIRED]How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application.
             codeHook (dict) --A description of the Lambda function that is run to fulfill the intent.
@@ -1912,6 +2052,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
             
 
+    :type createVersion: boolean
+    :param createVersion: 
+
     :rtype: dict
     :return: {
         'name': 'string',
@@ -1926,8 +2069,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
                 'valueElicitationPrompt': {
                     'messages': [
                         {
-                            'contentType': 'PlainText'|'SSML',
-                            'content': 'string'
+                            'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                            'content': 'string',
+                            'groupNumber': 123
                         },
                     ],
                     'maxAttempts': 123,
@@ -1946,8 +2090,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         'confirmationPrompt': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'maxAttempts': 123,
@@ -1956,8 +2101,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         'rejectionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -1966,8 +2112,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             'prompt': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'maxAttempts': 123,
@@ -1976,8 +2123,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
             'rejectionStatement': {
                 'messages': [
                     {
-                        'contentType': 'PlainText'|'SSML',
-                        'content': 'string'
+                        'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                        'content': 'string',
+                        'groupNumber': 123
                     },
                 ],
                 'responseCard': 'string'
@@ -1986,8 +2134,9 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         'conclusionStatement': {
             'messages': [
                 {
-                    'contentType': 'PlainText'|'SSML',
-                    'content': 'string'
+                    'contentType': 'PlainText'|'SSML'|'CustomPayload',
+                    'content': 'string',
+                    'groupNumber': 123
                 },
             ],
             'responseCard': 'string'
@@ -2007,7 +2156,8 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
         'lastUpdatedDate': datetime(2015, 1, 1),
         'createdDate': datetime(2015, 1, 1),
         'version': 'string',
-        'checksum': 'string'
+        'checksum': 'string',
+        'createVersion': True|False
     }
     
     
@@ -2019,11 +2169,11 @@ def put_intent(name=None, description=None, slots=None, sampleUtterances=None, c
     """
     pass
 
-def put_slot_type(name=None, description=None, enumerationValues=None, checksum=None):
+def put_slot_type(name=None, description=None, enumerationValues=None, checksum=None, valueSelectionStrategy=None, createVersion=None):
     """
     Creates a custom slot type or replaces an existing custom slot type.
     To create a custom slot type, specify a name for the slot type and a set of enumeration values, which are the values that a slot of this type can assume. For more information, see  how-it-works .
-    If you specify the name of an existing slot type, the fields in the request replace the existing values in the $LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception.
+    If you specify the name of an existing slot type, the fields in the request replace the existing values in the $LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception. When you update the $LATEST version of a slot type, if a bot uses the $LATEST version of an intent that contains the slot type, the bot's status field is set to NOT_BUILT .
     This operation requires permissions for the lex:PutSlotType action.
     See also: AWS API Documentation
     
@@ -2033,10 +2183,15 @@ def put_slot_type(name=None, description=None, enumerationValues=None, checksum=
         description='string',
         enumerationValues=[
             {
-                'value': 'string'
+                'value': 'string',
+                'synonyms': [
+                    'string',
+                ]
             },
         ],
-        checksum='string'
+        checksum='string',
+        valueSelectionStrategy='ORIGINAL_VALUE'|'TOP_RESOLUTION',
+        createVersion=True|False
     )
     
     
@@ -2051,13 +2206,16 @@ def put_slot_type(name=None, description=None, enumerationValues=None, checksum=
     :param description: A description of the slot type.
 
     :type enumerationValues: list
-    :param enumerationValues: A list of EnumerationValue objects that defines the values that the slot type can take.
+    :param enumerationValues: A list of EnumerationValue objects that defines the values that the slot type can take. Each value can have a list of synonyms , which are additional values that help train the machine learning model about the values that it resolves for a slot.
+            When Amazon Lex resolves a slot value, it generates a resolution list that contains up to five possible values for the slot. If you are using a Lambda function, this resolution list is passed to the function. If you are not using a Lambda function you can choose to return the value that the user entered or the first value in the resolution list as the slot value. The valueSelectionStrategy field indicates the option to use.
             (dict) --Each slot type can have a set of values. Each enumeration value represents a value the slot type can take.
             For example, a pizza ordering bot could have a slot type that specifies the type of crust that the pizza should have. The slot type could include the values
             thick
             thin
             stuffed
             value (string) -- [REQUIRED]The value of the slot type.
+            synonyms (list) --Additional values related to the slot type value.
+            (string) --
             
             
 
@@ -2067,19 +2225,34 @@ def put_slot_type(name=None, description=None, enumerationValues=None, checksum=
             When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
             
 
+    :type valueSelectionStrategy: string
+    :param valueSelectionStrategy: Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:
+            ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.
+            TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.
+            If you don't specify the valueSelectionStrategy , the default is ORIGINAL_VALUE .
+            
+
+    :type createVersion: boolean
+    :param createVersion: 
+
     :rtype: dict
     :return: {
         'name': 'string',
         'description': 'string',
         'enumerationValues': [
             {
-                'value': 'string'
+                'value': 'string',
+                'synonyms': [
+                    'string',
+                ]
             },
         ],
         'lastUpdatedDate': datetime(2015, 1, 1),
         'createdDate': datetime(2015, 1, 1),
         'version': 'string',
-        'checksum': 'string'
+        'checksum': 'string',
+        'valueSelectionStrategy': 'ORIGINAL_VALUE'|'TOP_RESOLUTION',
+        'createVersion': True|False
     }
     
     
@@ -2087,6 +2260,51 @@ def put_slot_type(name=None, description=None, enumerationValues=None, checksum=
     thick
     thin
     stuffed
+    
+    """
+    pass
+
+def start_import(payload=None, resourceType=None, mergeStrategy=None):
+    """
+    Starts a job to import a resource to Amazon Lex.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.start_import(
+        payload=b'bytes',
+        resourceType='BOT'|'INTENT'|'SLOT_TYPE',
+        mergeStrategy='OVERWRITE_LATEST'|'FAIL_ON_CONFLICT'
+    )
+    
+    
+    :type payload: bytes
+    :param payload: [REQUIRED]
+            A zip archive in binary format. The archive should contain one file, a JSON file containing the resource to import. The resource should match the type specified in the resourceType field.
+            
+
+    :type resourceType: string
+    :param resourceType: [REQUIRED]
+            Specifies the type of resource to export. Each resource also exports any resources that it depends on.
+            A bot exports dependent intents.
+            An intent exports dependent slot types.
+            
+
+    :type mergeStrategy: string
+    :param mergeStrategy: [REQUIRED]
+            Specifies the action that the StartImport operation should take when there is an existing resource with the same name.
+            FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.
+            
+
+    :rtype: dict
+    :return: {
+        'name': 'string',
+        'resourceType': 'BOT'|'INTENT'|'SLOT_TYPE',
+        'mergeStrategy': 'OVERWRITE_LATEST'|'FAIL_ON_CONFLICT',
+        'importId': 'string',
+        'importStatus': 'IN_PROGRESS'|'COMPLETE'|'FAILED',
+        'createdDate': datetime(2015, 1, 1)
+    }
+    
     
     """
     pass
