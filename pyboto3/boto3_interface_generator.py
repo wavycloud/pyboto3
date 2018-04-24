@@ -88,15 +88,25 @@ def get_response_structure(method_soup):
 
 def iter_params(method_soup):
     params_soup = get_params_soup(method_soup)
-    if not params_soup:
-        return
-    if params_soup.find('strong', recursive=False):
-        description = get_param_description(params_soup)
-        yield params_soup.strong.text, params_soup.em.text, description
+    if params_soup is not None:
+        if params_soup.find('strong', recursive=False):
+            description = get_param_description(params_soup)
+            yield params_soup.strong.text, params_soup.em.text, description
+        else:
+            for li in params_soup.find('ul').find_all('li', recursive=False):
+                description = get_param_description(li)
+                yield li.strong.text, li.em.text, description
     else:
-        for li in params_soup.find('ul').find_all('li', recursive=False):
-            description = get_param_description(li)
-            yield li.strong.text, li.em.text, description
+        params_soup = method_soup.find('dt').select('em')
+        if params_soup is None:
+            return
+        else:
+            description = ''
+            type = ''
+            for param in params_soup:
+                param_name = param.text.replace('=None', '')
+                if param_name not in ('**kwargs', '*args'):
+                    yield param_name, type, description
 
 
 def iter_methods(soup):
