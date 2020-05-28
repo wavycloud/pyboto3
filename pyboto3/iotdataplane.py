@@ -29,12 +29,7 @@ def can_paginate(operation_name=None):
     Check if an operation can be paginated.
     
     :type operation_name: string
-    :param operation_name: The operation name. This is the same name
-            as the method name on the client. For example, if the
-            method name is create_foo, and you'd normally invoke the
-            operation as client.create_foo(**kwargs), if the
-            create_foo operation can be paginated, you can use the
-            call client.get_paginator('create_foo').
+    :param operation_name: The operation name. This is the same name\nas the method name on the client. For example, if the\nmethod name is create_foo, and you\'d normally invoke the\noperation as client.create_foo(**kwargs), if the\ncreate_foo operation can be paginated, you can use the\ncall client.get_paginator('create_foo').
 
     """
     pass
@@ -45,6 +40,7 @@ def delete_thing_shadow(thingName=None):
     For more information, see DeleteThingShadow in the AWS IoT Developer Guide .
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.delete_thing_shadow(
         thingName='string'
@@ -52,11 +48,37 @@ def delete_thing_shadow(thingName=None):
     
     
     :type thingName: string
-    :param thingName: [REQUIRED]
-            The name of the thing.
-            
+    :param thingName: [REQUIRED]\nThe name of the thing.\n
 
     :rtype: dict
+ReturnsResponse Syntax{
+    'payload': StreamingBody()
+}
+
+
+Response Structure
+
+(dict) --The output from the DeleteThingShadow operation.
+
+payload (StreamingBody) --The state information, in JSON format.
+
+
+
+
+
+
+Exceptions
+
+IoTDataPlane.Client.exceptions.ResourceNotFoundException
+IoTDataPlane.Client.exceptions.InvalidRequestException
+IoTDataPlane.Client.exceptions.ThrottlingException
+IoTDataPlane.Client.exceptions.UnauthorizedException
+IoTDataPlane.Client.exceptions.ServiceUnavailableException
+IoTDataPlane.Client.exceptions.InternalFailureException
+IoTDataPlane.Client.exceptions.MethodNotAllowedException
+IoTDataPlane.Client.exceptions.UnsupportedDocumentEncodingException
+
+
     :return: {
         'payload': StreamingBody()
     }
@@ -73,16 +95,13 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     :param ClientMethod: The client method to presign for
 
     :type Params: dict
-    :param Params: The parameters normally passed to
-            ClientMethod.
+    :param Params: The parameters normally passed to\nClientMethod.
 
     :type ExpiresIn: int
-    :param ExpiresIn: The number of seconds the presigned url is valid
-            for. By default it expires in an hour (3600 seconds)
+    :param ExpiresIn: The number of seconds the presigned url is valid\nfor. By default it expires in an hour (3600 seconds)
 
     :type HttpMethod: string
-    :param HttpMethod: The http method to use on the generated url. By
-            default, the http method is whatever is used in the method's model.
+    :param HttpMethod: The http method to use on the generated url. By\ndefault, the http method is whatever is used in the method\'s model.
 
     """
     pass
@@ -92,14 +111,12 @@ def get_paginator(operation_name=None):
     Create a paginator for an operation.
     
     :type operation_name: string
-    :param operation_name: The operation name. This is the same name
-            as the method name on the client. For example, if the
-            method name is create_foo, and you'd normally invoke the
-            operation as client.create_foo(**kwargs), if the
-            create_foo operation can be paginated, you can use the
-            call client.get_paginator('create_foo').
+    :param operation_name: The operation name. This is the same name\nas the method name on the client. For example, if the\nmethod name is create_foo, and you\'d normally invoke the\noperation as client.create_foo(**kwargs), if the\ncreate_foo operation can be paginated, you can use the\ncall client.get_paginator('create_foo').
 
     :rtype: L{botocore.paginate.Paginator}
+ReturnsA paginator object.
+
+
     """
     pass
 
@@ -109,6 +126,7 @@ def get_thing_shadow(thingName=None):
     For more information, see GetThingShadow in the AWS IoT Developer Guide .
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.get_thing_shadow(
         thingName='string'
@@ -116,11 +134,37 @@ def get_thing_shadow(thingName=None):
     
     
     :type thingName: string
-    :param thingName: [REQUIRED]
-            The name of the thing.
-            
+    :param thingName: [REQUIRED]\nThe name of the thing.\n
 
     :rtype: dict
+ReturnsResponse Syntax{
+    'payload': StreamingBody()
+}
+
+
+Response Structure
+
+(dict) --The output from the GetThingShadow operation.
+
+payload (StreamingBody) --The state information, in JSON format.
+
+
+
+
+
+
+Exceptions
+
+IoTDataPlane.Client.exceptions.InvalidRequestException
+IoTDataPlane.Client.exceptions.ResourceNotFoundException
+IoTDataPlane.Client.exceptions.ThrottlingException
+IoTDataPlane.Client.exceptions.UnauthorizedException
+IoTDataPlane.Client.exceptions.ServiceUnavailableException
+IoTDataPlane.Client.exceptions.InternalFailureException
+IoTDataPlane.Client.exceptions.MethodNotAllowedException
+IoTDataPlane.Client.exceptions.UnsupportedDocumentEncodingException
+
+
     :return: {
         'payload': StreamingBody()
     }
@@ -129,9 +173,16 @@ def get_thing_shadow(thingName=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
+    Returns an object that can wait for some condition.
     
+    :type waiter_name: str
+    :param waiter_name: The name of the waiter to get. See the waiters\nsection of the service docs for a list of available waiters.
+
+    :rtype: botocore.waiter.Waiter
+
+
     """
     pass
 
@@ -141,6 +192,7 @@ def publish(topic=None, qos=None, payload=None):
     For more information, see HTTP Protocol in the AWS IoT Developer Guide .
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.publish(
         topic='string',
@@ -150,9 +202,7 @@ def publish(topic=None, qos=None, payload=None):
     
     
     :type topic: string
-    :param topic: [REQUIRED]
-            The name of the MQTT topic.
-            
+    :param topic: [REQUIRED]\nThe name of the MQTT topic.\n
 
     :type qos: integer
     :param qos: The Quality of Service (QoS) level.
@@ -160,6 +210,12 @@ def publish(topic=None, qos=None, payload=None):
     :type payload: bytes or seekable file-like object
     :param payload: The state information, in JSON format.
 
+    :returns: 
+    IoTDataPlane.Client.exceptions.InternalFailureException
+    IoTDataPlane.Client.exceptions.InvalidRequestException
+    IoTDataPlane.Client.exceptions.UnauthorizedException
+    IoTDataPlane.Client.exceptions.MethodNotAllowedException
+    
     """
     pass
 
@@ -169,6 +225,7 @@ def update_thing_shadow(thingName=None, payload=None):
     For more information, see UpdateThingShadow in the AWS IoT Developer Guide .
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.update_thing_shadow(
         thingName='string',
@@ -177,20 +234,61 @@ def update_thing_shadow(thingName=None, payload=None):
     
     
     :type thingName: string
-    :param thingName: [REQUIRED]
-            The name of the thing.
-            
+    :param thingName: [REQUIRED]\nThe name of the thing.\n
 
     :type payload: bytes or seekable file-like object
-    :param payload: [REQUIRED]
-            The state information, in JSON format.
-            
+    :param payload: [REQUIRED]\nThe state information, in JSON format.\n
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'payload': StreamingBody()
+}
+
+
+Response Structure
+
+(dict) --
+The output from the UpdateThingShadow operation.
+
+payload (StreamingBody) --
+The state information, in JSON format.
+
+
+
+
+
+
+
+Exceptions
+
+IoTDataPlane.Client.exceptions.ConflictException
+IoTDataPlane.Client.exceptions.RequestEntityTooLargeException
+IoTDataPlane.Client.exceptions.InvalidRequestException
+IoTDataPlane.Client.exceptions.ThrottlingException
+IoTDataPlane.Client.exceptions.UnauthorizedException
+IoTDataPlane.Client.exceptions.ServiceUnavailableException
+IoTDataPlane.Client.exceptions.InternalFailureException
+IoTDataPlane.Client.exceptions.MethodNotAllowedException
+IoTDataPlane.Client.exceptions.UnsupportedDocumentEncodingException
+
+
     :return: {
         'payload': StreamingBody()
     }
     
+    
+    :returns: 
+    IoTDataPlane.Client.exceptions.ConflictException
+    IoTDataPlane.Client.exceptions.RequestEntityTooLargeException
+    IoTDataPlane.Client.exceptions.InvalidRequestException
+    IoTDataPlane.Client.exceptions.ThrottlingException
+    IoTDataPlane.Client.exceptions.UnauthorizedException
+    IoTDataPlane.Client.exceptions.ServiceUnavailableException
+    IoTDataPlane.Client.exceptions.InternalFailureException
+    IoTDataPlane.Client.exceptions.MethodNotAllowedException
+    IoTDataPlane.Client.exceptions.UnsupportedDocumentEncodingException
     
     """
     pass
