@@ -119,11 +119,11 @@ def iter_method_params(soup):
         response_structure = get_response_structure(method_soup)
         yield method, \
               param_dict, \
-              re.sub(r'[^\x00-\x7F]+', '', description), \
-              re.sub(r'[^\x00-\x7F]+', '', request_syntax), \
-              re.sub(r'[^\x00-\x7F]+', '', return_type), \
-              re.sub(r'[^\x00-\x7F]+', '', response_syntax), \
-              re.sub(r'[^\x00-\x7F]+', '', response_structure)
+              re.sub(r'[^\x00-\x7F]+', '', description).replace('\\n','\n'), \
+              re.sub(r'[^\x00-\x7F]+', '', request_syntax).replace('\\n','\n'), \
+              re.sub(r'[^\x00-\x7F]+', '', return_type).replace('\\n','\n'), \
+              re.sub(r'[^\x00-\x7F]+', '', response_syntax).replace('\\n','\n'), \
+              re.sub(r'[^\x00-\x7F]+', '', response_structure).replace('\\n','\n')
 
 
 def iter_method_params_description(soup):
@@ -136,11 +136,11 @@ def to_python_type(param_type):
     return param_type
 
 
-def iter_all_services(services_url='https://boto3.readthedocs.io/en/latest/reference/services/'):
+def iter_all_services(services_url='https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/index.html'):
     soup = BeautifulSoup(requests.get(services_url)._content, 'html.parser')
     for x in soup.find_all(class_='toctree-wrapper compound'):
         for li in x.find_all('li', class_='toctree-l1'):
-            yield li.a.text, '{}{}'.format(services_url, li.a.attrs['href'])
+            yield li.a.text, services_url.replace('index.html', li.a.attrs['href'])
 
 
 def generate_service_code(url, dist_filepath):
@@ -150,7 +150,7 @@ def generate_service_code(url, dist_filepath):
     if os.path.exists(cache_file):
         content = open(cache_file, 'r').read()
     else:
-        content = requests.get(url)._content
+        content = str(requests.get(url)._content)
         with open(cache_file, 'w+') as f:
             f.write(content)
     soup = BeautifulSoup(content, 'html.parser')
@@ -209,7 +209,7 @@ def get_method_description(method_soup):
 
 
 def clean_param_description(param_description, indent=3):
-    result = param_description.encode('utf-8')
+    result = param_description
     result = result.replace('"', "'")
     result = result.replace('\n\n', '\n')
     # indent params
@@ -255,10 +255,11 @@ def iter_code_lines(soup):
         yield 'def {}({}{}):'.format(method_name, '=None, '.join(params.keys()),
                                                '=None' if params else '')
         yield '    """'
-        yield '    {}'.format(description.encode('utf-8').replace('\n', '\n    '))
+        description = description or ''
+        yield '    {}'.format(description.replace('\n', '\n    '))
         if request_syntax:
             yield '    :example: {}'.format(request_syntax.replace('\n', '\n    '))
-        for param, (param_type, param_description) in params.iteritems():
+        for param, (param_type, param_description) in params.items():
             param_description = clean_param_description(param_description)
             yield '    :type {}: {}'.format(param, to_python_type(param_type))
             yield '    :param {}: {}'.format(param, param_description)

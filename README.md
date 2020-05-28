@@ -28,6 +28,21 @@ s3 = boto3.client('s3')
 ```
 enjoy autocomplete and navigate to class to read documentation from S3 class code
 
+# Update services to latest version
+* Clone repo
+* Install virtual environment 
+```
+cd <repo source>
+virtualenv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+* Run boto3_interface_generator
+```
+cd pyboto3
+python boto3_interface_generator.py
+```
+* Add new & modified files to git 
 # Release Instructions
 ```
 python setup.py sdist

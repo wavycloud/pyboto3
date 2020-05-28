@@ -29,12 +29,7 @@ def can_paginate(operation_name=None):
     Check if an operation can be paginated.
     
     :type operation_name: string
-    :param operation_name: The operation name. This is the same name
-            as the method name on the client. For example, if the
-            method name is create_foo, and you'd normally invoke the
-            operation as client.create_foo(**kwargs), if the
-            create_foo operation can be paginated, you can use the
-            call client.get_paginator('create_foo').
+    :param operation_name: The operation name. This is the same name\nas the method name on the client. For example, if the\nmethod name is create_foo, and you\'d normally invoke the\noperation as client.create_foo(**kwargs), if the\ncreate_foo operation can be paginated, you can use the\ncall client.get_paginator('create_foo').
 
     """
     pass
@@ -44,6 +39,7 @@ def cancel_job(JobId=None, APIVersion=None):
     This operation cancels a specified job. Only the job owner can cancel it. The operation fails if the job has already started or is complete.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.cancel_job(
         JobId='string',
@@ -58,6 +54,33 @@ def cancel_job(JobId=None, APIVersion=None):
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'Success': True|False
+}
+
+
+Response Structure
+
+(dict) -- Output structure for the CancelJob operation.
+Success (boolean) -- Specifies whether (true) or not (false) AWS Import/Export updated your job.
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.InvalidJobIdException
+ImportExport.Client.exceptions.ExpiredJobIdException
+ImportExport.Client.exceptions.CanceledJobIdException
+ImportExport.Client.exceptions.UnableToCancelJobIdException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidVersionException
+
+
     :return: {
         'Success': True|False
     }
@@ -77,6 +100,7 @@ def create_job(JobType=None, Manifest=None, ManifestAddendum=None, ValidateOnly=
     This operation initiates the process of scheduling an upload or download of your data. You include in the request a manifest that describes the data transfer specifics. The response to the request includes a job ID, which you can use in other operations, a signature that you use to identify your storage device, and the address where you should ship your storage device.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.create_job(
         JobType='Import'|'Export',
@@ -103,6 +127,65 @@ def create_job(JobType=None, Manifest=None, ManifestAddendum=None, ValidateOnly=
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'JobId': 'string',
+    'JobType': 'Import'|'Export',
+    'Signature': 'string',
+    'SignatureFileContents': 'string',
+    'WarningMessage': 'string',
+    'ArtifactList': [
+        {
+            'Description': 'string',
+            'URL': 'string'
+        },
+    ]
+}
+
+
+Response Structure
+
+(dict) -- Output structure for the CreateJob operation.
+JobId (string) -- A unique identifier which refers to a particular job.
+JobType (string) -- Specifies whether the job to initiate is an import or export job.
+Signature (string) -- An encrypted code used to authenticate the request and response, for example, "DV+TpDfx1/TdSE9ktyK9k/bDTVI=". Only use this value is you want to create the signature file yourself. Generally you should use the SignatureFileContents value.
+SignatureFileContents (string) -- The actual text of the SIGNATURE file to be written to disk.
+WarningMessage (string) -- An optional message notifying you of non-fatal issues with the job, such as use of an incompatible Amazon S3 bucket name.
+ArtifactList (list) -- A collection of artifacts.
+(dict) -- A discrete item that contains the description and URL of an artifact (such as a PDF).
+Description (string) -- The associated description for this object.
+URL (string) -- The URL for a given Artifact.
+
+
+
+
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.MissingParameterException
+ImportExport.Client.exceptions.InvalidParameterException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidAddressException
+ImportExport.Client.exceptions.InvalidManifestFieldException
+ImportExport.Client.exceptions.MissingManifestFieldException
+ImportExport.Client.exceptions.NoSuchBucketException
+ImportExport.Client.exceptions.MissingCustomsException
+ImportExport.Client.exceptions.InvalidCustomsException
+ImportExport.Client.exceptions.InvalidFileSystemException
+ImportExport.Client.exceptions.MultipleRegionsException
+ImportExport.Client.exceptions.BucketPermissionException
+ImportExport.Client.exceptions.MalformedManifestException
+ImportExport.Client.exceptions.CreateJobQuotaExceededException
+ImportExport.Client.exceptions.InvalidJobIdException
+ImportExport.Client.exceptions.InvalidVersionException
+
+
     :return: {
         'JobId': 'string',
         'JobType': 'Import'|'Export',
@@ -147,16 +230,13 @@ def generate_presigned_url(ClientMethod=None, Params=None, ExpiresIn=None, HttpM
     :param ClientMethod: The client method to presign for
 
     :type Params: dict
-    :param Params: The parameters normally passed to
-            ClientMethod.
+    :param Params: The parameters normally passed to\nClientMethod.
 
     :type ExpiresIn: int
-    :param ExpiresIn: The number of seconds the presigned url is valid
-            for. By default it expires in an hour (3600 seconds)
+    :param ExpiresIn: The number of seconds the presigned url is valid\nfor. By default it expires in an hour (3600 seconds)
 
     :type HttpMethod: string
-    :param HttpMethod: The http method to use on the generated url. By
-            default, the http method is whatever is used in the method's model.
+    :param HttpMethod: The http method to use on the generated url. By\ndefault, the http method is whatever is used in the method\'s model.
 
     """
     pass
@@ -166,14 +246,12 @@ def get_paginator(operation_name=None):
     Create a paginator for an operation.
     
     :type operation_name: string
-    :param operation_name: The operation name. This is the same name
-            as the method name on the client. For example, if the
-            method name is create_foo, and you'd normally invoke the
-            operation as client.create_foo(**kwargs), if the
-            create_foo operation can be paginated, you can use the
-            call client.get_paginator('create_foo').
+    :param operation_name: The operation name. This is the same name\nas the method name on the client. For example, if the\nmethod name is create_foo, and you\'d normally invoke the\noperation as client.create_foo(**kwargs), if the\ncreate_foo operation can be paginated, you can use the\ncall client.get_paginator('create_foo').
 
     :rtype: L{botocore.paginate.Paginator}
+ReturnsA paginator object.
+
+
     """
     pass
 
@@ -182,6 +260,7 @@ def get_shipping_label(jobIds=None, name=None, company=None, phoneNumber=None, c
     This operation generates a pre-paid UPS shipping label that you will use to ship your device to AWS for processing.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.get_shipping_label(
         jobIds=[
@@ -202,9 +281,7 @@ def get_shipping_label(jobIds=None, name=None, company=None, phoneNumber=None, c
     
     
     :type jobIds: list
-    :param jobIds: [REQUIRED]
-            (string) --
-            
+    :param jobIds: [REQUIRED]\n\n(string) --\n\n
 
     :type name: string
     :param name: Specifies the name of the person responsible for shipping this package.
@@ -240,6 +317,36 @@ def get_shipping_label(jobIds=None, name=None, company=None, phoneNumber=None, c
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'ShippingLabelURL': 'string',
+    'Warning': 'string'
+}
+
+
+Response Structure
+
+(dict) --
+ShippingLabelURL (string) --
+Warning (string) --
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.InvalidJobIdException
+ImportExport.Client.exceptions.ExpiredJobIdException
+ImportExport.Client.exceptions.CanceledJobIdException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidAddressException
+ImportExport.Client.exceptions.InvalidVersionException
+ImportExport.Client.exceptions.InvalidParameterException
+
+
     :return: {
         'ShippingLabelURL': 'string',
         'Warning': 'string'
@@ -261,6 +368,7 @@ def get_status(JobId=None, APIVersion=None):
     This operation returns information about a job, including where the job is in the processing pipeline, the status of the results, and the signature value associated with the job. You can only return information about jobs you own.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.get_status(
         JobId='string',
@@ -275,6 +383,74 @@ def get_status(JobId=None, APIVersion=None):
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'JobId': 'string',
+    'JobType': 'Import'|'Export',
+    'LocationCode': 'string',
+    'LocationMessage': 'string',
+    'ProgressCode': 'string',
+    'ProgressMessage': 'string',
+    'Carrier': 'string',
+    'TrackingNumber': 'string',
+    'LogBucket': 'string',
+    'LogKey': 'string',
+    'ErrorCount': 123,
+    'Signature': 'string',
+    'SignatureFileContents': 'string',
+    'CurrentManifest': 'string',
+    'CreationDate': datetime(2015, 1, 1),
+    'ArtifactList': [
+        {
+            'Description': 'string',
+            'URL': 'string'
+        },
+    ]
+}
+
+
+Response Structure
+
+(dict) -- Output structure for the GetStatus operation.
+JobId (string) -- A unique identifier which refers to a particular job.
+JobType (string) -- Specifies whether the job to initiate is an import or export job.
+LocationCode (string) -- A token representing the location of the storage device, such as "AtAWS".
+LocationMessage (string) -- A more human readable form of the physical location of the storage device.
+ProgressCode (string) -- A token representing the state of the job, such as "Started".
+ProgressMessage (string) -- A more human readable form of the job status.
+Carrier (string) -- Name of the shipping company. This value is included when the LocationCode is "Returned".
+TrackingNumber (string) -- The shipping tracking number assigned by AWS Import/Export to the storage device when it\'s returned to you. We return this value when the LocationCode is "Returned".
+LogBucket (string) -- Amazon S3 bucket for user logs.
+LogKey (string) -- The key where the user logs were stored.
+ErrorCount (integer) -- Number of errors. We return this value when the ProgressCode is Success or SuccessWithErrors.
+Signature (string) -- An encrypted code used to authenticate the request and response, for example, "DV+TpDfx1/TdSE9ktyK9k/bDTVI=". Only use this value is you want to create the signature file yourself. Generally you should use the SignatureFileContents value.
+SignatureFileContents (string) -- An encrypted code used to authenticate the request and response, for example, "DV+TpDfx1/TdSE9ktyK9k/bDTVI=". Only use this value is you want to create the signature file yourself. Generally you should use the SignatureFileContents value.
+CurrentManifest (string) -- The last manifest submitted, which will be used to process the job.
+CreationDate (datetime) -- Timestamp of the CreateJob request in ISO8601 date format. For example "2010-03-28T20:27:35Z".
+ArtifactList (list) -- A collection of artifacts.
+(dict) -- A discrete item that contains the description and URL of an artifact (such as a PDF).
+Description (string) -- The associated description for this object.
+URL (string) -- The URL for a given Artifact.
+
+
+
+
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.InvalidJobIdException
+ImportExport.Client.exceptions.ExpiredJobIdException
+ImportExport.Client.exceptions.CanceledJobIdException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidVersionException
+
+
     :return: {
         'JobId': 'string',
         'JobType': 'Import'|'Export',
@@ -309,7 +485,7 @@ def get_status(JobId=None, APIVersion=None):
     ProgressCode (string) -- A token representing the state of the job, such as "Started".
     ProgressMessage (string) -- A more human readable form of the job status.
     Carrier (string) -- Name of the shipping company. This value is included when the LocationCode is "Returned".
-    TrackingNumber (string) -- The shipping tracking number assigned by AWS Import/Export to the storage device when it's returned to you. We return this value when the LocationCode is "Returned".
+    TrackingNumber (string) -- The shipping tracking number assigned by AWS Import/Export to the storage device when it\'s returned to you. We return this value when the LocationCode is "Returned".
     LogBucket (string) -- Amazon S3 bucket for user logs.
     LogKey (string) -- The key where the user logs were stored.
     ErrorCount (integer) -- Number of errors. We return this value when the ProgressCode is Success or SuccessWithErrors.
@@ -331,9 +507,16 @@ def get_status(JobId=None, APIVersion=None):
     """
     pass
 
-def get_waiter():
+def get_waiter(waiter_name=None):
     """
+    Returns an object that can wait for some condition.
     
+    :type waiter_name: str
+    :param waiter_name: The name of the waiter to get. See the waiters\nsection of the service docs for a list of available waiters.
+
+    :rtype: botocore.waiter.Waiter
+
+
     """
     pass
 
@@ -342,6 +525,7 @@ def list_jobs(MaxJobs=None, Marker=None, APIVersion=None):
     This operation returns the jobs associated with the requester. AWS Import/Export lists the jobs in reverse chronological order based on the date of creation. For example if Job Test1 was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation would return Test2 followed by Test1.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.list_jobs(
         MaxJobs=123,
@@ -351,7 +535,7 @@ def list_jobs(MaxJobs=None, Marker=None, APIVersion=None):
     
     
     :type MaxJobs: integer
-    :param MaxJobs: Sets the maximum number of jobs returned in the response. If there are additional jobs that were not returned because MaxJobs was exceeded, the response contains IsTruncatedtrue/IsTruncated. To return the additional jobs, see Marker.
+    :param MaxJobs: Sets the maximum number of jobs returned in the response. If there are additional jobs that were not returned because MaxJobs was exceeded, the response contains <IsTruncated>true</IsTruncated>. To return the additional jobs, see Marker.
 
     :type Marker: string
     :param Marker: Specifies the JOBID to start after when listing the jobs created with your account. AWS Import/Export lists your jobs in reverse chronological order. See MaxJobs.
@@ -360,6 +544,48 @@ def list_jobs(MaxJobs=None, Marker=None, APIVersion=None):
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'Jobs': [
+        {
+            'JobId': 'string',
+            'CreationDate': datetime(2015, 1, 1),
+            'IsCanceled': True|False,
+            'JobType': 'Import'|'Export'
+        },
+    ],
+    'IsTruncated': True|False
+}
+
+
+Response Structure
+
+(dict) -- Output structure for the ListJobs operation.
+Jobs (list) -- A list container for Jobs returned by the ListJobs operation.
+(dict) -- Representation of a job returned by the ListJobs operation.
+JobId (string) -- A unique identifier which refers to a particular job.
+CreationDate (datetime) -- Timestamp of the CreateJob request in ISO8601 date format. For example "2010-03-28T20:27:35Z".
+IsCanceled (boolean) -- Indicates whether the job was canceled.
+JobType (string) -- Specifies whether the job to initiate is an import or export job.
+
+
+
+
+IsTruncated (boolean) -- Indicates whether the list of jobs was truncated. If true, then call ListJobs again using the last JobId element as the marker.
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.InvalidParameterException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidVersionException
+
+
     :return: {
         'Jobs': [
             {
@@ -397,6 +623,7 @@ def update_job(JobId=None, Manifest=None, JobType=None, ValidateOnly=None, APIVe
     You use this operation to change the parameters specified in the original manifest file by supplying a new manifest file. The manifest file attached to this request replaces the original manifest file. You can only use the operation after a CreateJob request but before the data transfer starts and you can only use it on jobs you own.
     See also: AWS API Documentation
     
+    Exceptions
     
     :example: response = client.update_job(
         JobId='string',
@@ -423,6 +650,61 @@ def update_job(JobId=None, Manifest=None, JobType=None, ValidateOnly=None, APIVe
     :param APIVersion: Specifies the version of the client tool.
 
     :rtype: dict
+
+ReturnsResponse Syntax
+{
+    'Success': True|False,
+    'WarningMessage': 'string',
+    'ArtifactList': [
+        {
+            'Description': 'string',
+            'URL': 'string'
+        },
+    ]
+}
+
+
+Response Structure
+
+(dict) -- Output structure for the UpateJob operation.
+Success (boolean) -- Specifies whether (true) or not (false) AWS Import/Export updated your job.
+WarningMessage (string) -- An optional message notifying you of non-fatal issues with the job, such as use of an incompatible Amazon S3 bucket name.
+ArtifactList (list) -- A collection of artifacts.
+(dict) -- A discrete item that contains the description and URL of an artifact (such as a PDF).
+Description (string) -- The associated description for this object.
+URL (string) -- The URL for a given Artifact.
+
+
+
+
+
+
+
+
+
+
+Exceptions
+
+ImportExport.Client.exceptions.MissingParameterException
+ImportExport.Client.exceptions.InvalidParameterException
+ImportExport.Client.exceptions.InvalidAccessKeyIdException
+ImportExport.Client.exceptions.InvalidAddressException
+ImportExport.Client.exceptions.InvalidManifestFieldException
+ImportExport.Client.exceptions.InvalidJobIdException
+ImportExport.Client.exceptions.MissingManifestFieldException
+ImportExport.Client.exceptions.NoSuchBucketException
+ImportExport.Client.exceptions.ExpiredJobIdException
+ImportExport.Client.exceptions.CanceledJobIdException
+ImportExport.Client.exceptions.MissingCustomsException
+ImportExport.Client.exceptions.InvalidCustomsException
+ImportExport.Client.exceptions.InvalidFileSystemException
+ImportExport.Client.exceptions.MultipleRegionsException
+ImportExport.Client.exceptions.BucketPermissionException
+ImportExport.Client.exceptions.MalformedManifestException
+ImportExport.Client.exceptions.UnableToUpdateJobIdException
+ImportExport.Client.exceptions.InvalidVersionException
+
+
     :return: {
         'Success': True|False,
         'WarningMessage': 'string',
